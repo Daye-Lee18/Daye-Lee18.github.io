@@ -1,18 +1,18 @@
 {
   "basics": {
-    "name": "Albert Einstein",
-    "label": "Scientist",
+    "name": "Daye Lee",
+    "label": "Data Scientist",
     "image": "",
-    "email": "albert@einstein.de",
-    "phone": "(912) 123-4567",
-    "url": "https://alshedivat.github.io/al-folio/",
-    "summary": "A German-born theoretical physicist, widely ranked among the greatest and most influential scientists of all time",
+    "email": "gbyou1694@snu.ac.kr",
+    "phone": "(82)-10-5542-0631",
+    "url": "https://Daye-Lee18.github.io",
+    "summary": "A proactive deep learning resesarcher, interested in Multimodality and Generative AI",
     "location": {
-      "address": "2712 Broadway St",
-      "postalCode": "CA 94115",
-      "city": "San Francisco",
-      "countryCode": "US",
-      "region": "California"
+      "address": "",
+      "postalCode": "1",
+      "city": "Gwanak-gu, Gwanak-ro",
+      "countryCode": "Repulic of Korea",
+      "region": "Seoul"
     },
     "profiles": [
       {
