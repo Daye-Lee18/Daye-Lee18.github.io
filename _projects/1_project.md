@@ -42,18 +42,12 @@ related_publications: true
 
 시나리오와 사용 부분 시나리오 영상 제작 
 
-<div class="row justify-content-sm-center">
-  <div class="col-sm-10 mt-3 mt-md-0">
-    {% include video.liquid 
-        path="assets/video/[Team7]HealthGenie_Final_Presentation_Supplementary.mp4"
-        class="img-fluid rounded z-depth-1"
-        autoplay=true
-        loop=true
-        muted=true
-        controls=true
-        caption="시연 영상: HealthGenie 사용 예시"
-    %}
-  </div>
+<div class="responsive-video ratio-4x3">
+  {% include video.liquid 
+      path="https://youtube.com/embed/pLpjMMiW7dg"
+      class="embed-item"
+      caption="시연 영상: HealthGenie 사용 예시 (YouTube)"
+  %}
 </div>
 
 ### Implementation 
