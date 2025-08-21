@@ -1,13 +1,14 @@
 ---
 layout: page
-title: project 2
-description: a project with a background image and giscus comments
-img: assets/img/3.jpg
-importance: 2
+title: Legal Dialogue Inpainter 
+description: Conversational Question Answering Systems for SNU laws
+img: assets/img/Legal_thumnail.png
+importance: 1
 category: work
 giscus_comments: true
 ---
 
+<!-- thumnail size: 1205 x 690 -->
 Every project has a beautiful feature showcase page.
 It's easy to include images in a flexible 3-column grid format.
 Make your photos 1/3, 2/3, or full width.

@@ -3,9 +3,10 @@ layout: redirect
 permalink: /cv/
 title: cv
 description: My current resume
-rurl: /Users/dayelee/Documents/GitHub/Daye-Lee18.github.io/assets/pdf/20250820_Resume.pdf
+# rurl: /Daye-Lee18.github.io/assets/pdf/20250820_Resume.pdf
+redirect_to: /assets/pdf/20250820_Resume.pdf # jekyll-redirect-from 추가  
 nav: true
 nav_order: 2
 ---
 
-Placeholder text for the resume page, you should probably not be seeing this.
+If you are not redirected automatically, [click here](/assets/pdf/20250820_Resume.pdf).

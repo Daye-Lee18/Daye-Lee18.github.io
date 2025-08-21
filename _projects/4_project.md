@@ -1,10 +1,10 @@
 ---
 layout: page
-title: project 4
+title: HuMoGen-X
 description: another without an image
-img:
-importance: 3
-category: fun
+img: assets/img/personalization_thumnail.png
+importance: 1
+category: paper
 ---
 
 Every project has a beautiful feature showcase page.

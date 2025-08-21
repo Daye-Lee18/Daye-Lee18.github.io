@@ -1,9 +1,9 @@
 ---
 layout: page
-title: project 7
+title: Emotion-to-Video Retrieval
 description: with background image
-img: assets/img/4.jpg
-importance: 1
+img: assets/img/video_retrieval_thumnail.png
+importance: 7
 category: work
 related_publications: true
 ---
