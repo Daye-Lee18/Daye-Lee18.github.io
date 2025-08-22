@@ -195,15 +195,47 @@ This is a task to evaluate the quality of a conversational question answering ch
     </div>
 </div>
 <div class="caption">
-    Fig 7. Context-to-Answer 즉, Context Styler를 적용하기 전의 QC 데이터와 적용 후인 QA 데이터를 각각 활용한 Llama-2-7B 모델이 생성한 답변에 대한 human evaluation 결과
+    Fig 7. Context-to-Answer 즉, Context Styler를 적용하기 전의 QC 데이터와 적용 후인 QA 데이터를 각각 활용한 Llama-2-7B 모델이 생성한 답변에 대한 human evaluation 결과 (왼쪽) 및 실제 QA, QC 모델이 생성한 대화 예시(오른쪽)
 </div>
 
 Human evaluation의 결과를 나타낸 Fig 7를 보면, 그래프의 붉은 색은 QA 모델이 잘 했다, 보라 색은 두 모델이 같다, 푸른 색은 QC 모델이 잘했다는 뜻입니다. QA 모델의 답변이 더 informative하고 전반적 퀄리티도 좋다고 평가했습니다. 다만, 정확도는 QC 모델이 높았는데, Context에서 Answer로 변환하는 과정에서 삽입된 노이즈로 인해 정확성이 떨어졌다고 보여집니다.
 
+Fig 7의 오른쪽에는 QA, QC 모델이 생성한 대화 예시를 나타내었습니다. QA 모델의 답변이 더 자연스럽고 사용자 친화적이었습니다. QC의 경우, 조항과 관련된 이야기만 하고 추가적인 설명이나 조언을 하지 않았습니다. 아래 예시를 보면, 같은 질문에 대해 규정에 대해 안내하는 것은 같지만, QA 모델의 답변이 더 길고 추가적인 설명을 덧붙이고 있습니다. QA 어프로치를 챗봇에 적용하는 것이 사용자 만족도를 높일 수 있을 것이라고 기대합니다.
+
 #### Domain-specific Approaches 
+
+다음 평가는 Hierarchy, Reference, Similarity 세 가지 domain-specific approaches의 퍼포먼스를 확인했습니다. 먼저 평가를 위해 같은 방법으로 Baseline1, Baseline2 데이터셋을 각각 만들었습니다. 비교할 베이스라인 모델로는 Baseline1과 Baseline2 데이터셋으로 파인튜닝한 라마-2-7b 모델을 이용했습니다. 그와 비교할 저희의 모델들에는 (Baseline1 + Hierarchy), (Baseline + Reference) 그리고 (Baseline + Similarity)으로 각각 라마-2-7b 모델을 파인튜닝했습니다 (Fig 3 참고). 
+
+테스트 데이터셋은 총 15개의 대화를 평가했습니다. 공정한 비교를 위해서, 비교 모델과 저희의 모델 양쪽 학습에 사용된 Baseline1 셋에서에서 5개, 베이스라인 모델에만 파인튜닝된 Baseline2 셋에서 5개, 우리 모델에만 파인튜닝된 Domain specific datasest에서 5개 즉, Hierarchy 세팅의 경우 Hierarchy set에서 5개를 골랐습니다.
+
+### Results
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+  <img src="/assets/img/Dialogue/14.png" alt="img1" width="100%">
+  <img src="/assets/img/Dialogue/15.png" alt="img2" width="100%">
+  <img src="/assets/img/Dialogue/16.png" alt="img3" width="100%">
+  <img src="/assets/img/Dialogue/17.png" alt="img4" width="100%">
+</div>
+<div class="caption">
+    Fig 8. 결과  
+</div>
+
+먼저 Fig 8의 왼쪽 상단 그림의 왼쪽은 Human Evaluation, 오른쪽 그래프는 GPT 3.5 Evaluation입니다.Hierarchy 모델과 베이스라인을 비교했을 때, Hierarchy 모델이 더 정확하고, 더 informative하고, overall quality도 높았습니다. 여러 항을 아우르는 broad한 질문에서 narrow한 질문으로 전개되는 dataset 덕분에, legal context에 대한 더 잘 이해하게 된 것으로 보입니다.
+
+Fig 8의 오른쪽 상단 그림에는 레퍼런스 모델에 대한 평가를 나타내었는데, 베이스라인보다 더 informative하고 overall quality가 높았습니다. 다른 문서와 달리 법률 문서에만 있는 조항 간 레퍼런스 관계로, 연속적인 조항만으로 이해할 수 없는 컨텍스트를 학습한 영향으로 보입니다. 레퍼런스 관계가 있는 조항 자체가 제한되어 있어 scalablility가 아쉽지만, 부가적인 어프로치로 효과가 있을 것 같습니다.
+
+Fig 8의 왼쪽 하단 그림은 similarity model의 퍼포먼스를 보여주며 baseline보다 모든 면에서 부족하게 나왔습니다. 이는 Embedding space에서의 유사성이 실제 법률 조항 내용의 유사성을 의미하지 않을 수 있기 때문이라고 보입니다. 이러한 결과에 대해 추가적으로 분석해본 결과, Fig 8의 오른쪽 하단에서 보시는 바와 같이, similarity group의 예를 들면, 법률 문서에서는 각 조항을 만든 목적에 대한 항이 굉장히 많았는데요. 첫번째 예시처럼 'purpose' 조항을 similarity 기준으로 모은 탓에, 자연스러운 대화를 만들기 어려워졌습니다. 또한 두번째 예시처럼 Similarity를 기준으로 모았음에도, 인간의 시각으로 비슷해 보이지 않는 케이스도 있음을 확인하였습니다. 
+
 
 ### Conclusion 
 
+저희 연구의 컨트리뷰션은 세 가지입니다. 
+
+1. 저희는 general document보다 더 어렵고, 데이터 수집도 비싼 법률 문서에 dialog inpainting 방식을 적용했습니다.
+2. Original dialog inpainting 방식의 약점으로 꼽혔던 문서 그대로의 인위적인 답변을 자연스러운 답변으로 restyling해서 chatbot generation task에 데이터셋을 최적화했습니다.
+3. 법률 문서의 참조, 계층구조 등을 반영한 인페인팅을 도입했습니다. 기존의 데이터셋을 restyling해도 얻어낼 수 없는 멀티턴 대화의 아이디어를 제안한 저희의 방식은 novelty를 갖는다고 생각합니다.
+
+저희 연구의 리미테이션으로는 코스트 문제로 조항 수에 비해 적은 질문을 파인튜닝에 사용했다는 점, 법률 문서의 엄밀한 서술이 한영 번역-Inpainting-Restyling 과정에서 LLM을 거치며 무뎌졌다는 점이 있습니다. Future work로, 법률 디테일을 살려서 질문을 형성하도록 프롬프트 디자인을 좀 더 섬세하게 최적화하는 방법으로 연구를 발전시켜 보고 싶습니다.
 
 
 ### Final Report 
@@ -211,6 +243,9 @@ Click [here][pdf] 😊
 
 [pdf]: /assets/pdf/Dialogue_inpainter_report.pdf
 [ref]: https://proceedings.mlr.press/v162/dai22a.html
+
+### Reference 
+
 [^1]: Dai, Zhuyun, et al. "Dialog inpainting: Turning documents into dialogs." International conference on machine learning. PMLR, 2022.
 [^2]: Liu, Yongtai, et al. "Data augmentation for low-resource dialogue summarization." Findings of the Association for Computational Linguistics: NAACL 2022. 2022.
 [^3]: Dai, Haixing, et al. "Auggpt: Leveraging chatgpt for text data augmentation." IEEE Transactions on Big Data (2025).
