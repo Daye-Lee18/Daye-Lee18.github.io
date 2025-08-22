@@ -441,11 +441,16 @@ ninja.data = [{
           description: "A personalized weight management service based on a data-drived approach",
           section: "Projects",handler: () => {
               window.location.href = "/projects/4_project/";
+            },},{id: "projects-dance",
+          title: 'Dance',
+          description: "Amateur Dancer at SNU",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/dance/";
             },},{id: "projects-ted-talk",
           title: 'TED talk',
           description: "English to Korean translation volunteer",
           section: "Projects",handler: () => {
-              window.location.href = "/projects/5_project/";
+              window.location.href = "/projects/ted/";
             },},{
         id: 'social-email',
         title: 'email',
