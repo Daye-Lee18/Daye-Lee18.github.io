@@ -42,13 +42,31 @@ related_publications: true
 
 시나리오와 사용 부분 시나리오 영상 제작 
 
-<div class="responsive-video ratio-4x3">
+<!-- <div class="responsive-video ratio-4x3">
   {% include video.liquid 
       path="https://youtube.com/embed/pLpjMMiW7dg"
       class="embed-item"
       caption="시연 영상: HealthGenie 사용 예시 (YouTube)"
   %}
+</div> -->
+<!-- <iframe width="100%" height="560"
+  src="https://www.youtube.com/embed/pLpjMMiW7dg" title="Demo"
+  frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+  allowfullscreen></iframe> -->
+
+<div class="row justify-content-sm-center">
+  <div class="col-sm-10 mt-3 mt-md-0">
+    <div class="embed-responsive embed-responsive-16by9">
+      <iframe class="embed-responsive-item" 
+              src="https://www.youtube.com/embed/pLpjMMiW7dg" 
+              allowfullscreen></iframe>
+    </div>
+  </div>
 </div>
+<div class="caption">
+    시연 영상: HealthGenie 데모 (YouTube)
+</div>
+
 
 ### Implementation 
 
