@@ -4,15 +4,15 @@ title: TED talk
 description: English to Korean translation volunteer
 img: assets/img/thumnail/ted.jpeg
 importance: 1
-category: translation
+category: fun
 videos:
   - id: T1aZxcyiYAw
-    title: How to transform yourself
-    channel: TED
+    title: Why did it take so long to find giant squids? 
+    channel: TED-Ed
     year: 2024
     url: https://www.youtube.com/watch?v=T1aZxcyiYAw
   - id: CeUoS2T2hhc
-    title: The power of curiosity
+    title: What’s the Future of Food? A Chef + a Cardiologist Answer 
     channel: TEDx
     year: 2023
     url: https://www.youtube.com/watch?v=CeUoS2T2hhc
