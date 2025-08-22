@@ -36,7 +36,7 @@ social: true # includes social icons at the bottom of the page
 [uoft]: https://www.utoronto.ca/
 [utmr]: https://utmrobotics.com/
 [Goahead]: https://www.youtube.com/@goahead4925
-[cv]: /assets/pdf/20250820_Resume.pdf
+[cv]: /assets/pdf/20250821_Resume.pdf
 
 <!-- announcements:
   enabled: true # includes a list of news items

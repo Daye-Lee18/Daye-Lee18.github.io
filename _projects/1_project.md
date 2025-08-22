@@ -1,89 +1,82 @@
 ---
 layout: page
-title: HealthGenie, Personalized Health Advisor
-description: A personalized weight management service based on a data-drived approach 
-img: assets/img/HealthGenie_thumnail.png
-importance: 2
+title: Emotion-Specialized Text-to-Video Retrieval
+description: with background image
+img: assets/img/video_retrieval_thumnail.png
+importance: 1
 category: work
+redirect: /assets/html/MIE1517_final_report.html
 related_publications: true
 ---
-<!-- thumnail size: 11?? x 605 -->
-### Motivation
+<!-- 
+Every project has a beautiful feature showcase page.
+It's easy to include images in a flexible 3-column grid format.
+Make your photos 1/3, 2/3, or full width.
 
-최근 건강에 대한 관심이 매우 크게 증가하고 있는데요. 특히, ‘체중 관리’는 건강과 웰빙에 있어서 중요한 역할을 합니다. 비만이나 과체중은 당뇨병, 고혈압 등 다양한 건강 문제와 매우 밀접한 관련이 있을 뿐만 아니라, 체중을 적절히 유지해야 신체의 기능과 균형을 유지할 수 있고, 자아존중감에도 긍정적인 영향을 미치기 때문입니다. 
+To give your project a background in the portfolio page, just add the img tag to the front matter like so:
 
-그럼 체중에 큰 영향을 미치는 요소에는 무엇이 있을까요? 바로, ‘음식으로부터 섭취하는 총 칼로리’가 체중에 가장 큰 영향을 미친다고 할 수 있습니다. 따라서 체중 관리를 위해서는 ‘정확한 식단 추적과 관리’가 필요합니다. 최근에는 인스타그램 등 sns을 통해 음식 사진을 올리고 공유하면서 자연스럽게 식단을 기록하는 경향이 많아지고 있습니다. 
-
-
-### Our Goal
-기존 서비스에서는, 건강에 대한 관심 증가로 인해 많은 앱들이 개발되어 사용자들이 스스로 건강을 관리할 수 있는 도구로 활용되고 있지만 대부분 단순히 식단 정보와 체중 정보를 기록하고 관리해주거나, 커뮤니티 게시판을 통해 사용자들이 직접 식단을 추천해주는 기능을 제공하고 있습니다.
-
-저희는 그러한 문화적 특성을 잘 반영하여, 사용자들이 일상 속에서 쉽게 이미지를 업로드 함으로써 자신의 식단 정보를 기록할 수 있는 서비스를 개발하고자 하였습니다. 궁극적으로 저희는 AI기술을 통해 ‘데이터 기반의 접근 방식’으로 식사를 추천해주는 개인 맞춤형 가이드 서비스를 구축하였습니다. 
-
-
-### Product Overview
-저희 서비스인 ‘HealthGenie’는 사용자에게 크게 ‘weight tracking’, ‘calorie tracking’, ‘food recommendations’ 3가지 서비스를 제공합니다. 먼저, 사용자가 음식 이미지를 업로드하면 그 사진에 대해 image detection을 수행하고 칼로리를 예측하고 제시해줍니다. 그에 따라 하루 총 칼로리와 특정 영양소, 일일 식사량을 확인할 수 있습니다. 
-
-그리고 사용자가 자신의 체중을 함께 입력하면 사용자의 data를 기반으로 기간에 따라서 체중 정보를 시각적으로 확인할 수 있습니다. 
-
-세 번째는, ‘Food Recommendations’ 기능입니다. 진행 중인 프로젝트가 있는 사용자는 식사 추천을 받을 수 있습니다. 저희 서비스는 몇 가지 지표를 사용하여 건강 관리에 성공한 사용자를 기반으로 하여 식사를 추천합니다. ‘HealthGenie’의 가장 큰 장점은 맞춤형 서비스으로, 각 사용자의 건강 상태, 목표, 선호하는 식단 스타일에 따라 개인화된 식단 추천을 제공합니다. 
-
-#### Target Customers 
-저희 서비스는 식단과 건강 정보를 추적하고 관리해야 하는 모든 사람들을 대상으로 합니다. 혼자서는 다이어트 관리에 어려움을 겪는 사람들이나, 단기/장기적으로 식단을 관리하고 건강 목표를 달성하고자 하는 사람들, 그리고 자신의 식단 패턴을 파악하고 그에 따라 맞춤형 식단 추천을 받고 싶은 사람들을 위한 서비스입니다. 
-
-#### Business Value & Model 
-개인 맞춤형 건강 리포트와 음식을 추천받을 수 있다는 점에서 장점을 가지며, 또한 사진을 업로드함으로써 식단을 기록하는 문화적 경향과 더불어 사용이 쉬운 UI가 있어 사용자 친화적입니다. 
-
-더하여 식단 기록과 해당 프로젝트의 성공 여부를 통해 추후에 연구나 추가 서비스에 사용할 수 있을 것입니다. 
-
-저희는 개인 맞춤형 건강관리 서비스를 제공하는 것에서 나아가 프로젝트 진행 상황에 따라 사용자에게 응원과 격려 메시지를 보내어 심리적 공감대를 형성합니다. 이에 더하여 사용자의 편리성을 위해 추천 음식에 링크를 걸어두어 쉽게 구입이 가능하도록 하였습니다. 
-
-### Scenario 
-
-시나리오와 사용 부분 시나리오 영상 제작 
-
-<div class="responsive-video ratio-4x3">
-  {% include video.liquid 
-      path="https://youtube.com/embed/pLpjMMiW7dg"
-      class="embed-item"
-      caption="시연 영상: HealthGenie 사용 예시 (YouTube)"
-  %}
-</div>
-
-### Implementation 
-
-사용자는 Django 기반의 웹 서버를 통해 전체 서비스에 접근할 수 있습니다. 이 웹 서버를 통해 사용자는 애플리케이션에서 제공하는 모든 기능에 접근할 수 있으며, 데이터는 관계형 데이터베이스인 PostgreSQL에 저장됩니다.
-
-Streamlit을 기반으로 한 대시보드를 제공하여 다양한 지표를 사용자에게 시각적으로 보여줍니다. 이 대시보드를 통해 사용자는 서비스의 다양한 통계 및 분석 결과를 쉽게 확인할 수 있습니다.
-
-음식 인식 서비스는 YOLOv5라는 object detection 모델을 활용하며 이를 위해 Flask 기반의 웹 서버와 통신하여 음식 인식 모델을 제공합니다. 이에 따라 사용자가 음식 사진을 제공하게 되면, 해당 음식을 감지하고 분류합니다.
-
-또한, 음식 추천 서비스는 latent factor model과 content 기반 추천 알고리즘을 활용합니다. 이 알고리즘은 데이터베이스에 저장된 사용자들의 생성 데이터셋을 기반으로 작동하며, 사용자에게 맞춤형 음식 추천을 제공합니다.
+    ---
+    layout: page
+    title: project
+    description: a project with a background image
+    img: /assets/img/12.jpg
+    ---
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/HealthGenie_architecture.png" title="example image" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/1.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/3.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
+</div>
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
     This image can also have a caption. It's like magic.
 </div>
 
-### Data & Data Schema 
+You can also put regular text between your rows of images, even citations {% cite einstein1950meaning %}.
+Say you wanted to write a bit about your project before you posted the rest of the images.
+You describe how you toiled, sweated, _bled_ for your project, and then... you reveal its glory in the next row of images.
 
-저희 서비스를 위한 데이터 스키마에 대해 간략히 소개해 드리겠습니다. 총 6개의 테이블로 구성되어 있으며, 각 테이블은 외래 키를 사용하여 관계를 표현하고 있습니다. 
+<div class="row justify-content-sm-center">
+    <div class="col-sm-8 mt-3 mt-md-0">
+        {% include figure.liquid path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+    <div class="col-sm-4 mt-3 mt-md-0">
+        {% include figure.liquid path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    You can also have artistically styled 2/3 + 1/3 images, like these.
+</div>
 
-첫 번째로 소개할 테이블은 "사용자 테이블"입니다. 이 테이블은 사용자가 회원 가입 시 생성되는 정보를 담고 있습니다. 
+The code is simple.
+Just wrap your images with `<div class="col-sm">` and place them inside `<div class="row">` (read more about the <a href="https://getbootstrap.com/docs/4.4/layout/grid/">Bootstrap Grid</a> system).
+To make images responsive, add `img-fluid` class to each; for rounded corners and shadows use `rounded` and `z-depth-1` classes.
+Here's the code for the last row of images above:
 
-다음으로  "프로젝트 테이블"과 “건강 정보 테이블” 은 사용자가 애플리케이션 내에서 진행하는 프로젝트와 관련된 정보를 저장합니다. 특히 “건강 정보 테이블” 에는 식단 추천에 필요한 알러지나 식이제한, 활동 수준 등의 정보가 포함됩니다.
+{% raw %}
 
-다음으로는 "체중 추적 테이블"입니다. 이 테이블은 사용자가 애플리케이션을 사용하면서 입력하는 현재 체중 정보를 저장합니다. 
+```html
+<div class="row justify-content-sm-center">
+  <div class="col-sm-8 mt-3 mt-md-0">
+    {% include figure.liquid path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+  </div>
+  <div class="col-sm-4 mt-3 mt-md-0">
+    {% include figure.liquid path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+  </div>
+</div>
+```
 
-그 다음은 "식단 테이블"입니다. 이 테이블은 음식 인식 및 추가적인 입력을 통해 사용자가 저장하는 식단 정보를 관리합니다. 특히 각 식단 테이블은 평가 점수 등의 정보가 포함되어 식단 추천에 사용됩니다. 
-
-마지막으로, "음식 테이블"은 음식 인식에 따른 단위 함량당 칼로리 및 해당되는 식이제한 정보를 저장합니다. 음식의 칼로리 정보가 이 테이블에 저장되어 있어 칼로리 추적을 가능하게 합니다.
-
-이렇게 6개의 테이블로 구성된 데이터 스키마를 사용하여 서비스를 운영하고 있습니다.
-
-### Models 
-
+{% endraw %} -->
