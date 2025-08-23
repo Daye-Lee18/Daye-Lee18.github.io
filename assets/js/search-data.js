@@ -423,7 +423,7 @@ ninja.data = [{
               window.location.href = "/projects/0_project/";
             },},{id: "projects-emotion-specialized-text-to-video-retrieval",
           title: 'Emotion-Specialized Text-to-Video Retrieval',
-          description: "with background image",
+          description: "A tool for users to easily access emotional content in videos",
           section: "Projects",handler: () => {
               window.location.href = "/projects/1_project/";
             },},{id: "projects-personalization-via-few-shot-learning",
