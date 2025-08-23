@@ -161,7 +161,6 @@ markdown: kramdown
 highlighter: rouge
 kramdown:
   input: GFM
-  toc_levels: 2..4
   syntax_highlighter_opts:
     css_class: "highlight"
     span:

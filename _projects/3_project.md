@@ -5,7 +5,8 @@ description: Conversational Question Answering Systems for SNU laws, 2023 Fall
 img: assets/img/Legal_thumnail.png
 importance: 3
 category: work
-toc: true
+toc:
+  beginning: true
 ---
 
 <!-- thumnail size: 1205 x 690 -->
