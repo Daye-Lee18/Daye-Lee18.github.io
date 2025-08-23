@@ -3,12 +3,12 @@ layout: page
 title: Dialog Inpainting for Legal Dialogue Systems
 description: Conversational Question Answering Systems for SNU laws, 2023 Fall
 img: assets/img/Legal_thumnail.png
+tags: formatting toc
 importance: 3
 category: work
 toc:
-  beginning: true
+  sidebar: left
 ---
-
 <!-- thumnail size: 1205 x 690 -->
 
 <!-- * Table of contents
