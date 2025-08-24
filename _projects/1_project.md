@@ -496,6 +496,32 @@ Likewise, the embeddings of the trust text and trust video show the similar tren
 
 ### Demonstration 
 
+We colleted a new unseen dataset, comprising of 20 emotion-related videos from the `Pexels` online website and processed the videos into 6 FPS, the same FPS to the our training dataset. We fed a new emotion-related query with the unseen videos to both the baseline model and our emotion-specialized retrieval model. And the following demonstration video compares the top-3 recommendations of both models with the same text query. 
+
+
+<div id="t-SNE" class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/text2video/12.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/text2video/13.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Fig 6. (Left) The Pexels website where we collected unseen videos. (Right) A screenshot of our new collected test dataset. 
+</div>
+
+We demonstrates of the baseline model and our model as well, as follows in the Vid 1.
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include video.liquid path="assets/video/text2video.mp4" class="img-fluid rounded z-depth-1" controls=true autoplay=false %}
+    </div>
+</div>
+<div class="caption">
+    Vid 1. The text-to-video retrieval demonstration of both the baseline model and our emotion-specialized text-to-retrieval model
+</div>
+
 ### Discussion and Possible Future Directions 
 
 #### What we wish we had known in advance 
@@ -527,6 +553,9 @@ One aspect that we were not able to touch on was the video data. We extracted em
 <div class="caption">
     Fig 7. Facial Expression Recognition (FER) model result example
 </div>
+
+
+
 ### Code 
 
 The final code is [here][git]
