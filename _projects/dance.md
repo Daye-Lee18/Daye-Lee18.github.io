@@ -48,10 +48,12 @@ videos:
     url: https://youtube.com/watch?v=mHpdDDsDjjw
   - id: 1rw03e7t5nY
     title: Did It On 'Em + Barbie Tingz (Nicki Minaj) Filmed by lEtudel
+    channel: GoAheaD
     year: 2018
     url: https://youtube.com/watch?v=1rw03e7t5nY
   - id: acKAzPIaIWE
     title: Love so soft - Kelly Clarkson (whatdowwari) Filmed by lEtudel
+    channel: GoAheaD
     year: 2018
     url: https://youtube.com/watch?v=acKAzPIaIWE
 ---

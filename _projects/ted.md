@@ -18,7 +18,7 @@ videos:
     url: https://www.youtube.com/watch?v=CeUoS2T2hhc
 ---
 
-<p>번역 작업을 한 영상들 리스트를 나열하였습니다.</p>
+<p>번역 작업을 한 영상들 리스트를 나열하였습니다. 한국어 자막을 켜시면 맨 처음에 "번역: Daye Lee"라고 뜹니다!😊</p>
 
 <div class="ott-grid">
   {% for v in page.videos %}
