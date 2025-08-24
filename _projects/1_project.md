@@ -8,6 +8,7 @@ category: work
 tags: formatting toc
 toc:
   sidebar: left
+# pretty_table: true
 ---
 
 ### Problem 
@@ -28,7 +29,7 @@ The Emotion-Specialized Text-to-Video Retrieval Task:
 
 1. The user inputs a video description text as an input to extract the desired video. In the inference stage, to create a cosine similarity matrix, our emotion-specialized text-to-video retrieval model calculates the similarity between the relevant query and the videos in the user's directory. 
 2. During inference, the task is to extract the top-n most relevant videos by listing the video vectors that have close cosine similarity to the embedding features based on the text query in the data, in order of the highest similarity.
-3. We utilized the CLIP-ViP model, a text-to-video / video-to-text retrieval model that has learned the relationship between the two modalities of text and video well.
+3. We utilized the CLIP-ViP model[^1], a text-to-video / video-to-text retrieval model that has learned the relationship between the two modalities of text and video well.
 Here, our additional goal was to create a model that performs the retrieval task better for emotion-related queries.
 4. The reason for this is that we anticipated that if a person needs to find a specific video, they would input a query describing emotions, as people live in their memories.
 5. Therefore, we thought that after extracting 8 emotions from the text and performing embedding, we could develop the model so that the text and video cluster well for each emotion in the embedding space.
@@ -135,15 +136,400 @@ CLIP-ViP’s training objective is to **learn generalizable multimodal represent
 
 We modify this model to additionally take the emotion data we extracted earlier as input. For each of the eight emotions, we initialize an embedding of the same dimensions as the token and positional embeddings. Then for each input sequence and its corresponding emotion scores, we aggregate the embeddings for each emotion by adding them together to create the final emotion embedding. This is then added to each token embedding alongside the positional encodings. This will be shown in the code later on.
 
+#### Text Embedding 
+The CLIP model is complicated and consists of a hierarchy of many classes. Largely, it consists of two transformers, each for learning the video and text data together. These transformers are further divided into smaller components like encoder and embedding classes. We start with the `CLIPTextEmbeddings class`, which we modify to incorporate the emotion data in the creation of the text embeddings.
+
+We do this by initializing an embedding for each emotion, resulting in a total of 8 emotions. Here, the dimensions of the embeddings are the same as the token and positional embeddings. For each sequence, which has a set of corresponding emotions, we call the embeddings for each emotion and then **average them to create a single aggregated emotion embedding. This embedding is then added to each token embedding in the sequence alongside the positional embeddings.** This allows the model to incorporate the emotion information extracted from each sequence (caption) when learning their representations. Consequenstly, we updated the CLIPTextTransformer class to accept the emotion data. 
+
+```python
+class CLIPTextEmbeddings(nn.Module):
+    def __init__(self, config: CLIPTextConfig):
+        super().__init__()
+        embed_dim = config.hidden_size
+
+        self.token_embedding = nn.Embedding(config.vocab_size, embed_dim)
+        self.position_embedding = nn.Embedding(config.max_position_embeddings, embed_dim)
+        self.emotion_embedding = nn.Embedding(8, embed_dim)
+
+        # position_ids (1, len position emb) is contiguous in memory and exported when serialized
+        self.register_buffer("position_ids", torch.arange(config.max_position_embeddings).expand((1, -1)))
+
+    def forward(
+        self,
+        input_ids: Optional[torch.LongTensor] = None,
+        position_ids: Optional[torch.LongTensor] = None,
+        inputs_embeds: Optional[torch.FloatTensor] = None,
+        emotions: Optional[torch.LongTensor] = None,
+    ) -> torch.Tensor:
+        
+        seq_length = input_ids.shape[-1] if input_ids is not None else inputs_embeds.shape[-2]
+        batch_size = input_ids.shape[0] if input_ids is not None else inputs_embeds.shape[0]
+
+        if emotions is not None:
+            # Change non-zero values to 1, effectively binarizing the input
+            emotions = torch.where(emotions > 0, torch.ones_like(emotions), torch.zeros_like(emotions))
+        
+        # Retrieve all emotion embeddings
+        all_emotion_embeds = self.emotion_embedding.weight.unsqueeze(0).repeat(batch_size, 1, 1)  # [batch_size, 8, embed_dim]
+
+        if emotions is not None:
+            emotion_mask = emotions.unsqueeze(-1).type_as(all_emotion_embeds)  # [batch_size, 8, 1]
+            selected_emotion_embeds = all_emotion_embeds * emotion_mask  # [batch_size, 8, embed_dim]
+            emotion_embeds = selected_emotion_embeds.sum(1) / (emotion_mask.sum(1) + 1e-8)  # [batch_size, embed_dim]
+        else:
+            emotion_embeds = torch.zeros(batch_size, self.token_embedding.embedding_dim, device=input_ids.device if input_ids is not None else inputs_embeds.device)
+
+        emotion_embeds = emotion_embeds.unsqueeze(1).expand(-1, seq_length, -1)  # [batch_size, seq_length, embed_dim]
+
+        if position_ids is None:
+            position_ids = self.position_ids[:, :seq_length]
+
+        if inputs_embeds is None:
+            inputs_embeds = self.token_embedding(input_ids)
+
+        position_embeddings = self.position_embedding(position_ids)
+        embeddings = inputs_embeds + position_embeddings + emotion_embeds
+
+        return embeddings
+```
+
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/text2video/4.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/text2video/5.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Fig 3. A Base model's training curves (left) and our model's training curves (right)
+</div>
+
 ### Evaluation 
+#### Evaluation Metric 
+We use a Recall@k ($$ \frac{TP}{TP+FN}$$ of Top k samples) which means among the top k samples, the number of samples that are actuallly similar to the query TP is divided by the total number of query sapmles TP + FN. 
+
+For the quantitative evaluation metric, we used the Recall@k metric, which is commonly used for the recommendation task. Recall@k is to compute the recall between the Top k samples based on the ranking. Therefore, among the top k samples, the number of samples that actually correspond to the query(or video), so called True Positive, is divided by the total number of query(or video) samples. For example of Recall@5, you can see in the figure [Fig 4](#Recall@5) of similarity matrix which is ranked by cosine similarity, that consists of 8 text and video pairs. If you look at the first row of the matrix, as we evaluate top 5 ranking, there is the corresponding video at the rank 3 which means true positive of that row becomes 1. Likewise compute R@5 for all the rows in the matrix, we can get the 6 TP divided by 8 of total samples, results in 75% of R@5 for the example matrix.
+
+<div id="Recall@5" class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/text2video/6.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Fig 4. Recall@5 
+</div>
+
+Likewise the [Recall@1](#Recall@1), you can compute the score with the top 1 ranking between all samples. There is only one True positive sample among 8 samples, so we can get 1 over 8 R@1 score that is 12.5%.
+
+<div id="Recall@1" class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/text2video/7.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Fig 4. Recall@1
+</div>
+
+In other words, Recall@k represents the probability that the correct item is included within the top-k results across all test queries. `Recall Median` refers to the median of the ranks at which the correct item is first retrieved for each query. It is essentially the median rank of the ground truth across queries, and since correct items should ideally appear earlier in the list, a lower value is better. Similarly, `Recall Mean` denotes the average of the ranks at which the correct items are retrieved. While the median is less sensitive to outliers, the mean is strongly affected by extreme values.
+
+#### Quantitative Results 
+To first evaluate the effects of training on different size data splits, we trained the baseline model on the conventional 7k and 9k training sets and validated on the 1k validation set. In addition, we also conducted training on the 6k-emotion dataset we previously created. To evaluate the overall performance of the models, **we first evaluate their performance on the entire test set, labeled `"Emotion+Neutral"` in the tables.** On the other hand, to evaluate the performance of these models on the retrieval of the caption-video pairs with emotions, which we previously identified as 34 videos out of the 1000 videos in the test dataset, we calculate the recall values for only these 34 queries, instead of the total 1000. These results are listed in the columns labeled `"Emotion"` in the tables.
+
+
+<div class="table-wrap">
+  <table class="perf-table">
+    <thead>
+      <tr>
+        <th rowspan="2">Test Data</th>
+        <th colspan="2">Emotion+Neutral</th>
+        <th colspan="2">Emotion</th>
+      </tr>
+      <tr>
+        <th>T2V</th>
+        <th>V2T</th>
+        <th>T2V</th>
+        <th>V2T</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Recall@1</th>
+        <td>49.4000%</td>
+        <td>47.8044%</td>
+        <td>32.3529%</td>
+        <td>41.1765%</td>
+      </tr>
+      <tr>
+        <th scope="row">Recall@5</th>
+        <td>73.0000%</td>
+        <td>74.9501%</td>
+        <td>61.7647%</td>
+        <td>67.6471%</td>
+      </tr>
+      <tr class="highlight">
+        <th scope="row">Recall@10</th>
+        <td>83.4000%</td>
+        <td>84.4311%</td>
+        <td>73.5294%</td>
+        <td>82.3529%</td>
+      </tr>
+      <tr>
+        <th scope="row">Recall Median</th>
+        <td>2.0</td>
+        <td>2.0</td>
+        <td>3.5</td>
+        <td>3.0</td>
+      </tr>
+      <tr>
+        <th scope="row">Recall Mean</th>
+        <td>14.5</td>
+        <td>10.3</td>
+        <td>18.1</td>
+        <td>14.6</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="caption">
+    Tab 1. MSR-VTT 7k: Baseline Model
+</div>
+
+<div class="table-wrap">
+  <table class="perf-table">
+    <thead>
+      <tr>
+        <th rowspan="2">Test Data</th>
+        <th colspan="2">Emotion+Neutral</th>
+        <th colspan="2">Emotion</th>
+      </tr>
+      <tr>
+        <th>T2V</th>
+        <th>V2T</th>
+        <th>T2V</th>
+        <th>V2T</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Recall@1</th>
+        <td>49.5000%</td>
+        <td>49.3028%</td>
+        <td>35.2941%</td>
+        <td>35.2941%</td>
+      </tr>
+      <tr>
+        <th scope="row">Recall@5</th>
+        <td>74.7000%</td>
+        <td>76.6932%</td>
+        <td>61.7647%</td>
+        <td>67.6471%</td>
+      </tr>
+      <tr class="highlight">
+        <th scope="row">Recall@10</th>
+        <td>84.8000%</td>
+        <td>85.3586%</td>
+        <td>73.5294%</td>
+        <td>82.3529%</td>
+      </tr>
+      <tr>
+        <th scope="row">Recall Median</th>
+        <td>2.0</td>
+        <td>2.0</td>
+        <td>2.5</td>
+        <td>3.0</td>
+      </tr>
+      <tr>
+        <th scope="row">Recall Mean</th>
+        <td>13.4</td>
+        <td>9.5</td>
+        <td>15.9</td>
+        <td>13.1</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="caption">
+    Tab 2. MSR-VTT 9k: Baseline Model
+</div>
+
+<div class="table-wrap">
+  <table class="perf-table">
+    <thead>
+      <tr>
+        <th rowspan="2">Test Data</th>
+        <th colspan="2">Emotion+Neutral</th>
+        <th colspan="2">Emotion</th>
+      </tr>
+      <tr>
+        <th>T2V</th>
+        <th>V2T</th>
+        <th>T2V</th>
+        <th>V2T</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Recall@1</th>
+        <td>49.0000%</td>
+        <td>48.4032%</td>
+        <td>29.4118%</td>
+        <td>32.3529%</td>
+      </tr>
+      <tr>
+        <th scope="row">Recall@5</th>
+        <td>73.2000%</td>
+        <td>75.6487%</td>
+        <td>58.8235%</td>
+        <td>70.5882%</td>
+      </tr>
+      <tr class="highlight">
+        <th scope="row">Recall@10</th>
+        <td>84.8000%</td>
+        <td>84.7305%</td>
+        <td>79.4118%%</td>
+        <td>79.4118%</td>
+      </tr>
+      <tr>
+        <th scope="row">Recall Median</th>
+        <td>2.0</td>
+        <td>2.0</td>
+        <td>3.5</td>
+        <td>2.0</td>
+      </tr>
+      <tr>
+        <th scope="row">Recall Mean</th>
+        <td>13.6</td>
+        <td>9.9</td>
+        <td>16.8</td>
+        <td>14.7</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="caption">
+    Tab 3. MSR-VTT 6k (Emotion): Baseline Model
+</div>
+
+
+<div class="table-wrap">
+  <table class="perf-table">
+    <thead>
+      <tr>
+        <th rowspan="2">Test Data</th>
+        <th colspan="2">Emotion+Neutral</th>
+        <th colspan="2">Emotion</th>
+      </tr>
+      <tr>
+        <th>T2V</th>
+        <th>V2T</th>
+        <th>T2V</th>
+        <th>V2T</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Recall@1</th>
+        <td>23.9000%</td>
+        <td>44.8104%</td>
+        <td>5.8824%</td>
+        <td>8.8235%</td>
+      </tr>
+      <tr>
+        <th scope="row">Recall@5</th>
+        <td>41.5000%</td>
+        <td>28.1437%</td>
+        <td>14.7059%</td>
+        <td>20.5882%</td>
+      </tr>
+      <tr class="highlight">
+        <th scope="row">Recall@10</th>
+        <td>49.00%</td>
+        <td>50.9980%</td>
+        <td>23.5294%%</td>
+        <td>20.5882%</td>
+      </tr>
+      <tr>
+        <th scope="row">Recall Median</th>
+        <td>11.0</td>
+        <td>9.0</td>
+        <td>83.0</td>
+        <td>66.5</td>
+      </tr>
+      <tr>
+        <th scope="row">Recall Mean</th>
+        <td>124.4</td>
+        <td>72.6</td>
+        <td>206.6</td>
+        <td>115.5</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="caption">
+    Tab 4. MSR-VTT 6k (Emotion): Our Model (Emotion Embeddings)
+</div>
+
+As expected, in regard to the model's performance on emotion-containing queries in the "Emotion" columns, the performance degrades on the 6k(emotion) dataset in comparison to the other two datasets with both emotional and neutral data, as the model sees less data during training. From this, **we conclude that training exclusively on data containing only emotion does not translate to improved performance on emotion-containing queries**. In addition, when comparing the results for the entire test set with only the emotion-containing queries, **we find that for all training set sizes, the recall values for "Emotion" are all lower than for "Emotion+Neutral"**. These findings suggest that models trained on emotion-only data may fail to generalize, possibly due to overfitting or noisy emotion annotations. Thus, rather than focusing solely on emotion information, a more balanced approach that integrates both emotion and neutral cues may lead to more robust retrieval. Additionally, We find these results indicate that our current method of extracting emotion information may be insufficient. Therefore, instead of merely focusing on emotion-only signals, future work should refine or disentangle emotion representations in a way that avoids overfitting and captures complementary neutral cues.
+
+The experiment's findings indicate a decline in overall performance when contrasting the 'Baseline' with 'Ours'. Specifically, for 'Text to Video' (T2V), the R@1 metric fell sharply from 29.41% to 5.89%, and for 'Video to Text' (V2T), it decreased from 32.35% to 8.83%. A similar downward trend was observed in the R@5 metric, which dropped from 58.82% to 14.71% for T2V, and from 70.59% to 15.63% for V2T. The R@10 metric also saw a significant reduction, declining from 79.41% to 23.53% for T2V and from 79.41% to 20.59% for V2T.
+
+#### Qualitative Results 
+
+To evaluate the proficiency of our emotion embedding model in learning about emotions, we visualized the embeddings for emotions using `t-SNE`. If our model has effectively learned emotion representations, we would expect embeddings associated with similar emotions to be mapped closer together in the space. Remarkably, the t-SNE visualization revealed that, compared to a baseline model, our model's text features classified as emotional are more distinctly clustered. This suggests that our emotion embedding approach successfully captures the nuances of emotional content of the text.
+
+<div id="t-SNE" class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/text2video/8.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/text2video/9.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Fig 5. t-SNE visualization of Joy vs. Non-Joy (Left) and of Trust vs. Non-Trust (Right)
+</div>
+
+For example, the embeddings of the joy text, in green dots, in our model are slightly more clustered than the baseline model’s (See in [Fig 5 (Left)](#t-SNE)). However, **the embeddings of the joy videos, in blue dots, are not as closely clustered as the joy text embeddings.**
+
+Likewise, the embeddings of the trust text and trust video show the similar trend (See in [Fig 5 (Right)](#t-SNE)). Since our embedding model only incorporated emotion embeddings for text, we observed a clustering effect for text-related emotions but not for emotions related to videos. **Therefore, to enhance the performance of our model, we suggest the inclusion of a module that learns corresponding video embeddings in addition to text embeddings.** For instance, this can be achieved by refining our existing InfoNCE-based contrastive loss to more explicitly align emotion-specific text and video embeddings, pulling together positive pairs while separating unrelated ones. This enhancement is expected to yield improved performance in tasks involving emotion recognition across both text and video content.
 
 ### Demonstration 
 
 ### Discussion and Possible Future Directions 
 
-### Final Report 
+#### What we wish we had known in advance 
 
-Final report is [here][report] and the code is [here][git]
+1. The quality of emotional data that can be extracted. Emotion is quite a subjective concept, and is difficult to define and classify for. The methods we decided to use in the end were lexicon-based methods, which are not the most advanced technique there is. Thus, our method which utilizes this suboptimal data can have trouble leveraging this data for improving performance on the video retrieval task. The incorporation of this kind of data can actually confuse the model instead, in turn causing a drop in performance.
+   
+2. The difficulty in incorporating the emotion data. We were only able to use a very simple implementation in the form of “emotion embeddings” applied directly to the sequence data in the form of addition. Many sophisticated methods exist, and we leave this to future work. We had a list of methods we wanted to try, but were not able to implement due to time constraints, such as the attention mechanism or emotion-specific positional embeddings.
+
+<div id="model_improvement" class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/text2video/10.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Fig 6. Possible advanced model architecture 
+</div>
+
+1. The amount of available data and its relation to our task. (The availability of emotional videos) -> Our main objective was to create a service for users to more easily access emotional videos in the vast amount of data that they have access to. However, most of the datasets that are readily available for research are collected from a wide range of media like YouTube, or other consumer content, rather than for videos that would be commonly taken by regular people on their phones. In this sense, there is a discrepancy in the type of data we would expect our model to be used on, especially in that the datasets contain videos that do not really contain emotions. This negatively affected our models performance.
+   
+#### Future Direction 
+
+One aspect that we were not able to touch on was the video data. We extracted emotional information from the video/frame captions, but we think it would be possible to extract similar information from the videos themselves. One method we considered was using Facial Expression Recognition(FER) models to extract the expressions of the faces in the videos and convert them into emotions. We think this has potential to improve the performance of our model.
+
+<div id="FER" class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/text2video/11.png" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Fig 7. Facial Expression Recognition (FER) model result example
+</div>
+### Code 
+
+The final code is [here][git]
 
 ### Reference 
 [^1]: Xue, Hongwei, et al. "Clip-vip: Adapting pre-trained image-text model to video-language representation alignment." arXiv preprint arXiv:2209.06430 (2022).
