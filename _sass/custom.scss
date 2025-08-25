@@ -135,8 +135,31 @@
   margin: 0;
   padding-left: 18px;
 }
+
 .course-points li {
   margin: 6px 0;
+}
+
+/* definition list for course points */
+.course-def {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 14px;
+  row-gap: 8px;
+  margin: 8px 0 0;
+}
+.course-def .point-label {
+  font-weight: 700;
+  color: var(--global-theme-color);
+  /* pill 스타일 원하면 주석 해제
+  background: color-mix(in oklab, var(--global-theme-color) 15%, transparent);
+  color: var(--global-hover-text-color);
+  padding: 2px 8px;
+  border-radius: 999px;
+  */
+}
+.course-def .point-text {
+  margin: 0; /* dd 기본 여백 제거 */
 }
 
 /* red badge on the top-right */

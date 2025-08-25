@@ -1,21 +1,24 @@
+<!-- prettier-ignore-start -->
 {% for block in page.teaching %}
-  <h2>{{ block.university }}</h2>
-  {% for c in block.courses %}
-    <div class="teaching-card" markdown="0">
-      {% if c.badge -%}
-        <span class="course-badge">{{ c.badge }}</span>
-      {%- endif %}
-      <h3 class="course-title">{{ c.title }}</h3>
-      <p class="course-sub">
-        {{ c.term }} · <em>{{ c.role }}</em>
-      </p>
-      {% if c.points %}
-        <ul class="course-points">
-          {% for p in c.points %}
-            <li>{{ p }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    </div>
-  {% endfor %}
+<h2>{{ block.university }}</h2>
+{% for c in block.courses %}
+<div class="teaching-card">
+{% if c.badge -%}
+<span class="course-badge">{{ c.badge }}</span>
+{%- endif %}
+<h3 class="course-title">{{ c.title }}</h3>
+<p class="course-sub">
+{{ c.term }} · <em>{{ c.role }}</em>
+</p>
+{% if c.points %}
+<dl class="course-def">
+{% for p in c.points %}
+<dt class="point-label">{{ p.label }}</dt>
+<dd class="point-text">{{ p.text }}</dd>
 {% endfor %}
+</dl>
+{% endif %}
+</div>
+{% endfor %}
+{% endfor %}
+<!-- prettier-ignore-end -->

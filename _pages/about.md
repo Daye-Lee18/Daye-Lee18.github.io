@@ -1,6 +1,6 @@
 ---
 layout: about
-title: about
+title: About
 permalink: /
 subtitle: Master's student in Graduate School of Data Science @ SNU
 
