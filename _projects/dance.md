@@ -12,12 +12,12 @@ videos:
     year: 2025
     url: https://youtube.com/watch?v=X3l6_GUB8q0
   - id: urly6X8rKXo
-    title: GIMME MORE + Outrageous - Saarah Fernandex + Jojo Gomez Choreo 
+    title: GIMME MORE + Outrageous - Saarah Fernandex + Jojo Gomez Choreo
     channel: GoAheaD
     year: 2023
     url: https://www.youtube.com/watch?v=urly6X8rKXo
-  - id: tmSDNdcOZNQ 
-    title: Where Have You Been - BELEGACY Choreo 
+  - id: tmSDNdcOZNQ
+    title: Where Have You Been - BELEGACY Choreo
     channel: GoAheaD
     year: 2022
     url: https://youtube.com/watch?v=tmSDNdcOZNQ
@@ -73,4 +73,3 @@ videos:
     </a>
   {% endfor %}
 </div>
-

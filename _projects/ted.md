@@ -7,12 +7,12 @@ importance: 1
 category: fun
 videos:
   - id: T1aZxcyiYAw
-    title: Why did it take so long to find giant squids? 
+    title: Why did it take so long to find giant squids?
     channel: TED-Ed
     year: 2024
     url: https://www.youtube.com/watch?v=T1aZxcyiYAw
   - id: CeUoS2T2hhc
-    title: What’s the Future of Food? A Chef + a Cardiologist Answer 
+    title: What’s the Future of Food? A Chef + a Cardiologist Answer
     channel: TEDx
     year: 2023
     url: https://www.youtube.com/watch?v=CeUoS2T2hhc
@@ -33,4 +33,3 @@ videos:
     </a>
   {% endfor %}
 </div>
-

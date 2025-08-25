@@ -1,21 +1,20 @@
 .responsive-video {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4/3;     /* 16/9, 3/2 등 원하는 비율로 바꾸세요 */
-    display: flex;            /* Flexbox 활성화 */
-    justify-content: center;  /* 가로 중앙 */
-    align-items: center;      /* 세로 중앙 */
-    background: #111;
-    border-radius: .5rem;
-  }
-  
-  .responsive-video iframe,
-  .responsive-video video {
-    max-width: 100%;
-    max-height: 100%;
-    border: 0;
-  }
-  
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3; /* 16/9, 3/2 등 원하는 비율로 바꾸세요 */
+  display: flex; /* Flexbox 활성화 */
+  justify-content: center; /* 가로 중앙 */
+  align-items: center; /* 세로 중앙 */
+  background: #111;
+  border-radius: 0.5rem;
+}
+
+.responsive-video iframe,
+.responsive-video video {
+  max-width: 100%;
+  max-height: 100%;
+  border: 0;
+}
 
 /* OTT 스타일 그리드 */
 .ott-grid {
@@ -32,19 +31,21 @@
   background: var(--global-card-bg-color);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,.15);
-  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .ott-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0,0,0,.25);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
 .ott-card .thumb {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;      /* 썸네일 비율 고정 */
+  aspect-ratio: 16 / 9; /* 썸네일 비율 고정 */
   overflow: hidden;
   background: #111;
 }
@@ -68,11 +69,13 @@
 
 .ott-card .sub {
   margin: 0;
-  font-size: .85rem;
+  font-size: 0.85rem;
   color: var(--global-text-color-light);
 }
 
-.table-wrap { overflow-x: auto; }
+.table-wrap {
+  overflow-x: auto;
+}
 
 .perf-table {
   width: 100%;
@@ -93,8 +96,13 @@
   border-top: 1px solid var(--global-divider-color);
 }
 
-.perf-table td { text-align: right; }
-.perf-table th[scope="row"] { text-align: left; font-weight: 600; }
+.perf-table td {
+  text-align: right;
+}
+.perf-table th[scope="row"] {
+  text-align: left;
+  font-weight: 600;
+}
 
 /* 줄무늬 효과 */
 .perf-table tbody tr:nth-child(odd) {

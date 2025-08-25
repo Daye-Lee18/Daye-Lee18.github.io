@@ -11,10 +11,9 @@ toc:
 # pretty_table: true
 ---
 
-### Problem 
+### Problem
 
 We aim to create an text-to-video retrieval model that can better find videos taking emotions into account in their queries. In the age of big data, most people now have countless photos and vidoes in their possession, saved. With the immensely large amount of data that they now have, it is becoming increasingly difficult to efficiently find the videos or photos that someone is looking for. In this regard, the field of video-text retrieval has been receiving more attention and their models' capabilities have improved tremendously over the years. However, we believe that performance of these models can be further improved by focusing on the emotional aspects inherent in both the text and the videos. This is especially more important considering growing demand for personalized and emotionally resonant experiences in digital media. **Thus, we hope to develop a tool for users to easily access emotional content in videos, by modifying video-text retrieval models to incorporate emotion data.**
-
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
@@ -27,23 +26,22 @@ We aim to create an text-to-video retrieval model that can better find videos ta
 
 The Emotion-Specialized Text-to-Video Retrieval Task:
 
-1. The user inputs a video description text as an input to extract the desired video. In the inference stage, to create a cosine similarity matrix, our emotion-specialized text-to-video retrieval model calculates the similarity between the relevant query and the videos in the user's directory. 
+1. The user inputs a video description text as an input to extract the desired video. In the inference stage, to create a cosine similarity matrix, our emotion-specialized text-to-video retrieval model calculates the similarity between the relevant query and the videos in the user's directory.
 2. During inference, the task is to extract the top-n most relevant videos by listing the video vectors that have close cosine similarity to the embedding features based on the text query in the data, in order of the highest similarity.
 3. We utilized the CLIP-ViP model[^1], a text-to-video / video-to-text retrieval model that has learned the relationship between the two modalities of text and video well.
-Here, our additional goal was to create a model that performs the retrieval task better for emotion-related queries.
+   Here, our additional goal was to create a model that performs the retrieval task better for emotion-related queries.
 4. The reason for this is that we anticipated that if a person needs to find a specific video, they would input a query describing emotions, as people live in their memories.
 5. Therefore, we thought that after extracting 8 emotions from the text and performing embedding, we could develop the model so that the text and video cluster well for each emotion in the embedding space.
 
-
-### Dataset and Data preprocessing  
+### Dataset and Data preprocessing
 
 We performed our experiments on the dataset most widely used for Video-Text Retrieval Tasks: MSR-VTT. Most implementations of models for this task usually use the entire dataset(10K YouTube videos with 200K descriptions) but here, **we filter the dataset (9K train/1K test) to use only the videos that contain emotions, leaving only 6,000 videos from the entire MSR-VTT dataset for training.** Each video is approximately 10-20 seconds long and consists of 20 corresponding captions. We explain the process in detail below.
 
 To enhance the speed of the training, we downscale the frames per seconds to 6. Next, **to extract the emotions in our dataset** for our main task, Emotion-Specialized Text-to-Video Retrieval, we perform a two-step preprocessing process as follows.
 
-Step (1) Video selection and filtration process : We conduct **sentiment analysis on each video caption** to determine the presence of sentimental information. The sentiment analysis library calculates neutral, positive, and negative scores for each video caption and decides whether it is positive or negative based on the compound score, which is an overall score derived from these individual scores. For example, if the composite score is above 0.6, we classify the video as positive, and if it is below -0.6, we classify it as negative. **We abitrarily set -0.6 and 0.6 as the thresholds for classifying the compound scores representing videos with emotion.** We filtered out any videos with compound scores in between -0.6 and 0.6 as videos without sufficient positive or negative sentiments, representative of the existence of emotions. **This leaves us with about 6K videos in the training set.** We utilized [nltk.sentiment.SentimentIntensityAnalyzer][nltk] for this process. 
+Step (1) Video selection and filtration process : We conduct **sentiment analysis on each video caption** to determine the presence of sentimental information. The sentiment analysis library calculates neutral, positive, and negative scores for each video caption and decides whether it is positive or negative based on the compound score, which is an overall score derived from these individual scores. For example, if the composite score is above 0.6, we classify the video as positive, and if it is below -0.6, we classify it as negative. **We abitrarily set -0.6 and 0.6 as the thresholds for classifying the compound scores representing videos with emotion.** We filtered out any videos with compound scores in between -0.6 and 0.6 as videos without sufficient positive or negative sentiments, representative of the existence of emotions. **This leaves us with about 6K videos in the training set.** We utilized [nltk.sentiment.SentimentIntensityAnalyzer][nltk] for this process.
 
-다만, 위의 Sentimenty Analyzer 모델을 사용했을 때, 특정 감정을 나타내는 단어 예를 들어, "happy", "sad" 및 "fear"와 같은 단어가 들어있어도 compound score가 유의미하지 않은 것이 filter되었기 때문에, 이러한 caption은 maually하게 추출하는 과정을 거쳤다. 
+다만, 위의 Sentimenty Analyzer 모델을 사용했을 때, 특정 감정을 나타내는 단어 예를 들어, "happy", "sad" 및 "fear"와 같은 단어가 들어있어도 compound score가 유의미하지 않은 것이 filter되었기 때문에, 이러한 caption은 maually하게 추출하는 과정을 거쳤다.
 
 ```python
 def extract_emotion_manually(df, text=None):
@@ -58,13 +56,14 @@ def extract_emotion_manually(df, text=None):
     return manual_df
 ```
 
-Step (2): After completing the video selection and filtration process in the first step, we determine the emotional information present in each caption. For this purpose, **we use NRCLex, which uses a scoring method based on a predefined lexicon dictionary to calculate eight emotions present in a sentence: joy, trust, fear, surprise, sadness, disgust, anger, and anticipation.** We also include the calculation of positive, negative and neutral emotions from the previous step. **Consequently, the resulting data for each caption contains information on eight emotions along with positive, negative, and neutral sentiments.** We made a use of [NRC Lexicon library][nrclex] for this task. This emotion extraction process is applied to the three data splits we use in our experminets: **the refined 6K training data from the first step, the entire 1K test data, and a combination of 34 sentimental and 34 non-sentimental data used to analyze our model's results.** 즉, step (1)을 거친 training 데이터셋, 기존 1K test set은 validation set, 그리고 기존 1K test set에 step (1)을 거친 34 + non-sentimental 34 (총 68개)는 최종 test data로 사용되었다. 
+Step (2): After completing the video selection and filtration process in the first step, we determine the emotional information present in each caption. For this purpose, **we use NRCLex, which uses a scoring method based on a predefined lexicon dictionary to calculate eight emotions present in a sentence: joy, trust, fear, surprise, sadness, disgust, anger, and anticipation.** We also include the calculation of positive, negative and neutral emotions from the previous step. **Consequently, the resulting data for each caption contains information on eight emotions along with positive, negative, and neutral sentiments.** We made a use of [NRC Lexicon library][nrclex] for this task. This emotion extraction process is applied to the three data splits we use in our experminets: **the refined 6K training data from the first step, the entire 1K test data, and a combination of 34 sentimental and 34 non-sentimental data used to analyze our model's results.** 즉, step (1)을 거친 training 데이터셋, 기존 1K test set은 validation set, 그리고 기존 1K test set에 step (1)을 거친 34 + non-sentimental 34 (총 68개)는 최종 test data로 사용되었다.
 
 More specifically, using the lexicon provided by the NRC Lexicon Library, we assigned emotion scores to each caption for the eight emotion types defined by Robert Plutchik: joy, trust, fear, surprise, sadness, disgust, anger, and anticipation. This results in a total of 11 columns in the original dataset. Remember, we apply this process to three datasets in the second step of assigning emotional information: the refined 6K training data from the first step, a combination of 34 sentimental and 34 non-sentimental data for a total of 68 test data, and the entire 1K test data.
 
-### Proposed Model 
+### Proposed Model
 
-#### CLIP-ViP: Baseline Representation Learning 
+#### CLIP-ViP: Baseline Representation Learning
+
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/text2video/2.png" title="example image" class="img-fluid rounded z-depth-1" %}
@@ -74,14 +73,14 @@ More specifically, using the lexicon provided by the NRC Lexicon Library, we ass
     Fig 2. A Baseline model was used for our emotion-specialized text-to-retrieval model
 </div>
 
-
 For our baseline, we use **CLIP-ViP**, a state-of-the-art model for video-text retrieval. It adapts a CLIP image-text backbone for **post-pretraining** on videos by adding a **Video Proxy token** (proxy-guided video attention) and training with **Omnisource Cross-Modal Learning**.
 
 ##### Representation Learning Objective
+
 - Learn a **shared embedding space** for video and text.
 - **Positive pairs** (e.g., matching Video–Subtitle or Frame–Caption) are pulled **closer**;  
   **Negative pairs** (non-matching pairs) are pushed **farther** using contrastive learning.
-- To mitigate the domain gap between *subtitles (S)* in the training data and real-world *captions (C)*, an auxiliary caption is generated for the **middle frame (F)** of each **video (V)**.
+- To mitigate the domain gap between _subtitles (S)_ in the training data and real-world _captions (C)_, an auxiliary caption is generated for the **middle frame (F)** of each **video (V)**.
 - We therefore train on **(V, S)** and the corresponding **(F, C)** pairs jointly.
 
 #### Loss Function (InfoNCE)
@@ -96,7 +95,6 @@ $$
 {\sum_{j=1}^{B} \exp\left(v_i^{\top} t_j / \tau\right)}
 $$
 
-
 $$
 \mathcal{L}_{t2v}
 = -\frac{1}{B} \sum_{i=1}^{B}
@@ -110,21 +108,22 @@ We use **source-wise** InfoNCE over video sources \(\{V, F\}\) and text sources 
 - (a) \( $$\mathcal{L}_{V\leftrightarrow S} + \mathcal{L}_{F\leftrightarrow C}$$\)
 - (b) \( $$\mathcal{L}_{V\leftrightarrow S} + \mathcal{L}_{V\leftrightarrow C}$$ \)
 - (c) \( $$\mathcal{L}_{V\leftrightarrow S} + \mathcal{L}_{V\leftrightarrow C} + \mathcal{L}_{F\leftrightarrow C}$$ \)
-- (d) \( $$\mathcal{L}_{V\leftrightarrow S,C} + \mathcal{L}_{F\leftrightarrow C}$$ \)  (video paired with both subtitle and auxiliary caption)
+- (d) \( $$\mathcal{L}_{V\leftrightarrow S,C} + \mathcal{L}_{F\leftrightarrow C}$$ \) (video paired with both subtitle and auxiliary caption)
 
 A common joint form for (d) expands the negative pools across both \(S\) and \(C\):
+
 $$
 \mathcal{L}_{v2t} = -\frac{1}{2B}\sum_{i=1}^{B}\left[\log\frac{\exp\left(v_i^{\top} s_i/\tau\right)}{\sum_{j=1}^{B} \exp\left(v_i^{\top} s_j/\tau\right)+\sum_{j\neq i} \exp\left(v_i^{\top} c_j/\tau\right)} + \log\frac{\exp\left(v_i^{\top} c_i/\tau\right)}{\sum_{j=1}^{B} \exp\left(v_i^{\top} c_j/\tau\right)+\sum_{j\neq i} \exp\left(v_i^{\top} s_j/\tau\right)}\right]
 $$
 
-
-where \($$s_{i}$$ in S\) and \($$c_{i}$$ in C\). The corresponding \( $$ \mathcal{L}_{t2v}$$\) term is defined analogously.
+where \($$s_{i}$$ in S\) and \($$c_{i}$$ in C\). The corresponding \( $$ \mathcal{L}\_{t2v}$$\) term is defined analogously.
 
 ---
 
 CLIP-ViP’s training objective is to **learn generalizable multimodal representations** via contrastive learning, bridging the gap between video content and textual descriptions. These learned representations are then directly used for **retrieval tasks** (text-to-video, video-to-text).
 
-#### Our Model 
+#### Our Model
+
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/text2video/3.png" title="example image" class="img-fluid rounded z-depth-1" %}
@@ -136,10 +135,11 @@ CLIP-ViP’s training objective is to **learn generalizable multimodal represent
 
 We modify this model to additionally take the emotion data we extracted earlier as input. For each of the eight emotions, we initialize an embedding of the same dimensions as the token and positional embeddings. Then for each input sequence and its corresponding emotion scores, we aggregate the embeddings for each emotion by adding them together to create the final emotion embedding. This is then added to each token embedding alongside the positional encodings. This will be shown in the code later on.
 
-#### Text Embedding 
+#### Text Embedding
+
 The CLIP model is complicated and consists of a hierarchy of many classes. Largely, it consists of two transformers, each for learning the video and text data together. These transformers are further divided into smaller components like encoder and embedding classes. We start with the `CLIPTextEmbeddings class`, which we modify to incorporate the emotion data in the creation of the text embeddings.
 
-We do this by initializing an embedding for each emotion, resulting in a total of 8 emotions. Here, the dimensions of the embeddings are the same as the token and positional embeddings. For each sequence, which has a set of corresponding emotions, we call the embeddings for each emotion and then **average them to create a single aggregated emotion embedding. This embedding is then added to each token embedding in the sequence alongside the positional embeddings.** This allows the model to incorporate the emotion information extracted from each sequence (caption) when learning their representations. Consequenstly, we updated the CLIPTextTransformer class to accept the emotion data. 
+We do this by initializing an embedding for each emotion, resulting in a total of 8 emotions. Here, the dimensions of the embeddings are the same as the token and positional embeddings. For each sequence, which has a set of corresponding emotions, we call the embeddings for each emotion and then **average them to create a single aggregated emotion embedding. This embedding is then added to each token embedding in the sequence alongside the positional embeddings.** This allows the model to incorporate the emotion information extracted from each sequence (caption) when learning their representations. Consequenstly, we updated the CLIPTextTransformer class to accept the emotion data.
 
 ```python
 class CLIPTextEmbeddings(nn.Module):
@@ -161,14 +161,14 @@ class CLIPTextEmbeddings(nn.Module):
         inputs_embeds: Optional[torch.FloatTensor] = None,
         emotions: Optional[torch.LongTensor] = None,
     ) -> torch.Tensor:
-        
+
         seq_length = input_ids.shape[-1] if input_ids is not None else inputs_embeds.shape[-2]
         batch_size = input_ids.shape[0] if input_ids is not None else inputs_embeds.shape[0]
 
         if emotions is not None:
             # Change non-zero values to 1, effectively binarizing the input
             emotions = torch.where(emotions > 0, torch.ones_like(emotions), torch.zeros_like(emotions))
-        
+
         # Retrieve all emotion embeddings
         all_emotion_embeds = self.emotion_embedding.weight.unsqueeze(0).repeat(batch_size, 1, 1)  # [batch_size, 8, embed_dim]
 
@@ -205,9 +205,11 @@ class CLIPTextEmbeddings(nn.Module):
     Fig 3. A Base model's training curves (left) and our model's training curves (right)
 </div>
 
-### Evaluation 
-#### Evaluation Metric 
-We use a Recall@k ($$ \frac{TP}{TP+FN}$$ of Top k samples) which means among the top k samples, the number of samples that are actuallly similar to the query TP is divided by the total number of query sapmles TP + FN. 
+### Evaluation
+
+#### Evaluation Metric
+
+We use a Recall@k ($$ \frac{TP}{TP+FN}$$ of Top k samples) which means among the top k samples, the number of samples that are actuallly similar to the query TP is divided by the total number of query sapmles TP + FN.
 
 For the quantitative evaluation metric, we used the Recall@k metric, which is commonly used for the recommendation task. Recall@k is to compute the recall between the Top k samples based on the ranking. Therefore, among the top k samples, the number of samples that actually correspond to the query(or video), so called True Positive, is divided by the total number of query(or video) samples. For example of Recall@5, you can see in the figure [Fig 4](#Recall@5) of similarity matrix which is ranked by cosine similarity, that consists of 8 text and video pairs. If you look at the first row of the matrix, as we evaluate top 5 ranking, there is the corresponding video at the rank 3 which means true positive of that row becomes 1. Likewise compute R@5 for all the rows in the matrix, we can get the 6 TP divided by 8 of total samples, results in 75% of R@5 for the example matrix.
 
@@ -233,9 +235,9 @@ Likewise the [Recall@1](#Recall@1), you can compute the score with the top 1 ran
 
 In other words, Recall@k represents the probability that the correct item is included within the top-k results across all test queries. `Recall Median` refers to the median of the ranks at which the correct item is first retrieved for each query. It is essentially the median rank of the ground truth across queries, and since correct items should ideally appear earlier in the list, a lower value is better. Similarly, `Recall Mean` denotes the average of the ranks at which the correct items are retrieved. While the median is less sensitive to outliers, the mean is strongly affected by extreme values.
 
-#### Quantitative Results 
-To first evaluate the effects of training on different size data splits, we trained the baseline model on the conventional 7k and 9k training sets and validated on the 1k validation set. In addition, we also conducted training on the 6k-emotion dataset we previously created. To evaluate the overall performance of the models, **we first evaluate their performance on the entire test set, labeled `"Emotion+Neutral"` in the tables.** On the other hand, to evaluate the performance of these models on the retrieval of the caption-video pairs with emotions, which we previously identified as 34 videos out of the 1000 videos in the test dataset, we calculate the recall values for only these 34 queries, instead of the total 1000. These results are listed in the columns labeled `"Emotion"` in the tables.
+#### Quantitative Results
 
+To first evaluate the effects of training on different size data splits, we trained the baseline model on the conventional 7k and 9k training sets and validated on the 1k validation set. In addition, we also conducted training on the 6k-emotion dataset we previously created. To evaluate the overall performance of the models, **we first evaluate their performance on the entire test set, labeled `"Emotion+Neutral"` in the tables.** On the other hand, to evaluate the performance of these models on the retrieval of the caption-video pairs with emotions, which we previously identified as 34 videos out of the 1000 videos in the test dataset, we calculate the recall values for only these 34 queries, instead of the total 1000. These results are listed in the columns labeled `"Emotion"` in the tables.
 
 <div class="table-wrap">
   <table class="perf-table">
@@ -411,7 +413,6 @@ To first evaluate the effects of training on different size data splits, we trai
     Tab 3. MSR-VTT 6k (Emotion): Baseline Model
 </div>
 
-
 <div class="table-wrap">
   <table class="perf-table">
     <thead>
@@ -474,7 +475,7 @@ As expected, in regard to the model's performance on emotion-containing queries 
 
 The experiment's findings indicate a decline in overall performance when contrasting the 'Baseline' with 'Ours'. Specifically, for 'Text to Video' (T2V), the R@1 metric fell sharply from 29.41% to 5.89%, and for 'Video to Text' (V2T), it decreased from 32.35% to 8.83%. A similar downward trend was observed in the R@5 metric, which dropped from 58.82% to 14.71% for T2V, and from 70.59% to 15.63% for V2T. The R@10 metric also saw a significant reduction, declining from 79.41% to 23.53% for T2V and from 79.41% to 20.59% for V2T.
 
-#### Qualitative Results 
+#### Qualitative Results
 
 To evaluate the proficiency of our emotion embedding model in learning about emotions, we visualized the embeddings for emotions using `t-SNE`. If our model has effectively learned emotion representations, we would expect embeddings associated with similar emotions to be mapped closer together in the space. Remarkably, the t-SNE visualization revealed that, compared to a baseline model, our model's text features classified as emotional are more distinctly clustered. This suggests that our emotion embedding approach successfully captures the nuances of emotional content of the text.
 
@@ -494,10 +495,9 @@ For example, the embeddings of the joy text, in green dots, in our model are sli
 
 Likewise, the embeddings of the trust text and trust video show the similar trend (See in [Fig 5 (Right)](#t-SNE)). Since our embedding model only incorporated emotion embeddings for text, we observed a clustering effect for text-related emotions but not for emotions related to videos. **Therefore, to enhance the performance of our model, we suggest the inclusion of a module that learns corresponding video embeddings in addition to text embeddings.** For instance, this can be achieved by refining our existing InfoNCE-based contrastive loss to more explicitly align emotion-specific text and video embeddings, pulling together positive pairs while separating unrelated ones. This enhancement is expected to yield improved performance in tasks involving emotion recognition across both text and video content.
 
-### Demonstration 
+### Demonstration
 
-We colleted a new unseen dataset, comprising of 20 emotion-related videos from the `Pexels` online website and processed the videos into 6 FPS, the same FPS to the our training dataset. We fed a new emotion-related query with the unseen videos to both the baseline model and our emotion-specialized retrieval model. And the following demonstration video compares the top-3 recommendations of both models with the same text query. 
-
+We colleted a new unseen dataset, comprising of 20 emotion-related videos from the `Pexels` online website and processed the videos into 6 FPS, the same FPS to the our training dataset. We fed a new emotion-related query with the unseen videos to both the baseline model and our emotion-specialized retrieval model. And the following demonstration video compares the top-3 recommendations of both models with the same text query.
 
 <div id="t-SNE" class="row">
     <div class="col-sm mt-3 mt-md-0">
@@ -515,19 +515,18 @@ We demonstrates of the baseline model and our model as well, as follows in the V
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        {% include video.liquid path="assets/video/text2video.mp4" class="img-fluid rounded z-depth-1" controls=true autoplay=false %}
+        {% include video.liquid path="assets/video/text2video.mp4" class="img-fluid rounded z-depth-1" controls=true autoplay=false muted=true%}
     </div>
 </div>
 <div class="caption">
     Vid 1. The text-to-video retrieval demonstration of both the baseline model and our emotion-specialized text-to-retrieval model
 </div>
 
-### Discussion and Possible Future Directions 
+### Discussion and Possible Future Directions
 
-#### What we wish we had known in advance 
+#### What we wish we had known in advance
 
 1. The quality of emotional data that can be extracted. Emotion is quite a subjective concept, and is difficult to define and classify for. The methods we decided to use in the end were lexicon-based methods, which are not the most advanced technique there is. Thus, our method which utilizes this suboptimal data can have trouble leveraging this data for improving performance on the video retrieval task. The incorporation of this kind of data can actually confuse the model instead, in turn causing a drop in performance.
-   
 2. The difficulty in incorporating the emotion data. We were only able to use a very simple implementation in the form of “emotion embeddings” applied directly to the sequence data in the form of addition. Many sophisticated methods exist, and we leave this to future work. We had a list of methods we wanted to try, but were not able to implement due to time constraints, such as the attention mechanism or emotion-specific positional embeddings.
 
 <div id="model_improvement" class="row">
@@ -540,8 +539,8 @@ We demonstrates of the baseline model and our model as well, as follows in the V
 </div>
 
 1. The amount of available data and its relation to our task. (The availability of emotional videos) -> Our main objective was to create a service for users to more easily access emotional videos in the vast amount of data that they have access to. However, most of the datasets that are readily available for research are collected from a wide range of media like YouTube, or other consumer content, rather than for videos that would be commonly taken by regular people on their phones. In this sense, there is a discrepancy in the type of data we would expect our model to be used on, especially in that the datasets contain videos that do not really contain emotions. This negatively affected our models performance.
-   
-#### Future Direction 
+
+#### Future Direction
 
 One aspect that we were not able to touch on was the video data. We extracted emotional information from the video/frame captions, but we think it would be possible to extract similar information from the videos themselves. One method we considered was using Facial Expression Recognition(FER) models to extract the expressions of the faces in the videos and convert them into emotions. We think this has potential to improve the performance of our model.
 
@@ -554,16 +553,15 @@ One aspect that we were not able to touch on was the video data. We extracted em
     Fig 7. Facial Expression Recognition (FER) model result example
 </div>
 
-
-
-### Code 
+### Code
 
 The final code is [here][git]
 
-### Reference 
+### Reference
+
 [^1]: Xue, Hongwei, et al. "Clip-vip: Adapting pre-trained image-text model to video-language representation alignment." arXiv preprint arXiv:2209.06430 (2022).
 
 [report]: /assets/html/MIE1517_final_report.html
-[git]: https://github.com/Hyejin3194/MIE1517_Project_Emotion-Text-to-Video-Retrieval.git 
+[git]: https://github.com/Hyejin3194/MIE1517_Project_Emotion-Text-to-Video-Retrieval.git
 [nltk]: https://www.nltk.org/api/nltk.sentiment.SentimentIntensityAnalyzer.html?highlight=sentimentintensity
 [nrclex]: https://pypi.org/project/NRCLex/
