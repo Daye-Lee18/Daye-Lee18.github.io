@@ -11,4 +11,4 @@ assets/libs/
 node_modules/
 vendor
 .idea
-assets/video/*.mp4
+# assets/video/*.mp4
