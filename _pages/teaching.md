@@ -20,7 +20,7 @@ teaching:
           - label: 언어
             text: 쉬운 한국어, 필요 시 영어 병행.
 
-      - title: Basic Computing (Ver.2)
+      - title: Introduction to Computing 
         role: Tutor & Substitute Teaching Assistant
         term: 2025 Spring, 2025 Summer
         badge: Tutoring/대체조교
