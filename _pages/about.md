@@ -28,7 +28,7 @@ social: true # includes social icons at the bottom of the page
 
 저는 춤추는 것 좋아하여 대학교 춤 동아리에서 계속 활동하였으며 동아리 공연 영상을 [YouTube][Goahead]에 꾸준히 업로드하였고 연구 외에 시간에는 크로스핏과 영어 공부를 하는 것을 좋아합니다. -->
 
-I’m Daye Lee, a graduating M.S. researcher at the [Graduate School of Data Science][gsds], SNU in the Learning and Adaptation Algorithm Lab ([LAAL][laal], advised by Prof. Taeseop Kim). My work centers on multimodal generative models for human motion—building systems that make avatars and robots move meaningfully. In my thesis project HuMoGen-X, I develop a diffusion-based SMPL motion generation conditioned jointly on music, dance genre, and user keyframes, enabling users to get better controllability over expected results. Through an [IITP][iitp]-sponsored research fellowship, I spent six months at the University of Toronto’s [CARTE][carte], taking advanced coursework and collaborating with [Cyberworks Robotics][cyberworks] on a production-oriented project in real-time RGB-D depth estimation with CPU optimizations. I also published [Simulating Mobile Robot Vision][icaiic_paper] at ICAIIC  and collaborated with Cyberworks on real-time RGB-D depth estimation with CPU-level optimizations for deployment. Beyond this, I’ve delivered course projects on few-shot personalization, an LLM-based legal QA chatbot, and emotion-guided video highlight extraction.
+I’m Daye Lee, a graduating M.S. researcher at the [Graduate School of Data Science][gsds], SNU in the Learning and Adaptation Algorithm Lab ([LAAL][laal], advised by Prof. Taeseop Kim). My work centers on multimodal generative models for human motion—building systems that make avatars and robots move meaningfully. In my thesis project HuMoGen-X, I develop a diffusion-based SMPL motion generation conditioned jointly on music, dance genre, and user keyframes, enabling users to get better controllability over expected results. Through an [IITP][iitp]-sponsored research fellowship, I spent six months at the University of Toronto’s [CARTE][carte], taking advanced coursework and collaborating with [Cyberworks Robotics][cyberworks] on a production-oriented project in real-time RGB-D depth estimation with CPU optimizations. I also published [Simulating Mobile Robot Vision][icaiic_paper] at ICAIIC and collaborated with Cyberworks on real-time RGB-D depth estimation with CPU-level optimizations for deployment. Beyond this, I’ve delivered course projects on few-shot personalization, an LLM-based legal QA chatbot, and emotion-guided video highlight extraction.
 
 I’m actively seeking internship or full-time roles in multimodal AI for LLM, XR (AR/VR) and robotics/embodied AI—shipping models that are useful and used. I’ve taught introductory computing at SNU (Outstanding Tutor award) and run Python sessions for Malaysian scholarship students. Outside the lab I dance (videos on [YouTube][Goahead]), which keeps me grounded in real motion aesthetics. You can reach me at dayelee313@gmail.com, on [LinkedIn][linkdIn], and see my [resumé][cv] here.
 
@@ -42,7 +42,8 @@ I’m actively seeking internship or full-time roles in multimodal AI for LLM, X
 [cv]: /assets/pdf/20250821_Resume.pdf
 [linkdIn]: https://www.linkedin.com/in/daye-lee-088686251/
 [carte]: https://carte.utoronto.ca/
-[iitp]:https://www.iitp.kr/main.it
+[iitp]: https://www.iitp.kr/main.it
+
 <!-- announcements:
   enabled: true # includes a list of news items
   scrollable: true # adds a vertical scroll bar if there are more than 3 news items

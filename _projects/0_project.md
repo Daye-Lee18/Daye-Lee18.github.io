@@ -8,4 +8,4 @@ category: paper
 # redirect: https://daye-lee18.github.io/HuMoGen-X.github.io/
 ---
 
-To be filled soon! 
+To be filled soon!
