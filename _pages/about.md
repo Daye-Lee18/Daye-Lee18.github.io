@@ -2,7 +2,7 @@
 layout: about
 title: About
 permalink: /
-subtitle: Master's student in Graduate School of Data Science @ SNU
+subtitle: Master's Researcher in Graduate School of Data Science @ SNU
 
 profile:
   align: right
@@ -39,7 +39,7 @@ I’m actively seeking internship or full-time roles in multimodal AI for LLM, X
 [cyberworks]: https://www.cyberworksrobotics.com/
 [uoft]: https://www.utoronto.ca/
 [Goahead]: https://www.youtube.com/@goahead4925
-[cv]: /assets/pdf/20250821_Resume.pdf
+[cv]: /assets/pdf/Resume.pdf
 [linkdIn]: https://www.linkedin.com/in/daye-lee-088686251/
 [carte]: https://carte.utoronto.ca/
 [iitp]: https://www.iitp.kr/main.it
