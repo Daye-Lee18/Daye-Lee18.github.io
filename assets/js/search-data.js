@@ -418,7 +418,7 @@ ninja.data = [{
           description: "",
           section: "News",},{id: "projects-humogen-x",
           title: 'HuMoGen-X',
-          description: "another without an image",
+          description: "User Guided Editing, Genre-Aware 3D Motion Generation via Music-Conditioned Diffusion",
           section: "Projects",handler: () => {
               window.location.href = "/projects/0_project/";
             },},{id: "projects-emotion-specialized-text-to-video-retrieval",
