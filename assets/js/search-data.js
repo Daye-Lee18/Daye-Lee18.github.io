@@ -9,8 +9,8 @@ ninja.data = [{
     handler: () => {
       window.location.href = "/";
     },
-  },{id: "nav-resumé",
-          title: "Resumé",
+  },{id: "nav-cv",
+          title: "CV",
           description: "My current resume",
           section: "Navigation",
           handler: () => {
@@ -428,7 +428,7 @@ ninja.data = [{
               window.location.href = "/projects/1_project/";
             },},{id: "projects-personalization-via-few-shot-learning",
           title: 'Personalization via Few-shot Learning',
-          description: "a project that redirects to another website",
+          description: "Personalization of 3D-Motion Diffusion Model",
           section: "Projects",handler: () => {
               window.location.href = "/projects/2_project/";
             },},{id: "projects-dialog-inpainting-for-legal-dialogue-systems",
