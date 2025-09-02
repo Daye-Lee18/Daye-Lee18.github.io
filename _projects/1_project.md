@@ -529,6 +529,10 @@ We demonstrates of the baseline model and our model as well, as follows in the V
 1. The quality of emotional data that can be extracted. Emotion is quite a subjective concept, and is difficult to define and classify for. The methods we decided to use in the end were lexicon-based methods, which are not the most advanced technique there is. Thus, our method which utilizes this suboptimal data can have trouble leveraging this data for improving performance on the video retrieval task. The incorporation of this kind of data can actually confuse the model instead, in turn causing a drop in performance.
 2. The difficulty in incorporating the emotion data. We were only able to use a very simple implementation in the form of “emotion embeddings” applied directly to the sequence data in the form of addition. Many sophisticated methods exist, and we leave this to future work. We had a list of methods we wanted to try, but were not able to implement due to time constraints, such as the attention mechanism or emotion-specific positional embeddings.
 
+현재 모델의 문제점은, emotion embedding space를 따로 초기화해서 text embedding space와는 다른 space를 사용하는데, 최종 text embedding을 계산할 때 단순히 더하기 때문입니다. 공간 불일치 (embedding space mismatch)
+텍스트 임베딩은 CLIP 같은 pretrained 모델에서 이미 잘 학습된 공간에 위치합니다.
+하지만 emotion embedding은 새로 초기화된 학습 전용 벡터라서, 학습 초반에는 텍스트 의미 공간과 정렬(alignment)이 잘 맞지 않습니다. 결국 모델이 text와 emotion을 융합해서 잘 표현하기 어렵고, 성능 저하로 이어질 수 있습니다. 또한 단순 합 방식의 한계가 존재하는데, emotion을 그냥 더하는 방식은 “emotion 정보를 부드럽게 조정(조합)”하기보다는 단순히 잡음을 추가하는 효과가 날 수 있습니다. 특히 감정 표현이 약하거나 데이터셋에 label imbalance가 있을 경우, 텍스트 의미 신호보다 오히려 교란 요인으로 작용합니다. 따라서, 개선할 수 있는 부분은, 단순 sum 대신, text encoder 삽입 전, 감정-attention module를 사용해 스페이스 미스매치를 완화하는 것입니다 (Fig 6). 또한 emotion을 text encoder 입력 전이 아니라 **중간 레이어 (cross-attention, FiLM, adapter)**에서 modulation 시도하거나 emotion embedding을 pretrained language model과 joint fine-tuning하여 embedding space mismatch를 줄이는 것을 생각해볼 수 있습니다.
+
 <div id="model_improvement" class="row">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/text2video/10.png" title="example image" class="img-fluid rounded z-depth-1" %}

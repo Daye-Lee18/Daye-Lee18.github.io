@@ -1,7 +1,7 @@
 ---
 layout: redirect
 permalink: /cv/
-title: Resumé
+title: CV
 description: My current resume
 # rurl: /Daye-Lee18.github.io/assets/pdf/20250820_Resume.pdf
 redirect_to: /assets/pdf/Resume.pdf # jekyll-redirect-from 추가
