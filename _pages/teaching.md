@@ -19,6 +19,8 @@ teaching:
             text: 주차별 미니 과제 + 모의 코테 리뷰 세션 운영.
           - label: 언어
             text: 쉬운 한국어, 필요 시 영어 병행.
+          - label: 링크
+            text: '<a href="https://daye-lee18.github.io/mybook/intro.html" target="_blank" rel="noopener">Course page</a>'
 
       - title: Introduction to Computing
         role: Tutor & Substitute Teaching Assistant
