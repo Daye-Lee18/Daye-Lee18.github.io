@@ -14,11 +14,11 @@ teaching:
         badge: 코테/기초알고리즘
         points:
           - label: 강의 목표
-            text: Python 기초 → 코딩 테스트 알고리즘(그리디, 투포인터/슬라이딩윈도우, 그래프, DP 등)까지 단계적 학습.
+            text: Python 기초 → 코딩 테스트 알고리즘(투포인터/슬라이딩윈도우, 그래프, DP 등)까지 단계적 학습.
           - label: 실습 중심
-            text: 주차별 미니 과제 + 모의 코테 리뷰 세션 운영.
+            text: 주차별 개념 설명 + 모의 코테 리뷰 세션 운영.
           - label: 언어
-            text: 쉬운 한국어, 필요 시 영어 병행.
+            text: 영어로 진행 및 쉬운 한국어 병행
           - label: 링크
             text: '<a href="https://daye-lee18.github.io/mybook/intro.html" target="_blank" rel="noopener">Course page</a>'
 
