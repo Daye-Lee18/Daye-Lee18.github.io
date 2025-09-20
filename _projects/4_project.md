@@ -63,8 +63,8 @@ toc:
 <!-- <div class="row justify-content-sm-center">
   <div class="col-sm-10 mt-3 mt-md-0">
     <div class="embed-responsive embed-responsive-16by9">
-      <iframe class="embed-responsive-item" 
-              src="https://www.youtube.com/embed/pLpjMMiW7dg" 
+      <iframe class="embed-responsive-item"
+              src="https://www.youtube.com/embed/pLpjMMiW7dg"
               allowfullscreen></iframe>
     </div>
   </div>
@@ -101,7 +101,6 @@ toc:
     The Overall Pipeline of Our Health Genie Service.
 </div>
 
-
 ### Data & Data Schema
 
 저희 서비스를 위한 데이터 스키마에 대해 간략히 소개해 드리겠습니다. 총 `6개의 테이블`로 구성되어 있으며, 각 테이블은 `외래 키`를 사용하여 관계를 표현하고 있습니다.
@@ -136,11 +135,11 @@ toc:
     Data Schema Structure 
 </div>
 
-#### Synthetic Data Generation 
+#### Synthetic Data Generation
 
-먼저 csv file을 팀원의 각 로컬 컴퓨터에서 삽입하는데 문제가 있어서, 자동으로 로컬 postgresql에 데이터를 삽입하도록 `psycogp2` library를 이용해 코딩하였습니다. 
+먼저 csv file을 팀원의 각 로컬 컴퓨터에서 삽입하는데 문제가 있어서, 자동으로 로컬 postgresql에 데이터를 삽입하도록 `psycogp2` library를 이용해 코딩하였습니다.
 
-소비자 선호도 분석 및 음식 추천, 칼로리, 몸무게 추적 등 서비스 구축을 위해 큰 `가상 데이터`가 필요했습니다. 큰 데이터도 필요했지만 무작위적으로만 가상 데이터를 생성한다면, 소비자 선호도 측정 및 개인 음식 추천을 잘 하는지 알 수 없을 것이기 때문입니다. 따라서 아래의 그림과 같이 무작위로 선택한 food_id에 대해 content-based recommendation한 결과 list 오름 정렬에 따라 그룹별로 rating을 주었습니다. 
+소비자 선호도 분석 및 음식 추천, 칼로리, 몸무게 추적 등 서비스 구축을 위해 큰 `가상 데이터`가 필요했습니다. 큰 데이터도 필요했지만 무작위적으로만 가상 데이터를 생성한다면, 소비자 선호도 측정 및 개인 음식 추천을 잘 하는지 알 수 없을 것이기 때문입니다. 따라서 아래의 그림과 같이 무작위로 선택한 food_id에 대해 content-based recommendation한 결과 list 오름 정렬에 따라 그룹별로 rating을 주었습니다.
 
 추천 시스템에서 cold start 문제를 피하기 위해 많은 사용자들의 많은 식단 데이터가 필요했으며 따라서 사용자 당 5개의 프로젝트를 구성하고 `1년 6개월이 넘는 식단 데이터를 구축`하였으며 몸무게 데이터도 가입 날짜에 맞추어 데이터를 적재시켰습니다.
 
@@ -155,19 +154,20 @@ toc:
 
 ### Models
 
-#### Food Object Detection Model 
+#### Food Object Detection Model
 
-우리의 Food object Detection 모델에 대해 더 자세히 소개하겠습니다. YOLO 모델을 선택한 결정적인 이유는 그 `빠른 예측 속도`에 있습니다. 고객에게 신속하게 예측된 음식 정보를 제공하는 것은 Health Genie 서비스의 필수적인 기능 중 하나입니다.YOLO는 '1-stage method'로, 이는 기존의 '2-stage method' 모델들보다 더 빠른 inference를 가능하게 합니다. 
+우리의 Food object Detection 모델에 대해 더 자세히 소개하겠습니다. YOLO 모델을 선택한 결정적인 이유는 그 `빠른 예측 속도`에 있습니다. 고객에게 신속하게 예측된 음식 정보를 제공하는 것은 Health Genie 서비스의 필수적인 기능 중 하나입니다.YOLO는 '1-stage method'로, 이는 기존의 '2-stage method' 모델들보다 더 빠른 inference를 가능하게 합니다.
 
 아래의 그림은 대표적인 2-stage method인 Faster R-CNN과 YOLO의 아키텍처를 비교한 것입니다. Faster R-CNN은 인퍼런스 과정에서 먼저 객체의 위치에 대한 proposal을 진행한 다음, 그 객체의 클래스를 예측하는 두 단계를 거칩니다. 반면, YOLO는 위치와 클래스를 동시에 예측하는 점에서 차이가 있습니다.우리는 YOLO의 다양한 버전 중에서, DSPNet과 Triple Head 기능이 통합된 YOLOv5를 모델로 선택했습니다.
 
- 또한 모델 구축 과정에서 우리는 적절한 데이터셋을 구축하는데에 어려움을 겪었습니다. object detection 모델은 classification 모델과 달리, 음식의 이미지에 음식의 클래스 뿐만 아니라 음식의 위치를 나타내는 bounding box 정보도 필요합니다. 이러한 데이터셋을 생성하는 것과 찾는 것 모두 어려운 일이고 음식으로 데이터를 한정 했을 때는 더욱 데이터의 양이 적었습니다.
+또한 모델 구축 과정에서 우리는 적절한 데이터셋을 구축하는데에 어려움을 겪었습니다. object detection 모델은 classification 모델과 달리, 음식의 이미지에 음식의 클래스 뿐만 아니라 음식의 위치를 나타내는 bounding box 정보도 필요합니다. 이러한 데이터셋을 생성하는 것과 찾는 것 모두 어려운 일이고 음식으로 데이터를 한정 했을 때는 더욱 데이터의 양이 적었습니다.
 
 다행히 저희는 `Open Image Dataset`의 음식 카테고리를 이용하여 데이터셋을 구축할 수 있었습니다. 그러나, 여전히 데이터는 충분치 않고, 모델 확장을 위해 더 많은 데이터셋을 구축하는 방법이 필요하며 이는 저희의 남아있는 과제 중에 하나입니다.
 
 Food Object Detection 모델에 대해 안내드리겠습니다. 저희 모델은 음식에 특화되어 있어야 한다는 요구 조건과 함께 다중 객체 감지가 가능해야 한다는 요구 조건을 가지고 개발되었습니다. 기존에 공개된 오픈 API들은 대부분 보편적인 객체 감지만을 제공하거나 음식에 대한 단일 분류만을 제공하고 있습니다. 그래서 저희 팀은 앱에 특화된 API가 필요하다고 판단하고 직접 개발하기로 결정했습니다. API는 pytroch model을 `flask`를 이용해서 서빙하는 방식으로 구현하였습니다.
 
-아래 그림을 통해 전체 API의 작동 과정을 설명하겠습니다. 사용자는 음식을 Django 웹 어플리케이션을 통해 입력하며, 이 입력은 API로 전달됩니다. 전달된 이미지는 YOLOv5 기반의 모델을 통해 추론되고, 결과는 JSON 형식으로 반환됩니다. 
+아래 그림을 통해 전체 API의 작동 과정을 설명하겠습니다. 사용자는 음식을 Django 웹 어플리케이션을 통해 입력하며, 이 입력은 API로 전달됩니다. 전달된 이미지는 YOLOv5 기반의 모델을 통해 추론되고, 결과는 JSON 형식으로 반환됩니다.
+
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/HealthGenie/10.png" title="example image" class="img-fluid rounded z-depth-1" %}
@@ -177,11 +177,11 @@ Food Object Detection 모델에 대해 안내드리겠습니다. 저희 모델�
     Food Objection Detection Model Overview  
 </div>
 
-#### Food Recommender Systems - Model Selection & Hyperparameter Setting 
+#### Food Recommender Systems - Model Selection & Hyperparameter Setting
 
-저희 서비스의 음식 추천을 위한 food recommender systems에 대해서 설명하겠습니다. 오른쪽 그림과 같이 `surprise` library에서 지원하는 총 `9개의 모델`에 대해 `cross validation 5 folds`로 진행한 `RMSE` 와 `MAE`값을 계산하였으며 그 결과, BaselineOnly model의 결과가 두 평가 지표 모두에서 성적이 좋았습니다. Model selection에서 뽑힌 BaselineOnly와 SVD 모델의 hyperparameter을 gridy search 방법을 통해 평가하였고 그 결과 오히려 `SVD`의 결과가 좋았습니다. 따라서, 그에 해당하는 best parameter sets들을 이용해 저희의 서비스에 사용하였습니다. 
+저희 서비스의 음식 추천을 위한 food recommender systems에 대해서 설명하겠습니다. 오른쪽 그림과 같이 `surprise` library에서 지원하는 총 `9개의 모델`에 대해 `cross validation 5 folds`로 진행한 `RMSE` 와 `MAE`값을 계산하였으며 그 결과, BaselineOnly model의 결과가 두 평가 지표 모두에서 성적이 좋았습니다. Model selection에서 뽑힌 BaselineOnly와 SVD 모델의 hyperparameter을 gridy search 방법을 통해 평가하였고 그 결과 오히려 `SVD`의 결과가 좋았습니다. 따라서, 그에 해당하는 best parameter sets들을 이용해 저희의 서비스에 사용하였습니다.
 
-성능이 전반적으로 1이 넘게 나왔는데 이 이유는 가상 데이터에 있는 어쩔 수 없는 무작위성인 것 같았고, 이는 서비스가 상용화되면 해결될 문제라 생각합니다. 
+성능이 전반적으로 1이 넘게 나왔는데 이 이유는 가상 데이터에 있는 어쩔 수 없는 무작위성인 것 같았고, 이는 서비스가 상용화되면 해결될 문제라 생각합니다.
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
@@ -192,13 +192,13 @@ Food Object Detection 모델에 대해 안내드리겠습니다. 저희 모델�
     Food Recommender systems - Model & Hyperparameter selection   
 </div>
 
-#### Food Recommender Systems - Algorithm Flow 
+#### Food Recommender Systems - Algorithm Flow
 
-저희는 `Singular Value Decomposition` 를 사용한 `Latent Factor Model (LFM)`을 사용하여 유사한 사용자 정보를 이용해 목표 사용자에게 음식을 추천해주었습니다. 
+저희는 `Singular Value Decomposition` 를 사용한 `Latent Factor Model (LFM)`을 사용하여 유사한 사용자 정보를 이용해 목표 사용자에게 음식을 추천해주었습니다.
 
-그 전에 LFM에 들어갈 사용자 매트릭스를 정제할 필요가 있었습니다. 따라서 사용자들의 프로젝트 goal_type과 goal_bmi, 그리고 활동량이 맞는 사용자로만 구성된 사용자 매트릭스를 만들어 LFM에 사용하였습니다. 
+그 전에 LFM에 들어갈 사용자 매트릭스를 정제할 필요가 있었습니다. 따라서 사용자들의 프로젝트 goal_type과 goal_bmi, 그리고 활동량이 맞는 사용자로만 구성된 사용자 매트릭스를 만들어 LFM에 사용하였습니다.
 
-또한 LFM의 결과인 음식 리스트에는 특정 사용자에게 `알러지를 유발`하는 재료가 포함되어 있거나 식이 제한이 되는 음식이 포함되어 있을 수 있으므로 이러한 음식들을 `제거하는 과정도 포함`하여 개인 맞춤 음식을 추천하도록 Food recommender system을 구성하였습니다. 
+또한 LFM의 결과인 음식 리스트에는 특정 사용자에게 `알러지를 유발`하는 재료가 포함되어 있거나 식이 제한이 되는 음식이 포함되어 있을 수 있으므로 이러한 음식들을 `제거하는 과정도 포함`하여 개인 맞춤 음식을 추천하도록 Food recommender system을 구성하였습니다.
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
@@ -209,10 +209,9 @@ Food Object Detection 모델에 대해 안내드리겠습니다. 저희 모델�
     Food Recommender systems - Algorithm Flow   
 </div>
 
-저희는 `SurPRISE`라는 추천 시스템 엔진을 위한 library를 활용하였습니다. 간단히 말하자면, Latent Factor Model에서 사용하는 SVD는 기존 rating matrix를 분해하는 것이 아닌 item과 user의 factor에 대한 matrix를 통해 역으로 `rating matrix를 예측`하는 것입니다. 
+저희는 `SurPRISE`라는 추천 시스템 엔진을 위한 library를 활용하였습니다. 간단히 말하자면, Latent Factor Model에서 사용하는 SVD는 기존 rating matrix를 분해하는 것이 아닌 item과 user의 factor에 대한 matrix를 통해 역으로 `rating matrix를 예측`하는 것입니다.
 
-최종 예측 값은 먼저 각 사용자와 아이템의 평균 값과의 차이 bias를 이용해 결과값의 해석을 용이하게 하였습니다. 후에 SVD 값을 더해줌으로써 최종 값을 얻었습니다. 저희는 stochastic gradient descent optimization 방법과, factor의 개수는 5개, learning rate는 0.002로 앞서 hyperparameter selection을 통해 얻은 값을 알고리즘에 사용하였습니다. 
-
+최종 예측 값은 먼저 각 사용자와 아이템의 평균 값과의 차이 bias를 이용해 결과값의 해석을 용이하게 하였습니다. 후에 SVD 값을 더해줌으로써 최종 값을 얻었습니다. 저희는 stochastic gradient descent optimization 방법과, factor의 개수는 5개, learning rate는 0.002로 앞서 hyperparameter selection을 통해 얻은 값을 알고리즘에 사용하였습니다.
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
@@ -232,11 +231,10 @@ Food Object Detection 모델에 대해 안내드리겠습니다. 저희 모델�
     Food Recommender systems - SVD factorization
 </div>
 
-
-### Takeaways 
+### Takeaways
 
 프로젝트에 대한 challenges와 future works에 대해서는 최종발표 때 다루었기 때문에, 이번 녹화영상의 마지막 부분에서는 저희가 프로젝트를 통해 느꼈던 점들과 배운 점들에 대해서 언급하면서 발표를 마무리하겠습니다.
- 
+
 먼저, 프로젝트를 통해 서비스 작동을 위한 전체적인 architecture를 공부할 수 있는 시간이었으며 꾸준한 작업과 작은 디테일들의 중요성들을 배웠습니다. 각 task가 연결되어야 하는 방법들을 연구하며 각 구성요소들의 interdependencies 을 이해하면서 해결되어야 하는 workflow를 설계하고 개발 과정을 효율적으로 조율하는 법도 배웠습니다. 그리고 프로젝트를 하면서 팀원들과 지속적으로 소통하고 함께 서로 피드백을 주고 받은 과정을 통해 소통의 중요성에 대해서 배울 수 있었습니다.
 
 그리고 사용자의 입장에서 서비스 UI와 모델 구성 방법을 고민하는 시간을 가질 수 있었습니다. 서비스의 목적과 예상 사용자를 고려하여 서비스를 개발하는 것이 중요하고, 사용자의 입장에서 서비스의 유용성을 고려하는 것이 보다 중요하다는 점을 알 수 있었습니다.
