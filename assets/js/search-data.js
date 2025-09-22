@@ -446,6 +446,11 @@ ninja.data = [{
           description: "Amateur Dancer at SNU",
           section: "Projects",handler: () => {
               window.location.href = "/projects/dance/";
+            },},{id: "projects-computer-vision",
+          title: 'Computer Vision',
+          description: "Computer Vision Study",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/study/";
             },},{id: "projects-ted-talk",
           title: 'TED talk',
           description: "English to Korean translation volunteer",
