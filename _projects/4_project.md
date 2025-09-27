@@ -5,7 +5,7 @@ description: A personalized weight management service based on a data-drived app
 img: assets/img/HealthGenie/HealthGenie_thumnail.png
 importance: 4
 category: work
-related_publications: true
+related_publications: false
 toc:
   sidebar: left
 ---
