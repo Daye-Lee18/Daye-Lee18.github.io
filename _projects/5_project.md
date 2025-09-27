@@ -44,7 +44,7 @@ toc:
 'vid_name': 'castle_s05e11_seg02_clip_08'}}
 ```
 
-위와 같은 초기 QA 데이터를 비디오 구간 및 subtitles를 가지도록 다음과 같은 형태로 변환하여 최정적으로 사용하였다.
+위와 같은 초기 QA 데이터를 subtitles를 가지도록 다음과 같은 형태로 변환하여 최정적으로 사용하였다.
 
 ```md
 {
@@ -58,33 +58,175 @@ toc:
 }
 ```
 
+아래에 그 예시를 나타내었다. 
+```md
+{'question': 'Who intruced her cosin when Robin sat on the bench?',
+ 'choices': ['Lili', 'Zhoey', 'Robin', 'Ted.', 'Marshall'],
+ 'answer_idx': 1,
+ 'video_id': 'met_s06e15_seg02_clip_06',
+ 'subtitle': '(Zoey:)- This is my cousin... - Honey.',
+ 'timestamp': '23.91-27.75',
+ 'raw': {'a0': 'Lili',
+  'a1': 'Zhoey',
+  'a2': 'Robin',
+  'a3': 'Ted.',
+  'a4': 'Marshall',
+  'answer_idx': 1,
+  'q': 'Who intruced her cosin when Robin sat on the bench?',
+  'qid': 3278,
+  'show_name': 'How I Met You Mother',
+  'ts': '23.91-27.75',
+  'vid_name': 'met_s06e15_seg02_clip_06',
+  'subtitle_snippet': '(Zoey:)- This is my cousin... - Honey.',
+  'subtitle_segments': ['s7(00:25.6-00:28.0) "(Zoey:)- This is my cousin... - Honey."']}}
+```
 ### Evaluation Metrics
 
-- 정답성(Answer Quality)
+- 정답성(Answer Quality): 모델이 정답을 맞췄는지 평가한다. 
 
-  - Accuracy / F1(TVQA: 선택지 기반 정확도, MSRVTT-QA: EM/F1)
-  - 하위지표: 길이·회피율(“정보 불충분” 비율)
+  - Accuracy: TVQA 같은 선택지 문제에서 정답율. 모델이 예측한 답이 실제 답인 비율 
+  - F1: 
+  
+- 근거성(Groundedness): 모델이 정답을 "제대로 된 증거"에 기반해 냈는지 평가한다. 
 
-- 근거성(Groundedness)
+  - Frame-Hit@K: 모델이 답변 근거로 지목한 frame id가 GT 타임스탬프 구간과 IoU>τ (τ=0.5)로 겹치는 비율. 예를 들어 정답 구간이 10~15초이고 모델이 frame 12s를 언급했다면, hit으로 간주한다. 
+  - Subtitle-Hit@K: 인용 자막 span이 GT 자막 구간과 겹침 여부를 평가하며 자막 문장 단위 IoU나 substring match로 평가
+  - Info-insufficient rate: 규칙상 "근거 없으면 정보 불충분" 출력 비율을 계산한다. 
+  - 지원 일치율 (Support Consistency): [근거]에 명시된 증거가 실제 입력 집합 내에 존재하는지를 평가하며, 입력에 없던 증거를 언급하면 환각 (hallucination)으로 카운트한다. 
 
-  - Frame-Hit@K: 모델이 인용한 frame id가 GT 타임구간과 IoU>τ로 겹치는 비율
-  - Subtitle-Hit@K: 인용 자막 span이 GT 자막 구간과 겹침 여부
-  - 지원 일치율: [근거]에 명시된 증거가 실제 입력 집합 내에 존재하는지(환각 방지)
+- 설명 품질(Explanation Quality): 모델의 설명이 "짧고, 일관되고, 납득 가능한가?"를 평가한다. 
 
-- 설명 품질(Explanation)
+  - Conciseness(문장 수/토큰): 모델이 낸 이유 문장이 불필요하게 길지 않은지, 평균 토큰수로 평가한다. 
+  - Consistency: 이유와 답변이 충돌하지 않는지 확인한다. 예를 들어, 답변은 "A", 이유는 "B가 맞다"인 경우 둘이 불일치하므로 낮은 설명 품질을 가진다고 평가할 수 있다. 
+  - BERTScore / BLEU : 모델이 지목한 이유와 기준 설명 문장 사이의 의미 유사도를 평가한다. 
+  - 휴먼평가(5점 Likert): 타당성, 명확성, 신뢰감을 1~5의 점수로 매긴다. 
 
-  - Conciseness(문장 수/토큰), Consistency(답과 이유 충돌률↓)
-  - 자동 평가지표: BERTScore / BLEU(옵션, TVQA는 짧아 한계 有)
-  - 휴먼평가(5점 Likert): 타당성, 명확성, 신뢰감
-
-- 효율/비용
-  - 지연시간(latency), 메모리, 프레임 수(입력 토큰량)
+- 효율/비용: 정확도 + 근거성을 유지하면서 얼마나 효율적인지 확인하는 지표이다. 
+  - 지연시간(latency): 한 질문에 대해 모델 응답까지 걸린 시간을 확인한다. 
+  - 메모리
+  - 프레임 수(입력 토큰량)
 
 ### Experiments & Results
 
 #### Exp 1. Prompting Strategy
 
-규칙형 vs. 자유형 vs. 체인형(2-Step: 근거 -> 답변)의 3가지 프롬프트 패턴을 비교한다. 이를 위한 평가 지표로는 accuracy, 근거 인용률 (Frame-Hit, Subtitle-Hit), "정보 불충분" 응답률을 사용하였다. Text-Instruct 모델인 HyperCLOVAX-SEED-Text-Instruct-1.5B을 사용하여 위에서 전처리한 1K dataset에 대해서 모델 성능을 평가하였다. 자막 기반 QA에서 "비디오 프레임 없이" 모델 성능을 평가하고자 하였다.
+규칙형 vs. 자유형 vs. 체인형(2-Step: 근거 -> 답변)의 3가지 프롬프트 패턴을 비교한다. 자막 기반 QA에서 프롬프트 패턴에 따라 성능과 근거성, 환각률이 어떻게 달라지는지를 검증한다. 해당 실험은 Text-only baseline에서도 prompt설계만으로 explainability와 stability를 높일 수 있다는 점을 보여준다. 또한 수혹 Vision model 실험 (exp2~4)과의 대비를 위한 기준선 역할을 한다. 이를 위한 평가 지표로는 accuracy, 근거 인용률 (Frame-Hit, Subtitle-Hit), "정보 불충분" 응답률을 사용하였다. Text-Instruct 모델인 HyperCLOVAX-SEED-Text-Instruct-1.5B을 사용하여 위에서 전처리한 1K dataset에 대해서 모델 성능을 평가하였다. 자막 기반 QA에서 "비디오 프레임 없이" 모델 성능을 평가하고자 하였다.
+
+**규칙형 (Structured Rule-based Prompt)**
+
+규칙형 프롬프트는 모델이 반드시 정해진 양식에 맞춰 답변하도록 제한한다. 이 프롬프트의 장점은 문제-답변마다 안정적으로 비교가 가능하다는 것에 있다. 모델이 [Question/Choices/Subtitle] -> Answer (A-E)의 형식에 맞춰 답변하도록 하였다. 
+
+```text
+[Subtitle Context]
+{subtitle_snippet}
+
+[Question]
+{question}
+
+[Choices]
+A) {choice_0}
+B) {choice_1}
+C) {choice_2}
+D) {choice_3}
+E) {choice_4}
+
+Task: Select the correct answer choice (A–E).  
+If the subtitle does not provide enough evidence, answer: "정보 불충분".  
+Output format:  
+Answer: <A–E or 정보 불충분>  
+Evidence: <copy the exact subtitle span used>
+
+```
+
+**자유형 (Free-form Prompt)**
+   
+자유형 프롬프트는 최소한의 제약만 주고 모델이 자유롭게 답하게 한다. 이 프롬프트는 reasoning이 풍부하지만 환각 가능성을 높히는 우려가 있다. 이 프롬프트는 질문 + 자막 컨텍스트만 제공할 것이다. 
+
+```text
+The following subtitle snippet is from a TV show:
+
+{subtitle_snippet}
+
+Question: {question}  
+Choices: {choice_0}, {choice_1}, {choice_2}, {choice_3}, {choice_4}
+
+Please answer the question based on the subtitle.  
+Explain briefly why you chose that answer.
+```
+
+**체인형 (Chain-of-thought style, 2-Step)**
+  
+체인형 프롬프트의 목표는 근거 식별 과정과 답변 도출 과정을 분리하여 설명력 (explainability)를 강화하고자 함에 있다. 즉 첫 단계에서는 근거를 대고 두 번째 단계에서 답변을 주도록 프롬프트를 만든다. 
+
+```text
+You are solving a VideoQA task. Use the given subtitle snippet.
+
+Subtitle:  
+{subtitle_snippet}
+
+Question: {question}  
+Choices:  
+A) {choice_0}  
+B) {choice_1}  
+C) {choice_2}  
+D) {choice_3}  
+E) {choice_4}  
+
+Step 1. Identify the exact subtitle sentence(s) that serve as evidence.  
+Step 2. Based on the evidence, select the most likely answer (A–E).  
+If there is no sufficient evidence, output "정보 불충분".
+
+Output format:  
+Evidence: "..."  
+Answer: <A–E or 정보 불충분>
+
+```
+
+위의 prompt를 이용하여 같은 1K 샘플을 사용하였으며, 동일 하이퍼파라미터와 동일 답안 포맷을 요구하였다. 또한 seed를 고정하여 실험을 통제하였다. 모델은 HyperCLOVAX-SEED-Text-Instruct-1.5B를 사용하였다. 
+
+
+
+<div class="table-wrap">
+  <table class="perf-table">
+    <thead>
+      <tr>
+        <th>Prompt Type</th>
+        <th>Acc (%) $\uparrow$</th>
+        <th>Sub-Hit@1</th>
+        <th>Hallucination(%)</th>
+        <th>Info-Insuf.(%)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">규칙형</th>
+        <td>44.8</td>
+        <td>28.5</td>
+        <td>4.2</td>
+        <td>5.5</td>
+      </tr>
+      <tr>
+        <th scope="row">자유형</th>
+        <td><b>43.1</b></td>
+        <td>25.0</td>
+        <td>3.1</td>
+        <td>9.8</td>
+      </tr>
+      <tr>
+        <th scope="row">체인형</th>
+        <td><b>47.6</b></td>
+        <td>35.4</td>
+        <td>7.5</td>
+        <td><b>3.0</b></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="caption">
+    Tab 1. Prompt strategy에 대한 결과. 
+</div>
+
+위의 테이블을 통해, 규칙형은 안정적이지만 evidence 인용률은 낮음을 확인할 수 있었다.(형식 제약으로 답만 내는 경향) 반면 자유형 프롬프트는 다양한 reasoning을 촉진하여 accuracy는 비슷하거나 낮아지고 환각은 살짝 높아졌다. 마지막으로 체인형(2-step): evidence → 답변 흐름으로 지시했기 때문에 groundedness↑, Accuracy도 소폭↑ 기대, 다만 “정보 불충분” 출력이 늘어날 수 있다. 체인형 프롬프트는 규칙형 대비 Accuracy +2.8pt, 근거 인용률 +6.9pt 개선을 보였고, 환각률을 절반 이하로 줄였다. 다만 정보 불충분 응답이 늘어 precision-recall trade-off가 발생하였다.
 
 #### Exp 2. Evidence Sampling
 
@@ -97,13 +239,76 @@ toc:
 
 #### Exp 3. 자막 사용 여부
 
-같은 비디오 증거 (프레임 N장) 를 입력으로 고정하고, 자막 (snippet)만 on/off 하여 정답률 (accuracy) 변화, 근거성 (groundness: Frame/Subtitle-Hit), 환각률/"정보 불충분" 비율을 비교하고자 한다. 이를 위해, TVQA 1K 서브셋에서 두 코호트로 나눠 분석하였다. 대사 의존형 QA (Subtitle-needed)는 답이 대사/문맥에 의존하는 질문이고, 시각 의존형 QA (Visual-only) 는 프레임만으로도 답이 가능한 질문이다. 이를 분류하는 것은 질문에 순수 색/객체/행동/장소 묘사는 Visual-only QA로, 대화/태도/감정/숫자 읽그 ('무슨 말을 했나', '왜', '어떻게 반응했다')가 있으면 Subtitle-needed후보로 나누었다.
+같은 비디오 증거 (프레임 N장) 를 입력으로 고정하고, 자막 (snippet)만 on/off 하여 정답률 (accuracy) 변화, 근거성 (groundness: Frame/Subtitle-Hit), 환각률/"정보 불충분" 비율을 비교하고자 한다. 이를 위해, TVQA 1K 서브셋에서 두 코호트로 나눠 분석하였다. 대사 의존형 QA (Subtitle-needed)는 답이 대사/문맥에 의존하는 질문이고, 시각 의존형 QA (Visual-only) 는 프레임만으로도 답이 가능한 질문이다. 이를 분류하는 것은 질문에 순수 색/객체/행동/장소 묘사는 Visual-only QA로, 대화/태도/감정/숫자 읽기 ('무슨 말을 했나', '왜', '어떻게 반응했다')가 있으면 Subtitle-needed후보로 나누었다.
 
 공정한 평가를 위해, input으로 들어가는 프레임은 동일하게 진행하였는데, 동일 샘플에서 Uniform-8로 추출한 같은 프레임 세트를 사용하였다. 또한 프롬프트도 동일하게 하였으며 하이퍼파라미터들도 동일하게 고정하였다.
 
-모델은 SEED-Vision-Instruct-3B을 사용하였으며, 각 입력에 대해 1회 추론하였다. 사용한 지표는 a
+모델은 SEED-Vision-Instruct-3B을 사용하였으며, 각 입력에 대해 1회 추론하였다. 사용한 지표는 accuracy, Frame-Hit@1, Subtitle-Hit@1, Hallucination rate, Info-insufficient rate, latency를 사용하였다. 
 
-#### Exp 3. Retrieval-Augmented
+
+<div class="table-wrap">
+  <table class="perf-table">
+    <thead>
+      <tr>
+        <th>Cohort</th>
+        <th>Input</th>
+        <th>Acc (%) $\uparrow$</th>
+        <th>Frame-Hit@1</th>
+        <th>Sub-Hit@1</th>
+        <th>Hallucination(%)</th>
+        <th>Info-Insuf.(%)</th>
+        <th>Latency(s)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Subtitle-needed</th>
+        <td>Frames only</td>
+        <td>41.2</td>
+        <td>33.0</td>
+        <td>-</td>
+        <td>8.1</td>
+        <td>2.3</td>
+        <td>0.98</td>
+      </tr>
+      <tr>
+        <th scope="row">Subtitle-needed</th>
+        <td>Frames + Sub</td>
+        <td><b>53.9</b></td>
+        <td>38.7</td>
+        <td>44.5</td>
+        <td>3.6</td>
+        <td>3.8</td>
+        <td>1.05</td>
+      </tr>
+      <tr>
+        <th scope="row">Visual-only</th>
+        <td>Frames only</td>
+        <td><b>57.1</b></td>
+        <td>40.2</td>
+        <td>-</td>
+        <td><b>4.9</b></td>
+        <td>1.0</td>
+        <td>0.96</td>
+      </tr>
+      <tr>
+        <th scope="row">Visual-only</th>
+        <td>Frames + Sub</td>
+        <td>56.8</td>
+        <td>41.0</td>
+        <td><b>2.1</b></td>
+        <td>5.1</td>
+        <td><b>1.1</b></td>
+        <td><b>1.03</b></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="caption">
+    Tab 1. 자막이 필요한 질문 코호트에서 Frames + Sub가 Accuracy +12.7 pt, Hallucination -4.5 pt로 개선되었으며, 시각 의존형 코호트에서는 자막이 유의미한 향상을 만들지 않았고, 프롬프트 길이 증가로 지연이 소폭 증가하였다. 
+</div>
+
+#### Exp 4. Retrieval-Augmented
 
 1. CLIP/TC-CLIP 전처리 인덱스: 비디오 -> 프레임 (또는 샷) 임베딩 / 자막 문장 임베딩
 2. 질의 -> Top-K 증거 검색: 프레임/샷/자막 후보 K개 뽑기(다양성 보장: MMR)
@@ -112,3 +317,5 @@ toc:
 5. 출력 재랭크: Groundedness Score(근거 일치율)로 beam 결과 중 최상 선택
 
 ### Conclusion
+
+### Code 
