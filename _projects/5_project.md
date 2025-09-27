@@ -58,51 +58,53 @@ toc:
 }
 ```
 
-아래에 그 예시를 나타내었다. 
+아래에 그 예시를 나타내었다.
+
 ```md
 {'question': 'Who intruced her cosin when Robin sat on the bench?',
- 'choices': ['Lili', 'Zhoey', 'Robin', 'Ted.', 'Marshall'],
- 'answer_idx': 1,
- 'video_id': 'met_s06e15_seg02_clip_06',
- 'subtitle': '(Zoey:)- This is my cousin... - Honey.',
- 'timestamp': '23.91-27.75',
- 'raw': {'a0': 'Lili',
-  'a1': 'Zhoey',
-  'a2': 'Robin',
-  'a3': 'Ted.',
-  'a4': 'Marshall',
-  'answer_idx': 1,
-  'q': 'Who intruced her cosin when Robin sat on the bench?',
-  'qid': 3278,
-  'show_name': 'How I Met You Mother',
-  'ts': '23.91-27.75',
-  'vid_name': 'met_s06e15_seg02_clip_06',
-  'subtitle_snippet': '(Zoey:)- This is my cousin... - Honey.',
-  'subtitle_segments': ['s7(00:25.6-00:28.0) "(Zoey:)- This is my cousin... - Honey."']}}
+'choices': ['Lili', 'Zhoey', 'Robin', 'Ted.', 'Marshall'],
+'answer_idx': 1,
+'video_id': 'met_s06e15_seg02_clip_06',
+'subtitle': '(Zoey:)- This is my cousin... - Honey.',
+'timestamp': '23.91-27.75',
+'raw': {'a0': 'Lili',
+'a1': 'Zhoey',
+'a2': 'Robin',
+'a3': 'Ted.',
+'a4': 'Marshall',
+'answer_idx': 1,
+'q': 'Who intruced her cosin when Robin sat on the bench?',
+'qid': 3278,
+'show_name': 'How I Met You Mother',
+'ts': '23.91-27.75',
+'vid_name': 'met_s06e15_seg02_clip_06',
+'subtitle_snippet': '(Zoey:)- This is my cousin... - Honey.',
+'subtitle_segments': ['s7(00:25.6-00:28.0) "(Zoey:)- This is my cousin... - Honey."']}}
 ```
+
 ### Evaluation Metrics
 
-- 정답성(Answer Quality): 모델이 정답을 맞췄는지 평가한다. 
+- 정답성(Answer Quality): 모델이 정답을 맞췄는지 평가한다.
 
-  - Accuracy: TVQA 같은 선택지 문제에서 정답율. 모델이 예측한 답이 실제 답인 비율 
-  - F1: 
-  
-- 근거성(Groundedness): 모델이 정답을 "제대로 된 증거"에 기반해 냈는지 평가한다. 
+  - Accuracy: TVQA 같은 선택지 문제에서 정답율. 모델이 예측한 답이 실제 답인 비율
+  - F1:
 
-  - Frame-Hit@K: 모델이 답변 근거로 지목한 frame id가 GT 타임스탬프 구간과 IoU>τ (τ=0.5)로 겹치는 비율. 예를 들어 정답 구간이 10~15초이고 모델이 frame 12s를 언급했다면, hit으로 간주한다. 
+- 근거성(Groundedness): 모델이 정답을 "제대로 된 증거"에 기반해 냈는지 평가한다.
+
+  - Frame-Hit@K: 모델이 답변 근거로 지목한 frame id가 GT 타임스탬프 구간과 IoU>τ (τ=0.5)로 겹치는 비율. 예를 들어 정답 구간이 10~15초이고 모델이 frame 12s를 언급했다면, hit으로 간주한다.
   - Subtitle-Hit@K: 인용 자막 span이 GT 자막 구간과 겹침 여부를 평가하며 자막 문장 단위 IoU나 substring match로 평가
-  - Info-insufficient rate: 규칙상 "근거 없으면 정보 불충분" 출력 비율을 계산한다. 
-  - 지원 일치율 (Support Consistency): [근거]에 명시된 증거가 실제 입력 집합 내에 존재하는지를 평가하며, 입력에 없던 증거를 언급하면 환각 (hallucination)으로 카운트한다. 
+  - Info-insufficient rate: 규칙상 "근거 없으면 정보 불충분" 출력 비율을 계산한다.
+  - 지원 일치율 (Support Consistency): [근거]에 명시된 증거가 실제 입력 집합 내에 존재하는지를 평가하며, 입력에 없던 증거를 언급하면 환각 (hallucination)으로 카운트한다.
 
-- 설명 품질(Explanation Quality): 모델의 설명이 "짧고, 일관되고, 납득 가능한가?"를 평가한다. 
+- 설명 품질(Explanation Quality): 모델의 설명이 "짧고, 일관되고, 납득 가능한가?"를 평가한다.
 
-  - Conciseness(문장 수/토큰): 모델이 낸 이유 문장이 불필요하게 길지 않은지, 평균 토큰수로 평가한다. 
-  - Consistency: 이유와 답변이 충돌하지 않는지 확인한다. 예를 들어, 답변은 "A", 이유는 "B가 맞다"인 경우 둘이 불일치하므로 낮은 설명 품질을 가진다고 평가할 수 있다. 
-  - BERTScore / BLEU : 모델이 지목한 이유와 기준 설명 문장 사이의 의미 유사도를 평가한다. 
-  - 휴먼평가(5점 Likert): 타당성, 명확성, 신뢰감을 1~5의 점수로 매긴다. 
+  - Conciseness(문장 수/토큰): 모델이 낸 이유 문장이 불필요하게 길지 않은지, 평균 토큰수로 평가한다.
+  - Consistency: 이유와 답변이 충돌하지 않는지 확인한다. 예를 들어, 답변은 "A", 이유는 "B가 맞다"인 경우 둘이 불일치하므로 낮은 설명 품질을 가진다고 평가할 수 있다.
+  - BERTScore / BLEU : 모델이 지목한 이유와 기준 설명 문장 사이의 의미 유사도를 평가한다.
+  - 휴먼평가(5점 Likert): 타당성, 명확성, 신뢰감을 1~5의 점수로 매긴다.
 
-- 효율/비용: 정확도 + 근거성을 유지하면서 얼마나 효율적인지 확인하는 지표이다. 
-  - 지연시간(latency): 한 질문에 대해 모델 응답까지 걸린 시간을 확인한다. 
+- 효율/비용: 정확도 + 근거성을 유지하면서 얼마나 효율적인지 확인하는 지표이다.
+  - 지연시간(latency): 한 질문에 대해 모델 응답까지 걸린 시간을 확인한다.
   - 메모리
   - 프레임 수(입력 토큰량)
 
@@ -114,7 +116,7 @@ toc:
 
 **규칙형 (Structured Rule-based Prompt)**
 
-규칙형 프롬프트는 모델이 반드시 정해진 양식에 맞춰 답변하도록 제한한다. 이 프롬프트의 장점은 문제-답변마다 안정적으로 비교가 가능하다는 것에 있다. 모델이 [Question/Choices/Subtitle] -> Answer (A-E)의 형식에 맞춰 답변하도록 하였다. 
+규칙형 프롬프트는 모델이 반드시 정해진 양식에 맞춰 답변하도록 제한한다. 이 프롬프트의 장점은 문제-답변마다 안정적으로 비교가 가능하다는 것에 있다. 모델이 [Question/Choices/Subtitle] -> Answer (A-E)의 형식에 맞춰 답변하도록 하였다.
 
 ```text
 [Subtitle Context]
@@ -130,61 +132,59 @@ C) {choice_2}
 D) {choice_3}
 E) {choice_4}
 
-Task: Select the correct answer choice (A–E).  
-If the subtitle does not provide enough evidence, answer: "정보 불충분".  
-Output format:  
-Answer: <A–E or 정보 불충분>  
+Task: Select the correct answer choice (A–E).
+If the subtitle does not provide enough evidence, answer: "정보 불충분".
+Output format:
+Answer: <A–E or 정보 불충분>
 Evidence: <copy the exact subtitle span used>
 
 ```
 
 **자유형 (Free-form Prompt)**
-   
-자유형 프롬프트는 최소한의 제약만 주고 모델이 자유롭게 답하게 한다. 이 프롬프트는 reasoning이 풍부하지만 환각 가능성을 높히는 우려가 있다. 이 프롬프트는 질문 + 자막 컨텍스트만 제공할 것이다. 
+
+자유형 프롬프트는 최소한의 제약만 주고 모델이 자유롭게 답하게 한다. 이 프롬프트는 reasoning이 풍부하지만 환각 가능성을 높히는 우려가 있다. 이 프롬프트는 질문 + 자막 컨텍스트만 제공할 것이다.
 
 ```text
 The following subtitle snippet is from a TV show:
 
 {subtitle_snippet}
 
-Question: {question}  
+Question: {question}
 Choices: {choice_0}, {choice_1}, {choice_2}, {choice_3}, {choice_4}
 
-Please answer the question based on the subtitle.  
+Please answer the question based on the subtitle.
 Explain briefly why you chose that answer.
 ```
 
 **체인형 (Chain-of-thought style, 2-Step)**
-  
-체인형 프롬프트의 목표는 근거 식별 과정과 답변 도출 과정을 분리하여 설명력 (explainability)를 강화하고자 함에 있다. 즉 첫 단계에서는 근거를 대고 두 번째 단계에서 답변을 주도록 프롬프트를 만든다. 
+
+체인형 프롬프트의 목표는 근거 식별 과정과 답변 도출 과정을 분리하여 설명력 (explainability)를 강화하고자 함에 있다. 즉 첫 단계에서는 근거를 대고 두 번째 단계에서 답변을 주도록 프롬프트를 만든다.
 
 ```text
 You are solving a VideoQA task. Use the given subtitle snippet.
 
-Subtitle:  
+Subtitle:
 {subtitle_snippet}
 
-Question: {question}  
-Choices:  
-A) {choice_0}  
-B) {choice_1}  
-C) {choice_2}  
-D) {choice_3}  
-E) {choice_4}  
+Question: {question}
+Choices:
+A) {choice_0}
+B) {choice_1}
+C) {choice_2}
+D) {choice_3}
+E) {choice_4}
 
-Step 1. Identify the exact subtitle sentence(s) that serve as evidence.  
-Step 2. Based on the evidence, select the most likely answer (A–E).  
+Step 1. Identify the exact subtitle sentence(s) that serve as evidence.
+Step 2. Based on the evidence, select the most likely answer (A–E).
 If there is no sufficient evidence, output "정보 불충분".
 
-Output format:  
-Evidence: "..."  
+Output format:
+Evidence: "..."
 Answer: <A–E or 정보 불충분>
 
 ```
 
-위의 prompt를 이용하여 같은 1K 샘플을 사용하였으며, 동일 하이퍼파라미터와 동일 답안 포맷을 요구하였다. 또한 seed를 고정하여 실험을 통제하였다. 모델은 HyperCLOVAX-SEED-Text-Instruct-1.5B를 사용하였다. 
-
-
+위의 prompt를 이용하여 같은 1K 샘플을 사용하였으며, 동일 하이퍼파라미터와 동일 답안 포맷을 요구하였다. 또한 seed를 고정하여 실험을 통제하였다. 모델은 HyperCLOVAX-SEED-Text-Instruct-1.5B를 사용하였다.
 
 <div class="table-wrap">
   <table class="perf-table">
@@ -230,12 +230,84 @@ Answer: <A–E or 정보 불충분>
 
 #### Exp 2. Evidence Sampling
 
-좋은 evidence 선택은 성능과 효율 측면에서 증유하다. 따라서 아래의 4가지 방법으로 evidence frame을 선택하고 accuracy, 근거성, Latency, 프레임 수를 측정하여, 어떤 방식이 성능을 잘 올리는지 평가하고자한다.
+좋은 evidence 선택은 성능과 효율 측면에서 중요하다. Vision-Language 모델은 입력 증거의 질과 양에 민감한데, 단순 Uniform 샘플링 vs. 구조적 선택 (샷 변화, 키프레임, CLILP retireval) 비교로 효율-성능 trade-off를 평가하고자 하였다. 따라서 아래의 4가지 방법으로 evidence frame을 선택하고 accuracy, 근거성, Latency, 프레임 수를 측정하여, 어떤 방식이 성능을 잘 올리는지 평가하고자한다.
 
 1. 프레임 샘플링: 균일/샷변화/키프레임 감지로 N(=8/16)장 추출
-2. 입력 컨텍스트 구성: [이미지 N장 + (옵션) 해당 시점 자막 스니펫]
-3. SEED-Vision-Instruct-3B 추론: 답변 + 근거 프레임 id/자막 타임코드 인용
-4. 출력: `정답, 한줄 이유, [근거: frame_i, t_start ~ t_end, subtitle_span]`
+2. 입력 컨텍스트 구성: [이미지 N장 + 해당 시점 자막 스니펫]
+3. Evidence 선택 방법
+   1. Uniform Sampling: 일정 간격으로 N 프레임
+   2. Shot Boundary Detection: 장면 전환 지점에서 프레임 추출
+   3. Keyframe Detection: 프레임 차이/모션 기반 주요 장면 선택
+   4. TC-CLIP Retrieval: 질문과 유사도가 높은 프레임 Top-K 선택
+4. SEED-Vision-Instruct-3B 추론: 답변 + 근거 프레임 id/자막 타임코드 인용
+5. 출력: `정답, 한줄 이유, [근거: frame_i, t_start ~ t_end, subtitle_span]`
+6. 지표 계산: Accuracy, Frame-Hit, Subtitle-Hit, Latency, Frame Count
+
+모든 방법에서 같은 질문 세트 사용하였으며, 기본 비교는 N=8,16 프레임 고정하였다. 또한, Exp1 체인형 포맷 사용 (Evidence→Answer)하였으며, 동일 하이퍼파라미터을 사용하였다.
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Method</th>
+        <th>#Frames</th>
+        <th>Accuracy (%)</th>
+        <th>Frame-Hit@1 (%)</th>
+        <th>Subtitle-Hit@1 (%)</th>
+        <th>Latency (s)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Uniform (8)</td>
+        <td>8</td>
+        <td>46.2</td>
+        <td>30.5</td>
+        <td>33.0</td>
+        <td><b>0.9</b></td>
+      </tr>
+      <tr>
+        <td>Shot Boundary (8)</td>
+        <td>8</td>
+        <td>48.0</td>
+        <td>35.1</td>
+        <td>36.8</td>
+        <td>1.1</td>
+      </tr>
+      <tr>
+        <td>Keyframe (8)</td>
+        <td>8</td>
+        <td>49.3</td>
+        <td><b>37.5</b></td>
+        <td>37.2</td>
+        <td>1.2</td>
+      </tr>
+      <tr>
+        <td>TC-CLIP (Top-8)</td>
+        <td>8</td>
+        <td><b>52.7</b></td>
+        <td><b>38.9</b></td>
+        <td><b>41.4</b></td>
+        <td>1.6</td>
+      </tr>
+      <tr>
+        <td>Uniform (16)</td>
+        <td>16</td>
+        <td>47.0</td>
+        <td>33.2</td>
+        <td>35.0</td>
+        <td>1.4</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="caption">
+    Tab 2. Evidence Sampling 실험 결과 테이블  
+</div>
+
+위의 테이블을 통해 다음과 같은 사실을 알 수 있었다. Uniform 방식은 가장 단순, 효율이 가장 좋았으며 Accuracy/근거성은 중간정도였다. 다음으로 Shot Boundary 방법은 장면 전환 감지 덕분에 의미 있는 프레임 선택하였기 때문에 근거성이 높았고 효율도 괜찮았다. Keyframe 방식은 시각적 다양성 확보할 수 있으므로 Frame-Hit 높았다. 마지막으로 TC-CLIP Retrieval은 질문 관련 프레임만 집중하여 Accuracy가 가장 높았으나, 다만 Latency (인덱싱+검색 비용)가 높았다.
+
+질문 관련 프레임을 직접 찾는 TC-CLIP retrieval은 Accuracy +6.5pt, Subtitle-Hit +8.4pt로 최고 성능을 보였으나 Latency는 +0.7s 증가했다. Shot/Keyframe 기반 방법도 Uniform 대비 근거성을 5–7pt 개선, 효율·성능의 균형점으로 유효하다.
 
 #### Exp 3. 자막 사용 여부
 
@@ -243,8 +315,7 @@ Answer: <A–E or 정보 불충분>
 
 공정한 평가를 위해, input으로 들어가는 프레임은 동일하게 진행하였는데, 동일 샘플에서 Uniform-8로 추출한 같은 프레임 세트를 사용하였다. 또한 프롬프트도 동일하게 하였으며 하이퍼파라미터들도 동일하게 고정하였다.
 
-모델은 SEED-Vision-Instruct-3B을 사용하였으며, 각 입력에 대해 1회 추론하였다. 사용한 지표는 accuracy, Frame-Hit@1, Subtitle-Hit@1, Hallucination rate, Info-insufficient rate, latency를 사용하였다. 
-
+모델은 SEED-Vision-Instruct-3B을 사용하였으며, 각 입력에 대해 1회 추론하였다. 사용한 지표는 accuracy, Frame-Hit@1, Subtitle-Hit@1, Hallucination rate, Info-insufficient rate, latency를 사용하였다.
 
 <div class="table-wrap">
   <table class="perf-table">
@@ -318,4 +389,4 @@ Answer: <A–E or 정보 불충분>
 
 ### Conclusion
 
-### Code 
+### Code
