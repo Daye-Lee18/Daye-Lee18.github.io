@@ -78,12 +78,12 @@ For our baseline, we use **CLIP-ViP**, a state-of-the-art model for video-text r
 - Learn a **shared embedding space** for video and text.
 - **Positive pairs** (e.g., matching Video–Subtitle or Frame–Caption) are pulled **closer**;  
   **Negative pairs** (non-matching pairs) are pushed **farther** using contrastive learning.
-- Domain gap between subtitles and captions 
-    - 하지만 "영상 자체 (시각 정보) vs. 자막 텍스트 (대화/내러티브)"가 서로 다른 내용을 갖는 문제가 있을 수 있다. 예를 들어, 화면은 축구 영상인데, 자막 (대화내용)dms "내일 일찍 일어나야 해" 같은 대화. 
-    - 시간 정렬 불일치: 자막 타임스탬프가 장면과 정확히 맞지 않거나, 장면 전후로 지연/선행될 수 있음.
-    - 과업 불일치: 자막은 행동/객체 묘사가 부족하고, 관계/감정/스토리 위주인 경우가 많음. 반면 비전 모델은 보이는 것을 설명하는 텍스트(캡션)에 더 잘 맞음.
-    - 따라서, 중간 프레임을 뽑아 이미지 캡셔닝으로 보조 캡션(C)을 생성해 (V, S)뿐 아니라 (F, C) 쌍도 같이 학습시키며, 자막과 영상 사이의 분포 차이를 줄입니다. (너가 붙여둔 요약의 그 부분!)
-- 하지만, MSR-VTT 데이터셋은 이미 한 video당 20개의 captions을 제공하여 이미 시각 묘사형 텍스트이기 때문에 그 갭은 상대적으로 적지만, 중간 프레임 캡셔닝으로 보조 캡션을 추가하여 텍스트 신호를 더 촘촘히 맞추려고 보강할 수 있다. 만약, 대사, 내레이션 등 소리 정보 중심 (subtitles)의 데이터셋의 경우에는 도메인 갭이 클 것이다. 
+- Domain gap between subtitles and captions
+  - 하지만 "영상 자체 (시각 정보) vs. 자막 텍스트 (대화/내러티브)"가 서로 다른 내용을 갖는 문제가 있을 수 있다. 예를 들어, 화면은 축구 영상인데, 자막 (대화내용)dms "내일 일찍 일어나야 해" 같은 대화.
+  - 시간 정렬 불일치: 자막 타임스탬프가 장면과 정확히 맞지 않거나, 장면 전후로 지연/선행될 수 있음.
+  - 과업 불일치: 자막은 행동/객체 묘사가 부족하고, 관계/감정/스토리 위주인 경우가 많음. 반면 비전 모델은 보이는 것을 설명하는 텍스트(캡션)에 더 잘 맞음.
+  - 따라서, 중간 프레임을 뽑아 이미지 캡셔닝으로 보조 캡션(C)을 생성해 (V, S)뿐 아니라 (F, C) 쌍도 같이 학습시키며, 자막과 영상 사이의 분포 차이를 줄입니다. (너가 붙여둔 요약의 그 부분!)
+- 하지만, MSR-VTT 데이터셋은 이미 한 video당 20개의 captions을 제공하여 이미 시각 묘사형 텍스트이기 때문에 그 갭은 상대적으로 적지만, 중간 프레임 캡셔닝으로 보조 캡션을 추가하여 텍스트 신호를 더 촘촘히 맞추려고 보강할 수 있다. 만약, 대사, 내레이션 등 소리 정보 중심 (subtitles)의 데이터셋의 경우에는 도메인 갭이 클 것이다.
 - To mitigate the domain gap between _subtitles (S)_ in the training data and real-world _captions (C)_, an auxiliary caption is generated for the **middle frame (F)** of each **video (V)**.
 - We therefore train on **(V, S)** and the corresponding **(F, C)** pairs jointly.
 

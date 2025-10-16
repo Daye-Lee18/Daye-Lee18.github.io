@@ -40,7 +40,6 @@ I’m actively seeking opportunities in **multimodal AI for LLMs, XR (AR/VR), ro
 
 You can reach me at **dayelee313@gmail.com**, on [LinkedIn](https://www.linkedin.com/in/daye-lee-088686251/), and view my [CV](/assets/pdf/Resume.pdf).
 
-
 [gsds]: https://gsds.snu.ac.kr/
 [laal]: https://www.snu-laal.com/
 [icaiic_paper]: https://ieeexplore.ieee.org/document/10920652
