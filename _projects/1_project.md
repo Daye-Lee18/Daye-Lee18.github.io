@@ -41,7 +41,7 @@ To enhance the speed of the training, we downscale the frames per seconds to 6. 
 
 Step (1) Video selection and filtration process : We conduct **sentiment analysis on each video caption** to determine the presence of sentimental information. The sentiment analysis library calculates neutral, positive, and negative scores for each video caption and decides whether it is positive or negative based on the compound score, which is an overall score derived from these individual scores. For example, if the composite score is above 0.6, we classify the video as positive, and if it is below -0.6, we classify it as negative. **We abitrarily set -0.6 and 0.6 as the thresholds for classifying the compound scores representing videos with emotion.** We filtered out any videos with compound scores in between -0.6 and 0.6 as videos without sufficient positive or negative sentiments, representative of the existence of emotions. **This leaves us with about 6K videos in the training set.** We utilized [nltk.sentiment.SentimentIntensityAnalyzer][nltk] for this process.
 
-다만, 위의 Sentimenty Analyzer 모델을 사용했을 때, 특정 감정을 나타내는 단어 예를 들어, "happy", "sad" 및 "fear"와 같은 단어가 들어있어도 compound score가 유의미하지 않은 것이 filter되었기 때문에, 이러한 caption은 maually하게 추출하는 과정을 거쳤다.
+However, when we used the Sentiment Analyzer, captions containing emotion-indicative words (e.g., “happy,” “sad,” “fear”) were filtered out if their compound scores were not statistically meaningful. Consequently, we extracted these captions manually.
 
 ```python
 def extract_emotion_manually(df, text=None):
@@ -56,9 +56,7 @@ def extract_emotion_manually(df, text=None):
     return manual_df
 ```
 
-Step (2): After completing the video selection and filtration process in the first step, we determine the emotional information present in each caption. For this purpose, **we use NRCLex, which uses a scoring method based on a predefined lexicon dictionary to calculate eight emotions present in a sentence: joy, trust, fear, surprise, sadness, disgust, anger, and anticipation.** We also include the calculation of positive, negative and neutral emotions from the previous step. **Consequently, the resulting data for each caption contains information on eight emotions along with positive, negative, and neutral sentiments.** We made a use of [NRC Lexicon library][nrclex] for this task. This emotion extraction process is applied to the three data splits we use in our experminets: **the refined 6K training data from the first step, the entire 1K test data, and a combination of 34 sentimental and 34 non-sentimental data used to analyze our model's results.** 즉, step (1)을 거친 training 데이터셋, 기존 1K test set은 validation set, 그리고 기존 1K test set에 step (1)을 거친 34 + non-sentimental 34 (총 68개)는 최종 test data로 사용되었다.
-
-More specifically, using the lexicon provided by the NRC Lexicon Library, we assigned emotion scores to each caption for the eight emotion types defined by Robert Plutchik: joy, trust, fear, surprise, sadness, disgust, anger, and anticipation. This results in a total of 11 columns in the original dataset. Remember, we apply this process to three datasets in the second step of assigning emotional information: the refined 6K training data from the first step, a combination of 34 sentimental and 34 non-sentimental data for a total of 68 test data, and the entire 1K test data.
+Step (2): After completing the video selection and filtration process in the first step, we determine the emotional information present in each caption. For this purpose, **we use NRCLex, which uses a scoring method based on a predefined lexicon dictionary to calculate eight emotions present in a sentence: joy, trust, fear, surprise, sadness, disgust, anger, and anticipation.** We also include the calculation of positive, negative and neutral emotions from the previous step. **Consequently, the resulting data for each caption contains information on eight emotions along with positive, negative, and neutral sentiments.** We made a use of [NRC Lexicon library][nrclex] for this task. This emotion extraction process is applied to the three data splits we use in our experminets: **the refined 6K training data from the first step, the entire 1K test data, and a combination of 34 sentimental and 34 non-sentimental data used to analyze our model's results.** In summary, we used the Step-(1)–processed dataset for training; treated the original 1K test set as the validation set; and constructed the final test set by selecting 34 Step-(1)–processed items and 34 non-sentimental items (68 in total) from the original 1K test set.
 
 ### Proposed Model
 
@@ -80,6 +78,12 @@ For our baseline, we use **CLIP-ViP**, a state-of-the-art model for video-text r
 - Learn a **shared embedding space** for video and text.
 - **Positive pairs** (e.g., matching Video–Subtitle or Frame–Caption) are pulled **closer**;  
   **Negative pairs** (non-matching pairs) are pushed **farther** using contrastive learning.
+- Domain gap between subtitles and captions 
+    - 하지만 "영상 자체 (시각 정보) vs. 자막 텍스트 (대화/내러티브)"가 서로 다른 내용을 갖는 문제가 있을 수 있다. 예를 들어, 화면은 축구 영상인데, 자막 (대화내용)dms "내일 일찍 일어나야 해" 같은 대화. 
+    - 시간 정렬 불일치: 자막 타임스탬프가 장면과 정확히 맞지 않거나, 장면 전후로 지연/선행될 수 있음.
+    - 과업 불일치: 자막은 행동/객체 묘사가 부족하고, 관계/감정/스토리 위주인 경우가 많음. 반면 비전 모델은 보이는 것을 설명하는 텍스트(캡션)에 더 잘 맞음.
+    - 따라서, 중간 프레임을 뽑아 이미지 캡셔닝으로 보조 캡션(C)을 생성해 (V, S)뿐 아니라 (F, C) 쌍도 같이 학습시키며, 자막과 영상 사이의 분포 차이를 줄입니다. (너가 붙여둔 요약의 그 부분!)
+- 하지만, MSR-VTT 데이터셋은 이미 한 video당 20개의 captions을 제공하여 이미 시각 묘사형 텍스트이기 때문에 그 갭은 상대적으로 적지만, 중간 프레임 캡셔닝으로 보조 캡션을 추가하여 텍스트 신호를 더 촘촘히 맞추려고 보강할 수 있다. 만약, 대사, 내레이션 등 소리 정보 중심 (subtitles)의 데이터셋의 경우에는 도메인 갭이 클 것이다. 
 - To mitigate the domain gap between _subtitles (S)_ in the training data and real-world _captions (C)_, an auxiliary caption is generated for the **middle frame (F)** of each **video (V)**.
 - We therefore train on **(V, S)** and the corresponding **(F, C)** pairs jointly.
 
