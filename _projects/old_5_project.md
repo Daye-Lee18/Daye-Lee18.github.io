@@ -1,4 +1,4 @@
----
+<!-- ---
 layout: page
 title: Explainable Video-QA
 description: Explainable Video-QA / VideoRAG based on HyperCLOVA X / SEED (Vision-Instruct)
@@ -10,10 +10,9 @@ toc:
   sidebar: left
 ---
 
-
 ### Problem Definition
 
-기존 [HyperCLOVAX-SEED-Vision-Instruct-3B](https://huggingface.co/naver-hyperclovax/HyperCLOVAX-SEED-Vision-Instruct-3B)는 text/image/video를 인풋으로 받아 답변을 내놓는 한국어에 특화된 멀티모달 데이터 이해 모델로써, visual question answering (VQA), chat and diagram interpretation과 같은 문제들을 해결할 수 있다. 이 모델을 기반으로 **근거 인용형 Video-QA**를 구현하고자한다. 이를 위해 규칙형 프롬프트와 '근거 없으면 정보 불충분' 정책을 적용해 환각률을 낮추는 실험을 수행하였으며, 지연 시간과 입력 프레임 수를 함께 최적화 하였다.
+기존 [HyperCLOVAX-SEED-Vision-Instruct-3B](https://huggingface.co/naver-hyperclovax/HyperCLOVAX-SEED-Vision-Instruct-3B)는 text/image/video를 인풋으로 받아 답변을 내놓는 한국어에 특화된 멀티모달 데이터 이해 모델로써, visual question answering (VQA), chat and diagram interpretation과 같은 문제들을 해결할 수 있다. 이 모델을 기반으로 1. **근거 인용형 Video-QA**를 구현하고 2. **TC-CLIP 검색 + 적응적 프레임 선택**으로 근거를 압축하여 정확도와 근거성 (Frame/Subtitle-Hit)을 동시에 개선하고자 한다. 이를 위해 규칙형 프롬프트와 '근거 없으면 정보 불충분' 정책을 적용해 환각률을 낮추는 실험을 수행하였으며, 지연 시간과 입력 프레임 수를 함께 최적화 하였다.
 
 ### Dataset
 
@@ -229,5 +228,165 @@ Answer: <A–E or 정보 불충분>
 
 위의 테이블을 통해, 규칙형은 안정적이지만 evidence 인용률은 낮음을 확인할 수 있었다.(형식 제약으로 답만 내는 경향) 반면 자유형 프롬프트는 다양한 reasoning을 촉진하여 accuracy는 비슷하거나 낮아지고 환각은 살짝 높아졌다. 마지막으로 체인형(2-step): evidence → 답변 흐름으로 지시했기 때문에 groundedness↑, Accuracy도 소폭↑ 기대, 다만 “정보 불충분” 출력이 늘어날 수 있다. 체인형 프롬프트는 규칙형 대비 Accuracy +2.8pt, 근거 인용률 +6.9pt 개선을 보였고, 환각률을 절반 이하로 줄였다. 다만 정보 불충분 응답이 늘어 precision-recall trade-off가 발생하였다.
 
-#### Exp 2. Video VQA-Evidence
+#### Exp 2. Evidence Sampling
 
+좋은 evidence 선택은 성능과 효율 측면에서 중요하다. Vision-Language 모델은 입력 증거의 질과 양에 민감한데, 단순 Uniform 샘플링 vs. 구조적 선택 (샷 변화, 키프레임, CLILP retireval) 비교로 효율-성능 trade-off를 평가하고자 하였다. 따라서 아래의 4가지 방법으로 evidence frame을 선택하고 accuracy, 근거성, Latency, 프레임 수를 측정하여, 어떤 방식이 성능을 잘 올리는지 평가하고자한다.
+
+1. 프레임 샘플링: 균일/샷변화/키프레임 감지로 N(=8/16)장 추출
+2. 입력 컨텍스트 구성: [이미지 N장 + 해당 시점 자막 스니펫]
+3. Evidence 선택 방법
+   1. Uniform Sampling: 일정 간격으로 N 프레임
+   2. Shot Boundary Detection: 장면 전환 지점에서 프레임 추출
+   3. Keyframe Detection: 프레임 차이/모션 기반 주요 장면 선택
+   4. TC-CLIP Retrieval: 질문과 유사도가 높은 프레임 Top-K 선택
+4. SEED-Vision-Instruct-3B 추론: 답변 + 근거 프레임 id/자막 타임코드 인용
+5. 출력: `정답, 한줄 이유, [근거: frame_i, t_start ~ t_end, subtitle_span]`
+6. 지표 계산: Accuracy, Frame-Hit, Subtitle-Hit, Latency, Frame Count
+
+모든 방법에서 같은 질문 세트 사용하였으며, 기본 비교는 N=8,16 프레임 고정하였다. 또한, Exp1 체인형 포맷 사용 (Evidence→Answer)하였으며, 동일 하이퍼파라미터을 사용하였다.
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Method</th>
+        <th>#Frames</th>
+        <th>Accuracy (%)</th>
+        <th>Frame-Hit@1 (%)</th>
+        <th>Subtitle-Hit@1 (%)</th>
+        <th>Latency (s)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Uniform (8)</td>
+        <td>8</td>
+        <td>46.2</td>
+        <td>30.5</td>
+        <td>33.0</td>
+        <td><b>0.9</b></td>
+      </tr>
+      <tr>
+        <td>Shot Boundary (8)</td>
+        <td>8</td>
+        <td>48.0</td>
+        <td>35.1</td>
+        <td>36.8</td>
+        <td>1.1</td>
+      </tr>
+      <tr>
+        <td>Keyframe (8)</td>
+        <td>8</td>
+        <td>49.3</td>
+        <td><b>37.5</b></td>
+        <td>37.2</td>
+        <td>1.2</td>
+      </tr>
+      <tr>
+        <td>TC-CLIP (Top-8)</td>
+        <td>8</td>
+        <td><b>52.7</b></td>
+        <td><b>38.9</b></td>
+        <td><b>41.4</b></td>
+        <td>1.6</td>
+      </tr>
+      <tr>
+        <td>Uniform (16)</td>
+        <td>16</td>
+        <td>47.0</td>
+        <td>33.2</td>
+        <td>35.0</td>
+        <td>1.4</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="caption">
+    Tab 2. Evidence Sampling 실험 결과 테이블  
+</div>
+
+위의 테이블을 통해 다음과 같은 사실을 알 수 있었다. Uniform 방식은 가장 단순, 효율이 가장 좋았으며 Accuracy/근거성은 중간정도였다. 다음으로 Shot Boundary 방법은 장면 전환 감지 덕분에 의미 있는 프레임 선택하였기 때문에 근거성이 높았고 효율도 괜찮았다. Keyframe 방식은 시각적 다양성 확보할 수 있으므로 Frame-Hit 높았다. 마지막으로 TC-CLIP Retrieval은 질문 관련 프레임만 집중하여 Accuracy가 가장 높았으나, 다만 Latency (인덱싱+검색 비용)가 높았다.
+
+질문 관련 프레임을 직접 찾는 TC-CLIP retrieval은 Accuracy +6.5pt, Subtitle-Hit +8.4pt로 최고 성능을 보였으나 Latency는 +0.7s 증가했다. Shot/Keyframe 기반 방법도 Uniform 대비 근거성을 5–7pt 개선, 효율·성능의 균형점으로 유효하다.
+
+#### Exp 3. 자막 사용 여부
+
+같은 비디오 증거 (프레임 N장) 를 입력으로 고정하고, 자막 (snippet)만 on/off 하여 정답률 (accuracy) 변화, 근거성 (groundness: Frame/Subtitle-Hit), 환각률/"정보 불충분" 비율을 비교하고자 한다. 이를 위해, TVQA 1K 서브셋에서 두 코호트로 나눠 분석하였다. 대사 의존형 QA (Subtitle-needed)는 답이 대사/문맥에 의존하는 질문이고, 시각 의존형 QA (Visual-only) 는 프레임만으로도 답이 가능한 질문이다. 이를 분류하는 것은 질문에 순수 색/객체/행동/장소 묘사는 Visual-only QA로, 대화/태도/감정/숫자 읽기 ('무슨 말을 했나', '왜', '어떻게 반응했다')가 있으면 Subtitle-needed후보로 나누었다.
+
+공정한 평가를 위해, input으로 들어가는 프레임은 동일하게 진행하였는데, 동일 샘플에서 Uniform-8로 추출한 같은 프레임 세트를 사용하였다. 또한 프롬프트도 동일하게 하였으며 하이퍼파라미터들도 동일하게 고정하였다.
+
+모델은 SEED-Vision-Instruct-3B을 사용하였으며, 각 입력에 대해 1회 추론하였다. 사용한 지표는 accuracy, Frame-Hit@1, Subtitle-Hit@1, Hallucination rate, Info-insufficient rate, latency를 사용하였다.
+
+<div class="table-wrap">
+  <table class="perf-table">
+    <thead>
+      <tr>
+        <th>Cohort</th>
+        <th>Input</th>
+        <th>Acc (%) $\uparrow$</th>
+        <th>Frame-Hit@1</th>
+        <th>Sub-Hit@1</th>
+        <th>Hallucination(%)</th>
+        <th>Info-Insuf.(%)</th>
+        <th>Latency(s)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Subtitle-needed</th>
+        <td>Frames only</td>
+        <td>41.2</td>
+        <td>33.0</td>
+        <td>-</td>
+        <td>8.1</td>
+        <td>2.3</td>
+        <td>0.98</td>
+      </tr>
+      <tr>
+        <th scope="row">Subtitle-needed</th>
+        <td>Frames + Sub</td>
+        <td><b>53.9</b></td>
+        <td>38.7</td>
+        <td>44.5</td>
+        <td>3.6</td>
+        <td>3.8</td>
+        <td>1.05</td>
+      </tr>
+      <tr>
+        <th scope="row">Visual-only</th>
+        <td>Frames only</td>
+        <td><b>57.1</b></td>
+        <td>40.2</td>
+        <td>-</td>
+        <td><b>4.9</b></td>
+        <td>1.0</td>
+        <td>0.96</td>
+      </tr>
+      <tr>
+        <th scope="row">Visual-only</th>
+        <td>Frames + Sub</td>
+        <td>56.8</td>
+        <td>41.0</td>
+        <td><b>2.1</b></td>
+        <td>5.1</td>
+        <td><b>1.1</b></td>
+        <td><b>1.03</b></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="caption">
+    Tab 1. 자막이 필요한 질문 코호트에서 Frames + Sub가 Accuracy +12.7 pt, Hallucination -4.5 pt로 개선되었으며, 시각 의존형 코호트에서는 자막이 유의미한 향상을 만들지 않았고, 프롬프트 길이 증가로 지연이 소폭 증가하였다. 
+</div>
+
+#### Exp 4. Retrieval-Augmented
+
+1. CLIP/TC-CLIP 전처리 인덱스: 비디오 -> 프레임 (또는 샷) 임베딩 / 자막 문장 임베딩
+2. 질의 -> Top-K 증거 검색: 프레임/샷/자막 후보 K개 뽑기(다양성 보장: MMR)
+3. 근거 압축(Adaptive): K→M(=6~12)로 축소(시간분산/유사도 임계)
+4. SEED-Vision-Instruct에 근거 패키지 투입 → 근거 인용형 답변 생성
+5. 출력 재랭크: Groundedness Score(근거 일치율)로 beam 결과 중 최상 선택
+
+### Conclusion
+
+### Code -->
