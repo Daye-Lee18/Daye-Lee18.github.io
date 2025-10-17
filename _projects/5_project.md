@@ -10,7 +10,6 @@ toc:
   sidebar: left
 ---
 
-
 ### Problem Definition
 
 기존 [HyperCLOVAX-SEED-Vision-Instruct-3B](https://huggingface.co/naver-hyperclovax/HyperCLOVAX-SEED-Vision-Instruct-3B)는 text/image/video를 인풋으로 받아 답변을 내놓는 한국어에 특화된 멀티모달 데이터 이해 모델로써, visual question answering (VQA), chat and diagram interpretation과 같은 문제들을 해결할 수 있다. 이 모델을 기반으로 **근거 인용형 Video-QA**를 구현하고자한다. 이를 위해 규칙형 프롬프트와 '근거 없으면 정보 불충분' 정책을 적용해 환각률을 낮추는 실험을 수행하였으며, 지연 시간과 입력 프레임 수를 함께 최적화 하였다.
@@ -88,32 +87,24 @@ toc:
 - 정답성(Answer Quality): 모델이 정답을 맞췄는지 평가한다.
 
   - Accuracy: TVQA 같은 선택지 문제에서 정답율. 모델이 예측한 답이 실제 답인 비율
-  - F1:
 
 - 근거성(Groundedness): 모델이 정답을 "제대로 된 증거"에 기반해 냈는지 평가한다.
 
-  - Frame-Hit@K: 모델이 답변 근거로 지목한 frame id가 GT 타임스탬프 구간과 IoU>τ (τ=0.5)로 겹치는 비율. 예를 들어 정답 구간이 10~15초이고 모델이 frame 12s를 언급했다면, hit으로 간주한다.
   - Subtitle-Hit@K: 인용 자막 span이 GT 자막 구간과 겹침 여부를 평가하며 자막 문장 단위 IoU나 substring match로 평가
+    - GT subtitle: TVQA에서 제공하는 정답 자막 또는 타임코드 기반 정답 자막 스니펫
+    - Predicted evidence: 모델 출력 중 "Evidence:" 뒤에 나오는 자막 문장
+    - Hit@1: 모델이 언급한 evidence 중 1번째(top1)이 GT subtitle과 substring match 또는 IoU>0.5 이상 겹치면 hit
   - Info-insufficient rate: 규칙상 "근거 없으면 정보 불충분" 출력 비율을 계산한다.
-  - 지원 일치율 (Support Consistency): [근거]에 명시된 증거가 실제 입력 집합 내에 존재하는지를 평가하며, 입력에 없던 증거를 언급하면 환각 (hallucination)으로 카운트한다.
-
-- 설명 품질(Explanation Quality): 모델의 설명이 "짧고, 일관되고, 납득 가능한가?"를 평가한다.
-
-  - Conciseness(문장 수/토큰): 모델이 낸 이유 문장이 불필요하게 길지 않은지, 평균 토큰수로 평가한다.
-  - Consistency: 이유와 답변이 충돌하지 않는지 확인한다. 예를 들어, 답변은 "A", 이유는 "B가 맞다"인 경우 둘이 불일치하므로 낮은 설명 품질을 가진다고 평가할 수 있다.
-  - BERTScore / BLEU : 모델이 지목한 이유와 기준 설명 문장 사이의 의미 유사도를 평가한다.
-  - 휴먼평가(5점 Likert): 타당성, 명확성, 신뢰감을 1~5의 점수로 매긴다.
-
-- 효율/비용: 정확도 + 근거성을 유지하면서 얼마나 효율적인지 확인하는 지표이다.
-  - 지연시간(latency): 한 질문에 대해 모델 응답까지 걸린 시간을 확인한다.
-  - 메모리
-  - 프레임 수(입력 토큰량)
+  - Hallucination(%): 모델이 자막(subtitle)이나 프레임 입력에 없는 정보를 새로 만들어내는 비율이다.
+    - Grounded evidence: 실제 입력 subtitle snippet 내 문장
+    - Predicted evidence: 모델이 "Evidence:" 뒤에 쓴 문장
+    - , predicted evidence가 입력 subtitle snippet에 존재하지 않을 때 발생
 
 ### Experiments & Results
 
 #### Exp 1. Prompting Strategy
 
-규칙형 vs. 자유형 vs. 체인형(2-Step: 근거 -> 답변)의 3가지 프롬프트 패턴을 비교한다. 자막 기반 QA에서 프롬프트 패턴에 따라 성능과 근거성, 환각률이 어떻게 달라지는지를 검증한다. 해당 실험은 Text-only baseline에서도 prompt설계만으로 explainability와 stability를 높일 수 있다는 점을 보여준다. 또한 수혹 Vision model 실험 (exp2~4)과의 대비를 위한 기준선 역할을 한다. 이를 위한 평가 지표로는 accuracy, 근거 인용률 (Frame-Hit, Subtitle-Hit), "정보 불충분" 응답률을 사용하였다. Text-Instruct 모델인 HyperCLOVAX-SEED-Text-Instruct-1.5B을 사용하여 위에서 전처리한 1K dataset에 대해서 모델 성능을 평가하였다. 자막 기반 QA에서 "비디오 프레임 없이" 모델 성능을 평가하고자 하였다.
+규칙형 vs. 자유형 vs. 체인형(2-Step: 근거 -> 답변)의 3가지 프롬프트 패턴을 비교한다. 자막 기반 QA에서 프롬프트 패턴에 따라 성능과 근거성, 환각률이 어떻게 달라지는지를 검증한다. 해당 실험은 Text-only baseline에서도 prompt설계만으로 explainability와 stability를 높일 수 있다는 점을 보여준다. 이를 위한 평가 지표로는 accuracy, 근거 인용률 (Frame-Hit, Subtitle-Hit), "정보 불충분" 응답률을 사용하였다. Text-Instruct 모델인 HyperCLOVAX-SEED-Text-Instruct-1.5B을 사용하여 위에서 전처리한 1K dataset에 대해서 모델 성능을 평가하였다. 자막 기반 QA에서 "비디오 프레임 없이" 모델 성능을 평가하고자 하였다.
 
 **규칙형 (Structured Rule-based Prompt)**
 
@@ -192,33 +183,33 @@ Answer: <A–E or 정보 불충분>
     <thead>
       <tr>
         <th>Prompt Type</th>
-        <th>Acc (%) $\uparrow$</th>
-        <th>Sub-Hit@1</th>
-        <th>Hallucination(%)</th>
+        <th>Acc (%)</th>
         <th>Info-Insuf.(%)</th>
+        <th>Subtitle-Hit@1</th>
+        <th>Hallucination (%)</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <th scope="row">규칙형</th>
-        <td>44.8</td>
-        <td>28.5</td>
-        <td>4.2</td>
-        <td>5.5</td>
+        <td>25.3</td>
+        <td>52.4</td>
+        <td>1.3</td>
+        <td>1.1</td>
       </tr>
       <tr>
         <th scope="row">자유형</th>
-        <td><b>43.1</b></td>
-        <td>25.0</td>
-        <td>3.1</td>
-        <td>9.8</td>
+        <td><b>27.6</b></td>
+        <td>49.6</td>
+        <td>0.0</td>
+        <td>0.0</td>
       </tr>
       <tr>
         <th scope="row">체인형</th>
-        <td><b>47.6</b></td>
-        <td>35.4</td>
-        <td>7.5</td>
-        <td><b>3.0</b></td>
+        <td><b>14.7</b></td>
+        <td>73.0</td>
+        <td>23.1</td>
+        <td>76.9</td>
       </tr>
     </tbody>
   </table>
@@ -227,7 +218,138 @@ Answer: <A–E or 정보 불충분>
     Tab 1. Prompt strategy에 대한 결과. 
 </div>
 
-위의 테이블을 통해, 규칙형은 안정적이지만 evidence 인용률은 낮음을 확인할 수 있었다.(형식 제약으로 답만 내는 경향) 반면 자유형 프롬프트는 다양한 reasoning을 촉진하여 accuracy는 비슷하거나 낮아지고 환각은 살짝 높아졌다. 마지막으로 체인형(2-step): evidence → 답변 흐름으로 지시했기 때문에 groundedness↑, Accuracy도 소폭↑ 기대, 다만 “정보 불충분” 출력이 늘어날 수 있다. 체인형 프롬프트는 규칙형 대비 Accuracy +2.8pt, 근거 인용률 +6.9pt 개선을 보였고, 환각률을 절반 이하로 줄였다. 다만 정보 불충분 응답이 늘어 precision-recall trade-off가 발생하였다.
+정확도(Accuracy)는 전반적으로 낮은 수준(약 14–27%)을 보였다. 이는 1.5B 규모의 Text-Instruct 모델만 사용했기 때문으로, TVQA 과제가 자막 속의 상황 추론과 인물 행동 추론을 모두 요구하는 고난도 질의응답이기 때문이다. 이러한 복합적 추론을 수행하기에는 소형 LLM이 선택지를 정밀하게 구분하기 어렵다. 세 프롬프트 간 비교 결과, 자유형 > 규칙형 > 체인형 순으로 정확도가 높았으며, 자유형은 보다 자연스러운 reasoning이 가능해 상대적으로 높은 성능을 보였다. 반면 체인형은 “정보 불충분” 응답을 자주 선택하며 보수적인 경향을 보였다. 즉, 자유형이 가장 높은 정확도를 기록한 반면, 체인형은 신중한 답변 전략으로 인해 정답률이 다소 낮았다.
+
+Info-Insuf(정보 불충분 응답 비율)은 모델이 자막 내 근거가 부족하다고 판단해 답변을 포기한 경우를 의미한다. 체인형은 73%, 규칙형은 52%, 자유형은 49%로, 체인형이 가장 높은 비율을 보였다. 이는 체인형이 Step 1 단계에서 근거 유무를 먼저 판단하도록 설계되어, 확실한 근거가 없을 경우 추측하지 않고 “정보 불충분”으로 응답했기 때문이다. 따라서 체인형은 근거 부족 상황에서 가장 신중하게 대응하며, uncertainty awareness(불확실성 인식) 이 높게 나타났다.
+
+Subtitle-Hit@1(근거 일치율)은 모델이 지목한 자막 문장이 실제 정답 구간과 얼마나 일치하는지를 나타낸다. 체인형은 23.1%로, 규칙형(1.3%)이나 자유형(0.0%)보다 압도적으로 높았다. 이는 체인형 프롬프트가 “근거를 명시하라”는 지시를 포함하고 있었기 때문이다. 비록 정답률은 낮았지만, 체인형은 근거성(groundedness) 측면에서 가장 우수했다. 다시 말해, 체인형은 “이유를 설명하라”는 지시에 가장 충실하며, 답변의 근거를 구체적으로 제시할 수 있었다.
+
+반면 Hallucination(환각률)은 입력 자막에 존재하지 않는 내용을 근거로 제시한 비율을 뜻한다. 체인형은 76.9%로 매우 높은 수치를 기록했으며, 규칙형(1.1%)과 자유형(0.0%)에 비해 압도적으로 높았다. 이는 체인형이 근거 문장을 반드시 출력하도록 설계되어, 실제 근거가 없을 때 가짜 근거를 생성하는 경향이 나타났기 때문이다. 따라서 체인형 프롬프트를 사용할 때는 “근거가 없을 경우 ‘정보 불충분’으로 답하라”는 조건을 더욱 명확히 해야 한다.
+
+요약하자면, 체인형 프롬프트는 신중함과 근거 인식 능력은 높지만, 환각 발생 가능성도 높았다. 반면 자유형은 정확도가 가장 높았고, 규칙형은 안정적인 중간선을 유지했다.
 
 #### Exp 2. Video VQA-Evidence
 
+#### CLIP
+
+CLIP(OpenAI)은 이미지와 텍스트를 같은 임베딩 공간에 매핑하기 위해 두 개의 인코더를 함께 학습시킨 모델입니다. 텍스트 인코더는 BERT-like Transformer로, 입력 문장을 토큰화하여 문맥(Contextual) 정보를 통합하는 구조를 갖습니다. 이는 BERT, RoBERTa, GPT 계열 모델과 유사하게 Self-Attention 메커니즘을 통해 단어 간 관계를 학습하고,문장을 하나의 벡터로 압축합니다. 이렇게 생성된 텍스트 임베딩은 이미지 인코더(ViT)가 만든 시각 임베딩과 동일한 512차원 공간으로 정렬되어, 텍스트–이미지 간 의미적 유사도를 직접 계산할 수 있습니다.
+
+특히 ViT-B/32는 CLIP에서 사용된 Vision Transformer (ViT) 계열의 백본(backbone)으로, 입력 이미지를 32×32 픽셀 단위의 패치(patch) 로 나누어 각각을 토큰처럼 처리합니다. 이후 Transformer가 각 패치 간의 전역적 관계(global context)를 학습하여 _CNN보다 더 넓은 범위의 의미 정보를 포착_ 할 수 있습니다.
+
+- ViT = Vision Transformer: 이미지를 CNN 대신 Transformer로 처리
+- B = Base: 중간 크기의 모델 (약 86M 파라미터)
+- /32 = Patch Size 32×32: 패치 크기가 커서 속도가 빠르고 효율적 (단, 디테일 손실 일부 존재)
+
+입력 크기 224×224 기준으로 총 7×7=49개의 패치가 생성되며,각 패치가 Transformer의 입력 토큰이 됩니다. 모델은 12-layer 구조, hidden dim 768, 12 attention heads를 가지며, 400M개의 이미지–텍스트 쌍(CLIP dataset) 으로 사전학습(pretraining)되었습니다. 출력은 512차원의 정규화된(normalized) 벡터로, 텍스트 인코더의 출력과 동일한 공간에서 비교가 가능합니다.
+
+본 연구에서 ViT-B/32를 사용한 이유는 TVQA(Video Question Answering)와 같이 수천 장의 프레임을 처리해야 하는 과제에서는 모델 효율성이 매우 중요합니다. ViT-B/32는 파라미터 수가 적고, CLIP에서 사전학습된 버전이 안정적으로 제공되어 빠르고 일관된 프레임 임베딩 추출이 가능합니다. 더 작은 patch size를 사용하는 ViT-B/16이나 L 모델은 세밀한 정보를 더 잘 포착하지만, 연산량과 GPU 메모리 사용량이 크게 증가합니다. 따라서 본 연구에서는 “빠른 frame-level feature retrieval”이 주요 목적이었기 때문에, 정확도 대비 효율성이 우수한 ViT-B/32를 선택했습니다.
+
+#### 코드 구조
+
+공식 문서 보면 HyperCLOVAX-SEED Vision-Instruct 모델은 텍스트 + 이미지 + 비디오 입력을 지원하지만, 전체 비디오를 그대로 넣는 건 토큰 길이, 프레임 수 제한 등 현실적 제약이 크기 때문에, 보통 clip 모델을 사용해 retrieval을 한 후 top-K이미지와 subtitles을 가지고 reasoning하도록 구현하였다.
+
+HyperCLOVAX-SEED Vision-Instruct 모델이 비디오 전체 프레임을 다 처리하면 모델 입력이 너무 크고 계산 부담이커지기 때문에, CLIP으로 먼저 “어느 프레임이 질문과 관련 있을까”를 뽑아서 candidate set을 축소하려는 목적이다. 또한, 모델이 근거 기반 접근이 용이하도록 Top-K 프레임을 “근거로 가능한 프레임 후보들”로 보고, 그 안에서 최종 답을 뽑으면 모델이 설명 가능한 답을 만들 가능성이 높아진다. 또한 Vision-Instruct 계열 모델이 비디오 전체를 이해하는 게 가능하다 하더라도, 많은 프레임을 입력으로 받으면 메모리/토큰 길이 제한, 잡음(frames irrelevant) 문제 등이 커지기 때문에 retrieval 단계로 노이즈 줄이려고 하였다.
+
+위에서 만든 qa와 subtitles이 같이 있는 데이터를 사용하여 예시 qa, subtitles를 뽑아내었고, 로직을 보여주기 위해 코드의 일부분을 발췌하였다.
+
+```{code-block} python
+
+# ---------------- Step 0. Load models ----------------
+print("Loading SEED VLM & CLIP…")
+model, processor, tokenizer = load_seed_models(MODEL_NAME, DEVICE, HF_TOKEN)
+clip_model, clip_preprocess = clip.load("ViT-B/32", device=DEVICE)
+
+# ---------------- Step 1. Load a handful of frames ----------------
+frame_paths = sorted(glob.glob(os.path.join(FRAMES_DIR, "*.jpg")))
+if len(frame_paths) == 0:
+    raise FileNotFoundError(f"No frames found under {FRAMES_DIR}")
+
+pick_n = min(16, len(frame_paths))
+picked_paths = frame_paths[:pick_n]
+
+# CLIP에 넣을 이미지 텐서
+clip_imgs = [clip_preprocess(Image.open(p).convert("RGB")).unsqueeze(0).to(DEVICE) for p in picked_paths]
+clip_tensor = torch.cat(clip_imgs, dim=0)  # [N, 3, 224, 224]
+
+# ---------------- Step 2. CLIP text–frame similarity (retrieve Top-K) ----------------
+with torch.no_grad():
+    txt = clip.tokenize([QUESTION]).to(DEVICE)
+    txt_feat = clip_model.encode_text(txt)
+    txt_feat = txt_feat / txt_feat.norm(dim=-1, keepdim=True)
+
+    img_feat = clip_model.encode_image(clip_tensor)
+    img_feat = img_feat / img_feat.norm(dim=-1, keepdim=True)
+
+    sims = (img_feat @ txt_feat.T).squeeze(-1).float().cpu().numpy()
+
+top_idx = np.argsort(-sims)[:TOP_K]
+evidence_paths = [picked_paths[i] for i in top_idx]
+print("Top-{} frames (evidence):".format(TOP_K), [os.path.basename(p) for p in evidence_paths])
+
+# ---------------- Step 3. Build VLM chat (official template style) ----------------
+# HyperCLOVAX의 VLM 예제처럼 "content" 배열에 {"type":"image","image":<로컬경로>}를 넣는다.
+# (processor.apply_chat_template가 이 경로를 읽어 멀티모달 입력을 구성)
+def build_vlm_chat(question: str, subtitle: str, image_paths: list[str]):
+    content_blocks = []
+    # 이미지 슬롯들
+    for p in image_paths:
+        content_blocks.append({
+            "type": "image",
+            "image": p,  # 로컬 파일 경로
+            # 필요하다면 filename 필드도 추가 가능: "filename": os.path.basename(p)
+        })
+    # 텍스트 블록
+    user_text = (
+        "You are an explainable Video VQA assistant.\n"
+        "Answer ONLY using the provided images and the subtitle.\n"
+        "If evidence is insufficient, reply exactly '정보 불충분'.\n\n"
+        f"Question: {question}\n"
+        f"Subtitle: {subtitle if subtitle else 'N/A'}\n\n"
+        "Output format:\n"
+        "Answer: <concise natural language sentence, not just a number>\n"
+        "EvidenceFrameIdx: <comma-separated indices among the shown images>\n"
+    )
+    content_blocks.append({"type": "text", "text": user_text})
+
+    vlm_chat = [
+        {"role": "system", "content": [{"type": "text", "text": "Helpful, concise, and grounded assistant."}]},
+        {"role": "user",   "content": content_blocks},
+    ]
+    return vlm_chat
+
+vlm_chat = build_vlm_chat(QUESTION, SUBTITLE, evidence_paths)
+
+# apply_chat_template가 멀티모달 입력을 한 번에 만들어 준다.
+model_inputs = processor.apply_chat_template(
+    vlm_chat,
+    tokenize=True,
+    return_dict=True,
+    return_tensors="pt",
+    add_generation_prompt=True,
+)
+model_inputs = model_inputs.to(device=DEVICE)
+
+# ---------------- Step 4. Generate ----------------
+with torch.no_grad():
+    output_ids = model.generate(
+        **model_inputs,
+        max_new_tokens=64,
+        do_sample=True,
+        top_p=0.7,
+        temperature=0.5,
+        repetition_penalty=1.0,
+    )
+
+decoded = processor.batch_decode(output_ids)[0]
+
+print("\n" + "="*80)
+print("VLM RESULT")
+print(decoded)
+print(f"Original Answer from dataset: {ANSWER}")
+print("="*80)
+
+print("\nEvidence frames (paths):")
+for i, p in enumerate(evidence_paths):
+    print(f"[{i}] {p}")
+
+```

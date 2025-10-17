@@ -223,7 +223,7 @@ Answer: <A–E or 정보 불충분>
   </table>
 </div>
 <div class="caption">
-    Tab 1. Prompt strategy에 대한 결과. 
+    Tab 1. Prompt strategy에 대한 결과.
 </div>
 
 위의 테이블을 통해, 규칙형은 안정적이지만 evidence 인용률은 낮음을 확인할 수 있었다.(형식 제약으로 답만 내는 경향) 반면 자유형 프롬프트는 다양한 reasoning을 촉진하여 accuracy는 비슷하거나 낮아지고 환각은 살짝 높아졌다. 마지막으로 체인형(2-step): evidence → 답변 흐름으로 지시했기 때문에 groundedness↑, Accuracy도 소폭↑ 기대, 다만 “정보 불충분” 출력이 늘어날 수 있다. 체인형 프롬프트는 규칙형 대비 Accuracy +2.8pt, 근거 인용률 +6.9pt 개선을 보였고, 환각률을 절반 이하로 줄였다. 다만 정보 불충분 응답이 늘어 precision-recall trade-off가 발생하였다.
@@ -302,7 +302,7 @@ Answer: <A–E or 정보 불충분>
   </table>
 </div>
 <div class="caption">
-    Tab 2. Evidence Sampling 실험 결과 테이블  
+    Tab 2. Evidence Sampling 실험 결과 테이블
 </div>
 
 위의 테이블을 통해 다음과 같은 사실을 알 수 있었다. Uniform 방식은 가장 단순, 효율이 가장 좋았으며 Accuracy/근거성은 중간정도였다. 다음으로 Shot Boundary 방법은 장면 전환 감지 덕분에 의미 있는 프레임 선택하였기 때문에 근거성이 높았고 효율도 괜찮았다. Keyframe 방식은 시각적 다양성 확보할 수 있으므로 Frame-Hit 높았다. 마지막으로 TC-CLIP Retrieval은 질문 관련 프레임만 집중하여 Accuracy가 가장 높았으나, 다만 Latency (인덱싱+검색 비용)가 높았다.
@@ -376,7 +376,7 @@ Answer: <A–E or 정보 불충분>
   </table>
 </div>
 <div class="caption">
-    Tab 1. 자막이 필요한 질문 코호트에서 Frames + Sub가 Accuracy +12.7 pt, Hallucination -4.5 pt로 개선되었으며, 시각 의존형 코호트에서는 자막이 유의미한 향상을 만들지 않았고, 프롬프트 길이 증가로 지연이 소폭 증가하였다. 
+    Tab 1. 자막이 필요한 질문 코호트에서 Frames + Sub가 Accuracy +12.7 pt, Hallucination -4.5 pt로 개선되었으며, 시각 의존형 코호트에서는 자막이 유의미한 향상을 만들지 않았고, 프롬프트 길이 증가로 지연이 소폭 증가하였다.
 </div>
 
 #### Exp 4. Retrieval-Augmented
