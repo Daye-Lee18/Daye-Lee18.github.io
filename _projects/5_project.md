@@ -252,7 +252,7 @@ HyperCLOVAX-SEED Vision-Instruct 모델이 비디오 전체 프레임을 다 처
 
 위에서 만든 qa와 subtitles이 같이 있는 데이터를 사용하여 예시 qa, subtitles를 뽑아내었고, 로직을 보여주기 위해 코드의 일부분을 발췌하였다.
 
-```{code-block} python
+```python
 
 # ---------------- Step 0. Load models ----------------
 print("Loading SEED VLM & CLIP…")
