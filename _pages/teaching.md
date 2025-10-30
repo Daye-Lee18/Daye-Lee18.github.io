@@ -8,7 +8,7 @@ nav_order: 6
 teaching:
   - university: Seoul National University
     courses:
-      - title: Python for Algorithmic Problem Solving
+      - title: Linear Algebra with Python
         role: Instructor
         term: 2025-12-01 ~ 2026-02-06 (Tue/Thu 14:00–17:00)
         badge: 선형대수학 이론과 응용 
