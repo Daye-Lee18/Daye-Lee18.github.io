@@ -10,6 +10,20 @@ teaching:
     courses:
       - title: Python for Algorithmic Problem Solving
         role: Instructor
+        term: 2025-12-01 ~ 2026-02-06 (Tue/Thu 14:00–17:00)
+        badge: 선형대수학 이론과 응용 
+        points:
+          - label: 강의 목표
+            text: 선형대수학의 이론을 공부하고 파이썬으로 프로그래밍 실습 진행 
+          - label: 실습 중심
+            text: 주차별 개념 설명 및 연습 문제 풀이 후 파이썬으로 프로그래밍 실습 진행
+          - label: 언어
+            text: 영어로 진행 및 쉬운 한국어 병행
+          - label: 링크
+            text: '<a href="https://daye-lee18.github.io/linearAlgebra/intro.html" target="_blank" rel="noopener">Course page</a>'
+
+      - title: Python for Algorithmic Problem Solving
+        role: Instructor
         term: 2025-09-01 ~ 2025-11-14 (Tue/Thu 14:00–17:00)
         badge: 코테/기초알고리즘
         points:
