@@ -11,10 +11,10 @@ teaching:
       - title: Linear Algebra with Python
         role: Instructor
         term: 2025-12-01 ~ 2026-02-06 (Tue/Thu 14:00–17:00)
-        badge: 선형대수학 이론과 응용 
+        badge: 선형대수학 이론과 응용
         points:
           - label: 강의 목표
-            text: 선형대수학의 이론을 공부하고 파이썬으로 프로그래밍 실습 진행 
+            text: 선형대수학의 이론을 공부하고 파이썬으로 프로그래밍 실습 진행
           - label: 실습 중심
             text: 주차별 개념 설명 및 연습 문제 풀이 후 파이썬으로 프로그래밍 실습 진행
           - label: 언어
