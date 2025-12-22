@@ -133,6 +133,11 @@ ninja.data = [{
           description: "Computer Vision Study",
           section: "Projects",handler: () => {
               window.location.href = "/projects/study/";
+            },},{id: "projects-linear-algebra",
+          title: 'Linear Algebra',
+          description: "Linear Algebra Hands-on Exercises in Python",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/study2/";
             },},{id: "projects-ted-talk",
           title: 'TED talk',
           description: "English to Korean translation volunteer",
