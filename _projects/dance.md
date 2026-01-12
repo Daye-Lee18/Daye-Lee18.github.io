@@ -10,7 +10,7 @@ videos:
     title: THIQUE - Jojo Gomez Choreo
     channel: GoAheaD
     year: 2025
-    url: https://youtube.com/watch?v=qi2RQLVIZ00?si
+    url: https://youtube.com/watch?v=qi2RQLVIZ00
   - id: X3l6_GUB8q0
     title: SPORTS CAR + It’s ok I’m ok - Jojo Gomez Choreo
     channel: GoAheadD
