@@ -51,6 +51,7 @@ You can reach me at **dayelee313@gmail.com**, on [LinkedIn](https://www.linkedin
 [linkdIn]: https://www.linkedin.com/in/daye-lee-088686251/
 [carte]: https://carte.utoronto.ca/
 [iitp]: https://www.iitp.kr/main.it
+[hi]: hi.com
 
 <!-- announcements:
   enabled: true # includes a list of news items
