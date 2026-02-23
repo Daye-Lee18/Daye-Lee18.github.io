@@ -47,7 +47,7 @@ You can reach me at **dayelee313@gmail.com**, on [LinkedIn](https://www.linkedin
 [cyberworks]: https://www.cyberworksrobotics.com/
 [uoft]: https://www.utoronto.ca/
 [Goahead]: https://www.youtube.com/@goahead4925
-[cv]: /assets/pdf/Resume.pdf
+[cv]: /assets/pdf/20260223_resume.pdf
 [linkdIn]: https://www.linkedin.com/in/daye-lee-088686251/
 [carte]: https://carte.utoronto.ca/
 [iitp]: https://www.iitp.kr/main.it
