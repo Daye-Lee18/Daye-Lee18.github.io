@@ -1,3 +1,24 @@
+# How-to upload it after modifying the contents
+
+1. 로컬에서 빠르게 확인하기
+
+```bash
+bundle exec jekyll serve
+# 브라우저에서 확인
+http://localhost:4000
+```
+
+2. 깃헙에 완전히 업로드
+
+```bash
+npx prettier . --write
+git add .
+git commit -m [MESSAGE]
+git push origin main
+```
+
+3. favicon은 \_config.yml 의 icon 을 변경하면 된다.
+
 # al-folio
 
 <div align="center">
@@ -231,6 +252,7 @@ Run the test yourself: [Google Lighthouse PageSpeed Insights](https://pagespeed.
 
 <!--ts-->
 
+- [How-to upload it after modifying the contents](#how-to-upload-it-after-modifying-the-contents)
 - [al-folio](#al-folio)
   - [User community](#user-community)
   - [Lighthouse PageSpeed Insights](#lighthouse-pagespeed-insights)
@@ -248,7 +270,7 @@ Run the test yourself: [Google Lighthouse PageSpeed Insights](https://pagespeed.
     - [Collections](#collections)
     - [Layouts](#layouts)
       - [The iconic style of Distill](#the-iconic-style-of-distill)
-      - [Full support for math &amp; code](#full-support-for-math--code)
+      - [Full support for math \& code](#full-support-for-math--code)
       - [Photos, Audio, Video and more](#photos-audio-video-and-more)
     - [Other features](#other-features)
       - [GitHub's repositories and user stats](#githubs-repositories-and-user-stats)
@@ -263,7 +285,6 @@ Run the test yourself: [Google Lighthouse PageSpeed Insights](https://pagespeed.
     - [All Contributors](#all-contributors)
   - [Star History](#star-history)
   - [License](#license)
-  <!--te-->
 
 ## Getting started
 

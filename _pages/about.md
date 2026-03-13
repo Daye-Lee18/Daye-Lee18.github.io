@@ -28,22 +28,24 @@ social: true # includes social icons at the bottom of the page
 
 저는 춤추는 것 좋아하여 대학교 춤 동아리에서 계속 활동하였으며 동아리 공연 영상을 [YouTube][Goahead]에 꾸준히 업로드하였고 연구 외에 시간에는 크로스핏과 영어 공부를 하는 것을 좋아합니다. -->
 
-I’m Daye Lee, a graduating M.S. researcher at the [Graduate School of Data Science](https://gsds.snu.ac.kr/), SNU in the Learning and Adaptation Algorithm Lab ([LAAL](https://www.snu-laal.com/), advised by Prof. Taeseop Kim). My research lies at the intersection of **multimodality, video understanding, robotics, and 3D computer vision**—developing systems that understand and generate human motion in ways that matter for both avatars and embodied agents.
+Multimodal Learning • 3D Vision • 3D Motion Generation • Autonomous Driving Perception.
 
-In my thesis project **HuMoGen-X**, I built a diffusion-based motion generation framework using the SMPL body model, conditioned jointly on music, dance genre, and user keyframes. This work advances controllable multimodal motion synthesis, making human–computer interaction more expressive and aligned with user intent.
+I’m Daye Lee, a graduating M.S. researcher at the [Graduate School of Data Science](https://gsds.snu.ac.kr/), SNU in the Learning and Adaptation Algorithm Lab ([LAAL](https://www.snu-laal.com/), advised by Prof. Taeseop Kim). My research lies at the intersection of **multimodal learning, 3D motion generation, and autonomous driving perception**.
 
-Through an [IITP](https://www.iitp.kr/main.it)-sponsored research fellowship, I spent six months at the University of Toronto’s [CARTE](https://carte.utoronto.ca/), where I combined coursework in 3D vision with a production-oriented collaboration at [Cyberworks Robotics](https://www.cyberworksrobotics.com/). There, I worked on real-time RGB-D depth estimation with CPU-level optimizations, directly targeting deployment in robotic systems. I also published [Simulating Mobile Robot Vision](https://ieeexplore.ieee.org/document/10920652) at ICAIIC, further grounding my work in robot perception and video-based understanding.
+In my thesis project **[HuMoGen-X][thesis_paper]**, I built a diffusion-based motion generation framework using the SMPL pose parameters, conditioned jointly on music, dance genre, and user keyframes. This work advances controllable multimodal motion synthesis, enabling the model to better align with user intent.
 
-Beyond my thesis, I’ve explored multimodal AI across projects: few-shot personalization for motion generation, an LLM-based legal QA system, and emotion-guided video retrieval. These experiences reflect a consistent drive to align **vision, language, and motion** toward practical and scalable AI systems.
+Through an [IITP](https://www.iitp.kr/web/index.do)-sponsored research fellowship, I spent six months at the University of Toronto’s [CARTE](https://carte.utoronto.ca/), where I combined coursework in 3D vision with a production-oriented collaboration at [Cyberworks Robotics](https://www.cyberworksrobotics.com/). There, I worked on real-time RGB-D depth estimation with CPU-level optimizations, directly targeting deployment in robotic systems. I also published [Simulating Mobile Robot Vision](https://ieeexplore.ieee.org/document/10920652) at ICAIIC, further grounding my work in autonomous driving perception.
 
-I’m actively seeking opportunities in **multimodal AI for LLMs, XR (AR/VR), robotics, and 3D vision**—with the goal of shipping models that are not just innovative but also impactful in the real world. I’ve taught computing at SNU (Outstanding Tutor Award) and delivered Python training for Malaysian scholarship students. Outside research, I continue to dance (videos on [YouTube](https://www.youtube.com/@goahead4925)), which keeps me connected to the real aesthetics of human movement.
+Beyond my thesis, I’ve explored multimodal AI across projects: few-shot personalization for motion generation, an LLM-based legal QA system, and emotion-guided video retrieval (see the “Projects” tab for details). These experiences reflect a consistent drive to align **vision, language, and motion** toward practical and scalable AI systems.
+
+I’m actively seeking opportunities in **multimodal generative AI, Autonomous driving, and LLM**. I’ve taught computing at SNU (Outstanding Tutor Award) and delivered Python training for Malaysian scholarship students. Outside research, I continue to dance (videos on [YouTube](https://www.youtube.com/@goahead4925)), which keeps me connected to the real aesthetics of human movement.
 
 You can reach me at **dayelee313@gmail.com**, on [LinkedIn](https://www.linkedin.com/in/daye-lee-088686251/), and view my [CV](/assets/pdf/20260223_resume.pdf).
 
 [gsds]: https://gsds.snu.ac.kr/
 [laal]: https://www.snu-laal.com/
 [icaiic_paper]: https://ieeexplore.ieee.org/document/10920652
-[thesis_paper]: ?
+[thesis_paper]: https://daye-lee18.github.io/HuMoGen-X.github.io/
 [cyberworks]: https://www.cyberworksrobotics.com/
 [uoft]: https://www.utoronto.ca/
 [Goahead]: https://www.youtube.com/@goahead4925
