@@ -123,6 +123,11 @@ ninja.data = [{
           description: "Explored explainable Video Question Answering by combining CLIP-based frame retrieval with a multimodal LLM (HyperCLOVA X SEED) to produce grounded answers with subtitle-based evidence.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/5_project/";
+            },},{id: "projects-educational-agentic-ai",
+          title: 'Educational Agentic AI',
+          description: "vLLM 서빙 환경 기반 LangGraph를 이용한 educational Agentic AI 구현 및 개발",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/6_project/";
             },},{id: "projects-dance",
           title: 'Dance',
           description: "Amateur Dancer at SNU",
