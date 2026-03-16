@@ -3,7 +3,7 @@ layout: page
 title: Explainable Video-QA
 description: Explored explainable Video Question Answering by combining CLIP-based frame retrieval with a multimodal LLM (HyperCLOVA X SEED) to produce grounded answers with subtitle-based evidence.
 img: assets/img/ExplainableVideoQA/thumnail.png
-importance: 1
+importance: 5
 category: work
 related_publications: false
 tags:

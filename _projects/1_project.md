@@ -3,7 +3,7 @@ layout: page
 title: Emotion-Specialized Text-to-Video Retrieval
 description: Built an emotion-aware text-to-video retrieval system on MSR-VTT by extending CLIP-ViP with lexicon-based emotion extraction and text-side emotion embeddings, and analyzed its retrieval performance with Recall@K and t-SNE.
 img: assets/img/video_retrieval_thumnail.png
-importance: 1
+importance: 2
 category: work
 tags:
   - Multimodal Retrieval

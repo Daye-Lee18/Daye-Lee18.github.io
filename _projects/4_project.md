@@ -3,7 +3,7 @@ layout: page
 title: HealthGenie, Personalized Health Advisor
 description: Built a personalized health advisory web service for diet and weight management using YOLOv5-based food detection, calorie tracking, and SVD-based food recommendation on user health data.
 img: assets/img/HealthGenie/HealthGenie_thumnail.png
-importance: 4
+importance: 3
 category: work
 related_publications: false
 tags:
@@ -12,6 +12,8 @@ tags:
   - YOLOv5
   - Django
   - Personalized Health
+  - PostgreSQL
+  - Streamlit
 toc:
   sidebar: left
 ---
