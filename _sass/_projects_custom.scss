@@ -1,0 +1,109 @@
+.projects-page {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.projects-intro {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.8rem;
+  color: #444;
+}
+
+.project-category {
+  font-size: 1.6rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.4rem;
+}
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.project-featured-card {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  padding: 1.2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.project-featured-image {
+  flex: 0 0 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.project-featured-image img {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.project-featured-content {
+  flex: 1;
+}
+
+/* ⭐ 제목 */
+.project-featured-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+/* ⭐ 설명 */
+.project-featured-description {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #444;
+  margin-bottom: 0.6rem;
+}
+
+.project-featured-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-tag {
+  display: inline-block;
+  background: #111;
+  color: #fff;
+  border-radius: 6px;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.7rem;
+  line-height: 1;
+}
+
+.project-featured-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.project-link-badge {
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.25rem 0.55rem;
+  color: #222;
+  text-decoration: none;
+  font-size: 0.75rem;
+  background: #fafafa;
+}
+
+.project-link-badge:hover {
+  background: #f0f0f0;
+}

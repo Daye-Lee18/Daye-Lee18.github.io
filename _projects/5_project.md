@@ -1,11 +1,16 @@
 ---
 layout: page
 title: Explainable Video-QA
-description: Explainable Video-QA / VideoRAG based on HyperCLOVA X / SEED (Vision-Instruct)
+description: Explored explainable Video Question Answering by combining CLIP-based frame retrieval with a multimodal LLM (HyperCLOVA X SEED) to produce grounded answers with subtitle-based evidence.
 img: assets/img/ExplainableVideoQA/thumnail.png
 importance: 1
 category: work
 related_publications: false
+tags:
+  - VideoQA
+  - Multimodal LLM
+  - CLIP
+  - Explainable AI
 toc:
   sidebar: left
 ---

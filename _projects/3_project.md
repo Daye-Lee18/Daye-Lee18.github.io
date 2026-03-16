@@ -1,9 +1,14 @@
 ---
 layout: page
 title: Dialog Inpainting for Legal Dialogue Systems
-description: Conversational Question Answering Systems for SNU laws, 2023 Fall
+description: Developed a legal conversational QA system by generating dialogue datasets from SNU regulations using dialog inpainting and domain-aware preprocessing, then fine-tuning Llama-2 for legal dialogue generation.
 img: assets/img/Legal_thumnail.png
-tags: formatting toc
+tags:
+  - Legal NLP
+  - Dialog Inpainting
+  - Conversational QA
+  - LLM Fine-tuning
+  - Dataset Generation
 importance: 3
 category: work
 toc:

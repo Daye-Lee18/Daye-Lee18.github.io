@@ -1,11 +1,17 @@
 ---
 layout: page
 title: HealthGenie, Personalized Health Advisor
-description: A personalized weight management service based on a data-drived approach
+description: Built a personalized health advisory web service for diet and weight management using YOLOv5-based food detection, calorie tracking, and SVD-based food recommendation on user health data.
 img: assets/img/HealthGenie/HealthGenie_thumnail.png
 importance: 4
 category: work
 related_publications: false
+tags:
+  - Computer Vision
+  - Recommender System
+  - YOLOv5
+  - Django
+  - Personalized Health
 toc:
   sidebar: left
 ---

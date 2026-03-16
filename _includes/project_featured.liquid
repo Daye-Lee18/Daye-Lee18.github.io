@@ -1,0 +1,39 @@
+<a
+  class="project-featured-link-wrapper"
+  href="{% if project.redirect %}{{ project.redirect }}{% else %}{{ project.url | relative_url }}{% endif %}"
+>
+  <div class="project-featured-card">
+    <div class="project-featured-image">
+      {% if project.img %}
+        {%
+          include figure.liquid
+          loading="eager"
+          path=project.img
+          sizes="(min-width: 900px) 420px, 100vw"
+          alt=project.title
+          class="project-featured-img"
+        %}
+      {% else %}
+        <div class="project-image-placeholder">No Image</div>
+      {% endif %}
+    </div>
+
+    <div class="project-featured-content">
+      <h3 class="project-featured-title">{{ project.title }}</h3>
+
+      {% if project.description %}
+        <p class="project-featured-description">
+          {{ project.description }}
+        </p>
+      {% endif %}
+
+      {% if project.tags %}
+        <div class="project-featured-tags">
+          {% for tag in project.tags %}
+            <span class="project-tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</a>

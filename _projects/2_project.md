@@ -1,10 +1,15 @@
 ---
 layout: page
 title: Personalization via Few-shot Learning
-description: Personalization of 3D-Motion Diffusion Model
+description: Personalized a music-conditioned 3D motion diffusion model via few-shot learning by selectively fine-tuning cross-attention, audio encoder, and FiLM layers of the EDGE framework to adapt to new dance styles.
 img: assets/img/personalization_thumnail.png
 importance: 2
 category: work
+tags:
+  - Diffusion
+  - Few-Shot Learning
+  - 3D Motion Generation
+  - Motion Style Transfer
 toc:
   sidebar: left
 ---
