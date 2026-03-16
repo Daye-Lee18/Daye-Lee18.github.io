@@ -95,32 +95,32 @@ ninja.data = [{
           description: "",
           section: "News",},{id: "projects-humogen-x",
           title: 'HuMoGen-X',
-          description: "User Guided Editing, Genre-Aware 3D Motion Generation via Music-Conditioned Diffusion",
+          description: "Proposed HuMoGen-X, a controllable diffusion-based framework for 3D dance motion generation conditioned on music, genre, and user sketch guidance using SMPL motion representations.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/0_project/";
             },},{id: "projects-emotion-specialized-text-to-video-retrieval",
           title: 'Emotion-Specialized Text-to-Video Retrieval',
-          description: "A tool for users to easily access emotional content in videos",
+          description: "Built an emotion-aware text-to-video retrieval system on MSR-VTT by extending CLIP-ViP with lexicon-based emotion extraction and text-side emotion embeddings, and analyzed its retrieval performance with Recall@K and t-SNE.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/1_project/";
             },},{id: "projects-personalization-via-few-shot-learning",
           title: 'Personalization via Few-shot Learning',
-          description: "Personalization of 3D-Motion Diffusion Model",
+          description: "Personalized a music-conditioned 3D motion diffusion model via few-shot learning by selectively fine-tuning cross-attention, audio encoder, and FiLM layers of the EDGE framework to adapt to new dance styles.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/2_project/";
             },},{id: "projects-dialog-inpainting-for-legal-dialogue-systems",
           title: 'Dialog Inpainting for Legal Dialogue Systems',
-          description: "Conversational Question Answering Systems for SNU laws, 2023 Fall",
+          description: "Developed a legal conversational QA system by generating dialogue datasets from SNU regulations using dialog inpainting and domain-aware preprocessing, then fine-tuning Llama-2 for legal dialogue generation.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/3_project/";
             },},{id: "projects-healthgenie-personalized-health-advisor",
           title: 'HealthGenie, Personalized Health Advisor',
-          description: "A personalized weight management service based on a data-drived approach",
+          description: "Built a personalized health advisory web service for diet and weight management using YOLOv5-based food detection, calorie tracking, and SVD-based food recommendation on user health data.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/4_project/";
             },},{id: "projects-explainable-video-qa",
           title: 'Explainable Video-QA',
-          description: "Explainable Video-QA / VideoRAG based on HyperCLOVA X / SEED (Vision-Instruct)",
+          description: "Explored explainable Video Question Answering by combining CLIP-based frame retrieval with a multimodal LLM (HyperCLOVA X SEED) to produce grounded answers with subtitle-based evidence.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/5_project/";
             },},{id: "projects-dance",
