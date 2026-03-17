@@ -133,16 +133,21 @@ ninja.data = [{
           description: "Amateur Dancer at SNU",
           section: "Projects",handler: () => {
               window.location.href = "/projects/dance/";
-            },},{id: "projects-computer-vision",
-          title: 'Computer Vision',
-          description: "Computer Vision Study",
+            },},{id: "projects-autonomous-driving",
+          title: 'Autonomous Driving',
+          description: "Using ROS2 (Jazzy) and AI for Autonomous Driving",
           section: "Projects",handler: () => {
-              window.location.href = "/projects/study/";
+              window.location.href = "/projects/study1_Autunomous/";
             },},{id: "projects-linear-algebra",
           title: 'Linear Algebra',
           description: "Linear Algebra Hands-on Exercises in Python",
           section: "Projects",handler: () => {
-              window.location.href = "/projects/study2/";
+              window.location.href = "/projects/study2_linearAlgebra/";
+            },},{id: "projects-computer-vision",
+          title: 'Computer Vision',
+          description: "Computer Vision Study",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/study3_CV/";
             },},{id: "projects-ted-talk",
           title: 'TED talk',
           description: "English to Korean translation volunteer",
