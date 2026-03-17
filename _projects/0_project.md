@@ -6,10 +6,11 @@ img: assets/img/thumnail/HuMoGen-X_thumnail.png
 importance: 1
 tags:
   - Transformer based Diffusion
+  - Multimodality
   - 3D Human Motion Synthesis
   - Motion In-betweening
   - SMPL
-category: paper
+category: master's degree thesis
 redirect: https://daye-lee18.github.io/HuMoGen-X.github.io/
 ---
 

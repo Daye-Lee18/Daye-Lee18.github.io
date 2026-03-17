@@ -7,8 +7,9 @@ tags:
   - Legal NLP
   - Dialog Inpainting
   - Conversational QA
-  - LLM Fine-tuning
+  - Llama2 Fine-tuning
   - Dataset Generation
+  - OpenAI API
 importance: 2
 category: work
 toc:
