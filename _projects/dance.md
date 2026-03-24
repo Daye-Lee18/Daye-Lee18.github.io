@@ -6,7 +6,7 @@ img: assets/img/thumnail/goahead.png
 importance: 1
 category: fun
 videos:
-  - id: qi2RQLVIZ00?si
+  - id: qi2RQLVIZ00
     title: THIQUE - Jojo Gomez Choreo
     channel: GoAheaD
     year: 2025
