@@ -3,7 +3,7 @@ layout: page
 permalink: /teaching/
 title: Teaching
 description: classes, workshops, and teaching material
-nav: false
+nav: true
 nav_order: 6
 teaching:
   - university: Seoul National University
@@ -21,6 +21,16 @@ teaching:
       #           text: 영어로 진행 및 쉬운 한국어 병행
       #         - label: 링크
       #           text: '<a href="https://daye-lee18.github.io/linearAlgebra/intro.html" target="_blank" rel="noopener">Course page</a>'
+
+      - title: Samsung SW COTE Prep
+        role: Self-Study Material
+        term: 2026
+        badge: 삼성 SW역량테스트
+        points:
+          - label: 내용
+            text: 삼성 SW역량테스트 핵심 패턴 (시뮬레이션, BFS/DFS, 완전탐색) 및 실전 전략 정리
+          - label: 링크
+            text: '<a href="https://daye-lee18.github.io/samsung_cote_prep/intro.html" target="_blank" rel="noopener">Study Guide</a>'
 
       - title: Python for Algorithmic Problem Solving
         role: Instructor
