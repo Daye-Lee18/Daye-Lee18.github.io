@@ -37,14 +37,21 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "nav-teaching",
-          title: "Teaching",
-          description: "classes, workshops, and teaching material",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/teaching/";
-          },
-        },{id: "post-qwen3-vl",
+        },{id: "dropdown-teaching",
+              title: "Teaching",
+              description: "",
+              section: "Dropdown",
+              handler: () => {
+                window.location.href = "/teaching/";
+              },
+            },{id: "dropdown-samsung-cote-prep",
+              title: "Samsung COTE Prep",
+              description: "",
+              section: "Dropdown",
+              handler: () => {
+                window.location.href = "/samsung-cote/";
+              },
+            },{id: "post-qwen3-vl",
         
           title: "Qwen3-VL",
         
