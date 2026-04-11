@@ -3,7 +3,7 @@ layout: page
 permalink: /teaching/
 title: Teaching
 description: classes, workshops, and teaching material
-nav: true
+nav: false
 nav_order: 6
 teaching:
   - university: Seoul National University
