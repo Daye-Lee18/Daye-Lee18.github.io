@@ -44,21 +44,7 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/teaching/";
           },
-        },{id: "dropdown-teaching",
-              title: "Teaching",
-              description: "",
-              section: "Dropdown",
-              handler: () => {
-                window.location.href = "/teaching/";
-              },
-            },{id: "dropdown-samsung-cote-prep",
-              title: "Samsung COTE Prep",
-              description: "",
-              section: "Dropdown",
-              handler: () => {
-                window.location.href = "/samsung-cote/";
-              },
-            },{id: "post-qwen3-vl",
+        },{id: "post-qwen3-vl",
         
           title: "Qwen3-VL",
         
