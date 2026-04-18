@@ -22,6 +22,18 @@ teaching:
       #         - label: 링크
       #           text: '<a href="https://daye-lee18.github.io/linearAlgebra/intro.html" target="_blank" rel="noopener">Course page</a>'
 
+      - title: A-Level Mathematics Tutoring
+        role: Private Tutor
+        term: 2025 ~ 2026
+        badge: A-Level Pure Maths
+        points:
+          - label: 내용
+            text: A-Level Pure Mathematics (P3/P4) — Transformation, Numerical Methods, Trigonometry, Differentiation, Integration, Differential Equations
+          - label: 언어
+            text: 영어 설명 + 한국어 주석 병행 (한국인 학생 대상)
+          - label: 링크
+            text: '<a href="https://daye-lee18.github.io/math_tutoring/" target="_blank" rel="noopener">Course page</a>'
+
       - title: Samsung SW COTE Prep
         role: Self-Study Material
         term: 2026
