@@ -4,6 +4,7 @@ title: Git 팀 사용 가이드
 date: 2026-04-21
 description: 브랜치 전략, PR 흐름, 버전 관리 — 시간순 전체 흐름
 tags: git team
+featured: true
 categories: guide
 toc:
   sidebar: left
