@@ -88,10 +88,46 @@ git remote add submit [학원 레포 URL]     # 학원 제출용 레포를 submi
 
 ### Step 2. Branch Protection 설정
 
-GitHub → Settings → Branches → Add ruleset
-- 대상: `main`
-- Require pull request before merging (Required approvals: 1)
-- Block force pushes
+GitHub 레포 → **Settings** → 왼쪽 사이드바 **Rules → Rulesets** → **New branch ruleset**
+
+#### ① Ruleset Name
+```
+main-protection
+```
+
+#### ② Enforcement status
+`Active` 유지
+
+#### ③ Bypass list
+**건드리지 않음** (비워두는 것 권장)
+
+> ⚠️ admin 권한은 세팅 완료 후 회수될 예정 — admin 권한이 없어지면 "Repository admin" bypass도 무의미해짐.
+> 팀장도 PR을 통해 merge하는 것이 기록 관리 측면에서 더 바람직함.
+
+#### ④ Target branches — 어느 브랜치에 규칙을 적용할지
+**Add target** 클릭 → **Include by pattern** 선택 → `main` 입력 후 Add
+
+#### ⑤ Branch rules — 체크할 항목
+
+| 항목 | 설정 | 이유 |
+|------|------|------|
+| Restrict creations | ☐ 체크 안 함 | 브랜치 자유롭게 생성 가능해야 함 |
+| Restrict updates | ☐ 체크 안 함 | |
+| **Restrict deletions** | ✅ 체크 | main 브랜치 실수로 삭제 방지 |
+| Require linear history | ☐ 체크 안 함 | |
+| Require merge queue | ☐ 체크 안 함 | |
+| Require deployments to succeed | ☐ 체크 안 함 | |
+| Require signed commits | ☐ 체크 안 함 | |
+| **Require a pull request before merging** | ✅ 체크 | main 직접 push 금지, PR 강제 |
+| → Required approvals | **1** 로 설정 | 팀장 1명 승인 필수 |
+| → Dismiss stale pull request approvals | ✅ 권장 | 코드 수정 시 재승인 요구 |
+| Require status checks to pass | ☐ 체크 안 함 | CI 없으면 생략 |
+| **Block force pushes** | ✅ 체크 | `git push --force`로 히스토리 덮어쓰기 방지 |
+| Require code scanning results | ☐ 체크 안 함 | |
+
+#### ⑥ 하단 **Create** 클릭
+
+> 설정 완료 후 팀원이 `git push origin main` 시도하면 자동으로 거부됨 — PR만 통과 가능
 
 ### Step 3. PR 템플릿 추가
 
