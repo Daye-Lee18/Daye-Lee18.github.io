@@ -44,7 +44,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/teaching/";
           },
-        },{id: "post-qwen3-vl",
+        },{id: "post-git-팀-사용-가이드",
+        
+          title: "Git 팀 사용 가이드",
+        
+        description: "브랜치 전략, PR 흐름, 버전 관리 — 시간순 전체 흐름",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/git-team-guide/";
+          
+        },
+      },{id: "post-qwen3-vl",
         
           title: "Qwen3-VL",
         

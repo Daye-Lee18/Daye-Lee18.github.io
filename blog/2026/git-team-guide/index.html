@@ -1,12 +1,348 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://daye-lee18.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://daye-lee18.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-21T03:41:44+00:00</updated><id>https://daye-lee18.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">Git 팀 사용 가이드</title><link href="https://daye-lee18.github.io/blog/2026/git-team-guide/" rel="alternate" type="text/html" title="Git 팀 사용 가이드" /><published>2026-04-21T00:00:00+00:00</published><updated>2026-04-21T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2026/git-team-guide</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2026/git-team-guide/"><![CDATA[<h2 id="전체-구조">전체 구조</h2>
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Git 팀 사용 가이드 | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="브랜치 전략, PR 흐름, 버전 관리 — 시간순 전체 흐름">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+  <!-- Sidebar Table of Contents -->
+  <link defer href="/assets/css/bootstrap-toc.min.css?6f5af0bb9aab25d79b2448143cbeaa88" rel="stylesheet">
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/blog/2026/git-team-guide/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      
+        
+          <div class="row">
+            <!-- sidebar, which will move to the top on a small screen -->
+            <div class="col-sm-3">
+              <nav id="toc-sidebar" class="sticky-top"></nav>
+            </div>
+            <!-- main content area -->
+            <div class="col-sm-9">
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Git 팀 사용 가이드</h1>
+    <p class="post-meta">
+      Created on April 21, 2026
+      
+      
+      
+    </p>
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+      
+          ·  
+        
+          
+            <a href="/blog/tag/git"> <i class="fa-solid fa-hashtag fa-sm"></i> git</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/team"> <i class="fa-solid fa-hashtag fa-sm"></i> team</a>
+          
+          
+        
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/category/guide"> <i class="fa-solid fa-tag fa-sm"></i> guide</a>
+          
+          
+        
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <h2 id="전체-구조">전체 구조</h2>
 
 <ul>
   <li>우리팀 레포 (origin): 일상 작업, feat 브랜치, PR, 리뷰</li>
   <li>학원 레포 (submit): 최종 제출할 때만 push</li>
 </ul>
 
-<hr />
+<hr>
 
 <h2 id="git-핵심-개념">Git 핵심 개념</h2>
 
@@ -50,13 +386,15 @@
       <td>브랜치마다 독립 ✅</td>
     </tr>
     <tr>
-      <td><code class="language-plaintext highlighter-rouge">git commit</code> 후 전환</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">git commit</code> 후 전환</td>
       <td>깨끗 ✅</td>
       <td>깨끗 ✅</td>
       <td>브랜치마다 독립 ✅</td>
     </tr>
     <tr>
-      <td><code class="language-plaintext highlighter-rouge">git stash</code> 후 전환</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">git stash</code> 후 전환</td>
       <td>깨끗 ✅</td>
       <td>깨끗 ✅</td>
       <td>변화 없음</td>
@@ -89,7 +427,7 @@ git stash list
 
 <p>각자 다른 브랜치에서 작업 → <code class="language-plaintext highlighter-rouge">git merge origin/main</code>으로 주기적으로 팀원 코드 반영 → PR로 합치기.</p>
 
-<hr />
+<hr>
 
 <h2 id="phase-1--프로젝트-시작-팀장-1회만">PHASE 1 — 프로젝트 시작 (팀장, 1회만)</h2>
 
@@ -103,7 +441,8 @@ git remote add submit <span class="o">[</span>학원 레포 URL]     <span class
 
 <p>GitHub → Settings → Branches → Add ruleset</p>
 <ul>
-  <li>대상: <code class="language-plaintext highlighter-rouge">main</code></li>
+  <li>대상: <code class="language-plaintext highlighter-rouge">main</code>
+</li>
   <li>Require pull request before merging (Required approvals: 1)</li>
   <li>Block force pushes</li>
 </ul>
@@ -112,7 +451,7 @@ git remote add submit <span class="o">[</span>학원 레포 URL]     <span class
 
 <p><code class="language-plaintext highlighter-rouge">.github/PULL_REQUEST_TEMPLATE.md</code> 파일 생성 후 main에 push</p>
 
-<hr />
+<hr>
 
 <h2 id="phase-2--매일-반복되는-작업-사이클-팀원">PHASE 2 — 매일 반복되는 작업 사이클 (팀원)</h2>
 
@@ -172,12 +511,16 @@ git checkout <span class="o">{</span>prefix<span class="o">}</span>/<span class=
     <tr>
       <td><code class="language-plaintext highlighter-rouge">feat/</code></td>
       <td>새 기능 개발</td>
-      <td><code class="language-plaintext highlighter-rouge">feat/login-page</code>, <code class="language-plaintext highlighter-rouge">feat/data-upload</code></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">feat/login-page</code>, <code class="language-plaintext highlighter-rouge">feat/data-upload</code>
+</td>
     </tr>
     <tr>
       <td><code class="language-plaintext highlighter-rouge">fix/</code></td>
       <td>버그 수정</td>
-      <td><code class="language-plaintext highlighter-rouge">fix/login-null-error</code>, <code class="language-plaintext highlighter-rouge">fix/map-render</code></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">fix/login-null-error</code>, <code class="language-plaintext highlighter-rouge">fix/map-render</code>
+</td>
     </tr>
     <tr>
       <td><code class="language-plaintext highlighter-rouge">hotfix/</code></td>
@@ -187,7 +530,9 @@ git checkout <span class="o">{</span>prefix<span class="o">}</span>/<span class=
     <tr>
       <td><code class="language-plaintext highlighter-rouge">chore/</code></td>
       <td>설정·문서·패키지 등 기타</td>
-      <td><code class="language-plaintext highlighter-rouge">chore/update-readme</code>, <code class="language-plaintext highlighter-rouge">chore/env-setup</code></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">chore/update-readme</code>, <code class="language-plaintext highlighter-rouge">chore/env-setup</code>
+</td>
     </tr>
     <tr>
       <td><code class="language-plaintext highlighter-rouge">refactor/</code></td>
@@ -265,15 +610,19 @@ git restore <span class="nt">--staged</span> <span class="nb">.</span>        <s
       <td><code class="language-plaintext highlighter-rouge">git reset --hard HEAD~1</code></td>
       <td>취소</td>
       <td>취소</td>
-      <td><strong>삭제</strong> ⚠️</td>
+      <td>
+<strong>삭제</strong> ⚠️</td>
     </tr>
   </tbody>
 </table>
 
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">--soft</code> : 커밋만 취소, 변경사항은 스테이징에 유지 (가장 안전)</li>
-  <li><code class="language-plaintext highlighter-rouge">--mixed</code> (기본값): 커밋 취소 + unstage, 파일은 유지</li>
-  <li><code class="language-plaintext highlighter-rouge">--hard</code> : 커밋 + 파일 내용까지 완전 삭제 (복구 불가)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">--soft</code> : 커밋만 취소, 변경사항은 스테이징에 유지 (가장 안전)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">--mixed</code> (기본값): 커밋 취소 + unstage, 파일은 유지</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">--hard</code> : 커밋 + 파일 내용까지 완전 삭제 (복구 불가)</li>
 </ul>
 
 <blockquote>
@@ -293,11 +642,12 @@ git restore <span class="nt">--staged</span> <span class="nb">.</span>        <s
 
 <ul>
   <li>GitHub → Pull Requests → New Pull Request</li>
-  <li>base: <code class="language-plaintext highlighter-rouge">main</code> ← compare: <code class="language-plaintext highlighter-rouge">feat/기능명</code></li>
+  <li>base: <code class="language-plaintext highlighter-rouge">main</code> ← compare: <code class="language-plaintext highlighter-rouge">feat/기능명</code>
+</li>
   <li>팀장에게 리뷰 요청 (Reviewers 지정)</li>
 </ul>
 
-<hr />
+<hr>
 
 <h2 id="phase-3--리뷰--병합-팀장">PHASE 3 — 리뷰 &amp; 병합 (팀장)</h2>
 
@@ -323,7 +673,7 @@ git restore <span class="nt">--staged</span> <span class="nb">.</span>        <s
   <li>merge 후 GitHub에서 “Delete branch” 클릭</li>
 </ul>
 
-<hr />
+<hr>
 
 <h2 id="phase-4--버전-태깅-팀장-마일스톤마다">PHASE 4 — 버전 태깅 (팀장, 마일스톤마다)</h2>
 
@@ -356,7 +706,7 @@ git push origin v0.1       <span class="c"># 태그를 origin에 업로드</span
   </tbody>
 </table>
 
-<hr />
+<hr>
 
 <h2 id="phase-5--학원-레포-최종-제출-팀장만-제출-시-1회">PHASE 5 — 학원 레포 최종 제출 (팀장만, 제출 시 1회)</h2>
 
@@ -369,7 +719,7 @@ git push submit main        <span class="c"># 로컬 main을 학원 레포(submi
   <p>⚠️ submit remote는 제출 목적 전용 — 일상 작업에 사용 금지</p>
 </blockquote>
 
-<hr />
+<hr>
 
 <h2 id="핵심-원칙-요약">핵심 원칙 요약</h2>
 
@@ -404,7 +754,7 @@ git push submit main        <span class="c"># 로컬 main을 학원 레포(submi
   </tbody>
 </table>
 
-<hr />
+<hr>
 
 <h2 id="github-actions-탭-용어">GitHub Actions 탭 용어</h2>
 
@@ -425,27 +775,157 @@ git push submit main        <span class="c"># 로컬 main을 학원 레포(submi
 
 <p><strong>Branch</strong> — 어느 브랜치에서 트리거됐는지 (예: <code class="language-plaintext highlighter-rouge">feat/login</code>)</p>
 
-<p><strong>Actor</strong> — 누가 트리거했는지 (예: <code class="language-plaintext highlighter-rouge">Daye-Lee18</code>, <code class="language-plaintext highlighter-rouge">github-actions[bot]</code>)</p>]]></content><author><name></name></author><category term="guide" /><category term="git" /><category term="team" /><summary type="html"><![CDATA[브랜치 전략, PR 흐름, 버전 관리 — 시간순 전체 흐름]]></summary></entry><entry><title type="html">Qwen3-VL</title><link href="https://daye-lee18.github.io/blog/2025/Qwen3-VL/" rel="alternate" type="text/html" title="Qwen3-VL" /><published>2025-12-11T00:00:00+00:00</published><updated>2025-12-11T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2025/Qwen3-VL</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2025/Qwen3-VL/"><![CDATA[<h2 id="equations">Equations</h2>]]></content><author><name>Daye Lee</name></author><category term="formatting" /><summary type="html"><![CDATA[Multimodal LLM by Alibaba Qwen team]]></summary></entry><entry><title type="html">Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra</title><link href="https://daye-lee18.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra/" rel="alternate" type="text/html" title="Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra" /><published>2024-05-14T00:00:00+00:00</published><updated>2024-05-14T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra/"><![CDATA[<p>Learn more:Learn more:Learn more:Learn more:Learn more:Learn more:May 14, 2024
-          We’re introducing a series of updates across the Gemini family of models, including the new 1.5 Flash, our lightweight model for speed and efficiency, and Project Astra, our vision for the future of AI assistants.
-        In December, we launched our first natively multimodal model Gemini 1.0 in three sizes: Ultra, Pro and Nano. Just a few months later we released 1.5 Pro, with enhanced performance and a breakthrough long context window of 1 million tokens.Developers and enterprise customers have been putting 1.5 Pro to use in incredible ways and finding its long context window, multimodal reasoning capabilities and impressive overall performance incredibly useful.We know from user feedback that some applications need lower latency and a lower cost to serve. This inspired us to keep innovating, so today, we’re introducing Gemini 1.5 Flash: a model that’s lighter-weight than 1.5 Pro, and designed to be fast and efficient to serve at scale.Both 1.5 Pro and 1.5 Flash are available in public preview with a 1 million token context window in Google AI Studio and Vertex AI. And now, 1.5 Pro is also available with a 2 million token context window via waitlist to developers using the API and to Google Cloud customers.We’re also introducing updates across the Gemini family of models, announcing our next generation of open models, Gemma 2, and sharing progress on the future of AI assistants, with Project Astra.Context lengths of leading foundation models compared with Gemini 1.5’s 2 million token capability1.5 Flash is the newest addition to the Gemini model family and the fastest Gemini model served in the API. It’s optimized for high-volume, high-frequency tasks at scale, is more cost-efficient to serve and features our breakthrough long context window.While it’s a lighter weight model than 1.5 Pro, it’s highly capable of multimodal reasoning across vast amounts of information and delivers impressive quality for its size.The new Gemini 1.5 Flash model is optimized for speed and efficiency, is highly capable of multimodal reasoning and features our breakthrough long context window.1.5 Flash excels at summarization, chat applications, image and video captioning, data extraction from long documents and tables, and more. This is because it’s been trained by 1.5 Pro through a process called “distillation,” where the most essential knowledge and skills from a larger model are transferred to a smaller, more efficient model.Read more about 1.5 Flash in our updated Gemini 1.5 technical report, on the Gemini technology page, and learn about 1.5 Flash’s availability and pricing.Over the last few months, we’ve significantly improved 1.5 Pro, our best model for general performance across a wide range of tasks.Beyond extending its context window to 2 million tokens, we’ve enhanced its code generation, logical reasoning and planning, multi-turn conversation, and audio and image understanding through data and algorithmic advances. We see strong improvements on public and internal benchmarks for each of these tasks.1.5 Pro can now follow increasingly complex and nuanced instructions, including ones that specify product-level behavior involving role, format and style. We’ve improved control over the model’s responses for specific use cases, like crafting the persona and response style of a chat agent or automating workflows through multiple function calls. And we’ve enabled users to steer model behavior by setting system instructions.We added audio understanding in the Gemini API and Google AI Studio, so 1.5 Pro can now reason across image and audio for videos uploaded in Google AI Studio. And we’re now integrating 1.5 Pro into Google products, including Gemini Advanced and in Workspace apps.Read more about 1.5 Pro in our updated Gemini 1.5 technical report and on the Gemini technology page.Gemini Nano is expanding beyond text-only inputs to include images as well. Starting with Pixel, applications using Gemini Nano with Multimodality will be able to understand the world the way people do — not just through text, but also through sight, sound and spoken language.Read more about Gemini 1.0 Nano on Android.Today, we’re also sharing a series of updates to Gemma, our family of open models built from the same research and technology used to create the Gemini models.We’re announcing Gemma 2, our next generation of open models for responsible AI innovation. Gemma 2 has a new architecture designed for breakthrough performance and efficiency, and will be available in new sizes.The Gemma family is also expanding with PaliGemma, our first vision-language model inspired by PaLI-3. And we’ve upgraded our Responsible Generative AI Toolkit with LLM Comparator for evaluating the quality of model responses.Read more on the Developer blog.As part of Google DeepMind’s mission to build AI responsibly to benefit humanity, we’ve always wanted to develop universal AI agents that can be helpful in everyday life. That’s why today, we’re sharing our progress in building the future of AI assistants with Project Astra (advanced seeing and talking responsive agent).To be truly useful, an agent needs to understand and respond to the complex and dynamic world just like people do — and take in and remember what it sees and hears to understand context and take action. It also needs to be proactive, teachable and personal, so users can talk to it naturally and without lag or delay.While we’ve made incredible progress developing AI systems that can understand multimodal information, getting response time down to something conversational is a difficult engineering challenge. Over the past few years, we’ve been working to improve how our models perceive, reason and converse to make the pace and quality of interaction feel more natural.Building on Gemini, we’ve developed prototype agents that can process information faster by continuously encoding video frames, combining the video and speech input into a timeline of events, and caching this information for efficient recall.By leveraging our leading speech models, we also enhanced how they sound, giving the agents a wider range of intonations. These agents can better understand the context they’re being used in, and respond quickly, in conversation.With technology like this, it’s easy to envision a future where people could have an expert AI assistant by their side, through a phone or glasses. And some of these capabilities are coming to Google products, like the Gemini app and web experience, later this year.We’ve made incredible progress so far with our family of Gemini models, and we’re always striving to advance the state-of-the-art even further. By investing in a relentless production line of innovation, we’re able to explore new ideas at the frontier, while also unlocking the possibility of new and exciting Gemini use cases.Learn more about Gemini and its capabilities.
-            Your information will be used in accordance with
-            Google’s privacy policy.</p>
+<p><strong>Actor</strong> — 누가 트리거했는지 (예: <code class="language-plaintext highlighter-rouge">Daye-Lee18</code>, <code class="language-plaintext highlighter-rouge">github-actions[bot]</code>)</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      Done. Just one step more.
+    </div>
+  </article>
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+</div>
+          </div>
+        
+      
+    </div>
+
+    <!-- Footer -->
     
-      Check your inbox to confirm your subscription.
-    You are already subscribed to our newsletter.
-    You can also subscribe with a
-    different email address
-    
-    .
-    
-  Let’s stay in touch. Get the latest news from Google in your inbox.
-          Follow Us
-</code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[We’re sharing updates across our Gemini family of models and a glimpse of Project Astra, our vision for the future of AI assistants.]]></summary></entry><entry><title type="html">Displaying External Posts on Your al-folio Blog</title><link href="https://daye-lee18.github.io/blog/2022/displaying-external-posts-on-your-al-folio-blog/" rel="alternate" type="text/html" title="Displaying External Posts on Your al-folio Blog" /><published>2022-04-23T23:20:09+00:00</published><updated>2022-04-23T23:20:09+00:00</updated><id>https://daye-lee18.github.io/blog/2022/displaying-external-posts-on-your-al-folio-blog</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2022/displaying-external-posts-on-your-al-folio-blog/"><![CDATA[<h3>External Posts on Your al-folio Blog</h3>
-<p>If you prefer publishing blog posts on medium.com or other external sources, starting version v0.5.0, <a href="https://github.com/alshedivat/al-folio">al-folio</a> lets you to display your external posts in the blog feed of your website! 🎉🎉</p>
-<p>Configuring external sources of super simple. After upgrading to v0.5.0, just add the following section to your _config.yml:</p>
-<pre>external_sources:<br />  - name: medium.com  # name of the source (arbitrary string)<br />    rss_url: <a href="https://medium.com/@al-folio/feed">https://medium.com/@&lt;your-medium-username&gt;/feed</a></pre>
-<p>The example above adds your medium.com blog post feed as an external source. But you can add arbitrary RSS feeds as sources.</p>
-<p>Any questions or suggestions? 👉 Start <a href="https://github.com/alshedivat/al-folio/discussions">a discussion on GitHub</a>!</p>
-<p><img src="https://medium.com/_/stat?event=post.clientViewed&amp;referrerSource=full_rss&amp;postId=b60a1d241a0a" width="1" height="1" alt="" /></p>]]></content><author><name></name></author></entry></feed>
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+  <!-- Mermaid and D3 -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10.7.0/dist/mermaid.min.js" integrity="sha256-TtLOdUA8mstPoO6sGvHIGx2ceXrrX4KgIItO06XOn8A=" crossorigin="anonymous"></script>
+  
+  <script defer src="/assets/js/mermaid-setup.js?38ca0a0126f7328d2d9a46bad640931f" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+  <!-- Sidebar Table of Contents -->
+  <script defer src="/assets/js/bootstrap-toc.min.js?c82ff4de8b0955d6ff14f5b05eed7eb6"></script>
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>
