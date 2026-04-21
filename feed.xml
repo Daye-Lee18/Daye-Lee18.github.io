@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://daye-lee18.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://daye-lee18.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-21T04:03:29+00:00</updated><id>https://daye-lee18.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://daye-lee18.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://daye-lee18.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-21T06:54:18+00:00</updated><id>https://daye-lee18.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 </subtitle><entry><title type="html">Git 팀 사용 가이드</title><link href="https://daye-lee18.github.io/blog/2026/git-team-guide/" rel="alternate" type="text/html" title="Git 팀 사용 가이드" /><published>2026-04-21T00:00:00+00:00</published><updated>2026-04-21T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2026/git-team-guide</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2026/git-team-guide/"><![CDATA[<h2 id="전체-구조">전체 구조</h2>
 
 <ul>
@@ -101,12 +101,110 @@ git remote add submit <span class="o">[</span>학원 레포 URL]     <span class
 
 <h3 id="step-2-branch-protection-설정">Step 2. Branch Protection 설정</h3>
 
-<p>GitHub → Settings → Branches → Add ruleset</p>
-<ul>
-  <li>대상: <code class="language-plaintext highlighter-rouge">main</code></li>
-  <li>Require pull request before merging (Required approvals: 1)</li>
-  <li>Block force pushes</li>
-</ul>
+<p>GitHub 레포 → <strong>Settings</strong> → 왼쪽 사이드바 <strong>Rules → Rulesets</strong> → <strong>New branch ruleset</strong></p>
+
+<h4 id="-ruleset-name">① Ruleset Name</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>main-protection
+</code></pre></div></div>
+
+<h4 id="-enforcement-status">② Enforcement status</h4>
+<p><code class="language-plaintext highlighter-rouge">Active</code> 유지</p>
+
+<h4 id="-bypass-list">③ Bypass list</h4>
+<p><strong>건드리지 않음</strong> (비워두는 것 권장)</p>
+
+<blockquote>
+  <p>⚠️ admin 권한은 세팅 완료 후 회수될 예정 — admin 권한이 없어지면 “Repository admin” bypass도 무의미해짐.
+팀장도 PR을 통해 merge하는 것이 기록 관리 측면에서 더 바람직함.</p>
+</blockquote>
+
+<h4 id="-target-branches--어느-브랜치에-규칙을-적용할지">④ Target branches — 어느 브랜치에 규칙을 적용할지</h4>
+<p><strong>Add target</strong> 클릭 → <strong>Include by pattern</strong> 선택 → <code class="language-plaintext highlighter-rouge">main</code> 입력 후 Add</p>
+
+<h4 id="-branch-rules--체크할-항목">⑤ Branch rules — 체크할 항목</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>항목</th>
+      <th>설정</th>
+      <th>이유</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Restrict creations</td>
+      <td>☐ 체크 안 함</td>
+      <td>브랜치 자유롭게 생성 가능해야 함</td>
+    </tr>
+    <tr>
+      <td>Restrict updates</td>
+      <td>☐ 체크 안 함</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><strong>Restrict deletions</strong></td>
+      <td>✅ 체크</td>
+      <td>main 브랜치 실수로 삭제 방지</td>
+    </tr>
+    <tr>
+      <td>Require linear history</td>
+      <td>☐ 체크 안 함</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Require merge queue</td>
+      <td>☐ 체크 안 함</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Require deployments to succeed</td>
+      <td>☐ 체크 안 함</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Require signed commits</td>
+      <td>☐ 체크 안 함</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><strong>Require a pull request before merging</strong></td>
+      <td>✅ 체크</td>
+      <td>main 직접 push 금지, PR 강제</td>
+    </tr>
+    <tr>
+      <td>→ Required approvals</td>
+      <td><strong>1</strong> 로 설정</td>
+      <td>팀장 1명 승인 필수</td>
+    </tr>
+    <tr>
+      <td>→ Dismiss stale pull request approvals</td>
+      <td>✅ 권장</td>
+      <td>코드 수정 시 재승인 요구</td>
+    </tr>
+    <tr>
+      <td>Require status checks to pass</td>
+      <td>☐ 체크 안 함</td>
+      <td>CI 없으면 생략</td>
+    </tr>
+    <tr>
+      <td><strong>Block force pushes</strong></td>
+      <td>✅ 체크</td>
+      <td><code class="language-plaintext highlighter-rouge">git push --force</code>로 히스토리 덮어쓰기 방지</td>
+    </tr>
+    <tr>
+      <td>Require code scanning results</td>
+      <td>☐ 체크 안 함</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="-하단-create-클릭">⑥ 하단 <strong>Create</strong> 클릭</h4>
+
+<blockquote>
+  <p>설정 완료 후 팀원이 <code class="language-plaintext highlighter-rouge">git push origin main</code> 시도하면 자동으로 거부됨 — PR만 통과 가능</p>
+</blockquote>
 
 <h3 id="step-3-pr-템플릿-추가">Step 3. PR 템플릿 추가</h3>
 
