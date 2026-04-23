@@ -8,42 +8,6 @@ nav_order: 6
 teaching:
   - university: Seoul National University
     courses:
-      #     - title: Linear Algebra with Python
-      #       role: Instructor
-      #       term: 2025-12-01 ~ 2026-02-06 (Tue/Thu 14:00–17:00)
-      #       badge: 선형대수학 이론과 응용
-      #       points:
-      #         - label: 강의 목표
-      #           text: 선형대수학의 이론을 공부하고 파이썬으로 프로그래밍 실습 진행
-      #         - label: 실습 중심
-      #           text: 주차별 개념 설명 및 연습 문제 풀이 후 파이썬으로 프로그래밍 실습 진행
-      #         - label: 언어
-      #           text: 영어로 진행 및 쉬운 한국어 병행
-      #         - label: 링크
-      #           text: '<a href="https://daye-lee18.github.io/linearAlgebra/intro.html" target="_blank" rel="noopener">Course page</a>'
-
-      - title: A-Level Mathematics Tutoring
-        role: Private Tutor
-        term: 2025 ~ 2026
-        badge: A-Level Pure Maths
-        points:
-          - label: 내용
-            text: A-Level Pure Mathematics (P3/P4) — Transformation, Numerical Methods, Trigonometry, Differentiation, Integration, Differential Equations
-          - label: 언어
-            text: 영어 설명 + 한국어 주석 병행 (한국인 학생 대상)
-          - label: 링크
-            text: '<a href="https://daye-lee18.github.io/math_tutoring/" target="_blank" rel="noopener">Course page</a>'
-
-      - title: Samsung SW COTE Prep
-        role: Self-Study Material
-        term: 2026
-        badge: 삼성 SW역량테스트
-        points:
-          - label: 내용
-            text: 삼성 SW역량테스트 핵심 패턴 (시뮬레이션, BFS/DFS, 완전탐색) 및 실전 전략 정리
-          - label: 링크
-            text: '<a href="https://daye-lee18.github.io/samsung_cote_prep/intro.html" target="_blank" rel="noopener">Study Guide</a>'
-
       - title: Python for Algorithmic Problem Solving
         role: Instructor
         term: 2025-09-01 ~ 2025-11-14 (Tue/Thu 14:00–17:00)
@@ -71,6 +35,31 @@ teaching:
             text: 일대다 튜터-튜티 매칭 및 이메일/카톡 메신저 이용 질의응답
           - label: 링크
             text: '<a href="https://haesunbyun.github.io/Basic-Computing-Ver.2/intro.html" target="_blank" rel="noopener">Course page</a>'
+  
+  - university: Private Class
+    courses:
+      - title: A-Level Mathematics Tutoring
+        role: Private Tutor
+        term: 2025 ~ 2026
+        badge: A-Level Pure Maths
+        points:
+          - label: 내용
+            text: A-Level Pure Mathematics (P3/P4) — Transformation, Numerical Methods, Trigonometry, Differentiation, Integration, Differential Equations
+          - label: 언어
+            text: 영어 설명 + 한국어 주석 병행 (한국인 학생 대상)
+          - label: 링크
+            text: '<a href="https://daye-lee18.github.io/math_tutoring/" target="_blank" rel="noopener">Course page</a>'
+
+      - title: COTE prep
+        role: Self-Study Material
+        term: 2026
+        badge: SW 역량 테스트
+        points:
+          - label: 내용
+            text: SW역량테스트 핵심 패턴 (시뮬레이션, BFS/DFS, 완전탐색) 및 실전 전략 정리
+          - label: 링크
+            text: '<a href="https://daye-lee18.github.io/samsung_cote_prep/intro.html" target="_blank" rel="noopener">Study Guide</a>'
+
 ---
 
 {% include teaching_cards.liquid %}
