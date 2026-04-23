@@ -23,12 +23,22 @@ mermaid:
 
 ### 세 공간의 흐름
 
+<style>
+.mermaid { overflow: auto; }
+</style>
+
 ```mermaid
-flowchart LR
-    A["📁 작업 디렉토리<br/>(Working Directory)<br/>내 폴더에서 파일 수정<br/>커밋 전"]
-    B["📋 스테이징 영역<br/>(Staging Area)<br/>커밋할 파일을<br/>묶어두는 임시 공간"]
-    C["📜 커밋 히스토리<br/>(Commit History)<br/>커밋마다 쌓이는<br/>변경 기록 스냅샷"]
-    D["🗄️ stash 임시 저장소<br/>(.git/refs/stash)<br/>브랜치 무관하게<br/>어디서든 꺼낼 수 있음"]
+flowchart TD
+    subgraph remote["☁️ 원격 (Remote / origin)"]
+        E["GitHub에 저장된 공유 커밋 히스토리"]
+    end
+    subgraph local["💻 로컬 (Local)"]
+        direction LR
+        D["🗄️ stash<br/>임시 저장소"]
+        A["📁 작업 디렉토리<br/>(Working Directory)"]
+        B["📋 스테이징 영역<br/>(Staging Area)"]
+        C["📜 커밋 히스토리<br/>(Commit History)"]
+    end
 
     A -->|"git add"| B
     B -->|"git commit"| C
@@ -37,15 +47,20 @@ flowchart LR
     D -->|"git stash pop"| A
     C -->|"git reset --soft HEAD~1"| B
     C -->|"git reset HEAD~1"| A
+    C -->|"git merge"| A
+    C -->|"git push"| E
+    E -->|"git fetch"| C
+    E -->|"git pull<br/>(fetch+merge)"| A
 ```
 
-> 스테이징 영역은 브랜치가 여럿이어도 레포 전체에서 **하나** — 브랜치를 전환해도 add한 내용이 그대로 따라옴
+> 스테이징 영역은 브랜치가 여럿이어도 레포 전체에서 **하나**입니다.
+> 다만 브랜치를 전환할 때 현재 변경사항이 대상 브랜치 파일과 충돌할 수 있으면 `checkout`이 거부될 수 있습니다.
 
 ### 브랜치 전환 시 각 공간 상태
 
 | 상황 | 작업 디렉토리 | 스테이징 | 커밋 히스토리 |
 |------|-------------|---------|------------|
-| 그냥 브랜치 전환 | 따라옴 ⚠️ | 따라옴 ⚠️ | 브랜치마다 독립 ✅ |
+| 그냥 브랜치 전환 | 따라오거나 전환 거부될 수 있음 ⚠️ | 따라오거나 전환 거부될 수 있음 ⚠️ | 브랜치마다 독립 ✅ |
 | `git commit` 후 전환 | 깨끗 ✅ | 깨끗 ✅ | 브랜치마다 독립 ✅ |
 | `git stash` 후 전환 | 깨끗 ✅ | 깨끗 ✅ | 변화 없음 |
 
@@ -70,6 +85,9 @@ git stash list
 # stash@{0}: On feat/login: 로그인 작업 중
 # stash@{1}: On feat/signup: 회원가입 작업 중
 ```
+
+> `git stash pop`은 stash를 복원하면서 목록에서 제거합니다.
+> 충돌이 나면 자동으로 사라지지 않을 수 있으니 `git status`로 확인합니다.
 
 **여러 사람이 동시에 작업할 때**
 
@@ -99,10 +117,28 @@ main-protection
 `Active` 유지
 
 #### ③ Bypass list
-**건드리지 않음** (비워두는 것 권장)
 
-> ⚠️ admin 권한은 세팅 완료 후 회수될 예정 — admin 권한이 없어지면 "Repository admin" bypass도 무의미해짐.
+상황에 따라 두 가지 중 선택:
+
+**admin 권한을 회수하는 경우 (권장)** — 비워두기
+
 > 팀장도 PR을 통해 merge하는 것이 기록 관리 측면에서 더 바람직함.
+> admin 권한이 없어지면 "Repository admin" bypass도 무의미해지므로 비워두는 것이 맞음.
+
+**admin 권한을 유지하는 경우** — 본인 계정을 bypass에 추가
+
+```
+Add bypass → Role → Repository admin   ← 팀장(admin)은 PR 없이 main에 직접 push 가능
+```
+
+또는
+
+```
+Add bypass → User → [본인 GitHub 계정명]  ← 특정 계정만 bypass
+```
+
+> admin을 유지하면 팀장 본인은 Branch Protection 규칙을 우회할 수 있음.
+> 단, 실수로 main에 직접 push할 위험이 있으므로 PR 습관을 유지하는 것이 안전함.
 
 #### ④ Target branches — 어느 브랜치에 규칙을 적용할지
 **Add target** 클릭 → **Include by pattern** 선택 → `main` 입력 후 Add
@@ -140,10 +176,18 @@ main-protection
 ### Step 1. 작업 시작 전 — 최신 상태 동기화
 
 ```bash
-git fetch origin              # Github(origin)에 있는 모든 브랜치 최신 변경사항을 로컬에 다운로드 (브랜치 전환 없음)
+git fetch origin              # GitHub(origin)의 최신 변경사항을 로컬에 다운로드 (브랜치 전환 없음)
 git checkout main             # 내 로컬 main 브랜치로 전환
-git merge origin/main         # 다운로드한 origin/main을 현재 브랜치에 병합 (= git pull origin main)
+git merge origin/main         # 원격 main의 최신 상태를 내 로컬 main에 반영 (로컬 동기화, 원격 main에 merge하는 것이 아님)
 ```
+
+> 여기서 `git merge origin/main`은 **내 로컬 `main`을 최신 상태로 맞추는 작업**입니다.
+> 팀 규칙에서 금지하는 것은 `main`에 직접 커밋해서 `push`하는 것이며, 위 명령은 그와 다릅니다.
+> 작업 중인 파일이 남아 있으면 `checkout main`이 거부될 수 있으므로, 먼저 커밋하거나 `git stash`로 잠시 치워둡니다.
+
+> 왜 먼저 `main`으로 가나요?
+> `main`은 팀의 최신 기준점을 로컬에 맞춰두는 브랜치입니다.
+> 먼저 로컬 `main`을 최신화해두면 새 브랜치를 정확한 기준점에서 만들 수 있고, 기존 작업 브랜치에도 최신 `main`을 반영하기 쉬워집니다.
 
 **브랜치 확인 명령어**
 
@@ -153,31 +197,6 @@ git branch -a                              # 로컬 + 원격 전부 보기
 git branch                                 # 내가 지금 어느 브랜치에 있는지
 git log main..origin/main --oneline        # fetch 후 origin/main이 몇 커밋 앞서 있는지
 ```
-
-### Step 2. 기능 브랜치 생성
-
-> **새 기능 시작할 때** → 새 브랜치 생성 / **기존 브랜치에서 계속 작업할 때** → 브랜치 새로 만들지 말고 작업
-
-#### 기존 브랜치에서 계속 작업할 때
-
-```bash
-git fetch origin
-git checkout {prefix}/{내가작업하던브랜치}
-git merge origin/main                 # 그 사이 main에 들어온 팀원 코드 반영
-```
-
-#### 새 기능 시작할 때 브랜치 새로 생성
-
-```bash
-# 방법 1 — 한 줄로 (생성 + 전환 동시에, -b = branch)
-git checkout -b {prefix}/{기능명}
-
-# 방법 2 — 두 줄로 (생성 후 전환)
-git branch {prefix}/{기능명}      # 브랜치만 생성 (전환 안 됨)
-git checkout {prefix}/{기능명}    # 생성한 브랜치로 전환
-```
-
-> 두 방법은 결과가 동일 — 보통 방법 1을 사용
 
 **브랜치 네이밍 컨벤션**
 
@@ -193,7 +212,61 @@ git checkout {prefix}/{기능명}    # 생성한 브랜치로 전환
 - 영어로 작성, 의미를 알 수 있도록 구체적으로
 - 너무 길면 안 됨: `feat/user-auth` ✅ / `feat/사용자-로그인-기능-구현` ❌
 
-### Step 3. 작업 확인 & 커밋
+### Step 2. 이슈 등록 (선택)
+
+이슈(Issue)는 **할 일 목록 / 버그 신고 게시판** 역할을 합니다.
+작업 시작 전 이슈를 먼저 등록해두면 팀 전체가 무엇이 진행 중이고 무엇이 남았는지 한눈에 파악할 수 있습니다.
+
+**등록 방법:**
+```
+레포 → Issues 탭 → New issue → 제목 + 내용 작성 → Submit new issue
+```
+등록하면 자동으로 `#1`, `#2` 번호가 붙습니다.
+
+**PR과 연결:**
+
+PR 작성 시 `closes #번호` 를 쓰면 해당 PR이 main에 merge될 때 이슈가 자동으로 닫힙니다.
+
+```
+closes #3   → merge 시 이슈 #3 자동 close
+```
+
+> 이슈를 쓰지 않는 팀이라면 이 단계는 생략해도 됩니다.
+
+---
+
+### Step 3. 작업 브랜치 선택 또는 생성
+
+> Step 1에서 로컬 `main`을 최신화한 뒤, 이제 내가 작업할 브랜치를 고르는 단계입니다.
+> **기존 작업 이어서 하기**와 **새 기능 시작하기** 중 하나만 선택하면 됩니다.
+
+#### 기존 브랜치에서 계속 작업할 때
+
+```bash
+git checkout {prefix}/{작업명}
+git merge origin/main                 # 최신 main을 내 작업 브랜치에 반영하여 팀원 변경사항 동기화
+```
+
+> 이 단계는 **원격 main을 내 기능 브랜치로 가져오는 것**입니다.
+> 즉, feature branch에서 최신 main을 받아 충돌을 미리 확인하는 과정이며, `main`에 직접 merge하는 것이 아닙니다.
+
+#### 새 기능 시작할 때 브랜치 새로 생성
+
+> 이 단계는 **Step 1을 끝내고 최신 상태의 로컬 `main` 위에서** 실행한다고 가정합니다.
+> 즉, 새 브랜치는 최신 `main`에서 갈라져야 합니다.
+
+```bash
+# 방법 1 — 한 줄로 (생성 + 전환 동시에, -b = branch)
+git checkout -b {prefix}/{작업명}
+
+# 방법 2 — 두 줄로 (생성 후 전환)
+git branch {prefix}/{작업명}      # 브랜치만 생성 (전환 안 됨)
+git checkout {prefix}/{작업명}    # 생성한 브랜치로 전환
+```
+
+> 두 방법은 결과가 동일 — 보통 방법 1을 사용
+
+### Step 4. 작업 확인 & 커밋
 
 ```bash
 git branch                    # 현재 내가 어느 브랜치에 있는지 확인 (* 표시가 현재 브랜치)
@@ -213,6 +286,7 @@ git commit -m "feat: 설명"    # 커밋
 ```
 
 > 작업 단위를 작게 유지하고 커밋을 자주 남길 것
+> `git add .`는 의도하지 않은 파일까지 함께 올라갈 수 있으니 초반에는 `git status`를 본 뒤 파일 단위로 add하는 습관이 더 안전합니다.
 
 **커밋 히스토리 확인**
 
@@ -242,19 +316,23 @@ git restore --staged .        # 전체 unstage
 
 > `HEAD~1` = 바로 직전 커밋 1개, `HEAD~2` = 2개 되돌리기
 
-### Step 4. 브랜치 push
+### Step 5. 브랜치 push
 
 ```bash
-git push origin {prefix}/{기능명}   # 로컬 브랜치를 origin 원격 레포에 업로드
+git push -u origin {prefix}/{기능명}   # 첫 push: 원격 브랜치 생성 + 이후 push/pull 대상 연결
 ```
 
 > `origin/main`에는 영향 없음 — feat 브랜치만 올라감
+> 이미 한 번 `-u`로 연결한 뒤에는 다음부터 `git push`만 써도 됩니다.
 
-### Step 5. GitHub에서 PR 생성
+### Step 6. GitHub에서 PR 생성
 
 - GitHub → Pull Requests → New Pull Request
 - base: `main` ← compare: `feat/기능명`
 - 팀장에게 리뷰 요청 (Reviewers 지정)
+
+> `base`는 **변경사항이 들어갈 대상 브랜치**, `compare`는 **내가 작업한 브랜치**입니다.
+> 반대로 선택하면 비교 화면이 이상하게 보이므로 항상 `main <- feat/...` 형태인지 확인합니다.
 
 ---
 
@@ -267,15 +345,42 @@ git push origin {prefix}/{기능명}   # 로컬 브랜치를 origin 원격 레�
 
 ### Step 2. Squash merge
 
+feature 브랜치에서 쌓인 여러 커밋을 **하나로 압축**해서 main에 병합하는 방식입니다.
+
 ```
-GitHub → PR → Merge pull request → Squash and merge
+feat/login 브랜치 커밋 히스토리 (PR 올리기 전)
+  A → B → C → D → E   (5개의 작업 커밋)
+
+Squash merge 후 main
+  ... → F              (A~E 내용이 압축된 커밋 1개)
 ```
 
-> Squash merge 권장: main 히스토리를 커밋 1개로 깔끔하게 유지
+**GitHub에서 하는 방법:**
+
+1. PR 페이지 하단으로 스크롤
+2. **"Merge pull request"** 버튼 옆 드롭다운(▼) 클릭
+3. **"Squash and merge"** 선택
+4. 커밋 메시지 확인/수정 후 **"Confirm squash and merge"** 클릭
+
+```
+[ Merge pull request ▼ ]
+  ├ Create a merge commit      ← 기본값 (사용 안 함)
+  ├ Squash and merge           ← 이걸 선택
+  └ Rebase and merge
+```
+
+| 방식 | main 히스토리 | 언제 쓰나 |
+|------|-------------|---------|
+| **Create a merge commit** | 브랜치 커밋 전부 + merge 커밋 추가 | 히스토리 전부 보존할 때 |
+| **Squash and merge** | 커밋 1개로 압축 | 팀 작업, main 히스토리 깔끔하게 |
+| **Rebase and merge** | 브랜치 커밋 전부 (merge 커밋 없음) | 선형 히스토리 유지할 때 |
 
 ### Step 3. 브랜치 삭제
 
 - merge 후 GitHub에서 "Delete branch" 클릭
+
+> Squash merge를 하면 feat 브랜치 커밋들이 main에 흡수되므로, 원래 feat 브랜치는 역할이 끝난 것입니다. 바로 삭제하는 것이 원칙입니다.
+> feat 브랜치를 삭제하지 않고 계속 작업하면, 다음 PR에서 이미 병합된 커밋이 다시 diff로 잡힐 수 있습니다.
 
 ---
 
@@ -284,7 +389,7 @@ GitHub → PR → Merge pull request → Squash and merge
 ```bash
 git checkout main
 git pull origin main
-git tag v0.1               # 현재 커밋에 태그 생성
+git tag -a v0.1 -m "v0.1" # 현재 커밋에 주석(annotated) 태그 생성
 git push origin v0.1       # 태그를 origin에 업로드
 ```
 
@@ -305,6 +410,7 @@ git push submit main        # 로컬 main을 학원 레포(submit)에 업로드
 ```
 
 > ⚠️ submit remote는 제출 목적 전용 — 일상 작업에 사용 금지
+> 제출 전에 `git remote -v`로 `origin`과 `submit` URL이 맞는지 한 번 확인하면 실수를 줄일 수 있습니다.
 
 ---
 

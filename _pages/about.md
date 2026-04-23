@@ -40,7 +40,7 @@ Beyond my thesis, I’ve explored multimodal AI across projects: few-shot person
 
 I’m actively seeking opportunities in **multimodal generative AI, Autonomous driving, and LLM**. I’ve taught computing at SNU (Outstanding Tutor Award) and delivered Python training for Malaysian scholarship students. Outside research, I continue to dance (videos on [YouTube](https://www.youtube.com/@goahead4925)), which keeps me connected to the real aesthetics of human movement.
 
-You can reach me at **dayelee313@gmail.com**, on [LinkedIn](https://www.linkedin.com/in/daye-lee-088686251/), and view my [CV](/assets/pdf/20260223_resume.pdf).
+You can reach me at **dayelee313@gmail.com**, on [LinkedIn](https://www.linkedin.com/in/daye-lee-088686251/), and view my [CV](/assets/pdf/20260422_resume.pdf).
 
 [gsds]: https://gsds.snu.ac.kr/
 [laal]: https://www.snu-laal.com/
@@ -49,7 +49,6 @@ You can reach me at **dayelee313@gmail.com**, on [LinkedIn](https://www.linkedin
 [cyberworks]: https://www.cyberworksrobotics.com/
 [uoft]: https://www.utoronto.ca/
 [Goahead]: https://www.youtube.com/@goahead4925
-[cv]: /assets/pdf/20260223_resume.pdf
 [linkdIn]: https://www.linkedin.com/in/daye-lee-088686251/
 [carte]: https://carte.utoronto.ca/
 [iitp]: https://www.iitp.kr/main.it
