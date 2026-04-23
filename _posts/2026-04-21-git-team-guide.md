@@ -377,7 +377,20 @@ Squash merge 후 main
 
 ### Step 3. 브랜치 삭제
 
-- merge 후 GitHub에서 "Delete branch" 클릭
+**방법 1 — GitHub 웹 (권장):** merge 직후 PR 페이지에 "Delete branch" 버튼이 뜸 → 클릭
+
+**방법 2 — 명령어:**
+
+```bash
+# 원격 브랜치 삭제
+git push origin --delete feat/기능명
+
+# 로컬 브랜치 삭제 (merge 완료된 경우)
+git branch -d feat/기능명
+
+# 로컬 브랜치 강제 삭제 (merge 여부 무관)
+git branch -D feat/기능명
+```
 
 > Squash merge를 하면 feat 브랜치 커밋들이 main에 흡수되므로, 원래 feat 브랜치는 역할이 끝난 것입니다. 바로 삭제하는 것이 원칙입니다.
 > feat 브랜치를 삭제하지 않고 계속 작업하면, 다음 PR에서 이미 병합된 커밋이 다시 diff로 잡힐 수 있습니다.
