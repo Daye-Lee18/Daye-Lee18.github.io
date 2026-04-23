@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://daye-lee18.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://daye-lee18.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-21T06:54:18+00:00</updated><id>https://daye-lee18.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://daye-lee18.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://daye-lee18.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-23T02:47:02+00:00</updated><id>https://daye-lee18.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 </subtitle><entry><title type="html">Git 팀 사용 가이드</title><link href="https://daye-lee18.github.io/blog/2026/git-team-guide/" rel="alternate" type="text/html" title="Git 팀 사용 가이드" /><published>2026-04-21T00:00:00+00:00</published><updated>2026-04-21T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2026/git-team-guide</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2026/git-team-guide/"><![CDATA[<h2 id="전체-구조">전체 구조</h2>
 
 <ul>
@@ -12,11 +12,21 @@
 
 <h3 id="세-공간의-흐름">세 공간의 흐름</h3>
 
-<pre><code class="language-mermaid">flowchart LR
-    A["📁 작업 디렉토리&lt;br/&gt;(Working Directory)&lt;br/&gt;내 폴더에서 파일 수정&lt;br/&gt;커밋 전"]
-    B["📋 스테이징 영역&lt;br/&gt;(Staging Area)&lt;br/&gt;커밋할 파일을&lt;br/&gt;묶어두는 임시 공간"]
-    C["📜 커밋 히스토리&lt;br/&gt;(Commit History)&lt;br/&gt;커밋마다 쌓이는&lt;br/&gt;변경 기록 스냅샷"]
-    D["🗄️ stash 임시 저장소&lt;br/&gt;(.git/refs/stash)&lt;br/&gt;브랜치 무관하게&lt;br/&gt;어디서든 꺼낼 수 있음"]
+<style>
+.mermaid { overflow: auto; }
+</style>
+
+<pre><code class="language-mermaid">flowchart TD
+    subgraph remote["☁️ 원격 (Remote / origin)"]
+        E["GitHub에 저장된 공유 커밋 히스토리"]
+    end
+    subgraph local["💻 로컬 (Local)"]
+        direction LR
+        D["🗄️ stash&lt;br/&gt;임시 저장소"]
+        A["📁 작업 디렉토리&lt;br/&gt;(Working Directory)"]
+        B["📋 스테이징 영역&lt;br/&gt;(Staging Area)"]
+        C["📜 커밋 히스토리&lt;br/&gt;(Commit History)"]
+    end
 
     A --&gt;|"git add"| B
     B --&gt;|"git commit"| C
@@ -25,10 +35,15 @@
     D --&gt;|"git stash pop"| A
     C --&gt;|"git reset --soft HEAD~1"| B
     C --&gt;|"git reset HEAD~1"| A
+    C --&gt;|"git merge"| A
+    C --&gt;|"git push"| E
+    E --&gt;|"git fetch"| C
+    E --&gt;|"git pull&lt;br/&gt;(fetch+merge)"| A
 </code></pre>
 
 <blockquote>
-  <p>스테이징 영역은 브랜치가 여럿이어도 레포 전체에서 <strong>하나</strong> — 브랜치를 전환해도 add한 내용이 그대로 따라옴</p>
+  <p>스테이징 영역은 브랜치가 여럿이어도 레포 전체에서 <strong>하나</strong>입니다.
+다만 브랜치를 전환할 때 현재 변경사항이 대상 브랜치 파일과 충돌할 수 있으면 <code class="language-plaintext highlighter-rouge">checkout</code>이 거부될 수 있습니다.</p>
 </blockquote>
 
 <h3 id="브랜치-전환-시-각-공간-상태">브랜치 전환 시 각 공간 상태</h3>
@@ -45,8 +60,8 @@
   <tbody>
     <tr>
       <td>그냥 브랜치 전환</td>
-      <td>따라옴 ⚠️</td>
-      <td>따라옴 ⚠️</td>
+      <td>따라오거나 전환 거부될 수 있음 ⚠️</td>
+      <td>따라오거나 전환 거부될 수 있음 ⚠️</td>
       <td>브랜치마다 독립 ✅</td>
     </tr>
     <tr>
@@ -85,6 +100,11 @@ git stash list
 <span class="c"># stash@{1}: On feat/signup: 회원가입 작업 중</span>
 </code></pre></div></div>
 
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">git stash pop</code>은 stash를 복원하면서 목록에서 제거합니다.
+충돌이 나면 자동으로 사라지지 않을 수 있으니 <code class="language-plaintext highlighter-rouge">git status</code>로 확인합니다.</p>
+</blockquote>
+
 <p><strong>여러 사람이 동시에 작업할 때</strong></p>
 
 <p>각자 다른 브랜치에서 작업 → <code class="language-plaintext highlighter-rouge">git merge origin/main</code>으로 주기적으로 팀원 코드 반영 → PR로 합치기.</p>
@@ -111,11 +131,29 @@ git remote add submit <span class="o">[</span>학원 레포 URL]     <span class
 <p><code class="language-plaintext highlighter-rouge">Active</code> 유지</p>
 
 <h4 id="-bypass-list">③ Bypass list</h4>
-<p><strong>건드리지 않음</strong> (비워두는 것 권장)</p>
+
+<p>상황에 따라 두 가지 중 선택:</p>
+
+<p><strong>admin 권한을 회수하는 경우 (권장)</strong> — 비워두기</p>
 
 <blockquote>
-  <p>⚠️ admin 권한은 세팅 완료 후 회수될 예정 — admin 권한이 없어지면 “Repository admin” bypass도 무의미해짐.
-팀장도 PR을 통해 merge하는 것이 기록 관리 측면에서 더 바람직함.</p>
+  <p>팀장도 PR을 통해 merge하는 것이 기록 관리 측면에서 더 바람직함.
+admin 권한이 없어지면 “Repository admin” bypass도 무의미해지므로 비워두는 것이 맞음.</p>
+</blockquote>
+
+<p><strong>admin 권한을 유지하는 경우</strong> — 본인 계정을 bypass에 추가</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Add bypass → Role → Repository admin   ← 팀장(admin)은 PR 없이 main에 직접 push 가능
+</code></pre></div></div>
+
+<p>또는</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Add bypass → User → [본인 GitHub 계정명]  ← 특정 계정만 bypass
+</code></pre></div></div>
+
+<blockquote>
+  <p>admin을 유지하면 팀장 본인은 Branch Protection 규칙을 우회할 수 있음.
+단, 실수로 main에 직접 push할 위험이 있으므로 PR 습관을 유지하는 것이 안전함.</p>
 </blockquote>
 
 <h4 id="-target-branches--어느-브랜치에-규칙을-적용할지">④ Target branches — 어느 브랜치에 규칙을 적용할지</h4>
@@ -216,10 +254,22 @@ git remote add submit <span class="o">[</span>학원 레포 URL]     <span class
 
 <h3 id="step-1-작업-시작-전--최신-상태-동기화">Step 1. 작업 시작 전 — 최신 상태 동기화</h3>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git fetch origin              <span class="c"># Github(origin)에 있는 모든 브랜치 최신 변경사항을 로컬에 다운로드 (브랜치 전환 없음)</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git fetch origin              <span class="c"># GitHub(origin)의 최신 변경사항을 로컬에 다운로드 (브랜치 전환 없음)</span>
 git checkout main             <span class="c"># 내 로컬 main 브랜치로 전환</span>
-git merge origin/main         <span class="c"># 다운로드한 origin/main을 현재 브랜치에 병합 (= git pull origin main)</span>
+git merge origin/main         <span class="c"># 원격 main의 최신 상태를 내 로컬 main에 반영 (로컬 동기화, 원격 main에 merge하는 것이 아님)</span>
 </code></pre></div></div>
+
+<blockquote>
+  <p>여기서 <code class="language-plaintext highlighter-rouge">git merge origin/main</code>은 <strong>내 로컬 <code class="language-plaintext highlighter-rouge">main</code>을 최신 상태로 맞추는 작업</strong>입니다.
+팀 규칙에서 금지하는 것은 <code class="language-plaintext highlighter-rouge">main</code>에 직접 커밋해서 <code class="language-plaintext highlighter-rouge">push</code>하는 것이며, 위 명령은 그와 다릅니다.
+작업 중인 파일이 남아 있으면 <code class="language-plaintext highlighter-rouge">checkout main</code>이 거부될 수 있으므로, 먼저 커밋하거나 <code class="language-plaintext highlighter-rouge">git stash</code>로 잠시 치워둡니다.</p>
+</blockquote>
+
+<blockquote>
+  <p>왜 먼저 <code class="language-plaintext highlighter-rouge">main</code>으로 가나요?
+<code class="language-plaintext highlighter-rouge">main</code>은 팀의 최신 기준점을 로컬에 맞춰두는 브랜치입니다.
+먼저 로컬 <code class="language-plaintext highlighter-rouge">main</code>을 최신화해두면 새 브랜치를 정확한 기준점에서 만들 수 있고, 기존 작업 브랜치에도 최신 <code class="language-plaintext highlighter-rouge">main</code>을 반영하기 쉬워집니다.</p>
+</blockquote>
 
 <p><strong>브랜치 확인 명령어</strong></p>
 
@@ -228,33 +278,6 @@ git branch <span class="nt">-a</span>                              <span class="
 git branch                                 <span class="c"># 내가 지금 어느 브랜치에 있는지</span>
 git log main..origin/main <span class="nt">--oneline</span>        <span class="c"># fetch 후 origin/main이 몇 커밋 앞서 있는지</span>
 </code></pre></div></div>
-
-<h3 id="step-2-기능-브랜치-생성">Step 2. 기능 브랜치 생성</h3>
-
-<blockquote>
-  <p><strong>새 기능 시작할 때</strong> → 새 브랜치 생성 / <strong>기존 브랜치에서 계속 작업할 때</strong> → 브랜치 새로 만들지 말고 작업</p>
-</blockquote>
-
-<h4 id="기존-브랜치에서-계속-작업할-때">기존 브랜치에서 계속 작업할 때</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git fetch origin
-git checkout <span class="o">{</span>prefix<span class="o">}</span>/<span class="o">{</span>내가작업하던브랜치<span class="o">}</span>
-git merge origin/main                 <span class="c"># 그 사이 main에 들어온 팀원 코드 반영</span>
-</code></pre></div></div>
-
-<h4 id="새-기능-시작할-때-브랜치-새로-생성">새 기능 시작할 때 브랜치 새로 생성</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 방법 1 — 한 줄로 (생성 + 전환 동시에, -b = branch)</span>
-git checkout <span class="nt">-b</span> <span class="o">{</span>prefix<span class="o">}</span>/<span class="o">{</span>기능명<span class="o">}</span>
-
-<span class="c"># 방법 2 — 두 줄로 (생성 후 전환)</span>
-git branch <span class="o">{</span>prefix<span class="o">}</span>/<span class="o">{</span>기능명<span class="o">}</span>      <span class="c"># 브랜치만 생성 (전환 안 됨)</span>
-git checkout <span class="o">{</span>prefix<span class="o">}</span>/<span class="o">{</span>기능명<span class="o">}</span>    <span class="c"># 생성한 브랜치로 전환</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>두 방법은 결과가 동일 — 보통 방법 1을 사용</p>
-</blockquote>
 
 <p><strong>브랜치 네이밍 컨벤션</strong></p>
 
@@ -301,7 +324,67 @@ git checkout <span class="o">{</span>prefix<span class="o">}</span>/<span class=
   <li>너무 길면 안 됨: <code class="language-plaintext highlighter-rouge">feat/user-auth</code> ✅ / <code class="language-plaintext highlighter-rouge">feat/사용자-로그인-기능-구현</code> ❌</li>
 </ul>
 
-<h3 id="step-3-작업-확인--커밋">Step 3. 작업 확인 &amp; 커밋</h3>
+<h3 id="step-2-이슈-등록-선택">Step 2. 이슈 등록 (선택)</h3>
+
+<p>이슈(Issue)는 <strong>할 일 목록 / 버그 신고 게시판</strong> 역할을 합니다.
+작업 시작 전 이슈를 먼저 등록해두면 팀 전체가 무엇이 진행 중이고 무엇이 남았는지 한눈에 파악할 수 있습니다.</p>
+
+<p><strong>등록 방법:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>레포 → Issues 탭 → New issue → 제목 + 내용 작성 → Submit new issue
+</code></pre></div></div>
+<p>등록하면 자동으로 <code class="language-plaintext highlighter-rouge">#1</code>, <code class="language-plaintext highlighter-rouge">#2</code> 번호가 붙습니다.</p>
+
+<p><strong>PR과 연결:</strong></p>
+
+<p>PR 작성 시 <code class="language-plaintext highlighter-rouge">closes #번호</code> 를 쓰면 해당 PR이 main에 merge될 때 이슈가 자동으로 닫힙니다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>closes #3   → merge 시 이슈 #3 자동 close
+</code></pre></div></div>
+
+<blockquote>
+  <p>이슈를 쓰지 않는 팀이라면 이 단계는 생략해도 됩니다.</p>
+</blockquote>
+
+<hr />
+
+<h3 id="step-3-작업-브랜치-선택-또는-생성">Step 3. 작업 브랜치 선택 또는 생성</h3>
+
+<blockquote>
+  <p>Step 1에서 로컬 <code class="language-plaintext highlighter-rouge">main</code>을 최신화한 뒤, 이제 내가 작업할 브랜치를 고르는 단계입니다.
+<strong>기존 작업 이어서 하기</strong>와 <strong>새 기능 시작하기</strong> 중 하나만 선택하면 됩니다.</p>
+</blockquote>
+
+<h4 id="기존-브랜치에서-계속-작업할-때">기존 브랜치에서 계속 작업할 때</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout <span class="o">{</span>prefix<span class="o">}</span>/<span class="o">{</span>작업명<span class="o">}</span>
+git merge origin/main                 <span class="c"># 최신 main을 내 작업 브랜치에 반영하여 팀원 변경사항 동기화</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>이 단계는 <strong>원격 main을 내 기능 브랜치로 가져오는 것</strong>입니다.
+즉, feature branch에서 최신 main을 받아 충돌을 미리 확인하는 과정이며, <code class="language-plaintext highlighter-rouge">main</code>에 직접 merge하는 것이 아닙니다.</p>
+</blockquote>
+
+<h4 id="새-기능-시작할-때-브랜치-새로-생성">새 기능 시작할 때 브랜치 새로 생성</h4>
+
+<blockquote>
+  <p>이 단계는 <strong>Step 1을 끝내고 최신 상태의 로컬 <code class="language-plaintext highlighter-rouge">main</code> 위에서</strong> 실행한다고 가정합니다.
+즉, 새 브랜치는 최신 <code class="language-plaintext highlighter-rouge">main</code>에서 갈라져야 합니다.</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 방법 1 — 한 줄로 (생성 + 전환 동시에, -b = branch)</span>
+git checkout <span class="nt">-b</span> <span class="o">{</span>prefix<span class="o">}</span>/<span class="o">{</span>작업명<span class="o">}</span>
+
+<span class="c"># 방법 2 — 두 줄로 (생성 후 전환)</span>
+git branch <span class="o">{</span>prefix<span class="o">}</span>/<span class="o">{</span>작업명<span class="o">}</span>      <span class="c"># 브랜치만 생성 (전환 안 됨)</span>
+git checkout <span class="o">{</span>prefix<span class="o">}</span>/<span class="o">{</span>작업명<span class="o">}</span>    <span class="c"># 생성한 브랜치로 전환</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>두 방법은 결과가 동일 — 보통 방법 1을 사용</p>
+</blockquote>
+
+<h3 id="step-4-작업-확인--커밋">Step 4. 작업 확인 &amp; 커밋</h3>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch                    <span class="c"># 현재 내가 어느 브랜치에 있는지 확인 (* 표시가 현재 브랜치)</span>
 
@@ -320,7 +403,8 @@ git commit <span class="nt">-m</span> <span class="s2">"feat: 설명"</span>    
 </code></pre></div></div>
 
 <blockquote>
-  <p>작업 단위를 작게 유지하고 커밋을 자주 남길 것</p>
+  <p>작업 단위를 작게 유지하고 커밋을 자주 남길 것
+<code class="language-plaintext highlighter-rouge">git add .</code>는 의도하지 않은 파일까지 함께 올라갈 수 있으니 초반에는 <code class="language-plaintext highlighter-rouge">git status</code>를 본 뒤 파일 단위로 add하는 습관이 더 안전합니다.</p>
 </blockquote>
 
 <p><strong>커밋 히스토리 확인</strong></p>
@@ -378,22 +462,28 @@ git restore <span class="nt">--staged</span> <span class="nb">.</span>        <s
   <p><code class="language-plaintext highlighter-rouge">HEAD~1</code> = 바로 직전 커밋 1개, <code class="language-plaintext highlighter-rouge">HEAD~2</code> = 2개 되돌리기</p>
 </blockquote>
 
-<h3 id="step-4-브랜치-push">Step 4. 브랜치 push</h3>
+<h3 id="step-5-브랜치-push">Step 5. 브랜치 push</h3>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin <span class="o">{</span>prefix<span class="o">}</span>/<span class="o">{</span>기능명<span class="o">}</span>   <span class="c"># 로컬 브랜치를 origin 원격 레포에 업로드</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push <span class="nt">-u</span> origin <span class="o">{</span>prefix<span class="o">}</span>/<span class="o">{</span>기능명<span class="o">}</span>   <span class="c"># 첫 push: 원격 브랜치 생성 + 이후 push/pull 대상 연결</span>
 </code></pre></div></div>
 
 <blockquote>
-  <p><code class="language-plaintext highlighter-rouge">origin/main</code>에는 영향 없음 — feat 브랜치만 올라감</p>
+  <p><code class="language-plaintext highlighter-rouge">origin/main</code>에는 영향 없음 — feat 브랜치만 올라감
+이미 한 번 <code class="language-plaintext highlighter-rouge">-u</code>로 연결한 뒤에는 다음부터 <code class="language-plaintext highlighter-rouge">git push</code>만 써도 됩니다.</p>
 </blockquote>
 
-<h3 id="step-5-github에서-pr-생성">Step 5. GitHub에서 PR 생성</h3>
+<h3 id="step-6-github에서-pr-생성">Step 6. GitHub에서 PR 생성</h3>
 
 <ul>
   <li>GitHub → Pull Requests → New Pull Request</li>
   <li>base: <code class="language-plaintext highlighter-rouge">main</code> ← compare: <code class="language-plaintext highlighter-rouge">feat/기능명</code></li>
   <li>팀장에게 리뷰 요청 (Reviewers 지정)</li>
 </ul>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">base</code>는 <strong>변경사항이 들어갈 대상 브랜치</strong>, <code class="language-plaintext highlighter-rouge">compare</code>는 <strong>내가 작업한 브랜치</strong>입니다.
+반대로 선택하면 비교 화면이 이상하게 보이므로 항상 <code class="language-plaintext highlighter-rouge">main &lt;- feat/...</code> 형태인지 확인합니다.</p>
+</blockquote>
 
 <hr />
 
@@ -408,12 +498,56 @@ git restore <span class="nt">--staged</span> <span class="nb">.</span>        <s
 
 <h3 id="step-2-squash-merge">Step 2. Squash merge</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GitHub → PR → Merge pull request → Squash and merge
+<p>feature 브랜치에서 쌓인 여러 커밋을 <strong>하나로 압축</strong>해서 main에 병합하는 방식입니다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>feat/login 브랜치 커밋 히스토리 (PR 올리기 전)
+  A → B → C → D → E   (5개의 작업 커밋)
+
+Squash merge 후 main
+  ... → F              (A~E 내용이 압축된 커밋 1개)
 </code></pre></div></div>
 
-<blockquote>
-  <p>Squash merge 권장: main 히스토리를 커밋 1개로 깔끔하게 유지</p>
-</blockquote>
+<p><strong>GitHub에서 하는 방법:</strong></p>
+
+<ol>
+  <li>PR 페이지 하단으로 스크롤</li>
+  <li><strong>“Merge pull request”</strong> 버튼 옆 드롭다운(▼) 클릭</li>
+  <li><strong>“Squash and merge”</strong> 선택</li>
+  <li>커밋 메시지 확인/수정 후 <strong>“Confirm squash and merge”</strong> 클릭</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ Merge pull request ▼ ]
+  ├ Create a merge commit      ← 기본값 (사용 안 함)
+  ├ Squash and merge           ← 이걸 선택
+  └ Rebase and merge
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>방식</th>
+      <th>main 히스토리</th>
+      <th>언제 쓰나</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Create a merge commit</strong></td>
+      <td>브랜치 커밋 전부 + merge 커밋 추가</td>
+      <td>히스토리 전부 보존할 때</td>
+    </tr>
+    <tr>
+      <td><strong>Squash and merge</strong></td>
+      <td>커밋 1개로 압축</td>
+      <td>팀 작업, main 히스토리 깔끔하게</td>
+    </tr>
+    <tr>
+      <td><strong>Rebase and merge</strong></td>
+      <td>브랜치 커밋 전부 (merge 커밋 없음)</td>
+      <td>선형 히스토리 유지할 때</td>
+    </tr>
+  </tbody>
+</table>
 
 <h3 id="step-3-브랜치-삭제">Step 3. 브랜치 삭제</h3>
 
@@ -421,13 +555,18 @@ git restore <span class="nt">--staged</span> <span class="nb">.</span>        <s
   <li>merge 후 GitHub에서 “Delete branch” 클릭</li>
 </ul>
 
+<blockquote>
+  <p>Squash merge를 하면 feat 브랜치 커밋들이 main에 흡수되므로, 원래 feat 브랜치는 역할이 끝난 것입니다. 바로 삭제하는 것이 원칙입니다.
+feat 브랜치를 삭제하지 않고 계속 작업하면, 다음 PR에서 이미 병합된 커밋이 다시 diff로 잡힐 수 있습니다.</p>
+</blockquote>
+
 <hr />
 
 <h2 id="phase-4--버전-태깅-팀장-마일스톤마다">PHASE 4 — 버전 태깅 (팀장, 마일스톤마다)</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout main
 git pull origin main
-git tag v0.1               <span class="c"># 현재 커밋에 태그 생성</span>
+git tag <span class="nt">-a</span> v0.1 <span class="nt">-m</span> <span class="s2">"v0.1"</span> <span class="c"># 현재 커밋에 주석(annotated) 태그 생성</span>
 git push origin v0.1       <span class="c"># 태그를 origin에 업로드</span>
 </code></pre></div></div>
 
@@ -464,7 +603,8 @@ git push submit main        <span class="c"># 로컬 main을 학원 레포(submi
 </code></pre></div></div>
 
 <blockquote>
-  <p>⚠️ submit remote는 제출 목적 전용 — 일상 작업에 사용 금지</p>
+  <p>⚠️ submit remote는 제출 목적 전용 — 일상 작업에 사용 금지
+제출 전에 <code class="language-plaintext highlighter-rouge">git remote -v</code>로 <code class="language-plaintext highlighter-rouge">origin</code>과 <code class="language-plaintext highlighter-rouge">submit</code> URL이 맞는지 한 번 확인하면 실수를 줄일 수 있습니다.</p>
 </blockquote>
 
 <hr />
