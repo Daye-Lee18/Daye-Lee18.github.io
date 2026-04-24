@@ -10,8 +10,8 @@ teaching:
     courses:
       - title: Python for Algorithmic Problem Solving
         role: Instructor
-        term: 2025-09-01 ~ 2025-11-14 (Tue/Thu 14:00–17:00)
-        badge: 코테/기초알고리즘
+        term: 2025-09-01 ~ Now (Tue/Thur 14:00–17:00)
+        badge: 파이썬기초/알고리즘
         points:
           - label: 강의 목표
             text: Python 기초 → 코딩 테스트 알고리즘(DFS/BFS, Backtracking, DP 등)까지 단계적 학습.
