@@ -59,10 +59,11 @@ flowchart TD
 ### 브랜치 전환 시 각 공간 상태
 
 | 상황 | 작업 디렉토리 | 스테이징 | 커밋 히스토리 |
-|------|-------------|---------|------------|
+| --- | --- | --- | --- |
 | 그냥 브랜치 전환 | 따라오거나 전환 거부될 수 있음 ⚠️ | 따라오거나 전환 거부될 수 있음 ⚠️ | 브랜치마다 독립 ✅ |
 | `git commit` 후 전환 | 깨끗 ✅ | 깨끗 ✅ | 브랜치마다 독립 ✅ |
 | `git stash` 후 전환 | 깨끗 ✅ | 깨끗 ✅ | 변화 없음 |
+{: .table .table-sm}
 
 ### 동시 작업
 
@@ -201,12 +202,13 @@ git log main..origin/main --oneline        # fetch 후 origin/main이 몇 커밋
 **브랜치 네이밍 컨벤션**
 
 | prefix | 용도 | 예시 |
-|--------|------|------|
+| --- | --- | --- |
 | `feat/` | 새 기능 개발 | `feat/login-page`, `feat/data-upload` |
 | `fix/` | 버그 수정 | `fix/login-null-error`, `fix/map-render` |
 | `hotfix/` | 배포 후 긴급 수정 | `hotfix/payment-crash` |
 | `chore/` | 설정·문서·패키지 등 기타 | `chore/update-readme`, `chore/env-setup` |
 | `refactor/` | 기능 변경 없이 코드 구조 개선 | `refactor/auth-module` |
+{: .table .table-sm}
 
 - 소문자 + 하이픈(`-`) 사용, 언더스코어·대문자 금지
 - 영어로 작성, 의미를 알 수 있도록 구체적으로
@@ -305,10 +307,11 @@ git restore --staged .        # 전체 unstage
 ```
 
 | 명령어 | 커밋 히스토리 | 스테이징 | 파일 내용 |
-|--------|-------------|---------|---------|
+| --- | --- | --- | --- |
 | `git reset --soft HEAD~1` | 취소 | 유지 | 유지 |
 | `git reset HEAD~1` | 취소 | 취소 | 유지 |
 | `git reset --hard HEAD~1` | 취소 | 취소 | **삭제** ⚠️ |
+{: .table .table-sm}
 
 - `--soft` : 커밋만 취소, 변경사항은 스테이징에 유지 (가장 안전)
 - `--mixed` (기본값): 커밋 취소 + unstage, 파일은 유지
@@ -370,10 +373,11 @@ Squash merge 후 main
 ```
 
 | 방식 | main 히스토리 | 언제 쓰나 |
-|------|-------------|---------|
+| --- | --- | --- |
 | **Create a merge commit** | 브랜치 커밋 전부 + merge 커밋 추가 | 히스토리 전부 보존할 때 |
 | **Squash and merge** | 커밋 1개로 압축 | 팀 작업, main 히스토리 깔끔하게 |
 | **Rebase and merge** | 브랜치 커밋 전부 (merge 커밋 없음) | 선형 히스토리 유지할 때 |
+{: .table .table-sm}
 
 ### Step 3. 브랜치 삭제
 
@@ -406,11 +410,12 @@ git tag -a v0.1 -m "v0.1" # 현재 커밋에 주석(annotated) 태그 생성
 git push origin v0.1       # 태그를 origin에 업로드
 ```
 
-| 태그  | 기준 |
-|-------|------|
-| v0.1  | 핵심 기능 첫 동작 |
-| v0.2  | 기능 추가 완료 |
-| v1.0  | 최종 제출 |
+| 태그 | 기준 |
+| --- | --- |
+| v0.1 | 핵심 기능 첫 동작 |
+| v0.2 | 기능 추가 완료 |
+| v1.0 | 최종 제출 |
+{: .table .table-sm}
 
 ---
 
@@ -430,12 +435,13 @@ git push submit main        # 로컬 main을 학원 레포(submit)에 업로드
 ## 핵심 원칙 요약
 
 | 원칙 | 이유 |
-|------|------|
+| --- | --- |
 | main 직접 push 금지 | branch protection으로 강제됨 |
 | 작업 시작 전 항상 git fetch | 충돌 방지 |
 | PR 단위를 작게 유지 | 리뷰 부담 감소 |
 | Squash merge 사용 | main 히스토리 가독성 유지 |
 | submit은 제출용만 | origin과 용도 분리 |
+{: .table .table-sm}
 
 ---
 
