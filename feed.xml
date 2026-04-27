@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://daye-lee18.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://daye-lee18.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-24T00:02:03+00:00</updated><id>https://daye-lee18.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://daye-lee18.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://daye-lee18.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-27T22:17:57+00:00</updated><id>https://daye-lee18.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 </subtitle><entry><title type="html">Git 팀 사용 가이드</title><link href="https://daye-lee18.github.io/blog/2026/git-team-guide/" rel="alternate" type="text/html" title="Git 팀 사용 가이드" /><published>2026-04-21T00:00:00+00:00</published><updated>2026-04-21T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2026/git-team-guide</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2026/git-team-guide/"><![CDATA[<h2 id="전체-구조">전체 구조</h2>
 
 <ul>
@@ -48,7 +48,7 @@
 
 <h3 id="브랜치-전환-시-각-공간-상태">브랜치 전환 시 각 공간 상태</h3>
 
-<table>
+<table class="table table-sm">
   <thead>
     <tr>
       <th>상황</th>
@@ -281,7 +281,7 @@ git log main..origin/main <span class="nt">--oneline</span>        <span class="
 
 <p><strong>브랜치 네이밍 컨벤션</strong></p>
 
-<table>
+<table class="table table-sm">
   <thead>
     <tr>
       <th>prefix</th>
@@ -421,7 +421,7 @@ git restore <span class="nt">--staged</span> 파일명   <span class="c"># 특�
 git restore <span class="nt">--staged</span> <span class="nb">.</span>        <span class="c"># 전체 unstage</span>
 </code></pre></div></div>
 
-<table>
+<table class="table table-sm">
   <thead>
     <tr>
       <th>명령어</th>
@@ -522,7 +522,7 @@ Squash merge 후 main
   └ Rebase and merge
 </code></pre></div></div>
 
-<table>
+<table class="table table-sm">
   <thead>
     <tr>
       <th>방식</th>
@@ -580,7 +580,7 @@ git tag <span class="nt">-a</span> v0.1 <span class="nt">-m</span> <span class="
 git push origin v0.1       <span class="c"># 태그를 origin에 업로드</span>
 </code></pre></div></div>
 
-<table>
+<table class="table table-sm">
   <thead>
     <tr>
       <th>태그</th>
@@ -621,7 +621,7 @@ git push submit main        <span class="c"># 로컬 main을 학원 레포(submi
 
 <h2 id="핵심-원칙-요약">핵심 원칙 요약</h2>
 
-<table>
+<table class="table table-sm">
   <thead>
     <tr>
       <th>원칙</th>
@@ -673,7 +673,610 @@ git push submit main        <span class="c"># 로컬 main을 학원 레포(submi
 
 <p><strong>Branch</strong> — 어느 브랜치에서 트리거됐는지 (예: <code class="language-plaintext highlighter-rouge">feat/login</code>)</p>
 
-<p><strong>Actor</strong> — 누가 트리거했는지 (예: <code class="language-plaintext highlighter-rouge">Daye-Lee18</code>, <code class="language-plaintext highlighter-rouge">github-actions[bot]</code>)</p>]]></content><author><name></name></author><category term="guide" /><category term="git" /><category term="team" /><summary type="html"><![CDATA[브랜치 전략, PR 흐름, 버전 관리 — 시간순 전체 흐름]]></summary></entry><entry><title type="html">Qwen3-VL</title><link href="https://daye-lee18.github.io/blog/2025/Qwen3-VL/" rel="alternate" type="text/html" title="Qwen3-VL" /><published>2025-12-11T00:00:00+00:00</published><updated>2025-12-11T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2025/Qwen3-VL</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2025/Qwen3-VL/"><![CDATA[<h2 id="equations">Equations</h2>]]></content><author><name>Daye Lee</name></author><category term="formatting" /><summary type="html"><![CDATA[Multimodal LLM by Alibaba Qwen team]]></summary></entry><entry><title type="html">Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra</title><link href="https://daye-lee18.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra/" rel="alternate" type="text/html" title="Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra" /><published>2024-05-14T00:00:00+00:00</published><updated>2024-05-14T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra/"><![CDATA[<p>Learn more:Learn more:Learn more:Learn more:Learn more:Learn more:May 14, 2024
+<p><strong>Actor</strong> — 누가 트리거했는지 (예: <code class="language-plaintext highlighter-rouge">Daye-Lee18</code>, <code class="language-plaintext highlighter-rouge">github-actions[bot]</code>)</p>]]></content><author><name></name></author><category term="guide" /><category term="git" /><category term="team" /><summary type="html"><![CDATA[브랜치 전략, PR 흐름, 버전 관리 — 시간순 전체 흐름]]></summary></entry><entry><title type="html">Pydantic naming convention guideline</title><link href="https://daye-lee18.github.io/blog/2026/pydantic_naming_convention/" rel="alternate" type="text/html" title="Pydantic naming convention guideline" /><published>2026-04-21T00:00:00+00:00</published><updated>2026-04-21T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2026/pydantic_naming_convention</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2026/pydantic_naming_convention/"><![CDATA[<h2 id="1-pydantic-일반-설명">1. Pydantic 일반 설명</h2>
+
+<p>Pydantic은 Python에서 <strong>데이터의 타입과 구조를 검증</strong>하는 라이브러리다.
+클래스를 정의하면 그 클래스의 객체(object)로 데이터를 주고받고, 타입이 맞지 않으면 자동으로 에러를 낸다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+<span class="k">class</span> <span class="nc">CreateOrdInput</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">quantity</span><span class="p">:</span> <span class="nb">int</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="nc">CreateOrdInput</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">quantity</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>      <span class="c1"># OK
+</span><span class="n">data</span> <span class="o">=</span> <span class="nc">CreateOrdInput</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="sh">"</span><span class="s">abc</span><span class="sh">"</span><span class="p">,</span> <span class="n">quantity</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># ValidationError 자동 발생
+</span></code></pre></div></div>
+
+<h3 id="1-1-naming-style-비교">1-1. Naming Style 비교</h3>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>이름</th>
+      <th>규칙</th>
+      <th>예시</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>PascalCase</strong></td>
+      <td>모든 단어 첫 글자 대문자</td>
+      <td><code class="language-plaintext highlighter-rouge">CreateTaskInput</code></td>
+    </tr>
+    <tr>
+      <td><strong>camelCase</strong></td>
+      <td>첫 단어만 소문자, 나머지 대문자</td>
+      <td><code class="language-plaintext highlighter-rouge">createTaskInput</code></td>
+    </tr>
+    <tr>
+      <td><strong>snake_case</strong></td>
+      <td>소문자 + 언더바</td>
+      <td><code class="language-plaintext highlighter-rouge">create_task_input</code></td>
+    </tr>
+    <tr>
+      <td><strong>kebab-case</strong></td>
+      <td>소문자 + 하이픈</td>
+      <td><code class="language-plaintext highlighter-rouge">create-task-input</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>create task input  →  (PascalCase) CreateTaskInput
+                   →  (camelCase)  createTaskInput
+                   →  (snake_case) create_task_input
+                   →  (kebab-case) create-task-input
+</code></pre></div></div>
+
+<p>Python <a href="https://peps.python.org/pep-0008/">PEP 8</a> 표준:</p>
+<ul>
+  <li><strong>클래스명</strong> → PascalCase (<code class="language-plaintext highlighter-rouge">class CreateTaskInput</code>)</li>
+  <li><strong>함수/변수명</strong> → snake_case (<code class="language-plaintext highlighter-rouge">def create_task()</code>)</li>
+</ul>
+
+<h3 id="1-2-모델-클래스-suffix-규칙">1-2. 모델 클래스 Suffix 규칙</h3>
+
+<p>데이터의 역할에 따라 접미사(Suffix)를 붙여 구분한다.</p>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Suffix</th>
+      <th>용도</th>
+      <th>패턴</th>
+      <th>예시</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Input</code></td>
+      <td>함수에 넣는 입력값</td>
+      <td><code class="language-plaintext highlighter-rouge">[동사][명사]Input</code></td>
+      <td><code class="language-plaintext highlighter-rouge">CreateOrdInput</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Record</code></td>
+      <td>DB 행(row) 1:1 표현</td>
+      <td><code class="language-plaintext highlighter-rouge">[테이블명]Record</code></td>
+      <td><code class="language-plaintext highlighter-rouge">OrdRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Result</code></td>
+      <td>연산 결과 (DB 아님)</td>
+      <td><code class="language-plaintext highlighter-rouge">[동사][명사]Result</code></td>
+      <td><code class="language-plaintext highlighter-rouge">AllocateTaskResult</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Event</code></td>
+      <td>이벤트/로그 페이로드</td>
+      <td><code class="language-plaintext highlighter-rouge">[명사]Event</code></td>
+      <td><code class="language-plaintext highlighter-rouge">TransErrorEvent</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="1-3-필드명--snake_case">1-3. 필드명 — <code class="language-plaintext highlighter-rouge">snake_case</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">CreateOrdInput</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span>           <span class="c1"># snake_case
+</span>    <span class="n">prod_opt_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">quantity</span><span class="p">:</span> <span class="nb">int</span>
+</code></pre></div></div>
+
+<h3 id="1-4-validator--validate_field_name">1-4. Validator — <code class="language-plaintext highlighter-rouge">validate_&lt;field_name&gt;</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">CreateOrdInput</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">quantity</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="sh">"</span><span class="s">quantity</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate_quantity</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="nc">ValueError</span><span class="p">(</span><span class="sh">"</span><span class="s">quantity must be positive</span><span class="sh">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+</code></pre></div></div>
+
+<details>
+<summary><code>@field_validator</code> 와 <code>@classmethod</code> 가 왜 같이 쓰이나?</summary>
+
+<br />
+
+둘의 역할이 다르다.
+
+<ul>
+  <li><strong><code>@field_validator("quantity")</code></strong> — Pydantic에게: <code>quantity</code> 값이 들어올 때 이 함수를 먼저 실행해라</li>
+  <li><strong><code>@classmethod</code></strong> — Python에게: 객체 생성 전이라 <code>self</code>가 없으니, 클래스 자체(<code>cls</code>)로 호출할 수 있다</li>
+</ul>
+
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@field_validator</span><span class="p">(</span><span class="sh">"</span><span class="s">quantity</span><span class="sh">"</span><span class="p">)</span>   <span class="c1"># Pydantic에게: "quantity 들어오면 이 함수 써라"
+</span><span class="nd">@classmethod</span>                   <span class="c1"># Python에게:   "객체 없이 클래스로 호출할 수 있다"
+</span><span class="k">def</span> <span class="nf">validate_quantity</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="nc">ValueError</span><span class="p">(</span><span class="sh">"</span><span class="s">...</span><span class="sh">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">v</span></code></pre></figure>
+
+
+validator는 객체가 만들어지기 <strong>전에</strong> 값을 검사해야 하므로, 인스턴스(<code>self</code>) 대신 클래스(<code>cls</code>)를 받는 <code>@classmethod</code>를 쓴다.<br />
+단, <code>cls</code>는 함수 안에서 실제로 쓸 일이 거의 없다 — Pydantic v2 스펙이 요구해서 형식상 붙이는 것이고, 실제로 신경 쓸 건 검사할 값인 <code>v</code>뿐이다.
+
+<br /><br />
+
+실행 흐름:
+
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">CreateOrdInput(quantity=-1)
+      ↓
+Pydantic: "quantity 필드 들어왔다"
+      ↓
+@field_validator("quantity") 찾아서 실행
+      ↓
+validate_quantity(cls, v=-1) 호출
+      ↓
+raise ValueError → ValidationError 발생</code></pre></figure>
+
+
+</details>
+
+<h3 id="1-5-model_config-pydantic-v2">1-5. model_config (Pydantic v2)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">OrdRecord</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="nc">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c1"># ORM 객체 → Pydantic 변환 시 필요
+</span></code></pre></div></div>
+
+<hr />
+
+<h3 id="1-6-자주-쓰이는-pydantic-데코레이터-">1-6. 자주 쓰이는 Pydantic 데코레이터 (<code class="language-plaintext highlighter-rouge">@</code>)</h3>
+
+<details>
+<summary><strong>@field_validator</strong> — 특정 필드 하나 검증</summary>
+
+<br />
+<strong>언제:</strong> 특정 필드 값이 조건을 만족하는지 검사할 때<br /><br />
+
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="n">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">field_validator</span>
+
+<span class="k">class</span> <span class="nc">CreateOrdInput</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">quantity</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="sh">"</span><span class="s">quantity</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate_quantity</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="nc">ValueError</span><span class="p">(</span><span class="sh">"</span><span class="s">quantity must be positive</span><span class="sh">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+<span class="nc">CreateOrdInput</span><span class="p">(</span><span class="n">quantity</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># ValidationError 발생
+</span><span class="nc">CreateOrdInput</span><span class="p">(</span><span class="n">quantity</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>   <span class="c1"># OK</span></code></pre></figure>
+
+
+</details>
+
+<hr />
+
+<details>
+<summary><strong>@model_validator</strong> — 필드 간 관계 검증</summary>
+
+<br />
+<strong>언제:</strong> 두 필드를 같이 봐야 할 때 (한 필드만으로는 판단 불가)<br /><br />
+
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="n">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">model_validator</span>
+
+<span class="k">class</span> <span class="nc">ShipmentOrdInput</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">quantity</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">available_stock</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="sh">"</span><span class="s">after</span><span class="sh">"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_stock</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="sh">"</span><span class="s">ShipmentOrdInput</span><span class="sh">"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">quantity</span> <span class="o">&gt;</span> <span class="n">self</span><span class="p">.</span><span class="n">available_stock</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="nc">ValueError</span><span class="p">(</span><span class="sh">"</span><span class="s">수량이 재고보다 많습니다</span><span class="sh">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">self</span>
+
+<span class="nc">ShipmentOrdInput</span><span class="p">(</span><span class="n">quantity</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">available_stock</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>   <span class="c1"># ValidationError
+</span><span class="nc">ShipmentOrdInput</span><span class="p">(</span><span class="n">quantity</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>  <span class="n">available_stock</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>   <span class="c1"># OK</span></code></pre></figure>
+
+
+<br />
+<code>mode="after"</code> : 객체 생성 <strong>후</strong> 실행 → <code>self</code>로 모든 필드 접근 가능<br />
+<code>mode="before"</code> : 객체 생성 <strong>전</strong> 실행 → raw dict 상태
+
+</details>
+
+<hr />
+
+<details>
+<summary><strong>Field()</strong> — 함수 없이 간단한 제약</summary>
+
+<br />
+<strong>언제:</strong> 범위·길이처럼 단순한 조건은 <code>@field_validator</code> 없이 한 줄로 처리<br /><br />
+
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="n">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+
+<span class="k">class</span> <span class="nc">CreateOrdInput</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">quantity</span><span class="p">:</span>  <span class="nb">int</span> <span class="o">=</span> <span class="nc">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>                      <span class="c1"># 0 초과
+</span>    <span class="n">user_id</span><span class="p">:</span>   <span class="nb">int</span> <span class="o">=</span> <span class="nc">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>                      <span class="c1"># 1 이상
+</span>    <span class="n">prod_nm</span><span class="p">:</span>   <span class="nb">str</span> <span class="o">=</span> <span class="nc">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></code></pre></figure>
+
+
+<br />
+
+<table class="table table-sm">
+  <thead><tr><th>옵션</th><th>의미</th></tr></thead>
+  <tbody>
+    <tr><td><code>gt</code></td><td>초과 (greater than)</td></tr>
+    <tr><td><code>ge</code></td><td>이상 (greater or equal)</td></tr>
+    <tr><td><code>lt</code></td><td>미만</td></tr>
+    <tr><td><code>le</code></td><td>이하</td></tr>
+    <tr><td><code>min_length</code> / <code>max_length</code></td><td>문자열 길이</td></tr>
+    <tr><td><code>pattern</code></td><td>정규식</td></tr>
+  </tbody>
+</table>
+
+</details>
+
+<hr />
+
+<details>
+<summary><strong>@computed_field</strong> — DB에 없는 계산값 노출</summary>
+
+<br />
+<strong>언제:</strong> DB에 저장하진 않지만 응답에 포함시키고 싶은 파생 값이 있을 때<br /><br />
+
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="n">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">computed_field</span>
+
+<span class="k">class</span> <span class="nc">OrdRecord</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">unit_price</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">quantity</span><span class="p">:</span>   <span class="nb">int</span>
+
+    <span class="nd">@computed_field</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">total_price</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">unit_price</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">quantity</span>
+
+<span class="n">record</span> <span class="o">=</span> <span class="nc">OrdRecord</span><span class="p">(</span><span class="n">unit_price</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">quantity</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">record</span><span class="p">.</span><span class="n">total_price</span><span class="p">)</span>   <span class="c1"># 3000
+</span><span class="nf">print</span><span class="p">(</span><span class="n">record</span><span class="p">.</span><span class="nf">model_dump</span><span class="p">())</span>  <span class="c1"># {'unit_price': 1000, 'quantity': 3, 'total_price': 3000}</span></code></pre></figure>
+
+
+</details>
+
+<hr />
+
+<details>
+<summary><strong>@field_serializer</strong> — JSON 출력 형식 커스텀</summary>
+
+<br />
+<strong>언제:</strong> DB에서 꺼낸 값과 API 응답으로 내보낼 형식이 다를 때 (특히 날짜·enum)<br /><br />
+
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="n">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">field_serializer</span>
+<span class="kn">from</span> <span class="n">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="k">class</span> <span class="nc">OrdRecord</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span>
+
+    <span class="nd">@field_serializer</span><span class="p">(</span><span class="sh">"</span><span class="s">created_at</span><span class="sh">"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">serialize_created_at</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">v</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="sh">"</span><span class="s">%Y-%m-%d %H:%M</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">record</span> <span class="o">=</span> <span class="nc">OrdRecord</span><span class="p">(</span><span class="n">created_at</span><span class="o">=</span><span class="nf">datetime</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">record</span><span class="p">.</span><span class="nf">model_dump</span><span class="p">())</span>
+<span class="c1"># {'created_at': '2026-04-28 09:00'}   ← datetime 객체가 아닌 문자열로 출력</span></code></pre></figure>
+
+
+</details>
+
+<hr />
+
+<details>
+<summary><strong>한눈에 비교</strong></summary>
+
+<br />
+
+<table class="table table-sm">
+  <thead><tr><th>데코레이터</th><th>언제 쓰나</th></tr></thead>
+  <tbody>
+    <tr><td><code>@field_validator</code></td><td>특정 필드 하나 검증</td></tr>
+    <tr><td><code>@model_validator</code></td><td>필드 간 관계 검증</td></tr>
+    <tr><td><code>Field()</code></td><td>간단한 범위·길이 제약 (함수 불필요)</td></tr>
+    <tr><td><code>@computed_field</code></td><td>DB에 없는 계산값 노출</td></tr>
+    <tr><td><code>@field_serializer</code></td><td>JSON 출력 형식 커스텀</td></tr>
+  </tbody>
+</table>
+
+</details>
+
+<hr />
+
+<h2 id="2-우리-테이블-종류-요약">2. 우리 테이블 종류 요약</h2>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>테이블 종류</th>
+      <th>언제 쓰는가</th>
+      <th>Pydantic Suffix</th>
+      <th>해당 테이블</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Master</strong></td>
+      <td>기준 데이터. 잘 안 변함</td>
+      <td><code class="language-plaintext highlighter-rouge">Record</code></td>
+      <td><code class="language-plaintext highlighter-rouge">user_account</code>, <code class="language-plaintext highlighter-rouge">category</code>, <code class="language-plaintext highlighter-rouge">product</code>, <code class="language-plaintext highlighter-rouge">zone</code>, <code class="language-plaintext highlighter-rouge">equip</code>, <code class="language-plaintext highlighter-rouge">trans</code></td>
+    </tr>
+    <tr>
+      <td><strong>Operational (txn)</strong></td>
+      <td>작업 발생/진행 기록</td>
+      <td>생성 입력 → <code class="language-plaintext highlighter-rouge">Input</code> / DB 조회 → <code class="language-plaintext highlighter-rouge">Record</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ord</code>, <code class="language-plaintext highlighter-rouge">equip_task_txn</code>, <code class="language-plaintext highlighter-rouge">trans_task_txn</code>, <code class="language-plaintext highlighter-rouge">insp_task_txn</code></td>
+    </tr>
+    <tr>
+      <td><strong>State (stat)</strong></td>
+      <td>현재 상태 스냅샷. 빠른 조회</td>
+      <td><code class="language-plaintext highlighter-rouge">Record</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ord_stat</code>, <code class="language-plaintext highlighter-rouge">equip_stat</code>, <code class="language-plaintext highlighter-rouge">trans_stat</code>, <code class="language-plaintext highlighter-rouge">chg_loc_stat</code></td>
+    </tr>
+    <tr>
+      <td><strong>Log</strong></td>
+      <td>행동/이벤트/에러 기록</td>
+      <td>행동·이벤트 → <code class="language-plaintext highlighter-rouge">Event</code> / 데이터·에러 → <code class="language-plaintext highlighter-rouge">Record</code></td>
+      <td><code class="language-plaintext highlighter-rouge">log_action_*</code>, <code class="language-plaintext highlighter-rouge">log_event</code>, <code class="language-plaintext highlighter-rouge">log_err_*</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="3-우리-erd--pydantic-클래스명-매핑">3. 우리 ERD → Pydantic 클래스명 매핑</h2>
+
+<h3 id="master-tables--테이블명record">Master tables → <code class="language-plaintext highlighter-rouge">[테이블명]Record</code></h3>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>DB 테이블</th>
+      <th>Pydantic 클래스</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">user_account</code></td>
+      <td><code class="language-plaintext highlighter-rouge">UserAccountRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">category</code></td>
+      <td><code class="language-plaintext highlighter-rouge">CategoryRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">product</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ProductRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">product_option</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ProductOptionRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">zone</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ZoneRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">equip</code></td>
+      <td><code class="language-plaintext highlighter-rouge">EquipRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">trans</code></td>
+      <td><code class="language-plaintext highlighter-rouge">TransRecord</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="operational-tables--input--record">Operational tables → <code class="language-plaintext highlighter-rouge">Input</code> / <code class="language-plaintext highlighter-rouge">Record</code></h3>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>DB 테이블</th>
+      <th>쓰임</th>
+      <th>Pydantic 클래스</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ord</code></td>
+      <td>주문 생성 입력</td>
+      <td><code class="language-plaintext highlighter-rouge">CreateOrdInput</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ord</code></td>
+      <td>DB 행 조회</td>
+      <td><code class="language-plaintext highlighter-rouge">OrdRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">equip_task_txn</code></td>
+      <td>태스크 할당 입력</td>
+      <td><code class="language-plaintext highlighter-rouge">AssignEquipTaskInput</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">equip_task_txn</code></td>
+      <td>DB 행 조회</td>
+      <td><code class="language-plaintext highlighter-rouge">EquipTaskTxnRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">trans_task_txn</code></td>
+      <td>태스크 할당 입력</td>
+      <td><code class="language-plaintext highlighter-rouge">AssignTransTaskInput</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">trans_task_txn</code></td>
+      <td>DB 행 조회</td>
+      <td><code class="language-plaintext highlighter-rouge">TransTaskTxnRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">insp_task_txn</code></td>
+      <td>검사 생성 입력</td>
+      <td><code class="language-plaintext highlighter-rouge">CreateInspTaskInput</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">insp_task_txn</code></td>
+      <td>DB 행 조회</td>
+      <td><code class="language-plaintext highlighter-rouge">InspTaskTxnRecord</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="state-tables--테이블명record">State tables → <code class="language-plaintext highlighter-rouge">[테이블명]Record</code></h3>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>DB 테이블</th>
+      <th>Pydantic 클래스</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ord_stat</code></td>
+      <td><code class="language-plaintext highlighter-rouge">OrdStatRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">item_stat</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ItemStatRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">equip_stat</code></td>
+      <td><code class="language-plaintext highlighter-rouge">EquipStatRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">trans_stat</code></td>
+      <td><code class="language-plaintext highlighter-rouge">TransStatRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">chg_loc_stat</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ChgLocStatRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">strg_loc_stat</code></td>
+      <td><code class="language-plaintext highlighter-rouge">StrgLocStatRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ship_loc_stat</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ShipLocStatRecord</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="log-tables--event--record">Log tables → <code class="language-plaintext highlighter-rouge">Event</code> / <code class="language-plaintext highlighter-rouge">Record</code></h3>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>DB 테이블</th>
+      <th>Pydantic 클래스</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">log_action_user</code></td>
+      <td><code class="language-plaintext highlighter-rouge">UserActionEvent</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">log_action_operator_handoff_acks</code></td>
+      <td><code class="language-plaintext highlighter-rouge">OperatorHandoffEvent</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">log_action_operator_rfid_scan</code></td>
+      <td><code class="language-plaintext highlighter-rouge">RfidScanEvent</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">log_action_admin</code></td>
+      <td><code class="language-plaintext highlighter-rouge">AdminActionEvent</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">log_event</code></td>
+      <td><code class="language-plaintext highlighter-rouge">SystemEvent</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">log_data_equip</code></td>
+      <td><code class="language-plaintext highlighter-rouge">EquipDataRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">log_data_trans</code></td>
+      <td><code class="language-plaintext highlighter-rouge">TransDataRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">log_err_equip</code></td>
+      <td><code class="language-plaintext highlighter-rouge">EquipErrorRecord</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">log_err_trans</code></td>
+      <td><code class="language-plaintext highlighter-rouge">TransErrorRecord</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="함수-흐름-예시">함수 흐름 예시</h3>
+
+<p>Pydantic 클래스는 함수 간 데이터를 주고받는 “타입이 있는 그릇” 역할을 한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[외부 입력]
+    │
+    ▼
+CreateOrdInput              ← Pydantic이 타입/필드 자동 검증
+    │
+    ▼
+def create_ord()            ← DB INSERT
+    │
+    ▼
+OrdRecord                   ← DB 행 반환
+    │
+    ▼
+def assign_equip_task()     ← AssignEquipTaskInput 생성 후 DB INSERT
+    │
+    ▼
+EquipTaskTxnRecord          ← 완료된 태스크 행 반환
+    │
+    ▼ (에러 발생 시)
+TransErrorEvent  →  def log_trans_error()  →  log_err_trans 저장
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 주문 생성
+</span><span class="k">def</span> <span class="nf">create_ord</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">CreateOrdInput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OrdRecord</span><span class="p">:</span> <span class="bp">...</span>
+
+<span class="c1"># 설비 태스크 할당
+</span><span class="k">def</span> <span class="nf">assign_equip_task</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">AssignEquipTaskInput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EquipTaskTxnRecord</span><span class="p">:</span> <span class="bp">...</span>
+
+<span class="c1"># 상태 조회
+</span><span class="k">def</span> <span class="nf">get_trans_stat</span><span class="p">(</span><span class="n">trans_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TransStatRecord</span><span class="p">:</span> <span class="bp">...</span>
+
+<span class="c1"># 에러 로그 기록
+</span><span class="k">def</span> <span class="nf">log_trans_error</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">TransErrorEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">...</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="guide" /><category term="team" /><category term="pydantic" /><category term="pep8" /><summary type="html"><![CDATA[Class naming protocols for collaborating on code]]></summary></entry><entry><title type="html">Qwen3-VL</title><link href="https://daye-lee18.github.io/blog/2025/Qwen3-VL/" rel="alternate" type="text/html" title="Qwen3-VL" /><published>2025-12-11T00:00:00+00:00</published><updated>2025-12-11T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2025/Qwen3-VL</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2025/Qwen3-VL/"><![CDATA[<h2 id="equations">Equations</h2>]]></content><author><name>Daye Lee</name></author><category term="formatting" /><summary type="html"><![CDATA[Multimodal LLM by Alibaba Qwen team]]></summary></entry><entry><title type="html">Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra</title><link href="https://daye-lee18.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra/" rel="alternate" type="text/html" title="Google Gemini updates: Flash 1.5, Gemma 2 and Project Astra" /><published>2024-05-14T00:00:00+00:00</published><updated>2024-05-14T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2024/google-gemini-updates-flash-15-gemma-2-and-project-astra/"><![CDATA[<p>Learn more:Learn more:Learn more:Learn more:Learn more:Learn more:May 14, 2024
           We’re introducing a series of updates across the Gemini family of models, including the new 1.5 Flash, our lightweight model for speed and efficiency, and Project Astra, our vision for the future of AI assistants.
         In December, we launched our first natively multimodal model Gemini 1.0 in three sizes: Ultra, Pro and Nano. Just a few months later we released 1.5 Pro, with enhanced performance and a breakthrough long context window of 1 million tokens.Developers and enterprise customers have been putting 1.5 Pro to use in incredible ways and finding its long context window, multimodal reasoning capabilities and impressive overall performance incredibly useful.We know from user feedback that some applications need lower latency and a lower cost to serve. This inspired us to keep innovating, so today, we’re introducing Gemini 1.5 Flash: a model that’s lighter-weight than 1.5 Pro, and designed to be fast and efficient to serve at scale.Both 1.5 Pro and 1.5 Flash are available in public preview with a 1 million token context window in Google AI Studio and Vertex AI. And now, 1.5 Pro is also available with a 2 million token context window via waitlist to developers using the API and to Google Cloud customers.We’re also introducing updates across the Gemini family of models, announcing our next generation of open models, Gemma 2, and sharing progress on the future of AI assistants, with Project Astra.Context lengths of leading foundation models compared with Gemini 1.5’s 2 million token capability1.5 Flash is the newest addition to the Gemini model family and the fastest Gemini model served in the API. It’s optimized for high-volume, high-frequency tasks at scale, is more cost-efficient to serve and features our breakthrough long context window.While it’s a lighter weight model than 1.5 Pro, it’s highly capable of multimodal reasoning across vast amounts of information and delivers impressive quality for its size.The new Gemini 1.5 Flash model is optimized for speed and efficiency, is highly capable of multimodal reasoning and features our breakthrough long context window.1.5 Flash excels at summarization, chat applications, image and video captioning, data extraction from long documents and tables, and more. This is because it’s been trained by 1.5 Pro through a process called “distillation,” where the most essential knowledge and skills from a larger model are transferred to a smaller, more efficient model.Read more about 1.5 Flash in our updated Gemini 1.5 technical report, on the Gemini technology page, and learn about 1.5 Flash’s availability and pricing.Over the last few months, we’ve significantly improved 1.5 Pro, our best model for general performance across a wide range of tasks.Beyond extending its context window to 2 million tokens, we’ve enhanced its code generation, logical reasoning and planning, multi-turn conversation, and audio and image understanding through data and algorithmic advances. We see strong improvements on public and internal benchmarks for each of these tasks.1.5 Pro can now follow increasingly complex and nuanced instructions, including ones that specify product-level behavior involving role, format and style. We’ve improved control over the model’s responses for specific use cases, like crafting the persona and response style of a chat agent or automating workflows through multiple function calls. And we’ve enabled users to steer model behavior by setting system instructions.We added audio understanding in the Gemini API and Google AI Studio, so 1.5 Pro can now reason across image and audio for videos uploaded in Google AI Studio. And we’re now integrating 1.5 Pro into Google products, including Gemini Advanced and in Workspace apps.Read more about 1.5 Pro in our updated Gemini 1.5 technical report and on the Gemini technology page.Gemini Nano is expanding beyond text-only inputs to include images as well. Starting with Pixel, applications using Gemini Nano with Multimodality will be able to understand the world the way people do — not just through text, but also through sight, sound and spoken language.Read more about Gemini 1.0 Nano on Android.Today, we’re also sharing a series of updates to Gemma, our family of open models built from the same research and technology used to create the Gemini models.We’re announcing Gemma 2, our next generation of open models for responsible AI innovation. Gemma 2 has a new architecture designed for breakthrough performance and efficiency, and will be available in new sizes.The Gemma family is also expanding with PaliGemma, our first vision-language model inspired by PaLI-3. And we’ve upgraded our Responsible Generative AI Toolkit with LLM Comparator for evaluating the quality of model responses.Read more on the Developer blog.As part of Google DeepMind’s mission to build AI responsibly to benefit humanity, we’ve always wanted to develop universal AI agents that can be helpful in everyday life. That’s why today, we’re sharing our progress in building the future of AI assistants with Project Astra (advanced seeing and talking responsive agent).To be truly useful, an agent needs to understand and respond to the complex and dynamic world just like people do — and take in and remember what it sees and hears to understand context and take action. It also needs to be proactive, teachable and personal, so users can talk to it naturally and without lag or delay.While we’ve made incredible progress developing AI systems that can understand multimodal information, getting response time down to something conversational is a difficult engineering challenge. Over the past few years, we’ve been working to improve how our models perceive, reason and converse to make the pace and quality of interaction feel more natural.Building on Gemini, we’ve developed prototype agents that can process information faster by continuously encoding video frames, combining the video and speech input into a timeline of events, and caching this information for efficient recall.By leveraging our leading speech models, we also enhanced how they sound, giving the agents a wider range of intonations. These agents can better understand the context they’re being used in, and respond quickly, in conversation.With technology like this, it’s easy to envision a future where people could have an expert AI assistant by their side, through a phone or glasses. And some of these capabilities are coming to Google products, like the Gemini app and web experience, later this year.We’ve made incredible progress so far with our family of Gemini models, and we’re always striving to advance the state-of-the-art even further. By investing in a relentless production line of innovation, we’re able to explore new ideas at the frontier, while also unlocking the possibility of new and exciting Gemini use cases.Learn more about Gemini and its capabilities.
             Your information will be used in accordance with

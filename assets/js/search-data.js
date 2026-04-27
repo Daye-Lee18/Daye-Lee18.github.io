@@ -44,7 +44,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/teaching/";
           },
-        },{id: "post-git-팀-사용-가이드",
+        },{id: "post-pydantic-naming-convention-guideline",
+        
+          title: "Pydantic naming convention guideline",
+        
+        description: "Class naming protocols for collaborating on code",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/pydantic_naming_convention/";
+          
+        },
+      },{id: "post-git-팀-사용-가이드",
         
           title: "Git 팀 사용 가이드",
         
