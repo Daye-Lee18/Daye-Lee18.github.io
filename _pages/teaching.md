@@ -8,6 +8,18 @@ nav_order: 6
 teaching:
   - university: Seoul National University
     courses:
+      - title: C++ Project-Based Programming
+        role: Self-Study Material
+        term: 2026
+        badge: C++/Project
+        points:
+          - label: 내용
+            text: C++ 기초 문법을 작은 프로젝트 단위로 학습하는 Jupyter Book 자료
+          - label: 구성
+            text: Calculator, Number Game, Grade Manager, Contact Class, Bank Account, STL/File I/O, Final Project
+          - label: 링크
+            text: '<a href="https://daye-lee18.github.io/cpp-project-book/" target="_blank" rel="noopener">Course page</a>'
+      
       - title: Python for Algorithmic Problem Solving
         role: Instructor
         term: 2025-09-01 ~ Now (Tue/Thur 14:00–17:00)

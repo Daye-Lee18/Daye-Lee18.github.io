@@ -346,6 +346,69 @@ git push -u origin {prefix}/{기능명}   # 첫 push: 원격 브랜치 생성 + 
 - PR → Files changed 탭 → 라인별 코멘트
 - 수정 요청 시: "Request changes" / 승인 시: "Approve"
 
+#### PR 변경사항이 너무 많을 때 확인 순서
+
+GitHub 화면에서는 PR의 **Files changed** 탭에서 변경 파일을 확인합니다.
+파일이 많으면 한 번에 다 보려고 하지 말고, 파일별로 확인한 뒤 본 파일은 **Viewed** 체크를 합니다.
+
+커밋이 잘 나뉘어 있다면 **Commits** 탭에서 커밋 단위로 보는 것이 더 편합니다.
+
+로컬에서 더 자세히 보고 싶으면 먼저 원격 브랜치를 확인합니다.
+
+```bash
+git fetch origin
+git branch -a
+```
+
+예를 들어 아래처럼 보이면:
+
+```bash
+* main
+  remotes/origin/HEAD -> origin/main
+  remotes/origin/import/casting-factory-from-kim
+  remotes/origin/main
+```
+
+`remotes/origin/import/casting-factory-from-kim`은 다른 사람이 GitHub에 올린 원격 브랜치입니다.
+같은 레포에 올라온 브랜치라면 팀장도 로컬로 가져와서 확인할 수 있습니다.
+
+```bash
+git checkout -b review/casting-factory-from-kim origin/import/casting-factory-from-kim
+```
+
+이제 PR 브랜치의 실제 코드를 로컬에서 열어볼 수 있습니다.
+확인이 끝나면 다시 main으로 돌아갑니다.
+
+```bash
+git checkout main
+```
+
+main 기준으로 어떤 파일이 바뀌었는지만 보려면:
+
+```bash
+git diff --name-only main...review/casting-factory-from-kim
+```
+
+파일별 변경량을 보고 싶으면:
+
+```bash
+git diff --stat main...review/casting-factory-from-kim
+```
+
+특정 파일 하나만 자세히 보고 싶으면:
+
+```bash
+git diff main...review/casting-factory-from-kim -- path/to/file.py
+```
+
+> 다른 사람 계정으로 만든 브랜치라도, PR로 올라왔고 같은 레포의 원격 브랜치에 있으면 checkout해서 볼 수 있습니다.
+> fork에서 온 PR이라 원격 브랜치 목록에 보이지 않으면 PR 번호로 가져옵니다.
+
+```bash
+git fetch origin pull/PR번호/head:review/pr-PR번호
+git checkout review/pr-PR번호
+```
+
 ### Step 2. Squash merge
 
 feature 브랜치에서 쌓인 여러 커밋을 **하나로 압축**해서 main에 병합하는 방식입니다.
