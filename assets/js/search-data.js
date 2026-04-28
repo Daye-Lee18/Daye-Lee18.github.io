@@ -170,6 +170,11 @@ ninja.data = [{
           description: "Computer Vision Study",
           section: "Projects",handler: () => {
               window.location.href = "/projects/study3_CV/";
+            },},{id: "projects-c-project-book",
+          title: 'C++ Project Book',
+          description: "Project-based C++ learning material built with Jupyter Book",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/study4_cpp_project_book/";
             },},{id: "projects-ted-talk",
           title: 'TED talk',
           description: "English to Korean translation volunteer",
