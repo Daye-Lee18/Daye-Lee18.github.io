@@ -55,6 +55,39 @@ flowchart TD
 
 > 스테이징 영역은 브랜치가 여럿이어도 레포 전체에서 **하나**입니다.
 > 다만 브랜치를 전환할 때 현재 변경사항이 대상 브랜치 파일과 충돌할 수 있으면 `checkout`이 거부될 수 있습니다.
+{: .block-tip }
+
+### `git checkout`의 두 가지 역할
+
+`git checkout`은 크게 두 가지 용도로 쓰입니다.
+
+| 용도 | 명령어 예시 | 의미 |
+| --- | --- | --- |
+| 브랜치/커밋 전환 | `git checkout feat/login` | 다른 브랜치나 특정 커밋으로 이동 |
+| 작업 내용 되돌리기 | `git checkout -- app.py` 또는 `git checkout .` | Working Directory의 수정 내용을 마지막 커밋 상태로 복원 |
+{: .table .table-sm .table-striped}
+
+즉, `checkout`은 단순히 브랜치를 바꾸는 명령어만은 아닙니다.
+특정 파일이나 `.`을 대상으로 사용하면, 아직 commit하지 않은 수정 내용이 사라질 수 있습니다.
+
+```bash
+# 브랜치 전환
+git checkout feat/login
+
+# 새 브랜치 생성 + 전환
+git checkout -b feat/login
+
+# 특정 파일의 수정 내용 삭제
+git checkout -- app.py
+
+# 현재 폴더 아래의 tracked file 수정 내용 전체 삭제
+git checkout .
+```
+
+> `git checkout -- 파일명` 또는 `git checkout .`은 Working Directory의 수정 내용을 되돌립니다.
+> commit하지 않은 내용은 Git 기록에 남아 있지 않기 때문에, 이 명령으로 지운 내용은 복구하기 어렵습니다.
+> 실행 전에는 반드시 `git status`와 `git diff`로 없어져도 되는 변경인지 확인합니다.
+{: .block-warning }
 
 ### 브랜치 전환 시 각 공간 상태
 
@@ -63,7 +96,7 @@ flowchart TD
 | 그냥 브랜치 전환 | 따라오거나 전환 거부될 수 있음 ⚠️ | 따라오거나 전환 거부될 수 있음 ⚠️ | 브랜치마다 독립 ✅ |
 | `git commit` 후 전환 | 깨끗 ✅ | 깨끗 ✅ | 브랜치마다 독립 ✅ |
 | `git stash` 후 전환 | 깨끗 ✅ | 깨끗 ✅ | 변화 없음 |
-{: .table .table-sm}
+{: .table .table-sm .table-striped}
 
 ### 동시 작업
 
@@ -89,6 +122,7 @@ git stash list
 
 > `git stash pop`은 stash를 복원하면서 목록에서 제거합니다.
 > 충돌이 나면 자동으로 사라지지 않을 수 있으니 `git status`로 확인합니다.
+{: .block-tip }
 
 **여러 사람이 동시에 작업할 때**
 
@@ -161,6 +195,7 @@ Add bypass → User → [본인 GitHub 계정명]  ← 특정 계정만 bypass
 | Require status checks to pass | ☐ 체크 안 함 | CI 없으면 생략 |
 | **Block force pushes** | ✅ 체크 | `git push --force`로 히스토리 덮어쓰기 방지 |
 | Require code scanning results | ☐ 체크 안 함 | |
+{: .table .table-sm .table-striped}
 
 #### ⑥ 하단 **Create** 클릭
 
@@ -208,7 +243,7 @@ git log main..origin/main --oneline        # fetch 후 origin/main이 몇 커밋
 | `hotfix/` | 배포 후 긴급 수정 | `hotfix/payment-crash` |
 | `chore/` | 설정·문서·패키지 등 기타 | `chore/update-readme`, `chore/env-setup` |
 | `refactor/` | 기능 변경 없이 코드 구조 개선 | `refactor/auth-module` |
-{: .table .table-sm}
+{: .table .table-sm .table-striped}
 
 - 소문자 + 하이픈(`-`) 사용, 언더스코어·대문자 금지
 - 영어로 작성, 의미를 알 수 있도록 구체적으로
@@ -289,6 +324,38 @@ git commit -m "feat: 설명"    # 커밋
 
 > 작업 단위를 작게 유지하고 커밋을 자주 남길 것
 > `git add .`는 의도하지 않은 파일까지 함께 올라갈 수 있으니 초반에는 `git status`를 본 뒤 파일 단위로 add하는 습관이 더 안전합니다.
+{: .block-warning }
+
+**이미 Git에 올라간 파일을 `.gitignore` 적용 대상으로 바꾸기**
+
+`.gitignore`는 앞으로 새로 추가되는 untracked file을 무시할 뿐, 이미 Git이 추적 중인 tracked file에는 자동으로 적용되지 않습니다.
+이미 올라간 파일이나 폴더를 Git 추적 대상에서만 빼고 로컬에는 그대로 남기려면 `--cached`를 사용합니다.
+
+```bash
+# 파일 하나만 Git 추적에서 제거, 로컬 파일은 유지
+git rm --cached path/to/file
+
+# 폴더 전체를 Git 추적에서 제거, 로컬 폴더는 유지
+git rm -r --cached path/to/folder/
+
+# 예: 빌드 결과물 폴더를 더 이상 Git에 올리지 않기
+git rm -r --cached _site/
+git rm -r --cached .quarto/
+```
+
+그 다음 `.gitignore` 변경과 추적 해제 변경을 함께 커밋합니다.
+
+```bash
+git status
+git add .gitignore
+git commit -m "chore: stop tracking ignored files"
+```
+
+> `git rm -r --cached`를 했다면 **로컬에서는 파일이 남아 있고, 다음 커밋에서 원격 저장소에서만 삭제되는 변경**으로 기록됩니다.
+> 따라서 혼자 쓰는 브랜치라면 `git commit` 후 `git push`까지 해야 GitHub에도 반영됩니다.
+> 팀 작업 브랜치라면 `git commit` → `git push` → PR 순서로 진행합니다.
+> `--cached` 없이 `git rm -r`을 실행하면 로컬 파일도 삭제되므로 주의합니다.
+{: .block-warning }
 
 **커밋 히스토리 확인**
 
@@ -311,7 +378,7 @@ git restore --staged .        # 전체 unstage
 | `git reset --soft HEAD~1` | 취소 | 유지 | 유지 |
 | `git reset HEAD~1` | 취소 | 취소 | 유지 |
 | `git reset --hard HEAD~1` | 취소 | 취소 | **삭제** ⚠️ |
-{: .table .table-sm}
+{: .table .table-sm .table-striped}
 
 - `--soft` : 커밋만 취소, 변경사항은 스테이징에 유지 (가장 안전)
 - `--mixed` (기본값): 커밋 취소 + unstage, 파일은 유지
@@ -327,6 +394,7 @@ git push -u origin {prefix}/{기능명}   # 첫 push: 원격 브랜치 생성 + 
 
 > `origin/main`에는 영향 없음 — feat 브랜치만 올라감
 > 이미 한 번 `-u`로 연결한 뒤에는 다음부터 `git push`만 써도 됩니다.
+{: .block-tip }
 
 ### Step 6. GitHub에서 PR 생성
 
@@ -336,6 +404,7 @@ git push -u origin {prefix}/{기능명}   # 첫 push: 원격 브랜치 생성 + 
 
 > `base`는 **변경사항이 들어갈 대상 브랜치**, `compare`는 **내가 작업한 브랜치**입니다.
 > 반대로 선택하면 비교 화면이 이상하게 보이므로 항상 `main <- feat/...` 형태인지 확인합니다.
+{: .block-tip }
 
 ---
 
@@ -440,7 +509,7 @@ Squash merge 후 main
 | **Create a merge commit** | 브랜치 커밋 전부 + merge 커밋 추가 | 히스토리 전부 보존할 때 |
 | **Squash and merge** | 커밋 1개로 압축 | 팀 작업, main 히스토리 깔끔하게 |
 | **Rebase and merge** | 브랜치 커밋 전부 (merge 커밋 없음) | 선형 히스토리 유지할 때 |
-{: .table .table-sm}
+{: .table .table-sm .table-striped}
 
 ### Step 3. 브랜치 삭제
 
@@ -461,6 +530,7 @@ git branch -D feat/기능명
 
 > Squash merge를 하면 feat 브랜치 커밋들이 main에 흡수되므로, 원래 feat 브랜치는 역할이 끝난 것입니다. 바로 삭제하는 것이 원칙입니다.
 > feat 브랜치를 삭제하지 않고 계속 작업하면, 다음 PR에서 이미 병합된 커밋이 다시 diff로 잡힐 수 있습니다.
+{: .block-warning }
 
 ---
 
@@ -478,7 +548,7 @@ git push origin v0.1       # 태그를 origin에 업로드
 | v0.1 | 핵심 기능 첫 동작 |
 | v0.2 | 기능 추가 완료 |
 | v1.0 | 최종 제출 |
-{: .table .table-sm}
+{: .table .table-sm .table-striped}
 
 ---
 
@@ -492,6 +562,7 @@ git push submit main        # 로컬 main을 학원 레포(submit)에 업로드
 
 > ⚠️ submit remote는 제출 목적 전용 — 일상 작업에 사용 금지
 > 제출 전에 `git remote -v`로 `origin`과 `submit` URL이 맞는지 한 번 확인하면 실수를 줄일 수 있습니다.
+{: .block-warning }
 
 ---
 
@@ -504,7 +575,7 @@ git push submit main        # 로컬 main을 학원 레포(submit)에 업로드
 | PR 단위를 작게 유지 | 리뷰 부담 감소 |
 | Squash merge 사용 | main 히스토리 가독성 유지 |
 | submit은 제출용만 | origin과 용도 분리 |
-{: .table .table-sm}
+{: .table .table-sm .table-striped}
 
 ---
 
