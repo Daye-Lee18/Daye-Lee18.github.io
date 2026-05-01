@@ -44,7 +44,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/teaching/";
           },
-        },{id: "post-pydantic-naming-convention-guideline",
+        },{id: "post-asyncio",
+        
+          title: "Asyncio",
+        
+        description: "Asyncio python",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/asyncio/";
+          
+        },
+      },{id: "post-pydantic-naming-convention-guideline",
         
           title: "Pydantic naming convention guideline",
         

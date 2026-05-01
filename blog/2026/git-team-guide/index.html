@@ -188,6 +188,12 @@
             
           
             
+          
+            
+          
+            
+          
+            
               
                 
                 <li class="nav-item ">
@@ -231,6 +237,8 @@
                   </a>
                 </li>
               
+            
+          
             
           
             
@@ -381,14 +389,65 @@
     E --&gt;|"git pull&lt;br/&gt;(fetch+merge)"| A
 </code></pre>
 
-<blockquote>
+<blockquote class="block-tip">
   <p>스테이징 영역은 브랜치가 여럿이어도 레포 전체에서 <strong>하나</strong>입니다.
 다만 브랜치를 전환할 때 현재 변경사항이 대상 브랜치 파일과 충돌할 수 있으면 <code class="language-plaintext highlighter-rouge">checkout</code>이 거부될 수 있습니다.</p>
 </blockquote>
 
+<h3 id="git-checkout의-두-가지-역할">
+<code class="language-plaintext highlighter-rouge">git checkout</code>의 두 가지 역할</h3>
+
+<p><code class="language-plaintext highlighter-rouge">git checkout</code>은 크게 두 가지 용도로 쓰입니다.</p>
+
+<table class="table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>용도</th>
+      <th>명령어 예시</th>
+      <th>의미</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>브랜치/커밋 전환</td>
+      <td><code class="language-plaintext highlighter-rouge">git checkout feat/login</code></td>
+      <td>다른 브랜치나 특정 커밋으로 이동</td>
+    </tr>
+    <tr>
+      <td>작업 내용 되돌리기</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">git checkout -- app.py</code> 또는 <code class="language-plaintext highlighter-rouge">git checkout .</code>
+</td>
+      <td>Working Directory의 수정 내용을 마지막 커밋 상태로 복원</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>즉, <code class="language-plaintext highlighter-rouge">checkout</code>은 단순히 브랜치를 바꾸는 명령어만은 아닙니다.
+특정 파일이나 <code class="language-plaintext highlighter-rouge">.</code>을 대상으로 사용하면, 아직 commit하지 않은 수정 내용이 사라질 수 있습니다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 브랜치 전환</span>
+git checkout feat/login
+
+<span class="c"># 새 브랜치 생성 + 전환</span>
+git checkout <span class="nt">-b</span> feat/login
+
+<span class="c"># 특정 파일의 수정 내용 삭제</span>
+git checkout <span class="nt">--</span> app.py
+
+<span class="c"># 현재 폴더 아래의 tracked file 수정 내용 전체 삭제</span>
+git checkout <span class="nb">.</span>
+</code></pre></div></div>
+
+<blockquote class="block-warning">
+  <p><code class="language-plaintext highlighter-rouge">git checkout -- 파일명</code> 또는 <code class="language-plaintext highlighter-rouge">git checkout .</code>은 Working Directory의 수정 내용을 되돌립니다.
+commit하지 않은 내용은 Git 기록에 남아 있지 않기 때문에, 이 명령으로 지운 내용은 복구하기 어렵습니다.
+실행 전에는 반드시 <code class="language-plaintext highlighter-rouge">git status</code>와 <code class="language-plaintext highlighter-rouge">git diff</code>로 없어져도 되는 변경인지 확인합니다.</p>
+</blockquote>
+
 <h3 id="브랜치-전환-시-각-공간-상태">브랜치 전환 시 각 공간 상태</h3>
 
-<table class="table table-sm">
+<table class="table table-sm table-striped">
   <thead>
     <tr>
       <th>상황</th>
@@ -442,7 +501,7 @@ git stash list
 <span class="c"># stash@{1}: On feat/signup: 회원가입 작업 중</span>
 </code></pre></div></div>
 
-<blockquote>
+<blockquote class="block-tip">
   <p><code class="language-plaintext highlighter-rouge">git stash pop</code>은 stash를 복원하면서 목록에서 제거합니다.
 충돌이 나면 자동으로 사라지지 않을 수 있으니 <code class="language-plaintext highlighter-rouge">git status</code>로 확인합니다.</p>
 </blockquote>
@@ -503,7 +562,7 @@ admin 권한이 없어지면 “Repository admin” bypass도 무의미해지므
 
 <h4 id="-branch-rules--체크할-항목">⑤ Branch rules — 체크할 항목</h4>
 
-<table>
+<table class="table table-sm table-striped">
   <thead>
     <tr>
       <th>항목</th>
@@ -625,7 +684,7 @@ git log main..origin/main <span class="nt">--oneline</span>        <span class="
 
 <p><strong>브랜치 네이밍 컨벤션</strong></p>
 
-<table class="table table-sm">
+<table class="table table-sm table-striped">
   <thead>
     <tr>
       <th>prefix</th>
@@ -752,9 +811,39 @@ git commit <span class="nt">-m</span> <span class="s2">"feat: 설명"</span>    
 <span class="c"># chore: 설명 — 기타</span>
 </code></pre></div></div>
 
-<blockquote>
+<blockquote class="block-warning">
   <p>작업 단위를 작게 유지하고 커밋을 자주 남길 것
 <code class="language-plaintext highlighter-rouge">git add .</code>는 의도하지 않은 파일까지 함께 올라갈 수 있으니 초반에는 <code class="language-plaintext highlighter-rouge">git status</code>를 본 뒤 파일 단위로 add하는 습관이 더 안전합니다.</p>
+</blockquote>
+
+<p><strong>이미 Git에 올라간 파일을 <code class="language-plaintext highlighter-rouge">.gitignore</code> 적용 대상으로 바꾸기</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">.gitignore</code>는 앞으로 새로 추가되는 untracked file을 무시할 뿐, 이미 Git이 추적 중인 tracked file에는 자동으로 적용되지 않습니다.
+이미 올라간 파일이나 폴더를 Git 추적 대상에서만 빼고 로컬에는 그대로 남기려면 <code class="language-plaintext highlighter-rouge">--cached</code>를 사용합니다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 파일 하나만 Git 추적에서 제거, 로컬 파일은 유지</span>
+git <span class="nb">rm</span> <span class="nt">--cached</span> path/to/file
+
+<span class="c"># 폴더 전체를 Git 추적에서 제거, 로컬 폴더는 유지</span>
+git <span class="nb">rm</span> <span class="nt">-r</span> <span class="nt">--cached</span> path/to/folder/
+
+<span class="c"># 예: 빌드 결과물 폴더를 더 이상 Git에 올리지 않기</span>
+git <span class="nb">rm</span> <span class="nt">-r</span> <span class="nt">--cached</span> _site/
+git <span class="nb">rm</span> <span class="nt">-r</span> <span class="nt">--cached</span> .quarto/
+</code></pre></div></div>
+
+<p>그 다음 <code class="language-plaintext highlighter-rouge">.gitignore</code> 변경과 추적 해제 변경을 함께 커밋합니다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git status
+git add .gitignore
+git commit <span class="nt">-m</span> <span class="s2">"chore: stop tracking ignored files"</span>
+</code></pre></div></div>
+
+<blockquote class="block-warning">
+  <p><code class="language-plaintext highlighter-rouge">git rm -r --cached</code>를 했다면 <strong>로컬에서는 파일이 남아 있고, 다음 커밋에서 원격 저장소에서만 삭제되는 변경</strong>으로 기록됩니다.
+따라서 혼자 쓰는 브랜치라면 <code class="language-plaintext highlighter-rouge">git commit</code> 후 <code class="language-plaintext highlighter-rouge">git push</code>까지 해야 GitHub에도 반영됩니다.
+팀 작업 브랜치라면 <code class="language-plaintext highlighter-rouge">git commit</code> → <code class="language-plaintext highlighter-rouge">git push</code> → PR 순서로 진행합니다.
+<code class="language-plaintext highlighter-rouge">--cached</code> 없이 <code class="language-plaintext highlighter-rouge">git rm -r</code>을 실행하면 로컬 파일도 삭제되므로 주의합니다.</p>
 </blockquote>
 
 <p><strong>커밋 히스토리 확인</strong></p>
@@ -771,7 +860,7 @@ git restore <span class="nt">--staged</span> 파일명   <span class="c"># 특�
 git restore <span class="nt">--staged</span> <span class="nb">.</span>        <span class="c"># 전체 unstage</span>
 </code></pre></div></div>
 
-<table class="table table-sm">
+<table class="table table-sm table-striped">
   <thead>
     <tr>
       <th>명령어</th>
@@ -821,7 +910,7 @@ git restore <span class="nt">--staged</span> <span class="nb">.</span>        <s
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push <span class="nt">-u</span> origin <span class="o">{</span>prefix<span class="o">}</span>/<span class="o">{</span>기능명<span class="o">}</span>   <span class="c"># 첫 push: 원격 브랜치 생성 + 이후 push/pull 대상 연결</span>
 </code></pre></div></div>
 
-<blockquote>
+<blockquote class="block-tip">
   <p><code class="language-plaintext highlighter-rouge">origin/main</code>에는 영향 없음 — feat 브랜치만 올라감
 이미 한 번 <code class="language-plaintext highlighter-rouge">-u</code>로 연결한 뒤에는 다음부터 <code class="language-plaintext highlighter-rouge">git push</code>만 써도 됩니다.</p>
 </blockquote>
@@ -835,7 +924,7 @@ git restore <span class="nt">--staged</span> <span class="nb">.</span>        <s
   <li>팀장에게 리뷰 요청 (Reviewers 지정)</li>
 </ul>
 
-<blockquote>
+<blockquote class="block-tip">
   <p><code class="language-plaintext highlighter-rouge">base</code>는 <strong>변경사항이 들어갈 대상 브랜치</strong>, <code class="language-plaintext highlighter-rouge">compare</code>는 <strong>내가 작업한 브랜치</strong>입니다.
 반대로 선택하면 비교 화면이 이상하게 보이므로 항상 <code class="language-plaintext highlighter-rouge">main &lt;- feat/...</code> 형태인지 확인합니다.</p>
 </blockquote>
@@ -936,7 +1025,7 @@ Squash merge 후 main
   └ Rebase and merge
 </code></pre></div></div>
 
-<table class="table table-sm">
+<table class="table table-sm table-striped">
   <thead>
     <tr>
       <th>방식</th>
@@ -979,7 +1068,7 @@ git branch <span class="nt">-d</span> feat/기능명
 git branch <span class="nt">-D</span> feat/기능명
 </code></pre></div></div>
 
-<blockquote>
+<blockquote class="block-warning">
   <p>Squash merge를 하면 feat 브랜치 커밋들이 main에 흡수되므로, 원래 feat 브랜치는 역할이 끝난 것입니다. 바로 삭제하는 것이 원칙입니다.
 feat 브랜치를 삭제하지 않고 계속 작업하면, 다음 PR에서 이미 병합된 커밋이 다시 diff로 잡힐 수 있습니다.</p>
 </blockquote>
@@ -994,7 +1083,7 @@ git tag <span class="nt">-a</span> v0.1 <span class="nt">-m</span> <span class="
 git push origin v0.1       <span class="c"># 태그를 origin에 업로드</span>
 </code></pre></div></div>
 
-<table class="table table-sm">
+<table class="table table-sm table-striped">
   <thead>
     <tr>
       <th>태그</th>
@@ -1026,7 +1115,7 @@ git pull origin main
 git push submit main        <span class="c"># 로컬 main을 학원 레포(submit)에 업로드</span>
 </code></pre></div></div>
 
-<blockquote>
+<blockquote class="block-warning">
   <p>⚠️ submit remote는 제출 목적 전용 — 일상 작업에 사용 금지
 제출 전에 <code class="language-plaintext highlighter-rouge">git remote -v</code>로 <code class="language-plaintext highlighter-rouge">origin</code>과 <code class="language-plaintext highlighter-rouge">submit</code> URL이 맞는지 한 번 확인하면 실수를 줄일 수 있습니다.</p>
 </blockquote>
@@ -1035,7 +1124,7 @@ git push submit main        <span class="c"># 로컬 main을 학원 레포(submi
 
 <h2 id="핵심-원칙-요약">핵심 원칙 요약</h2>
 
-<table class="table table-sm">
+<table class="table table-sm table-striped">
   <thead>
     <tr>
       <th>원칙</th>

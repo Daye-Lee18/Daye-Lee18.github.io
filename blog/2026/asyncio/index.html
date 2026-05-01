@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Asyncio | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="Asyncio python">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+  <!-- Sidebar Table of Contents -->
+  <link defer href="/assets/css/bootstrap-toc.min.css?6f5af0bb9aab25d79b2448143cbeaa88" rel="stylesheet">
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/blog/2026/asyncio/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+          <div class="row">
+            <!-- sidebar, which will move to the top on a small screen -->
+            <div class="col-sm-3">
+              <nav id="toc-sidebar" class="sticky-top"></nav>
+            </div>
+            <!-- main content area -->
+            <div class="col-sm-9">
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Asyncio</h1>
+    <p class="post-meta">
+      Created on April 29, 2026
+      
+      
+      
+    </p>
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+      
+          ·  
+        
+          
+            <a href="/blog/tag/asyncio"> <i class="fa-solid fa-hashtag fa-sm"></i> asyncio</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/asychronous"> <i class="fa-solid fa-hashtag fa-sm"></i> asychronous</a>
+          
+          
+        
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/category/study"> <i class="fa-solid fa-tag fa-sm"></i> study</a>
+          
+          
+        
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <h1 id="asyncio-사용하기">asyncio 사용하기</h1>
+
+<blockquote>
+  <p>asyncio (Asynchronous I/O)는 비동기 프로그래밍을 위한 모듈이며 I/O 작업을 효율적으로 동시에 처리하게 해줌</p>
+
+  <p>동기 (synchronous) 처리는 특정 작업이 끝나면 다음 작업을 처리하는 순차처리 방식이고, 비동기 (asynchronous) 처리는 여러 작업을 처리하도록 예약한 뒤 작업이 끝나면 결과를 받는 방식</p>
+</blockquote>
+
+<p class="text-center">
+  <img src="/assets/img/blogs/async.png" class="img-fluid rounded z-depth-1" style="max-width: 520px; width: 100%; height: auto;" alt="asyncio event loop diagram" loading="eager">
+</p>
+
+<h2 id="필수-개념">필수 개념</h2>
+
+<ul>
+  <li>파이썬에서는 제너레이터 기반(yield / yield from)의 코루틴과 구분하기 위해 async def로 만든 코루틴은 네이티브 코루틴이라고 함
+    <ul>
+      <li>python 3.5 부터 <code class="language-plaintext highlighter-rouge">async def</code> / <code class="language-plaintext highlighter-rouge">await</code> 문법이 언어 차원에서 정식 지원되어 “네이티브 (native)”라 명명</li>
+      <li>코루틴 (coroutine): 다른 실행 흐름과 협력 (co) 하면서 번갈아 실행되는 함수라는 의미</li>
+    </ul>
+  </li>
+  <li>async def 키워드는 파이썬 3.5 이상부터 사용 가능 (이전까지 데코레이터 @asyncio.coroutine 사용)</li>
+  <li>이벤트 루프 (event loop): 비동기 작업들을 관리하는 실행 관리자
+    <ul>
+      <li>await keyword: <code class="language-plaintext highlighter-rouge">await</code>를 만나면 현재 코루틴은 일시 중단되고, 이벤트 루프는 해당 작업이 끝났을 때 다시 실행할 수 있도록 기록함</li>
+      <li>기다리는 동안 이벤트 루프는 멈추지 않고 실행 가능한 다른 Task나 콜백을 처리함</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">loop</code>처럼 계속 돌면서 실행할 작업을 찾는다.</li>
+    </ul>
+  </li>
+</ul>
+
+<details><summary>yield, yield from, await</summary>
+<ul>
+  <li>yield: 값을 하나 내보내고 멈춤, 다음 next()가 실행될때까지</li>
+  <li>yield from: 다른 제너레이터/이터러블에 위임해서 그 안의 yield들을 바깥으로 전달함</li>
+  <li>asyncio의 yield from: await이 나오기 전, 비동기 작업을 기다리는 지점으로 사용됨</li>
+  <li>await: 현재 코루틴을 멈추고, 이벤트 루프에게 제어권을 넘긴 뒤, 작업 완료 후 이어서 실행</li>
+</ul>
+
+</details>
+
+<blockquote class="block-tip">
+  <h5 id="event-loop-의-동작-원리">event loop 의 동작 원리</h5>
+
+  <ol>
+    <li>실행 가능한 Task나 콜백을 실행한다</li>
+    <li>await를 만나면 잠시 멈춘다</li>
+    <li>I/O, 타이머, 네트워크 응답 등을 기다린다</li>
+    <li>준비된 Task를 다시 이어서 실행한다</li>
+    <li>이 과정을 반복한다</li>
+  </ol>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">asyncio</span>
+
+<span class="c1"># old style
+</span><span class="nd">@asyncio.coroutine</span>
+<span class="k">def</span> <span class="nf">old_coro</span><span class="p">():</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="k">yield</span> <span class="k">from</span> <span class="nf">some_io</span><span class="p">()</span> <span class="c1"># 이 작업이 끝날 때까지 현재 코루틴을 멈추고 이벤트 루프에 맡긴다.
+</span>    <span class="k">return</span> <span class="n">result</span>
+
+<span class="c1"># yield를 사용하는 일반 제너레이터 예시
+</span><span class="k">def</span> <span class="nf">numbers</span><span class="p">():</span>
+    <span class="k">yield</span> <span class="mi">1</span>
+    <span class="k">yield</span> <span class="mi">2</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="nf">numbers</span><span class="p">()</span>
+<span class="nf">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="c1"># 1을 반환하고 함수 실행이 멈춤
+</span><span class="nf">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="c1"># 멈췄던 자리부터 이어서 실행되어 2를 반환함
+</span>
+<span class="c1"># new style
+</span><span class="k">async</span> <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">():</span> <span class="c1"># 코루틴 함수
+</span>    <span class="k">await</span> <span class="nf">some_io</span><span class="p">()</span>
+    <span class="k">return</span> <span class="sh">"</span><span class="s">done</span><span class="sh">"</span>
+
+<span class="nf">fetch_data</span><span class="p">()</span> <span class="c1"># 코루틴 객체
+</span></code></pre></div></div>
+
+<h2 id="native-coroutine-생성">native coroutine 생성</h2>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">async def</code> 함수를 호출하면 코루틴 객체가 만들어짐</li>
+  <li>코루틴 객체는 생성만으로 실행되지 않고, 이벤트 루프가 실행해야 함</li>
+  <li>동기 코드에서 비동기 코드를 실행할 때 이벤트 루프를 얻고 <code class="language-plaintext highlighter-rouge">run_until_complete()</code>로 코루틴을 실행할 수 있음</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">asyncio</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">():</span> <span class="c1"># async def로 네이티브 코루틴을 만듦. 
+</span>    <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">Hello, world!</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="p">.</span><span class="nf">get_event_loop</span><span class="p">()</span>  <span class="c1"># 이벤트 루프를 얻음 
+</span><span class="n">loop</span><span class="p">.</span><span class="nf">run_until_complete</span><span class="p">(</span><span class="nf">hello</span><span class="p">())</span> <span class="c1"># hello가 끝날 때까지 기다림 
+</span><span class="n">loop</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span> <span class="c1"># 이벤트 루프를 닫음 
+</span></code></pre></div></div>
+
+<p>실험 결과</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hello, world!
+</code></pre></div></div>
+
+<blockquote class="block-tip">
+  <h5 id="주요-api">주요 API</h5>
+
+  <ul>
+    <li>
+<code class="language-plaintext highlighter-rouge">get_event_loop()</code>: 현재 스레드에서 사용할 이벤트 루프 객체를 가져옴. 이 함수만 호출한다고 코루틴이 실행되지는 않음.</li>
+    <li>
+<code class="language-plaintext highlighter-rouge">run_until_complete()</code>: 전달받은 코루틴 객체를 이벤트 루프가 관리할 수 있는 작업으로 감싸 실행하고, 그 작업이 완료될 때까지 이벤트 루프를 돌림.</li>
+    <li>
+<code class="language-plaintext highlighter-rouge">close()</code>: 이벤트 루프 사용이 끝난 뒤 관련 자원을 정리함.</li>
+  </ul>
+</blockquote>
+
+<p>즉 <code class="language-plaintext highlighter-rouge">run_until_complete()</code>는 동기 코드에서 비동기 코드로 들어가는 진입점 역할을 함. 요즘 코드는 보통 이벤트 루프를 직접 얻고 닫기보다 <code class="language-plaintext highlighter-rouge">asyncio.run()</code>을 사용함.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">asyncio</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="nf">hello</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>동기 코드와 비동기 코드가 함께 있을 때는 보통 동기 코드가 바깥에서 시작하고, 특정 지점에서 이벤트 루프를 실행해 비동기 코드를 처리함. 이벤트 루프 안에서는 <code class="language-plaintext highlighter-rouge">await</code>를 만난 코루틴이 멈추는 동안 다른 Task나 콜백이 실행될 수 있음.</p>
+
+<p>단, 오래 걸리는 일반 동기 함수가 이벤트 루프 안에서 그대로 실행되면 그동안 다른 비동기 작업도 멈출 수 있음. 이런 블로킹 작업은 별도 스레드로 넘겨 실행할 수 있음.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="nf">to_thread</span><span class="p">(</span><span class="n">blocking_func</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="await-로-네이티브-코루틴-실행하기">await 로 네이티브 코루틴 실행하기</h2>
+
+<ul>
+  <li>다음과 같이 <code class="language-plaintext highlighter-rouge">await</code> 뒤에 코루틴 객체, Future 객체, Task 객체 같은 awaitable 객체를 지정하면 해당 객체가 끝날 때까지 현재 코루틴이 일시 중단됨</li>
+  <li>이때 이벤트 루프는 멈추지 않고, 실행 가능한 다른 Task나 콜백을 처리함</li>
+  <li>await한 객체가 완료되면 이벤트 루프는 중단된 코루틴을 다시 실행하고, 완료 결과를 <code class="language-plaintext highlighter-rouge">await</code> 표현식의 값으로 반환함</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">await</code>는 단어 뜻 그대로 특정 객체가 끝날 때까지 기다리는 것처럼 보이지만, 실제로는 현재 코루틴만 멈추고 이벤트 루프에 제어권을 넘기는 것</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">await</code> 키워드는 파이썬 3.5 이상부터 사용 가능, 3.4 에서는 <code class="language-plaintext highlighter-rouge">yield from</code>을 사용</li>
+  <li>주의점: <code class="language-plaintext highlighter-rouge">await</code>는 네이티브 코루틴 안에서만 사용할 수 있음.</li>
+</ul>
+
+<p>이벤트 루프가 네이티브 코루틴 객체만 직접 실행하는 것은 아님. 보통 코루틴은 <code class="language-plaintext highlighter-rouge">Task</code>로 감싸져 이벤트 루프에 의해 스케줄링되고, 이벤트 루프는 Future, Task, 콜백, 타이머, I/O 이벤트 등을 함께 관리함.</p>
+
+<table class="table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>구분</th>
+      <th>생성/등록 함수</th>
+      <th>역할</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>코루틴 객체</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">async def</code> 함수 호출</td>
+      <td>아직 실행되지 않은 비동기 작업 객체를 만듦. 단독으로는 실행되지 않고 <code class="language-plaintext highlighter-rouge">await</code>하거나 Task로 등록해야 함</td>
+    </tr>
+    <tr>
+      <td>Task</td>
+      <td><code class="language-plaintext highlighter-rouge">asyncio.create_task(coro)</code></td>
+      <td>코루틴 객체를 이벤트 루프에 스케줄링함. 다른 Task와 번갈아 실행될 수 있음</td>
+    </tr>
+    <tr>
+      <td>Future</td>
+      <td><code class="language-plaintext highlighter-rouge">loop.create_future()</code></td>
+      <td>미래에 결과가 채워질 객체를 만듦. 보통 저수준 API나 라이브러리 내부에서 사용됨</td>
+    </tr>
+    <tr>
+      <td>콜백</td>
+      <td><code class="language-plaintext highlighter-rouge">loop.call_soon(callback)</code></td>
+      <td>일반 함수를 이벤트 루프의 다음 실행 기회에 호출하도록 등록함</td>
+    </tr>
+    <tr>
+      <td>타이머</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">loop.call_later(seconds, callback)</code><br><code class="language-plaintext highlighter-rouge">asyncio.sleep(seconds)</code>
+</td>
+      <td>일정 시간이 지난 뒤 콜백이나 코루틴이 다시 실행되도록 예약함</td>
+    </tr>
+    <tr>
+      <td>I/O 이벤트</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">asyncio.open_connection()</code><br><code class="language-plaintext highlighter-rouge">asyncio.start_server()</code>
+</td>
+      <td>네트워크 연결, 서버 소켓 같은 I/O 작업을 이벤트 루프가 감시하고 준비되면 처리함</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>일반 함수도 콜백으로 등록하면 이벤트 루프가 실행할 수 있음. 하지만 일반 함수는 <code class="language-plaintext highlighter-rouge">await</code>로 제어권을 넘길 수 없기 때문에, 오래 걸리는 동기 작업을 그대로 실행하면 이벤트 루프를 막을 수 있음.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>변수 = await 코루틴 객체 
+변수 = await Future 객체
+변수 = await Task 객체
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">asyncio</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">a</span><span class="p">():</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">a start</span><span class="sh">"</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="nf">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">a end</span><span class="sh">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sh">"</span><span class="s">A</span><span class="sh">"</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">b</span><span class="p">():</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">b start</span><span class="sh">"</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="nf">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">b end</span><span class="sh">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sh">"</span><span class="s">B</span><span class="sh">"</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">task1</span> <span class="o">=</span> <span class="n">asyncio</span><span class="p">.</span><span class="nf">create_task</span><span class="p">(</span><span class="nf">a</span><span class="p">())</span>
+    <span class="n">task2</span> <span class="o">=</span> <span class="n">asyncio</span><span class="p">.</span><span class="nf">create_task</span><span class="p">(</span><span class="nf">b</span><span class="p">())</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">task1</span> <span class="c1"># task1이 끝날 때까지 main 코루틴은 멈춤
+</span>    <span class="nf">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">await</span> <span class="n">task2</span>
+
+<span class="n">asyncio</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="nf">main</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>실행 흐름</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a start
+b start
+... 1초 대기 ...
+a end
+b end
+A
+</code></pre></div></div>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+</div>
+          </div>
+        
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+  <!-- Mermaid and D3 -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10.7.0/dist/mermaid.min.js" integrity="sha256-TtLOdUA8mstPoO6sGvHIGx2ceXrrX4KgIItO06XOn8A=" crossorigin="anonymous"></script>
+  
+  <script defer src="/assets/js/mermaid-setup.js?38ca0a0126f7328d2d9a46bad640931f" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+  <!-- Sidebar Table of Contents -->
+  <script defer src="/assets/js/bootstrap-toc.min.js?c82ff4de8b0955d6ff14f5b05eed7eb6"></script>
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>
