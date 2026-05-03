@@ -100,6 +100,75 @@ git checkout main
 git diff main...review/casting-factory-from-kim -- path/to/file.py
 ```
 
+#### 머지된 PR의 변경사항을 로컬에서 확인할 때
+
+GitHub PR 화면에는 브랜치 이름이 이렇게 보일 수 있습니다.
+
+```text
+refactor/folder-structure <- refactor/db-v23-migration
+```
+
+여기서 `refactor/db-v23-migration`은 폴더가 아니라 브랜치 이름입니다.
+PR이 이미 머지되었거나 Git Graph에 브랜치가 안 보이면 먼저 원격 히스토리를 최신으로 가져옵니다.
+
+```bash
+git fetch --all --prune
+```
+
+fetch 결과가 아래처럼 나오면,
+
+```text
+b4f2db5..beb9f15  refactor/folder-structure -> origin/refactor/folder-structure
+```
+
+뜻은 원격의 `refactor/folder-structure` 브랜치가 `b4f2db5`에서 `beb9f15`까지 업데이트됐다는 것입니다.
+
+변경 파일 목록만 볼 때:
+
+```bash
+git diff --name-status b4f2db5..beb9f15
+```
+
+파일별 변경량까지 볼 때:
+
+```bash
+git diff --stat b4f2db5..beb9f15
+```
+
+실제 코드 변경 내용까지 볼 때:
+
+```bash
+git diff b4f2db5..beb9f15
+```
+
+PR 브랜치 이름으로 비교해도 됩니다.
+
+```bash
+git diff --name-status b4f2db5..origin/refactor/db-v23-migration
+```
+
+특정 파일만 확인할 때:
+
+```bash
+git diff b4f2db5..origin/refactor/db-v23-migration -- server/smart_cast_db/schema/create_tables.sql
+```
+
+명령어 구조는 다음과 같습니다.
+
+```bash
+git diff --name-status 시작커밋..끝커밋
+```
+
+| 예시 | 의미 |
+| --- | --- |
+| `b4f2db5` | PR 변경이 들어가기 전 기준 커밋 |
+| `beb9f15` | PR이 머지된 뒤의 머지 커밋 |
+| `origin/refactor/db-v23-migration` | PR을 올린 원격 브랜치 |
+{: .table .table-sm .table-striped}
+
+> `--name-status`는 파일 목록과 상태만 보여줍니다. `A`는 추가, `M`은 수정, `D`는 삭제, `R`은 이름 변경입니다.
+{: .block-tip }
+
 ### Step 2. Squash merge
 
 여러 커밋을 하나로 압축해서 main에 넣는 방식입니다.

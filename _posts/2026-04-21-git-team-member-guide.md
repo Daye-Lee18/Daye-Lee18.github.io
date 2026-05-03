@@ -391,6 +391,32 @@ flowchart TD
 > 브랜치를 전환할 때 현재 변경사항이 대상 브랜치 파일과 충돌하면 `checkout`이 거부될 수 있습니다.
 {: .block-tip }
 
+### 브랜치가 갈라지고 합쳐지는 흐름
+
+새 작업 브랜치는 `main`의 특정 시점에서 갈라져 나옵니다.
+작업 브랜치에 commit을 쌓고 push한 뒤 PR이 merge되면, 그 결과가 다시 `main`에 들어갑니다.
+
+```mermaid
+flowchart LR
+    M1["main<br/>A"] --> M2["main<br/>B"]
+    M2 --> M3["main<br/>C"]
+    M3 --> M4["main<br/>D"]
+
+    M2 --> F1["study/gitguideline<br/>작업 시작"]
+    F1 --> F2["study/gitguideline<br/>commit 1"]
+    F2 --> F3["study/gitguideline<br/>commit 2"]
+    F3 --> PR["PR<br/>base: main<br/>compare: study/gitguideline"]
+    PR --> M4
+
+    M3 --> G1["feat/login-page<br/>다른 팀원 작업"]
+    G1 --> G2["feat/login-page<br/>commit"]
+    G2 --> M4
+```
+
+> `git push -u origin study/gitguideline`은 `origin/study/gitguideline`에만 올라갑니다.
+> `origin/main`에 반영하려면 PR로 merge하거나, 권한이 있을 때 `main`에서 merge 후 `git push origin main`을 해야 합니다.
+{: .block-tip }
+
 ### `git checkout`의 두 가지 역할
 
 `git checkout`은 크게 두 가지 용도로 쓰입니다.
