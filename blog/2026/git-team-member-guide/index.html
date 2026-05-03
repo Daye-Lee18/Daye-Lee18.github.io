@@ -387,6 +387,7 @@
 <a href="#git-%ED%95%B5%EC%8B%AC-%EA%B0%9C%EB%85%90">Git 핵심 개념</a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#%EC%84%B8-%EA%B3%B5%EA%B0%84%EC%9D%98-%ED%9D%90%EB%A6%84">세 공간의 흐름</a></li>
+<li class="toc-entry toc-h3"><a href="#%EB%B8%8C%EB%9E%9C%EC%B9%98%EA%B0%80-%EA%B0%88%EB%9D%BC%EC%A7%80%EA%B3%A0-%ED%95%A9%EC%B3%90%EC%A7%80%EB%8A%94-%ED%9D%90%EB%A6%84">브랜치가 갈라지고 합쳐지는 흐름</a></li>
 <li class="toc-entry toc-h3"><a href="#git-checkout%EC%9D%98-%EB%91%90-%EA%B0%80%EC%A7%80-%EC%97%AD%ED%95%A0">git checkout의 두 가지 역할</a></li>
 <li class="toc-entry toc-h3"><a href="#%EB%8F%99%EC%8B%9C-%EC%9E%91%EC%97%85">동시 작업</a></li>
 </ul>
@@ -841,6 +842,32 @@ git worktree add <span class="nt">-b</span> study/gitguideline-copy ../dayelee-g
 <blockquote class="block-tip">
   <p>스테이징 영역은 브랜치가 여럿이어도 레포 전체에서 <strong>하나</strong>입니다.
 브랜치를 전환할 때 현재 변경사항이 대상 브랜치 파일과 충돌하면 <code class="language-plaintext highlighter-rouge">checkout</code>이 거부될 수 있습니다.</p>
+</blockquote>
+
+<h3 id="브랜치가-갈라지고-합쳐지는-흐름">브랜치가 갈라지고 합쳐지는 흐름</h3>
+
+<p>새 작업 브랜치는 <code class="language-plaintext highlighter-rouge">main</code>의 특정 시점에서 갈라져 나옵니다.
+작업 브랜치에 commit을 쌓고 push한 뒤 PR이 merge되면, 그 결과가 다시 <code class="language-plaintext highlighter-rouge">main</code>에 들어갑니다.</p>
+
+<pre><code class="language-mermaid">flowchart LR
+    M1["main&lt;br/&gt;A"] --&gt; M2["main&lt;br/&gt;B"]
+    M2 --&gt; M3["main&lt;br/&gt;C"]
+    M3 --&gt; M4["main&lt;br/&gt;D"]
+
+    M2 --&gt; F1["study/gitguideline&lt;br/&gt;작업 시작"]
+    F1 --&gt; F2["study/gitguideline&lt;br/&gt;commit 1"]
+    F2 --&gt; F3["study/gitguideline&lt;br/&gt;commit 2"]
+    F3 --&gt; PR["PR&lt;br/&gt;base: main&lt;br/&gt;compare: study/gitguideline"]
+    PR --&gt; M4
+
+    M3 --&gt; G1["feat/login-page&lt;br/&gt;다른 팀원 작업"]
+    G1 --&gt; G2["feat/login-page&lt;br/&gt;commit"]
+    G2 --&gt; M4
+</code></pre>
+
+<blockquote class="block-tip">
+  <p><code class="language-plaintext highlighter-rouge">git push -u origin study/gitguideline</code>은 <code class="language-plaintext highlighter-rouge">origin/study/gitguideline</code>에만 올라갑니다.
+<code class="language-plaintext highlighter-rouge">origin/main</code>에 반영하려면 PR로 merge하거나, 권한이 있을 때 <code class="language-plaintext highlighter-rouge">main</code>에서 merge 후 <code class="language-plaintext highlighter-rouge">git push origin main</code>을 해야 합니다.</p>
 </blockquote>
 
 <h3 id="git-checkout의-두-가지-역할">
