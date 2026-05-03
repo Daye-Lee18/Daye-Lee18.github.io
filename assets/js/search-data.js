@@ -66,11 +66,33 @@ ninja.data = [{
             window.location.href = "/blog/2026/pydantic_naming_convention/";
           
         },
-      },{id: "post-git-팀-사용-가이드",
+      },{id: "post-git-팀-사용-가이드-팀원",
         
-          title: "Git 팀 사용 가이드",
+          title: "Git 팀 사용 가이드 - 팀원",
         
-        description: "브랜치 전략, PR 흐름, 버전 관리 — 시간순 전체 흐름",
+        description: "팀원이 매일 쓰는 Git 흐름",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/git-team-member-guide/";
+          
+        },
+      },{id: "post-git-팀-사용-가이드-팀장",
+        
+          title: "Git 팀 사용 가이드 - 팀장",
+        
+        description: "팀장이 관리하는 Git 흐름",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/git-team-lead-guide/";
+          
+        },
+      },{id: "post-git-팀-가이드-허브",
+        
+          title: "Git 팀 가이드 허브",
+        
+        description: "팀원용과 팀장용 Git 가이드를 나눠서 바로 들어갈 수 있는 안내 페이지",
         section: "Posts",
         handler: () => {
           

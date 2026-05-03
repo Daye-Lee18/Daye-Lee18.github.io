@@ -17,12 +17,12 @@
   
   
     
-      Git 팀 가이드 허브 | Daye Lee
+      Git 팀 사용 가이드 - 팀장 | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="팀원용과 팀장용 Git 가이드를 나눠서 바로 들어갈 수 있는 안내 페이지">
+<meta name="description" content="팀장이 관리하는 Git 흐름">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -62,7 +62,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://daye-lee18.github.io/blog/2026/git-team-guide/">
+<link rel="canonical" href="https://daye-lee18.github.io/blog/2026/git-team-lead-guide/">
 
 
   <!-- Dark Mode -->
@@ -304,7 +304,7 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Git 팀 가이드 허브</h1>
+    <h1 class="post-title">Git 팀 사용 가이드 - 팀장</h1>
     <p class="post-meta">
       Created on April 21, 2026
       
@@ -347,43 +347,278 @@
   <article class="post-content">
     
     <div id="markdown-content">
-      <h2 id="어디를-보면-되나요">어디를 보면 되나요</h2>
+      <h2 id="이-문서에서-보는-것">이 문서에서 보는 것</h2>
+
+<ul>
+  <li>프로젝트 시작 설정</li>
+  <li>PR 리뷰</li>
+  <li>squash merge</li>
+  <li>버전 태깅과 제출</li>
+</ul>
+
+<blockquote class="block-tip">
+  <p>팀원용 기본 흐름은 <a href="/blog/2026/git-team-member-guide/">팀원 문서</a>에서 먼저 보고 오면 좋습니다.</p>
+</blockquote>
+
+<hr>
+
+<h2 id="phase-1---프로젝트-시작-팀장-1회만">PHASE 1 - 프로젝트 시작 (팀장, 1회만)</h2>
+
+<h3 id="step-1-두-remote-연결">Step 1. 두 remote 연결</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git remote add origin <span class="o">[</span>우리팀 레포 URL]
+git remote add submit <span class="o">[</span>학원 레포 URL]
+</code></pre></div></div>
+
+<h3 id="step-2-branch-protection-설정">Step 2. Branch Protection 설정</h3>
+
+<p>GitHub 레포 → <strong>Settings</strong> → <strong>Rules → Rulesets</strong> → <strong>New branch ruleset</strong></p>
+
+<h4 id="ruleset-name">Ruleset Name</h4>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>main-protection
+</code></pre></div></div>
+
+<h4 id="enforcement-status">Enforcement status</h4>
+
+<p><code class="language-plaintext highlighter-rouge">Active</code> 유지</p>
+
+<h4 id="bypass-list">Bypass list</h4>
+
+<p>상황에 따라 선택합니다.</p>
+
+<ul>
+  <li>admin 권한을 회수하는 경우: 비워두기</li>
+  <li>admin 권한을 유지하는 경우: 본인 계정 또는 Repository admin 추가</li>
+</ul>
+
+<h4 id="target-branches">Target branches</h4>
+
+<p><strong>Add target</strong> 클릭 → <strong>Include by pattern</strong> 선택 → <code class="language-plaintext highlighter-rouge">main</code> 입력 후 Add</p>
+
+<h4 id="branch-rules">Branch rules</h4>
 
 <table class="table table-sm table-striped">
   <thead>
     <tr>
-      <th>역할</th>
-      <th>문서</th>
-      <th>무엇을 보면 되나</th>
+      <th>항목</th>
+      <th>설정</th>
+      <th>이유</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>팀원</td>
-      <td><a href="/blog/2026/git-team-member-guide/">팀원 문서</a></td>
-      <td>최신화, 브랜치 생성, 커밋, push, PR</td>
+      <td>Restrict deletions</td>
+      <td>✅ 체크</td>
+      <td>main 브랜치 실수로 삭제 방지</td>
     </tr>
     <tr>
-      <td>팀장</td>
-      <td><a href="/blog/2026/git-team-lead-guide/">팀장 문서</a></td>
-      <td>PR 리뷰, squash merge, 브랜치 삭제, 제출</td>
+      <td>Require a pull request before merging</td>
+      <td>✅ 체크</td>
+      <td>main 직접 push 금지, PR 강제</td>
+    </tr>
+    <tr>
+      <td>Required approvals</td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+      <td>팀장 1명 승인 필수</td>
+    </tr>
+    <tr>
+      <td>Dismiss stale pull request approvals</td>
+      <td>✅ 권장</td>
+      <td>코드 수정 시 재승인 요구</td>
+    </tr>
+    <tr>
+      <td>Block force pushes</td>
+      <td>✅ 체크</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">git push --force</code> 방지</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="왜-나눴나">왜 나눴나</h2>
+<h3 id="step-3-pr-템플릿-추가">Step 3. PR 템플릿 추가</h3>
 
-<p>한 문서에 모든 내용을 넣으면 팀원이 읽을 때 너무 길어집니다.
-기본 작업은 팀원 문서만 보면 되고, 리뷰와 배포 책임은 팀장 문서만 보면 되도록 분리했습니다.</p>
+<p><code class="language-plaintext highlighter-rouge">.github/PULL_REQUEST_TEMPLATE.md</code> 파일을 만들어 main에 push합니다.</p>
 
-<h2 id="다음에-볼-문서">다음에 볼 문서</h2>
+<hr>
+
+<h2 id="phase-3---리뷰--병합-팀장">PHASE 3 - 리뷰 &amp; 병합 (팀장)</h2>
+
+<h3 id="step-1-코드-리뷰">Step 1. 코드 리뷰</h3>
 
 <ul>
-  <li>
-<a href="/blog/2026/git-team-member-guide/">팀원 문서</a>에서 팀원 작업 흐름을 읽습니다.</li>
-  <li>
-<a href="/blog/2026/git-team-lead-guide/">팀장 문서</a>에서 팀장 흐름을 읽습니다.</li>
+  <li>PR → Files changed 탭 → 라인별 코멘트</li>
+  <li>수정 요청 시: <code class="language-plaintext highlighter-rouge">Request changes</code>
+</li>
+  <li>승인 시: <code class="language-plaintext highlighter-rouge">Approve</code>
+</li>
 </ul>
+
+<h4 id="pr-변경사항이-너무-많을-때">PR 변경사항이 너무 많을 때</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git fetch origin
+git branch <span class="nt">-a</span>
+</code></pre></div></div>
+
+<p>원격 브랜치가 보이면 로컬에서 확인용 브랜치를 만들어 볼 수 있습니다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout <span class="nt">-b</span> review/casting-factory-from-kim origin/import/casting-factory-from-kim
+git checkout main
+</code></pre></div></div>
+
+<p>특정 파일만 확인할 때:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git diff main...review/casting-factory-from-kim <span class="nt">--</span> path/to/file.py
+</code></pre></div></div>
+
+<h3 id="step-2-squash-merge">Step 2. Squash merge</h3>
+
+<p>여러 커밋을 하나로 압축해서 main에 넣는 방식입니다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>feat/login 브랜치: A -&gt; B -&gt; C -&gt; D -&gt; E
+main:               ... -&gt; F
+</code></pre></div></div>
+
+<table class="table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>방식</th>
+      <th>main 히스토리</th>
+      <th>언제 쓰나</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Create a merge commit</td>
+      <td>브랜치 커밋 전부 + merge 커밋 추가</td>
+      <td>히스토리 전부 보존할 때</td>
+    </tr>
+    <tr>
+      <td>Squash and merge</td>
+      <td>커밋 1개로 압축</td>
+      <td>팀 작업, main 히스토리 깔끔하게</td>
+    </tr>
+    <tr>
+      <td>Rebase and merge</td>
+      <td>브랜치 커밋 전부</td>
+      <td>선형 히스토리 유지할 때</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="step-3-브랜치-삭제">Step 3. 브랜치 삭제</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin <span class="nt">--delete</span> feat/기능명
+git branch <span class="nt">-d</span> feat/기능명
+git branch <span class="nt">-D</span> feat/기능명
+</code></pre></div></div>
+
+<blockquote class="block-warning">
+  <p>squash merge 후에는 feat 브랜치 역할이 끝납니다.</p>
+</blockquote>
+
+<hr>
+
+<h2 id="phase-4---버전-태깅-팀장-마일스톤마다">PHASE 4 - 버전 태깅 (팀장, 마일스톤마다)</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout main
+git pull origin main
+git tag <span class="nt">-a</span> v0.1 <span class="nt">-m</span> <span class="s2">"v0.1"</span>
+git push origin v0.1
+</code></pre></div></div>
+
+<table class="table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>태그</th>
+      <th>기준</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>v0.1</td>
+      <td>핵심 기능 첫 동작</td>
+    </tr>
+    <tr>
+      <td>v0.2</td>
+      <td>기능 추가 완료</td>
+    </tr>
+    <tr>
+      <td>v1.0</td>
+      <td>최종 제출</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="phase-5---학원-레포-최종-제출-팀장만-제출-시-1회">PHASE 5 - 학원 레포 최종 제출 (팀장만, 제출 시 1회)</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout main
+git pull origin main
+git push submit main
+</code></pre></div></div>
+
+<blockquote class="block-warning">
+  <p><code class="language-plaintext highlighter-rouge">submit</code> remote는 제출 목적 전용입니다.</p>
+</blockquote>
+
+<hr>
+
+<h2 id="핵심-원칙-요약">핵심 원칙 요약</h2>
+
+<table class="table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>원칙</th>
+      <th>이유</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>main 직접 push 금지</td>
+      <td>branch protection으로 강제됨</td>
+    </tr>
+    <tr>
+      <td>작업 시작 전 항상 <code class="language-plaintext highlighter-rouge">git fetch</code>
+</td>
+      <td>충돌 방지</td>
+    </tr>
+    <tr>
+      <td>PR 단위를 작게 유지</td>
+      <td>리뷰 부담 감소</td>
+    </tr>
+    <tr>
+      <td>Squash merge 사용</td>
+      <td>main 히스토리 가독성 유지</td>
+    </tr>
+    <tr>
+      <td>submit은 제출용만</td>
+      <td>origin과 용도 분리</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="github-actions-탭-용어">GitHub Actions 탭 용어</h2>
+
+<p><strong>Workflow</strong> - 자동화 작업 정의 파일</p>
+
+<p><strong>Event</strong> - workflow를 트리거한 원인</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">main</span><span class="pi">]</span>
+  <span class="na">pull_request</span><span class="pi">:</span>
+  <span class="na">workflow_dispatch</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>Status</strong> - 실행 결과</p>
+
+<p><strong>Branch</strong> - 어느 브랜치에서 트리거됐는지</p>
+
+<p><strong>Actor</strong> - 누가 트리거했는지</p>
 
     </div>
   </article>
