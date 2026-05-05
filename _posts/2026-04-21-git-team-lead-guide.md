@@ -28,7 +28,12 @@ toc:
 ```bash
 git remote add origin [우리팀 레포 URL]
 git remote add submit [학원 레포 URL]
+git remote -v
 ```
+
+> `origin`은 우리팀 레포, `submit`은 학원 제출용 레포입니다.
+> `git remote -v`로 두 주소가 제대로 연결됐는지 확인합니다.
+{: .block-tip }
 
 ### Step 2. Branch Protection 설정
 
@@ -69,6 +74,10 @@ main-protection
 ### Step 3. PR 템플릿 추가
 
 `.github/PULL_REQUEST_TEMPLATE.md` 파일을 만들어 main에 push합니다.
+
+> 이 파일이 레포에 있으면 팀원이 GitHub에서 PR을 만들 때 템플릿이 자동으로 들어갑니다.
+> 보통 `.github/PULL_REQUEST_TEMPLATE.md` 위치를 사용합니다.
+{: .block-tip }
 
 ---
 
@@ -126,6 +135,9 @@ git branch -D feat/기능명
 
 > squash merge 후에는 feat 브랜치 역할이 끝납니다.
 {: .block-warning }
+
+> 팀장은 PR merge가 끝나면 원격 브랜치까지 삭제해서 브랜치 목록을 정리합니다.
+{: .block-tip }
 
 ---
 
