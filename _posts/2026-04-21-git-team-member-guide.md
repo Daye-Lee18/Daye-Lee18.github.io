@@ -353,6 +353,59 @@ git worktree add -b study/gitguideline-copy ../dayelee-git-guide origin/study/gi
 > 이미 사용 중인 브랜치라면 새 브랜치를 만들거나 기존 worktree를 정리해야 합니다.
 {: .block-warning }
 
+## worktree와 branch 정리
+
+`worktree`와 `branch`는 역할이 다릅니다.
+
+- `worktree`: 로컬 작업 폴더
+- `branch`: Git 안의 작업 기록
+
+### `-C`는 뭐예요?
+
+`git -C <경로> ...`는 해당 경로에서 git 명령을 실행하라는 뜻입니다.
+
+```bash
+git -C /home/addinedu/dev_ws/SmartCastRobotics_team2 worktree list
+```
+
+위 명령은 아래와 같습니다.
+
+```bash
+cd /home/addinedu/dev_ws/SmartCastRobotics_team2
+git worktree list
+```
+
+### 삭제 방법
+
+worktree만 지울 때:
+
+```bash
+git -C /home/addinedu/dev_ws/SmartCastRobotics_team2 worktree remove /home/addinedu/dev_ws/SmartCastRobotics_team2-ui_db
+```
+
+branch까지 같이 지울 때:
+
+```bash
+git -C /home/addinedu/dev_ws/SmartCastRobotics_team2 branch -d test/ui_db_integration
+```
+
+merge되지 않은 브랜치를 강제로 지워야 하면 `-D`를 씁니다.
+
+```bash
+git -C /home/addinedu/dev_ws/SmartCastRobotics_team2 branch -D test/ui_db_integration
+```
+
+### 언제 다르게 지우나요?
+
+- 다시 열어볼 가능성이 있으면 `worktree`만 지웁니다.
+- merge가 끝났고 브랜치도 더 안 쓰면 `branch`까지 지웁니다.
+- 확실하지 않으면 `worktree`만 지우고 `branch`는 남깁니다.
+
+### 같이 지워지나요?
+
+아니요. `branch`를 삭제해도 `worktree`는 자동으로 안 없어집니다.
+보통은 `worktree remove`로 폴더를 지운 뒤, 필요하면 `branch -d` 또는 `branch -D`를 따로 실행합니다.
+
 ## Git 핵심 개념
 
 ### 세 공간의 흐름
