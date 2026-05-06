@@ -1,184 +1,104 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://daye-lee18.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://daye-lee18.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-05-06T00:13:13+00:00</updated><id>https://daye-lee18.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
-</subtitle><entry><title type="html">VAE (Variational Autoencoder) 이해하기</title><link href="https://daye-lee18.github.io/blog/2026/VAE/" rel="alternate" type="text/html" title="VAE (Variational Autoencoder) 이해하기" /><published>2026-05-06T00:00:00+00:00</published><updated>2026-05-06T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2026/VAE</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2026/VAE/"><![CDATA[<h2 id="1-vae-variational-autoencoder-요약">1. VAE (Variational Autoencoder) 요약</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://daye-lee18.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://daye-lee18.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-05-06T00:42:51+00:00</updated><id>https://daye-lee18.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">VAE 이해</title><link href="https://daye-lee18.github.io/blog/2026/VAE/" rel="alternate" type="text/html" title="VAE 이해" /><published>2026-05-06T00:00:00+00:00</published><updated>2026-05-06T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2026/VAE</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2026/VAE/"><![CDATA[<hr />
+<h2 id="1-vae-variational-autoencoder-요약">1. VAE (Variational Autoencoder) 요약</h2>
 
 <p>VAE는 데이터를 생성하는 잠재 변수(Latent Variable) 모델로, 데이터 $x$의 분포 $p(x)$를 학습하는 생성 모델입니다.</p>
 
+<hr />
 <h3 id="핵심-개념">핵심 개념</h3>
-<ul>
-  <li><strong>잠재 변수 모델 (Latent Variable Model):</strong> 관측 데이터 $x$가 직접 관측되지 않는 잠재 변수 $z$로부터 생성되었다고 가정합니다 ($z \to x$).</li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td><strong>문제점:</strong> 실제 posterior $p(z</td>
-          <td>x)$를 계산하는 것이 불가능(Intractable)합니다. 왜냐하면 $p(x) = \int p(x</td>
-          <td>z)p(z)dz$를 모든 $z$에 대해 적분하는 것이 매우 어렵기 때문입니다.</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td><strong>해결책 (Variational Inference):</strong> 다루기 어려운 $p(z</td>
-          <td>x)$ 대신, 다루기 쉬운 분포 $q_\phi(z</td>
-          <td>x)$ (주로 가우시안)를 도입하여 이를 근사합니다.</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-</ul>
 
+<p>VAE는 관측 데이터 $x$가 직접 관측되지 않는 잠재 변수 $z$로부터 생성되었다고 가정하는 <strong>잠재 변수 모델(Latent Variable Model)</strong>입니다 ($z \to x$). 이때 실제 posterior $p(z \mid x)$를 직접 계산하는 것은 불가능(Intractable)합니다. 왜냐하면 $p(x) = \int p(x \mid z)\,p(z)\,dz$를 모든 $z$에 대해 적분하는 것이 매우 어렵기 때문입니다.</p>
+
+<p>이를 해결하기 위해 <strong>Variational Inference</strong>를 사용합니다. 다루기 어려운 $p(z \mid x)$ 대신, 다루기 쉬운 분포 $q_\phi(z \mid x)$(주로 가우시안)를 도입하여 $p(z \mid x)$를 근사합니다.</p>
+
+<hr />
 <h3 id="kl-divergence-kullback-leibler-divergence-란">KL Divergence (Kullback-Leibler Divergence) 란?</h3>
-<p>KL Divergence는 두 확률 분포의 <strong>차이(Difference)</strong>를 측정하는 지표입니다. VAE에서는 우리가 가정한 분포 $q(z|x)$가 실제 분포 $p(z|x)$ (또는 Prior $p(z)$)와 얼마나 다른지를 측정하는 데 사용됩니다.</p>
 
-<ul>
-  <li><strong>정의:</strong> 분포 $P$와 $Q$ 사이의 KL Divergence는 다음과 같이 정의됩니다.
-\(D_{KL}(P || Q) = \mathbb{E}_{x \sim P} \left[ \log \frac{P(x)}{Q(x)} \right] = \int P(x) \log \frac{P(x)}{Q(x)} dx\)</li>
-  <li><strong>특징:</strong>
-    <ol>
-      <li>
-        <table>
-          <tbody>
-            <tr>
-              <td><strong>항상 0 이상:</strong> $D_{KL}(P</td>
-              <td> </td>
-              <td>Q) \geq 0$이며, 두 분포가 완전히 같을 때만 0이 됩니다. (Gibbs’ Inequality)</td>
-            </tr>
-          </tbody>
-        </table>
-      </li>
-      <li>
-        <table>
-          <tbody>
-            <tr>
-              <td><strong>비대칭성 (Non-symmetric):</strong> $D_{KL}(P</td>
-              <td> </td>
-              <td>Q) \neq D_{KL}(Q</td>
-              <td> </td>
-              <td>P)$ 입니다. 따라서 엄밀한 의미의 ‘거리(Metric)’ 함수는 아니며, <strong>상대 엔트로피(Relative Entropy)</strong>라고도 불립니다.</td>
-            </tr>
-          </tbody>
-        </table>
-      </li>
-      <li><strong>VAE에서의 역할:</strong> 인코더가 만들어낸 잠재 변수의 분포($q$)가 사전에 설정한 표준 정규 분포($p$)의 형태를 크게 벗어나지 않도록 강제하는 <strong>규제화(Regularization)</strong> 역할을 수행합니다.</li>
-    </ol>
-  </li>
-</ul>
+<p>KL Divergence는 두 확률 분포의 <strong>차이(Difference)</strong>를 측정하는 지표입니다. 분포 $P$와 $Q$ 사이의 KL Divergence는 다음과 같이 정의됩니다.</p>
 
+\[D_{KL}(P \| Q) = \mathbb{E}_{x \sim P} \left[ \log \frac{P(x)}{Q(x)} \right] = \int P(x) \log \frac{P(x)}{Q(x)}\, dx\]
+
+<p>KL Divergence는 <strong>항상 0 이상</strong>이며, 두 분포가 완전히 같을 때만 0이 됩니다(Gibbs’ Inequality). 또한 $D_{KL}(P | Q) \neq D_{KL}(Q | P)$인 <strong>비대칭(Non-symmetric)</strong> 지표이므로 엄밀한 의미의 거리(Metric) 함수가 아니며, <strong>상대 엔트로피(Relative Entropy)</strong>라고도 불립니다. VAE에서 KL Divergence는 인코더가 생성한 잠재 변수 분포 $q_\phi(z \mid x)$가 사전 분포 $p(z)$(표준 정규분포)에서 크게 벗어나지 않도록 강제하는 <strong>규제화(Regularization)</strong> 역할을 합니다.</p>
+
+<hr />
 <h3 id="목적-함수-elbo-evidence-lower-bound">목적 함수: ELBO (Evidence Lower Bound)</h3>
-<p>데이터의 로그 우도 $\log p(x)$를 직접 최대화하는 대신, 그 하한선인 ELBO를 최대화합니다.
-\(\log p(x) \geq \mathbb{E}_{q_\phi(z|x)}[\log p_\theta(x|z)] - D_{KL}(q_\phi(z|x) || p(z))\)</p>
-<ul>
-  <li><strong>첫 번째 항 (Reconstruction Loss):</strong> $z$로부터 $x$를 얼마나 잘 복원하는지 측정합니다.</li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td><strong>두 번째 항 (Regularization Loss):</strong> 근사 posterior $q(z</td>
-          <td>x)$가 사전 분포 $p(z)$ (주로 표준 정규분포)와 얼마나 유사한지 측정합니다.</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-</ul>
+
+<p>데이터의 로그 우도 $\log p(x)$를 직접 최대화하는 대신, 그 하한선인 ELBO를 최대화합니다.</p>
+
+\[\log p(x) \geq \underbrace{\mathbb{E}_{q_\phi(z \mid x)}\!\left[\log p_\theta(x \mid z)\right]}_{\text{Reconstruction Loss}} - \underbrace{D_{KL}(q_\phi(z \mid x) \| p(z))}_{\text{Regularization Loss}}\]
+
+<p>첫 번째 항(Reconstruction Loss)은 $z$로부터 $x$를 얼마나 잘 복원하는지를, 두 번째 항(Regularization Loss)은 근사 posterior $q_\phi(z \mid x)$가 사전 분포 $p(z)$와 얼마나 유사한지를 측정합니다.</p>
 
 <hr />
 
-<h2 id="2-mle-maximum-likelihood-estimation-수학-문제">2. MLE (Maximum Likelihood Estimation) 수학 문제</h2>
+<h2 id="2-mle-maximum-likelihood-estimation-문제">2. MLE (Maximum Likelihood Estimation) 문제</h2>
 
 <p><strong>[문제]</strong> 독립적인 $n$개의 데이터 $X = {x_1, x_2, \dots, x_n}$이 평균이 $\mu$이고 분산이 $\sigma^2$인 정규분포 $\mathcal{N}(\mu, \sigma^2)$에서 추출되었다고 가정할 때, $\mu$와 $\sigma^2$의 최대 우도 추정치(MLE)를 구하시오.</p>
 
 <p><strong>[풀이]</strong></p>
 <ol>
   <li>
-    <p>우도 함수(Likelihood function) $L(\mu, \sigma^2)$ 정의:
-\(L(\mu, \sigma^2) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x_i-\mu)^2}{2\sigma^2}\right)\)</p>
+    <p>우도 함수(Likelihood function) $L(\mu, \sigma^2)$ 정의:</p>
+
+\[L(\mu, \sigma^2) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x_i-\mu)^2}{2\sigma^2}\right)\]
   </li>
   <li>
-    <p>로그 우도 함수(Log-likelihood function) $l(\mu, \sigma^2)$ 계산:
-\(l(\mu, \sigma^2) = -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^n (x_i-\mu)^2\)</p>
+    <p>로그 우도 함수(Log-likelihood function) $l(\mu, \sigma^2)$ 계산:</p>
+
+\[l(\mu, \sigma^2) = -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^n (x_i-\mu)^2\]
   </li>
   <li>
-    <p>$\mu$에 대해 편미분하여 0이 되는 지점 찾기:
-\(\frac{\partial l}{\partial \mu} = \frac{1}{\sigma^2}\sum_{i=1}^n (x_i-\mu) = 0 \implies \hat{\mu} = \frac{1}{n}\sum_{i=1}^n x_i \text{ (표본평균)}\)</p>
+    <p>$\mu$에 대해 편미분하여 0이 되는 지점 찾기:</p>
+
+\[\frac{\partial l}{\partial \mu} = \frac{1}{\sigma^2}\sum_{i=1}^n (x_i-\mu) = 0 \implies \hat{\mu} = \frac{1}{n}\sum_{i=1}^n x_i \quad \text{(표본평균)}\]
   </li>
   <li>
-    <p>$\sigma^2$에 대해 편미분하여 0이 되는 지점 찾기:
-\(\frac{\partial l}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2(\sigma^2)^2}\sum_{i=1}^n (x_i-\mu)^2 = 0 \implies \hat{\sigma}^2 = \frac{1}{n}\sum_{i=1}^n (x_i-\hat{\mu})^2\)</p>
+    <p>$\sigma^2$에 대해 편미분하여 0이 되는 지점 찾기:</p>
+
+\[\frac{\partial l}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2(\sigma^2)^2}\sum_{i=1}^n (x_i-\mu)^2 = 0 \implies \hat{\sigma}^2 = \frac{1}{n}\sum_{i=1}^n (x_i-\hat{\mu})^2\]
   </li>
 </ol>
 
 <hr />
 
-<h2 id="3-시험-대비-수학-문제-vaeelbo-유도">3. 시험 대비 수학 문제 (VAE/ELBO 유도)</h2>
+<h2 id="3-vaeelbo-유도-문제">3. VAE/ELBO 유도 문제</h2>
 
-<table>
-  <tbody>
-    <tr>
-      <td><strong>[문제]</strong> 데이터 $x$와 잠재 변수 $z$에 대하여, 근사 분포 $q(z</td>
-      <td>x)$와 실제 Posterior $p(z</td>
-      <td>x)$ 사이의 KL Divergence를 이용하여 ELBO 식을 유도하고, 왜 ELBO를 최대화하는 것이 $\log p(x)$를 최대화하는 것과 연관되는지 설명하시오.</td>
-    </tr>
-  </tbody>
-</table>
+<p><strong>[문제]</strong> 데이터 $x$와 잠재 변수 $z$에 대하여, 근사 분포 $q(z \mid x)$와 실제 Posterior $p(z \mid x)$ 사이의 KL Divergence를 이용하여 ELBO 식을 유도하고, 왜 ELBO를 최대화하는 것이 $\log p(x)$를 최대화하는 것과 연관되는지 설명하시오.</p>
 
 <p><strong>[풀이]</strong></p>
+
 <ol>
   <li>
-    <p>KL Divergence의 정의로부터 시작합니다:
-\(D_{KL}(q(z|x) || p(z|x)) = \mathbb{E}_{q(z|x)} \left[ \log \frac{q(z|x)}{p(z|x)} \right]\)</p>
+    <p>KL Divergence의 정의로부터 시작합니다:</p>
+
+\[D_{KL}(q(z \mid x) \| p(z \mid x)) = \mathbb{E}_{q(z \mid x)} \left[ \log \frac{q(z \mid x)}{p(z \mid x)} \right]\]
   </li>
   <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>베이즈 정리 $p(z</td>
-          <td>x) = \frac{p(x, z)}{p(x)}$를 대입합니다:</td>
-          <td> </td>
-          <td> </td>
-          <td> </td>
-          <td> </td>
-          <td> </td>
-        </tr>
-        <tr>
-          <td>$$D_{KL}(q(z</td>
-          <td>x)</td>
-          <td> </td>
-          <td>p(z</td>
-          <td>x)) = \mathbb{E}_{q(z</td>
-          <td>x)} \left[ \log \frac{q(z</td>
-          <td>x)p(x)}{p(x, z)} \right]$$</td>
-        </tr>
-        <tr>
-          <td>$$D_{KL}(q(z</td>
-          <td>x)</td>
-          <td> </td>
-          <td>p(z</td>
-          <td>x)) = \mathbb{E}_{q(z</td>
-          <td>x)} [ \log q(z</td>
-          <td>x) - \log p(x, z) + \log p(x) ]$$</td>
-        </tr>
-      </tbody>
-    </table>
+    <p>베이즈 정리 $p(z \mid x) = \frac{p(x, z)}{p(x)}$를 대입합니다:</p>
+
+\[D_{KL}(q(z \mid x) \| p(z \mid x)) = \mathbb{E}_{q(z \mid x)} \left[ \log \frac{q(z \mid x) \cdot p(x)}{p(x, z)} \right]\]
+
+\[= \mathbb{E}_{q(z \mid x)} \left[ \log q(z \mid x) - \log p(x, z) + \log p(x) \right]\]
   </li>
   <li>
-    <p>$\log p(x)$는 $z$에 의존하지 않으므로 기댓값 밖으로 나옵니다:
-\(D_{KL}(q(z|x) || p(z|x)) = \log p(x) + \mathbb{E}_{q(z|x)} [ \log q(z|x) - \log p(x, z) ]\)</p>
+    <p>$\log p(x)$는 $z$에 의존하지 않으므로 기댓값 밖으로 나옵니다:</p>
+
+\[D_{KL}(q(z \mid x) \| p(z \mid x)) = \log p(x) + \mathbb{E}_{q(z \mid x)} \left[ \log q(z \mid x) - \log p(x, z) \right]\]
   </li>
   <li>
-    <p>식을 $\log p(x)$에 대해 정리합니다:
-\(\log p(x) = D_{KL}(q(z|x) || p(z|x)) + \mathbb{E}_{q(z|x)} [ \log p(x, z) - \log q(z|x) ]\)</p>
+    <p>식을 $\log p(x)$에 대해 정리합니다:</p>
+
+\[\log p(x) = D_{KL}(q(z \mid x) \| p(z \mid x)) + \mathbb{E}_{q(z \mid x)} \left[ \log p(x, z) - \log q(z \mid x) \right]\]
   </li>
-  <li>여기서 우측의 기댓값 항이 바로 <strong>ELBO</strong>입니다:
-\(\text{ELBO} = \mathbb{E}_{q(z|x)} [ \log p(x, z) - \log q(z|x) ]\)
-또한 $p(x, z) = p(x|z)p(z)$이므로:
-\(\text{ELBO} = \mathbb{E}_{q(z|x)} [ \log p(x|z) ] - D_{KL}(q(z|x) || p(z))\)</li>
+  <li>
+    <p>우측의 기댓값 항이 바로 <strong>ELBO</strong>입니다. $p(x, z) = p(x \mid z)\,p(z)$이므로:</p>
+
+\[\boxed{\text{ELBO} = \mathbb{E}_{q(z \mid x)} \left[ \log p(x \mid z) \right] - D_{KL}(q(z \mid x) \| p(z))}\]
+  </li>
 </ol>
 
 <p><strong>[설명]</strong>
-$D_{KL}$은 항상 0 이상이므로, $\log p(x) \geq \text{ELBO}$ 성립합니다. 따라서 ELBO는 $\log p(x)$의 하한선(Lower Bound)이 됩니다. $D_{KL}(q(z|x) || p(z|x))$를 최소화하는 것(근사 분포를 실제 posterior에 가깝게 만드는 것)은 곧 ELBO를 최대화하는 것과 같으며, 이는 데이터의 우도 $\log p(x)$를 간접적으로 최대화하는 효과를 가집니다.</p>]]></content><author><name></name></author><category term="study" /><category term="VAE," /><category term="ELBO," /><category term="KL" /><category term="divergence," /><category term="MLE" /><summary type="html"><![CDATA[VAE의 핵심 개념인 ELBO와 KL Divergence, 그리고 수학적 유도 과정을 정리합니다.]]></summary></entry><entry><title type="html">Asyncio</title><link href="https://daye-lee18.github.io/blog/2026/asyncio/" rel="alternate" type="text/html" title="Asyncio" /><published>2026-04-29T00:00:00+00:00</published><updated>2026-04-29T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2026/asyncio</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2026/asyncio/"><![CDATA[<h1 id="asyncio-사용하기">asyncio 사용하기</h1>
+$D_{KL}$은 항상 0 이상이므로 $\log p(x) \geq \text{ELBO}$가 성립합니다. 따라서 ELBO는 $\log p(x)$의 하한선(Lower Bound)이 됩니다. $D_{KL}(q(z \mid x) | p(z \mid x))$를 최소화하는 것(근사 분포를 실제 posterior에 가깝게 만드는 것)은 곧 ELBO를 최대화하는 것과 같으며, 이는 데이터의 우도 $\log p(x)$를 간접적으로 최대화하는 효과를 가집니다.</p>]]></content><author><name></name></author><category term="study" /><category term="VAE" /><category term="ELBO" /><category term="KL divergence" /><category term="MLE" /><summary type="html"><![CDATA[VAE의 핵심 개념인 ELBO와 KL Divergence, 그리고 수학적 유도 과정을 정리합니다.]]></summary></entry><entry><title type="html">Asyncio</title><link href="https://daye-lee18.github.io/blog/2026/asyncio/" rel="alternate" type="text/html" title="Asyncio" /><published>2026-04-29T00:00:00+00:00</published><updated>2026-04-29T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2026/asyncio</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2026/asyncio/"><![CDATA[<h1 id="asyncio-사용하기">asyncio 사용하기</h1>
 
 <blockquote>
   <p>asyncio (Asynchronous I/O)는 비동기 프로그래밍을 위한 모듈이며 I/O 작업을 효율적으로 동시에 처리하게 해줌</p>
