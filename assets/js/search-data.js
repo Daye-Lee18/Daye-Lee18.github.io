@@ -44,7 +44,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/teaching/";
           },
-        },{id: "post-asyncio",
+        },{id: "post-vae-variational-autoencoder-이해하기",
+        
+          title: "VAE (Variational Autoencoder) 이해하기",
+        
+        description: "VAE의 핵심 개념인 ELBO와 KL Divergence, 그리고 수학적 유도 과정을 정리합니다.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/VAE/";
+          
+        },
+      },{id: "post-asyncio",
         
           title: "Asyncio",
         
