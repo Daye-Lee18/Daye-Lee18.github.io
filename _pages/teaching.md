@@ -58,7 +58,7 @@ teaching:
           - label: 내용
             text: Pure Mathematics (P3/P4), IB DP AA HL 
           - label: 언어
-            text: 영어 설명 + 한국어 주석 병행 (한국인 학생 대상)
+            text: 영어 한국어 병행 
           - label: 링크
             text: '<a href="https://daye-lee18.github.io/math_tutoring/" target="_blank" rel="noopener">Course page</a>'
 
