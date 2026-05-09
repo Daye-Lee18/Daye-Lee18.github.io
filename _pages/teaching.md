@@ -50,13 +50,13 @@ teaching:
   
   - university: Private Class
     courses:
-      - title: A-Level Mathematics Tutoring
+      - title: Mathematics Tutoring
         role: Private Tutor
         term: 2025 ~ 2026
-        badge: A-Level Pure Maths
+        badge: Pure Maths
         points:
           - label: 내용
-            text: A-Level Pure Mathematics (P3/P4) — Transformation, Numerical Methods, Trigonometry, Differentiation, Integration, Differential Equations
+            text: Pure Mathematics (P3/P4), IB DP AA HL 
           - label: 언어
             text: 영어 설명 + 한국어 주석 병행 (한국인 학생 대상)
           - label: 링크
