@@ -9,4 +9,4 @@ nav: true
 nav_order: 2
 ---
 
-If you are not redirected automatically, [click here](/assets/pdf/20260424_resume.pdf).
+If you are not redirected automatically, [click here](/assets/pdf/20260510_resume.pdf).
