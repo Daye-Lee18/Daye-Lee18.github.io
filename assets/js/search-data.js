@@ -44,7 +44,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/teaching/";
           },
-        },{id: "post-vae-이해",
+        },{id: "post-flow-matching-fm-요약",
+        
+          title: "Flow Matching (FM) 요약",
+        
+        description: "Flow Matching의 핵심 개념과 수학적 구조, 그리고 로봇 제어(Pi Model)로의 응용을 정리합니다.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/flow-matching/";
+          
+        },
+      },{id: "post-vae-이해",
         
           title: "VAE 이해",
         

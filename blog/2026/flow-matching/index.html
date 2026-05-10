@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Flow Matching (FM) 요약 | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="Flow Matching의 핵심 개념과 수학적 구조, 그리고 로봇 제어(Pi Model)로의 응용을 정리합니다.">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+  <!-- Sidebar Table of Contents -->
+  <link defer href="/assets/css/bootstrap-toc.min.css?6f5af0bb9aab25d79b2448143cbeaa88" rel="stylesheet">
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/blog/2026/flow-matching/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+          <div class="row">
+            <!-- sidebar, which will move to the top on a small screen -->
+            <div class="col-sm-3">
+              <nav id="toc-sidebar" class="sticky-top"></nav>
+            </div>
+            <!-- main content area -->
+            <div class="col-sm-9">
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Flow Matching (FM) 요약</h1>
+    <p class="post-meta">
+      Created on May 10, 2026
+      
+      
+      
+    </p>
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+      
+          ·  
+        
+          
+            <a href="/blog/tag/flowmatching"> <i class="fa-solid fa-hashtag fa-sm"></i> FlowMatching</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/generativemodel"> <i class="fa-solid fa-hashtag fa-sm"></i> GenerativeModel</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/robotics"> <i class="fa-solid fa-hashtag fa-sm"></i> Robotics</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/pi-model"> <i class="fa-solid fa-hashtag fa-sm"></i> Pi Model</a>
+          
+          
+        
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/category/study"> <i class="fa-solid fa-tag fa-sm"></i> study</a>
+          
+          
+        
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <h2 id="1-flow-matching-fm-핵심-개념">1. Flow Matching (FM) 핵심 개념</h2>
+
+<p>Flow Matching은 데이터를 생성하는 확률 경로(Probability Path)를 정의하고, 이를 유도하는 <strong>벡터장(Vector Field)</strong>을 직접 학습하는 생성 모델입니다. Diffusion 모델과 유사하지만, 노이즈에서 데이터로 가는 경로를 더 직접적이고 효율적으로 설계할 수 있습니다.</p>
+
+<h3 id="핵심-구성-요소">핵심 구성 요소</h3>
+<ul>
+  <li>
+<strong>벡터장 $v_t(x)$</strong>: 시간 $t$에 따라 샘플 $x$가 이동해야 할 방향과 속도를 정의합니다.</li>
+  <li>
+<strong>흐름(Flow) $\psi_t(x)$</strong>: 벡터장에 의해 정의되는 궤적으로, $\frac{d}{dt}\psi_t(x) = v_t(\psi_t(x), t)$를 만족합니다.</li>
+  <li>
+<strong>확률 경로 $p_t(x)$</strong>: $p_0$(노이즈 분포)에서 $p_1$(데이터 분포)로 변하는 연속적인 분포의 집합입니다.</li>
+</ul>
+
+<hr>
+
+<h2 id="2-수학적-구조-및-학습-방법">2. 수학적 구조 및 학습 방법</h2>
+
+<h3 id="conditional-flow-matching-cfm">Conditional Flow Matching (CFM)</h3>
+<p>실제 데이터 분포의 벡터장을 직접 구하는 것은 어렵기 때문에, 개별 데이터 포인트 $x_1$에 조건화된 <strong>조건부 벡터장</strong>을 학습합니다.</p>
+
+<ul>
+  <li>
+<strong>선형 보간 경로 (Linear Interpolation)</strong>: 가장 흔히 쓰이는 경로 설정입니다.
+\(x_t = (1-t)x_0 + t x_1\)</li>
+  <li>
+<strong>조건부 벡터장 $u_t(x \mid x_1)$</strong>: 위 경로를 미분하면 얻어지는 목표 벡터장입니다.
+\(u_t(x_t \mid x_1) = \frac{d}{dt}x_t = x_1 - x_0\)</li>
+</ul>
+
+<h3 id="목적-함수-loss-function">목적 함수 (Loss Function)</h3>
+<p>신경망 $v_\theta(x, t)$가 목표 벡터장 $u_t$를 모사하도록 학습합니다.
+\(\mathcal{L}_{CFM}(\theta) = \mathbb{E}_{t, x_0, x_1} \left[ \| v_\theta(x_t, t) - (x_1 - x_0) \|^2 \right]\)</p>
+
+<blockquote>
+  <p><strong>Tip:</strong> Diffusion 모델과 달리 학습 시 ODE Solver를 거칠 필요가 없으며, 목적 함수가 단순한 MSE 형태이므로 학습이 매우 안정적입니다.</p>
+</blockquote>
+
+<hr>
+
+<h2 id="3-코드-응용-implementation-logic">3. 코드 응용 (Implementation Logic)</h2>
+
+<p>PyTorch 스타일의 핵심 로직입니다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+
+<span class="k">def</span> <span class="nf">flow_matching_loss</span><span class="p">(</span><span class="n">v_net</span><span class="p">,</span> <span class="n">x_1</span><span class="p">):</span>
+    <span class="c1"># 1. 시간 t 샘플링 (0 ~ 1)
+</span>    <span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">rand</span><span class="p">(</span><span class="n">x_1</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">x_1</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
+    
+    <span class="c1"># 2. 베이스 분포(노이즈) x_0 생성
+</span>    <span class="n">x_0</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn_like</span><span class="p">(</span><span class="n">x_1</span><span class="p">)</span>
+    
+    <span class="c1"># 3. 선형 보간을 통한 x_t 생성
+</span>    <span class="n">x_t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">x_0</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">x_1</span>
+    
+    <span class="c1"># 4. 목표 벡터장 (x_1 - x_0)
+</span>    <span class="n">target_v</span> <span class="o">=</span> <span class="n">x_1</span> <span class="o">-</span> <span class="n">x_0</span>
+    
+    <span class="c1"># 5. 모델 예측 및 손실 계산
+</span>    <span class="n">pred_v</span> <span class="o">=</span> <span class="nf">v_net</span><span class="p">(</span><span class="n">x_t</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">mean</span><span class="p">((</span><span class="n">pred_v</span> <span class="o">-</span> <span class="n">target_v</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">loss</span>
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="4-로봇-공학-응용-pi-model">4. 로봇 공학 응용: Pi Model</h2>
+
+<p>Flow Matching은 로봇의 <strong>Policy Inference (Pi Model)</strong>에서 다봉성(Multi-modality)을 가진 행동 분포를 모델링하는 데 사용됩니다.</p>
+
+<ul>
+  <li>
+<strong>Pi Model ($\pi(a \mid s)$)</strong>: 주어진 상태 $s$에서 최적의 행동 $a$를 생성하는 모델입니다.</li>
+  <li>
+<strong>장점</strong>: Diffusion Policy에 비해 추론 시 적은 step(Iteration)으로도 고품질의 행동 시퀀스를 생성할 수 있어, 실시간 제어가 중요한 로봇 시스템에 적합합니다.</li>
+  <li>
+<strong>Flow</strong>: 노이즈 $a_0$로부터 시작하여 벡터장을 따라 적분함으로써 최종 행동 $a_1$을 도출합니다.</li>
+</ul>
+
+<hr>
+
+<h2 id="5-연습-문제">5. 연습 문제</h2>
+
+<h3 id="q1-조건부-벡터장-유도">Q1. 조건부 벡터장 유도</h3>
+
+<p>선형 보간 경로가 다음과 같이 정의된다:</p>
+
+\[x_t = (1-t)x_0 + t x_1, \qquad t \in [0, 1]\]
+
+<p><strong>(a)</strong> $x_t$를 시간 $t$에 대해 미분하여 조건부 벡터장 $u_t(x_t \mid x_1)$를 구하라.</p>
+
+<p><strong>(b)</strong> $t=0$과 $t=1$에서의 $u_t$ 값이 각각 $x_1 - x_0$로 동일한 이유를 설명하라.</p>
+
+<details>
+<summary>정답 보기</summary>
+
+**(a)**
+
+$$u_t(x_t \mid x_1) = \frac{d}{dt}x_t = \frac{d}{dt}\left[(1-t)x_0 + tx_1\right] = -x_0 + x_1 = x_1 - x_0$$
+
+**(b)** 경로가 **선형**이므로 기울기(속도)가 $t$에 무관하게 상수 $x_1 - x_0$다. 직선 위를 일정한 속도로 이동하기 때문에 출발점($t=0$)과 도착 직전($t=1$) 모두 같은 방향·크기의 벡터장을 가진다.
+
+</details>
+
+<hr>
+
+<h3 id="q2-손실-함수-계산-수치-예시">Q2. 손실 함수 계산 (수치 예시)</h3>
+
+<p>$x_0 = -1$, $x_1 = 3$, $t = 0.25$일 때:</p>
+
+<p><strong>(a)</strong> $x_t$를 계산하라.</p>
+
+<p><strong>(b)</strong> 목표 벡터장 $u_t(x_t \mid x_1)$를 계산하라.</p>
+
+<p><strong>(c)</strong> 모델 예측이 $v_\theta(x_t, t) = 3.5$일 때, CFM 손실 $| v_\theta - u_t |^2$를 계산하라.</p>
+
+<details>
+<summary>정답 보기</summary>
+
+**(a)**
+
+$$x_{0.25} = (1 - 0.25)(-1) + 0.25(3) = -0.75 + 0.75 = 0$$
+
+**(b)**
+
+$$u_t = x_1 - x_0 = 3 - (-1) = 4$$
+
+**(c)**
+
+$$\|v_\theta - u_t\|^2 = |3.5 - 4|^2 = (-0.5)^2 = 0.25$$
+
+</details>
+
+<hr>
+
+<h3 id="q3-euler-방법으로-샘플링">Q3. Euler 방법으로 샘플링</h3>
+
+<p>훈련된 모델이 벡터장 $v_\theta(x, t) = 2x + 1$을 출력한다고 하자. 초기값 $x_0 = 0$에서 시작하여 스텝 크기 $\Delta t = 0.5$로 Euler 방법을 2번 반복 적용하라:</p>
+
+\[x_{t + \Delta t} = x_t + \Delta t \cdot v_\theta(x_t,\, t)\]
+
+<p><strong>(a)</strong> $x_{0.5}$를 구하라.</p>
+
+<p><strong>(b)</strong> $x_{1.0}$을 구하라.</p>
+
+<p><strong>(c)</strong> 스텝 수를 늘릴수록 ($\Delta t \to 0$) 결과가 어떻게 변하는지 설명하라.</p>
+
+<details>
+<summary>정답 보기</summary>
+
+**(a)**
+
+$$x_{0.5} = x_0 + 0.5 \cdot v_\theta(x_0, 0) = 0 + 0.5 \cdot (2 \cdot 0 + 1) = 0.5$$
+
+**(b)**
+
+$$x_{1.0} = x_{0.5} + 0.5 \cdot v_\theta(x_{0.5}, 0.5) = 0.5 + 0.5 \cdot (2 \cdot 0.5 + 1) = 0.5 + 1.0 = 1.5$$
+
+**(c)** $\Delta t \to 0$이 되면 Euler 방법이 ODE $\dot{x} = v_\theta(x, t)$의 정확한 해에 수렴한다. 스텝이 클수록 각 구간에서 벡터장이 변함에도 불구하고 처음 값으로 직선 이동하는 오차가 누적된다. 따라서 스텝 수가 많을수록(더 촘촘하게 적분할수록) 샘플 품질이 좋아진다.
+
+</details>
+
+<hr>
+
+<h3 id="q4-연속-방정식-continuity-equation">Q4. 연속 방정식 (Continuity Equation)</h3>
+
+<p>확률 밀도 $p_t$는 벡터장 $v_t$에 의해 다음 연속 방정식을 만족해야 한다:</p>
+
+\[\frac{\partial p_t}{\partial t} + \nabla_x \cdot (p_t(x)\, v_t(x)) = 0\]
+
+<p>1차원에서 $p_0 = \mathcal{N}(0, 1)$, $p_1 = \mathcal{N}(\mu, 1)$ ($\mu \neq 0$)이라 하자.</p>
+
+<p><strong>(a)</strong> 선형 경로 $x_t = (1-t)x_0 + t\mu$에 대응하는 벡터장 $v_t(x)$를 구하라.</p>
+
+<p><strong>(b)</strong> 이 $v_t$가 연속 방정식을 만족함을 확인하라. (Hint: $p_t = \mathcal{N}(t\mu,\,(1-t)^2)$)</p>
+
+<details>
+<summary>정답 보기</summary>
+
+**(a)** $x_t = (1-t)x_0 + t\mu$이므로 $x_0 = \dfrac{x_t - t\mu}{1-t}$. 조건부 벡터장을 $t$에 대해 미분하면:
+
+$$v_t(x) = \frac{d}{dt}x_t = \mu - x_0 = \mu - \frac{x - t\mu}{1-t} = \frac{\mu - x}{1-t}$$
+
+**(b)** $p_t(x) = \mathcal{N}(t\mu,\,(1-t)^2)$로 쓰면:
+
+$$\frac{\partial p_t}{\partial t} = p_t(x) \cdot \frac{x - t\mu}{(1-t)^2}\,\mu - \frac{p_t(x)}{-(1-t)}\cdot\frac{(x-t\mu)^2-(1-t)^2}{(1-t)^2}$$
+
+계산 과정을 요약하면:
+
+$$\frac{\partial p_t}{\partial x}(p_t \cdot v_t) = \frac{1}{1-t}\frac{\partial}{\partial x}\left[(\mu - x)\,p_t\right] = \frac{1}{1-t}\left[-p_t + (\mu-x)\frac{\partial p_t}{\partial x}\right]$$
+
+$\dfrac{\partial p_t}{\partial x} = -\dfrac{x - t\mu}{(1-t)^2}p_t$를 대입하면 두 항이 정확히 상쇄되어 연속 방정식 $= 0$이 성립한다.
+
+</details>
+
+<hr>
+
+<h3 id="q5-주변-벡터장-marginal-vector-field">Q5. 주변 벡터장 (Marginal Vector Field)</h3>
+
+<p>Flow Matching의 핵심 이론적 결과는 다음이다:</p>
+
+\[v_t(x) = \mathbb{E}\!\left[u_t(x \mid x_1) \;\middle|\; x_t = x\right]\]
+
+<p><strong>(a)</strong> 위 등식의 의미를 직관적으로 설명하라. (조건부 기댓값이 왜 “평균적으로 올바른” 방향을 가리키는가?)</p>
+
+<p><strong>(b)</strong> CFM 손실 $\mathcal{L}_{CFM}$를 최소화하는 것이 위 주변 벡터장 $v_t$를 학습하는 것과 동치임을 설명하라.</p>
+
+<details>
+<summary>정답 보기</summary>
+
+**(a)** 시각 $t$에 같은 위치 $x$를 지나는 궤적은 여러 개의 서로 다른 목적지 $x_1$에서 비롯될 수 있다. 각 궤적은 자신의 조건부 벡터장 $u_t(x \mid x_1)$를 갖는데, 주변 벡터장 $v_t(x)$는 "현재 $x_t = x$를 지나고 있다"는 조건 아래 이 방향들의 가중 평균이다. 이 평균 방향으로 이동하면 **전체 확률 분포를 올바르게 수송**할 수 있다.
+
+**(b)** MSE 손실 $\mathbb{E}\|v_\theta(x_t, t) - u_t(x_t \mid x_1)\|^2$를 $v_\theta$에 대해 최소화하면, 각 $x_t$ 지점에서의 최적 예측은 조건부 기댓값 $\mathbb{E}[u_t \mid x_t]$이다. 이것이 바로 주변 벡터장 $v_t(x_t)$이므로, CFM 손실을 최소화하는 $v_\theta$는 $v_t$를 학습한다.
+
+</details>
+
+<hr>
+
+<h3 id="q6-diffusion-vs-flow-matching-비교">Q6. Diffusion vs Flow Matching 비교</h3>
+
+<p>Diffusion 모델의 forward process는 다음과 같다:</p>
+
+\[x_t = \sqrt{\bar{\alpha}_t}\, x_0 + \sqrt{1 - \bar{\alpha}_t}\, \epsilon, \qquad \epsilon \sim \mathcal{N}(0, I)\]
+
+<p>반면 Flow Matching의 경로는 $x_t = (1-t)x_0 + t x_1$이다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>항목</th>
+      <th>Diffusion</th>
+      <th>Flow Matching</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>경로 형태</td>
+      <td>비선형 (noise schedule)</td>
+      <td>선형 보간</td>
+    </tr>
+    <tr>
+      <td>목표 함수</td>
+      <td>$\epsilon$-prediction (노이즈 예측)</td>
+      <td>$v$-prediction (벡터장 예측)</td>
+    </tr>
+    <tr>
+      <td>추론 step 수</td>
+      <td>수십~수백</td>
+      <td>수십 이하 가능</td>
+    </tr>
+    <tr>
+      <td>ODE Solver 필요 여부</td>
+      <td>?</td>
+      <td>?</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>(a)</strong> 표의 빈칸을 채워라.</p>
+
+<p><strong>(b)</strong> Flow Matching이 Diffusion보다 적은 추론 step으로도 좋은 성능을 낼 수 있는 이유를 경로의 기하학적 관점에서 설명하라.</p>
+
+<details>
+<summary>정답 보기</summary>
+
+**(a)**
+
+| 항목 | Diffusion | Flow Matching |
+|---|---|---|
+| 경로 형태 | 비선형 (noise schedule) | 선형 보간 |
+| 목표 함수 | $\epsilon$-prediction (노이즈 예측) | $v$-prediction (벡터장 예측) |
+| 추론 step 수 | 수십~수백 | 수십 이하 가능 |
+| ODE Solver 필요 여부 | 필요 (DDIM 등 ODE sampler) | 필요 (Euler / RK4 등) |
+
+**(b)** Diffusion은 noise schedule로 인해 궤적이 **곡선**을 그리므로, 이를 충실하게 수치 적분하려면 많은 스텝이 필요하다. 반면 Flow Matching의 선형 보간 경로는 **직선**이다. 직선 궤적은 Euler 방법 같은 1차 적분기로도 큰 오차 없이 따라갈 수 있으므로, 적은 함수 평가(NFE, Number of Function Evaluations)로 동등한 품질의 샘플을 생성할 수 있다.
+
+</details>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+</div>
+          </div>
+        
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+  <!-- Sidebar Table of Contents -->
+  <script defer src="/assets/js/bootstrap-toc.min.js?c82ff4de8b0955d6ff14f5b05eed7eb6"></script>
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>
