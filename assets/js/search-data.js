@@ -44,7 +44,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/teaching/";
           },
-        },{id: "post-flow-matching-fm-요약",
+        },{id: "post-u-net",
+        
+          title: "U-Net",
+        
+        description: "Lerobot의 diffusion policy에서 쓰인 U-Net 구조에 대해 공부.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/unet_diffusion/";
+          
+        },
+      },{id: "post-flow-matching-fm-요약",
         
           title: "Flow Matching (FM) 요약",
         

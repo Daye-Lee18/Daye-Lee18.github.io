@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://daye-lee18.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://daye-lee18.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-05-10T01:38:10+00:00</updated><id>https://daye-lee18.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://daye-lee18.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://daye-lee18.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-05-10T13:35:51+00:00</updated><id>https://daye-lee18.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 </subtitle><entry><title type="html">Flow Matching (FM) 요약</title><link href="https://daye-lee18.github.io/blog/2026/flow-matching/" rel="alternate" type="text/html" title="Flow Matching (FM) 요약" /><published>2026-05-10T00:00:00+00:00</published><updated>2026-05-10T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2026/flow-matching</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2026/flow-matching/"><![CDATA[<h2 id="1-flow-matching-fm-핵심-개념">1. Flow Matching (FM) 핵심 개념</h2>
 
 <p>Flow Matching은 데이터를 생성하는 확률 경로(Probability Path)를 정의하고, 이를 유도하는 <strong>벡터장(Vector Field)</strong>을 직접 학습하는 생성 모델입니다. Diffusion 모델과 유사하지만, 노이즈에서 데이터로 가는 경로를 더 직접적이고 효율적으로 설계할 수 있습니다.</p>
@@ -269,7 +269,239 @@ $\dfrac{\partial p_t}{\partial x} = -\dfrac{x - t\mu}{(1-t)^2}p_t$를 대입하�
 
 **(b)** Diffusion은 noise schedule로 인해 궤적이 **곡선**을 그리므로, 이를 충실하게 수치 적분하려면 많은 스텝이 필요하다. 반면 Flow Matching의 선형 보간 경로는 **직선**이다. 직선 궤적은 Euler 방법 같은 1차 적분기로도 큰 오차 없이 따라갈 수 있으므로, 적은 함수 평가(NFE, Number of Function Evaluations)로 동등한 품질의 샘플을 생성할 수 있다.
 
-</details>]]></content><author><name></name></author><category term="study" /><category term="FlowMatching" /><category term="GenerativeModel" /><category term="Robotics" /><category term="Pi Model" /><summary type="html"><![CDATA[Flow Matching의 핵심 개념과 수학적 구조, 그리고 로봇 제어(Pi Model)로의 응용을 정리합니다.]]></summary></entry><entry><title type="html">VAE 이해</title><link href="https://daye-lee18.github.io/blog/2026/VAE/" rel="alternate" type="text/html" title="VAE 이해" /><published>2026-05-06T00:00:00+00:00</published><updated>2026-05-06T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2026/VAE</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2026/VAE/"><![CDATA[<hr />
+</details>]]></content><author><name></name></author><category term="study" /><category term="FlowMatching" /><category term="GenerativeModel" /><category term="Robotics" /><category term="Pi Model" /><summary type="html"><![CDATA[Flow Matching의 핵심 개념과 수학적 구조, 그리고 로봇 제어(Pi Model)로의 응용을 정리합니다.]]></summary></entry><entry><title type="html">U-Net</title><link href="https://daye-lee18.github.io/blog/2026/unet_diffusion/" rel="alternate" type="text/html" title="U-Net" /><published>2026-05-10T00:00:00+00:00</published><updated>2026-05-10T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2026/unet_diffusion</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2026/unet_diffusion/"><![CDATA[<h1 id="conditionalunet1d-구조-diffusion-policy">ConditionalUnet1D 구조 (Diffusion Policy)</h1>
+
+<p>lerobot의 diffusion policy 학습을 하며, chuck_size 를 마다 학습하여 모델을 성능을 비교하였다. u-net이 입력으로 받을 수 있는 chuck_size는 4의 배수여야하는데, 그 이유에 대해 알아보자.</p>
+
+<h2 id="1-전체-흐름-테이블-chunk_sizet-action_dim7">1. 전체 흐름 테이블 (chunk_size=T, action_dim=7)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>단계</th>
+      <th>모듈</th>
+      <th>채널</th>
+      <th>T (예: 20)</th>
+      <th>skip 저장?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>입력</td>
+      <td>—</td>
+      <td>7</td>
+      <td>20</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong>Down 0</strong></td>
+      <td>ResBlock×2 + Conv1d(stride=2)</td>
+      <td>7→256</td>
+      <td>20→<strong>10</strong></td>
+      <td>h에 T=20 저장</td>
+    </tr>
+    <tr>
+      <td><strong>Down 1</strong></td>
+      <td>ResBlock×2 + Conv1d(stride=2)</td>
+      <td>256→512</td>
+      <td>10→<strong>5</strong></td>
+      <td>h에 T=10 저장</td>
+    </tr>
+    <tr>
+      <td><strong>Down 2</strong></td>
+      <td>ResBlock×2 + Identity</td>
+      <td>512→1024</td>
+      <td>5→<strong>5</strong></td>
+      <td>h에 T=5 저장</td>
+    </tr>
+    <tr>
+      <td><strong>Mid</strong></td>
+      <td>ResBlock×2</td>
+      <td>1024→1024</td>
+      <td>5</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong>Up 0</strong></td>
+      <td>cat(h.pop=T5) + ResBlock×2 + ConvTranspose1d(stride=2)</td>
+      <td>1024×2→512</td>
+      <td>5→<strong>10</strong></td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong>Up 1</strong></td>
+      <td>cat(h.pop=T10) + ResBlock×2 + ConvTranspose1d(stride=2)</td>
+      <td>512×2→256</td>
+      <td>10→<strong>20</strong></td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong>Final</strong></td>
+      <td>Conv1d(1×1)</td>
+      <td>256→7</td>
+      <td>20</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>h에 저장된 T=20 (Down 0)은 Up이 2개뿐이라 사용되지 않음</p>
+</blockquote>
+
+<hr />
+
+<h2 id="2-왜-chunk_size가-4의-배수여야-하는가">2. 왜 chunk_size가 4의 배수여야 하는가</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Downsample1d</code> = <code class="language-plaintext highlighter-rouge">Conv1d(kernel=3, stride=2, padding=1)</code></p>
+
+\[T_{out} = \left\lfloor\frac{T_{in} - 1}{2}\right\rfloor + 1\]
+
+<p>T가 <strong>짝수</strong>일 때만 정확히 T/2가 됩니다:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T=20 → ⌊19/2⌋+1 = 10  (짝수) → ⌊9/2⌋+1 = 5
+T=30 → ⌊29/2⌋+1 = 15  (홀수!) → ⌊14/2⌋+1 = 8
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Upsample1d</code> = <code class="language-plaintext highlighter-rouge">ConvTranspose1d(kernel=4, stride=2, padding=1)</code></p>
+
+\[T_{out} = (T_{in} - 1) \times 2 - 2 + 4 = 2 \times T_{in}\]
+
+<p>항상 정확히 2배. Up에서 skip과 크기가 맞으려면 <strong>Down 결과가 짝수여야</strong> 합니다:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Down이 2번 실질 발생 → T, T/2, T/4 가 모두 정수여야 함
+  → T/2 정수 : T가 2의 배수
+  → T/4 정수 : T가 4의 배수
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>chunk_size</th>
+      <th>T/2</th>
+      <th>T/4</th>
+      <th>결과</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>20</td>
+      <td>10</td>
+      <td>5</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>30</td>
+      <td>15</td>
+      <td>7.5</td>
+      <td>✗ (Down 후 홀수 → Up 크기 불일치)</td>
+    </tr>
+    <tr>
+      <td>32</td>
+      <td>16</td>
+      <td>8</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>24</td>
+      <td>12</td>
+      <td>6</td>
+      <td>✓</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>권장 값: <strong>20, 24, 28, 32, 36, 40 …</strong>  (4의 배수)</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">diffusion_utils.py</code>에 크기 트리밍 패치가 적용되어 있어 4의 배수가 아니어도 동작하지만,<br />
+의도한 skip connection이 정확히 복원되려면 4의 배수를 사용하는 것이 바람직합니다.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="3-conv2d-vs-conv1d--핵심-구조">3. Conv2d vs Conv1d — 핵심 구조</h2>
+
+<blockquote>
+  <p><strong>Key</strong></p>
+
+  <p>Conv2d에서 <code class="language-plaintext highlighter-rouge">(C_out, C_in, kH, kW)</code> 짜리 커널이 <code class="language-plaintext highlighter-rouge">H×W</code> 위를 슬라이딩하는 것처럼,<br />
+Conv1d에서는 <code class="language-plaintext highlighter-rouge">(C_out, C_in, k)</code> 짜리 커널이 <code class="language-plaintext highlighter-rouge">L</code> 위를 슬라이딩합니다.<br />
+<strong>구조는 완전히 동일하고, 공간 차원만 2개 → 1개로 줄어든 것입니다.</strong></p>
+</blockquote>
+
+<details>
+<summary>세부 내용 보기</summary>
+
+### 입력/출력 shape
+
+| | Conv2d | Conv1d |
+|---|---|---|
+| 입력 | (B, C_in, **H, W**) | (B, C_in, **L**) |
+| 출력 | (B, C_out, **H_out, W_out**) | (B, C_out, **L_out**) |
+| 커널 전체 | **(C_out, C_in, kH, kW)** | **(C_out, C_in, k)** |
+
+### 커널이 동작하는 방식
+
+```
+입력: (B, C_in=3, H, W)
+
+커널 #0   (C_in=3, kH, kW)  → H×W 슬라이딩 → 출력 채널 0   (H_out, W_out)
+커널 #1   (C_in=3, kH, kW)  → H×W 슬라이딩 → 출력 채널 1   (H_out, W_out)
+...
+커널 #63  (C_in=3, kH, kW)  → H×W 슬라이딩 → 출력 채널 63  (H_out, W_out)
+
+출력: (B, C_out=64, H_out, W_out)
+```
+
+- **C_in** → 커널 1개가 입력 채널 전부를 동시에 봄 (depth 방향 합산)
+- **C_out** → 서로 다른 패턴을 학습하는 커널의 수 → 출력 채널 수
+
+### 출력 크기 공식
+
+**Conv1d (다운샘플 방향)**
+
+$$L_{out} = \left\lfloor \frac{L_{in} + 2P - K}{S} \right\rfloor + 1$$
+
+**ConvTranspose1d (업샘플 방향)**
+
+$$L_{out} = (L_{in} - 1) \times S - 2P + K$$
+
+</details>
+
+<hr />
+
+<h2 id="4-convtranspose1d--역할과-사용-시점">4. ConvTranspose1d — 역할과 사용 시점</h2>
+
+<blockquote>
+  <p><strong>Key</strong></p>
+
+  <p>Conv1d가 공간을 <strong>축소</strong>하는 방향이라면,<br />
+ConvTranspose1d는 입력 사이에 공백을 삽입한 뒤 Conv를 적용해 공간을 <strong>확장</strong>합니다.<br />
+Bilinear/nearest-neighbor와 달리 <strong>가중치를 학습</strong>하므로 “어떻게 복원할지”를 데이터로부터 배웁니다.</p>
+</blockquote>
+
+<details>
+<summary>세부 내용 보기</summary>
+
+```
+일반 Conv (stride=2):     [a, b, c, d] → [x, y]        (축소)
+ConvTranspose (stride=2): [x, y]        → [a, b, c, d]  (복원)
+```
+
+"Transposed"라는 이름은 Conv를 행렬 W로 표현할 때, ConvTranspose가 W^T 를 곱하는 연산이기 때문입니다.
+
+### ConvTranspose1d/2d가 쓰이는 곳
+
+| 용도 | 이유 |
+|------|------|
+| UNet decoder (Diffusion Policy) | skip feature와 합치기 전 해상도 복원 |
+| GAN Generator | 잠재 벡터 → 고해상도 이미지/시퀀스 생성 |
+| VAE Decoder | latent z → 원본 크기 복원 |
+| 이미지 초해상도 | 저해상 → 고해상 |
+| Semantic segmentation decoder | 픽셀 단위 예측을 위한 업샘플 |
+
+</details>]]></content><author><name></name></author><category term="study" /><category term="LeRobot" /><category term="Diffusion" /><category term="U-Net" /><category term="ConvTranspose1d" /><summary type="html"><![CDATA[Lerobot의 diffusion policy에서 쓰인 U-Net 구조에 대해 공부.]]></summary></entry><entry><title type="html">VAE 이해</title><link href="https://daye-lee18.github.io/blog/2026/VAE/" rel="alternate" type="text/html" title="VAE 이해" /><published>2026-05-06T00:00:00+00:00</published><updated>2026-05-06T00:00:00+00:00</updated><id>https://daye-lee18.github.io/blog/2026/VAE</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2026/VAE/"><![CDATA[<hr />
 <h2 id="1-vae-variational-autoencoder-요약">1. VAE (Variational Autoencoder) 요약</h2>
 
 <p>VAE는 데이터를 생성하는 잠재 변수(Latent Variable) 모델로, 데이터 $x$의 분포 $p(x)$를 학습하는 생성 모델입니다.</p>
@@ -2571,10 +2803,4 @@ raise ValueError → ValidationError 발생
     
   Let’s stay in touch. Get the latest news from Google in your inbox.
           Follow Us
-</code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[We’re sharing updates across our Gemini family of models and a glimpse of Project Astra, our vision for the future of AI assistants.]]></summary></entry><entry><title type="html">Displaying External Posts on Your al-folio Blog</title><link href="https://daye-lee18.github.io/blog/2022/displaying-external-posts-on-your-al-folio-blog/" rel="alternate" type="text/html" title="Displaying External Posts on Your al-folio Blog" /><published>2022-04-23T23:20:09+00:00</published><updated>2022-04-23T23:20:09+00:00</updated><id>https://daye-lee18.github.io/blog/2022/displaying-external-posts-on-your-al-folio-blog</id><content type="html" xml:base="https://daye-lee18.github.io/blog/2022/displaying-external-posts-on-your-al-folio-blog/"><![CDATA[<h3>External Posts on Your al-folio Blog</h3>
-<p>If you prefer publishing blog posts on medium.com or other external sources, starting version v0.5.0, <a href="https://github.com/alshedivat/al-folio">al-folio</a> lets you to display your external posts in the blog feed of your website! 🎉🎉</p>
-<p>Configuring external sources of super simple. After upgrading to v0.5.0, just add the following section to your _config.yml:</p>
-<pre>external_sources:<br />  - name: medium.com  # name of the source (arbitrary string)<br />    rss_url: <a href="https://medium.com/@al-folio/feed">https://medium.com/@&lt;your-medium-username&gt;/feed</a></pre>
-<p>The example above adds your medium.com blog post feed as an external source. But you can add arbitrary RSS feeds as sources.</p>
-<p>Any questions or suggestions? 👉 Start <a href="https://github.com/alshedivat/al-folio/discussions">a discussion on GitHub</a>!</p>
-<p><img src="https://medium.com/_/stat?event=post.clientViewed&amp;referrerSource=full_rss&amp;postId=b60a1d241a0a" width="1" height="1" alt="" /></p>]]></content><author><name></name></author></entry></feed>
+</code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[We’re sharing updates across our Gemini family of models and a glimpse of Project Astra, our vision for the future of AI assistants.]]></summary></entry></feed>

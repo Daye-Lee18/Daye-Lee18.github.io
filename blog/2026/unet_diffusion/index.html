@@ -17,12 +17,12 @@
   
   
     
-      Teaching | Daye Lee
+      U-Net | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="classes, workshops, and teaching material">
+<meta name="description" content="Lerobot의 diffusion policy에서 쓰인 U-Net 구조에 대해 공부.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -50,6 +50,9 @@
 <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
 
 
+  <!-- Sidebar Table of Contents -->
+  <link defer href="/assets/css/bootstrap-toc.min.css?6f5af0bb9aab25d79b2448143cbeaa88" rel="stylesheet">
+
 
 <!-- Styles -->
 
@@ -59,7 +62,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://daye-lee18.github.io/teaching/">
+<link rel="canonical" href="https://daye-lee18.github.io/blog/2026/unet_diffusion/">
 
 
   <!-- Dark Mode -->
@@ -215,8 +218,6 @@
             
           
             
-          
-            
               
                 
                 <li class="nav-item ">
@@ -254,7 +255,7 @@
             
               
                 
-                <li class="nav-item ">
+                <li class="nav-item active">
                   <a class="nav-link" href="/blog/">Blog
                     
                   </a>
@@ -269,10 +270,8 @@
             
               
                 
-                <li class="nav-item active">
+                <li class="nav-item ">
                   <a class="nav-link" href="/teaching/">Teaching
-                    
-                      <span class="sr-only">(current)</span>
                     
                   </a>
                 </li>
@@ -316,143 +315,332 @@
     <div class="container-xl mt-5" role="main">
       
         
+          <div class="row">
+            <!-- sidebar, which will move to the top on a small screen -->
+            <div class="col-sm-3">
+              <nav id="toc-sidebar" class="sticky-top"></nav>
+            </div>
+            <!-- main content area -->
+            <div class="col-sm-9">
+
+
+
+
+
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Teaching</h1>
-    <p class="post-description">classes, workshops, and teaching material</p>
+    <h1 class="post-title">U-Net</h1>
+    <p class="post-meta">
+      Created on May 10, 2026
+      
+      
+      
+    </p>
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+      
+          ·  
+        
+          
+            <a href="/blog/tag/lerobot"> <i class="fa-solid fa-hashtag fa-sm"></i> LeRobot</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/diffusion"> <i class="fa-solid fa-hashtag fa-sm"></i> Diffusion</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/u-net"> <i class="fa-solid fa-hashtag fa-sm"></i> U-Net</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/convtranspose1d"> <i class="fa-solid fa-hashtag fa-sm"></i> ConvTranspose1d</a>
+          
+          
+        
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/category/study"> <i class="fa-solid fa-tag fa-sm"></i> study</a>
+          
+          
+        
+      
+    </p>
   </header>
 
-  <article>
-    <!-- prettier-ignore-start -->
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <h1 id="conditionalunet1d-구조-diffusion-policy">ConditionalUnet1D 구조 (Diffusion Policy)</h1>
 
-<h2>Seoul National University</h2>
+<p>lerobot의 diffusion policy 학습을 하며, chuck_size 를 마다 학습하여 모델을 성능을 비교하였다. u-net이 입력으로 받을 수 있는 chuck_size는 4의 배수여야하는데, 그 이유에 대해 알아보자.</p>
 
-<div class="teaching-card">
-<span class="course-badge">C++/Project</span>
-<h3 class="course-title">C++ Project-Based Programming</h3>
-<p class="course-sub">
-2026 · <em>Self-Study Material</em>
-</p>
+<h2 id="1-전체-흐름-테이블-chunk_sizet-action_dim7">1. 전체 흐름 테이블 (chunk_size=T, action_dim=7)</h2>
 
-<dl class="course-def">
+<table>
+  <thead>
+    <tr>
+      <th>단계</th>
+      <th>모듈</th>
+      <th>채널</th>
+      <th>T (예: 20)</th>
+      <th>skip 저장?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>입력</td>
+      <td>—</td>
+      <td>7</td>
+      <td>20</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong>Down 0</strong></td>
+      <td>ResBlock×2 + Conv1d(stride=2)</td>
+      <td>7→256</td>
+      <td>20→<strong>10</strong>
+</td>
+      <td>h에 T=20 저장</td>
+    </tr>
+    <tr>
+      <td><strong>Down 1</strong></td>
+      <td>ResBlock×2 + Conv1d(stride=2)</td>
+      <td>256→512</td>
+      <td>10→<strong>5</strong>
+</td>
+      <td>h에 T=10 저장</td>
+    </tr>
+    <tr>
+      <td><strong>Down 2</strong></td>
+      <td>ResBlock×2 + Identity</td>
+      <td>512→1024</td>
+      <td>5→<strong>5</strong>
+</td>
+      <td>h에 T=5 저장</td>
+    </tr>
+    <tr>
+      <td><strong>Mid</strong></td>
+      <td>ResBlock×2</td>
+      <td>1024→1024</td>
+      <td>5</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong>Up 0</strong></td>
+      <td>cat(h.pop=T5) + ResBlock×2 + ConvTranspose1d(stride=2)</td>
+      <td>1024×2→512</td>
+      <td>5→<strong>10</strong>
+</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong>Up 1</strong></td>
+      <td>cat(h.pop=T10) + ResBlock×2 + ConvTranspose1d(stride=2)</td>
+      <td>512×2→256</td>
+      <td>10→<strong>20</strong>
+</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong>Final</strong></td>
+      <td>Conv1d(1×1)</td>
+      <td>256→7</td>
+      <td>20</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
 
-<dt class="point-label">내용</dt>
-<dd class="point-text">C++ 기초 문법을 작은 프로젝트 단위로 학습하는 Jupyter Book 자료</dd>
+<blockquote>
+  <p>h에 저장된 T=20 (Down 0)은 Up이 2개뿐이라 사용되지 않음</p>
+</blockquote>
 
-<dt class="point-label">구성</dt>
-<dd class="point-text">Calculator, Number Game, Grade Manager, Contact Class, Bank Account, STL/File I/O, Final Project</dd>
+<hr>
 
-<dt class="point-label">링크</dt>
-<dd class="point-text"><a href="https://daye-lee18.github.io/cpp-project-book/" target="_blank" rel="noopener">Course page</a></dd>
+<h2 id="2-왜-chunk_size가-4의-배수여야-하는가">2. 왜 chunk_size가 4의 배수여야 하는가</h2>
 
-</dl>
+<p><code class="language-plaintext highlighter-rouge">Downsample1d</code> = <code class="language-plaintext highlighter-rouge">Conv1d(kernel=3, stride=2, padding=1)</code></p>
 
-</div>
+\[T_{out} = \left\lfloor\frac{T_{in} - 1}{2}\right\rfloor + 1\]
 
-<div class="teaching-card">
-<span class="course-badge">파이썬기초/알고리즘</span>
-<h3 class="course-title">Python for Algorithmic Problem Solving</h3>
-<p class="course-sub">
-2025-09-01 ~ Now (Tue/Thur 14:00–17:00) · <em>Instructor</em>
-</p>
+<p>T가 <strong>짝수</strong>일 때만 정확히 T/2가 됩니다:</p>
 
-<dl class="course-def">
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T=20 → ⌊19/2⌋+1 = 10  (짝수) → ⌊9/2⌋+1 = 5
+T=30 → ⌊29/2⌋+1 = 15  (홀수!) → ⌊14/2⌋+1 = 8
+</code></pre></div></div>
 
-<dt class="point-label">강의 목표</dt>
-<dd class="point-text">Python 기초 → 코딩 테스트 알고리즘(DFS/BFS, Backtracking, DP 등)까지 단계적 학습.</dd>
+<p><code class="language-plaintext highlighter-rouge">Upsample1d</code> = <code class="language-plaintext highlighter-rouge">ConvTranspose1d(kernel=4, stride=2, padding=1)</code></p>
 
-<dt class="point-label">실습 중심</dt>
-<dd class="point-text">주차별 개념 설명 + 모의 코테 리뷰 세션 운영.</dd>
+\[T_{out} = (T_{in} - 1) \times 2 - 2 + 4 = 2 \times T_{in}\]
 
-<dt class="point-label">언어</dt>
-<dd class="point-text">영어로 진행 및 쉬운 한국어 병행</dd>
+<p>항상 정확히 2배. Up에서 skip과 크기가 맞으려면 <strong>Down 결과가 짝수여야</strong> 합니다:</p>
 
-<dt class="point-label">링크</dt>
-<dd class="point-text"><a href="https://daye-lee18.github.io/mybook/intro.html" target="_blank" rel="noopener">Course page</a></dd>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Down이 2번 실질 발생 → T, T/2, T/4 가 모두 정수여야 함
+  → T/2 정수 : T가 2의 배수
+  → T/4 정수 : T가 4의 배수
+</code></pre></div></div>
 
-</dl>
+<table>
+  <thead>
+    <tr>
+      <th>chunk_size</th>
+      <th>T/2</th>
+      <th>T/4</th>
+      <th>결과</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>20</td>
+      <td>10</td>
+      <td>5</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>30</td>
+      <td>15</td>
+      <td>7.5</td>
+      <td>✗ (Down 후 홀수 → Up 크기 불일치)</td>
+    </tr>
+    <tr>
+      <td>32</td>
+      <td>16</td>
+      <td>8</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>24</td>
+      <td>12</td>
+      <td>6</td>
+      <td>✓</td>
+    </tr>
+  </tbody>
+</table>
 
-</div>
+<p>권장 값: <strong>20, 24, 28, 32, 36, 40 …</strong>  (4의 배수)</p>
 
-<div class="teaching-card">
-<span class="course-badge">Tutoring/대체조교</span>
-<h3 class="course-title">Introduction to Computing</h3>
-<p class="course-sub">
-2025 Spring, 2025 Summer · <em>Tutor &amp; Substitute Teaching Assistant</em>
-</p>
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">diffusion_utils.py</code>에 크기 트리밍 패치가 적용되어 있어 4의 배수가 아니어도 동작하지만,<br>
+의도한 skip connection이 정확히 복원되려면 4의 배수를 사용하는 것이 바람직합니다.</p>
+</blockquote>
 
-<dl class="course-def">
+<hr>
 
-<dt class="point-label">담당</dt>
-<dd class="point-text">주간 튜터링(질의응답·디버깅 가이드) + 결원 시 대체 조교로 강의/실습 진행.</dd>
+<h2 id="3-conv2d-vs-conv1d--핵심-구조">3. Conv2d vs Conv1d — 핵심 구조</h2>
 
-<dt class="point-label">내용</dt>
-<dd class="point-text">파이썬 기초, 자료형/제어문/함수, 파일 I/O, 기초 자료구조 실습과 과제 피드백.</dd>
+<blockquote>
+  <p><strong>Key</strong></p>
 
-<dt class="point-label">운영</dt>
-<dd class="point-text">일대다 튜터-튜티 매칭 및 이메일/카톡 메신저 이용 질의응답</dd>
+  <p>Conv2d에서 <code class="language-plaintext highlighter-rouge">(C_out, C_in, kH, kW)</code> 짜리 커널이 <code class="language-plaintext highlighter-rouge">H×W</code> 위를 슬라이딩하는 것처럼,<br>
+Conv1d에서는 <code class="language-plaintext highlighter-rouge">(C_out, C_in, k)</code> 짜리 커널이 <code class="language-plaintext highlighter-rouge">L</code> 위를 슬라이딩합니다.<br>
+<strong>구조는 완전히 동일하고, 공간 차원만 2개 → 1개로 줄어든 것입니다.</strong></p>
+</blockquote>
 
-<dt class="point-label">링크</dt>
-<dd class="point-text"><a href="https://haesunbyun.github.io/Basic-Computing-Ver.2/intro.html" target="_blank" rel="noopener">Course page</a></dd>
+<details>
+<summary>세부 내용 보기</summary>
 
-</dl>
+### 입력/출력 shape
 
-</div>
+| | Conv2d | Conv1d |
+|---|---|---|
+| 입력 | (B, C_in, **H, W**) | (B, C_in, **L**) |
+| 출력 | (B, C_out, **H_out, W_out**) | (B, C_out, **L_out**) |
+| 커널 전체 | **(C_out, C_in, kH, kW)** | **(C_out, C_in, k)** |
 
-<h2>Private Class</h2>
+### 커널이 동작하는 방식
 
-<div class="teaching-card">
-<span class="course-badge">Pure Maths</span>
-<h3 class="course-title">Mathematics Tutoring</h3>
-<p class="course-sub">
-2025 ~ 2026 · <em>Private Tutor</em>
-</p>
+```
+입력: (B, C_in=3, H, W)
 
-<dl class="course-def">
+커널 #0   (C_in=3, kH, kW)  → H×W 슬라이딩 → 출력 채널 0   (H_out, W_out)
+커널 #1   (C_in=3, kH, kW)  → H×W 슬라이딩 → 출력 채널 1   (H_out, W_out)
+...
+커널 #63  (C_in=3, kH, kW)  → H×W 슬라이딩 → 출력 채널 63  (H_out, W_out)
 
-<dt class="point-label">내용</dt>
-<dd class="point-text">Pure Mathematics (P3/P4), IB DP AA HL</dd>
+출력: (B, C_out=64, H_out, W_out)
+```
 
-<dt class="point-label">언어</dt>
-<dd class="point-text">영어 한국어 병행</dd>
+- **C_in** → 커널 1개가 입력 채널 전부를 동시에 봄 (depth 방향 합산)
+- **C_out** → 서로 다른 패턴을 학습하는 커널의 수 → 출력 채널 수
 
-<dt class="point-label">링크</dt>
-<dd class="point-text"><a href="https://daye-lee18.github.io/math_tutoring/" target="_blank" rel="noopener">Course page</a></dd>
+### 출력 크기 공식
 
-</dl>
+**Conv1d (다운샘플 방향)**
 
-</div>
+$$L_{out} = \left\lfloor \frac{L_{in} + 2P - K}{S} \right\rfloor + 1$$
 
-<div class="teaching-card">
-<span class="course-badge">SW 역량 테스트</span>
-<h3 class="course-title">COTE prep</h3>
-<p class="course-sub">
-2026 · <em>Self-Study Material</em>
-</p>
+**ConvTranspose1d (업샘플 방향)**
 
-<dl class="course-def">
+$$L_{out} = (L_{in} - 1) \times S - 2P + K$$
 
-<dt class="point-label">내용</dt>
-<dd class="point-text">SW역량테스트 핵심 패턴 (시뮬레이션, BFS/DFS, 완전탐색) 및 실전 전략 정리</dd>
+</details>
 
-<dt class="point-label">링크</dt>
-<dd class="point-text"><a href="https://daye-lee18.github.io/samsung_cote_prep/intro.html" target="_blank" rel="noopener">Study Guide</a></dd>
+<hr>
 
-</dl>
+<h2 id="4-convtranspose1d--역할과-사용-시점">4. ConvTranspose1d — 역할과 사용 시점</h2>
 
-</div>
+<blockquote>
+  <p><strong>Key</strong></p>
 
-<!-- prettier-ignore-end -->
+  <p>Conv1d가 공간을 <strong>축소</strong>하는 방향이라면,<br>
+ConvTranspose1d는 입력 사이에 공백을 삽입한 뒤 Conv를 적용해 공간을 <strong>확장</strong>합니다.<br>
+Bilinear/nearest-neighbor와 달리 <strong>가중치를 학습</strong>하므로 “어떻게 복원할지”를 데이터로부터 배웁니다.</p>
+</blockquote>
 
+<details>
+<summary>세부 내용 보기</summary>
 
+```
+일반 Conv (stride=2):     [a, b, c, d] → [x, y]        (축소)
+ConvTranspose (stride=2): [x, y]        → [a, b, c, d]  (복원)
+```
+
+"Transposed"라는 이름은 Conv를 행렬 W로 표현할 때, ConvTranspose가 W^T 를 곱하는 연산이기 때문입니다.
+
+### ConvTranspose1d/2d가 쓰이는 곳
+
+| 용도 | 이유 |
+|------|------|
+| UNet decoder (Diffusion Policy) | skip feature와 합치기 전 해상도 복원 |
+| GAN Generator | 잠재 벡터 → 고해상도 이미지/시퀀스 생성 |
+| VAE Decoder | latent z → 원본 크기 복원 |
+| 이미지 초해상도 | 저해상 → 고해상 |
+| Semantic segmentation decoder | 픽셀 단위 예측을 위한 업샘플 |
+
+</details>
+
+    </div>
   </article>
 
   
 
   
-</div>
 
+  
+
+  
+  
+</div>
+</div>
+          </div>
+        
       
     </div>
 
@@ -517,6 +705,9 @@
   <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
 
 
+
+  <!-- Sidebar Table of Contents -->
+  <script defer src="/assets/js/bootstrap-toc.min.js?c82ff4de8b0955d6ff14f5b05eed7eb6"></script>
 
 
 
