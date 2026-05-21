@@ -44,7 +44,40 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/teaching/";
           },
-        },{id: "post-u-net",
+        },{id: "post-강화학습-깊이있게-이해하기-her과-exploration-exploitation-trade-off",
+        
+          title: "강화학습 깊이있게 이해하기 - HER과 Exploration-Exploitation Trade-off",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/reinforcement-learning-her/";
+          
+        },
+      },{id: "post-v-a-terminology",
+        
+          title: "V-A Terminology",
+        
+        description: "V-A (Vision-Action) 모방학습 정책 연구에서 자주 쓰이는 용어 한 페이지 정리 — 모방학습, Policy, CVAE, ACT, ACT-VQ, Diffusion Policy, Temporal Aggregation 등.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/VA-terminology/";
+          
+        },
+      },{id: "post-transformer",
+        
+          title: "Transformer",
+        
+        description: "Tansformer study",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/Transformer/";
+          
+        },
+      },{id: "post-u-net",
         
           title: "U-Net",
         

@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      강화학습 깊이있게 이해하기 - HER과 Exploration-Exploitation Trade-off | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/blog/2026/reinforcement-learning-her/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+
+
+
+
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">강화학습 깊이있게 이해하기 - HER과 Exploration-Exploitation Trade-off</h1>
+    <p class="post-meta">
+      Created on May 21, 2026
+      by dayelee
+      
+      
+    </p>
+    <p class="post-tags">
+      
+        <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>
+      
+      
+          ·  
+        
+          
+            <a href="/blog/tag/%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5"> <i class="fa-solid fa-hashtag fa-sm"></i> 강화학습</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/her"> <i class="fa-solid fa-hashtag fa-sm"></i> HER</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/exploration"> <i class="fa-solid fa-hashtag fa-sm"></i> Exploration</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/exploitation"> <i class="fa-solid fa-hashtag fa-sm"></i> Exploitation</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/tag/%EC%A0%95%EC%B1%85%ED%95%99%EC%8A%B5"> <i class="fa-solid fa-hashtag fa-sm"></i> 정책학습</a>
+          
+          
+        
+      
+
+      
+          ·  
+        
+          
+            <a href="/blog/category/machine-learning"> <i class="fa-solid fa-tag fa-sm"></i> Machine Learning</a>
+          
+          
+             
+          
+        
+          
+            <a href="/blog/category/reinforcement-learning"> <i class="fa-solid fa-tag fa-sm"></i> Reinforcement Learning</a>
+          
+          
+        
+      
+    </p>
+  </header>
+
+  <article class="post-content">
+    
+    <div id="markdown-content">
+      <p>회사 프로젝트에서 접한 HER(Hindsight Experience Replay)과 exploration-exploitation의 균형을 깊이있게 정리한 학습 노트입니다.</p>
+
+<h2 id="1-강화학습의-기초">1. 강화학습의 기초</h2>
+
+<h3 id="강화학습의-정의">강화학습의 정의</h3>
+<p>강화학습(RL)은 에이전트가 환경과의 상호작용을 통해 보상 신호를 최대화하는 정책을 학습하는 패러다임입니다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Agent → Action → Environment → State, Reward → Agent
+</code></pre></div></div>
+
+<p>핵심 요소:</p>
+<ul>
+  <li>
+<strong>State (상태)</strong>: 현재의 관찰 정보</li>
+  <li>
+<strong>Action (행동)</strong>: 에이전트가 취할 수 있는 선택지</li>
+  <li>
+<strong>Reward (보상)</strong>: 환경이 주는 피드백</li>
+  <li>
+<strong>Policy (정책)</strong>: State → Action의 매핑</li>
+</ul>
+
+<hr>
+
+<h2 id="2-exploration-vs-exploitation-핵심-딜레마">2. Exploration vs Exploitation: 핵심 딜레마</h2>
+
+<h3 id="문제-정의">문제 정의</h3>
+<p>강화학습에서 가장 중요한 균형:</p>
+
+<ul>
+  <li>
+<strong>Exploitation (활용)</strong>: 현재까지 알려진 최고의 전략을 사용
+    <ul>
+      <li>“내가 이미 알고 있는 가장 좋은 방법을 계속 쓰자”</li>
+      <li>즉시 보상 극대화</li>
+      <li>새로운 전략 발견 불가능</li>
+    </ul>
+  </li>
+  <li>
+<strong>Exploration (탐색)</strong>: 미지의 행동들을 시도
+    <ul>
+      <li>“혹시 더 좋은 방법이 있지 않을까?”</li>
+      <li>장기적으로 최적의 정책 발견</li>
+      <li>단기 보상은 감소할 수 있음</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="왜-중요한가">왜 중요한가?</h3>
+
+<p><strong>예시: 로봇 팔 제어</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>초기 상태: 로봇이 목표 위치에 도달하는 방법을 모름
+
+Pure Exploitation:
+→ 첫 시도에 우연히 팔을 조금 움직임 (작은 보상)
+→ 계속 같은 방식만 반복 (최적해 못 찾음)
+
+Pure Exploration:
+→ 무작위로 계속 시도 (비효율적)
+→ 언젠가는 목표에 도달하지만 매우 오래 걸림
+
+Balanced Approach:
+→ 효과적인 행동은 자주, 새로운 행동도 종종 시도
+→ 빠르게 최적의 전략 학습 가능
+</code></pre></div></div>
+
+<h3 id="일반적인-exploration-전략">일반적인 Exploration 전략</h3>
+
+<ol>
+  <li>
+<strong>ε-Greedy</strong>: 확률 ε로 탐색, (1-ε)로 활용</li>
+  <li>
+<strong>Softmax</strong>: 모든 행동에 확률을 할당 (좋은 행동에 높은 확률)</li>
+  <li>
+<strong>Upper Confidence Bound (UCB)</strong>: 불확실성이 높은 행동 선호</li>
+  <li>
+<strong>Entropy Regularization</strong>: 정책의 entropy를 보상에 추가</li>
+</ol>
+
+<hr>
+
+<h2 id="3-hindsight-experience-replay-her-상세-분석">3. Hindsight Experience Replay (HER) 상세 분석</h2>
+
+<h3 id="왜-her이-필요한가">왜 HER이 필요한가?</h3>
+
+<p><strong>문제: Sparse Reward 환경</strong>
+많은 실제 문제는 목표에 도달할 때만 보상을 줍니다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Episode:
+Step 1: Action → Reward = 0
+Step 2: Action → Reward = 0
+Step 3: Action → Reward = 0
+...
+Step 50: Action → GOAL REACHED! → Reward = 1
+
+문제: 49번의 실패에서 배울 정보가 거의 없음!
+</code></pre></div></div>
+
+<h3 id="her의-핵심-아이디어">HER의 핵심 아이디어</h3>
+
+<p><strong>“실패도 성공으로 만들 수 있다면?”</strong></p>
+
+<p>HER은 실패한 에피소드를 다시 해석합니다:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>원래 목표: Position A에 도달하기
+
+Episode:
+Step 1: Start → Position P1 (목표 A에 가까워짐, 하지만 실패)
+Step 2: P1 → Position P2 (더 가까워짐, 하지만 실패)
+...
+Step 50: P49 → Position P50 (목표 A 못 도달)
+
+HER의 재해석:
+"Step 50에서 도달한 Position P50을 새로운 목표로 설정하면?"
+→ "P50에 도달하는 것"은 이미 성공한 에피소드!
+
+이제 이 에피소드로부터:
+- 어떻게 P50에 도달할 수 있는가를 학습
+- 미래에 비슷한 상태에서 도움이 될 경험
+</code></pre></div></div>
+
+<h3 id="her의-알고리즘">HER의 알고리즘</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 에피소드 수집
+</span><span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">num_episodes</span><span class="p">):</span>
+    <span class="n">trajectory</span> <span class="o">=</span> <span class="nf">collect_trajectory</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">goal</span><span class="p">)</span>
+    
+    <span class="c1"># 일반적인 학습: 원래 목표로 학습
+</span>    <span class="n">rewards</span> <span class="o">=</span> <span class="nf">compute_reward</span><span class="p">(</span><span class="n">trajectory</span><span class="p">,</span> <span class="n">goal</span><span class="p">)</span>
+    <span class="nf">update_policy</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+    
+    <span class="c1"># HER: 다른 목표들로도 학습
+</span>    <span class="k">for</span> <span class="n">hindsight_goal</span> <span class="ow">in</span> <span class="nf">sample_goals_from_trajectory</span><span class="p">(</span><span class="n">trajectory</span><span class="p">):</span>
+        <span class="n">hindsight_rewards</span> <span class="o">=</span> <span class="nf">compute_reward</span><span class="p">(</span><span class="n">trajectory</span><span class="p">,</span> <span class="n">hindsight_goal</span><span class="p">)</span>
+        <span class="nf">update_policy</span><span class="p">(</span><span class="n">hindsight_rewards</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="her의-장점">HER의 장점</h3>
+
+<ol>
+  <li>
+<strong>Sample Efficiency</strong>: 한 번의 에피소드에서 여러 번 학습</li>
+  <li>
+<strong>Sparse Reward 극복</strong>: 실패한 경험도 재활용</li>
+  <li>
+<strong>다양한 목표 학습</strong>: 같은 궤적으로 여러 목표 도달 능력 학습</li>
+  <li>
+<strong>비용 효율적</strong>: 실제 인터랙션 횟수 감소</li>
+</ol>
+
+<h3 id="her의-변형들">HER의 변형들</h3>
+
+<ul>
+  <li>
+<strong>Final State</strong>: 에피소드의 마지막 상태를 새 목표로</li>
+  <li>
+<strong>Random</strong>: 같은 에피소드 내의 무작위 상태</li>
+  <li>
+<strong>Episode</strong>: 최근 k개 에피소드에서 무작위로</li>
+  <li>
+<strong>Future</strong>: 현재 step 이후의 상태만 선택</li>
+</ul>
+
+<hr>
+
+<h2 id="4-success-rate-기반-학습">4. Success Rate 기반 학습</h2>
+
+<h3 id="개념">개념</h3>
+
+<p>회사 모델에서 사용하는 방식으로 보이는데, 이는 다음과 같은 특징이 있습니다:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>전통적 접근: 목표 달성 여부가 아니라 보상 최대화
+Success Rate 방식: "주어진 현재 상태에서 얼마나 자주 성공하는가"
+
+예:
+- 상태: 현재 로봇 팔의 위치 (P_current)
+- 목표: 특정 위치에 도달 (P_goal)
+- 학습: P_current → success rate 예측
+</code></pre></div></div>
+
+<h3 id="왜-효과적인가">왜 효과적인가?</h3>
+
+<ol>
+  <li>
+<strong>상태-성공률 매핑</strong>: 각 상태에서의 달성 가능성을 학습</li>
+  <li>
+<strong>보상 신호 강화</strong>: Success/Failure는 명확한 신호</li>
+  <li>
+<strong>일반화</strong>: 특정 목표가 아닌 상태 자체의 특성 학습</li>
+  <li>
+<strong>정책 향상</strong>: 성공률 높은 행동 선택</li>
+</ol>
+
+<h3 id="her과의-결합">HER과의 결합</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HER + Success Rate:
+1. 여러 에피소드 수집
+2. 각 에피소드에서 도달한 상태들 기록
+3. 각 상태에 대해 "그 상태에서 목표 도달 확률" 계산
+4. 상태 → 성공률 함수 학습
+5. 정책은 성공률이 높은 상태로 이동하는 행동 선택
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="5-실무-적용-팁">5. 실무 적용 팁</h2>
+
+<h3 id="her-사용할-때-고려사항">HER 사용할 때 고려사항</h3>
+
+<ol>
+  <li>
+<strong>Reward Function 설계</strong>
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># 좋은 설계: 명확한 목표와 연속적인 reward
+</span><span class="k">def</span> <span class="nf">reward</span><span class="p">(</span><span class="n">achieved_state</span><span class="p">,</span> <span class="n">goal_state</span><span class="p">):</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="nf">euclidean_distance</span><span class="p">(</span><span class="n">achieved_state</span><span class="p">,</span> <span class="n">goal_state</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;</span> <span class="n">threshold</span> <span class="k">else</span> <span class="o">-</span><span class="n">distance</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<strong>Goal Sampling 전략</strong>
+    <ul>
+      <li>모든 과거 상태를 목표로 사용하면 계산 비용 증가</li>
+      <li>샘플링 비율을 조정하여 균형 맞추기</li>
+    </ul>
+  </li>
+  <li>
+<strong>Exploration 설정</strong>
+    <ul>
+      <li>HER로 많은 데이터를 재활용하므로, exploration은 적당히</li>
+      <li>ε을 너무 작게 하면 새로운 궤적 탐색 못 함</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="성공-지표">성공 지표</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 학습 진행도 모니터링
+</span><span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">"</span><span class="s">success_rate</span><span class="sh">"</span><span class="p">:</span> <span class="c1"># 목표 달성 확률
+</span>    <span class="sh">"</span><span class="s">exploration_rate</span><span class="sh">"</span><span class="p">:</span> <span class="c1"># 새로운 상태 발견 비율  
+</span>    <span class="sh">"</span><span class="s">sample_efficiency</span><span class="sh">"</span><span class="p">:</span> <span class="c1"># 필요한 에피소드 수 감소
+</span>    <span class="sh">"</span><span class="s">convergence_speed</span><span class="sh">"</span><span class="p">:</span> <span class="c1"># 학습 속도
+</span><span class="p">}</span>
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="6-정리-핵심-개념-다시-보기">6. 정리: 핵심 개념 다시 보기</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>개념</th>
+      <th>설명</th>
+      <th>목표</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Exploration</strong></td>
+      <td>미지의 행동 시도</td>
+      <td>전역 최적해 찾기</td>
+    </tr>
+    <tr>
+      <td><strong>Exploitation</strong></td>
+      <td>알려진 최고 전략 사용</td>
+      <td>즉시 보상 최대화</td>
+    </tr>
+    <tr>
+      <td><strong>Balance</strong></td>
+      <td>둘 사이의 균형</td>
+      <td>효율적인 학습</td>
+    </tr>
+    <tr>
+      <td><strong>HER</strong></td>
+      <td>실패를 성공으로 재해석</td>
+      <td>Sample efficiency 증가</td>
+    </tr>
+    <tr>
+      <td><strong>Success Rate</strong></td>
+      <td>상태별 성공 확률 학습</td>
+      <td>정책 개선의 명확한 신호</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="7-추가-학습-자료">7. 추가 학습 자료</h2>
+
+<h3 id="핵심-논문">핵심 논문</h3>
+<ul>
+  <li>Andrychowicz et al., 2017: “Hindsight Experience Replay” (NIPS)
+    <ul>
+      <li>HER의 원본 논문</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="관련-개념들">관련 개념들</h3>
+<ul>
+  <li>
+<strong>DQN</strong> (Deep Q-Network): 기본적인 심화학습</li>
+  <li>
+<strong>Policy Gradient</strong>: 정책을 직접 최적화</li>
+  <li>
+<strong>Actor-Critic</strong>: Value와 Policy를 동시에 학습</li>
+  <li>
+<strong>Curiosity-driven Exploration</strong>: 내재적 motivation으로 탐색</li>
+</ul>
+
+<hr>
+
+<h2 id="8-실습-아이디어">8. 실습 아이디어</h2>
+
+<p><strong>로봇 팔을 사용한 HER 구현</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 1단계: 환경 설정 (OpenAI Gym)
+</span><span class="n">env</span> <span class="o">=</span> <span class="nc">RoboticFetchPickAndPlace</span><span class="p">()</span>
+
+<span class="c1"># 2단계: Replay Buffer with HER 구현
+</span><span class="nb">buffer</span> <span class="o">=</span> <span class="nc">HERReplayBuffer</span><span class="p">(</span><span class="n">capacity</span><span class="o">=</span><span class="mf">1e6</span><span class="p">)</span>
+
+<span class="c1"># 3단계: Agent 학습
+</span><span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">num_episodes</span><span class="p">):</span>
+    <span class="n">trajectory</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="nf">rollout</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
+    <span class="nb">buffer</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">trajectory</span><span class="p">)</span>
+    
+    <span class="c1"># HER: trajectory에서 다양한 목표로 학습
+</span>    <span class="n">batch</span> <span class="o">=</span> <span class="nb">buffer</span><span class="p">.</span><span class="nf">sample_with_her</span><span class="p">()</span>
+    <span class="nf">update_network</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+    
+    <span class="c1"># 평가
+</span>    <span class="n">success_rate</span> <span class="o">=</span> <span class="nf">evaluate_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Episode </span><span class="si">{</span><span class="n">episode</span><span class="si">}</span><span class="s">: Success Rate = </span><span class="si">{</span><span class="n">success_rate</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="o">%</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr>
+
+<p><strong>다음 학습 단계:</strong></p>
+<ol>
+  <li>HER 원본 논문 정독</li>
+  <li>간단한 환경(reaching task)에서 HER 구현 및 테스트</li>
+  <li>Exploration 전략 비교 실험</li>
+  <li>Success rate 기반 정책 최적화 구현</li>
+</ol>
+
+<p>이 개념들이 회사 프로젝트에서 어떻게 적용되었는지 이해하면, 더 깊이있는 모델 개선이 가능할 것입니다!</p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>
