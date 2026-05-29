@@ -2,8 +2,8 @@
 layout: post
 title: Transformer
 date: 2026-05-11
-description: Tansformer study 
-tags: [Attention, Transformer, FFN, ]
+description: Tansformer study
+tags: [Attention, Transformer, FFN]
 featured: false
 categories: study
 toc:
@@ -14,13 +14,13 @@ toc:
 
 ## 설정값 (train_act_vq.sh 기본값)
 
-| 인자              | 값    |
-|------------------|-------|
-| `hidden_dim`     | 512   |
-| `dim_feedforward`| 3200  |
-| `chunk_size`     | 20    |
-| `vq_class`       | 16    |
-| `vq_dim`         | 32    |
+| 인자              | 값   |
+| ----------------- | ---- |
+| `hidden_dim`      | 512  |
+| `dim_feedforward` | 3200 |
+| `chunk_size`      | 20   |
+| `vq_class`        | 16   |
+| `vq_dim`          | 32   |
 
 ---
 
@@ -34,16 +34,16 @@ toc:
 
 ### 어디서 쓰이나
 
-| 위치                     | 입력 dim  | 출력 dim  |
-|--------------------------|-----------|-----------|
-| Joint embedding (Linear) | 7 (DOF)   | **512**   |
-| Image feature projection | CNN 출력   | **512**   |
-| Q, K, V projection       | **512**   | **512**   |
-| Attention output         | **512**   | **512**   |
-| LayerNorm                | **512**   | **512**   |
-| FFN 입력                  | **512**   | 3200      |
-| FFN 출력                  | 3200      | **512**   |
-| Action head (최종 Linear) | **512**   | 7 (DOF)   |
+| 위치                      | 입력 dim | 출력 dim |
+| ------------------------- | -------- | -------- |
+| Joint embedding (Linear)  | 7 (DOF)  | **512**  |
+| Image feature projection  | CNN 출력 | **512**  |
+| Q, K, V projection        | **512**  | **512**  |
+| Attention output          | **512**  | **512**  |
+| LayerNorm                 | **512**  | **512**  |
+| FFN 입력                  | **512**  | 3200     |
+| FFN 출력                  | 3200     | **512**  |
+| Action head (최종 Linear) | **512**  | 7 (DOF)  |
 
 > hidden_dim 을 바꾸면 **모델 전체**가 영향을 받는다.
 
@@ -108,6 +108,7 @@ dim_feedforward / hidden_dim = 3200 / 512 ≈ 6.25×
 ```
 
 Multi-head attention 의 경우 (num_heads = h):
+
 ```
 각 head의 dim = hidden_dim / num_heads = 512 / 8 = 64
   → d_k = d_v = 64
@@ -140,14 +141,14 @@ chunk_size 를 바꾸면 query 토큰 수만 달라지고, hidden_dim/dim_feedfo
 
 ## 5. 파라미터 수 rough 계산 (레이어 1개)
 
-| 구성요소        | 파라미터 수                          |
-|----------------|--------------------------------------|
-| Q, K, V Linear | 3 × (512 × 512) = **786,432**        |
-| Attention out  | 512 × 512 = **262,144**              |
-| FFN Linear1    | 512 × 3200 = **1,638,400**           |
-| FFN Linear2    | 3200 × 512 = **1,638,400**           |
-| LayerNorm ×2   | 2 × 512 × 2 = **2,048**             |
-| **합계 (1레이어)** | **≈ 4.3M**                       |
+| 구성요소           | 파라미터 수                   |
+| ------------------ | ----------------------------- |
+| Q, K, V Linear     | 3 × (512 × 512) = **786,432** |
+| Attention out      | 512 × 512 = **262,144**       |
+| FFN Linear1        | 512 × 3200 = **1,638,400**    |
+| FFN Linear2        | 3200 × 512 = **1,638,400**    |
+| LayerNorm ×2       | 2 × 512 × 2 = **2,048**       |
+| **합계 (1레이어)** | **≈ 4.3M**                    |
 
 > FFN 이 Attention 의 약 4배 파라미터를 가진다.
 > dim_feedforward 를 키우면 FFN 파라미터가 선형으로 증가한다.

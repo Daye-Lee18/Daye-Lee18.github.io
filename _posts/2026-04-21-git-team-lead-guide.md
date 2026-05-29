@@ -17,7 +17,7 @@ toc:
 - 버전 태깅과 제출
 
 > 팀원용 기본 흐름은 [팀원 문서]({% post_url 2026-04-21-git-team-member-guide %})에서 먼저 보고 오면 좋습니다.
-{: .block-tip }
+> {: .block-tip }
 
 ---
 
@@ -33,7 +33,7 @@ git remote -v
 
 > `origin`은 우리팀 레포, `submit`은 학원 제출용 레포입니다.
 > `git remote -v`로 두 주소가 제대로 연결됐는지 확인합니다.
-{: .block-tip }
+> {: .block-tip }
 
 ### Step 2. Branch Protection 설정
 
@@ -62,13 +62,14 @@ main-protection
 
 #### Branch rules
 
-| 항목 | 설정 | 이유 |
-| --- | --- | --- |
-| Restrict deletions | ✅ 체크 | main 브랜치 실수로 삭제 방지 |
+| 항목                                  | 설정    | 이유                         |
+| ------------------------------------- | ------- | ---------------------------- |
+| Restrict deletions                    | ✅ 체크 | main 브랜치 실수로 삭제 방지 |
 | Require a pull request before merging | ✅ 체크 | main 직접 push 금지, PR 강제 |
-| Required approvals | `1` | 팀장 1명 승인 필수 |
-| Dismiss stale pull request approvals | ✅ 권장 | 코드 수정 시 재승인 요구 |
-| Block force pushes | ✅ 체크 | `git push --force` 방지 |
+| Required approvals                    | `1`     | 팀장 1명 승인 필수           |
+| Dismiss stale pull request approvals  | ✅ 권장 | 코드 수정 시 재승인 요구     |
+| Block force pushes                    | ✅ 체크 | `git push --force` 방지      |
+
 {: .table .table-sm .table-striped}
 
 ### Step 3. PR 템플릿 추가
@@ -77,7 +78,7 @@ main-protection
 
 > 이 파일이 레포에 있으면 팀원이 GitHub에서 PR을 만들 때 템플릿이 자동으로 들어갑니다.
 > 보통 `.github/PULL_REQUEST_TEMPLATE.md` 위치를 사용합니다.
-{: .block-tip }
+> {: .block-tip }
 
 ---
 
@@ -168,15 +169,16 @@ git diff b4f2db5..origin/refactor/db-v23-migration -- server/smart_cast_db/schem
 git diff --name-status 시작커밋..끝커밋
 ```
 
-| 예시 | 의미 |
-| --- | --- |
-| `b4f2db5` | PR 변경이 들어가기 전 기준 커밋 |
-| `beb9f15` | PR이 머지된 뒤의 머지 커밋 |
-| `origin/refactor/db-v23-migration` | PR을 올린 원격 브랜치 |
+| 예시                               | 의미                            |
+| ---------------------------------- | ------------------------------- |
+| `b4f2db5`                          | PR 변경이 들어가기 전 기준 커밋 |
+| `beb9f15`                          | PR이 머지된 뒤의 머지 커밋      |
+| `origin/refactor/db-v23-migration` | PR을 올린 원격 브랜치           |
+
 {: .table .table-sm .table-striped}
 
 > `--name-status`는 파일 목록과 상태만 보여줍니다. `A`는 추가, `M`은 수정, `D`는 삭제, `R`은 이름 변경입니다.
-{: .block-tip }
+> {: .block-tip }
 
 ### Step 2. Squash merge
 
@@ -187,11 +189,12 @@ feat/login 브랜치: A -> B -> C -> D -> E
 main:               ... -> F
 ```
 
-| 방식 | main 히스토리 | 언제 쓰나 |
-| --- | --- | --- |
-| Create a merge commit | 브랜치 커밋 전부 + merge 커밋 추가 | 히스토리 전부 보존할 때 |
-| Squash and merge | 커밋 1개로 압축 | 팀 작업, main 히스토리 깔끔하게 |
-| Rebase and merge | 브랜치 커밋 전부 | 선형 히스토리 유지할 때 |
+| 방식                  | main 히스토리                      | 언제 쓰나                       |
+| --------------------- | ---------------------------------- | ------------------------------- |
+| Create a merge commit | 브랜치 커밋 전부 + merge 커밋 추가 | 히스토리 전부 보존할 때         |
+| Squash and merge      | 커밋 1개로 압축                    | 팀 작업, main 히스토리 깔끔하게 |
+| Rebase and merge      | 브랜치 커밋 전부                   | 선형 히스토리 유지할 때         |
+
 {: .table .table-sm .table-striped}
 
 ### Step 3. 브랜치 삭제
@@ -203,10 +206,10 @@ git branch -D feat/기능명
 ```
 
 > squash merge 후에는 feat 브랜치 역할이 끝납니다.
-{: .block-warning }
+> {: .block-warning }
 
 > 팀장은 PR merge가 끝나면 원격 브랜치까지 삭제해서 브랜치 목록을 정리합니다.
-{: .block-tip }
+> {: .block-tip }
 
 ---
 
@@ -219,11 +222,12 @@ git tag -a v0.1 -m "v0.1"
 git push origin v0.1
 ```
 
-| 태그 | 기준 |
-| --- | --- |
+| 태그 | 기준              |
+| ---- | ----------------- |
 | v0.1 | 핵심 기능 첫 동작 |
-| v0.2 | 기능 추가 완료 |
-| v1.0 | 최종 제출 |
+| v0.2 | 기능 추가 완료    |
+| v1.0 | 최종 제출         |
+
 {: .table .table-sm .table-striped}
 
 ---
@@ -237,19 +241,20 @@ git push submit main
 ```
 
 > `submit` remote는 제출 목적 전용입니다.
-{: .block-warning }
+> {: .block-warning }
 
 ---
 
 ## 핵심 원칙 요약
 
-| 원칙 | 이유 |
-| --- | --- |
-| main 직접 push 금지 | branch protection으로 강제됨 |
-| 작업 시작 전 항상 `git fetch` | 충돌 방지 |
-| PR 단위를 작게 유지 | 리뷰 부담 감소 |
-| Squash merge 사용 | main 히스토리 가독성 유지 |
-| submit은 제출용만 | origin과 용도 분리 |
+| 원칙                          | 이유                         |
+| ----------------------------- | ---------------------------- |
+| main 직접 push 금지           | branch protection으로 강제됨 |
+| 작업 시작 전 항상 `git fetch` | 충돌 방지                    |
+| PR 단위를 작게 유지           | 리뷰 부담 감소               |
+| Squash merge 사용             | main 히스토리 가독성 유지    |
+| submit은 제출용만             | origin과 용도 분리           |
+
 {: .table .table-sm .table-striped}
 
 ---

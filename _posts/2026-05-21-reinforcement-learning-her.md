@@ -12,6 +12,7 @@ author: dayelee
 ## 1. 강화학습의 기초
 
 ### 강화학습의 정의
+
 강화학습(RL)은 에이전트가 환경과의 상호작용을 통해 보상 신호를 최대화하는 정책을 학습하는 패러다임입니다.
 
 ```
@@ -19,6 +20,7 @@ Agent → Action → Environment → State, Reward → Agent
 ```
 
 핵심 요소:
+
 - **State (상태)**: 현재의 관찰 정보
 - **Action (행동)**: 에이전트가 취할 수 있는 선택지
 - **Reward (보상)**: 환경이 주는 피드백
@@ -29,9 +31,11 @@ Agent → Action → Environment → State, Reward → Agent
 ## 2. Exploration vs Exploitation: 핵심 딜레마
 
 ### 문제 정의
+
 강화학습에서 가장 중요한 균형:
 
 - **Exploitation (활용)**: 현재까지 알려진 최고의 전략을 사용
+
   - "내가 이미 알고 있는 가장 좋은 방법을 계속 쓰자"
   - 즉시 보상 극대화
   - 새로운 전략 발견 불가능
@@ -44,6 +48,7 @@ Agent → Action → Environment → State, Reward → Agent
 ### 왜 중요한가?
 
 **예시: 로봇 팔 제어**
+
 ```
 초기 상태: 로봇이 목표 위치에 도달하는 방법을 모름
 
@@ -117,11 +122,11 @@ HER의 재해석:
 # 에피소드 수집
 for episode in range(num_episodes):
     trajectory = collect_trajectory(policy, goal)
-    
+
     # 일반적인 학습: 원래 목표로 학습
     rewards = compute_reward(trajectory, goal)
     update_policy(rewards)
-    
+
     # HER: 다른 목표들로도 학습
     for hindsight_goal in sample_goals_from_trajectory(trajectory):
         hindsight_rewards = compute_reward(trajectory, hindsight_goal)
@@ -185,6 +190,7 @@ HER + Success Rate:
 ### HER 사용할 때 고려사항
 
 1. **Reward Function 설계**
+
    ```python
    # 좋은 설계: 명확한 목표와 연속적인 reward
    def reward(achieved_state, goal_state):
@@ -193,6 +199,7 @@ HER + Success Rate:
    ```
 
 2. **Goal Sampling 전략**
+
    - 모든 과거 상태를 목표로 사용하면 계산 비용 증가
    - 샘플링 비율을 조정하여 균형 맞추기
 
@@ -206,7 +213,7 @@ HER + Success Rate:
 # 학습 진행도 모니터링
 metrics = {
     "success_rate": # 목표 달성 확률
-    "exploration_rate": # 새로운 상태 발견 비율  
+    "exploration_rate": # 새로운 상태 발견 비율
     "sample_efficiency": # 필요한 에피소드 수 감소
     "convergence_speed": # 학습 속도
 }
@@ -216,23 +223,25 @@ metrics = {
 
 ## 6. 정리: 핵심 개념 다시 보기
 
-| 개념 | 설명 | 목표 |
-|------|------|------|
-| **Exploration** | 미지의 행동 시도 | 전역 최적해 찾기 |
-| **Exploitation** | 알려진 최고 전략 사용 | 즉시 보상 최대화 |
-| **Balance** | 둘 사이의 균형 | 효율적인 학습 |
-| **HER** | 실패를 성공으로 재해석 | Sample efficiency 증가 |
-| **Success Rate** | 상태별 성공 확률 학습 | 정책 개선의 명확한 신호 |
+| 개념             | 설명                   | 목표                    |
+| ---------------- | ---------------------- | ----------------------- |
+| **Exploration**  | 미지의 행동 시도       | 전역 최적해 찾기        |
+| **Exploitation** | 알려진 최고 전략 사용  | 즉시 보상 최대화        |
+| **Balance**      | 둘 사이의 균형         | 효율적인 학습           |
+| **HER**          | 실패를 성공으로 재해석 | Sample efficiency 증가  |
+| **Success Rate** | 상태별 성공 확률 학습  | 정책 개선의 명확한 신호 |
 
 ---
 
 ## 7. 추가 학습 자료
 
 ### 핵심 논문
+
 - Andrychowicz et al., 2017: "Hindsight Experience Replay" (NIPS)
   - HER의 원본 논문
-  
+
 ### 관련 개념들
+
 - **DQN** (Deep Q-Network): 기본적인 심화학습
 - **Policy Gradient**: 정책을 직접 최적화
 - **Actor-Critic**: Value와 Policy를 동시에 학습
@@ -243,6 +252,7 @@ metrics = {
 ## 8. 실습 아이디어
 
 **로봇 팔을 사용한 HER 구현**
+
 ```python
 # 1단계: 환경 설정 (OpenAI Gym)
 env = RoboticFetchPickAndPlace()
@@ -254,11 +264,11 @@ buffer = HERReplayBuffer(capacity=1e6)
 for episode in range(num_episodes):
     trajectory = env.rollout(policy)
     buffer.add(trajectory)
-    
+
     # HER: trajectory에서 다양한 목표로 학습
     batch = buffer.sample_with_her()
     update_network(batch)
-    
+
     # 평가
     success_rate = evaluate_policy(policy)
     print(f"Episode {episode}: Success Rate = {success_rate:.2%}")
@@ -267,6 +277,7 @@ for episode in range(num_episodes):
 ---
 
 **다음 학습 단계:**
+
 1. HER 원본 논문 정독
 2. 간단한 환경(reaching task)에서 HER 구현 및 테스트
 3. Exploration 전략 비교 실험

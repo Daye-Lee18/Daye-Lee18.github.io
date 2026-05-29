@@ -1,8 +1,8 @@
 ---
 layout: post
-title: U-Net 
+title: U-Net
 date: 2026-05-10
-description: Lerobot의 diffusion policy에서 쓰인 U-Net 구조에 대해 공부. 
+description: Lerobot의 diffusion policy에서 쓰인 U-Net 구조에 대해 공부.
 tags: [LeRobot, Diffusion, U-Net, ConvTranspose1d]
 featured: true
 categories: study
@@ -12,20 +12,20 @@ toc:
 
 # ConditionalUnet1D 구조 (Diffusion Policy)
 
-lerobot의 diffusion policy 학습을 하며, chuck_size 를 마다 학습하여 모델을 성능을 비교하였다. u-net이 입력으로 받을 수 있는 chuck_size는 4의 배수여야하는데, 그 이유에 대해 알아보자. 
+lerobot의 diffusion policy 학습을 하며, chuck_size 를 마다 학습하여 모델을 성능을 비교하였다. u-net이 입력으로 받을 수 있는 chuck_size는 4의 배수여야하는데, 그 이유에 대해 알아보자.
 
 ## 1. 전체 흐름 테이블 (chunk_size=T, action_dim=7)
 
-| 단계 | 모듈 | 채널 | T (예: 20) | skip 저장? |
-|------|------|------|------------|-----------|
-| 입력 | — | 7 | 20 | — |
-| **Down 0** | ResBlock×2 + Conv1d(stride=2) | 7→256 | 20→**10** | h에 T=20 저장 |
-| **Down 1** | ResBlock×2 + Conv1d(stride=2) | 256→512 | 10→**5** | h에 T=10 저장 |
-| **Down 2** | ResBlock×2 + Identity | 512→1024 | 5→**5** | h에 T=5 저장 |
-| **Mid** | ResBlock×2 | 1024→1024 | 5 | — |
-| **Up 0** | cat(h.pop=T5) + ResBlock×2 + ConvTranspose1d(stride=2) | 1024×2→512 | 5→**10** | — |
-| **Up 1** | cat(h.pop=T10) + ResBlock×2 + ConvTranspose1d(stride=2) | 512×2→256 | 10→**20** | — |
-| **Final** | Conv1d(1×1) | 256→7 | 20 | — |
+| 단계       | 모듈                                                    | 채널       | T (예: 20) | skip 저장?    |
+| ---------- | ------------------------------------------------------- | ---------- | ---------- | ------------- |
+| 입력       | —                                                       | 7          | 20         | —             |
+| **Down 0** | ResBlock×2 + Conv1d(stride=2)                           | 7→256      | 20→**10**  | h에 T=20 저장 |
+| **Down 1** | ResBlock×2 + Conv1d(stride=2)                           | 256→512    | 10→**5**   | h에 T=10 저장 |
+| **Down 2** | ResBlock×2 + Identity                                   | 512→1024   | 5→**5**    | h에 T=5 저장  |
+| **Mid**    | ResBlock×2                                              | 1024→1024  | 5          | —             |
+| **Up 0**   | cat(h.pop=T5) + ResBlock×2 + ConvTranspose1d(stride=2)  | 1024×2→512 | 5→**10**   | —             |
+| **Up 1**   | cat(h.pop=T10) + ResBlock×2 + ConvTranspose1d(stride=2) | 512×2→256  | 10→**20**  | —             |
+| **Final**  | Conv1d(1×1)                                             | 256→7      | 20         | —             |
 
 > h에 저장된 T=20 (Down 0)은 Up이 2개뿐이라 사용되지 않음
 
@@ -56,14 +56,14 @@ Down이 2번 실질 발생 → T, T/2, T/4 가 모두 정수여야 함
   → T/4 정수 : T가 4의 배수
 ```
 
-| chunk_size | T/2 | T/4 | 결과 |
-|------------|-----|-----|------|
-| 20 | 10 | 5 | ✓ |
-| 30 | 15 | 7.5 | ✗ (Down 후 홀수 → Up 크기 불일치) |
-| 32 | 16 | 8 | ✓ |
-| 24 | 12 | 6 | ✓ |
+| chunk_size | T/2 | T/4 | 결과                              |
+| ---------- | --- | --- | --------------------------------- |
+| 20         | 10  | 5   | ✓                                 |
+| 30         | 15  | 7.5 | ✗ (Down 후 홀수 → Up 크기 불일치) |
+| 32         | 16  | 8   | ✓                                 |
+| 24         | 12  | 6   | ✓                                 |
 
-권장 값: **20, 24, 28, 32, 36, 40 ...**  (4의 배수)
+권장 값: **20, 24, 28, 32, 36, 40 ...** (4의 배수)
 
 > `diffusion_utils.py`에 크기 트리밍 패치가 적용되어 있어 4의 배수가 아니어도 동작하지만,  
 > 의도한 skip connection이 정확히 복원되려면 4의 배수를 사용하는 것이 바람직합니다.
@@ -83,11 +83,11 @@ Down이 2번 실질 발생 → T, T/2, T/4 가 모두 정수여야 함
 
 ### 입력/출력 shape
 
-| | Conv2d | Conv1d |
-|---|---|---|
-| 입력 | (B, C_in, **H, W**) | (B, C_in, **L**) |
-| 출력 | (B, C_out, **H_out, W_out**) | (B, C_out, **L_out**) |
-| 커널 전체 | **(C_out, C_in, kH, kW)** | **(C_out, C_in, k)** |
+|           | Conv2d                       | Conv1d                |
+| --------- | ---------------------------- | --------------------- |
+| 입력      | (B, C_in, **H, W**)          | (B, C_in, **L**)      |
+| 출력      | (B, C_out, **H_out, W_out**) | (B, C_out, **L_out**) |
+| 커널 전체 | **(C_out, C_in, kH, kW)**    | **(C_out, C_in, k)**  |
 
 ### 커널이 동작하는 방식
 
@@ -139,12 +139,12 @@ ConvTranspose (stride=2): [x, y]        → [a, b, c, d]  (복원)
 
 ### ConvTranspose1d/2d가 쓰이는 곳
 
-| 용도 | 이유 |
-|------|------|
-| UNet decoder (Diffusion Policy) | skip feature와 합치기 전 해상도 복원 |
-| GAN Generator | 잠재 벡터 → 고해상도 이미지/시퀀스 생성 |
-| VAE Decoder | latent z → 원본 크기 복원 |
-| 이미지 초해상도 | 저해상 → 고해상 |
-| Semantic segmentation decoder | 픽셀 단위 예측을 위한 업샘플 |
+| 용도                            | 이유                                    |
+| ------------------------------- | --------------------------------------- |
+| UNet decoder (Diffusion Policy) | skip feature와 합치기 전 해상도 복원    |
+| GAN Generator                   | 잠재 벡터 → 고해상도 이미지/시퀀스 생성 |
+| VAE Decoder                     | latent z → 원본 크기 복원               |
+| 이미지 초해상도                 | 저해상 → 고해상                         |
+| Semantic segmentation decoder   | 픽셀 단위 예측을 위한 업샘플            |
 
 </details>

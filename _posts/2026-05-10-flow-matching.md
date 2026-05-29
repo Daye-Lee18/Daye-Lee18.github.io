@@ -15,6 +15,7 @@ toc:
 Flow Matching은 데이터를 생성하는 확률 경로(Probability Path)를 정의하고, 이를 유도하는 **벡터장(Vector Field)**을 직접 학습하는 생성 모델입니다. Diffusion 모델과 유사하지만, 노이즈에서 데이터로 가는 경로를 더 직접적이고 효율적으로 설계할 수 있습니다.
 
 ### 핵심 구성 요소
+
 - **벡터장 $v_t(x)$**: 시간 $t$에 따라 샘플 $x$가 이동해야 할 방향과 속도를 정의합니다.
 - **흐름(Flow) $\psi_t(x)$**: 벡터장에 의해 정의되는 궤적으로, $\frac{d}{dt}\psi_t(x) = v_t(\psi_t(x), t)$를 만족합니다.
 - **확률 경로 $p_t(x)$**: $p_0$(노이즈 분포)에서 $p_1$(데이터 분포)로 변하는 연속적인 분포의 집합입니다.
@@ -24,6 +25,7 @@ Flow Matching은 데이터를 생성하는 확률 경로(Probability Path)를 �
 ## 2. 수학적 구조 및 학습 방법
 
 ### Conditional Flow Matching (CFM)
+
 실제 데이터 분포의 벡터장을 직접 구하는 것은 어렵기 때문에, 개별 데이터 포인트 $x_1$에 조건화된 **조건부 벡터장**을 학습합니다.
 
 - **선형 보간 경로 (Linear Interpolation)**: 가장 흔히 쓰이는 경로 설정입니다.
@@ -32,6 +34,7 @@ Flow Matching은 데이터를 생성하는 확률 경로(Probability Path)를 �
   $$u_t(x_t \mid x_1) = \frac{d}{dt}x_t = x_1 - x_0$$
 
 ### 목적 함수 (Loss Function)
+
 신경망 $v_\theta(x, t)$가 목표 벡터장 $u_t$를 모사하도록 학습합니다.
 $$\mathcal{L}_{CFM}(\theta) = \mathbb{E}_{t, x_0, x_1} \left[ \| v_\theta(x_t, t) - (x_1 - x_0) \|^2 \right]$$
 
@@ -49,20 +52,20 @@ import torch
 def flow_matching_loss(v_net, x_1):
     # 1. 시간 t 샘플링 (0 ~ 1)
     t = torch.rand(x_1.shape[0], 1, device=x_1.device)
-    
+
     # 2. 베이스 분포(노이즈) x_0 생성
     x_0 = torch.randn_like(x_1)
-    
+
     # 3. 선형 보간을 통한 x_t 생성
     x_t = (1 - t) * x_0 + t * x_1
-    
+
     # 4. 목표 벡터장 (x_1 - x_0)
     target_v = x_1 - x_0
-    
+
     # 5. 모델 예측 및 손실 계산
     pred_v = v_net(x_t, t)
     loss = torch.mean((pred_v - target_v) ** 2)
-    
+
     return loss
 ```
 
@@ -223,12 +226,12 @@ $$x_t = \sqrt{\bar{\alpha}_t}\, x_0 + \sqrt{1 - \bar{\alpha}_t}\, \epsilon, \qqu
 
 반면 Flow Matching의 경로는 $x_t = (1-t)x_0 + t x_1$이다.
 
-| 항목 | Diffusion | Flow Matching |
-|---|---|---|
-| 경로 형태 | 비선형 (noise schedule) | 선형 보간 |
-| 목표 함수 | $\epsilon$-prediction (노이즈 예측) | $v$-prediction (벡터장 예측) |
-| 추론 step 수 | 수십~수백 | 수십 이하 가능 |
-| ODE Solver 필요 여부 | ? | ? |
+| 항목                 | Diffusion                           | Flow Matching                |
+| -------------------- | ----------------------------------- | ---------------------------- |
+| 경로 형태            | 비선형 (noise schedule)             | 선형 보간                    |
+| 목표 함수            | $\epsilon$-prediction (노이즈 예측) | $v$-prediction (벡터장 예측) |
+| 추론 step 수         | 수십~수백                           | 수십 이하 가능               |
+| ODE Solver 필요 여부 | ?                                   | ?                            |
 
 **(a)** 표의 빈칸을 채워라.
 
@@ -239,12 +242,12 @@ $$x_t = \sqrt{\bar{\alpha}_t}\, x_0 + \sqrt{1 - \bar{\alpha}_t}\, \epsilon, \qqu
 
 **(a)**
 
-| 항목 | Diffusion | Flow Matching |
-|---|---|---|
-| 경로 형태 | 비선형 (noise schedule) | 선형 보간 |
-| 목표 함수 | $\epsilon$-prediction (노이즈 예측) | $v$-prediction (벡터장 예측) |
-| 추론 step 수 | 수십~수백 | 수십 이하 가능 |
-| ODE Solver 필요 여부 | 필요 (DDIM 등 ODE sampler) | 필요 (Euler / RK4 등) |
+| 항목                 | Diffusion                           | Flow Matching                |
+| -------------------- | ----------------------------------- | ---------------------------- |
+| 경로 형태            | 비선형 (noise schedule)             | 선형 보간                    |
+| 목표 함수            | $\epsilon$-prediction (노이즈 예측) | $v$-prediction (벡터장 예측) |
+| 추론 step 수         | 수십~수백                           | 수십 이하 가능               |
+| ODE Solver 필요 여부 | 필요 (DDIM 등 ODE sampler)          | 필요 (Euler / RK4 등)        |
 
 **(b)** Diffusion은 noise schedule로 인해 궤적이 **곡선**을 그리므로, 이를 충실하게 수치 적분하려면 많은 스텝이 필요하다. 반면 Flow Matching의 선형 보간 경로는 **직선**이다. 직선 궤적은 Euler 방법 같은 1차 적분기로도 큰 오차 없이 따라갈 수 있으므로, 적은 함수 평가(NFE, Number of Function Evaluations)로 동등한 품질의 샘플을 생성할 수 있다.
 

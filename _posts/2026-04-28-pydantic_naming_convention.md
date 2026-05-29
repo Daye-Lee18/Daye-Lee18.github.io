@@ -2,7 +2,7 @@
 layout: post
 title: Pydantic naming convention guideline
 date: 2026-04-21
-description: Class naming protocols for collaborating on code 
+description: Class naming protocols for collaborating on code
 tags: team pydantic pep8
 featured: true
 categories: guide
@@ -30,15 +30,16 @@ data = CreateOrdInput(user_id="abc", quantity=3)  # ValidationError 자동 발�
 
 ### 1-1. Naming Style 비교
 
-| 이름 | 규칙 | 예시 |
-| --- | --- | --- |
-| **PascalCase** | 모든 단어 첫 글자 대문자 | `CreateTaskInput` |
-| **camelCase** | 첫 단어만 소문자, 나머지 대문자 | `createTaskInput` |
-| **snake_case** | 소문자 + 언더바 | `create_task_input` |
-| **kebab-case** | 소문자 + 하이픈 | `create-task-input` |
-| **SCREAMING_SNAKE_CASE** | 전체 대문자 + 언더바 | `AMR_COORDS` |
-| **`_SCREAMING_SNAKE_CASE`** | 앞에 `_` 붙인 SCREAMING_SNAKE_CASE | `_AMR_COORDS` |
-| **`_snake_case`** | 앞에 `_` 붙인 snake_case | `_run()` |
+| 이름                        | 규칙                               | 예시                |
+| --------------------------- | ---------------------------------- | ------------------- |
+| **PascalCase**              | 모든 단어 첫 글자 대문자           | `CreateTaskInput`   |
+| **camelCase**               | 첫 단어만 소문자, 나머지 대문자    | `createTaskInput`   |
+| **snake_case**              | 소문자 + 언더바                    | `create_task_input` |
+| **kebab-case**              | 소문자 + 하이픈                    | `create-task-input` |
+| **SCREAMING_SNAKE_CASE**    | 전체 대문자 + 언더바               | `AMR_COORDS`        |
+| **`_SCREAMING_SNAKE_CASE`** | 앞에 `_` 붙인 SCREAMING_SNAKE_CASE | `_AMR_COORDS`       |
+| **`_snake_case`**           | 앞에 `_` 붙인 snake_case           | `_run()`            |
+
 {: .table .table-sm .table-striped}
 
 ```
@@ -51,29 +52,32 @@ AMR coordinates   →  (SCREAMING_SNAKE_CASE) AMR_COORDS
 ```
 
 Python [PEP 8](https://peps.python.org/pep-0008/) 표준:
+
 - **클래스명** → PascalCase (`class CreateTaskInput`)
 - **함수/변수명** → snake_case (`def create_task()`)
 - **상수** → SCREAMING_SNAKE_CASE (`MAX_RETRY = 3`, `AMR_COORDS = {...}`)
 
 **`_` 앞에 붙이는 의미** — "이 파일 안에서만 써라, 외부에서 `import`하지 마라"는 신호다. 클래스·함수·변수·상수 모두에 붙일 수 있다.
 
-| 종류 | 공개 | 모듈 내부 전용 |
-| --- | --- | --- |
-| 클래스 | `AmrCoord` | `_AmrCoord` |
-| 상수 | `AMR_COORDS` | `_AMR_COORDS` |
-| 함수 | `run()` | `_run()` |
+| 종류   | 공개         | 모듈 내부 전용 |
+| ------ | ------------ | -------------- |
+| 클래스 | `AmrCoord`   | `_AmrCoord`    |
+| 상수   | `AMR_COORDS` | `_AMR_COORDS`  |
+| 함수   | `run()`      | `_run()`       |
+
 {: .table .table-sm .table-striped}
 
 ### 1-2. 모델 클래스 Suffix 규칙
 
 데이터의 역할에 따라 접미사(Suffix)를 붙여 구분한다.
 
-| Suffix | 용도 | 패턴 | 예시 |
-| --- | --- | --- | --- |
-| `Input` | 함수에 넣는 입력값 | `[동사][명사]Input` | `CreateOrdInput` |
-| `Record` | DB 행(row) 1:1 표현 | `[테이블명]Record` | `OrdRecord` |
-| `Result` | 연산 결과 (DB 아님) | `[동사][명사]Result` | `AllocateTaskResult` |
-| `Event` | 이벤트/로그 페이로드 | `[명사]Event` | `TransErrorEvent` |
+| Suffix   | 용도                 | 패턴                 | 예시                 |
+| -------- | -------------------- | -------------------- | -------------------- |
+| `Input`  | 함수에 넣는 입력값   | `[동사][명사]Input`  | `CreateOrdInput`     |
+| `Record` | DB 행(row) 1:1 표현  | `[테이블명]Record`   | `OrdRecord`          |
+| `Result` | 연산 결과 (DB 아님)  | `[동사][명사]Result` | `AllocateTaskResult` |
+| `Event`  | 이벤트/로그 페이로드 | `[명사]Event`        | `TransErrorEvent`    |
+
 {: .table .table-sm .table-striped}
 
 ### 1-3. 필드명 — `snake_case`
@@ -89,15 +93,16 @@ class CreateOrdInput(BaseModel):
 
 `BaseModel` 안에 선언된 변수들을 **field(필드)**라고 한다. 유효성 검사 방법은 복잡도에 따라 세 가지로 나뉜다.
 
-| 방법 | 코드 | 언제 쓰나 |
-|---|---|---|
-| **타입 힌트만** | `quantity: int` | 타입만 맞으면 충분할 때 |
-| **`Field()`** | `Field(gt=0, max_length=50)` | 범위·길이 같은 단순 조건 |
-| **`@field_validator`** | 데코레이터 함수 | 위 두 가지로 표현 못하는 복잡한 로직 |
+| 방법                   | 코드                         | 언제 쓰나                            |
+| ---------------------- | ---------------------------- | ------------------------------------ |
+| **타입 힌트만**        | `quantity: int`              | 타입만 맞으면 충분할 때              |
+| **`Field()`**          | `Field(gt=0, max_length=50)` | 범위·길이 같은 단순 조건             |
+| **`@field_validator`** | 데코레이터 함수              | 위 두 가지로 표현 못하는 복잡한 로직 |
+
 {: .table .table-sm .table-striped}
 
 > 단순 범위·길이 → `Field()` / 복잡한 로직·변환 → `@field_validator` / 여러 필드를 같이 봐야 하면 → `@model_validator`
-{: .block-tip }
+> {: .block-tip }
 
 ---
 
@@ -166,14 +171,15 @@ class CreateOrdInput(BaseModel):
     prod_nm:   str = Field(min_length=1, max_length=50)
 ```
 
-| 옵션 | 의미 |
-| --- | --- |
-| `gt` | 초과 (greater than) |
-| `ge` | 이상 (greater or equal) |
-| `lt` | 미만 |
-| `le` | 이하 |
-| `min_length` / `max_length` | 문자열 길이 |
-| `pattern` | 정규식 |
+| 옵션                        | 의미                    |
+| --------------------------- | ----------------------- |
+| `gt`                        | 초과 (greater than)     |
+| `ge`                        | 이상 (greater or equal) |
+| `lt`                        | 미만                    |
+| `le`                        | 이하                    |
+| `min_length` / `max_length` | 문자열 길이             |
+| `pattern`                   | 정규식                  |
+
 {: .table .table-sm .table-striped}
 
 {% enddetails %}
@@ -182,13 +188,14 @@ class CreateOrdInput(BaseModel):
 
 한 필드만으로는 판단할 수 없고, **두 필드 이상을 같이 봐야** 할 때 사용한다. `mode` 파라미터로 실행 시점을 결정한다.
 
-| | `mode="before"` | `mode="after"` |
-|---|---|---|
-| 실행 시점 | 필드 변환·검증 전 | 모든 필드 검증 완료 후 |
-| 받는 것 | raw `dict` | 완성된 모델 인스턴스 (`self`) |
-| 반환 | `dict` | `self` |
-| 언제 씀 | 데이터 전처리, 필드 이름 변환 | 필드 간 관계 검증 |
-| `@classmethod` 필요? | ✅ | ❌ |
+|                      | `mode="before"`               | `mode="after"`                |
+| -------------------- | ----------------------------- | ----------------------------- |
+| 실행 시점            | 필드 변환·검증 전             | 모든 필드 검증 완료 후        |
+| 받는 것              | raw `dict`                    | 완성된 모델 인스턴스 (`self`) |
+| 반환                 | `dict`                        | `self`                        |
+| 언제 씀              | 데이터 전처리, 필드 이름 변환 | 필드 간 관계 검증             |
+| `@classmethod` 필요? | ✅                            | ❌                            |
+
 {: .table .table-sm .table-striped}
 
 ```python
@@ -250,13 +257,14 @@ print(record.model_dump())
 
 {% details 한눈에 비교 %}
 
-| 데코레이터 | 언제 쓰나 |
-| --- | --- |
-| `@field_validator` | 특정 필드 하나 (또는 여러 개) 검증 |
-| `@model_validator` | 필드 간 관계 검증 |
-| `Field()` | 간단한 범위·길이 제약 (함수 불필요) |
-| `@computed_field` | DB에 없는 계산값 노출 |
-| `@field_serializer` | JSON 출력 형식 커스텀 |
+| 데코레이터          | 언제 쓰나                           |
+| ------------------- | ----------------------------------- |
+| `@field_validator`  | 특정 필드 하나 (또는 여러 개) 검증  |
+| `@model_validator`  | 필드 간 관계 검증                   |
+| `Field()`           | 간단한 범위·길이 제약 (함수 불필요) |
+| `@computed_field`   | DB에 없는 계산값 노출               |
+| `@field_serializer` | JSON 출력 형식 커스텀               |
+
 {: .table .table-sm .table-striped}
 
 {% enddetails %}
@@ -265,10 +273,11 @@ print(record.model_dump())
 
 `model_config`는 Pydantic 모델의 동작 방식을 설정하는 클래스 변수다. `ConfigDict`로 옵션을 넘긴다.
 
-| 옵션 | 언제 쓰나 | 주로 붙는 suffix |
-| --- | --- | --- |
-| `from_attributes=True` | DB ORM 객체 → Pydantic 변환 | `Record` |
-| `frozen=True` | 생성 후 값 변경 불가 (불변 설정값) | 좌표·설정 클래스 |
+| 옵션                   | 언제 쓰나                          | 주로 붙는 suffix |
+| ---------------------- | ---------------------------------- | ---------------- |
+| `from_attributes=True` | DB ORM 객체 → Pydantic 변환        | `Record`         |
+| `frozen=True`          | 생성 후 값 변경 불가 (불변 설정값) | 좌표·설정 클래스 |
+
 {: .table .table-sm .table-striped}
 
 #### `from_attributes=True` — DB 행을 Pydantic으로 변환
@@ -349,12 +358,13 @@ coord.theta  # 0.00
 
 ## 2. SmartCast Robotics Project — 테이블 종류 요약
 
-| 테이블 종류 | 언제 쓰는가 | Pydantic Suffix | 해당 테이블 |
-| --- | --- | --- | --- |
-| **Master** | 기준·설정 데이터. 잘 안 변함 | `Record` | `user_account`, `category`, `product`, `product_option`, `pp_options`, `res`, `equip_load_spec`, `zone`, `equip`, `trans`, `trans_task_bat_threshold` |
-| **Operational (txn)** | 작업 발생·진행 기록 | 생성 입력 → `Input` / DB 조회 → `Record` | `ord`, `ord_detail`, `ord_pp_map`, `ord_txn`, `equip_task_txn`, `trans_task_txn`, `insp_task_txn`, `pp_task_txn` |
-| **State (stat)** | 현재 상태 스냅샷. 빠른 조회 | `Record` | `item_stat`, `ord_stat`, `equip_stat`, `trans_stat`, `chg_loc_stat`, `strg_loc_stat`, `ship_loc_stat`, `pattern_stat`, `alerts_stat` |
-| **Log** | 행동/이벤트/데이터/에러 기록 | 행동·이벤트 → `Event` / 데이터·에러 → `Record` | `ord_log`, `log_action_user`, `log_action_operator_handoff_acks`, `log_action_operator_rfid_scan`, `log_action_admin`, `log_event`, `log_data_equip`, `log_data_trans`, `log_err_equip`, `log_err_trans` |
+| 테이블 종류           | 언제 쓰는가                  | Pydantic Suffix                                | 해당 테이블                                                                                                                                                                                              |
+| --------------------- | ---------------------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Master**            | 기준·설정 데이터. 잘 안 변함 | `Record`                                       | `user_account`, `category`, `product`, `product_option`, `pp_options`, `res`, `equip_load_spec`, `zone`, `equip`, `trans`, `trans_task_bat_threshold`                                                    |
+| **Operational (txn)** | 작업 발생·진행 기록          | 생성 입력 → `Input` / DB 조회 → `Record`       | `ord`, `ord_detail`, `ord_pp_map`, `ord_txn`, `equip_task_txn`, `trans_task_txn`, `insp_task_txn`, `pp_task_txn`                                                                                         |
+| **State (stat)**      | 현재 상태 스냅샷. 빠른 조회  | `Record`                                       | `item_stat`, `ord_stat`, `equip_stat`, `trans_stat`, `chg_loc_stat`, `strg_loc_stat`, `ship_loc_stat`, `pattern_stat`, `alerts_stat`                                                                     |
+| **Log**               | 행동/이벤트/데이터/에러 기록 | 행동·이벤트 → `Event` / 데이터·에러 → `Record` | `ord_log`, `log_action_user`, `log_action_operator_handoff_acks`, `log_action_operator_rfid_scan`, `log_action_admin`, `log_event`, `log_data_equip`, `log_data_trans`, `log_err_equip`, `log_err_trans` |
+
 {: .table .table-sm .table-striped}
 
 ---
@@ -365,78 +375,82 @@ coord.theta  # 0.00
 
 {% details Master tables → [테이블명]Record %}
 
-| DB 테이블 | Pydantic 클래스 |
-| --- | --- |
-| `user_account` | `UserAccountRecord` |
-| `category` | `CategoryRecord` |
-| `product` | `ProductRecord` |
-| `product_option` | `ProductOptionRecord` |
-| `pp_options` | `PpOptionsRecord` |
-| `res` | `ResRecord` |
-| `equip_load_spec` | `EquipLoadSpecRecord` |
-| `zone` | `ZoneRecord` |
-| `equip` | `EquipRecord` |
-| `trans` | `TransRecord` |
+| DB 테이블                  | Pydantic 클래스               |
+| -------------------------- | ----------------------------- |
+| `user_account`             | `UserAccountRecord`           |
+| `category`                 | `CategoryRecord`              |
+| `product`                  | `ProductRecord`               |
+| `product_option`           | `ProductOptionRecord`         |
+| `pp_options`               | `PpOptionsRecord`             |
+| `res`                      | `ResRecord`                   |
+| `equip_load_spec`          | `EquipLoadSpecRecord`         |
+| `zone`                     | `ZoneRecord`                  |
+| `equip`                    | `EquipRecord`                 |
+| `trans`                    | `TransRecord`                 |
 | `trans_task_bat_threshold` | `TransTaskBatThresholdRecord` |
+
 {: .table .table-sm .table-striped}
 
 {% enddetails %}
 
 {% details Operational tables → Input / Record %}
 
-| DB 테이블 | 쓰임 | Pydantic 클래스 |
-| --- | --- | --- |
-| `ord` | 주문 생성 입력 | `CreateOrdInput` |
-| `ord` | DB 행 조회 | `OrdRecord` |
-| `ord_detail` | 상세 생성 입력 | `CreateOrdDetailInput` |
-| `ord_detail` | DB 행 조회 | `OrdDetailRecord` |
-| `ord_pp_map` | 후처리 옵션 매핑 입력 | `CreateOrdPpMapInput` |
-| `ord_pp_map` | DB 행 조회 | `OrdPpMapRecord` |
-| `ord_txn` | 주문 상태 전이 입력 | `CreateOrdTxnInput` |
-| `ord_txn` | DB 행 조회 | `OrdTxnRecord` |
-| `equip_task_txn` | 태스크 할당 입력 | `AssignEquipTaskInput` |
-| `equip_task_txn` | DB 행 조회 | `EquipTaskTxnRecord` |
-| `trans_task_txn` | 태스크 할당 입력 | `AssignTransTaskInput` |
-| `trans_task_txn` | DB 행 조회 | `TransTaskTxnRecord` |
-| `insp_task_txn` | 검사 태스크 생성 입력 | `CreateInspTaskInput` |
-| `insp_task_txn` | DB 행 조회 | `InspTaskTxnRecord` |
-| `pp_task_txn` | 후처리 태스크 생성 입력 | `CreatePpTaskInput` |
-| `pp_task_txn` | DB 행 조회 | `PpTaskTxnRecord` |
+| DB 테이블        | 쓰임                    | Pydantic 클래스        |
+| ---------------- | ----------------------- | ---------------------- |
+| `ord`            | 주문 생성 입력          | `CreateOrdInput`       |
+| `ord`            | DB 행 조회              | `OrdRecord`            |
+| `ord_detail`     | 상세 생성 입력          | `CreateOrdDetailInput` |
+| `ord_detail`     | DB 행 조회              | `OrdDetailRecord`      |
+| `ord_pp_map`     | 후처리 옵션 매핑 입력   | `CreateOrdPpMapInput`  |
+| `ord_pp_map`     | DB 행 조회              | `OrdPpMapRecord`       |
+| `ord_txn`        | 주문 상태 전이 입력     | `CreateOrdTxnInput`    |
+| `ord_txn`        | DB 행 조회              | `OrdTxnRecord`         |
+| `equip_task_txn` | 태스크 할당 입력        | `AssignEquipTaskInput` |
+| `equip_task_txn` | DB 행 조회              | `EquipTaskTxnRecord`   |
+| `trans_task_txn` | 태스크 할당 입력        | `AssignTransTaskInput` |
+| `trans_task_txn` | DB 행 조회              | `TransTaskTxnRecord`   |
+| `insp_task_txn`  | 검사 태스크 생성 입력   | `CreateInspTaskInput`  |
+| `insp_task_txn`  | DB 행 조회              | `InspTaskTxnRecord`    |
+| `pp_task_txn`    | 후처리 태스크 생성 입력 | `CreatePpTaskInput`    |
+| `pp_task_txn`    | DB 행 조회              | `PpTaskTxnRecord`      |
+
 {: .table .table-sm .table-striped}
 
 {% enddetails %}
 
 {% details State tables → [테이블명]Record %}
 
-| DB 테이블 | Pydantic 클래스 |
-| --- | --- |
-| `item_stat` | `ItemStatRecord` |
-| `ord_stat` | `OrdStatRecord` |
-| `equip_stat` | `EquipStatRecord` |
-| `trans_stat` | `TransStatRecord` |
-| `chg_loc_stat` | `ChgLocStatRecord` |
+| DB 테이블       | Pydantic 클래스     |
+| --------------- | ------------------- |
+| `item_stat`     | `ItemStatRecord`    |
+| `ord_stat`      | `OrdStatRecord`     |
+| `equip_stat`    | `EquipStatRecord`   |
+| `trans_stat`    | `TransStatRecord`   |
+| `chg_loc_stat`  | `ChgLocStatRecord`  |
 | `strg_loc_stat` | `StrgLocStatRecord` |
 | `ship_loc_stat` | `ShipLocStatRecord` |
-| `pattern_stat` | `PatternStatRecord` |
-| `alerts_stat` | `AlertsStatRecord` |
+| `pattern_stat`  | `PatternStatRecord` |
+| `alerts_stat`   | `AlertsStatRecord`  |
+
 {: .table .table-sm .table-striped}
 
 {% enddetails %}
 
 {% details Log tables → Event / Record %}
 
-| DB 테이블 | Pydantic 클래스 |
-| --- | --- |
-| `ord_log` | `OrdLogRecord` |
-| `log_action_user` | `UserActionEvent` |
+| DB 테이블                          | Pydantic 클래스        |
+| ---------------------------------- | ---------------------- |
+| `ord_log`                          | `OrdLogRecord`         |
+| `log_action_user`                  | `UserActionEvent`      |
 | `log_action_operator_handoff_acks` | `OperatorHandoffEvent` |
-| `log_action_operator_rfid_scan` | `RfidScanEvent` |
-| `log_action_admin` | `AdminActionEvent` |
-| `log_event` | `SystemEvent` |
-| `log_data_equip` | `EquipDataRecord` |
-| `log_data_trans` | `TransDataRecord` |
-| `log_err_equip` | `EquipErrorRecord` |
-| `log_err_trans` | `TransErrorRecord` |
+| `log_action_operator_rfid_scan`    | `RfidScanEvent`        |
+| `log_action_admin`                 | `AdminActionEvent`     |
+| `log_event`                        | `SystemEvent`          |
+| `log_data_equip`                   | `EquipDataRecord`      |
+| `log_data_trans`                   | `TransDataRecord`      |
+| `log_err_equip`                    | `EquipErrorRecord`     |
+| `log_err_trans`                    | `TransErrorRecord`     |
+
 {: .table .table-sm .table-striped}
 
 {% enddetails %}

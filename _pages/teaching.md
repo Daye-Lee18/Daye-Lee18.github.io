@@ -19,7 +19,7 @@ teaching:
             text: Calculator, Number Game, Grade Manager, Contact Class, Bank Account, STL/File I/O, Final Project
           - label: 링크
             text: '<a href="https://daye-lee18.github.io/cpp-project-book/" target="_blank" rel="noopener">Course page</a>'
-      
+
       - title: Python for Algorithmic Problem Solving
         role: Instructor
         term: 2025-09-01 ~ Now (Tue/Thur 14:00–17:00)
@@ -47,7 +47,7 @@ teaching:
             text: 일대다 튜터-튜티 매칭 및 이메일/카톡 메신저 이용 질의응답
           - label: 링크
             text: '<a href="https://haesunbyun.github.io/Basic-Computing-Ver.2/intro.html" target="_blank" rel="noopener">Course page</a>'
-  
+
   - university: Private Class
     courses:
       - title: Mathematics Tutoring
@@ -56,9 +56,9 @@ teaching:
         badge: Pure Maths
         points:
           - label: 내용
-            text: Pure Mathematics (P3/P4), IB DP AA HL 
+            text: Pure Mathematics (P3/P4), IB DP AA HL
           - label: 언어
-            text: 영어 한국어 병행 
+            text: 영어 한국어 병행
           - label: 링크
             text: '<a href="https://daye-lee18.github.io/math_tutoring/" target="_blank" rel="noopener">Course page</a>'
 
@@ -71,7 +71,6 @@ teaching:
             text: SW역량테스트 핵심 패턴 (시뮬레이션, BFS/DFS, 완전탐색) 및 실전 전략 정리
           - label: 링크
             text: '<a href="https://daye-lee18.github.io/samsung_cote_prep/intro.html" target="_blank" rel="noopener">Study Guide</a>'
-
 ---
 
 {% include teaching_cards.liquid %}

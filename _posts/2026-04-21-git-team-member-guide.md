@@ -40,7 +40,7 @@ git merge origin/main
 
 > 여기서 `git merge origin/main`은 내 로컬 `main`을 최신 상태로 맞추는 작업입니다.
 > `main`에 직접 commit해서 push하는 것과는 다릅니다.
-{: .block-tip }
+> {: .block-tip }
 
 브랜치 상태를 확인할 때 자주 쓰는 명령어입니다.
 
@@ -62,7 +62,7 @@ git log main..origin/main --oneline
 PR 작성 시 `closes #번호`를 쓰면 merge될 때 이슈가 자동으로 닫힙니다.
 
 > 이슈를 쓰지 않는 팀이라면 이 단계는 생략해도 됩니다.
-{: .block-tip }
+> {: .block-tip }
 
 ### Step 3. 작업 브랜치 선택 또는 생성
 
@@ -82,7 +82,7 @@ git merge origin/main
 ```
 
 > feature branch에서 최신 main을 받아 충돌을 미리 확인하는 과정입니다.
-{: .block-tip }
+> {: .block-tip }
 
 #### 다른 사람이 push만 해둔 브랜치를 받아서 새 브랜치로 이어 작업할 때
 
@@ -100,17 +100,18 @@ git checkout -b feat/my-fix origin/feat/casting-factory-from-kim
 
 > `origin/{다른사람브랜치명}`을 시작점으로 삼고, 내 브랜치를 따로 만듭니다.
 > 그 다음부터는 내 브랜치에서 커밋을 쌓고 `git push -u origin {내새브랜치명}`으로 올리면 됩니다.
-{: .block-tip }
+> {: .block-tip }
 
 브랜치 이름만 봐도 무슨 작업인지 알 수 있게 적습니다.
 
-| prefix | 용도 | 예시 |
-| --- | --- | --- |
-| `feat/` | 새 기능 개발 | `feat/login-page`, `feat/data-upload` |
-| `fix/` | 버그 수정 | `fix/login-null-error`, `fix/map-render` |
-| `hotfix/` | 배포 후 긴급 수정 | `hotfix/payment-crash` |
-| `chore/` | 설정·문서·패키지 등 기타 | `chore/update-readme`, `chore/env-setup` |
-| `refactor/` | 기능 변경 없이 코드 구조 개선 | `refactor/auth-module` |
+| prefix      | 용도                          | 예시                                     |
+| ----------- | ----------------------------- | ---------------------------------------- |
+| `feat/`     | 새 기능 개발                  | `feat/login-page`, `feat/data-upload`    |
+| `fix/`      | 버그 수정                     | `fix/login-null-error`, `fix/map-render` |
+| `hotfix/`   | 배포 후 긴급 수정             | `hotfix/payment-crash`                   |
+| `chore/`    | 설정·문서·패키지 등 기타      | `chore/update-readme`, `chore/env-setup` |
+| `refactor/` | 기능 변경 없이 코드 구조 개선 | `refactor/auth-module`                   |
+
 {: .table .table-sm .table-striped}
 
 - 소문자 + 하이픈(`-`) 사용, 언더스코어·대문자 금지
@@ -134,7 +135,7 @@ git commit -m "feat: 설명"
 
 > 작업 단위를 작게 유지하고 commit을 자주 남길 것
 > `git add .`를 쓰기 전에는 의도하지 않은 파일이 같이 들어가지 않았는지 `git status`로 확인할 것
-{: .block-warning }
+> {: .block-warning }
 
 실수로 staging에 올린 파일을 내릴 때:
 
@@ -145,11 +146,12 @@ git restore --staged .
 
 커밋을 되돌릴 때 자주 보는 명령어입니다.
 
-| 명령어 | 커밋 히스토리 | 스테이징 | 파일 내용 |
-| --- | --- | --- | --- |
-| `git reset --soft HEAD~1` | 취소 | 유지 | 유지 |
-| `git reset HEAD~1` | 취소 | 취소 | 유지 |
-| `git reset --hard HEAD~1` | 취소 | 취소 | **삭제** ⚠️ |
+| 명령어                    | 커밋 히스토리 | 스테이징 | 파일 내용   |
+| ------------------------- | ------------- | -------- | ----------- |
+| `git reset --soft HEAD~1` | 취소          | 유지     | 유지        |
+| `git reset HEAD~1`        | 취소          | 취소     | 유지        |
+| `git reset --hard HEAD~1` | 취소          | 취소     | **삭제** ⚠️ |
+
 {: .table .table-sm .table-striped}
 
 ### Step 5. 내 로컬 브랜치 원격에 올리기
@@ -163,7 +165,7 @@ git push
 ```
 
 > `origin/main`에는 영향 없음. 내 작업 브랜치만 올라갑니다.
-{: .block-tip }
+> {: .block-tip }
 
 ### Step 6. GitHub에서 PR 생성
 
@@ -178,7 +180,7 @@ Create pull request
 
 > PR 제목과 설명에는 "무엇을 왜 바꿨는지"를 적습니다.
 > 리뷰어가 코드를 보기 전에 의도를 이해할 수 있어야 합니다.
-{: .block-tip }
+> {: .block-tip }
 
 ### Step 7. 리뷰 수정사항 반영
 
@@ -196,7 +198,7 @@ git push
 ```
 
 > 이미 PR이 열려 있는 브랜치에 push하면 GitHub PR 내용이 자동으로 업데이트됩니다.
-{: .block-tip }
+> {: .block-tip }
 
 ### Step 8. main 변경사항을 내 브랜치에 반영
 
@@ -224,7 +226,7 @@ git push
 
 > `git commit`을 실행하면 Git이 merge commit 메시지를 자동으로 준비해 줍니다.
 > 특별히 바꿀 내용이 없으면 저장하고 종료하면 됩니다.
-{: .block-tip }
+> {: .block-tip }
 
 ### Step 9. PR merge 후 내 브랜치 정리
 
@@ -256,7 +258,7 @@ git branch -a
 
 > `git branch -d`는 merge된 브랜치만 안전하게 삭제합니다.
 > 아직 merge되지 않은 브랜치를 강제로 지우려면 `git branch -D {브랜치명}`을 쓰지만, 커밋을 잃을 수 있으니 PR merge 여부를 먼저 확인합니다.
-{: .block-warning }
+> {: .block-warning }
 
 ## Conflict가 난 경우 대처법
 
@@ -293,7 +295,7 @@ git commit
 
 > VS Code에서 충돌을 해결할 때 `Accept Current`, `Accept Incoming`, `Accept Both`, `Complete Merge` 버튼이 보일 수 있습니다.
 > 버튼을 누른 뒤에도 반드시 파일 내용을 직접 확인하고 `git status`로 충돌이 끝났는지 확인합니다.
-{: .block-warning }
+> {: .block-warning }
 
 ### 작업 중 변경사항 때문에 브랜치 이동이 안 될 때
 
@@ -310,7 +312,7 @@ git stash apply 'stash@{0}'
 
 > `git stash apply`는 stash 목록을 남겨둔 채 적용합니다.
 > 적용 후 문제가 없으면 `git stash drop 'stash@{0}'`으로 지워도 됩니다.
-{: .block-tip }
+> {: .block-tip }
 
 ## 브랜치 간 이동이 잦을 때 worktree 만들기
 
@@ -347,11 +349,11 @@ git worktree add -b study/gitguideline-copy ../dayelee-git-guide origin/study/gi
 
 > `-b {새로만들로컬브랜치명}`은 새 worktree에서 사용할 로컬 브랜치 이름입니다.
 > `../{생성할폴더이름}`은 worktree 폴더가 만들어질 위치이고, `origin/{원격브랜치명}`은 시작점으로 삼을 remote branch입니다.
-{: .block-tip }
+> {: .block-tip }
 
 > worktree는 같은 브랜치를 두 폴더에서 동시에 checkout할 수 없습니다.
 > 이미 사용 중인 브랜치라면 새 브랜치를 만들거나 기존 worktree를 정리해야 합니다.
-{: .block-warning }
+> {: .block-warning }
 
 ## worktree와 branch 정리
 
@@ -442,7 +444,7 @@ flowchart TD
 
 > 스테이징 영역은 브랜치가 여럿이어도 레포 전체에서 **하나**입니다.
 > 브랜치를 전환할 때 현재 변경사항이 대상 브랜치 파일과 충돌하면 `checkout`이 거부될 수 있습니다.
-{: .block-tip }
+> {: .block-tip }
 
 ### 브랜치가 갈라지고 합쳐지는 흐름
 
@@ -468,16 +470,17 @@ flowchart LR
 
 > `git push -u origin study/gitguideline`은 `origin/study/gitguideline`에만 올라갑니다.
 > `origin/main`에 반영하려면 PR로 merge하거나, 권한이 있을 때 `main`에서 merge 후 `git push origin main`을 해야 합니다.
-{: .block-tip }
+> {: .block-tip }
 
 ### `git checkout`의 두 가지 역할
 
 `git checkout`은 크게 두 가지 용도로 쓰입니다.
 
-| 용도 | 명령어 예시 | 의미 |
-| --- | --- | --- |
-| 브랜치/커밋 전환 | `git checkout feat/login` | 다른 브랜치나 특정 커밋으로 이동 |
+| 용도               | 명령어 예시                                    | 의미                                                    |
+| ------------------ | ---------------------------------------------- | ------------------------------------------------------- |
+| 브랜치/커밋 전환   | `git checkout feat/login`                      | 다른 브랜치나 특정 커밋으로 이동                        |
 | 작업 내용 되돌리기 | `git checkout -- app.py` 또는 `git checkout .` | Working Directory의 수정 내용을 마지막 커밋 상태로 복원 |
+
 {: .table .table-sm .table-striped}
 
 ```bash
@@ -496,7 +499,7 @@ git checkout .
 
 > `git checkout -- 파일명` 또는 `git checkout .`은 commit하지 않은 수정 내용을 되돌립니다.
 > 실행 전에는 반드시 `git status`와 `git diff`로 없어져도 되는 변경인지 확인합니다.
-{: .block-warning }
+> {: .block-warning }
 
 ### 동시 작업
 
@@ -514,7 +517,7 @@ git stash pop
 
 > `git stash pop`은 stash를 복원하면서 목록에서 제거합니다.
 > 충돌이 나면 자동으로 사라지지 않을 수 있으니 `git status`로 확인합니다.
-{: .block-tip }
+> {: .block-tip }
 
 **여러 사람이 동시에 작업할 때**
 
@@ -551,7 +554,7 @@ git config --get branch.$(git branch --show-current).merge
 
 > `git status -sb`는 현재 브랜치와 원격 추적 상태를 짧게 보여줍니다.
 > `ahead`는 내 로컬에만 있는 커밋, `behind`는 원격에만 있는 커밋입니다.
-{: .block-tip }
+> {: .block-tip }
 
 ### 이 브랜치에서 지금까지 뭘 했는지 확인하고 싶을 때
 
@@ -581,7 +584,7 @@ git log --oneline --graph --decorate --all
 
 > `origin/main..HEAD`는 "main에는 없고 내 브랜치에만 있는 커밋"을 봅니다.
 > `origin/main...HEAD`는 브랜치가 갈라진 지점부터 현재까지의 변경사항을 비교할 때 자주 씁니다.
-{: .block-tip }
+> {: .block-tip }
 
 ### 내가 브랜치에서 어떤 이동을 했는지 확인하고 싶을 때
 
@@ -602,7 +605,7 @@ e4f5g6h HEAD@{1}: checkout: moving from main to feat/login-page
 
 > `reflog`는 GitHub 기록이 아니라 내 컴퓨터 안의 이동 기록입니다.
 > 다른 팀원의 컴퓨터에서는 다르게 보일 수 있습니다.
-{: .block-warning }
+> {: .block-warning }
 
 ### 이미 원격에 있는 브랜치로 이동하고 싶을 때
 
@@ -635,7 +638,7 @@ git stash apply 'stash@{0}'
 
 > `apply`는 stash 목록을 남겨두고, `pop`은 적용하면서 목록에서 제거합니다.
 > 처음에는 `apply`가 더 안전합니다.
-{: .block-tip }
+> {: .block-tip }
 
 ### worktree를 정리하고 싶을 때
 
