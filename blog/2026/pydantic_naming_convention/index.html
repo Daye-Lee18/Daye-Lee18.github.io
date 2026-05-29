@@ -431,7 +431,7 @@
 
 <h3 id="1-1-naming-style-비교">1-1. Naming Style 비교</h3>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>이름</th>
@@ -478,7 +478,7 @@
   </tbody>
 </table>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>create task input  →  (PascalCase)           CreateTaskInput
+<div class="language-plaintext table table-sm table-striped highlighter-rouge"><div class="highlight"><pre class="highlight"><code>create task input  →  (PascalCase)           CreateTaskInput
                    →  (camelCase)            createTaskInput
                    →  (snake_case)           create_task_input
                    →  (kebab-case)           create-task-input
@@ -487,6 +487,7 @@ AMR coordinates   →  (SCREAMING_SNAKE_CASE) AMR_COORDS
 </code></pre></div></div>
 
 <p>Python <a href="https://peps.python.org/pep-0008/" rel="external nofollow noopener" target="_blank">PEP 8</a> 표준:</p>
+
 <ul>
   <li>
 <strong>클래스명</strong> → PascalCase (<code class="language-plaintext highlighter-rouge">class CreateTaskInput</code>)</li>
@@ -498,7 +499,7 @@ AMR coordinates   →  (SCREAMING_SNAKE_CASE) AMR_COORDS
 
 <p><strong><code class="language-plaintext highlighter-rouge">_</code> 앞에 붙이는 의미</strong> — “이 파일 안에서만 써라, 외부에서 <code class="language-plaintext highlighter-rouge">import</code>하지 마라”는 신호다. 클래스·함수·변수·상수 모두에 붙일 수 있다.</p>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>종류</th>
@@ -525,11 +526,11 @@ AMR coordinates   →  (SCREAMING_SNAKE_CASE) AMR_COORDS
   </tbody>
 </table>
 
-<h3 id="1-2-모델-클래스-suffix-규칙">1-2. 모델 클래스 Suffix 규칙</h3>
+<h3 class="table table-sm table-striped" id="1-2-모델-클래스-suffix-규칙">1-2. 모델 클래스 Suffix 규칙</h3>
 
 <p>데이터의 역할에 따라 접미사(Suffix)를 붙여 구분한다.</p>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>Suffix</th>
@@ -566,7 +567,7 @@ AMR coordinates   →  (SCREAMING_SNAKE_CASE) AMR_COORDS
   </tbody>
 </table>
 
-<h3 id="1-3-필드명--snake_case">1-3. 필드명 — <code class="language-plaintext highlighter-rouge">snake_case</code>
+<h3 class="table table-sm table-striped" id="1-3-필드명--snake_case">1-3. 필드명 — <code class="language-plaintext highlighter-rouge">snake_case</code>
 </h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">CreateOrdInput</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -579,7 +580,7 @@ AMR coordinates   →  (SCREAMING_SNAKE_CASE) AMR_COORDS
 
 <p><code class="language-plaintext highlighter-rouge">BaseModel</code> 안에 선언된 변수들을 <strong>field(필드)</strong>라고 한다. 유효성 검사 방법은 복잡도에 따라 세 가지로 나뉜다.</p>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>방법</th>
@@ -606,8 +607,8 @@ AMR coordinates   →  (SCREAMING_SNAKE_CASE) AMR_COORDS
   </tbody>
 </table>
 
-<blockquote class="block-tip">
-  <p>단순 범위·길이 → <code class="language-plaintext highlighter-rouge">Field()</code> / 복잡한 로직·변환 → <code class="language-plaintext highlighter-rouge">@field_validator</code> / 여러 필드를 같이 봐야 하면 → <code class="language-plaintext highlighter-rouge">@model_validator</code></p>
+<blockquote class="table table-sm table-striped">
+  <p class="block-tip">단순 범위·길이 → <code class="language-plaintext highlighter-rouge">Field()</code> / 복잡한 로직·변환 → <code class="language-plaintext highlighter-rouge">@field_validator</code> / 여러 필드를 같이 봐야 하면 → <code class="language-plaintext highlighter-rouge">@model_validator</code></p>
 </blockquote>
 
 <hr>
@@ -671,7 +672,7 @@ raise ValueError → ValidationError 발생
 </span>    <span class="n">prod_nm</span><span class="p">:</span>   <span class="nb">str</span> <span class="o">=</span> <span class="nc">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 </code></pre></div></div>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>옵션</th>
@@ -713,7 +714,7 @@ raise ValueError → ValidationError 발생
 <details><summary>@model_validator — 필드 간 관계 검증</summary>
 <p>한 필드만으로는 판단할 수 없고, <strong>두 필드 이상을 같이 봐야</strong> 할 때 사용한다. <code class="language-plaintext highlighter-rouge">mode</code> 파라미터로 실행 시점을 결정한다.</p>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th> </th>
@@ -752,7 +753,7 @@ raise ValueError → ValidationError 발생
   </tbody>
 </table>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ShipmentOrdInput</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="language-python table table-sm table-striped highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ShipmentOrdInput</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">quantity</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">available_stock</span><span class="p">:</span> <span class="nb">int</span>
 
@@ -805,7 +806,7 @@ raise ValueError → ValidationError 발생
 </details>
 
 <details><summary>한눈에 비교</summary>
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>데코레이터</th>
@@ -842,7 +843,7 @@ raise ValueError → ValidationError 발생
 
 <p><code class="language-plaintext highlighter-rouge">model_config</code>는 Pydantic 모델의 동작 방식을 설정하는 클래스 변수다. <code class="language-plaintext highlighter-rouge">ConfigDict</code>로 옵션을 넘긴다.</p>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>옵션</th>
@@ -864,7 +865,7 @@ raise ValueError → ValidationError 발생
   </tbody>
 </table>
 
-<h4 id="from_attributestrue--db-행을-pydantic으로-변환">
+<h4 class="table table-sm table-striped" id="from_attributestrue--db-행을-pydantic으로-변환">
 <code class="language-plaintext highlighter-rouge">from_attributes=True</code> — DB 행을 Pydantic으로 변환</h4>
 
 <p>Pydantic은 기본적으로 <code class="language-plaintext highlighter-rouge">dict</code>를 입력으로 받는다. 그런데 DB에서 꺼낸 ORM 객체는 <code class="language-plaintext highlighter-rouge">dict</code>가 아니라 <strong>속성(attribute)</strong>을 가진 객체다.</p>
@@ -941,7 +942,7 @@ raise ValueError → ValidationError 발생
 
 <h2 id="2-smartcast-robotics-project--테이블-종류-요약">2. SmartCast Robotics Project — 테이블 종류 요약</h2>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>테이블 종류</th>
@@ -988,14 +989,14 @@ raise ValueError → ValidationError 발생
   </tbody>
 </table>
 
-<hr>
+<hr class="table table-sm table-striped">
 
 <p><br></p>
 
 <h2 id="3-smartcast-robotics-project--erd--pydantic-클래스명-매핑">3. SmartCast Robotics Project — ERD → Pydantic 클래스명 매핑</h2>
 
 <details><summary>Master tables → [테이블명]Record</summary>
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>DB 테이블</th>
@@ -1053,7 +1054,7 @@ raise ValueError → ValidationError 발생
 </details>
 
 <details><summary>Operational tables → Input / Record</summary>
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>DB 테이블</th>
@@ -1148,7 +1149,7 @@ raise ValueError → ValidationError 발생
 </details>
 
 <details><summary>State tables → [테이블명]Record</summary>
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>DB 테이블</th>
@@ -1198,7 +1199,7 @@ raise ValueError → ValidationError 발생
 </details>
 
 <details><summary>Log tables → Event / Record</summary>
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>DB 테이블</th>

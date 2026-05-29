@@ -576,6 +576,7 @@ x_out: [B, T, 512]
 </code></pre></div></div>
 
 <p>Multi-head attention 의 경우 (num_heads = h):</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>각 head의 dim = hidden_dim / num_heads = 512 / 8 = 64
   → d_k = d_v = 64
   → score = softmax( Q·Kᵀ / √64 )   (분모는 √d_k)

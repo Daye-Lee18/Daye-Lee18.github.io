@@ -431,12 +431,14 @@
 <h2 id="1-강화학습의-기초">1. 강화학습의 기초</h2>
 
 <h3 id="강화학습의-정의">강화학습의 정의</h3>
+
 <p>강화학습(RL)은 에이전트가 환경과의 상호작용을 통해 보상 신호를 최대화하는 정책을 학습하는 패러다임입니다.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Agent → Action → Environment → State, Reward → Agent
 </code></pre></div></div>
 
 <p>핵심 요소:</p>
+
 <ul>
   <li>
 <strong>State (상태)</strong>: 현재의 관찰 정보</li>
@@ -453,11 +455,13 @@
 <h2 id="2-exploration-vs-exploitation-핵심-딜레마">2. Exploration vs Exploitation: 핵심 딜레마</h2>
 
 <h3 id="문제-정의">문제 정의</h3>
+
 <p>강화학습에서 가장 중요한 균형:</p>
 
 <ul>
   <li>
-<strong>Exploitation (활용)</strong>: 현재까지 알려진 최고의 전략을 사용
+    <p><strong>Exploitation (활용)</strong>: 현재까지 알려진 최고의 전략을 사용</p>
+
     <ul>
       <li>“내가 이미 알고 있는 가장 좋은 방법을 계속 쓰자”</li>
       <li>즉시 보상 극대화</li>
@@ -465,7 +469,7 @@
     </ul>
   </li>
   <li>
-<strong>Exploration (탐색)</strong>: 미지의 행동들을 시도
+    <p><strong>Exploration (탐색)</strong>: 미지의 행동들을 시도</p>
     <ul>
       <li>“혹시 더 좋은 방법이 있지 않을까?”</li>
       <li>장기적으로 최적의 정책 발견</li>
@@ -477,6 +481,7 @@
 <h3 id="왜-중요한가">왜 중요한가?</h3>
 
 <p><strong>예시: 로봇 팔 제어</strong></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>초기 상태: 로봇이 목표 위치에 도달하는 방법을 모름
 
 Pure Exploitation:
@@ -552,11 +557,11 @@ HER의 재해석:
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 에피소드 수집
 </span><span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">num_episodes</span><span class="p">):</span>
     <span class="n">trajectory</span> <span class="o">=</span> <span class="nf">collect_trajectory</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">goal</span><span class="p">)</span>
-    
+
     <span class="c1"># 일반적인 학습: 원래 목표로 학습
 </span>    <span class="n">rewards</span> <span class="o">=</span> <span class="nf">compute_reward</span><span class="p">(</span><span class="n">trajectory</span><span class="p">,</span> <span class="n">goal</span><span class="p">)</span>
     <span class="nf">update_policy</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
-    
+
     <span class="c1"># HER: 다른 목표들로도 학습
 </span>    <span class="k">for</span> <span class="n">hindsight_goal</span> <span class="ow">in</span> <span class="nf">sample_goals_from_trajectory</span><span class="p">(</span><span class="n">trajectory</span><span class="p">):</span>
         <span class="n">hindsight_rewards</span> <span class="o">=</span> <span class="nf">compute_reward</span><span class="p">(</span><span class="n">trajectory</span><span class="p">,</span> <span class="n">hindsight_goal</span><span class="p">)</span>
@@ -637,7 +642,8 @@ Success Rate 방식: "주어진 현재 상태에서 얼마나 자주 성공하�
 
 <ol>
   <li>
-<strong>Reward Function 설계</strong>
+    <p><strong>Reward Function 설계</strong></p>
+
     <div class="language-python highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code><span class="c1"># 좋은 설계: 명확한 목표와 연속적인 reward
 </span><span class="k">def</span> <span class="nf">reward</span><span class="p">(</span><span class="n">achieved_state</span><span class="p">,</span> <span class="n">goal_state</span><span class="p">):</span>
@@ -646,14 +652,15 @@ Success Rate 방식: "주어진 현재 상태에서 얼마나 자주 성공하�
 </code></pre></div>    </div>
   </li>
   <li>
-<strong>Goal Sampling 전략</strong>
+    <p><strong>Goal Sampling 전략</strong></p>
+
     <ul>
       <li>모든 과거 상태를 목표로 사용하면 계산 비용 증가</li>
       <li>샘플링 비율을 조정하여 균형 맞추기</li>
     </ul>
   </li>
   <li>
-<strong>Exploration 설정</strong>
+    <p><strong>Exploration 설정</strong></p>
     <ul>
       <li>HER로 많은 데이터를 재활용하므로, exploration은 적당히</li>
       <li>ε을 너무 작게 하면 새로운 궤적 탐색 못 함</li>
@@ -666,7 +673,7 @@ Success Rate 방식: "주어진 현재 상태에서 얼마나 자주 성공하�
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 학습 진행도 모니터링
 </span><span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
     <span class="sh">"</span><span class="s">success_rate</span><span class="sh">"</span><span class="p">:</span> <span class="c1"># 목표 달성 확률
-</span>    <span class="sh">"</span><span class="s">exploration_rate</span><span class="sh">"</span><span class="p">:</span> <span class="c1"># 새로운 상태 발견 비율  
+</span>    <span class="sh">"</span><span class="s">exploration_rate</span><span class="sh">"</span><span class="p">:</span> <span class="c1"># 새로운 상태 발견 비율
 </span>    <span class="sh">"</span><span class="s">sample_efficiency</span><span class="sh">"</span><span class="p">:</span> <span class="c1"># 필요한 에피소드 수 감소
 </span>    <span class="sh">"</span><span class="s">convergence_speed</span><span class="sh">"</span><span class="p">:</span> <span class="c1"># 학습 속도
 </span><span class="p">}</span>
@@ -718,6 +725,7 @@ Success Rate 방식: "주어진 현재 상태에서 얼마나 자주 성공하�
 <h2 id="7-추가-학습-자료">7. 추가 학습 자료</h2>
 
 <h3 id="핵심-논문">핵심 논문</h3>
+
 <ul>
   <li>Andrychowicz et al., 2017: “Hindsight Experience Replay” (NIPS)
     <ul>
@@ -727,6 +735,7 @@ Success Rate 방식: "주어진 현재 상태에서 얼마나 자주 성공하�
 </ul>
 
 <h3 id="관련-개념들">관련 개념들</h3>
+
 <ul>
   <li>
 <strong>DQN</strong> (Deep Q-Network): 기본적인 심화학습</li>
@@ -743,6 +752,7 @@ Success Rate 방식: "주어진 현재 상태에서 얼마나 자주 성공하�
 <h2 id="8-실습-아이디어">8. 실습 아이디어</h2>
 
 <p><strong>로봇 팔을 사용한 HER 구현</strong></p>
+
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 1단계: 환경 설정 (OpenAI Gym)
 </span><span class="n">env</span> <span class="o">=</span> <span class="nc">RoboticFetchPickAndPlace</span><span class="p">()</span>
 
@@ -753,11 +763,11 @@ Success Rate 방식: "주어진 현재 상태에서 얼마나 자주 성공하�
 </span><span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">num_episodes</span><span class="p">):</span>
     <span class="n">trajectory</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="nf">rollout</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
     <span class="nb">buffer</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">trajectory</span><span class="p">)</span>
-    
+
     <span class="c1"># HER: trajectory에서 다양한 목표로 학습
 </span>    <span class="n">batch</span> <span class="o">=</span> <span class="nb">buffer</span><span class="p">.</span><span class="nf">sample_with_her</span><span class="p">()</span>
     <span class="nf">update_network</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
-    
+
     <span class="c1"># 평가
 </span>    <span class="n">success_rate</span> <span class="o">=</span> <span class="nf">evaluate_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
     <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Episode </span><span class="si">{</span><span class="n">episode</span><span class="si">}</span><span class="s">: Success Rate = </span><span class="si">{</span><span class="n">success_rate</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="o">%</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
@@ -766,6 +776,7 @@ Success Rate 방식: "주어진 현재 상태에서 얼마나 자주 성공하�
 <hr>
 
 <p><strong>다음 학습 단계:</strong></p>
+
 <ol>
   <li>HER 원본 논문 정독</li>
   <li>간단한 환경(reaching task)에서 HER 구현 및 테스트</li>

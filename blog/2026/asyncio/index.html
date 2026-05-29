@@ -449,7 +449,7 @@
 
 </details>
 
-<blockquote class="block-tip">
+<blockquote>
   <h5 id="event-loop-의-동작-원리">event loop 의 동작 원리</h5>
 
   <ol>
@@ -497,19 +497,20 @@
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">asyncio</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">():</span> <span class="c1"># async def로 네이티브 코루틴을 만듦. 
+<span class="k">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">():</span> <span class="c1"># async def로 네이티브 코루틴을 만듦.
 </span>    <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">Hello, world!</span><span class="sh">'</span><span class="p">)</span>
 
-<span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="p">.</span><span class="nf">get_event_loop</span><span class="p">()</span>  <span class="c1"># 이벤트 루프를 얻음 
-</span><span class="n">loop</span><span class="p">.</span><span class="nf">run_until_complete</span><span class="p">(</span><span class="nf">hello</span><span class="p">())</span> <span class="c1"># hello가 끝날 때까지 기다림 
-</span><span class="n">loop</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span> <span class="c1"># 이벤트 루프를 닫음 
+<span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="p">.</span><span class="nf">get_event_loop</span><span class="p">()</span>  <span class="c1"># 이벤트 루프를 얻음
+</span><span class="n">loop</span><span class="p">.</span><span class="nf">run_until_complete</span><span class="p">(</span><span class="nf">hello</span><span class="p">())</span> <span class="c1"># hello가 끝날 때까지 기다림
+</span><span class="n">loop</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span> <span class="c1"># 이벤트 루프를 닫음
 </span></code></pre></div></div>
 
 <p>실험 결과</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hello, world!
 </code></pre></div></div>
 
-<blockquote class="block-tip">
+<blockquote>
   <h5 id="주요-api">주요 API</h5>
 
   <ul>
@@ -549,7 +550,7 @@
 
 <p>이벤트 루프가 네이티브 코루틴 객체만 직접 실행하는 것은 아님. 보통 코루틴은 <code class="language-plaintext highlighter-rouge">Task</code>로 감싸져 이벤트 루프에 의해 스케줄링되고, 이벤트 루프는 Future, Task, 콜백, 타이머, I/O 이벤트 등을 함께 관리함.</p>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>구분</th>
@@ -596,9 +597,9 @@
   </tbody>
 </table>
 
-<p>일반 함수도 콜백으로 등록하면 이벤트 루프가 실행할 수 있음. 하지만 일반 함수는 <code class="language-plaintext highlighter-rouge">await</code>로 제어권을 넘길 수 없기 때문에, 오래 걸리는 동기 작업을 그대로 실행하면 이벤트 루프를 막을 수 있음.</p>
+<p class="table table-sm table-striped">일반 함수도 콜백으로 등록하면 이벤트 루프가 실행할 수 있음. 하지만 일반 함수는 <code class="language-plaintext highlighter-rouge">await</code>로 제어권을 넘길 수 없기 때문에, 오래 걸리는 동기 작업을 그대로 실행하면 이벤트 루프를 막을 수 있음.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>변수 = await 코루틴 객체 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>변수 = await 코루틴 객체
 변수 = await Future 객체
 변수 = await Task 객체
 </code></pre></div></div>

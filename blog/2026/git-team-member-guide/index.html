@@ -506,8 +506,8 @@ git checkout main
 git merge origin/main
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <p>여기서 <code class="language-plaintext highlighter-rouge">git merge origin/main</code>은 내 로컬 <code class="language-plaintext highlighter-rouge">main</code>을 최신 상태로 맞추는 작업입니다.
+<blockquote>
+  <p class="block-tip">여기서 <code class="language-plaintext highlighter-rouge">git merge origin/main</code>은 내 로컬 <code class="language-plaintext highlighter-rouge">main</code>을 최신 상태로 맞추는 작업입니다.
 <code class="language-plaintext highlighter-rouge">main</code>에 직접 commit해서 push하는 것과는 다릅니다.</p>
 </blockquote>
 
@@ -528,8 +528,8 @@ git log main..origin/main <span class="nt">--oneline</span>
 
 <p>PR 작성 시 <code class="language-plaintext highlighter-rouge">closes #번호</code>를 쓰면 merge될 때 이슈가 자동으로 닫힙니다.</p>
 
-<blockquote class="block-tip">
-  <p>이슈를 쓰지 않는 팀이라면 이 단계는 생략해도 됩니다.</p>
+<blockquote>
+  <p class="block-tip">이슈를 쓰지 않는 팀이라면 이 단계는 생략해도 됩니다.</p>
 </blockquote>
 
 <h3 id="step-3-작업-브랜치-선택-또는-생성">Step 3. 작업 브랜치 선택 또는 생성</h3>
@@ -547,8 +547,8 @@ git checkout <span class="o">{</span>prefix<span class="o">}</span>/<span class=
 git merge origin/main
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <p>feature branch에서 최신 main을 받아 충돌을 미리 확인하는 과정입니다.</p>
+<blockquote>
+  <p class="block-tip">feature branch에서 최신 main을 받아 충돌을 미리 확인하는 과정입니다.</p>
 </blockquote>
 
 <h4 id="다른-사람이-push만-해둔-브랜치를-받아서-새-브랜치로-이어-작업할-때">다른 사람이 push만 해둔 브랜치를 받아서 새 브랜치로 이어 작업할 때</h4>
@@ -563,14 +563,14 @@ git checkout <span class="nt">-b</span> <span class="o">{</span>내새브랜치�
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout <span class="nt">-b</span> feat/my-fix origin/feat/casting-factory-from-kim
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <p><code class="language-plaintext highlighter-rouge">origin/{다른사람브랜치명}</code>을 시작점으로 삼고, 내 브랜치를 따로 만듭니다.
+<blockquote>
+  <p class="block-tip"><code class="language-plaintext highlighter-rouge">origin/{다른사람브랜치명}</code>을 시작점으로 삼고, 내 브랜치를 따로 만듭니다.
 그 다음부터는 내 브랜치에서 커밋을 쌓고 <code class="language-plaintext highlighter-rouge">git push -u origin {내새브랜치명}</code>으로 올리면 됩니다.</p>
 </blockquote>
 
 <p>브랜치 이름만 봐도 무슨 작업인지 알 수 있게 적습니다.</p>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>prefix</th>
@@ -613,7 +613,7 @@ git checkout <span class="nt">-b</span> <span class="o">{</span>내새브랜치�
   </tbody>
 </table>
 
-<ul>
+<ul class="table table-sm table-striped">
   <li>소문자 + 하이픈(<code class="language-plaintext highlighter-rouge">-</code>) 사용, 언더스코어·대문자 금지</li>
   <li>영어로 작성, 의미를 알 수 있도록 구체적으로</li>
   <li>너무 길면 안 됨: <code class="language-plaintext highlighter-rouge">feat/user-auth</code> ✅ / <code class="language-plaintext highlighter-rouge">feat/사용자-로그인-기능-구현</code> ❌</li>
@@ -633,8 +633,8 @@ git add <span class="nb">.</span>
 git commit <span class="nt">-m</span> <span class="s2">"feat: 설명"</span>
 </code></pre></div></div>
 
-<blockquote class="block-warning">
-  <p>작업 단위를 작게 유지하고 commit을 자주 남길 것
+<blockquote>
+  <p class="block-warning">작업 단위를 작게 유지하고 commit을 자주 남길 것
 <code class="language-plaintext highlighter-rouge">git add .</code>를 쓰기 전에는 의도하지 않은 파일이 같이 들어가지 않았는지 <code class="language-plaintext highlighter-rouge">git status</code>로 확인할 것</p>
 </blockquote>
 
@@ -646,7 +646,7 @@ git restore <span class="nt">--staged</span> <span class="nb">.</span>
 
 <p>커밋을 되돌릴 때 자주 보는 명령어입니다.</p>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>명령어</th>
@@ -678,7 +678,7 @@ git restore <span class="nt">--staged</span> <span class="nb">.</span>
   </tbody>
 </table>
 
-<h3 id="step-5-내-로컬-브랜치-원격에-올리기">Step 5. 내 로컬 브랜치 원격에 올리기</h3>
+<h3 class="table table-sm table-striped" id="step-5-내-로컬-브랜치-원격에-올리기">Step 5. 내 로컬 브랜치 원격에 올리기</h3>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 처음 push할 때</span>
 git push <span class="nt">-u</span> origin <span class="o">{</span>prefix<span class="o">}</span>/<span class="o">{</span>작업명<span class="o">}</span>
@@ -687,8 +687,8 @@ git push <span class="nt">-u</span> origin <span class="o">{</span>prefix<span c
 git push
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <p><code class="language-plaintext highlighter-rouge">origin/main</code>에는 영향 없음. 내 작업 브랜치만 올라갑니다.</p>
+<blockquote>
+  <p class="block-tip"><code class="language-plaintext highlighter-rouge">origin/main</code>에는 영향 없음. 내 작업 브랜치만 올라갑니다.</p>
 </blockquote>
 
 <h3 id="step-6-github에서-pr-생성">Step 6. GitHub에서 PR 생성</h3>
@@ -701,8 +701,8 @@ compare: 내가 작업한 브랜치
 Create pull request
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <p>PR 제목과 설명에는 “무엇을 왜 바꿨는지”를 적습니다.
+<blockquote>
+  <p class="block-tip">PR 제목과 설명에는 “무엇을 왜 바꿨는지”를 적습니다.
 리뷰어가 코드를 보기 전에 의도를 이해할 수 있어야 합니다.</p>
 </blockquote>
 
@@ -720,8 +720,8 @@ git commit <span class="nt">-m</span> <span class="s2">"fix: 리뷰 반영"</spa
 git push
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <p>이미 PR이 열려 있는 브랜치에 push하면 GitHub PR 내용이 자동으로 업데이트됩니다.</p>
+<blockquote>
+  <p class="block-tip">이미 PR이 열려 있는 브랜치에 push하면 GitHub PR 내용이 자동으로 업데이트됩니다.</p>
 </blockquote>
 
 <h3 id="step-8-main-변경사항을-내-브랜치에-반영">Step 8. main 변경사항을 내 브랜치에 반영</h3>
@@ -746,8 +746,8 @@ git commit
 git push
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <p><code class="language-plaintext highlighter-rouge">git commit</code>을 실행하면 Git이 merge commit 메시지를 자동으로 준비해 줍니다.
+<blockquote>
+  <p class="block-tip"><code class="language-plaintext highlighter-rouge">git commit</code>을 실행하면 Git이 merge commit 메시지를 자동으로 준비해 줍니다.
 특별히 바꿀 내용이 없으면 저장하고 종료하면 됩니다.</p>
 </blockquote>
 
@@ -776,8 +776,8 @@ git branch <span class="nt">-d</span> <span class="o">{</span>prefix<span class=
 git branch <span class="nt">-a</span>
 </code></pre></div></div>
 
-<blockquote class="block-warning">
-  <p><code class="language-plaintext highlighter-rouge">git branch -d</code>는 merge된 브랜치만 안전하게 삭제합니다.
+<blockquote>
+  <p class="block-warning"><code class="language-plaintext highlighter-rouge">git branch -d</code>는 merge된 브랜치만 안전하게 삭제합니다.
 아직 merge되지 않은 브랜치를 강제로 지우려면 <code class="language-plaintext highlighter-rouge">git branch -D {브랜치명}</code>을 쓰지만, 커밋을 잃을 수 있으니 PR merge 여부를 먼저 확인합니다.</p>
 </blockquote>
 
@@ -814,8 +814,8 @@ git diff <span class="nt">--name-only</span> <span class="nt">--diff-filter</spa
 git commit
 </code></pre></div></div>
 
-<blockquote class="block-warning">
-  <p>VS Code에서 충돌을 해결할 때 <code class="language-plaintext highlighter-rouge">Accept Current</code>, <code class="language-plaintext highlighter-rouge">Accept Incoming</code>, <code class="language-plaintext highlighter-rouge">Accept Both</code>, <code class="language-plaintext highlighter-rouge">Complete Merge</code> 버튼이 보일 수 있습니다.
+<blockquote>
+  <p class="block-warning">VS Code에서 충돌을 해결할 때 <code class="language-plaintext highlighter-rouge">Accept Current</code>, <code class="language-plaintext highlighter-rouge">Accept Incoming</code>, <code class="language-plaintext highlighter-rouge">Accept Both</code>, <code class="language-plaintext highlighter-rouge">Complete Merge</code> 버튼이 보일 수 있습니다.
 버튼을 누른 뒤에도 반드시 파일 내용을 직접 확인하고 <code class="language-plaintext highlighter-rouge">git status</code>로 충돌이 끝났는지 확인합니다.</p>
 </blockquote>
 
@@ -831,8 +831,8 @@ git checkout <span class="o">{</span>이동할브랜치<span class="o">}</span>
 git stash apply <span class="s1">'stash@{0}'</span>
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <p><code class="language-plaintext highlighter-rouge">git stash apply</code>는 stash 목록을 남겨둔 채 적용합니다.
+<blockquote>
+  <p class="block-tip"><code class="language-plaintext highlighter-rouge">git stash apply</code>는 stash 목록을 남겨둔 채 적용합니다.
 적용 후 문제가 없으면 <code class="language-plaintext highlighter-rouge">git stash drop 'stash@{0}'</code>으로 지워도 됩니다.</p>
 </blockquote>
 
@@ -865,13 +865,13 @@ git worktree add <span class="nt">-b</span> <span class="o">{</span>새로만들
 git worktree add <span class="nt">-b</span> study/gitguideline-copy ../dayelee-git-guide origin/study/gitguideline
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <p><code class="language-plaintext highlighter-rouge">-b {새로만들로컬브랜치명}</code>은 새 worktree에서 사용할 로컬 브랜치 이름입니다.
+<blockquote>
+  <p class="block-tip"><code class="language-plaintext highlighter-rouge">-b {새로만들로컬브랜치명}</code>은 새 worktree에서 사용할 로컬 브랜치 이름입니다.
 <code class="language-plaintext highlighter-rouge">../{생성할폴더이름}</code>은 worktree 폴더가 만들어질 위치이고, <code class="language-plaintext highlighter-rouge">origin/{원격브랜치명}</code>은 시작점으로 삼을 remote branch입니다.</p>
 </blockquote>
 
-<blockquote class="block-warning">
-  <p>worktree는 같은 브랜치를 두 폴더에서 동시에 checkout할 수 없습니다.
+<blockquote>
+  <p class="block-warning">worktree는 같은 브랜치를 두 폴더에서 동시에 checkout할 수 없습니다.
 이미 사용 중인 브랜치라면 새 브랜치를 만들거나 기존 worktree를 정리해야 합니다.</p>
 </blockquote>
 
@@ -963,8 +963,8 @@ git worktree list
     E --&gt;|"git pull&lt;br/&gt;(fetch+merge)"| A
 </code></pre>
 
-<blockquote class="block-tip">
-  <p>스테이징 영역은 브랜치가 여럿이어도 레포 전체에서 <strong>하나</strong>입니다.
+<blockquote>
+  <p class="block-tip">스테이징 영역은 브랜치가 여럿이어도 레포 전체에서 <strong>하나</strong>입니다.
 브랜치를 전환할 때 현재 변경사항이 대상 브랜치 파일과 충돌하면 <code class="language-plaintext highlighter-rouge">checkout</code>이 거부될 수 있습니다.</p>
 </blockquote>
 
@@ -989,8 +989,8 @@ git worktree list
     G2 --&gt; M4
 </code></pre>
 
-<blockquote class="block-tip">
-  <p><code class="language-plaintext highlighter-rouge">git push -u origin study/gitguideline</code>은 <code class="language-plaintext highlighter-rouge">origin/study/gitguideline</code>에만 올라갑니다.
+<blockquote>
+  <p class="block-tip"><code class="language-plaintext highlighter-rouge">git push -u origin study/gitguideline</code>은 <code class="language-plaintext highlighter-rouge">origin/study/gitguideline</code>에만 올라갑니다.
 <code class="language-plaintext highlighter-rouge">origin/main</code>에 반영하려면 PR로 merge하거나, 권한이 있을 때 <code class="language-plaintext highlighter-rouge">main</code>에서 merge 후 <code class="language-plaintext highlighter-rouge">git push origin main</code>을 해야 합니다.</p>
 </blockquote>
 
@@ -999,7 +999,7 @@ git worktree list
 
 <p><code class="language-plaintext highlighter-rouge">git checkout</code>은 크게 두 가지 용도로 쓰입니다.</p>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>용도</th>
@@ -1023,7 +1023,7 @@ git worktree list
   </tbody>
 </table>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 브랜치 전환</span>
+<div class="language-bash table table-sm table-striped highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 브랜치 전환</span>
 git checkout feat/login
 
 <span class="c"># 새 브랜치 생성 + 전환</span>
@@ -1036,8 +1036,8 @@ git checkout <span class="nt">--</span> app.py
 git checkout <span class="nb">.</span>
 </code></pre></div></div>
 
-<blockquote class="block-warning">
-  <p><code class="language-plaintext highlighter-rouge">git checkout -- 파일명</code> 또는 <code class="language-plaintext highlighter-rouge">git checkout .</code>은 commit하지 않은 수정 내용을 되돌립니다.
+<blockquote>
+  <p class="block-warning"><code class="language-plaintext highlighter-rouge">git checkout -- 파일명</code> 또는 <code class="language-plaintext highlighter-rouge">git checkout .</code>은 commit하지 않은 수정 내용을 되돌립니다.
 실행 전에는 반드시 <code class="language-plaintext highlighter-rouge">git status</code>와 <code class="language-plaintext highlighter-rouge">git diff</code>로 없어져도 되는 변경인지 확인합니다.</p>
 </blockquote>
 
@@ -1054,8 +1054,8 @@ git checkout feat/A-기능
 git stash pop
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <p><code class="language-plaintext highlighter-rouge">git stash pop</code>은 stash를 복원하면서 목록에서 제거합니다.
+<blockquote>
+  <p class="block-tip"><code class="language-plaintext highlighter-rouge">git stash pop</code>은 stash를 복원하면서 목록에서 제거합니다.
 충돌이 나면 자동으로 사라지지 않을 수 있으니 <code class="language-plaintext highlighter-rouge">git status</code>로 확인합니다.</p>
 </blockquote>
 
@@ -1089,8 +1089,8 @@ git config <span class="nt">--get</span> branch.<span class="si">$(</span>git br
 git config <span class="nt">--get</span> branch.<span class="si">$(</span>git branch <span class="nt">--show-current</span><span class="si">)</span>.merge
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <p><code class="language-plaintext highlighter-rouge">git status -sb</code>는 현재 브랜치와 원격 추적 상태를 짧게 보여줍니다.
+<blockquote>
+  <p class="block-tip"><code class="language-plaintext highlighter-rouge">git status -sb</code>는 현재 브랜치와 원격 추적 상태를 짧게 보여줍니다.
 <code class="language-plaintext highlighter-rouge">ahead</code>는 내 로컬에만 있는 커밋, <code class="language-plaintext highlighter-rouge">behind</code>는 원격에만 있는 커밋입니다.</p>
 </blockquote>
 
@@ -1116,8 +1116,8 @@ git config <span class="nt">--get</span> branch.<span class="si">$(</span>git br
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git log <span class="nt">--oneline</span> <span class="nt">--graph</span> <span class="nt">--decorate</span> <span class="nt">--all</span>
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <p><code class="language-plaintext highlighter-rouge">origin/main..HEAD</code>는 “main에는 없고 내 브랜치에만 있는 커밋”을 봅니다.
+<blockquote>
+  <p class="block-tip"><code class="language-plaintext highlighter-rouge">origin/main..HEAD</code>는 “main에는 없고 내 브랜치에만 있는 커밋”을 봅니다.
 <code class="language-plaintext highlighter-rouge">origin/main...HEAD</code>는 브랜치가 갈라진 지점부터 현재까지의 변경사항을 비교할 때 자주 씁니다.</p>
 </blockquote>
 
@@ -1136,8 +1136,8 @@ git reflog <span class="nt">--date</span><span class="o">=</span><span class="nb
 e4f5g6h HEAD@{1}: checkout: moving from main to feat/login-page
 </code></pre></div></div>
 
-<blockquote class="block-warning">
-  <p><code class="language-plaintext highlighter-rouge">reflog</code>는 GitHub 기록이 아니라 내 컴퓨터 안의 이동 기록입니다.
+<blockquote>
+  <p class="block-warning"><code class="language-plaintext highlighter-rouge">reflog</code>는 GitHub 기록이 아니라 내 컴퓨터 안의 이동 기록입니다.
 다른 팀원의 컴퓨터에서는 다르게 보일 수 있습니다.</p>
 </blockquote>
 
@@ -1166,8 +1166,8 @@ git stash list
 git stash apply <span class="s1">'stash@{0}'</span>
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <p><code class="language-plaintext highlighter-rouge">apply</code>는 stash 목록을 남겨두고, <code class="language-plaintext highlighter-rouge">pop</code>은 적용하면서 목록에서 제거합니다.
+<blockquote>
+  <p class="block-tip"><code class="language-plaintext highlighter-rouge">apply</code>는 stash 목록을 남겨두고, <code class="language-plaintext highlighter-rouge">pop</code>은 적용하면서 목록에서 제거합니다.
 처음에는 <code class="language-plaintext highlighter-rouge">apply</code>가 더 안전합니다.</p>
 </blockquote>
 

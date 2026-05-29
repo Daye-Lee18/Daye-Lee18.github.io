@@ -568,7 +568,7 @@ T=30 → ⌊29/2⌋+1 = 15  (홀수!) → ⌊14/2⌋+1 = 8
   </tbody>
 </table>
 
-<p>권장 값: <strong>20, 24, 28, 32, 36, 40 …</strong>  (4의 배수)</p>
+<p>권장 값: <strong>20, 24, 28, 32, 36, 40 …</strong> (4의 배수)</p>
 
 <blockquote>
   <p><code class="language-plaintext highlighter-rouge">diffusion_utils.py</code>에 크기 트리밍 패치가 적용되어 있어 4의 배수가 아니어도 동작하지만,<br>
@@ -592,11 +592,11 @@ Conv1d에서는 <code class="language-plaintext highlighter-rouge">(C_out, C_in,
 
 ### 입력/출력 shape
 
-| | Conv2d | Conv1d |
-|---|---|---|
-| 입력 | (B, C_in, **H, W**) | (B, C_in, **L**) |
-| 출력 | (B, C_out, **H_out, W_out**) | (B, C_out, **L_out**) |
-| 커널 전체 | **(C_out, C_in, kH, kW)** | **(C_out, C_in, k)** |
+|           | Conv2d                       | Conv1d                |
+| --------- | ---------------------------- | --------------------- |
+| 입력      | (B, C_in, **H, W**)          | (B, C_in, **L**)      |
+| 출력      | (B, C_out, **H_out, W_out**) | (B, C_out, **L_out**) |
+| 커널 전체 | **(C_out, C_in, kH, kW)**    | **(C_out, C_in, k)**  |
 
 ### 커널이 동작하는 방식
 
@@ -650,13 +650,13 @@ ConvTranspose (stride=2): [x, y]        → [a, b, c, d]  (복원)
 
 ### ConvTranspose1d/2d가 쓰이는 곳
 
-| 용도 | 이유 |
-|------|------|
-| UNet decoder (Diffusion Policy) | skip feature와 합치기 전 해상도 복원 |
-| GAN Generator | 잠재 벡터 → 고해상도 이미지/시퀀스 생성 |
-| VAE Decoder | latent z → 원본 크기 복원 |
-| 이미지 초해상도 | 저해상 → 고해상 |
-| Semantic segmentation decoder | 픽셀 단위 예측을 위한 업샘플 |
+| 용도                            | 이유                                    |
+| ------------------------------- | --------------------------------------- |
+| UNet decoder (Diffusion Policy) | skip feature와 합치기 전 해상도 복원    |
+| GAN Generator                   | 잠재 벡터 → 고해상도 이미지/시퀀스 생성 |
+| VAE Decoder                     | latent z → 원본 크기 복원               |
+| 이미지 초해상도                 | 저해상 → 고해상                         |
+| Semantic segmentation decoder   | 픽셀 단위 예측을 위한 업샘플            |
 
 </details>
 

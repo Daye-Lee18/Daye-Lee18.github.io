@@ -416,8 +416,8 @@
   <li>버전 태깅과 제출</li>
 </ul>
 
-<blockquote class="block-tip">
-  <p>팀원용 기본 흐름은 <a href="/blog/2026/git-team-member-guide/">팀원 문서</a>에서 먼저 보고 오면 좋습니다.</p>
+<blockquote>
+  <p class="block-tip">팀원용 기본 흐름은 <a href="/blog/2026/git-team-member-guide/">팀원 문서</a>에서 먼저 보고 오면 좋습니다.</p>
 </blockquote>
 
 <hr>
@@ -431,8 +431,8 @@ git remote add submit <span class="o">[</span>학원 레포 URL]
 git remote <span class="nt">-v</span>
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <p><code class="language-plaintext highlighter-rouge">origin</code>은 우리팀 레포, <code class="language-plaintext highlighter-rouge">submit</code>은 학원 제출용 레포입니다.
+<blockquote>
+  <p class="block-tip"><code class="language-plaintext highlighter-rouge">origin</code>은 우리팀 레포, <code class="language-plaintext highlighter-rouge">submit</code>은 학원 제출용 레포입니다.
 <code class="language-plaintext highlighter-rouge">git remote -v</code>로 두 주소가 제대로 연결됐는지 확인합니다.</p>
 </blockquote>
 
@@ -464,7 +464,7 @@ git remote <span class="nt">-v</span>
 
 <h4 id="branch-rules">Branch rules</h4>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>항목</th>
@@ -502,12 +502,12 @@ git remote <span class="nt">-v</span>
   </tbody>
 </table>
 
-<h3 id="step-3-pr-템플릿-추가">Step 3. PR 템플릿 추가</h3>
+<h3 class="table table-sm table-striped" id="step-3-pr-템플릿-추가">Step 3. PR 템플릿 추가</h3>
 
 <p><code class="language-plaintext highlighter-rouge">.github/PULL_REQUEST_TEMPLATE.md</code> 파일을 만들어 main에 push합니다.</p>
 
-<blockquote class="block-tip">
-  <p>이 파일이 레포에 있으면 팀원이 GitHub에서 PR을 만들 때 템플릿이 자동으로 들어갑니다.
+<blockquote>
+  <p class="block-tip">이 파일이 레포에 있으면 팀원이 GitHub에서 PR을 만들 때 템플릿이 자동으로 들어갑니다.
 보통 <code class="language-plaintext highlighter-rouge">.github/PULL_REQUEST_TEMPLATE.md</code> 위치를 사용합니다.</p>
 </blockquote>
 
@@ -592,7 +592,7 @@ PR이 이미 머지되었거나 Git Graph에 브랜치가 안 보이면 먼저 �
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git diff <span class="nt">--name-status</span> 시작커밋..끝커밋
 </code></pre></div></div>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>예시</th>
@@ -615,8 +615,8 @@ PR이 이미 머지되었거나 Git Graph에 브랜치가 안 보이면 먼저 �
   </tbody>
 </table>
 
-<blockquote class="block-tip">
-  <p><code class="language-plaintext highlighter-rouge">--name-status</code>는 파일 목록과 상태만 보여줍니다. <code class="language-plaintext highlighter-rouge">A</code>는 추가, <code class="language-plaintext highlighter-rouge">M</code>은 수정, <code class="language-plaintext highlighter-rouge">D</code>는 삭제, <code class="language-plaintext highlighter-rouge">R</code>은 이름 변경입니다.</p>
+<blockquote class="table table-sm table-striped">
+  <p class="block-tip"><code class="language-plaintext highlighter-rouge">--name-status</code>는 파일 목록과 상태만 보여줍니다. <code class="language-plaintext highlighter-rouge">A</code>는 추가, <code class="language-plaintext highlighter-rouge">M</code>은 수정, <code class="language-plaintext highlighter-rouge">D</code>는 삭제, <code class="language-plaintext highlighter-rouge">R</code>은 이름 변경입니다.</p>
 </blockquote>
 
 <h3 id="step-2-squash-merge">Step 2. Squash merge</h3>
@@ -627,7 +627,7 @@ PR이 이미 머지되었거나 Git Graph에 브랜치가 안 보이면 먼저 �
 main:               ... -&gt; F
 </code></pre></div></div>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>방식</th>
@@ -654,19 +654,19 @@ main:               ... -&gt; F
   </tbody>
 </table>
 
-<h3 id="step-3-브랜치-삭제">Step 3. 브랜치 삭제</h3>
+<h3 class="table table-sm table-striped" id="step-3-브랜치-삭제">Step 3. 브랜치 삭제</h3>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin <span class="nt">--delete</span> feat/기능명
 git branch <span class="nt">-d</span> feat/기능명
 git branch <span class="nt">-D</span> feat/기능명
 </code></pre></div></div>
 
-<blockquote class="block-warning">
-  <p>squash merge 후에는 feat 브랜치 역할이 끝납니다.</p>
+<blockquote>
+  <p class="block-warning">squash merge 후에는 feat 브랜치 역할이 끝납니다.</p>
 </blockquote>
 
-<blockquote class="block-tip">
-  <p>팀장은 PR merge가 끝나면 원격 브랜치까지 삭제해서 브랜치 목록을 정리합니다.</p>
+<blockquote>
+  <p class="block-tip">팀장은 PR merge가 끝나면 원격 브랜치까지 삭제해서 브랜치 목록을 정리합니다.</p>
 </blockquote>
 
 <hr>
@@ -679,7 +679,7 @@ git tag <span class="nt">-a</span> v0.1 <span class="nt">-m</span> <span class="
 git push origin v0.1
 </code></pre></div></div>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>태그</th>
@@ -702,7 +702,7 @@ git push origin v0.1
   </tbody>
 </table>
 
-<hr>
+<hr class="table table-sm table-striped">
 
 <h2 id="phase-5---학원-레포-최종-제출-팀장만-제출-시-1회">PHASE 5 - 학원 레포 최종 제출 (팀장만, 제출 시 1회)</h2>
 
@@ -711,15 +711,15 @@ git pull origin main
 git push submit main
 </code></pre></div></div>
 
-<blockquote class="block-warning">
-  <p><code class="language-plaintext highlighter-rouge">submit</code> remote는 제출 목적 전용입니다.</p>
+<blockquote>
+  <p class="block-warning"><code class="language-plaintext highlighter-rouge">submit</code> remote는 제출 목적 전용입니다.</p>
 </blockquote>
 
 <hr>
 
 <h2 id="핵심-원칙-요약">핵심 원칙 요약</h2>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>원칙</th>
@@ -751,7 +751,7 @@ git push submit main
   </tbody>
 </table>
 
-<hr>
+<hr class="table table-sm table-striped">
 
 <h2 id="github-actions-탭-용어">GitHub Actions 탭 용어</h2>
 

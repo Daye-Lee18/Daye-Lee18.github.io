@@ -452,6 +452,7 @@
 <h2 id="1-모방학습--imitation-learning-일반">1. 모방학습 / Imitation Learning 일반</h2>
 
 <h3 id="모방학습-imitation-learning-il">모방학습 (Imitation Learning, IL)</h3>
+
 <p>전문가(human)가 수행한 시연(demonstration)을 모사하도록 정책을 학습하는 패러다임. 보상 함수가 필요 없다는 점에서 <strong>강화학습(RL)</strong> 과 구분된다.</p>
 
 <ul>
@@ -463,17 +464,39 @@
 </ul>
 
 <h3 id="demonstration--trajectory--episode">Demonstration / Trajectory / Episode</h3>
-<p class="table table-sm table-striped">| 용어 | 의미 |
-| — | — |
-| <strong>Demonstration</strong> | 전문가가 1회 수행한 시연 그 자체 |
-| <strong>Trajectory</strong> \(\tau\) | 시간순으로 정렬된 \((o_t, a_t)\) sequence |
-| <strong>Episode</strong> | Task 1회 수행 단위 = 1 trajectory. 본 연구 기준: <em>AMR 도착 → 주물 pick → unloading 완료</em> (~17 s, ~100 step) |</p>
 
-<h3 id="teleoperation-원격-조작">Teleoperation (원격 조작)</h3>
+<table>
+  <thead>
+    <tr>
+      <th>용어</th>
+      <th>의미</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Demonstration</strong></td>
+      <td>전문가가 1회 수행한 시연 그 자체</td>
+    </tr>
+    <tr>
+      <td>
+<strong>Trajectory</strong> \(\tau\)</td>
+      <td>시간순으로 정렬된 \((o_t, a_t)\) sequence</td>
+    </tr>
+    <tr>
+      <td><strong>Episode</strong></td>
+      <td>Task 1회 수행 단위 = 1 trajectory. 본 연구 기준: <em>AMR 도착 → 주물 pick → unloading 완료</em> (~17 s, ~100 step)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 class="table table-sm table-striped" id="teleoperation-원격-조작">Teleoperation (원격 조작)</h3>
+
 <p>사람이 <strong>Leader arm</strong>을 움직이면 <strong>Follower arm</strong>이 동일한 관절각으로 따라가는 시연 수집 방식. ALOHA, GELLO 등이 대표.</p>
 
 <h3 id="policy-pi">Policy ($\pi$)</h3>
+
 <p><strong>Observation → Action 매핑 함수</strong> $\pi: o \mapsto a$.</p>
+
 <ul>
   <li>본 연구에서 $o$ = (multi-view image, qpos), $a$ = (next qpos or qpos chunk, gripper).</li>
   <li>
@@ -482,7 +505,7 @@
 
 <h3 id="closed-loop-vs-open-loop">Closed-loop vs Open-loop</h3>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>구분</th>
@@ -504,16 +527,18 @@
   </tbody>
 </table>
 
-<hr>
+<hr class="table table-sm table-striped">
 
 <h2 id="2-v-a--vla-패러다임">2. V-A / VLA 패러다임</h2>
 
 <h3 id="v-a-vision-action">V-A (Vision-Action)</h3>
+
 <p><strong>시각 관측 → 행동</strong> 으로 곧장 매핑하는 end-to-end 정책. 본 연구의 핵심 paradigm.</p>
 
 \[\pi_\theta(a_t \mid I_t^{top}, I_t^{side}, I_t^{wrist}, q_t)\]
 
 <h3 id="vla-vision-language-action">VLA (Vision-Language-Action)</h3>
+
 <p>V-A에 <strong>language instruction</strong> 조건이 추가된 형태. 대표: <strong>RT-2, OpenVLA, π₀</strong>.</p>
 
 \[\pi_\theta(a_t \mid I_t, q_t, \ell)\]
@@ -525,6 +550,7 @@
 </ul>
 
 <h3 id="observation-space--action-space">Observation Space / Action Space</h3>
+
 <ul>
   <li>
 <strong>Observation</strong>: $o_t = (I_t^{top}, I_t^{side}, I_t^{wrist}, q_t)$ — 3시점 image + 7-dim qpos (6 joint + 1 gripper).</li>
@@ -541,6 +567,7 @@
 </blockquote>
 
 <h3 id="핵심-아이디어">핵심 아이디어</h3>
+
 <ol>
   <li>
 <strong>Action Chunking</strong>: 매 step 1개씩 action을 예측하는 대신 <strong>k step 묶음(chunk)</strong> 을 한 번에 예측 → 누적 오차 ↓, smooth motion.</li>
@@ -552,7 +579,7 @@
 
 <h3 id="cvae-conditional-variational-autoencoder-in-act">CVAE (Conditional Variational Autoencoder) in ACT</h3>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>모듈</th>
@@ -579,14 +606,14 @@
   </tbody>
 </table>
 
-<ul>
+<ul class="table table-sm table-striped">
   <li>추론 시 \(z = \mathbf{0}\) (prior에서 sample) → 사실상 decoder만 작동 ⇒ 이때만 <em>policy ≈ decoder</em>.</li>
   <li>학습 loss = <strong>L1 reconstruction loss</strong> + \(\beta \cdot D_{KL}(q_\phi(z\mid x) \,\Vert\, \mathcal{N}(0,I))\).</li>
 </ul>
 
 <h3 id="주요-하이퍼파라미터">주요 하이퍼파라미터</h3>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>인자</th>
@@ -619,7 +646,7 @@
   </tbody>
 </table>
 
-<h3 id="chunk-mode-vs-temporal-aggregation-mode">Chunk Mode vs Temporal Aggregation Mode</h3>
+<h3 class="table table-sm table-striped" id="chunk-mode-vs-temporal-aggregation-mode">Chunk Mode vs Temporal Aggregation Mode</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Chunk mode]                       [Temp-Agg mode]
 t=0  → 예측 a[0..k-1] 전부 실행      t=0  → 예측 a[0..k-1]
@@ -642,6 +669,7 @@ t=k  → 예측 a[k..2k-1] 전부 실행     t=1  → 새로 예측 a'[1..k]
 <p>ACT의 latent $z$를 <strong>continuous Gaussian → discrete codebook</strong> 으로 바꾼 변형.</p>
 
 <h3 id="vq-vector-quantization">VQ (Vector Quantization)</h3>
+
 <ul>
   <li>Continuous latent를 <strong>K개의 codebook vector</strong> 중 가장 가까운 것으로 양자화.</li>
   <li>Codebook: $\mathcal{C} = {e_1, \dots, e_K}, \quad e_i \in \mathbb{R}^d$.</li>
@@ -649,13 +677,15 @@ t=k  → 예측 a[k..2k-1] 전부 실행     t=1  → 새로 예측 a'[1..k]
 </ul>
 
 <h3 id="왜-vq">왜 VQ?</h3>
+
 <ul>
   <li>Continuous latent의 <strong>posterior collapse</strong> 회피.</li>
   <li>Behavior의 <strong>discrete mode</strong> (예: “왼쪽으로 잡기” vs “오른쪽으로 잡기”)를 명시적으로 학습.</li>
 </ul>
 
 <h3 id="loss">Loss</h3>
-<p>\(\mathcal{L}_{VQ} = \mathcal{L}_{recon} + \underbrace{\|sg[z_e] - e\|^2}_{\text{codebook loss}} + \beta\underbrace{\|z_e - sg[e]\|^2}_{\text{commitment loss}}\)</p>
+
+\[\mathcal{L}_{VQ} = \mathcal{L}_{recon} + \underbrace{\|sg[z_e] - e\|^2}_{\text{codebook loss}} + \beta\underbrace{\|z_e - sg[e]\|^2}_{\text{commitment loss}}\]
 
 <ul>
   <li>$sg[\cdot]$ = stop-gradient.</li>
@@ -670,6 +700,7 @@ t=k  → 예측 a[k..2k-1] 전부 실행     t=1  → 새로 예측 a'[1..k]
 </blockquote>
 
 <h3 id="핵심-아이디어-1">핵심 아이디어</h3>
+
 <p>Action chunk를 <strong>노이즈에서 시작해서 K번 denoising</strong> 으로 생성. 이미지 생성의 DDPM을 action 생성에 적용.</p>
 
 \[a^{(0)} \sim \mathcal{N}(0, I) \to a^{(1)} \to \dots \to a^{(K)} = \hat{a}\]
@@ -677,11 +708,12 @@ t=k  → 예측 a[k..2k-1] 전부 실행     t=1  → 새로 예측 a'[1..k]
 <p>각 step에서 noise predictor $\epsilon_\theta(a^{(k)}, k, o)$ 가 noise를 추정.</p>
 
 <h3 id="학습-목적">학습 목적</h3>
-<p>\(\mathcal{L} = \mathbb{E}_{a, \epsilon, k}\!\left[\|\epsilon - \epsilon_\theta(a^{(k)}, k, o)\|^2\right]\)</p>
+
+\[\mathcal{L} = \mathbb{E}_{a, \epsilon, k}\!\left[\|\epsilon - \epsilon_\theta(a^{(k)}, k, o)\|^2\right]\]
 
 <h3 id="act와의-차이">ACT와의 차이</h3>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>항목</th>
@@ -718,15 +750,18 @@ t=k  → 예측 a[k..2k-1] 전부 실행     t=1  → 새로 예측 a'[1..k]
   </tbody>
 </table>
 
-<hr>
+<hr class="table table-sm table-striped">
 
 <h2 id="6-평가--실패-분석-용어">6. 평가 / 실패 분석 용어</h2>
 
 <h3 id="success-rate-succ-rate">Success Rate (Succ Rate)</h3>
+
 <p>N rollouts 중 task 성공 횟수 비율. 본 연구는 10 rollouts 기준.</p>
 
 <h3 id="generalization-일반화">Generalization (일반화)</h3>
+
 <p>학습 분포 <strong>밖</strong>의 조건에서 성능 유지 능력. 본 연구에선 2축으로 검증:</p>
+
 <ul>
   <li>
 <strong>주물 종류 변경</strong> → 일반화 ✓</li>
@@ -735,19 +770,22 @@ t=k  → 예측 a[k..2k-1] 전부 실행     t=1  → 새로 예측 a'[1..k]
 </ul>
 
 <h3 id="ood-out-of-distribution">OOD (Out-of-Distribution)</h3>
+
 <p>입력이 학습 데이터 분포 <strong>밖</strong>에 있는 상황. <strong>본 연구 발견 1</strong>: 추론된 action이 <em>물리적으로는 도달 가능한 위치임에도</em> 학습 데이터셋 내의 action 분포 반경 안에만 머무름 → 결국 실패.</p>
 
 <h3 id="temporal-overfitting">Temporal Overfitting</h3>
+
 <p><strong>본 연구 발견 2.</strong> 모델이 image보다 <strong>timestep $t$ 자체</strong>에 더 의존하는 현상. 동일한 wrist image에 대해 $t=29$ vs $t=93$에서 상이한 action 출력. Transformer의 positional encoding이 image feature보다 더 강한 signal로 작동한 것으로 추정.</p>
 
 <h3 id="covariate-shift">Covariate Shift</h3>
+
 <p>BC 학습 시 <em>학습 시 본 상태 분포</em> ↔ <em>실제 rollout에서 마주치는 상태 분포</em> 가 어긋나서 누적 오차로 실패하는 현상. DAgger / Recovery demonstration이 해결책.</p>
 
 <hr>
 
 <h2 id="7-본-연구-setup-약어-모음">7. 본 연구 setup 약어 모음</h2>
 
-<table class="table table-sm table-striped">
+<table>
   <thead>
     <tr>
       <th>약어</th>
@@ -782,7 +820,7 @@ t=k  → 예측 a[k..2k-1] 전부 실행     t=1  → 새로 예측 a'[1..k]
   </tbody>
 </table>
 
-<hr>
+<hr class="table table-sm table-striped">
 
 <h2 id="8-자주-받을-만한-질문-대비">8. 자주 받을 만한 질문 대비</h2>
 

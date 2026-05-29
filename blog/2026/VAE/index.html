@@ -422,11 +422,13 @@
     
     <div id="markdown-content">
       <hr>
+
 <h2 id="1-vae-variational-autoencoder-요약">1. VAE (Variational Autoencoder) 요약</h2>
 
 <p>VAE는 데이터를 생성하는 잠재 변수(Latent Variable) 모델로, 데이터 $x$의 분포 $p(x)$를 학습하는 생성 모델입니다.</p>
 
 <hr>
+
 <h3 id="핵심-개념">핵심 개념</h3>
 
 <p>VAE는 관측 데이터 $x$가 직접 관측되지 않는 잠재 변수 $z$로부터 생성되었다고 가정하는 <strong>잠재 변수 모델(Latent Variable Model)</strong>입니다 ($z \to x$). 이때 실제 posterior $p(z \mid x)$를 직접 계산하는 것은 불가능(Intractable)합니다. 왜냐하면 $p(x) = \int p(x \mid z)\,p(z)\,dz$를 모든 $z$에 대해 적분하는 것이 매우 어렵기 때문입니다.</p>
@@ -434,6 +436,7 @@
 <p>이를 해결하기 위해 <strong>Variational Inference</strong>를 사용합니다. 다루기 어려운 $p(z \mid x)$ 대신, 다루기 쉬운 분포 $q_\phi(z \mid x)$(주로 가우시안)를 도입하여 $p(z \mid x)$를 근사합니다.</p>
 
 <hr>
+
 <h3 id="kl-divergence-kullback-leibler-divergence-란">KL Divergence (Kullback-Leibler Divergence) 란?</h3>
 
 <p>KL Divergence는 두 확률 분포의 <strong>차이(Difference)</strong>를 측정하는 지표입니다. 분포 $P$와 $Q$ 사이의 KL Divergence는 다음과 같이 정의됩니다.</p>
@@ -443,6 +446,7 @@
 <p>KL Divergence는 <strong>항상 0 이상</strong>이며, 두 분포가 완전히 같을 때만 0이 됩니다(Gibbs’ Inequality). 또한 $D_{KL}(P | Q) \neq D_{KL}(Q | P)$인 <strong>비대칭(Non-symmetric)</strong> 지표이므로 엄밀한 의미의 거리(Metric) 함수가 아니며, <strong>상대 엔트로피(Relative Entropy)</strong>라고도 불립니다. VAE에서 KL Divergence는 인코더가 생성한 잠재 변수 분포 $q_\phi(z \mid x)$가 사전 분포 $p(z)$(표준 정규분포)에서 크게 벗어나지 않도록 강제하는 <strong>규제화(Regularization)</strong> 역할을 합니다.</p>
 
 <hr>
+
 <h3 id="목적-함수-elbo-evidence-lower-bound">목적 함수: ELBO (Evidence Lower Bound)</h3>
 
 <p>데이터의 로그 우도 $\log p(x)$를 직접 최대화하는 대신, 그 하한선인 ELBO를 최대화합니다.</p>
@@ -458,6 +462,7 @@
 <p><strong>[문제]</strong> 독립적인 $n$개의 데이터 $X = {x_1, x_2, \dots, x_n}$이 평균이 $\mu$이고 분산이 $\sigma^2$인 정규분포 $\mathcal{N}(\mu, \sigma^2)$에서 추출되었다고 가정할 때, $\mu$와 $\sigma^2$의 최대 우도 추정치(MLE)를 구하시오.</p>
 
 <p><strong>[풀이]</strong></p>
+
 <ol>
   <li>
     <p>우도 함수(Likelihood function) $L(\mu, \sigma^2)$ 정의:</p>
@@ -521,6 +526,113 @@
 
 <p><strong>[설명]</strong>
 $D_{KL}$은 항상 0 이상이므로 $\log p(x) \geq \text{ELBO}$가 성립합니다. 따라서 ELBO는 $\log p(x)$의 하한선(Lower Bound)이 됩니다. $D_{KL}(q(z \mid x) | p(z \mid x))$를 최소화하는 것(근사 분포를 실제 posterior에 가깝게 만드는 것)은 곧 ELBO를 최대화하는 것과 같으며, 이는 데이터의 우도 $\log p(x)$를 간접적으로 최대화하는 효과를 가집니다.</p>
+
+<hr>
+
+<h2 id="4-조건부-vae-cvae-문제">4. 조건부 VAE (CVAE) 문제</h2>
+
+<p><strong>[문제]</strong> 조건부 정보 $c$ (예: 클래스 라벨)가 주어졌을 때 데이터 $x$를 생성하는 조건부 VAE(Conditional VAE, CVAE)를 다루고 있습니다. 이 경우 ELBO 손실 함수를 표현하고, 실제 학습에서 두 손실 항이 어떤 역할을 하는지 설명하시오.</p>
+
+<p><strong>[풀이]</strong></p>
+
+<p>CVAE에서는 조건 $c$가 인코더와 디코더에 모두 입력됩니다. 따라서 ELBO는 다음과 같이 수정됩니다:</p>
+
+\[\mathcal{L}_{\text{CVAE}} = \underbrace{\mathbb{E}_{q_\phi(z \mid x,c)} \left[\log p_\theta(x \mid z, c)\right]}_{\mathcal{L}_{\text{reconst}}} - \underbrace{D_{KL}(q_\phi(z \mid x, c) \| p(z))}_{\mathcal{L}_{\text{reg}}}\]
+
+<p><strong>각 항의 의미:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">ELBO의 손실 함수(∇에서의 명)</th>
+      <th style="text-align: left">손실 함수 명</th>
+      <th style="text-align: left">실제 하는 역할 (CVAE 기준)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">$\mathbb{E}_{q(z \mid x,c)}!\left[\log p(x \mid z,c)\right]$</td>
+      <td style="text-align: left">$\mathcal{L}_{\text{reconst}}$ (Reconstruction Loss)</td>
+      <td style="text-align: left">조건 $c$와 가먼 물음을 할 때, 원래 이미지를 얼마나 정확하게 복원(재구성)했는지를 평가합니다. 주로 MSE(Mean Squared Error) 또는 Cross-Entropy Loss를 사용합니다.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$-D_{KL}(q(z \mid x,c) \mid p(z))$</td>
+      <td style="text-align: left">$\mathcal{L}_{\text{reg}}$ (Regularization Loss)</td>
+      <td style="text-align: left">인코더가 만든 분포 $q(z\mid x,c)$가 선행 분포 $p(z)$(보통 표준정규분포 $\mathcal{N}(0,I)$)를 벗어나지 않도록 정제하고 정규화합니다.</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="5-β-vae-kl-가중치-조정-β-hyperparameter">5. β-VAE: KL 가중치 조정 (β-Hyperparameter)</h2>
+
+<p><strong>[문제]</strong> 기본 VAE/CVAE에서는 두 항의 비중이 1:1이지만, 실제 학습에서 관찰되는 비중은 1:10 정도입니다. 이를 개선하기 위해 정규화 항에 하이퍼파라미터 $\beta$를 도입하는 <strong>β-VAE</strong>를 설명하고, 목표를 제시하시오.</p>
+
+<p><strong>[풀이]</strong></p>
+
+<p>기본 ELBO 손실 함수에서 정규화 항의 가중치를 조정하기 위해 $\beta$를 도입합니다:</p>
+
+\[\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{reconst}} + \beta \cdot \mathcal{L}_{\text{reg}}\]
+
+<p>여기서 $\beta$는 <strong>하이퍼파라미터(Hyperparameter)</strong>로서, 다음과 같은 역할을 합니다:</p>
+
+<ul>
+  <li>
+<strong>$\beta &lt; 1$</strong>: 정규화 항의 영향을 줄임 → 복원 성능 향상 (하지만 잠재 공간이 덜 체계적)</li>
+  <li>
+<strong>$\beta = 1$</strong>: 표준 VAE (ELBO의 수학적 정의 그대로)</li>
+  <li>
+<strong>$\beta &gt; 1$</strong>: 정규화 항의 영향을 높임 → 잠재 공간이 더 체계적이고 정규화됨 (복원 성능은 약간 감소)</li>
+</ul>
+
+<p><strong>목표:</strong></p>
+
+<p>$\beta$를 도입하는 목표는 <strong>잠재 공간(Latent Space)을 더 잘 제어</strong>하기 위함입니다. 높은 $\beta$ 값을 사용하면 학습된 잠재 공간이 더 균일하고 부드러워져, 생성 모델로서의 성능과 해석 가능성이 향상됩니다.</p>
+
+<hr>
+
+<h2 id="6-elbo-손실-함수와-실제-학습의-매칭">6. ELBO 손실 함수와 실제 학습의 매칭</h2>
+
+<p><strong>[문제]</strong> 앞서 유도한 ELBO의 각 항이 실제 딥러닝 학습 코드에서 어떤 손실 함수로 구현되는지, 그리고 그 의미를 명확히 설명하시오.</p>
+
+<p><strong>[풀이]</strong></p>
+
+<p>ELBO 식의 각 항과 실제 구현 손실 함수의 대응 관계:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">식 5(ELBO)의 손실 함수 항</th>
+      <th style="text-align: left">실제 학습에서 사용하는 손실 함수</th>
+      <th style="text-align: left">의미</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">$\mathbb{E}_{q(z \mid x)}!\left[\log p(x \mid z)\right]$</td>
+      <td style="text-align: left">Reconstruction Loss ($\mathcal{L}_{\text{reconst}}$)</td>
+      <td style="text-align: left">디코더가 잠재 변수 $z$로부터 원본 데이터 $x$를 얼마나 잘 복원하는가를 측정합니다. 이미지의 경우 MSE, 이산 데이터의 경우 Cross-Entropy를 주로 사용합니다.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$-D_{KL}(q(z \mid x) \mid p(z))$</td>
+      <td style="text-align: left">Regularization Loss ($\mathcal{L}_{\text{reg}}$)</td>
+      <td style="text-align: left">인코더가 생성한 잠재 변수의 분포 $q(z\mid x)$가 사전 분포 $p(z)$(표준정규분포)에서 너무 멀어지지 않도록 규제합니다. 이를 통해 잠재 공간이 연속적이고 부드러운 구조를 가지도록 강제합니다.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>[설명]</strong></p>
+
+<p>실제 학습에서 모델은 다음을 최소화합니다:</p>
+
+\[\min_{\theta, \phi} \left( -\mathcal{L}_{\text{reconst}} + \mathcal{L}_{\text{reg}} \right)\]
+
+<p>또는 β-VAE의 경우:</p>
+
+\[\min_{\theta, \phi} \left( -\mathcal{L}_{\text{reconst}} + \beta \cdot \mathcal{L}_{\text{reg}} \right)\]
+
+<p>이렇게 두 손실을 함께 최소화함으로써, 모델은 <strong>좋은 복원 성능</strong>과 <strong>체계적인 잠재 공간</strong>을 동시에 달성하게 됩니다.</p>
 
     </div>
   </article>
