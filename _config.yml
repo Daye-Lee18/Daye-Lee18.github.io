@@ -30,7 +30,7 @@ back_to_top: true # set to false to disable the back to top button
 
 # repo color theme
 repo_theme_light: default # https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md
-repo_theme_dark: dark # https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md
+repo_theme_dark: gruvbox_light # https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md
 repo_trophies:
   enabled: true
   theme_light: flat # https://github.com/ryo-ma/github-profile-trophy
@@ -151,6 +151,8 @@ collections:
     output: true
   projects:
     output: true
+  study:
+    output: true
 
 # -----------------------------------------------------------------------------
 # Jekyll settings
@@ -222,6 +224,37 @@ defaults:
       path: "assets"
     values:
       sitemap: false
+  # study collection: folder name -> category (keep in sync with _pages/study.md)
+  - scope:
+      path: "_study"
+      type: study
+    values:
+      layout: page
+  - scope:
+      path: "_study/rl"
+      type: study
+    values:
+      category: RL
+  - scope:
+      path: "_study/slam"
+      type: study
+    values:
+      category: SLAM
+  - scope:
+      path: "_study/isaacsim_isaaclab"
+      type: study
+    values:
+      category: IsaacSim
+  - scope:
+      path: "_study/hw"
+      type: study
+    values:
+      category: HW
+  - scope:
+      path: "_study/rust"
+      type: study
+    values:
+      category: RUST
 
 sass:
   style: compressed

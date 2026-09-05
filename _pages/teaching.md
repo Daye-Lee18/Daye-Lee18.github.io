@@ -50,17 +50,21 @@ teaching:
 
   - university: Private Class
     courses:
-      - title: Mathematics Tutoring
+      - title: IB DP Tutoring (Mathematics & Computer Science)
         role: Private Tutor
         term: 2025 ~ 2026
-        badge: Pure Maths
+        badge: IB DP HL
         points:
-          - label: 내용
-            text: Pure Mathematics (P3/P4), IB DP AA HL
+          - label: 과목 및 범위
+            text: '<strong>Mathematics HL:</strong> Pure Mathematics (P3/P4) + IB DP AA HL (5 Topics) | <strong>Computer Science HL:</strong> All 8 Topics (153+ problems analyzed)'
+          - label: 자료 규모
+            text: 13개 Topics, 250+ 실제 시험 문제, 90,000+ 단어 교재. Foundation → Intermediate → Advanced 단계별 학습
+          - label: 특징
+            text: Past papers 기반 step-by-step 풀이, 최근 시험 트렌드 분석, 시험 전략 및 팁 포함
           - label: 언어
             text: 영어 한국어 병행
           - label: 링크
-            text: '<a href="https://daye-lee18.github.io/math_tutoring/" target="_blank" rel="noopener">Course page</a>'
+            text: '<a href="https://daye-lee18.github.io/math_tutoring/" target="_blank" rel="noopener">Course page (Math & CS)</a>'
 
       - title: COTE prep
         role: Self-Study Material
