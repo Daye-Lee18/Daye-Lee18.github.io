@@ -30,6 +30,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/projects/";
           },
+        },{id: "nav-study",
+          title: "Study",
+          description: "Notes and materials I&#39;m working through.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/study/";
+          },
         },{id: "nav-blog",
           title: "Blog",
           description: "",
@@ -279,6 +286,31 @@ ninja.data = [{
           description: "English to Korean translation volunteer",
           section: "Projects",handler: () => {
               window.location.href = "/projects/ted/";
+            },},{id: "study-hardware-notes",
+          title: 'Hardware Notes',
+          description: "TODO — one-line summary shown on the Study index card.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/hw/overview/";
+            },},{id: "study-getting-started-with-isaac-sim",
+          title: 'Getting Started with Isaac Sim',
+          description: "TODO — one-line summary shown on the Study index card.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/isaacsim_isaaclab/getting-started/";
+            },},{id: "study-rl-fundamentals",
+          title: 'RL Fundamentals',
+          description: "TODO — one-line summary shown on the Study index card.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/rl/overview/";
+            },},{id: "study-rust-basics",
+          title: 'Rust Basics',
+          description: "TODO — one-line summary shown on the Study index card.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/rust/overview/";
+            },},{id: "study-slam-overview",
+          title: 'SLAM Overview',
+          description: "TODO — one-line summary shown on the Study index card.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/overview/";
             },},{
         id: 'social-email',
         title: 'email',
