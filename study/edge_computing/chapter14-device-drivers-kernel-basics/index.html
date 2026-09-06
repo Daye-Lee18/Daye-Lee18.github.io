@@ -1,0 +1,3198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 14. Device Drivers &amp; Kernel Basics | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter14-device-drivers-kernel-basics/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 14. Device Drivers &amp; Kernel Basics</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> Linux에서 hardware가 software와 어떻게 연결되는지 이해한다.</p>
+
+  <p>Kernel, User Space, Kernel Space, Device Driver, Kernel Module, <code class="language-plaintext highlighter-rouge">/dev</code>, udev,
+Interrupt, DMA, System Call의 기본 개념을 이해하고,
+센서 데이터가 hardware에서 ROS 2 node까지 올라오는 경로를 시스템 관점에서 이해한다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="1-센서를-꽂으면-왜-바로-프로그램에서-읽을-수-있을까">1. 센서를 꽂으면 왜 바로 프로그램에서 읽을 수 있을까?</h1>
+
+<p>예를 들어 USB IMU를 Jetson에 연결했다고 하자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU
+ │
+ USB
+ │
+ ▼
+Jetson
+</code></pre></div></div>
+
+<p>우리는 Linux에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> /dev/ttyUSB0
+</code></pre></div></div>
+
+<p>같은 device를 볼 수 있다.</p>
+
+<p>그리고 프로그램에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/dev/ttyUSB0
+</code></pre></div></div>
+
+<p>를 열어서 데이터를 읽을 수 있다.</p>
+
+<p>하지만 실제로는 중간에 많은 layer가 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor Hardware
+      │
+      ▼
+Physical Interface
+      │
+      ▼
+Linux Kernel
+      │
+      ▼
+Device Driver
+      │
+      ▼
+Device File
+      │
+      ▼
+User Program
+      │
+      ▼
+ROS 2 Node
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="2-kernel-다시-보기">2. Kernel 다시 보기</h1>
+
+<p>Kernel은 Operating System의 핵심이다.</p>
+
+<p>Application이 hardware를 직접 제어하지 않고,
+Kernel을 통해 resource를 사용한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Application
+    │
+    ▼
+Linux Kernel
+    │
+    ├── CPU
+    ├── Memory
+    ├── Storage
+    ├── Network
+    ├── USB
+    └── Devices
+</code></pre></div></div>
+
+<p>Kernel은 hardware와 software 사이의 핵심 중간 계층이다.</p>
+
+<hr>
+
+<h1 id="3-user-space와-kernel-space">3. User Space와 Kernel Space</h1>
+
+<p>Linux에서는 실행 영역을 크게:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User Space
+Kernel Space
+</code></pre></div></div>
+
+<p>로 나누어 생각할 수 있다.</p>
+
+<hr>
+
+<h1 id="4-user-space">4. User Space</h1>
+
+<p>일반 application이 실행되는 영역이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2 Node
+FAST-LIO2
+Python
+C++ Application
+Docker Process
+Sensor SDK
+</code></pre></div></div>
+
+<p>대부분의 우리가 작성하는 프로그램은 user space에서 실행된다.</p>
+
+<hr>
+
+<h1 id="5-kernel-space">5. Kernel Space</h1>
+
+<p>Kernel과 핵심 device driver 등이 실행되는 privileged 영역이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kernel Space
+
+├── Scheduler
+├── Memory Management
+├── Network Stack
+├── Filesystem
+└── Device Drivers
+</code></pre></div></div>
+
+<p>hardware에 더 직접적으로 접근한다.</p>
+
+<hr>
+
+<h1 id="6-왜-user-space와-kernel-space를-나눌까">6. 왜 User Space와 Kernel Space를 나눌까?</h1>
+
+<p>일반 application이 hardware와 memory를 마음대로 제어하면 위험하다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bad Application
+      ↓
+잘못된 memory access
+      ↓
+전체 system crash
+</code></pre></div></div>
+
+<p>가능성이 커진다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Application
+      │
+      ▼
+Controlled Interface
+      │
+      ▼
+Kernel
+</code></pre></div></div>
+
+<p>구조를 사용한다.</p>
+
+<hr>
+
+<h1 id="7-privilege">7. Privilege</h1>
+
+<p>Kernel은 높은 privilege를 가진다.</p>
+
+<p>User application은 제한된 privilege로 실행된다.</p>
+
+<p>따라서 application이:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>File
+Network
+Device
+Memory
+</code></pre></div></div>
+
+<p>를 사용하려면 kernel이 제공하는 interface를 사용한다.</p>
+
+<hr>
+
+<h1 id="8-system-call">8. System Call</h1>
+
+<p>User-space program이 kernel 기능을 요청하는 방법 중 핵심이:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>System Call
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>open()
+read()
+write()
+close()
+</code></pre></div></div>
+
+<p>등.</p>
+
+<hr>
+
+<h1 id="9-file-읽기-예">9. File 읽기 예</h1>
+
+<p>C program이 file을 읽는다고 하자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Application
+    │
+    │ read()
+    ▼
+System Call
+    │
+    ▼
+Kernel
+    │
+    ▼
+Filesystem
+    │
+    ▼
+Storage
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="10-device도-비슷하다">10. Device도 비슷하다</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/dev/ttyUSB0
+</code></pre></div></div>
+
+<p>에서 data를 읽는 경우:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Application
+    │
+    │ read()
+    ▼
+Kernel
+    │
+    ▼
+USB / Serial Driver
+    │
+    ▼
+Hardware
+</code></pre></div></div>
+
+<p>형태다.</p>
+
+<hr>
+
+<h1 id="11-driver란">11. Driver란?</h1>
+
+<p>Device Driver는:</p>
+
+<blockquote>
+  <p>Operating System이 특정 hardware와 통신할 수 있도록 해주는 software</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USB Driver
+Network Driver
+Camera Driver
+Serial Driver
+GPU Driver
+Storage Driver
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="12-왜-driver가-필요할까">12. 왜 Driver가 필요할까?</h1>
+
+<p>각 hardware는 제어 방법이 다르다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+LiDAR
+Network Card
+NVMe SSD
+</code></pre></div></div>
+
+<p>는 서로 전혀 다른 register, protocol, timing을 사용할 수 있다.</p>
+
+<p>Application이 이 모든 hardware 세부사항을 직접 알 필요 없도록
+driver가 중간에서 추상화한다.</p>
+
+<hr>
+
+<h1 id="13-driver의-역할">13. Driver의 역할</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware-specific details
+        ↓
+Driver
+        ↓
+Standard OS interface
+</code></pre></div></div>
+
+<p>예를 들어 camera는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/dev/video0
+</code></pre></div></div>
+
+<p>처럼 보일 수 있다.</p>
+
+<p>Serial device는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/dev/ttyUSB0
+</code></pre></div></div>
+
+<p>처럼 보일 수 있다.</p>
+
+<hr>
+
+<h1 id="14-linux-device-file">14. Linux Device File</h1>
+
+<p>Linux에서는 많은 hardware를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>File-like interface
+</code></pre></div></div>
+
+<p>로 표현한다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Everything is a file
+</code></pre></div></div>
+
+<p>이라는 표현을 자주 듣는다.</p>
+
+<p>정확히 모든 것이 진짜 regular file인 것은 아니지만,
+많은 resource를 file descriptor interface로 다룬다는 의미다.</p>
+
+<hr>
+
+<h1 id="15-dev">15. <code class="language-plaintext highlighter-rouge">/dev</code>
+</h1>
+
+<p>Device file은 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/dev
+</code></pre></div></div>
+
+<p>아래에 나타난다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/dev/ttyUSB0
+/dev/ttyACM0
+/dev/video0
+/dev/nvme0n1
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="16-character-device">16. Character Device</h1>
+
+<p>Device file에는 여러 종류가 있다.</p>
+
+<p>대표적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Character Device
+Block Device
+</code></pre></div></div>
+
+<p>가 있다.</p>
+
+<p>Character device는 byte stream 중심으로 데이터를 처리한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Serial Port
+Terminal
+Some sensors
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="17-block-device">17. Block Device</h1>
+
+<p>Block 단위 storage device다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SSD
+HDD
+NVMe
+</code></pre></div></div>
+
+<p>Linux에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/dev/sda
+/dev/nvme0n1
+</code></pre></div></div>
+
+<p>같은 형태로 보일 수 있다.</p>
+
+<hr>
+
+<h1 id="18-ls--l-dev">18. <code class="language-plaintext highlighter-rouge">ls -l /dev</code>
+</h1>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-l</span> /dev/ttyUSB0
+</code></pre></div></div>
+
+<p>출력 앞부분:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crw-rw----
+</code></pre></div></div>
+
+<p>여기서 첫 문자:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>c
+</code></pre></div></div>
+
+<p>는 character device를 의미할 수 있다.</p>
+
+<p>Block device는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>b
+</code></pre></div></div>
+
+<p>로 표시될 수 있다.</p>
+
+<hr>
+
+<h1 id="19-major--minor-number">19. Major / Minor Number</h1>
+
+<p>Device file에는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Major Number
+Minor Number
+</code></pre></div></div>
+
+<p>가 있다.</p>
+
+<p>개념적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Major
+→ 어떤 driver인가?
+
+Minor
+→ 그 driver가 관리하는 어떤 device인가?
+</code></pre></div></div>
+
+<p>를 구분한다.</p>
+
+<hr>
+
+<h1 id="20-kernel-module">20. Kernel Module</h1>
+
+<p>Linux kernel 기능 일부는 필요할 때 동적으로 load할 수 있다.</p>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kernel Module
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USB driver
+CAN driver
+Filesystem driver
+</code></pre></div></div>
+
+<p>일부가 module 형태일 수 있다.</p>
+
+<hr>
+
+<h1 id="21-ko">21. <code class="language-plaintext highlighter-rouge">.ko</code>
+</h1>
+
+<p>Kernel module file은 흔히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.ko
+</code></pre></div></div>
+
+<p>확장자를 사용한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ko</code>는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kernel Object
+</code></pre></div></div>
+
+<p>를 의미한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>my_driver.ko
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="22-loaded-module-확인">22. Loaded Module 확인</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsmod
+</code></pre></div></div>
+
+<p>현재 load된 kernel module 목록을 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="23-module-정보">23. Module 정보</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>modinfo &lt;module&gt;
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>modinfo can
+</code></pre></div></div>
+
+<p>module metadata를 확인할 수 있다.</p>
+
+<hr>
+
+<h1 id="24-module-load">24. Module Load</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>modprobe &lt;module&gt;
+</code></pre></div></div>
+
+<p>를 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>modprobe can
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="25-insmod와-modprobe">25. <code class="language-plaintext highlighter-rouge">insmod</code>와 <code class="language-plaintext highlighter-rouge">modprobe</code>
+</h1>
+
+<p>둘 다 kernel module을 load할 수 있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">insmod</code>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>특정 .ko file 직접 load
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">modprobe</code>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module dependency까지 고려하여 load
+</code></pre></div></div>
+
+<p>그래서 일반적으로 <code class="language-plaintext highlighter-rouge">modprobe</code>를 더 많이 사용한다.</p>
+
+<hr>
+
+<h1 id="26-module-remove">26. Module Remove</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>modprobe <span class="nt">-r</span> &lt;module&gt;
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>rmmod &lt;module&gt;
+</code></pre></div></div>
+
+<p>를 사용할 수 있다.</p>
+
+<p>실제 robot에서는 module 제거가 hardware 동작에 영향을 줄 수 있으므로 주의해야 한다.</p>
+
+<hr>
+
+<h1 id="27-built-in-driver">27. Built-in Driver</h1>
+
+<p>모든 driver가 module은 아니다.</p>
+
+<p>일부 driver는 kernel image 자체에 포함되어 있다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Driver
+├── Built-in
+└── Loadable Module
+</code></pre></div></div>
+
+<p>두 형태가 가능하다.</p>
+
+<hr>
+
+<h1 id="28-hardware가-연결되면-어떻게-driver를-찾을까">28. Hardware가 연결되면 어떻게 Driver를 찾을까?</h1>
+
+<p>예를 들어 USB device를 연결한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USB Device
+    │
+    ▼
+USB Controller
+    │
+    ▼
+Kernel detects device
+    │
+    ▼
+Vendor / Product ID 확인
+    │
+    ▼
+Matching Driver
+</code></pre></div></div>
+
+<p>형태로 동작할 수 있다.</p>
+
+<hr>
+
+<h1 id="29-usb-vid--pid">29. USB VID / PID</h1>
+
+<p>USB device에는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Vendor ID
+Product ID
+</code></pre></div></div>
+
+<p>가 있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">lsusb</code>에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1234:5678
+</code></pre></div></div>
+
+<p>같은 값을 볼 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1234
+→ Vendor ID
+
+5678
+→ Product ID
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="30-lsusb">30. <code class="language-plaintext highlighter-rouge">lsusb</code>
+</h1>
+
+<p>USB device 확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsusb
+</code></pre></div></div>
+
+<p>장치를 연결하기 전후를 비교하면
+kernel이 USB device를 인식했는지 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="31-kernel-log-확인">31. Kernel Log 확인</h1>
+
+<p>Device 연결 시:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dmesg
+</code></pre></div></div>
+
+<p>를 확인할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dmesg | <span class="nb">tail</span>
+</code></pre></div></div>
+
+<p>USB device가 연결되면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>new USB device found
+converter now attached to ttyUSB0
+</code></pre></div></div>
+
+<p>같은 message가 나타날 수 있다.</p>
+
+<hr>
+
+<h1 id="32-dmesg">32. <code class="language-plaintext highlighter-rouge">dmesg</code>
+</h1>
+
+<p><code class="language-plaintext highlighter-rouge">dmesg</code>는 kernel ring buffer message를 보여준다.</p>
+
+<p>Hardware debugging에서 매우 중요하다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USB disconnect
+Network link down
+Driver error
+I/O error
+</code></pre></div></div>
+
+<p>등.</p>
+
+<hr>
+
+<h1 id="33-udev">33. udev</h1>
+
+<p>Device가 연결되면 <code class="language-plaintext highlighter-rouge">/dev</code> node 생성과 naming 등을 관리하는 중요한 user-space system이:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>udev
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="34-udev-역할">34. udev 역할</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USB Serial Device 연결
+      │
+      ▼
+Kernel detects
+      │
+      ▼
+udev
+      │
+      ▼
+/dev/ttyUSB0
+</code></pre></div></div>
+
+<p>같은 흐름을 생각할 수 있다.</p>
+
+<hr>
+
+<h1 id="35-왜-ttyusb0가-바뀔-수-있을까">35. 왜 <code class="language-plaintext highlighter-rouge">ttyUSB0</code>가 바뀔 수 있을까?</h1>
+
+<p>두 USB serial device가 있다고 하자.</p>
+
+<p>Boot 순서에 따라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor A → ttyUSB0
+Sensor B → ttyUSB1
+</code></pre></div></div>
+
+<p>일 수도 있고,</p>
+
+<p>다음 boot:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor B → ttyUSB0
+Sensor A → ttyUSB1
+</code></pre></div></div>
+
+<p>이 될 수도 있다.</p>
+
+<hr>
+
+<h1 id="36-robot에서는-큰-문제다">36. Robot에서는 큰 문제다</h1>
+
+<p>Config에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU = /dev/ttyUSB0
+</code></pre></div></div>
+
+<p>라고 hard-code했는데
+boot 후 다른 device가 ttyUSB0가 되면 잘못된 sensor를 열 수 있다.</p>
+
+<hr>
+
+<h1 id="37-udev-rule">37. udev Rule</h1>
+
+<p>이 문제를 해결하기 위해 udev rule을 만들 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>특정 VID/PID/Serial Number
+        ↓
+/dev/vision60_imu
+</code></pre></div></div>
+
+<p>같은 stable device name을 만들 수 있다.</p>
+
+<hr>
+
+<h1 id="38-udev-rule-위치">38. udev Rule 위치</h1>
+
+<p>보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/udev/rules.d/
+</code></pre></div></div>
+
+<p>에 custom rule을 둘 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>99-robot-sensors.rules
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="39-stable-device-naming">39. Stable Device Naming</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/dev/vision60_imu
+/dev/robot_lidar
+</code></pre></div></div>
+
+<p>처럼 이름을 사용하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ttyUSB0
+ttyUSB1
+</code></pre></div></div>
+
+<p>보다 config가 안정적이다.</p>
+
+<hr>
+
+<h1 id="40-permission도-udev로-설정할-수-있다">40. Permission도 udev로 설정할 수 있다</h1>
+
+<p>Device가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root:dialout
+</code></pre></div></div>
+
+<p>owner/group을 갖도록 하거나
+특정 permission을 설정할 수 있다.</p>
+
+<p>하지만 너무 넓게:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MODE="0777"
+</code></pre></div></div>
+
+<p>같이 주는 것은 security 측면에서 좋지 않을 수 있다.</p>
+
+<hr>
+
+<h1 id="41-group-permission">41. Group Permission</h1>
+
+<p>Serial device에서 자주 보는 group:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dialout
+</code></pre></div></div>
+
+<p>사용자가 이 group에 속해 있으면
+sudo 없이 serial device에 접근할 수 있는 경우가 많다.</p>
+
+<p>확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">groups</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="42-user를-group에-추가">42. User를 Group에 추가</h1>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>usermod <span class="nt">-aG</span> dialout <span class="nv">$USER</span>
+</code></pre></div></div>
+
+<p>변경 후 새 login session이 필요할 수 있다.</p>
+
+<p>실제 permission policy는 system 환경에 맞춰야 한다.</p>
+
+<hr>
+
+<h1 id="43-network-device-driver">43. Network Device Driver</h1>
+
+<p>Ethernet adapter도 driver가 필요하다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ethernet PHY / NIC
+       │
+       ▼
+Kernel Network Driver
+       │
+       ▼
+eth0
+       │
+       ▼
+Linux Network Stack
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="44-eth0도-dev-file인가">44. <code class="language-plaintext highlighter-rouge">eth0</code>도 <code class="language-plaintext highlighter-rouge">/dev</code> file인가?</h1>
+
+<p>일반적으로 network interface는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/dev/eth0
+</code></pre></div></div>
+
+<p>같은 device file로 다루지 않는다.</p>
+
+<p>Linux network subsystem에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eth0
+wlan0
+</code></pre></div></div>
+
+<p>같은 network interface로 표현된다.</p>
+
+<p>즉 모든 hardware가 동일한 <code class="language-plaintext highlighter-rouge">/dev</code> interface를 사용하는 것은 아니다.</p>
+
+<hr>
+
+<h1 id="45-network-stack">45. Network Stack</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Application
+    │
+ Socket
+    │
+ TCP / UDP
+    │
+ IP
+    │
+ Network Driver
+    │
+ NIC
+    │
+ Ethernet
+</code></pre></div></div>
+
+<p>구조다.</p>
+
+<hr>
+
+<h1 id="46-socket">46. Socket</h1>
+
+<p>Network application이 kernel network stack을 사용하는 interface다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Driver
+    │
+    │ UDP Socket
+    ▼
+Linux Kernel
+    │
+    ▼
+Ethernet Driver
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="47-user-space-driver란">47. User-Space Driver란?</h1>
+
+<p>“Driver”라는 단어는 조금 넓게 사용된다.</p>
+
+<p>ROS에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>velodyne_driver
+</code></pre></div></div>
+
+<p>같은 것을 driver라고 부르지만,
+이것이 반드시 kernel driver라는 뜻은 아니다.</p>
+
+<hr>
+
+<h1 id="48-kernel-driver-vs-user-space-driver">48. Kernel Driver vs User-Space Driver</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ethernet LiDAR
+</code></pre></div></div>
+
+<p>의 경우:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Hardware
+      │
+      ▼
+Ethernet NIC
+      │
+      ▼
+Kernel NIC Driver
+      │
+      ▼
+UDP Socket
+      │
+      ▼
+User-Space LiDAR Driver
+      │
+      ▼
+ROS 2 Topic
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="49-ros-driver">49. ROS Driver</h1>
+
+<p>ROS 2 driver node는 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware / SDK / Socket data
+           ↓
+      ROS Message
+</code></pre></div></div>
+
+<p>로 변환한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Raw LiDAR packets
+       ↓
+ROS Driver
+       ↓
+sensor_msgs/PointCloud2
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="50-따라서-driver는-여러-layer에-있다">50. 따라서 Driver는 여러 Layer에 있다</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware
+   │
+   ▼
+Kernel Driver
+   │
+   ▼
+User-Space SDK
+   │
+   ▼
+ROS Driver Node
+   │
+   ▼
+ROS Topic
+</code></pre></div></div>
+
+<p>어디를 말하는지 문맥을 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="51-camera-example">51. Camera Example</h1>
+
+<p>USB camera:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+  │
+ USB
+  │
+ ▼
+USB Controller
+  │
+ ▼
+Linux Kernel Driver
+  │
+ ▼
+V4L2
+  │
+ ▼
+/dev/video0
+  │
+ ▼
+ROS Camera Node
+  │
+ ▼
+sensor_msgs/Image
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="52-v4l2">52. V4L2</h1>
+
+<p>V4L2:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Video4Linux2
+</code></pre></div></div>
+
+<p>Linux video capture/device framework다.</p>
+
+<p>Camera program에서 자주 사용된다.</p>
+
+<hr>
+
+<h1 id="53-serial-imu-example">53. Serial IMU Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU
+ │
+USB/UART
+ │
+ ▼
+Kernel Serial Driver
+ │
+ ▼
+/dev/ttyUSB0
+ │
+ ▼
+IMU SDK / ROS Driver
+ │
+ ▼
+sensor_msgs/Imu
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="54-can-example">54. CAN Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CAN Controller
+      │
+      ▼
+CAN Kernel Driver
+      │
+      ▼
+SocketCAN
+      │
+      ▼
+can0
+      │
+      ▼
+User Application
+      │
+      ▼
+ROS 2 Node
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="55-socketcan">55. SocketCAN</h1>
+
+<p>Linux는 CAN을 network socket과 비슷한 interface로 다루는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SocketCAN
+</code></pre></div></div>
+
+<p>framework를 제공한다.</p>
+
+<p>그래서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip <span class="nb">link </span>show can0
+</code></pre></div></div>
+
+<p>처럼 network command로 CAN을 확인할 수 있다.</p>
+
+<hr>
+
+<h1 id="56-gpu-driver">56. GPU Driver</h1>
+
+<p>Jetson의 NVIDIA GPU도 kernel-level driver와 user-space library가 함께 작동한다.</p>
+
+<p>개념적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CUDA Application
+      │
+      ▼
+CUDA Runtime
+      │
+      ▼
+NVIDIA User-Space Driver
+      │
+      ▼
+Kernel Driver
+      │
+      ▼
+GPU
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="57-container와-driver">57. Container와 Driver</h1>
+
+<p>Docker container가 host kernel을 공유한다는 것은
+driver 관점에서도 중요하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Container
+CUDA App
+    │
+    ▼
+Host Kernel Driver
+    │
+    ▼
+Jetson GPU
+</code></pre></div></div>
+
+<p>그래서 container 안에 완전히 별도의 kernel GPU driver를 실행하는 구조가 아니다.</p>
+
+<hr>
+
+<h1 id="58-interrupt">58. Interrupt</h1>
+
+<p>Hardware는 CPU에게:</p>
+
+<blockquote>
+  <p>“처리할 일이 생겼다.”</p>
+</blockquote>
+
+<p>고 알려야 할 때가 있다.</p>
+
+<p>이때 사용하는 중요한 mechanism이:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Interrupt
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="59-polling">59. Polling</h1>
+
+<p>Interrupt와 비교되는 방식:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Polling
+</code></pre></div></div>
+
+<p>CPU가 계속:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Data 왔어?
+Data 왔어?
+Data 왔어?
+</code></pre></div></div>
+
+<p>라고 확인하는 방식이다.</p>
+
+<hr>
+
+<h1 id="60-polling-example">60. Polling Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+ │
+ ├── check device
+ ├── check device
+ ├── check device
+ ├── check device
+ └── ...
+</code></pre></div></div>
+
+<p>Device에 아무 data가 없어도 CPU time을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="61-interrupt-example">61. Interrupt Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+ │
+ └── 다른 작업 수행
+
+Device
+ │
+ └── data ready
+       ↓
+    Interrupt
+       ↓
+CPU handles event
+</code></pre></div></div>
+
+<p>필요할 때 hardware가 CPU에게 알린다.</p>
+
+<hr>
+
+<h1 id="62-interrupt-장점">62. Interrupt 장점</h1>
+
+<p>불필요한 polling을 줄일 수 있다.</p>
+
+<p>하지만 interrupt가 너무 자주 발생하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Interrupt Overhead
+</code></pre></div></div>
+
+<p>도 생길 수 있다.</p>
+
+<hr>
+
+<h1 id="63-interrupt-handler">63. Interrupt Handler</h1>
+
+<p>Interrupt가 발생하면 kernel은 해당 interrupt를 처리하는 code를 실행한다.</p>
+
+<p>이를 일반적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Interrupt Handler
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<hr>
+
+<h1 id="64-interrupt-context">64. Interrupt Context</h1>
+
+<p>Interrupt handler는 일반 application context와 다르다.</p>
+
+<p>빠르게 처리하고 긴 작업은 다른 mechanism으로 넘기는 설계가 일반적이다.</p>
+
+<p>Kernel 내부에서는 매우 중요한 개념이다.</p>
+
+<hr>
+
+<h1 id="65-irq">65. IRQ</h1>
+
+<p>Linux에서 interrupt를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IRQ
+</code></pre></div></div>
+
+<p>라고 표현하는 것을 자주 볼 수 있다.</p>
+
+<p>IRQ:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Interrupt Request
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="66-interrupt-확인">66. Interrupt 확인</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /proc/interrupts
+</code></pre></div></div>
+
+<p>를 보면 CPU별 interrupt count를 볼 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NIC
+USB
+Timer
+</code></pre></div></div>
+
+<p>등의 interrupt가 어느 CPU에서 처리되는지 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="67-왜-robot-performance에서-중요할까">67. 왜 Robot Performance에서 중요할까?</h1>
+
+<p>고속 network/camera/sensor device가 많으면
+interrupt load가 증가할 수 있다.</p>
+
+<p>특정 CPU core가 interrupt 처리에 너무 많은 시간을 쓰면
+application performance에도 영향을 줄 수 있다.</p>
+
+<hr>
+
+<h1 id="68-dma">68. DMA</h1>
+
+<p>DMA:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Direct Memory Access
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Hardware가 CPU를 거치지 않고 memory와 직접 데이터를 전송할 수 있도록 하는 mechanism이다.</p>
+
+<hr>
+
+<h1 id="69-dma가-없다면">69. DMA가 없다면</h1>
+
+<p>아주 단순화하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device
+   ↓
+CPU
+   ↓
+Memory
+</code></pre></div></div>
+
+<p>CPU가 데이터 이동에 계속 관여해야 할 수 있다.</p>
+
+<hr>
+
+<h1 id="70-dma가-있으면">70. DMA가 있으면</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device
+   │
+   │ DMA
+   ▼
+Memory
+
+CPU
+→ setup / completion handling
+</code></pre></div></div>
+
+<p>형태로 CPU 개입을 줄일 수 있다.</p>
+
+<hr>
+
+<h1 id="71-왜-dma가-중요한가">71. 왜 DMA가 중요한가?</h1>
+
+<p>Camera, network, storage처럼 data rate가 높은 device에서는
+모든 byte를 CPU가 직접 복사하면 부담이 크다.</p>
+
+<p>DMA를 이용하면 CPU는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Data Movement
+</code></pre></div></div>
+
+<p>보다:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Actual Computation
+</code></pre></div></div>
+
+<p>에 더 많은 시간을 쓸 수 있다.</p>
+
+<hr>
+
+<h1 id="72-camera--dma">72. Camera + DMA</h1>
+
+<p>개념적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+   │
+   ▼
+Hardware Interface
+   │
+   ▼
+DMA
+   │
+   ▼
+RAM Buffer
+   │
+   ▼
+Application
+</code></pre></div></div>
+
+<p>구조가 가능하다.</p>
+
+<hr>
+
+<h1 id="73-nic--dma">73. NIC + DMA</h1>
+
+<p>Network card도 packet data를 RAM buffer로 이동할 때
+DMA를 사용할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ethernet
+   ↓
+NIC
+   ↓
+DMA
+   ↓
+RAM
+   ↓
+Kernel Network Stack
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="74-nvme--dma">74. NVMe + DMA</h1>
+
+<p>고속 NVMe storage도 DMA를 활용해
+storage와 system memory 사이 data transfer를 효율적으로 처리한다.</p>
+
+<hr>
+
+<h1 id="75-dma--zero-copy">75. DMA = Zero Copy?</h1>
+
+<p>아니다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DMA
+≠
+Zero Copy
+</code></pre></div></div>
+
+<p>DMA는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>누가 memory transfer를 수행하는가?
+</code></pre></div></div>
+
+<p>에 관한 개념이다.</p>
+
+<p>Zero-copy는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>불필요한 buffer copy를 얼마나 줄이는가?
+</code></pre></div></div>
+
+<p>에 관한 개념이다.</p>
+
+<hr>
+
+<h1 id="76-memory-mapped-io">76. Memory-Mapped I/O</h1>
+
+<p>CPU가 device register를 memory address처럼 접근하는 방식도 있다.</p>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Memory-Mapped I/O
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>개념:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Address Space
+
+RAM
+...
+Device Register
+...
+</code></pre></div></div>
+
+<p>처럼 특정 address가 hardware register와 연결된다.</p>
+
+<hr>
+
+<h1 id="77-register">77. Register</h1>
+
+<p>Hardware device 내부의 작은 control/status storage다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Start
+Stop
+Status
+Buffer Address
+Interrupt Enable
+</code></pre></div></div>
+
+<p>등을 register로 제어할 수 있다.</p>
+
+<p>Driver가 이 register를 읽고 쓰며 hardware를 제어한다.</p>
+
+<hr>
+
+<h1 id="78-application이-register를-직접-만질까">78. Application이 Register를 직접 만질까?</h1>
+
+<p>일반적으로는 아니다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Application
+   ↓
+Driver API
+   ↓
+Kernel Driver
+   ↓
+Hardware Register
+</code></pre></div></div>
+
+<p>를 사용한다.</p>
+
+<p>직접 hardware register에 접근하면 portability와 security 문제가 크다.</p>
+
+<hr>
+
+<h1 id="79-system-call-비용">79. System Call 비용</h1>
+
+<p>User space에서 kernel space로 넘어가는 데는 일정 overhead가 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User
+ ↓ system call
+Kernel
+ ↓
+User
+</code></pre></div></div>
+
+<p>그래서 고성능 I/O에서는 system call 수를 줄이는 최적화가 중요할 수 있다.</p>
+
+<hr>
+
+<h1 id="80-buffering">80. Buffering</h1>
+
+<p>I/O에서 매 byte마다 system call을 하면 비효율적일 수 있다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Buffer
+</code></pre></div></div>
+
+<p>를 사용한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Data
+Data
+Data
+Data
+   ↓
+Buffer
+   ↓
+One Larger Operation
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="81-blocking-io">81. Blocking I/O</h1>
+
+<p><code class="language-plaintext highlighter-rouge">read()</code>를 호출했는데 data가 아직 없다면
+process가 기다릴 수 있다.</p>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Blocking I/O
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<hr>
+
+<h1 id="82-non-blocking-io">82. Non-Blocking I/O</h1>
+
+<p>Data가 없으면 바로 반환하고
+application이 다른 작업을 할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Non-Blocking I/O
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<hr>
+
+<h1 id="83-select-poll-epoll">83. <code class="language-plaintext highlighter-rouge">select</code>, <code class="language-plaintext highlighter-rouge">poll</code>, <code class="language-plaintext highlighter-rouge">epoll</code>
+</h1>
+
+<p>Linux에서는 여러 file descriptor의 I/O event를 효율적으로 기다리기 위한 mechanism이 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>select
+poll
+epoll
+</code></pre></div></div>
+
+<p>Network server나 high-performance application에서 자주 사용된다.</p>
+
+<hr>
+
+<h1 id="84-ros에서는-이런-것을-직접-안-보는데">84. ROS에서는 이런 것을 직접 안 보는데?</h1>
+
+<p>ROS user는 보통:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">subscription</span> <span class="n">callback</span>
+</code></pre></div></div>
+
+<p>만 작성한다.</p>
+
+<p>하지만 아래에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DDS
+Socket
+Kernel
+Interrupt
+Driver
+</code></pre></div></div>
+
+<p>등이 동작하고 있다.</p>
+
+<p>즉 ROS 2가 hardware layer를 없애는 것은 아니다.</p>
+
+<hr>
+
+<h1 id="85-abstraction">85. Abstraction</h1>
+
+<p>상위 software는 아래 복잡한 detail을 숨긴다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2
+
+subscribe("/imu")
+</code></pre></div></div>
+
+<p>만 보면 되지만 아래에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS
+DDS
+Socket
+Network Stack
+NIC Driver
+DMA
+Ethernet
+</code></pre></div></div>
+
+<p>이 동작한다.</p>
+
+<hr>
+
+<h1 id="86-abstraction-layer">86. Abstraction Layer</h1>
+
+<p>전체 stack:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Algorithm
+   │
+   ▼
+ROS 2
+   │
+   ▼
+User-Space Driver / SDK
+   │
+   ▼
+System Calls / Sockets
+   │
+   ▼
+Linux Kernel
+   │
+   ▼
+Kernel Driver
+   │
+   ▼
+Bus / Interface
+   │
+   ▼
+Hardware
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="87-kernel-version">87. Kernel Version</h1>
+
+<p>Driver compatibility에서 kernel version이 중요할 수 있다.</p>
+
+<p>확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-r</span>
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>5.x.x-...
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="88-왜-kernel-version이-중요할까">88. 왜 Kernel Version이 중요할까?</h1>
+
+<p>Driver는 kernel API와 연결된다.</p>
+
+<p>Kernel version이 바뀌면
+외부 driver module이 다시 build되어야 할 수도 있다.</p>
+
+<hr>
+
+<h1 id="89-out-of-tree-driver">89. Out-of-Tree Driver</h1>
+
+<p>Linux kernel source tree 밖에서 별도로 제공되는 driver를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Out-of-Tree Driver
+</code></pre></div></div>
+
+<p>라고 부른다.</p>
+
+<p>Vendor hardware에서 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="90-kernel-update-위험">90. Kernel Update 위험</h1>
+
+<p>Robot에서 무심코 kernel을 업데이트하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Custom Driver
+GPU Driver
+CAN Driver
+Sensor Driver
+</code></pre></div></div>
+
+<p>가 깨질 가능성이 있다.</p>
+
+<p>따라서 embedded/robot production에서는 OS/kernel update를 신중하게 관리한다.</p>
+
+<hr>
+
+<h1 id="91-dkms">91. DKMS</h1>
+
+<p>DKMS:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dynamic Kernel Module Support
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Kernel이 업데이트될 때 external kernel module을 자동으로 rebuild하는 데 사용될 수 있다.</p>
+
+<hr>
+
+<h1 id="92-jetson에서는-더-조심해야-한다">92. Jetson에서는 더 조심해야 한다</h1>
+
+<p>Jetson은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>JetPack
+Jetson Linux
+Kernel
+NVIDIA Driver
+CUDA
+</code></pre></div></div>
+
+<p>가 밀접하게 연결되어 있다.</p>
+
+<p>그래서 일반 Ubuntu PC처럼 아무 package나 무작정 upgrade하면
+compatibility 문제가 발생할 수 있다.</p>
+
+<hr>
+
+<h1 id="93-device-tree">93. Device Tree</h1>
+
+<p>Embedded Linux에서 자주 등장하는 개념:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device Tree
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Hardware가 어떤 peripheral과 연결되어 있는지 kernel에 설명한다.</p>
+
+<hr>
+
+<h1 id="94-왜-device-tree가-필요할까">94. 왜 Device Tree가 필요할까?</h1>
+
+<p>PC는 hardware discovery가 상대적으로 dynamic한 경우가 많지만,
+embedded board에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UART
+I2C
+SPI
+GPIO
+Camera
+</code></pre></div></div>
+
+<p>가 board wiring에 고정되어 있을 수 있다.</p>
+
+<p>Kernel이 이 hardware 구성을 알아야 한다.</p>
+
+<hr>
+
+<h1 id="95-device-tree-example-개념">95. Device Tree Example 개념</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UART Controller
+Status = okay
+
+I2C Sensor
+Address = 0x68
+</code></pre></div></div>
+
+<p>같은 hardware 정보를 표현할 수 있다.</p>
+
+<p>실제 syntax는 더 복잡하다.</p>
+
+<hr>
+
+<h1 id="96-device-tree-blob">96. Device Tree Blob</h1>
+
+<p>Device Tree source:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.dts
+</code></pre></div></div>
+
+<p>compile 후:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.dtb
+</code></pre></div></div>
+
+<p>형태를 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="97-gpio">97. GPIO</h1>
+
+<p>GPIO:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>General Purpose Input/Output
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>단순 digital signal을 읽거나 출력할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Button
+LED
+Trigger
+Reset
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="98-i2c">98. I2C</h1>
+
+<p>I2C는 embedded sensor 연결에 자주 사용하는 bus다.</p>
+
+<p>일반적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SDA
+SCL
+</code></pre></div></div>
+
+<p>두 신호선을 사용한다.</p>
+
+<p>여러 device가 같은 bus를 공유할 수 있다.</p>
+
+<hr>
+
+<h1 id="99-i2c-address">99. I2C Address</h1>
+
+<p>각 I2C device는 address를 가진다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x68
+</code></pre></div></div>
+
+<p>Linux에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i2cdetect
+</code></pre></div></div>
+
+<p>같은 tool을 사용할 수 있는 환경도 있다.</p>
+
+<hr>
+
+<h1 id="100-spi">100. SPI</h1>
+
+<p>SPI도 embedded device communication에 자주 사용된다.</p>
+
+<p>대표 신호:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MOSI
+MISO
+SCLK
+CS
+</code></pre></div></div>
+
+<p>I2C보다 더 높은 speed가 필요한 경우 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="101-uart--i2c--spi">101. UART / I2C / SPI</h1>
+
+<p>단순 비교:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Interface</th>
+      <th>특징</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>UART</td>
+      <td>간단한 point-to-point serial</td>
+    </tr>
+    <tr>
+      <td>I2C</td>
+      <td>여러 low-speed device 공유 가능</td>
+    </tr>
+    <tr>
+      <td>SPI</td>
+      <td>높은 speed, chip select 필요</td>
+    </tr>
+    <tr>
+      <td>CAN</td>
+      <td>robust multi-node robot/automotive bus</td>
+    </tr>
+    <tr>
+      <td>Ethernet</td>
+      <td>고속 network communication</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="102-driver-debugging-순서">102. Driver Debugging 순서</h1>
+
+<p>Sensor가 안 잡히면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Power?
+   ↓
+2. Physical connection?
+   ↓
+3. Bus detects device?
+   ↓
+4. Kernel detects device?
+   ↓
+5. Driver loaded?
+   ↓
+6. Device node/interface exists?
+   ↓
+7. Permission?
+   ↓
+8. User-space SDK?
+   ↓
+9. ROS driver?
+   ↓
+10. ROS topic?
+</code></pre></div></div>
+
+<p>순서로 본다.</p>
+
+<hr>
+
+<h1 id="103-usb-sensor-debugging">103. USB Sensor Debugging</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor connected?
+   ↓
+lsusb
+   ↓
+dmesg
+   ↓
+driver loaded?
+   ↓
+/dev/ttyUSB0?
+   ↓
+permission?
+   ↓
+ROS node?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="104-ethernet-lidar-debugging">104. Ethernet LiDAR Debugging</h1>
+
+<p>Ethernet LiDAR는 조금 다르다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR powered?
+   ↓
+NIC link?
+   ↓
+Kernel network driver?
+   ↓
+eth0?
+   ↓
+IP?
+   ↓
+ping?
+   ↓
+UDP packet?
+   ↓
+User-space LiDAR driver?
+   ↓
+ROS topic?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="105-can-debugging">105. CAN Debugging</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CAN hardware?
+   ↓
+Kernel CAN driver?
+   ↓
+can0?
+   ↓
+bitrate?
+   ↓
+candump?
+   ↓
+User node?
+   ↓
+ROS?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="106-kernel-panic">106. Kernel Panic</h1>
+
+<p>Kernel 자체에서 심각한 문제가 발생하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kernel Panic
+</code></pre></div></div>
+
+<p>이 발생할 수 있다.</p>
+
+<p>일반 user application crash보다 훨씬 심각하다.</p>
+
+<hr>
+
+<h1 id="107-segmentation-fault와-kernel-panic-차이">107. Segmentation Fault와 Kernel Panic 차이</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Segmentation Fault
+→ 주로 특정 user process가 crash
+
+Kernel Panic
+→ Kernel이 더 이상 안전하게 실행될 수 없는 상태
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="108-segfault가-나도-os는-살아-있을-수-있다">108. Segfault가 나도 OS는 살아 있을 수 있다</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2 segfault
+</code></pre></div></div>
+
+<p>이면 FAST-LIO2 process만 죽고
+Linux 자체는 계속 동작할 수 있다.</p>
+
+<p>이것이 user/kernel isolation의 장점 중 하나다.</p>
+
+<hr>
+
+<h1 id="109-driver-bug는-더-위험할-수-있다">109. Driver Bug는 더 위험할 수 있다</h1>
+
+<p>Kernel driver bug는 kernel space에서 발생하기 때문에
+전체 system 안정성에 영향을 줄 가능성이 더 크다.</p>
+
+<hr>
+
+<h1 id="110-kernel-log가-중요한-이유">110. Kernel Log가 중요한 이유</h1>
+
+<p>Sensor가 사라지거나 network adapter가 reset될 때
+application log보다 kernel log가 더 많은 정보를 줄 수 있다.</p>
+
+<p>확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dmesg <span class="nt">-T</span>
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>journalctl <span class="nt">-k</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="111-journalctl--k">111. <code class="language-plaintext highlighter-rouge">journalctl -k</code>
+</h1>
+
+<p>Kernel 관련 journal message:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>journalctl <span class="nt">-k</span>
+</code></pre></div></div>
+
+<p>Boot 기준:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>journalctl <span class="nt">-k</span> <span class="nt">-b</span>
+</code></pre></div></div>
+
+<p>등을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="112-hardware-error와-software-error-구분">112. Hardware Error와 Software Error 구분</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS node says:
+Cannot open /dev/ttyUSB0
+</code></pre></div></div>
+
+<p>이것만 보면 ROS 문제처럼 보이지만 실제 원인은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USB disconnected
+Driver not loaded
+Permission denied
+udev naming changed
+</code></pre></div></div>
+
+<p>일 수 있다.</p>
+
+<hr>
+
+<h1 id="113-bottom-up-debugging">113. Bottom-Up Debugging</h1>
+
+<p>그래서 hardware 문제는 항상 아래에서 위로 본다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware
+   ↓
+Kernel
+   ↓
+Device
+   ↓
+Driver
+   ↓
+User Space
+   ↓
+ROS
+   ↓
+Application
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="114-top-down-debugging의-문제">114. Top-Down Debugging의 문제</h1>
+
+<p>바로 FAST-LIO2 code부터 보는 경우:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Application
+   ↓
+???
+   ↓
+Sensor
+</code></pre></div></div>
+
+<p>원인이 hardware layer에 있다면 많은 시간을 낭비한다.</p>
+
+<hr>
+
+<h1 id="115-dma와-ros-2-연결">115. DMA와 ROS 2 연결</h1>
+
+<p>예를 들어 camera:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+   ↓
+DMA
+   ↓
+RAM Buffer
+   ↓
+Camera Driver
+   ↓
+ROS Image
+   ↓
+AI
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>DMA는 ROS 2 기능은 아니지만
+ROS 2가 받는 data가 효율적으로 올라오는 데 중요한 underlying mechanism이다.</p>
+
+<hr>
+
+<h1 id="116-interrupt와-ros-callback">116. Interrupt와 ROS Callback</h1>
+
+<p>둘도 같은 개념이 아니다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware Interrupt
+→ Kernel-level hardware event
+
+ROS Callback
+→ User-space application event
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>하지만 전체 chain에서는 연결될 수 있다.</p>
+
+<hr>
+
+<h1 id="117-전체-event-flow">117. 전체 Event Flow</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU Data Ready
+     │
+     ▼
+Hardware Interrupt
+     │
+     ▼
+Kernel Driver
+     │
+     ▼
+Buffer
+     │
+     ▼
+User-Space Driver
+     │
+     ▼
+ROS Publisher
+     │
+     ▼
+DDS
+     │
+     ▼
+FAST-LIO2 Subscriber
+     │
+     ▼
+imu_cbk()
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="118-이것이-왜-중요한가">118. 이것이 왜 중요한가?</h1>
+
+<p><code class="language-plaintext highlighter-rouge">imu_cbk()</code>가 늦게 들어온다고 하자.</p>
+
+<p>원인은 callback code만이 아닐 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor timing
+Interrupt
+Driver buffering
+USB latency
+ROS queue
+DDS
+Executor
+CPU load
+</code></pre></div></div>
+
+<p>어디에서든 latency가 생길 수 있다.</p>
+
+<hr>
+
+<h1 id="119-performance-stack">119. Performance Stack</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware
+   │
+Interrupt / DMA
+   │
+Kernel Driver
+   │
+System Call
+   │
+User Driver
+   │
+ROS 2
+   │
+Application
+</code></pre></div></div>
+
+<p>어느 layer가 bottleneck인지 profiling해야 한다.</p>
+
+<hr>
+
+<h1 id="120-real-time-computing과-연결">120. Real-Time Computing과 연결</h1>
+
+<p>다음 Chapter 15에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Interrupt latency
+Scheduling latency
+Priority
+Jitter
+PREEMPT_RT
+</code></pre></div></div>
+
+<p>등을 더 자세히 다룬다.</p>
+
+<p>Device driver와 kernel을 알아야 real-time computing도 이해할 수 있다.</p>
+
+<hr>
+
+<h1 id="121-mini-practice-1">121. Mini Practice 1</h1>
+
+<p>Jetson에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-r</span>
+</code></pre></div></div>
+
+<p>실행한다.</p>
+
+<p>질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>현재 kernel version은?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="122-mini-practice-2">122. Mini Practice 2</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsmod | <span class="nb">head</span>
+</code></pre></div></div>
+
+<p>현재 load된 kernel module 일부를 본다.</p>
+
+<hr>
+
+<h1 id="123-mini-practice-3">123. Mini Practice 3</h1>
+
+<p>USB device를 연결한 뒤:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsusb
+</code></pre></div></div>
+
+<p>그리고:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dmesg | <span class="nb">tail</span> <span class="nt">-n</span> 30
+</code></pre></div></div>
+
+<p>을 확인한다.</p>
+
+<p>질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kernel이 어떤 device로 인식했는가?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="124-mini-practice-4">124. Mini Practice 4</h1>
+
+<p>Serial device가 있다면:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-l</span> /dev/ttyUSB<span class="k">*</span>
+</code></pre></div></div>
+
+<p>확인.</p>
+
+<p>다음 정보 확인:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Character device?
+Owner?
+Group?
+Permission?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="125-mini-practice-5">125. Mini Practice 5</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /proc/interrupts
+</code></pre></div></div>
+
+<p>을 확인한다.</p>
+
+<p>질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Network / USB 관련 interrupt가 있는가?
+
+어떤 CPU에서 count가 증가하는가?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="126-mini-practice-6">126. Mini Practice 6</h1>
+
+<p>Network interface:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip <span class="nb">link</span>
+</code></pre></div></div>
+
+<p>확인.</p>
+
+<p>그다음:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ethtool <span class="nt">-i</span> eth0
+</code></pre></div></div>
+
+<p>지원된다면 어떤 network driver가 사용되는지 확인한다.</p>
+
+<hr>
+
+<h1 id="127-mini-practice-7">127. Mini Practice 7</h1>
+
+<p>Storage:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsblk
+</code></pre></div></div>
+
+<p>그리고:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>udevadm info <span class="nt">--query</span><span class="o">=</span>all <span class="nt">--name</span><span class="o">=</span>/dev/nvme0n1
+</code></pre></div></div>
+
+<p>같은 방식으로 udev 정보를 확인할 수 있다.</p>
+
+<p>실제 device path는 시스템에 맞춰 바꾼다.</p>
+
+<hr>
+
+<h1 id="128-mini-practice-8">128. Mini Practice 8</h1>
+
+<p>ROS sensor 하나를 골라 data path를 직접 작성한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Hardware
+→ ?
+→ ?
+→ ROS Driver
+→ PointCloud2
+→ FAST-LIO2
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">?</code> 부분에 실제 Linux/network/driver layer를 채운다.</p>
+
+<hr>
+
+<h1 id="129-반드시-구분할-것">129. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kernel
+≠
+Ubuntu
+
+User Space
+≠
+Kernel Space
+
+Kernel Driver
+≠
+ROS Driver
+
+Device File
+≠
+Regular File
+
+Character Device
+≠
+Block Device
+
+Kernel Module
+≠
+Kernel 전체
+
+Interrupt
+≠
+ROS Callback
+
+Polling
+≠
+Interrupt
+
+DMA
+≠
+Zero-Copy
+
+eth0
+≠
+/dev/eth0
+
+Driver
+≠
+Application
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="130-device-data-mental-model">130. Device Data Mental Model</h1>
+
+<p>Sensor data가 올라오는 전체 흐름:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware
+   │
+   ▼
+Electrical / Physical Interface
+   │
+   ▼
+Controller
+   │
+   ▼
+Kernel Driver
+   │
+   ▼
+Interrupt / DMA
+   │
+   ▼
+Kernel Buffer
+   │
+   ▼
+System Call / Socket
+   │
+   ▼
+User-Space Driver
+   │
+   ▼
+ROS 2 Node
+   │
+   ▼
+ROS Message
+   │
+   ▼
+Robot Algorithm
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="131-vision60-mental-model">131. Vision60 Mental Model</h1>
+
+<p>예를 들어 Vision60 LiDAR:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+   │
+Ethernet
+   │
+   ▼
+Jetson NIC
+   │
+   ▼
+NIC Kernel Driver
+   │
+   ▼
+Linux Network Stack
+   │
+   ▼
+UDP Socket
+   │
+   ▼
+LiDAR ROS Driver
+   │
+   ▼
+PointCloud2
+   │
+   ▼
+FAST-LIO2
+</code></pre></div></div>
+
+<p>IMU:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU
+   │
+USB / Serial / Other Interface
+   │
+   ▼
+Kernel Driver
+   │
+   ▼
+Device / Buffer
+   │
+   ▼
+IMU ROS Driver
+   │
+   ▼
+sensor_msgs/Imu
+   │
+   ▼
+FAST-LIO2
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="132-chapter-14-핵심">132. Chapter 14 핵심</h1>
+
+<p>Robot software가 sensor를 읽을 수 있는 이유는
+ROS 2가 hardware를 직접 제어하기 때문이 아니다.</p>
+
+<p>실제로는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware
+↓
+Kernel
+↓
+Driver
+↓
+User Space
+↓
+ROS 2
+↓
+Algorithm
+</code></pre></div></div>
+
+<p>이라는 여러 layer가 존재한다.</p>
+
+<p>이 구조를 이해하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"센서가 안 들어온다."
+</code></pre></div></div>
+
+<p>라는 문제를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware?
+Kernel?
+Driver?
+Permission?
+ROS?
+Application?
+</code></pre></div></div>
+
+<p>으로 분리해서 생각할 수 있다.</p>
+
+<hr>
+
+<h1 id="next-chapter">Next Chapter</h1>
+
+<h2 id="chapter-15-real-time-computing">Chapter 15. Real-Time Computing</h2>
+
+<p>다음 Chapter에서는 로봇에서 매우 중요한:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Real-Time
+Latency
+Jitter
+Deadline
+Scheduler
+Priority
+Context Switch
+Interrupt Latency
+PREEMPT_RT
+CPU Affinity
+Priority Inversion
+Watchdog
+</code></pre></div></div>
+
+<p>을 다룬다.</p>
+
+<p>특히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"100 Hz로 동작한다"
+</code></pre></div></div>
+
+<p>와:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"매 10 ms마다 반드시 실행된다"
+</code></pre></div></div>
+
+<p>가 왜 전혀 다른 의미인지 설명한다.</p>
+
+<p>그리고:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson
+→ Perception / SLAM / Navigation
+
+MCU / Real-Time Controller
+→ Motor Control
+</code></pre></div></div>
+
+<p>처럼 왜 로봇에서 compute 역할을 나누는지도 이해하게 된다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/edge_computing/chapter16-embedded-security/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 16. Embedded Security</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

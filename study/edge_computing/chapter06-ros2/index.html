@@ -1,0 +1,2528 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 6. ROS 2 as a Robotics Middleware | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter06-ros2/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 6. ROS 2 as a Robotics Middleware</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> ROS 2가 로봇 software architecture에서 정확히 어느 위치에 있는지 이해한다.
+Node, Topic, Service, Action뿐 아니라 <code class="language-plaintext highlighter-rouge">rclcpp → RMW → DDS → UDP/IP → Ethernet</code>으로 이어지는
+실제 communication stack을 이해하는 것이 목표다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="1-ros-2는-정확히-무엇인가">1. ROS 2는 정확히 무엇인가?</h1>
+
+<p>ROS는:</p>
+
+<p><strong>Robot Operating System</strong></p>
+
+<p>의 약자다.</p>
+
+<p>하지만 이름과 달리 Ubuntu나 Windows 같은 Operating System은 아니다.</p>
+
+<p>ROS 2는 로봇 software를 개발하기 위한:</p>
+
+<blockquote>
+  <p><strong>Middleware + Framework + Tools + Libraries</strong></p>
+</blockquote>
+
+<p>의 집합이라고 보는 것이 가장 정확하다.</p>
+
+<p>예를 들어 ROS 2는 다음 기능을 제공한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2
+
+├── Node
+├── Topic
+├── Service
+├── Action
+├── Parameter
+├── Logging
+├── Launch
+├── Discovery
+├── Message Definition
+├── CLI Tools
+└── Communication Middleware
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="2-ros-2는-왜-필요한가">2. ROS 2는 왜 필요한가?</h1>
+
+<p>로봇에는 여러 프로그램이 동시에 실행된다.</p>
+
+<p>예를 들어 Vision60을 단순화하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Driver
+IMU Driver
+FAST-LIO2
+Navigation
+Controller
+Camera
+Visualization
+</code></pre></div></div>
+
+<p>ROS 2가 없다면 각각의 프로그램 사이 통신 방법을 직접 만들어야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Program
+      │
+      │ 직접 socket 구현?
+      ▼
+SLAM Program
+      │
+      │ 직접 protocol 구현?
+      ▼
+Navigation
+</code></pre></div></div>
+
+<p>ROS 2를 사용하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Node
+     │
+     │ /points
+     ▼
+FAST-LIO2
+     │
+     │ /odometry
+     ▼
+Navigation
+</code></pre></div></div>
+
+<p>처럼 공통 communication system을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="3-ros-2는-protocol인가">3. ROS 2는 Protocol인가?</h1>
+
+<p>단순히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2 = Protocol
+</code></pre></div></div>
+
+<p>이라고 하는 것은 정확하지 않다.</p>
+
+<p>ROS 2는 TCP나 UDP 같은 하나의 network protocol보다 훨씬 큰 system이다.</p>
+
+<p>비교하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2
+→ Robotics middleware/framework
+
+DDS
+→ Data-centric middleware technology
+
+UDP/TCP
+→ Transport protocol
+
+IP
+→ Network protocol
+
+Ethernet
+→ Link-layer networking technology
+</code></pre></div></div>
+
+<p>따라서 이들은 같은 level의 개념이 아니다.</p>
+
+<hr>
+
+<h1 id="4-전체-communication-stack">4. 전체 Communication Stack</h1>
+
+<p>ROS 2 node가 다른 computer의 node로 message를 보낸다고 생각해보자.</p>
+
+<p>전체 구조를 단순화하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Application
+     │
+     ▼
+ROS 2 Node
+     │
+     ▼
+rclcpp / rclpy
+     │
+     ▼
+rcl
+     │
+     ▼
+RMW
+     │
+     ▼
+DDS Implementation
+     │
+     ▼
+UDP / TCP 등
+     │
+     ▼
+IP
+     │
+     ▼
+Ethernet / Wi-Fi
+     │
+     ▼
+Physical Network
+</code></pre></div></div>
+
+<p>이 그림이 Chapter 6에서 가장 중요하다.</p>
+
+<hr>
+
+<h1 id="5-node란">5. Node란?</h1>
+
+<p>Node는 ROS 2에서 하나의 기능을 담당하는 실행 단위다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Driver Node
+IMU Driver Node
+FAST-LIO2 Node
+Navigation Node
+Controller Node
+</code></pre></div></div>
+
+<p>각 node가 특정 역할을 담당하도록 software를 분리할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             Robot
+
+        LiDAR Node
+             │
+             ▼
+        FAST-LIO2
+             │
+             ▼
+       Navigation
+             │
+             ▼
+        Controller
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="6-process와-node는-같은가">6. Process와 Node는 같은가?</h1>
+
+<p>항상 같지는 않다.</p>
+
+<p>Chapter 3에서:</p>
+
+<blockquote>
+  <p>Process = 실행 중인 program의 instance</p>
+</blockquote>
+
+<p>라고 배웠다.</p>
+
+<p>ROS 2 Node는 ROS graph의 논리적 참여 단위다.</p>
+
+<p>간단한 경우:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Process
+   │
+   └── Node A
+</code></pre></div></div>
+
+<p>처럼 하나의 process에 하나의 node가 있을 수 있다.</p>
+
+<p>하지만 composition을 사용하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>One Process
+
+├── Node A
+├── Node B
+└── Node C
+</code></pre></div></div>
+
+<p>처럼 여러 node를 하나의 process 안에서 실행할 수도 있다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node ≠ Process
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="7-ros-graph">7. ROS Graph</h1>
+
+<p>실행 중인 ROS 2 system의 node와 communication 관계를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS Graph
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/lidar_driver
+      │
+      │ /points
+      ▼
+/fastlio
+      │
+      │ /odometry
+      ▼
+/navigation
+</code></pre></div></div>
+
+<p>ROS 2 command로 node 확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 node list
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="8-topic">8. Topic</h1>
+
+<p>Topic은 ROS 2에서 지속적인 data stream을 전달할 때 많이 사용한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Point Cloud
+IMU
+Camera Image
+Odometry
+Joint State
+</code></pre></div></div>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Publisher
+    │
+    │ Topic
+    ▼
+Subscriber
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="9-publisher와-subscriber">9. Publisher와 Subscriber</h1>
+
+<p>데이터를 보내는 쪽:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Publisher
+</code></pre></div></div>
+
+<p>받는 쪽:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Subscriber
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Driver
+ Publisher
+     │
+     │ /points_raw
+     ▼
+FAST-LIO2
+ Subscriber
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="10-topic은-11-통신만-가능한가">10. Topic은 1:1 통신만 가능한가?</h1>
+
+<p>아니다.</p>
+
+<p>하나의 topic을 여러 subscriber가 받을 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             /points
+
+LiDAR ─────────┬──── FAST-LIO2
+Publisher      │
+               ├──── RViz
+               │
+               └──── Recorder
+</code></pre></div></div>
+
+<p>또한 ROS 2의 pub/sub 모델은 단순한 1:1 socket 구조와 다르다.</p>
+
+<hr>
+
+<h1 id="11-topic-확인-명령어">11. Topic 확인 명령어</h1>
+
+<p>현재 topic 목록:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic list
+</code></pre></div></div>
+
+<p>특정 topic의 message 확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic <span class="nb">echo</span> /imu
+</code></pre></div></div>
+
+<p>Topic 정보:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic info /imu
+</code></pre></div></div>
+
+<p>Message frequency:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic hz /imu
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>average rate: 200 Hz
+</code></pre></div></div>
+
+<p>라면 대략 초당 200개의 message가 들어온다는 뜻이다.</p>
+
+<hr>
+
+<h1 id="12-message-type">12. Message Type</h1>
+
+<p>Topic에는 아무 data나 보낼 수 있는 것이 아니다.</p>
+
+<p>Message type이 정의되어 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sensor_msgs/msg/Imu
+sensor_msgs/msg/PointCloud2
+nav_msgs/msg/Odometry
+geometry_msgs/msg/Twist
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/imu
+   │
+   └── sensor_msgs/msg/Imu
+</code></pre></div></div>
+
+<p>Publisher와 subscriber는 compatible한 message type을 사용해야 한다.</p>
+
+<hr>
+
+<h1 id="13-service">13. Service</h1>
+
+<p>Service는 request-response 방식이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Client
+   │
+   │ Request
+   ▼
+Server
+   │
+   │ Response
+   ▼
+Client
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"Map을 저장해줘"
+       │
+       ▼
+Map Server
+       │
+       ▼
+"저장 완료"
+</code></pre></div></div>
+
+<p>Topic과 달리 지속적인 stream보다는 특정 요청과 응답에 적합하다.</p>
+
+<hr>
+
+<h1 id="14-topic-vs-service">14. Topic vs Service</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Topic
+
+Publisher
+   │
+   │ data
+   │ data
+   │ data
+   ▼
+Subscriber
+</code></pre></div></div>
+
+<p>반면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Service
+
+Client
+   │ request
+   ▼
+Server
+   │ response
+   ▼
+Client
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Topic</th>
+      <th>Service</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>지속적 data stream</td>
+      <td>요청/응답</td>
+    </tr>
+    <tr>
+      <td>Publisher/Subscriber</td>
+      <td>Client/Server</td>
+    </tr>
+    <tr>
+      <td>Sensor data에 적합</td>
+      <td>명령/조회에 적합</td>
+    </tr>
+    <tr>
+      <td>비동기적인 pub/sub</td>
+      <td>request-response</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="15-action">15. Action</h1>
+
+<p>Action은 시간이 오래 걸리는 작업을 요청할 때 사용한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"목표 위치까지 이동해"
+</code></pre></div></div>
+
+<p>Navigation은 즉시 끝나지 않는다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Goal
+Feedback
+Result
+</code></pre></div></div>
+
+<p>가 필요하다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Action Client
+     │
+     │ Goal
+     ▼
+Action Server
+     │
+     ├── Feedback
+     ├── Feedback
+     ├── Feedback
+     │
+     ▼
+   Result
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="16-service와-action-차이">16. Service와 Action 차이</h1>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Service
+"현재 battery level 알려줘"
+→ 빠른 응답
+</code></pre></div></div>
+
+<p>반면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Action
+"저 위치까지 이동해"
+→ 수 초~수 분 소요
+→ 중간 progress 필요
+→ 취소 가능
+</code></pre></div></div>
+
+<p>Navigation에서 Action을 많이 사용하는 이유다.</p>
+
+<hr>
+
+<h1 id="17-topic--service--action">17. Topic / Service / Action</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>종류</th>
+      <th>용도</th>
+      <th>예</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Topic</td>
+      <td>지속적인 data</td>
+      <td>LiDAR, IMU, Odometry</td>
+    </tr>
+    <tr>
+      <td>Service</td>
+      <td>빠른 요청/응답</td>
+      <td>설정 변경, 상태 요청</td>
+    </tr>
+    <tr>
+      <td>Action</td>
+      <td>장시간 작업</td>
+      <td>Navigation goal</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="18-rclcpp란">18. rclcpp란?</h1>
+
+<p>ROS 2 C++ code에서 자주 보는:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;rclcpp/rclcpp.hpp&gt;</span><span class="cp">
+</span></code></pre></div></div>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">rclcpp</code>는:</p>
+
+<blockquote>
+  <p>ROS Client Library for C++</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>C++ 개발자가 ROS 2 기능을 사용할 수 있도록 API를 제공한다.</p>
+
+<p>예:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rclcpp</span><span class="o">::</span><span class="n">Node</span>
+<span class="n">rclcpp</span><span class="o">::</span><span class="n">Publisher</span>
+<span class="n">rclcpp</span><span class="o">::</span><span class="n">Subscription</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="19-rclpy란">19. rclpy란?</h1>
+
+<p>Python에서는:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">rclpy</span>
+</code></pre></div></div>
+
+<p>를 사용한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">rclpy</code>는:</p>
+
+<blockquote>
+  <p>ROS Client Library for Python</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C++ Application
+      │
+    rclcpp
+      │
+      ▼
+     ROS 2
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Python Application
+      │
+    rclpy
+      │
+      ▼
+     ROS 2
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="20-rcl이란">20. rcl이란?</h1>
+
+<p><code class="language-plaintext highlighter-rouge">rclcpp</code>와 <code class="language-plaintext highlighter-rouge">rclpy</code> 아래에는 공통적인 C 기반 ROS Client Library layer인:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rcl
+</code></pre></div></div>
+
+<p>이 존재한다.</p>
+
+<p>단순화하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C++            Python
+ │               │
+rclcpp          rclpy
+  \              /
+   \            /
+        rcl
+         │
+         ▼
+        RMW
+</code></pre></div></div>
+
+<p>이렇게 여러 language client library가 공통 lower layer를 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="21-rmw란">21. RMW란?</h1>
+
+<p>RMW는:</p>
+
+<p><strong>ROS Middleware Interface</strong></p>
+
+<p>이다.</p>
+
+<p>ROS 2와 실제 middleware implementation 사이의 abstraction layer다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2
+  │
+  ▼
+RMW
+  │
+  ▼
+DDS Implementation
+</code></pre></div></div>
+
+<p>RMW 덕분에 ROS application code를 크게 바꾸지 않고
+다른 middleware implementation을 선택할 수 있다.</p>
+
+<hr>
+
+<h1 id="22-dds란">22. DDS란?</h1>
+
+<p>DDS는:</p>
+
+<p><strong>Data Distribution Service</strong></p>
+
+<p>이다.</p>
+
+<p>분산 system에서 data를 publish/subscribe 방식으로 전달하기 위한 middleware standard다.</p>
+
+<p>ROS 2는 DDS 계열 middleware를 널리 사용한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node A
+Publisher
+   │
+   ▼
+DDS
+   │
+   ▼
+DDS
+   │
+   ▼
+Node B
+Subscriber
+</code></pre></div></div>
+
+<p>DDS는 단순히 “network packet을 보내는 library” 이상의 역할을 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Discovery
+Publish / Subscribe
+QoS
+Serialization
+Data Distribution
+</code></pre></div></div>
+
+<p>등을 담당한다.</p>
+
+<hr>
+
+<h1 id="23-dds-implementation">23. DDS Implementation</h1>
+
+<p>DDS는 specification이고 실제 software implementation은 여러 개가 있다.</p>
+
+<p>ROS 2에서 대표적으로 볼 수 있는 것:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cyclone DDS
+Fast DDS
+</code></pre></div></div>
+
+<p>등이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2
+   │
+   ▼
+RMW
+   │
+   ├── rmw_cyclonedds_cpp
+   │        │
+   │        ▼
+   │    Cyclone DDS
+   │
+   └── rmw_fastrtps_cpp
+            │
+            ▼
+         Fast DDS
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="24-rmw-implementation-선택">24. RMW Implementation 선택</h1>
+
+<p>환경 변수에서 이런 것을 볼 수 있다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">RMW_IMPLEMENTATION</span><span class="o">=</span>rmw_cyclonedds_cpp
+</code></pre></div></div>
+
+<p>의미:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2가 사용할 RMW implementation
+          ↓
+rmw_cyclonedds_cpp
+          ↓
+Cyclone DDS
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Vision60 같은 multi-computer robot에서 DDS 설정을 맞추는 것이 중요할 수 있다.</p>
+
+<hr>
+
+<h1 id="25-dds와-tcpudp는-같은-것인가">25. DDS와 TCP/UDP는 같은 것인가?</h1>
+
+<p>아니다.</p>
+
+<p>DDS는 더 위 layer의 middleware다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2
+  │
+DDS
+  │
+Transport
+  │
+UDP / TCP / Shared Memory 등
+  │
+IP
+  │
+Ethernet
+</code></pre></div></div>
+
+<p>구체적인 DDS implementation과 설정에 따라 transport 방식은 달라질 수 있다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DDS ≠ UDP
+DDS ≠ TCP
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="26-ros-2와-tcpip는-동급인가">26. ROS 2와 TCP/IP는 동급인가?</h1>
+
+<p>아니다.</p>
+
+<p>예를 들어 network communication이라면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2 Application
+       ↓
+DDS Middleware
+       ↓
+UDP/IP
+       ↓
+Ethernet
+</code></pre></div></div>
+
+<p>처럼 여러 layer가 겹쳐 있다.</p>
+
+<p>따라서 software architecture diagram에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2
+TCP
+HTTP
+</code></pre></div></div>
+
+<p>를 모두 같은 종류의 protocol로 나열하면 의미가 모호해질 수 있다.</p>
+
+<p>더 정확하게 분류하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2
+→ Robotics middleware/framework
+
+DDS
+→ Middleware
+
+HTTP
+→ Application protocol
+
+TCP / UDP
+→ Transport protocol
+
+IP
+→ Network protocol
+
+Ethernet
+→ Link-layer technology
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="27-인터넷이-없어도-ros-2가-되는가">27. 인터넷이 없어도 ROS 2가 되는가?</h1>
+
+<p><strong>된다.</strong></p>
+
+<p>인터넷과 local network는 다른 개념이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Xavier
+192.168.10.10
+     │
+     │ Ethernet
+     ▼
+Orin
+192.168.10.11
+</code></pre></div></div>
+
+<p>두 컴퓨터가 local network에서 서로 통신할 수 있다면
+인터넷이 없어도 ROS 2 communication이 가능하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Internet
+   X
+
+Xavier ←──── Ethernet ────→ Orin
+             ROS 2
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="28-network-자체가-없어도-ros-2가-되는가">28. Network 자체가 없어도 ROS 2가 되는가?</h1>
+
+<p>같은 computer 안의 ROS 2 node끼리도 통신할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>            Jetson
+
+┌──────────────────────────┐
+│                          │
+│ LiDAR Node               │
+│      │                   │
+│      │ ROS 2             │
+│      ▼                   │
+│ FAST-LIO2 Node           │
+│                          │
+└──────────────────────────┘
+</code></pre></div></div>
+
+<p>외부 Ethernet이나 Wi-Fi 연결이 없어도 된다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Internet 없어도 가능
+External network 없어도 같은 machine에서는 가능
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="29-그렇다면-같은-컴퓨터에서도-network-stack을-쓰나">29. 그렇다면 같은 컴퓨터에서도 network stack을 쓰나?</h1>
+
+<p>경우에 따라 middleware가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Loopback
+Shared Memory
+Inter-process communication
+</code></pre></div></div>
+
+<p>등을 사용할 수 있다.</p>
+
+<p>구체적인 통신 경로는 RMW/DDS implementation과 설정,
+그리고 node들이 같은 process인지 다른 process인지에 따라 달라질 수 있다.</p>
+
+<p>따라서:</p>
+
+<blockquote>
+  <p>ROS 2 communication = 무조건 Ethernet packet</p>
+</blockquote>
+
+<p>이라고 생각하면 안 된다.</p>
+
+<hr>
+
+<h1 id="30-intra-process-communication">30. Intra-process Communication</h1>
+
+<p>두 node가 같은 process 안에 있다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Process
+
+Node A
+  │
+  ▼
+Node B
+</code></pre></div></div>
+
+<p>ROS 2의 intra-process communication 기능을 사용하여
+불필요한 serialization/copy를 줄이는 최적화를 사용할 수 있다.</p>
+
+<p>이는 camera나 point cloud처럼 큰 data에서 중요할 수 있다.</p>
+
+<hr>
+
+<h1 id="31-serialization">31. Serialization</h1>
+
+<p>ROS message는 network로 보내기 위해 전송 가능한 byte representation으로 변환되어야 한다.</p>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Serialization
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS Message
+
+position.x = 1.2
+position.y = 3.4
+
+       │
+       ▼
+Serialization
+       │
+       ▼
+Bytes
+       │
+       ▼
+Network
+</code></pre></div></div>
+
+<p>수신 측에서는 반대로 deserialize한다.</p>
+
+<hr>
+
+<h1 id="32-discovery">32. Discovery</h1>
+
+<p>ROS 2에서는 node들이 서로를 자동으로 찾는 <strong>Discovery</strong> 기능이 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Xavier
+/imu_driver
+
+      ↕ discovery
+
+Orin
+/fastlio
+</code></pre></div></div>
+
+<p>사용자가 매번:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2의 IP는 192.168.10.20이다
+</code></pre></div></div>
+
+<p>라고 직접 연결 정보를 코드에 넣지 않아도
+middleware가 participant와 endpoint를 찾을 수 있다.</p>
+
+<hr>
+
+<h1 id="33-ros_domain_id">33. ROS_DOMAIN_ID</h1>
+
+<p>같은 physical network에 여러 ROS 2 system이 있을 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot A
+Robot B
+Robot C
+</code></pre></div></div>
+
+<p>모든 node가 서로 discovery되면 문제가 생길 수 있다.</p>
+
+<p>그래서 ROS 2에는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS_DOMAIN_ID
+</code></pre></div></div>
+
+<p>가 있다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">ROS_DOMAIN_ID</span><span class="o">=</span>123
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="34-domain-분리">34. Domain 분리</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot A
+ROS_DOMAIN_ID=10
+
+Robot B
+ROS_DOMAIN_ID=20
+</code></pre></div></div>
+
+<p>이면 서로 다른 DDS domain으로 분리된다.</p>
+
+<p>반대로 Xavier와 Orin이 같은 robot에서 통신해야 한다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Xavier
+ROS_DOMAIN_ID=123
+
+Orin
+ROS_DOMAIN_ID=123
+</code></pre></div></div>
+
+<p>처럼 맞추는 것이 일반적이다.</p>
+
+<hr>
+
+<h1 id="35-qos란">35. QoS란?</h1>
+
+<p>QoS는:</p>
+
+<p><strong>Quality of Service</strong></p>
+
+<p>이다.</p>
+
+<p>ROS 2/DDS에서는 message 전달 특성을 설정할 수 있다.</p>
+
+<p>대표적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reliability
+Durability
+History
+Depth
+Deadline
+Liveliness
+</code></pre></div></div>
+
+<p>등이 있다.</p>
+
+<hr>
+
+<h1 id="36-reliability">36. Reliability</h1>
+
+<p>대표적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reliable
+Best Effort
+</code></pre></div></div>
+
+<p>가 있다.</p>
+
+<h2 id="reliable">Reliable</h2>
+
+<p>가능한 한 message 전달을 보장하려고 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Message Lost
+    ↓
+Recovery / Retransmission behavior
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="best-effort">Best Effort</h2>
+
+<p>일부 message가 유실되어도 최신 data를 빠르게 받는 것을 우선할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 2 3 4 5 6
+
+Network loss
+
+1 2   4 5 6
+</code></pre></div></div>
+
+<p>sensor stream에서는 모든 과거 message보다 최신 data가 더 중요한 경우가 있다.</p>
+
+<hr>
+
+<h1 id="37-sensordataqos">37. SensorDataQoS</h1>
+
+<p>LiDAR, IMU, camera 같은 sensor에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SensorDataQoS
+</code></pre></div></div>
+
+<p>profile을 자주 사용한다.</p>
+
+<p>C++ 예:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rclcpp</span><span class="o">::</span><span class="n">SensorDataQoS</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Sensor data는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>High Frequency
+Continuous
+Latest Data Important
+</code></pre></div></div>
+
+<p>라는 특징이 있기 때문에 low-latency와 best-effort 성격의 QoS가 적합한 경우가 많다.</p>
+
+<hr>
+
+<h1 id="38-qos가-안-맞으면">38. QoS가 안 맞으면?</h1>
+
+<p>Publisher와 Subscriber의 QoS가 compatible하지 않으면
+topic 이름이 맞아도 communication이 되지 않을 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Publisher
+      │
+      │ QoS mismatch
+      X
+      │
+FAST-LIO2 Subscriber
+</code></pre></div></div>
+
+<p>그래서:</p>
+
+<blockquote>
+  <p>“topic은 보이는데 data가 안 들어온다”</p>
+</blockquote>
+
+<p>면 QoS도 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="39-history와-depth">39. History와 Depth</h1>
+
+<p>QoS에서는 message를 얼마나 보관할지도 정할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Keep Last
+Depth = 10
+</code></pre></div></div>
+
+<p>이라면 최근 message를 일정 개수 queue에 유지하는 식이다.</p>
+
+<p>Sensor가 subscriber 처리 속도보다 빠르면 queue 크기도 영향을 줄 수 있다.</p>
+
+<hr>
+
+<h1 id="40-lidar--fast-lio2-전체-흐름">40. LiDAR → FAST-LIO2 전체 흐름</h1>
+
+<p>이제 실제 SLAM pipeline을 layer별로 보자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Hardware
+      │
+      │ Ethernet / UDP
+      ▼
+LiDAR Driver
+      │
+      │ PointCloud2
+      ▼
+ROS 2 Publisher
+      │
+      ▼
+rclcpp
+      │
+      ▼
+RMW
+      │
+      ▼
+DDS
+      │
+      ▼
+RMW
+      │
+      ▼
+rclcpp
+      │
+      ▼
+FAST-LIO2 Subscriber
+      │
+      ▼
+Point Cloud Processing
+</code></pre></div></div>
+
+<p>이제 “LiDAR가 ROS 2로 데이터를 보낸다”라는 말을 더 정확히 이해할 수 있다.</p>
+
+<p>실제로 LiDAR hardware가 ROS 2를 직접 사용하는 것이 아니라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+   ↓
+Vendor Protocol / UDP
+   ↓
+Driver
+   ↓
+ROS 2 Message
+</code></pre></div></div>
+
+<p>로 변환되는 것이다.</p>
+
+<hr>
+
+<h1 id="41-imu-callback">41. IMU Callback</h1>
+
+<p>FAST-LIO2 코드에서:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">imu_cbk</span><span class="p">(...)</span>
+</code></pre></div></div>
+
+<p>같은 이름을 볼 수 있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">cbk</code>는 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>callback
+</code></pre></div></div>
+
+<p>을 줄여 쓴 이름이다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU Publisher
+      │
+      │ /imu
+      ▼
+FAST-LIO2 Subscription
+      │
+      ▼
+imu_cbk()
+</code></pre></div></div>
+
+<p>새로운 IMU message가 도착하면 callback 함수가 실행되는 구조다.</p>
+
+<hr>
+
+<h1 id="42-callback이란">42. Callback이란?</h1>
+
+<p>Callback은 특정 event가 발생했을 때 호출되는 함수다.</p>
+
+<p>예:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">imu_callback</span><span class="p">(</span><span class="k">const</span> <span class="n">Imu</span><span class="o">::</span><span class="n">SharedPtr</span> <span class="n">msg</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// process IMU</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>개념:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Waiting...
+
+IMU Message Arrives
+       │
+       ▼
+Callback 실행
+</code></pre></div></div>
+
+<p>ROS 2 subscriber programming의 핵심 개념이다.</p>
+
+<hr>
+
+<h1 id="43-executor">43. Executor</h1>
+
+<p>그렇다면 callback을 누가 실행할까?</p>
+
+<p>ROS 2에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Executor
+</code></pre></div></div>
+
+<p>가 callback 실행을 관리한다.</p>
+
+<p>단순화하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS Events
+   │
+   ├── IMU Message
+   ├── LiDAR Message
+   ├── Timer
+   └── Service Request
+          │
+          ▼
+       Executor
+          │
+          ▼
+       Callback
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="44-singlethreadedexecutor">44. SingleThreadedExecutor</h1>
+
+<p>한 thread에서 callback들을 처리한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thread
+
+IMU callback
+    ↓
+LiDAR callback
+    ↓
+Timer callback
+</code></pre></div></div>
+
+<p>한 callback이 오래 걸리면 다른 callback 실행이 지연될 수 있다.</p>
+
+<hr>
+
+<h1 id="45-multithreadedexecutor">45. MultiThreadedExecutor</h1>
+
+<p>여러 thread를 사용해 callback을 처리할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thread 1 → IMU callback
+
+Thread 2 → LiDAR callback
+
+Thread 3 → Timer callback
+</code></pre></div></div>
+
+<p>하지만 동시에 shared data에 접근한다면 synchronization 문제가 생길 수 있으므로 주의해야 한다.</p>
+
+<hr>
+
+<h1 id="46-ros-2-launch">46. ROS 2 Launch</h1>
+
+<p>여러 node를 매번 하나씩 실행하기 어렵다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 run lidar driver
+ros2 run imu driver
+ros2 run fastlio mapping
+ros2 run nav2 ...
+</code></pre></div></div>
+
+<p>Launch system을 사용하면 여러 node와 parameter를 함께 실행할 수 있다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 launch vision60_bringup bringup.launch.py
+</code></pre></div></div>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Launch
+  │
+  ├── LiDAR Node
+  ├── FAST-LIO2 Node
+  ├── TF Node
+  └── Navigation Node
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="47-parameter">47. Parameter</h1>
+
+<p>ROS 2 node는 parameter를 가질 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lidar_topic
+imu_topic
+frame_id
+mapping_rate
+</code></pre></div></div>
+
+<p>확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 param list
+</code></pre></div></div>
+
+<p>특정 값:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 param get /node_name parameter_name
+</code></pre></div></div>
+
+<p>Parameter file을 YAML로 관리하는 경우도 많다.</p>
+
+<hr>
+
+<h1 id="48-tf란">48. TF란?</h1>
+
+<p>로봇에는 여러 coordinate frame이 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>map
+odom
+base_link
+lidar_link
+imu_link
+</code></pre></div></div>
+
+<p>TF는 이 frame 사이의 transform을 관리한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>map
+ │
+ ▼
+odom
+ │
+ ▼
+base_link
+ │
+ ├── lidar_link
+ └── imu_link
+</code></pre></div></div>
+
+<p>SLAM과 Navigation에서는 매우 중요한 ROS subsystem이다.</p>
+
+<hr>
+
+<h1 id="49-topic과-tf의-차이">49. Topic과 TF의 차이</h1>
+
+<p>TF도 내부적으로 ROS communication을 사용하지만,
+개념적으로는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Topic
+→ 일반적인 data stream
+
+TF
+→ Coordinate frame relationship
+</code></pre></div></div>
+
+<p>을 관리하기 위한 subsystem이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/imu
+→ sensor measurement
+
+odom → base_link
+→ coordinate transform
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="50-ros-2-cli는-무엇을-하는가">50. ROS 2 CLI는 무엇을 하는가?</h1>
+
+<p>우리가 사용하는:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 node list
+ros2 topic list
+ros2 topic <span class="nb">echo
+</span>ros2 service list
+ros2 action list
+</code></pre></div></div>
+
+<p>등은 ROS 2 system을 확인하고 조작하기 위한 CLI tool이다.</p>
+
+<p>즉 <code class="language-plaintext highlighter-rouge">ros2</code>라는 명령어 자체가 ROS 2 전체는 아니다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2 System
+     │
+     └── ros2 CLI
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="51-ros-2-package">51. ROS 2 Package</h1>
+
+<p>관련된 code, config, launch file 등을 package 단위로 관리한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>my_robot_package/
+
+├── src/
+├── include/
+├── launch/
+├── config/
+├── package.xml
+└── CMakeLists.txt
+</code></pre></div></div>
+
+<p>Package는 ROS 2 software를 구성하는 기본적인 배포/빌드 단위다.</p>
+
+<hr>
+
+<h1 id="52-workspace">52. Workspace</h1>
+
+<p>여러 package를 하나의 workspace에서 관리할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2_ws/
+
+├── src/
+│   ├── fast_lio/
+│   ├── vision60_bringup/
+│   └── odom_tf_adapter/
+│
+├── build/
+├── install/
+└── log/
+</code></pre></div></div>
+
+<p>보통 source code는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>src/
+</code></pre></div></div>
+
+<p>아래에 있다.</p>
+
+<hr>
+
+<h1 id="53-colcon-build">53. <code class="language-plaintext highlighter-rouge">colcon build</code>
+</h1>
+
+<p>ROS 2 workspace를 build할 때:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>colcon build
+</code></pre></div></div>
+
+<p>를 사용한다.</p>
+
+<p>결과:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>src
+ │
+ │ colcon build
+ ▼
+build
+install
+log
+</code></pre></div></div>
+
+<p>이 생성된다.</p>
+
+<hr>
+
+<h1 id="54-왜-installsetupbash를-source할까">54. 왜 <code class="language-plaintext highlighter-rouge">install/setup.bash</code>를 source할까?</h1>
+
+<p>Build 후:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source install</span>/setup.bash
+</code></pre></div></div>
+
+<p>를 실행한다.</p>
+
+<p>이유는 현재 shell이 새로 build한 package의 위치를 알 수 있도록
+environment variable을 설정하기 위해서다.</p>
+
+<p>Chapter 3의 <code class="language-plaintext highlighter-rouge">source</code>와 연결된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>colcon build
+      │
+      ▼
+install/
+      │
+      ▼
+source install/setup.bash
+      │
+      ▼
+Current Shell
+ROS package 발견 가능
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="55-underlay와-overlay">55. Underlay와 Overlay</h1>
+
+<p>예를 들어:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> /opt/ros/humble/setup.bash
+</code></pre></div></div>
+
+<p>먼저 system ROS 2를 source한다.</p>
+
+<p>그 다음:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> ~/vision60_ws/install/setup.bash
+</code></pre></div></div>
+
+<p>를 source한다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ubuntu
+  │
+  ▼
+ROS 2 Humble
+/opt/ros/humble
+  │
+  ▼
+Vision60 Workspace
+~/vision60_ws/install
+</code></pre></div></div>
+
+<p>위 workspace가 아래 environment 위에 overlay되는 형태로 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="56-vision60에서-전체-구조">56. Vision60에서 전체 구조</h1>
+
+<p>지금까지 배운 내용을 Vision60에 연결하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                       Vision60
+
+ LiDAR ── Ethernet ──► LiDAR Driver Node
+                              │
+                              │ PointCloud2
+                              ▼
+ IMU ─────────────────► IMU Driver Node
+                              │
+                              │ Imu
+                              ▼
+                       ┌─────────────┐
+                       │ FAST-LIO2   │
+                       └──────┬──────┘
+                              │
+                         Odometry
+                              │
+                              ▼
+                         Navigation
+                              │
+                              ▼
+                         Controller
+</code></pre></div></div>
+
+<p>그리고 communication 내부를 확대하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS Node
+   │
+rclcpp
+   │
+rcl
+   │
+RMW
+   │
+Cyclone DDS
+   │
+UDP / Shared Memory / etc.
+   │
+Linux
+   │
+Ethernet / Local Machine
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="57-ros-2-debugging-순서">57. ROS 2 Debugging 순서</h1>
+
+<p>FAST-LIO2에 sensor data가 안 들어온다고 하자.</p>
+
+<p>무작정 FAST-LIO2 code부터 수정하지 않는다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Hardware connected?
+       ↓
+2. Linux sees device/network?
+       ↓
+3. Driver running?
+       ↓
+4. ROS node exists?
+       ↓
+5. Topic exists?
+       ↓
+6. Topic data arriving?
+       ↓
+7. Message type correct?
+       ↓
+8. QoS compatible?
+       ↓
+9. ROS_DOMAIN_ID correct?
+       ↓
+10. RMW/DDS/network correct?
+       ↓
+11. FAST-LIO2 callback running?
+</code></pre></div></div>
+
+<p>이 순서로 좁혀갈 수 있다.</p>
+
+<hr>
+
+<h1 id="58-실무-명령어">58. 실무 명령어</h1>
+
+<h2 id="node">Node</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 node list
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 node info /node_name
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="topic">Topic</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic list
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic <span class="nb">echo</span> /topic
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic info /topic
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic hz /topic
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="service">Service</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 service list
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="action">Action</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 action list
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="parameter">Parameter</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 param list
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="interface">Interface</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 interface show sensor_msgs/msg/Imu
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="environment">Environment</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="nv">$ROS_DOMAIN_ID</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="nv">$RMW_IMPLEMENTATION</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="59-mini-practice">59. Mini Practice</h1>
+
+<p>Vision60/Jetson ROS 2 환경에서 다음을 실행해본다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> /opt/ros/humble/setup.bash
+</code></pre></div></div>
+
+<p>workspace가 있다면:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> ~/vision60_ws/install/setup.bash
+</code></pre></div></div>
+
+<p>현재 node:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 node list
+</code></pre></div></div>
+
+<p>Topic:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic list
+</code></pre></div></div>
+
+<p>IMU topic을 찾아:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic hz &lt;imu-topic&gt;
+</code></pre></div></div>
+
+<p>LiDAR topic을 찾아:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic hz &lt;lidar-topic&gt;
+</code></pre></div></div>
+
+<p>그리고:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic info &lt;lidar-topic&gt; <span class="nt">--verbose</span>
+</code></pre></div></div>
+
+<p>를 실행해 Publisher/Subscriber와 QoS 정보를 확인해본다.</p>
+
+<p>마지막으로:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="nv">$ROS_DOMAIN_ID</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="nv">$RMW_IMPLEMENTATION</span>
+</code></pre></div></div>
+
+<p>을 확인한다.</p>
+
+<hr>
+
+<h1 id="60-오늘의-핵심">60. 오늘의 핵심</h1>
+
+<p>가장 중요한 것은 ROS 2를 하나의 protocol로 생각하지 않는 것이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────┐
+│ Robot Application           │
+│ FAST-LIO2 / Navigation      │
+├─────────────────────────────┤
+│ ROS 2                       │
+│ Node / Topic / Service      │
+├─────────────────────────────┤
+│ rclcpp / rclpy              │
+├─────────────────────────────┤
+│ rcl                         │
+├─────────────────────────────┤
+│ RMW                         │
+├─────────────────────────────┤
+│ DDS                         │
+│ CycloneDDS / Fast DDS       │
+├─────────────────────────────┤
+│ UDP / TCP / Shared Memory   │
+├─────────────────────────────┤
+│ IP                          │
+├─────────────────────────────┤
+│ Ethernet / Wi-Fi            │
+└─────────────────────────────┘
+</code></pre></div></div>
+
+<p>각 layer는 역할이 다르다.</p>
+
+<hr>
+
+<h1 id="61-반드시-구분할-것">61. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2 ≠ Operating System
+
+ROS 2 ≠ TCP
+
+ROS 2 ≠ DDS
+
+DDS ≠ UDP
+
+Node ≠ Process
+
+Topic ≠ Network Port
+
+ROS_DOMAIN_ID ≠ IP Address
+
+rclcpp ≠ ROS 2 전체
+
+RMW ≠ DDS implementation 자체
+
+Ethernet ≠ Internet
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="62-한-문장으로-설명하기">62. 한 문장으로 설명하기</h1>
+
+<p>누군가:</p>
+
+<blockquote>
+  <p>“ROS 2가 뭐예요?”</p>
+</blockquote>
+
+<p>라고 물으면 다음처럼 설명할 수 있다.</p>
+
+<blockquote>
+  <p><strong>ROS 2 is a robotics middleware and framework that provides communication, tooling, and software abstractions for building distributed robot systems.</strong></p>
+</blockquote>
+
+<p>조금 더 쉽게:</p>
+
+<blockquote>
+  <p><strong>ROS 2 lets different robot programs communicate and work together without each program having to implement its own communication system.</strong></p>
+</blockquote>
+
+<hr>
+
+<h1 id="63-지금까지-chapter-연결">63. 지금까지 Chapter 연결</h1>
+
+<p>이제 Chapter 1~6이 하나의 stack으로 연결된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 6
+ROS 2
+        ↑
+Chapter 5
+Ethernet / CAN / USB / PCIe
+        ↑
+Chapter 4
+Jetson / JetPack
+        ↑
+Chapter 3
+Linux
+        ↑
+Chapter 2
+ARM64 / x86_64
+        ↑
+Chapter 1
+CPU / GPU / RAM / Storage
+</code></pre></div></div>
+
+<p>즉 Vision60에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2가 ROS 2 Node로 실행된다
+</code></pre></div></div>
+
+<p>라는 한 문장 안에도 사실:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C++ Application
+      ↓
+ROS 2
+      ↓
+Linux Process
+      ↓
+ARM64 Machine Code
+      ↓
+Jetson CPU
+      ↓
+RAM
+</code></pre></div></div>
+
+<p>라는 여러 layer가 숨어 있다.</p>
+
+<hr>
+
+<h1 id="next-chapter">Next Chapter</h1>
+
+<h2 id="chapter-7-cuda--tensorrt-for-robotics">Chapter 7. CUDA &amp; TensorRT for Robotics</h2>
+
+<p>다음 Chapter에서는 마지막으로 <strong>Jetson의 GPU를 실제 software가 어떻게 사용하는지</strong>를 다룬다.</p>
+
+<ul>
+  <li>CPU code와 GPU code는 어떻게 다른가?</li>
+  <li>CUDA kernel이란?</li>
+  <li>Thread, Block, Grid란?</li>
+  <li>왜 GPU에는 수천 개의 thread를 만드는가?</li>
+  <li>CPU RAM과 GPU memory는 어떻게 연결되는가?</li>
+  <li>Jetson의 shared memory architecture에서는 무엇이 달라지는가?</li>
+  <li>CUDA memory copy란?</li>
+  <li>PyTorch의 <code class="language-plaintext highlighter-rouge">.to("cuda")</code>는 무엇을 하는가?</li>
+  <li>FP32, FP16, INT8은 무엇인가?</li>
+  <li>TensorRT가 model을 어떻게 최적화하는가?</li>
+  <li>Latency와 Throughput은 무엇이 다른가?</li>
+  <li>SLAM을 GPU로 옮기면 무조건 빨라지는가?</li>
+  <li>Vision60에서 GPU를 어디에 쓰는 것이 효과적인가?</li>
+</ul>
+
+<p>Chapter 7에서는 최종적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor
+   ↓
+Jetson
+   ├── CPU → ROS 2 / SLAM / Control
+   │
+   └── GPU → Vision / AI / Parallel Compute
+              ↓
+           TensorRT
+</code></pre></div></div>
+
+<p>까지 연결한다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/edge_computing/chapter07-cuda-tensorrt/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 7. CUDA &amp; TensorRT for Robotics</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

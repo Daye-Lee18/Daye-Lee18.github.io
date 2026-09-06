@@ -1,0 +1,2590 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 5. Hardware Interfaces — Ethernet, CAN, PCIe, USB | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter05-hardware-interfaces/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 5. Hardware Interfaces — Ethernet, CAN, PCIe, USB</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> Jetson과 센서, MCU, 다른 컴퓨터가 실제로 어떤 물리적 인터페이스로 연결되는지 이해한다.
+Ethernet, USB, Serial, CAN, PCIe, M.2, CSI의 역할을 구분하고,
+Vision60 같은 로봇 내부의 data flow를 하드웨어 수준에서 이해하는 것이 목표다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="1-센서-데이터는-어떻게-jetson까지-들어올까">1. 센서 데이터는 어떻게 Jetson까지 들어올까?</h1>
+
+<p>로봇에서 센서는 데이터를 만들고,
+Jetson은 그 데이터를 받아 처리한다.</p>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+Camera
+IMU
+MCU
+Other Computer
+      │
+      ▼
+Physical Interface
+      │
+      ▼
+Jetson Hardware
+      │
+      ▼
+Linux Driver
+      │
+      ▼
+Application / ROS 2
+</code></pre></div></div>
+
+<p>여기서 Physical Interface에는 여러 종류가 있다.</p>
+
+<p>대표적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ethernet
+USB
+Serial
+CAN
+PCIe
+CSI
+</code></pre></div></div>
+
+<p>가 있다.</p>
+
+<p>각각 속도, 거리, 안정성, 연결 구조, 사용 목적이 다르다.</p>
+
+<hr>
+
+<h1 id="2-interface란">2. Interface란?</h1>
+
+<p>Interface는 두 장치가 데이터를 주고받기 위한 <strong>연결 방식 또는 접점</strong>이다.</p>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR ── Ethernet ── Jetson
+Camera ── USB ── Jetson
+MCU ── CAN ── Jetson
+SSD ── PCIe ── Jetson
+</code></pre></div></div>
+
+<p>각각 서로 다른 interface를 사용한다.</p>
+
+<p>즉:</p>
+
+<blockquote>
+  <p>Interface = 데이터를 주고받는 물리적/논리적 연결 방식</p>
+</blockquote>
+
+<p>이라고 생각하면 된다.</p>
+
+<hr>
+
+<h1 id="3-ethernet">3. Ethernet</h1>
+
+<p>Ethernet은 유선 network 통신 기술이다.</p>
+
+<p>많은 사람들이 Ethernet을 단순히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>인터넷 연결용 케이블
+</code></pre></div></div>
+
+<p>이라고 생각하지만, 더 정확히는:</p>
+
+<blockquote>
+  <p>같은 network 안에서 장치끼리 데이터를 주고받는 통신 방식</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>인터넷이 없어도 Ethernet 통신은 가능하다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson
+192.168.0.18
+    │
+ Ethernet
+    │
+LiDAR
+192.168.0.201
+</code></pre></div></div>
+
+<p>이 두 장치가 같은 network에 있다면
+인터넷 없이도 직접 데이터를 주고받을 수 있다.</p>
+
+<hr>
+
+<h1 id="4-ethernet과-internet은-다르다">4. Ethernet과 Internet은 다르다</h1>
+
+<p>이 차이는 매우 중요하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ethernet
+= Local Network Communication Technology
+
+Internet
+= 전 세계 여러 network를 연결한 네트워크
+</code></pre></div></div>
+
+<p>예를 들어 로봇 내부:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson
+  │
+Ethernet
+  │
+LiDAR
+</code></pre></div></div>
+
+<p>만 있어도 통신 가능하다.</p>
+
+<p>여기에는 인터넷이 필요 없다.</p>
+
+<hr>
+
+<h1 id="5-ip-address">5. IP Address</h1>
+
+<p>Ethernet network에서 장치를 구분할 때 IP address를 사용한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson
+192.168.0.18
+
+LiDAR
+192.168.0.201
+</code></pre></div></div>
+
+<p>IP address는 network 상에서 장치를 찾기 위한 주소다.</p>
+
+<p>대략:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device
+   │
+   └── IP Address
+</code></pre></div></div>
+
+<p>라고 생각하면 된다.</p>
+
+<hr>
+
+<h1 id="6-mac-address">6. MAC Address</h1>
+
+<p>MAC address는 network interface 자체에 연결되는 hardware-level identifier다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>00:1A:2B:3C:4D:5E
+</code></pre></div></div>
+
+<p>IP address와 MAC address는 역할이 다르다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>IP Address</th>
+      <th>MAC Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Network 상의 logical address</td>
+      <td>Network interface의 hardware address</td>
+    </tr>
+    <tr>
+      <td>변경 가능</td>
+      <td>보통 interface에 고유하게 연결</td>
+    </tr>
+    <tr>
+      <td>Router가 다루는 주소</td>
+      <td>Local network에서 frame 전달에 사용</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>단순히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IP = 네트워크 주소
+MAC = 네트워크 카드 주소
+</code></pre></div></div>
+
+<p>정도로 이해하면 된다.</p>
+
+<hr>
+
+<h1 id="7-subnet">7. Subnet</h1>
+
+<p>두 장치가 같은 local network에 있는지 판단할 때 subnet이 중요하다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson
+192.168.0.18
+
+LiDAR
+192.168.0.201
+
+Subnet Mask
+255.255.255.0
+</code></pre></div></div>
+
+<p>이 경우 일반적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>192.168.0.xxx
+</code></pre></div></div>
+
+<p>영역을 같은 subnet으로 본다.</p>
+
+<p>그래서 두 장치가 직접 통신하기 쉽다.</p>
+
+<hr>
+
+<h1 id="8-gateway">8. Gateway</h1>
+
+<p>Gateway는 다른 network로 나갈 때 거쳐 가는 장치다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson
+  │
+  ▼
+Gateway / Router
+  │
+  ▼
+Company Network
+  │
+  ▼
+Internet
+</code></pre></div></div>
+
+<p>로봇 내부 network만 사용할 때는 gateway가 필요 없을 수도 있다.</p>
+
+<hr>
+
+<h1 id="9-ip-addr">9. <code class="language-plaintext highlighter-rouge">ip addr</code>
+</h1>
+
+<p>Linux에서 network interface와 IP를 확인할 때:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip addr
+</code></pre></div></div>
+
+<p>를 사용한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eth0
+wlan0
+lo
+</code></pre></div></div>
+
+<p>같은 interface를 볼 수 있다.</p>
+
+<p>대표적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eth0
+→ Ethernet
+
+wlan0
+→ Wi-Fi
+
+lo
+→ Loopback
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="10-ping">10. <code class="language-plaintext highlighter-rouge">ping</code>
+</h1>
+
+<p>두 장치가 IP network 수준에서 통신 가능한지 확인할 때:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ping 192.168.0.201
+</code></pre></div></div>
+
+<p>를 사용한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson
+   │
+   │ ping
+   ▼
+LiDAR
+</code></pre></div></div>
+
+<p>응답이 오면 적어도 network 경로가 존재한다는 의미다.</p>
+
+<p>하지만 <code class="language-plaintext highlighter-rouge">ping</code>이 된다고 application protocol까지 정상이라는 뜻은 아니다.</p>
+
+<hr>
+
+<h1 id="11-port">11. Port</h1>
+
+<p>하나의 IP address에서 여러 application이 동시에 통신해야 한다.</p>
+
+<p>이때 port 번호를 사용한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>192.168.0.18:22
+</code></pre></div></div>
+
+<p>여기서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>192.168.0.18
+→ Device
+
+22
+→ SSH service port
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SSH → 22
+HTTP → 80
+HTTPS → 443
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="12-ethernet에서-실제-데이터-흐름">12. Ethernet에서 실제 데이터 흐름</h1>
+
+<p>예를 들어 LiDAR가 UDP packet을 보낸다고 하자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+  │
+  │ Ethernet Frame
+  ▼
+Network Interface
+  │
+  ▼
+Linux Kernel
+  │
+  ▼
+UDP Socket
+  │
+  ▼
+LiDAR Driver
+  │
+  ▼
+ROS 2 Topic
+</code></pre></div></div>
+
+<p>즉 Ethernet cable만 연결된다고 바로 ROS 2 topic이 생기는 것이 아니다.</p>
+
+<p>중간에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Network Driver
+Protocol
+Socket
+Sensor Driver
+</code></pre></div></div>
+
+<p>가 필요하다.</p>
+
+<hr>
+
+<h1 id="13-usb">13. USB</h1>
+
+<p>USB는:</p>
+
+<p><strong>Universal Serial Bus</strong></p>
+
+<p>의 약자다.</p>
+
+<p>매우 다양한 device를 연결할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Keyboard
+Camera
+LiDAR
+USB Serial Adapter
+SSD
+Wi-Fi Dongle
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="14-usb의-특징">14. USB의 특징</h1>
+
+<p>USB는 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host
+   │
+   └── Device
+</code></pre></div></div>
+
+<p>구조다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson
+  │
+ USB
+  │
+Camera
+</code></pre></div></div>
+
+<p>여기서 Jetson이 host이고 camera가 device다.</p>
+
+<p>Host가 device를 인식하고 driver를 통해 통신한다.</p>
+
+<hr>
+
+<h1 id="15-usb-version">15. USB Version</h1>
+
+<p>USB에도 여러 version이 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USB 2.0
+USB 3.x
+USB4
+</code></pre></div></div>
+
+<p>version에 따라 최대 bandwidth가 다르다.</p>
+
+<p>Camera나 LiDAR처럼 data rate가 큰 sensor는
+USB bandwidth가 충분한지 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="16-usb-connector와-usb-protocol은-다르다">16. USB Connector와 USB Protocol은 다르다</h1>
+
+<p>중요한 점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USB-C
+</code></pre></div></div>
+
+<p>는 connector 모양이다.</p>
+
+<p>반면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USB 3.2
+USB4
+</code></pre></div></div>
+
+<p>는 protocol/version이다.</p>
+
+<p>따라서:</p>
+
+<blockquote>
+  <p>USB-C라고 해서 항상 같은 속도는 아니다.</p>
+</blockquote>
+
+<p>USB-C connector를 사용해도 USB 2.0 speed일 수 있다.</p>
+
+<hr>
+
+<h1 id="17-linux에서-usb-device-확인">17. Linux에서 USB Device 확인</h1>
+
+<p>USB 장치 목록:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsusb
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bus 001 Device 003: ID ...
+</code></pre></div></div>
+
+<p>장치를 연결하기 전/후에 <code class="language-plaintext highlighter-rouge">lsusb</code>를 비교하면
+Linux가 장치를 인식했는지 확인할 수 있다.</p>
+
+<hr>
+
+<h1 id="18-usb-serial">18. USB Serial</h1>
+
+<p>많은 MCU나 sensor는 USB를 통해 연결되지만
+Linux에서는 serial device처럼 보인다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/dev/ttyUSB0
+/dev/ttyACM0
+</code></pre></div></div>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MCU
+  │
+ USB
+  │
+USB-to-Serial
+  │
+  ▼
+Linux
+/dev/ttyUSB0
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="19-serial-communication">19. Serial Communication</h1>
+
+<p>Serial은 데이터를 bit 단위로 순차적으로 전송하는 방식이다.</p>
+
+<p>Embedded system에서 매우 오래전부터 많이 사용된다.</p>
+
+<p>대표적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UART
+RS-232
+RS-485
+</code></pre></div></div>
+
+<p>등이 있다.</p>
+
+<hr>
+
+<h1 id="20-uart">20. UART</h1>
+
+<p>UART는:</p>
+
+<p><strong>Universal Asynchronous Receiver/Transmitter</strong></p>
+
+<p>이다.</p>
+
+<p>보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TX
+RX
+GND
+</code></pre></div></div>
+
+<p>선을 사용한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device A TX ───── Device B RX
+Device A RX ───── Device B TX
+GND         ───── GND
+</code></pre></div></div>
+
+<p>구조다.</p>
+
+<hr>
+
+<h1 id="21-baud-rate">21. Baud Rate</h1>
+
+<p>Serial 통신에서는 baud rate를 자주 본다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>9600
+115200
+921600
+</code></pre></div></div>
+
+<p>대략 초당 전송되는 symbol rate를 나타낸다.</p>
+
+<p>실무에서는 두 장치의 baud rate가 같아야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device A
+115200
+
+Device B
+115200
+</code></pre></div></div>
+
+<p>처럼 설정해야 정상 통신할 수 있다.</p>
+
+<hr>
+
+<h1 id="22-rs-232와-rs-485">22. RS-232와 RS-485</h1>
+
+<p>둘 다 serial communication 계열이지만 전기적 방식이 다르다.</p>
+
+<h2 id="rs-232">RS-232</h2>
+
+<p>보통 짧은 거리의 point-to-point 연결에 사용된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device A
+   │
+   │ RS-232
+   ▼
+Device B
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="rs-485">RS-485</h2>
+
+<p>차동 신호를 사용해서 noise에 강하고
+더 긴 거리에서 사용할 수 있다.</p>
+
+<p>산업 현장에서 많이 사용된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Controller
+   │
+   ├── Device A
+   ├── Device B
+   └── Device C
+</code></pre></div></div>
+
+<p>multi-drop 구조도 가능하다.</p>
+
+<hr>
+
+<h1 id="23-can-bus">23. CAN Bus</h1>
+
+<p>CAN은:</p>
+
+<p><strong>Controller Area Network</strong></p>
+
+<p>이다.</p>
+
+<p>자동차와 로봇에서 매우 많이 사용된다.</p>
+
+<p>특히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Motor Controller
+Battery
+MCU
+Sensor
+ECU
+</code></pre></div></div>
+
+<p>같은 장치를 연결할 때 사용한다.</p>
+
+<hr>
+
+<h1 id="24-왜-can을-로봇에서-많이-사용할까">24. 왜 CAN을 로봇에서 많이 사용할까?</h1>
+
+<p>로봇 내부는 전기적 noise가 많다.</p>
+
+<p>특히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Motor
+High Current
+Power Electronics
+</code></pre></div></div>
+
+<p>가 존재한다.</p>
+
+<p>CAN은 이런 환경에서 비교적 robust하게 동작하도록 설계되었다.</p>
+
+<p>장점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Noise robustness
+Multi-node communication
+Error detection
+Priority-based message arbitration
+</code></pre></div></div>
+
+<p>등이 있다.</p>
+
+<hr>
+
+<h1 id="25-can-bus-구조">25. CAN Bus 구조</h1>
+
+<p>CAN은 여러 node가 하나의 bus를 공유할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             CAN Bus
+
+MCU A ──────┬──────── MCU B
+            │
+            ├──────── Motor Controller
+            │
+            └──────── Battery Controller
+</code></pre></div></div>
+
+<p>일반적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CAN_H
+CAN_L
+</code></pre></div></div>
+
+<p>두 신호선을 사용한다.</p>
+
+<hr>
+
+<h1 id="26-can-message는-ip처럼-장치-주소를-쓰나">26. CAN Message는 IP처럼 장치 주소를 쓰나?</h1>
+
+<p>CAN에서는 일반적인 Ethernet처럼:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device IP
+</code></pre></div></div>
+
+<p>개념을 사용하지 않는다.</p>
+
+<p>대신 message에 identifier가 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CAN ID 0x101
+CAN ID 0x205
+</code></pre></div></div>
+
+<p>각 node가 특정 CAN ID의 message를 수신하고 해석한다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ethernet
+→ 장치 주소 중심
+
+CAN
+→ Message ID 중심
+</code></pre></div></div>
+
+<p>이라고 단순화해서 생각할 수 있다.</p>
+
+<hr>
+
+<h1 id="27-can-arbitration">27. CAN Arbitration</h1>
+
+<p>CAN에서는 여러 node가 동시에 message를 보내려고 할 수 있다.</p>
+
+<p>이때 CAN ID priority를 이용해 arbitration이 이루어진다.</p>
+
+<p>일반적으로 낮은 numerical ID가 더 높은 priority를 가진다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x100
+0x200
+</code></pre></div></div>
+
+<p>가 동시에 전송을 시작하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x100
+</code></pre></div></div>
+
+<p>이 우선권을 얻을 수 있다.</p>
+
+<hr>
+
+<h1 id="28-linux에서-can">28. Linux에서 CAN</h1>
+
+<p>Linux는 CAN interface를 network interface처럼 다룰 수 있다.</p>
+
+<p>SocketCAN을 사용하는 경우:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>can0
+can1
+</code></pre></div></div>
+
+<p>같은 interface를 볼 수 있다.</p>
+
+<p>확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip <span class="nb">link</span>
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>can0
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="29-can-device-올리기">29. CAN Device 올리기</h1>
+
+<p>예를 들어:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>ip <span class="nb">link set </span>can0 up <span class="nb">type </span>can bitrate 500000
+</code></pre></div></div>
+
+<p>처럼 CAN interface를 설정할 수 있다.</p>
+
+<p>여기서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bitrate 500000
+</code></pre></div></div>
+
+<p>은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>500 kbps
+</code></pre></div></div>
+
+<p>를 의미한다.</p>
+
+<p>정확한 bitrate는 bus에 연결된 모든 device 설정과 맞아야 한다.</p>
+
+<hr>
+
+<h1 id="30-can-message-확인">30. CAN Message 확인</h1>
+
+<p>SocketCAN tool이 설치되어 있다면:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>candump can0
+</code></pre></div></div>
+
+<p>으로 CAN message를 볼 수 있다.</p>
+
+<p>보낼 때는:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cansend
+</code></pre></div></div>
+
+<p>같은 tool을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="31-can과-ros-2">31. CAN과 ROS 2</h1>
+
+<p>구조는 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Motor Controller
+      │
+      │ CAN
+      ▼
+Linux can0
+      │
+      ▼
+CAN Driver Node
+      │
+      ▼
+ROS 2 Topic
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>즉 ROS 2가 CAN 자체를 대체하는 것은 아니다.</p>
+
+<hr>
+
+<h1 id="32-pcie">32. PCIe</h1>
+
+<p>PCIe는:</p>
+
+<p><strong>Peripheral Component Interconnect Express</strong></p>
+
+<p>이다.</p>
+
+<p>컴퓨터 내부에서 고속 device를 연결하기 위한 interface다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU
+NVMe SSD
+Network Card
+Accelerator
+Capture Card
+</code></pre></div></div>
+
+<p>등에 사용된다.</p>
+
+<hr>
+
+<h1 id="33-pcie는-왜-빠른가">33. PCIe는 왜 빠른가?</h1>
+
+<p>PCIe는 high-speed point-to-point link를 사용한다.</p>
+
+<p>대략:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU / SoC
+    │
+   PCIe
+    │
+Device
+</code></pre></div></div>
+
+<p>형태다.</p>
+
+<p>Bandwidth가 매우 높아서 대용량 data transfer에 적합하다.</p>
+
+<hr>
+
+<h1 id="34-pcie-lane">34. PCIe Lane</h1>
+
+<p>PCIe에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x1
+x2
+x4
+x8
+x16
+</code></pre></div></div>
+
+<p>같은 표현을 본다.</p>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">x4</code>는 4개의 lane을 사용한다는 의미다.</p>
+
+<p>일반적으로 lane 수가 많을수록 더 높은 bandwidth를 제공할 수 있다.</p>
+
+<hr>
+
+<h1 id="35-pcie-generation">35. PCIe Generation</h1>
+
+<p>또:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PCIe Gen3
+PCIe Gen4
+PCIe Gen5
+</code></pre></div></div>
+
+<p>같은 표현을 본다.</p>
+
+<p>새 generation일수록 lane당 bandwidth가 증가한다.</p>
+
+<p>따라서 실제 bandwidth는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Generation
+×
+Lane Count
+</code></pre></div></div>
+
+<p>에 영향을 받는다.</p>
+
+<hr>
+
+<h1 id="36-m2">36. M.2</h1>
+
+<p>M.2는 매우 헷갈리는 개념이다.</p>
+
+<p>M.2는 기본적으로 <strong>form factor / connector specification</strong>이다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>M.2 = 물리적 형태
+</code></pre></div></div>
+
+<p>에 가깝다.</p>
+
+<p>M.2 slot을 통해 여러 protocol을 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PCIe
+SATA
+USB
+</code></pre></div></div>
+
+<p>등이다.</p>
+
+<hr>
+
+<h1 id="37-m2-nvme-ssd">37. M.2 NVMe SSD</h1>
+
+<p>Jetson에 NVMe SSD를 연결할 때 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>M.2
++
+PCIe
++
+NVMe
+</code></pre></div></div>
+
+<p>가 함께 등장한다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson
+  │
+  │ PCIe
+  ▼
+M.2 Connector
+  │
+  ▼
+NVMe SSD
+</code></pre></div></div>
+
+<p>여기서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>M.2 = connector/form factor
+PCIe = transport interface
+NVMe = storage protocol
+</code></pre></div></div>
+
+<p>이라고 구분해야 한다.</p>
+
+<hr>
+
+<h1 id="38-sata와-nvme">38. SATA와 NVMe</h1>
+
+<p>Storage에서 자주 비교한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SATA SSD
+NVMe SSD
+</code></pre></div></div>
+
+<p>NVMe SSD는 일반적으로 PCIe를 이용해 더 높은 bandwidth를 제공한다.</p>
+
+<p>로봇에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rosbag
+Video
+Point Cloud
+</code></pre></div></div>
+
+<p>처럼 대용량 데이터를 저장한다면 storage throughput이 중요하다.</p>
+
+<hr>
+
+<h1 id="39-csi-camera">39. CSI Camera</h1>
+
+<p>Jetson에서는 camera 연결에 CSI를 많이 사용한다.</p>
+
+<p>CSI는 일반적으로:</p>
+
+<p><strong>Camera Serial Interface</strong></p>
+
+<p>를 의미한다.</p>
+
+<p>MIPI CSI 계열을 사용한다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera Sensor
+     │
+     │ MIPI CSI
+     ▼
+Jetson SoC
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="40-usb-camera-vs-csi-camera">40. USB Camera vs CSI Camera</h1>
+
+<h2 id="usb-camera">USB Camera</h2>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+  │
+ USB
+  │
+Jetson
+</code></pre></div></div>
+
+<p>장점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>쉽게 연결 가능
+범용성 높음
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="csi-camera">CSI Camera</h2>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera Sensor
+   │
+ MIPI CSI
+   │
+Jetson
+</code></pre></div></div>
+
+<p>장점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Embedded system에 적합
+낮은 overhead 가능
+Jetson ISP pipeline 활용 가능
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="41-isp란">41. ISP란?</h1>
+
+<p>ISP는:</p>
+
+<p><strong>Image Signal Processor</strong></p>
+
+<p>이다.</p>
+
+<p>Raw camera sensor data를 실제 image로 처리한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Raw Bayer Image
+     │
+     ▼
+ISP
+     │
+     ├── Demosaicing
+     ├── White Balance
+     ├── Noise Reduction
+     └── Color Processing
+     │
+     ▼
+RGB Image
+</code></pre></div></div>
+
+<p>Jetson에는 camera processing에 특화된 hardware block이 존재할 수 있다.</p>
+
+<hr>
+
+<h1 id="42-ethernet-lidar">42. Ethernet LiDAR</h1>
+
+<p>많은 3D LiDAR는 Ethernet을 사용한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+  │
+  │ UDP packets
+  ▼
+Ethernet
+  │
+  ▼
+Jetson
+  │
+  ▼
+LiDAR Driver
+  │
+  ▼
+PointCloud2
+</code></pre></div></div>
+
+<p>대용량 point cloud를 지속적으로 보내야 하기 때문에 Ethernet이 적합하다.</p>
+
+<hr>
+
+<h1 id="43-udp란">43. UDP란?</h1>
+
+<p>Ethernet 위에서는 여러 transport protocol을 사용할 수 있다.</p>
+
+<p>대표적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TCP
+UDP
+</code></pre></div></div>
+
+<p>가 있다.</p>
+
+<p>LiDAR sensor는 UDP를 사용하는 경우가 많다.</p>
+
+<p>UDP는 connection-oriented reliability보다
+낮은 overhead와 빠른 전달을 중요하게 여긴다.</p>
+
+<hr>
+
+<h1 id="44-tcp-vs-udp">44. TCP vs UDP</h1>
+
+<p>단순 비교:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>TCP</th>
+      <th>UDP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>연결 지향</td>
+      <td>비연결형</td>
+    </tr>
+    <tr>
+      <td>순서/재전송 지원</td>
+      <td>기본적으로 재전송 없음</td>
+    </tr>
+    <tr>
+      <td>신뢰성 중심</td>
+      <td>낮은 latency/overhead</td>
+    </tr>
+    <tr>
+      <td>Web, SSH 등</td>
+      <td>Streaming, sensor data 등에 자주 사용</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>하지만 실제 protocol 선택은 application 요구에 따라 달라진다.</p>
+
+<hr>
+
+<h1 id="45-packet이란">45. Packet이란?</h1>
+
+<p>Network에서는 데이터를 한 번에 거대한 덩어리로 보내는 것이 아니라
+작은 단위로 나누어 전달한다.</p>
+
+<p>이를 흔히 packet이라고 부른다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Scan
+     │
+     ▼
+Packet 1
+Packet 2
+Packet 3
+...
+     │
+     ▼
+Jetson
+     │
+     ▼
+Driver reconstructs point cloud
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="46-driver란">46. Driver란?</h1>
+
+<p>Driver는 hardware와 operating system/application 사이를 연결하는 software다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Hardware
+      │
+      ▼
+Network / USB
+      │
+      ▼
+Driver
+      │
+      ▼
+Application
+</code></pre></div></div>
+
+<p>ROS에서는 sensor vendor driver가 ROS node 형태로 제공되는 경우가 많다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Velodyne
+   │
+   ▼
+velodyne_driver
+   │
+   ▼
+ROS 2 Topic
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="47-hardware-driver와-ros-driver">47. Hardware Driver와 ROS Driver</h1>
+
+<p>엄밀히는 여러 layer가 있을 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor
+  │
+  ▼
+Linux Kernel Driver
+  │
+  ▼
+User-space SDK
+  │
+  ▼
+ROS 2 Driver Node
+  │
+  ▼
+ROS Topic
+</code></pre></div></div>
+
+<p>어떤 sensor는 kernel driver가 필요하고,
+어떤 sensor는 Ethernet socket만 사용해서 user-space에서 직접 통신할 수도 있다.</p>
+
+<hr>
+
+<h1 id="48-vision60-내부-연결을-생각해보자">48. Vision60 내부 연결을 생각해보자</h1>
+
+<p>단순화하면 다음과 같은 구조를 상상할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                     Vision60
+
+LiDAR ─── Ethernet ──────┐
+                         │
+Camera ─── USB / CSI ────┤
+                         ▼
+                   Jetson / Xavier
+                         │
+                         ├── ROS 2
+                         ├── SLAM
+                         ├── Perception
+                         │
+                         ▼
+                    MCU / Controller
+                         │
+                      CAN / Other Bus
+                         │
+                         ▼
+                    Joint Motors
+</code></pre></div></div>
+
+<p>실제 Vision60의 정확한 내부 연결은 hardware revision과 configuration에 따라 다를 수 있지만,
+개념적으로는 이 구조로 이해할 수 있다.</p>
+
+<hr>
+
+<h1 id="49-xavier와-orin을-ethernet으로-연결한다는-의미">49. Xavier와 Orin을 Ethernet으로 연결한다는 의미</h1>
+
+<p>예를 들어 로봇 안에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Xavier
+Orin
+</code></pre></div></div>
+
+<p>두 대의 computer가 있다고 하자.</p>
+
+<p>Ethernet으로 연결하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Xavier
+192.168.1.10
+      │
+   Ethernet
+      │
+Orin
+192.168.1.20
+</code></pre></div></div>
+
+<p>두 컴퓨터는 하나의 local network에서 통신할 수 있다.</p>
+
+<p>그러면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SSH
+ROS 2
+TCP
+UDP
+File Transfer
+</code></pre></div></div>
+
+<p>등이 가능하다.</p>
+
+<hr>
+
+<h1 id="50-ros-2는-physical-interface가-아니다">50. ROS 2는 Physical Interface가 아니다</h1>
+
+<p>이 부분은 매우 중요하다.</p>
+
+<p>ROS 2는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ethernet
+CAN
+USB
+</code></pre></div></div>
+
+<p>같은 physical interface가 아니다.</p>
+
+<p>ROS 2는 application-level robotics middleware/framework다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2
+   │
+   ▼
+DDS
+   │
+   ▼
+UDP / Network
+   │
+   ▼
+Ethernet / Wi-Fi
+</code></pre></div></div>
+
+<p>같은 구조가 될 수 있다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2
+≠ Ethernet
+
+ROS 2
+≠ TCP
+
+ROS 2
+≠ CAN
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="51-network-stack">51. Network Stack</h1>
+
+<p>Ethernet communication을 layer로 보면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2 Application
+       │
+       ▼
+DDS / Middleware
+       │
+       ▼
+UDP / TCP
+       │
+       ▼
+IP
+       │
+       ▼
+Ethernet
+       │
+       ▼
+Cable / PHY
+</code></pre></div></div>
+
+<p>각 layer가 서로 다른 역할을 한다.</p>
+
+<hr>
+
+<h1 id="52-phy란">52. PHY란?</h1>
+
+<p>Ethernet documentation에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PHY
+</code></pre></div></div>
+
+<p>라는 단어를 볼 수 있다.</p>
+
+<p>PHY는 physical layer transceiver다.</p>
+
+<p>Digital network data를 실제 cable signal로 바꾸고,
+반대로 cable signal을 digital data로 바꾼다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SoC
+ │
+MAC
+ │
+PHY
+ │
+Ethernet Cable
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="53-bandwidth">53. Bandwidth</h1>
+
+<p>Bandwidth는 일정 시간 동안 얼마나 많은 데이터를 전송할 수 있는지를 의미한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100 Mbps
+1 Gbps
+10 Gbps
+</code></pre></div></div>
+
+<p>LiDAR, camera처럼 data rate가 큰 sensor를 여러 개 연결하면
+bandwidth가 부족할 수 있다.</p>
+
+<hr>
+
+<h1 id="54-latency">54. Latency</h1>
+
+<p>Latency는 데이터가 한 지점에서 다른 지점까지 전달되는 데 걸리는 시간이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor
+   │
+   │ 5 ms
+   ▼
+Jetson
+</code></pre></div></div>
+
+<p>로봇에서는 bandwidth뿐 아니라 latency도 매우 중요하다.</p>
+
+<hr>
+
+<h1 id="55-bandwidth와-latency는-다르다">55. Bandwidth와 Latency는 다르다</h1>
+
+<p>비유하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bandwidth
+= 도로 차선 수
+
+Latency
+= 목적지까지 걸리는 시간
+</code></pre></div></div>
+
+<p>차선이 많다고 반드시 목적지까지 빨리 도착하는 것은 아니다.</p>
+
+<hr>
+
+<h1 id="56-sensor-interface를-고를-때-보는-것">56. Sensor Interface를 고를 때 보는 것</h1>
+
+<p>어떤 interface가 좋은지는 application에 따라 다르다.</p>
+
+<p>확인할 요소:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Data Rate
+Latency
+Cable Length
+Noise
+Reliability
+Power
+Connector
+Cost
+Number of Devices
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="57-간단-비교">57. 간단 비교</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Interface</th>
+      <th>주요 용도</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ethernet</td>
+      <td>LiDAR, computer-to-computer, network device</td>
+    </tr>
+    <tr>
+      <td>USB</td>
+      <td>Camera, serial adapter, general peripheral</td>
+    </tr>
+    <tr>
+      <td>UART</td>
+      <td>MCU, simple sensor</td>
+    </tr>
+    <tr>
+      <td>RS-485</td>
+      <td>Industrial serial communication</td>
+    </tr>
+    <tr>
+      <td>CAN</td>
+      <td>Motor controller, automotive/robot bus</td>
+    </tr>
+    <tr>
+      <td>PCIe</td>
+      <td>NVMe, accelerator, high-speed device</td>
+    </tr>
+    <tr>
+      <td>MIPI CSI</td>
+      <td>Embedded camera</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="58-문제를-디버깅하는-순서">58. 문제를 디버깅하는 순서</h1>
+
+<p>Sensor 데이터가 안 들어올 때 다음 순서로 보면 좋다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Physical Connection
+      │
+      ▼
+Interface Detection
+      │
+      ▼
+Linux Device / Network
+      │
+      ▼
+Driver
+      │
+      ▼
+ROS 2 Node
+      │
+      ▼
+ROS 2 Topic
+      │
+      ▼
+Application
+</code></pre></div></div>
+
+<p>예를 들어 Ethernet LiDAR라면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cable connected?
+      ↓
+Link up?
+      ↓
+IP correct?
+      ↓
+ping?
+      ↓
+UDP packets arriving?
+      ↓
+LiDAR driver running?
+      ↓
+ROS topic published?
+      ↓
+FAST-LIO2 subscribed?
+</code></pre></div></div>
+
+<p>순서로 확인할 수 있다.</p>
+
+<hr>
+
+<h1 id="59-usb-sensor-debugging">59. USB Sensor Debugging</h1>
+
+<p>USB sensor라면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device connected?
+      ↓
+lsusb
+      ↓
+/dev device exists?
+      ↓
+Permission?
+      ↓
+Driver running?
+      ↓
+ROS topic?
+</code></pre></div></div>
+
+<p>으로 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="60-can-debugging">60. CAN Debugging</h1>
+
+<p>CAN이라면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Physical wiring?
+      ↓
+CAN_H / CAN_L?
+      ↓
+Termination?
+      ↓
+Bitrate?
+      ↓
+can0 up?
+      ↓
+candump can0
+      ↓
+Driver node?
+</code></pre></div></div>
+
+<p>순서로 확인한다.</p>
+
+<hr>
+
+<h1 id="61-can-termination-resistor">61. CAN Termination Resistor</h1>
+
+<p>CAN bus에서는 일반적으로 bus 양 끝에 termination resistor가 필요하다.</p>
+
+<p>대표적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>120 Ω
+</code></pre></div></div>
+
+<p>resistor를 사용한다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>120Ω                           120Ω
+ │                              │
+ ▼                              ▼
+Node A ===== CAN BUS ===== Node B
+</code></pre></div></div>
+
+<p>termination이 잘못되면 signal reflection 때문에 통신 문제가 발생할 수 있다.</p>
+
+<hr>
+
+<h1 id="62-full-duplex와-half-duplex">62. Full Duplex와 Half Duplex</h1>
+
+<p>통신에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Full Duplex
+Half Duplex
+</code></pre></div></div>
+
+<p>라는 표현도 본다.</p>
+
+<h2 id="full-duplex">Full Duplex</h2>
+
+<p>송신과 수신을 동시에 가능.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A → B
+A ← B
+</code></pre></div></div>
+
+<p>동시 가능.</p>
+
+<hr>
+
+<h2 id="half-duplex">Half Duplex</h2>
+
+<p>한 시점에는 한 방향 통신 중심.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A → B
+
+or
+
+A ← B
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="63-ethernet-switch">63. Ethernet Switch</h1>
+
+<p>여러 Ethernet device를 연결할 때 switch를 사용한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             Switch
+           /   |    \
+          /    |     \
+      Jetson LiDAR  Xavier
+</code></pre></div></div>
+
+<p>Switch는 local Ethernet network에서 frame을 적절한 port로 전달한다.</p>
+
+<hr>
+
+<h1 id="64-router와-switch-차이">64. Router와 Switch 차이</h1>
+
+<p>단순화하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Switch
+→ 같은 local network 안의 device 연결
+
+Router
+→ 서로 다른 network 연결
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot Internal Network
+        │
+      Router
+        │
+Company Network
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="65-robot-내부-network">65. Robot 내부 Network</h1>
+
+<p>로봇 내부 network는 인터넷과 독립적으로 구성할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot Network
+
+Xavier      192.168.10.10
+Orin        192.168.10.11
+LiDAR       192.168.10.20
+Camera      192.168.10.30
+</code></pre></div></div>
+
+<p>이 장치들은 서로 통신할 수 있다.</p>
+
+<p>인터넷 연결은 별도의 interface를 통해 제공할 수 있다.</p>
+
+<hr>
+
+<h1 id="66-두-개의-network-interface">66. 두 개의 Network Interface</h1>
+
+<p>Jetson이 다음처럼 두 network에 동시에 연결될 수도 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson
+
+eth0
+│
+└── Robot Network
+    192.168.10.x
+
+wlan0
+│
+└── Company Wi-Fi
+    10.x.x.x
+</code></pre></div></div>
+
+<p>이 경우 Jetson은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot Internal Communication
++
+Company Network / Internet
+</code></pre></div></div>
+
+<p>을 동시에 사용할 수 있다.</p>
+
+<p>단, routing과 security 설정을 제대로 해야 한다.</p>
+
+<hr>
+
+<h1 id="67-routing">67. Routing</h1>
+
+<p>Routing은 packet을 어느 network interface로 보낼지 결정하는 과정이다.</p>
+
+<p>확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip route
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default via ...
+192.168.10.0/24 dev eth0
+</code></pre></div></div>
+
+<p>같은 정보가 나온다.</p>
+
+<hr>
+
+<h1 id="68-vision60에서-네트워크-구조를-볼-때">68. Vision60에서 네트워크 구조를 볼 때</h1>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Mac
+ │
+Company Wi-Fi
+ │
+Router
+ │
+Orin
+ │
+Ethernet
+ │
+Xavier
+ │
+Robot Internal Network
+</code></pre></div></div>
+
+<p>처럼 구성할 수 있다.</p>
+
+<p>이 경우 중요한 질문은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Mac에서 Xavier까지 route가 있는가?
+Firewall은 허용하는가?
+IP subnet이 맞는가?
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="69-ros-2와-network">69. ROS 2와 Network</h1>
+
+<p>ROS 2가 여러 computer에 걸쳐 동작할 때 network가 중요하다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Xavier
+ROS 2 Node A
+      │
+      │ Ethernet
+      ▼
+Orin
+ROS 2 Node B
+</code></pre></div></div>
+
+<p>둘이 같은 ROS 2 domain과 compatible middleware/network 설정을 사용하면
+topic을 주고받을 수 있다.</p>
+
+<hr>
+
+<h1 id="70-ros_domain_id">70. ROS_DOMAIN_ID</h1>
+
+<p>ROS 2에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">ROS_DOMAIN_ID</span><span class="o">=</span>123
+</code></pre></div></div>
+
+<p>같은 설정을 사용할 수 있다.</p>
+
+<p>같은 network에 있어도 domain이 다르면 discovery가 분리될 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Xavier
+ROS_DOMAIN_ID=123
+
+Orin
+ROS_DOMAIN_ID=123
+</code></pre></div></div>
+
+<p>이면 같은 ROS domain에 들어갈 수 있다.</p>
+
+<hr>
+
+<h1 id="71-dds">71. DDS</h1>
+
+<p>ROS 2는 내부 middleware로 DDS 계열을 사용하는 경우가 많다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2 Node
+    │
+    ▼
+rclcpp / rclpy
+    │
+    ▼
+RMW
+    │
+    ▼
+DDS
+    │
+    ▼
+UDP / Network
+</code></pre></div></div>
+
+<p>이 구조는 다음 Chapter에서 더 자세히 다룬다.</p>
+
+<hr>
+
+<h1 id="72-오늘의-핵심">72. 오늘의 핵심</h1>
+
+<p>센서와 Jetson 사이에는 항상 실제 data path가 존재한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor
+   │
+   ▼
+Physical Interface
+   │
+   ▼
+Linux
+   │
+   ▼
+Driver
+   │
+   ▼
+ROS 2
+   │
+   ▼
+Algorithm
+</code></pre></div></div>
+
+<p>그리고 다음을 구분해야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ethernet ≠ Internet
+
+USB-C ≠ USB Speed
+
+M.2 ≠ PCIe
+
+PCIe ≠ NVMe
+
+ROS 2 ≠ Ethernet
+
+CAN ≠ ROS 2
+
+IP Address ≠ MAC Address
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="73-robot-hardware-mental-model">73. Robot Hardware Mental Model</h1>
+
+<p>Vision60 같은 로봇에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                  Robot
+
+LiDAR ── Ethernet ──────┐
+                        │
+Camera ── USB / CSI ────┤
+                        ▼
+                    Jetson
+                        │
+                        ├── Linux
+                        ├── ROS 2
+                        ├── SLAM
+                        └── AI
+                        │
+                        ▼
+                     MCU
+                        │
+                     CAN Bus
+                        │
+                        ▼
+                 Motor Controllers
+</code></pre></div></div>
+
+<p>처럼 생각할 수 있다.</p>
+
+<hr>
+
+<h1 id="74-mini-practice">74. Mini Practice</h1>
+
+<p>Jetson에서 network 확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip addr
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip route
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ping &lt;device-ip&gt;
+</code></pre></div></div>
+
+<hr>
+
+<p>USB 확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsusb
+</code></pre></div></div>
+
+<hr>
+
+<p>Serial device 확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> /dev/ttyUSB<span class="k">*</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> /dev/ttyACM<span class="k">*</span>
+</code></pre></div></div>
+
+<hr>
+
+<p>PCIe device 확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lspci
+</code></pre></div></div>
+
+<hr>
+
+<p>Storage 확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsblk
+</code></pre></div></div>
+
+<hr>
+
+<p>Network interface 확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip <span class="nb">link</span>
+</code></pre></div></div>
+
+<hr>
+
+<p>CAN interface가 있다면:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip <span class="nb">link </span>show can0
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="next-chapter">Next Chapter</h1>
+
+<h2 id="chapter-6-ros-2-as-a-robotics-middleware">Chapter 6. ROS 2 as a Robotics Middleware</h2>
+
+<p>다음 Chapter에서는 지금까지의 hardware와 Linux 위에서
+ROS 2가 정확히 어떤 역할을 하는지 살펴본다.</p>
+
+<ul>
+  <li>ROS 2는 Operating System인가?</li>
+  <li>ROS 2는 Protocol인가?</li>
+  <li>ROS 2를 Framework라고 불러도 되는가?</li>
+  <li>Node란 무엇인가?</li>
+  <li>Topic, Service, Action은 무엇이 다른가?</li>
+  <li>Publisher와 Subscriber는 무엇인가?</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">rclcpp</code>, <code class="language-plaintext highlighter-rouge">rclpy</code>는 무엇인가?</li>
+  <li>RMW는 무엇인가?</li>
+  <li>DDS는 무엇인가?</li>
+  <li>CycloneDDS와 Fast DDS는 무엇이 다른가?</li>
+  <li>TCP/UDP와 ROS 2는 어떤 관계인가?</li>
+  <li>Network가 없어도 ROS 2 communication이 가능한가?</li>
+  <li>ROS_DOMAIN_ID는 왜 필요한가?</li>
+  <li>QoS는 무엇인가?</li>
+  <li>SensorDataQoS는 왜 LiDAR/IMU에서 사용하는가?</li>
+</ul>
+
+<p>Chapter 6에서는 지금까지 배운:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware
++
+Linux
++
+Network
+</code></pre></div></div>
+
+<p>위에 ROS 2가 어떤 layer로 올라가는지 연결해서 이해한다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/edge_computing/chapter06-ros2/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 6. ROS 2 as a Robotics Middleware</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

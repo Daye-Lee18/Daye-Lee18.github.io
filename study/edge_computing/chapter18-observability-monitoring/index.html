@@ -1,0 +1,3373 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 18. Observability &amp; Monitoring | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter18-observability-monitoring/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 18. Observability &amp; Monitoring</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> Robot이 단순히 “켜져 있는지”가 아니라,
+내부에서 실제로 어떤 일이 일어나고 있는지 외부에서 파악할 수 있도록 만드는 방법을 이해한다.</p>
+
+  <p>Logs, Metrics, Traces, Events, Health Check, Dashboard, Alerting의 차이를 이해하고,
+CPU/GPU/RAM, Temperature, Disk, Network, ROS Topic Rate, Latency를
+실제 robot monitoring에 연결하는 것이 목표다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="1-monitoring이-왜-필요한가">1. Monitoring이 왜 필요한가?</h1>
+
+<p>Robot 한 대를 직접 보고 있다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SSH 접속
+htop 실행
+ros2 topic list
+tegrastats 확인
+</code></pre></div></div>
+
+<p>하면서 상태를 볼 수 있다.</p>
+
+<p>하지만 robot이 여러 대라면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot 001
+Robot 002
+Robot 003
+...
+Robot 100
+</code></pre></div></div>
+
+<p>모두 직접 SSH로 접속해서 확인하기 어렵다.</p>
+
+<p>그래서 robot이 자신의 상태를 외부로 알려줘야 한다.</p>
+
+<hr>
+
+<h1 id="2-observability란">2. Observability란?</h1>
+
+<p>Observability는:</p>
+
+<blockquote>
+  <p>System 외부에서 수집한 정보만으로 내부 상태를 얼마나 잘 이해할 수 있는가?</p>
+</blockquote>
+
+<p>를 의미한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot stopped
+</code></pre></div></div>
+
+<p>만 알면 원인을 알기 어렵다.</p>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU 95%
+LiDAR 0 Hz
+Disk 97%
+FAST-LIO2 error
+Temperature 88°C
+</code></pre></div></div>
+
+<p>를 함께 볼 수 있다면 원인을 훨씬 빨리 좁힐 수 있다.</p>
+
+<hr>
+
+<h1 id="3-monitoring과-observability는-같은가">3. Monitoring과 Observability는 같은가?</h1>
+
+<p>비슷하지만 완전히 같지는 않다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Monitoring
+→ 미리 정의한 상태/metric을 계속 관찰
+
+Observability
+→ 예상하지 못한 문제도 내부 정보를 조합해 원인을 추론할 수 있는 능력
+</code></pre></div></div>
+
+<p>이라고 이해하면 된다.</p>
+
+<hr>
+
+<h1 id="4-observability의-대표적인-세-요소">4. Observability의 대표적인 세 요소</h1>
+
+<p>소프트웨어 시스템에서는 흔히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Logs
+Metrics
+Traces
+</code></pre></div></div>
+
+<p>를 observability의 핵심 요소로 본다.</p>
+
+<p>Robot에서는 여기에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Events
+Health
+Sensor status
+</code></pre></div></div>
+
+<p>도 매우 중요하다.</p>
+
+<hr>
+
+<h1 id="5-logs">5. Logs</h1>
+
+<p>Logs는:</p>
+
+<blockquote>
+  <p>특정 시점에 어떤 일이 일어났는지 기록한 text/event data</p>
+</blockquote>
+
+<p>다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>23:01:10 FAST-LIO2 started
+23:01:15 LiDAR timeout
+23:01:16 Mapping paused
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="6-logs의-장점">6. Logs의 장점</h1>
+
+<p>Logs는 상세한 context를 남길 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>error code
+file name
+sensor state
+exception
+configuration value
+</code></pre></div></div>
+
+<p>문제 원인 분석에 매우 유용하다.</p>
+
+<hr>
+
+<h1 id="7-logs의-단점">7. Logs의 단점</h1>
+
+<p>Log를 너무 많이 남기면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Disk 사용량 증가
+I/O 증가
+분석 어려움
+</code></pre></div></div>
+
+<p>문제가 생긴다.</p>
+
+<p>그래서 log level과 retention을 적절히 관리해야 한다.</p>
+
+<hr>
+
+<h1 id="8-metrics">8. Metrics</h1>
+
+<p>Metrics는:</p>
+
+<blockquote>
+  <p>숫자로 표현되는 system 상태 값</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Usage = 65%
+GPU Usage = 80%
+RAM Usage = 12 GB
+Temperature = 72°C
+LiDAR Rate = 10 Hz
+Odometry Rate = 95 Hz
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="9-metrics의-특징">9. Metrics의 특징</h1>
+
+<p>Metrics는 시간에 따라 계속 기록할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Time    CPU
+
+10:00   30%
+10:01   45%
+10:02   90%
+10:03   95%
+</code></pre></div></div>
+
+<p>그래서 trend를 보기 좋다.</p>
+
+<hr>
+
+<h1 id="10-time-series">10. Time Series</h1>
+
+<p>시간에 따라 변하는 metric data를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Time Series
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Temperature over time
+CPU usage over time
+Latency over time
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="11-traces">11. Traces</h1>
+
+<p>Trace는 하나의 요청이나 작업이
+여러 component를 거치는 경로를 추적하는 것이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera Frame
+   ↓
+Driver
+   ↓
+ROS 2
+   ↓
+Preprocessing
+   ↓
+Inference
+   ↓
+Postprocessing
+   ↓
+Navigation
+</code></pre></div></div>
+
+<p>각 단계의 시간을 기록하면 어디서 느려졌는지 알 수 있다.</p>
+
+<hr>
+
+<h1 id="12-distributed-trace">12. Distributed Trace</h1>
+
+<p>여러 process나 computer에 걸쳐 하나의 작업을 추적하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Distributed Trace
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Xavier
+LiDAR Driver
+   ↓
+ROS 2 Network
+   ↓
+Orin
+FAST-LIO2
+   ↓
+Navigation
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="13-events">13. Events</h1>
+
+<p>Event는 중요한 사건이 발생했을 때 기록하는 데이터다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>E-stop pressed
+LiDAR disconnected
+Localization lost
+Deployment started
+Robot rebooted
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="14-event-vs-metric">14. Event vs Metric</h1>
+
+<p>Metric:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Temperature = 75°C
+</code></pre></div></div>
+
+<p>Event:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Temperature exceeded threshold
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="15-event-vs-log">15. Event vs Log</h1>
+
+<p>Event는 중요한 상태 변화 중심이고,
+log는 더 상세한 실행 정보를 담을 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Event
+Localization Lost
+
+Log
+ICP residual exceeded threshold...
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="16-health-check">16. Health Check</h1>
+
+<p>Health Check는:</p>
+
+<blockquote>
+  <p>Component가 정상적으로 동작하고 있는지 판단하는 검사</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR healthy?
+FAST-LIO2 healthy?
+Navigation healthy?
+Disk healthy?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="17-process-alive만-보면-부족하다">17. Process Alive만 보면 부족하다</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2 process exists
+</code></pre></div></div>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/odometry = 0 Hz
+</code></pre></div></div>
+
+<p>일 수 있다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Process alive
+≠
+Application healthy
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="18-liveness">18. Liveness</h1>
+
+<p>Liveness는:</p>
+
+<blockquote>
+  <p>Component가 살아 있는가?</p>
+</blockquote>
+
+<p>를 본다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Process running
+Heartbeat received
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="19-readiness">19. Readiness</h1>
+
+<p>Readiness는:</p>
+
+<blockquote>
+  <p>Component가 실제 작업을 수행할 준비가 되어 있는가?</p>
+</blockquote>
+
+<p>를 본다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2 process alive
+but LiDAR not connected
+</code></pre></div></div>
+
+<p>이면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Alive
+but Not Ready
+</code></pre></div></div>
+
+<p>일 수 있다.</p>
+
+<hr>
+
+<h1 id="20-liveness-vs-readiness">20. Liveness vs Readiness</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Liveness
+→ 살아 있는가?
+
+Readiness
+→ 실제 일을 할 준비가 되었는가?
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="21-robot-health는-계층적으로-봐야-한다">21. Robot Health는 계층적으로 봐야 한다</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot Health
+
+├── System
+│   ├── CPU
+│   ├── RAM
+│   └── Disk
+│
+├── Hardware
+│   ├── LiDAR
+│   ├── IMU
+│   └── Camera
+│
+├── ROS
+│   ├── Nodes
+│   ├── Topics
+│   └── DDS
+│
+└── Application
+    ├── SLAM
+    ├── Navigation
+    └── AI
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="22-system-metrics">22. System Metrics</h1>
+
+<p>먼저 computer 자체 상태를 본다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Usage
+GPU Usage
+RAM Usage
+Disk Usage
+Temperature
+Power
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="23-cpu-monitoring">23. CPU Monitoring</h1>
+
+<p>Linux:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>top
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>htop
+</code></pre></div></div>
+
+<p>을 사용할 수 있다.</p>
+
+<p>Fleet monitoring에서는 이 값을 telemetry로 보내면 된다.</p>
+
+<hr>
+
+<h1 id="24-gpu-monitoring">24. GPU Monitoring</h1>
+
+<p>Jetson에서는:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tegrastats
+</code></pre></div></div>
+
+<p>를 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU utilization
+Memory
+Temperature
+Power
+</code></pre></div></div>
+
+<p>등을 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="25-temperature-monitoring">25. Temperature Monitoring</h1>
+
+<p>온도는 매우 중요하다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU 85°C
+GPU 88°C
+</code></pre></div></div>
+
+<p>가 계속된다면 thermal throttling 가능성을 봐야 한다.</p>
+
+<hr>
+
+<h1 id="26-disk-monitoring">26. Disk Monitoring</h1>
+
+<p>확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">df</span> <span class="nt">-h</span>
+</code></pre></div></div>
+
+<p>Fleet metric:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Disk Used %
+Disk Available GB
+</code></pre></div></div>
+
+<p>를 보낼 수 있다.</p>
+
+<hr>
+
+<h1 id="27-disk-alert">27. Disk Alert</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Warning:
+Disk &gt; 80%
+
+Critical:
+Disk &gt; 95%
+</code></pre></div></div>
+
+<p>처럼 threshold를 둘 수 있다.</p>
+
+<p>정확한 threshold는 application에 맞춰 결정한다.</p>
+
+<hr>
+
+<h1 id="28-ram-monitoring">28. RAM Monitoring</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>free <span class="nt">-h</span>
+</code></pre></div></div>
+
+<p>로 확인할 수 있다.</p>
+
+<p>중요:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Used RAM
+Available RAM
+Swap
+</code></pre></div></div>
+
+<p>을 함께 본다.</p>
+
+<hr>
+
+<h1 id="29-oom-위험">29. OOM 위험</h1>
+
+<p>RAM 사용량이 계속 증가하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Memory Leak
+Queue buildup
+Large cache
+</code></pre></div></div>
+
+<p>를 의심할 수 있다.</p>
+
+<p>결국 OOM killer가 process를 종료할 수 있다.</p>
+
+<hr>
+
+<h1 id="30-network-monitoring">30. Network Monitoring</h1>
+
+<p>Network에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bandwidth
+Packet Loss
+Errors
+Dropped Packets
+Latency
+</code></pre></div></div>
+
+<p>를 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="31-interface-statistics">31. Interface Statistics</h1>
+
+<p>Linux:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip <span class="nt">-s</span> <span class="nb">link</span>
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RX packets
+TX packets
+errors
+dropped
+</code></pre></div></div>
+
+<p>를 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="32-network-packet-drop">32. Network Packet Drop</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RX dropped rapidly increasing
+</code></pre></div></div>
+
+<p>이면 sensor data loss와 관련될 수 있다.</p>
+
+<hr>
+
+<h1 id="33-ping-monitoring">33. Ping Monitoring</h1>
+
+<p>장치 간 basic connectivity:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ping &lt;device-ip&gt;
+</code></pre></div></div>
+
+<p>로 확인할 수 있다.</p>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ping OK
+≠
+Application Healthy
+</code></pre></div></div>
+
+<p>임을 기억한다.</p>
+
+<hr>
+
+<h1 id="34-sensor-metrics">34. Sensor Metrics</h1>
+
+<p>Robot에서는 system resource보다 sensor health가 더 중요할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR frequency
+IMU frequency
+Camera FPS
+Joint state frequency
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="35-ros-topic-rate">35. ROS Topic Rate</h1>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic hz /imu
+</code></pre></div></div>
+
+<p>Expected:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>200 Hz
+</code></pre></div></div>
+
+<p>Actual:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>195 Hz
+</code></pre></div></div>
+
+<p>이면 정상 범위일 수 있다.</p>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>10 Hz
+</code></pre></div></div>
+
+<p>까지 떨어졌다면 문제다.</p>
+
+<hr>
+
+<h1 id="36-topic-frequency-monitoring">36. Topic Frequency Monitoring</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/imu
+
+Expected:
+200 Hz
+
+Warning:
+&lt; 180 Hz
+
+Critical:
+&lt; 100 Hz
+</code></pre></div></div>
+
+<p>같은 health rule을 만들 수 있다.</p>
+
+<hr>
+
+<h1 id="37-lidar-monitoring">37. LiDAR Monitoring</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Expected:
+10 Hz
+
+Actual:
+10 Hz
+</code></pre></div></div>
+
+<p>뿐 아니라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Point count
+Timestamp
+Packet drop
+</code></pre></div></div>
+
+<p>도 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="38-camera-monitoring">38. Camera Monitoring</h1>
+
+<p>Camera:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FPS
+Dropped frames
+Exposure
+Image timestamp delay
+</code></pre></div></div>
+
+<p>등을 모니터링할 수 있다.</p>
+
+<hr>
+
+<h1 id="39-timestamp-monitoring">39. Timestamp Monitoring</h1>
+
+<p>Chapter 11과 연결된다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Current System Time
+-
+Sensor Timestamp
+=
+Age
+</code></pre></div></div>
+
+<p>를 계산할 수 있다.</p>
+
+<hr>
+
+<h1 id="40-data-age">40. Data Age</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Current:
+10.500
+
+Message timestamp:
+10.100
+
+Age:
+400 ms
+</code></pre></div></div>
+
+<p>이면 최신 sensor data가 아니라
+오래된 데이터를 처리하고 있을 수 있다.</p>
+
+<hr>
+
+<h1 id="41-queue-buildup-monitoring">41. Queue Buildup Monitoring</h1>
+
+<p>Queue가 쌓이면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Topic frequency는 정상
+</code></pre></div></div>
+
+<p>이어도 latency가 증가할 수 있다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Message Age
+Queue Size
+</code></pre></div></div>
+
+<p>도 중요한 metric이다.</p>
+
+<hr>
+
+<h1 id="42-fast-lio2-metrics">42. FAST-LIO2 Metrics</h1>
+
+<p>FAST-LIO2에서는 예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input LiDAR Rate
+Input IMU Rate
+Output Odometry Rate
+Processing Time
+Map Size
+Residual
+Dropped Frames
+</code></pre></div></div>
+
+<p>등을 metric으로 만들 수 있다.</p>
+
+<hr>
+
+<h1 id="43-slam-health">43. SLAM Health</h1>
+
+<p>단순히 <code class="language-plaintext highlighter-rouge">/odometry</code>가 나온다고 정상은 아니다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Pose jump
+Large drift
+Map corruption
+</code></pre></div></div>
+
+<p>이 발생할 수 있다.</p>
+
+<p>따라서 quality metric도 필요하다.</p>
+
+<hr>
+
+<h1 id="44-quality-metric">44. Quality Metric</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Residual
+Covariance
+Registration score
+Innovation
+Tracking status
+</code></pre></div></div>
+
+<p>등이 health indicator가 될 수 있다.</p>
+
+<hr>
+
+<h1 id="45-navigation-metrics">45. Navigation Metrics</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Goal success rate
+Planning latency
+Controller latency
+Costmap update rate
+Recovery count
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="46-application-level-metric">46. Application-Level Metric</h1>
+
+<p>좋은 observability는 system metric을 넘어서 application 의미를 포함한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU = 50%
+</code></pre></div></div>
+
+<p>보다:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Localization valid = false
+</code></pre></div></div>
+
+<p>가 더 중요한 순간도 있다.</p>
+
+<hr>
+
+<h1 id="47-kpi">47. KPI</h1>
+
+<p>System 운영에서 핵심 metric을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KPI
+</code></pre></div></div>
+
+<p>로 정의할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Localization uptime
+Navigation success
+Average deployment success
+Mean recovery time
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="48-robot-dashboard">48. Robot Dashboard</h1>
+
+<p>여러 metric을 시각적으로 보여주는 화면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dashboard
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot 001
+
+Status: Healthy
+
+CPU: 45%
+GPU: 72%
+RAM: 52%
+Disk: 61%
+Temp: 68°C
+
+LiDAR: 10 Hz
+IMU: 198 Hz
+Odom: 100 Hz
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="49-fleet-dashboard">49. Fleet Dashboard</h1>
+
+<p>여러 robot을 한 화면에서 볼 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot 001   Healthy
+Robot 002   Warning
+Robot 003   Offline
+Robot 004   Critical
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="50-status-color만-보면-부족하다">50. Status Color만 보면 부족하다</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Green
+Yellow
+Red
+</code></pre></div></div>
+
+<p>만 보여주면 원인을 알기 어렵다.</p>
+
+<p>Status와 함께:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reason
+Timestamp
+Relevant Metrics
+</code></pre></div></div>
+
+<p>를 보여주는 것이 좋다.</p>
+
+<hr>
+
+<h1 id="51-alert">51. Alert</h1>
+
+<p>문제가 발생했을 때 operator에게 알림을 보내는 것을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Alert
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Disk &gt; 95%
+LiDAR offline
+Temperature critical
+Localization lost
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="52-alert-fatigue">52. Alert Fatigue</h1>
+
+<p>Alert가 너무 많으면 사람은 결국 무시하게 된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Warning
+Warning
+Warning
+Warning
+...
+</code></pre></div></div>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Alert Fatigue
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<hr>
+
+<h1 id="53-좋은-alert">53. 좋은 Alert</h1>
+
+<p>좋은 alert는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Actionable
+</code></pre></div></div>
+
+<p>해야 한다.</p>
+
+<p>즉:</p>
+
+<blockquote>
+  <p>이 alert를 받으면 무엇을 해야 하는가?</p>
+</blockquote>
+
+<p>가 명확해야 한다.</p>
+
+<hr>
+
+<h1 id="54-severity">54. Severity</h1>
+
+<p>Alert를 level로 나눌 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Info
+Warning
+Critical
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="55-example">55. Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Info
+Software updated successfully
+
+Warning
+Disk &gt; 80%
+
+Critical
+Localization lost while autonomous
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="56-threshold-alert">56. Threshold Alert</h1>
+
+<p>가장 단순한 alert 방식:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Temperature &gt; 85°C
+</code></pre></div></div>
+
+<p>같은 threshold 기반이다.</p>
+
+<hr>
+
+<h1 id="57-duration-조건">57. Duration 조건</h1>
+
+<p>순간적으로 한 번 threshold를 넘었다고 바로 alert하면 noise가 많을 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU &gt; 90%
+for 5 minutes
+</code></pre></div></div>
+
+<p>처럼 duration 조건을 추가할 수 있다.</p>
+
+<hr>
+
+<h1 id="58-rate-of-change-alert">58. Rate-of-Change Alert</h1>
+
+<p>값 자체보다 빠르게 변하는 것이 문제일 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Disk usage:
+50% → 80% in 5 min
+</code></pre></div></div>
+
+<p>log flooding이나 runaway recording을 의심할 수 있다.</p>
+
+<hr>
+
+<h1 id="59-missing-data-alert">59. Missing Data Alert</h1>
+
+<p>metric 자체가 안 들어오는 것도 문제다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot heartbeat absent for 2 min
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="60-alert-dependency">60. Alert Dependency</h1>
+
+<p>Robot이 offline이라면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR missing
+IMU missing
+CPU metric missing
+</code></pre></div></div>
+
+<p>alert가 수십 개 발생할 수 있다.</p>
+
+<p>더 상위 원인:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot Offline
+</code></pre></div></div>
+
+<p>하나로 묶는 것이 좋을 수 있다.</p>
+
+<hr>
+
+<h1 id="61-root-cause">61. Root Cause</h1>
+
+<p>Observability의 중요한 목표는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Symptom
+</code></pre></div></div>
+
+<p>이 아니라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Root Cause
+</code></pre></div></div>
+
+<p>를 찾는 것이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2 slow
+</code></pre></div></div>
+
+<p>증상.</p>
+
+<p>실제 root cause:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NVMe logging saturated memory bandwidth
+</code></pre></div></div>
+
+<p>일 수 있다.</p>
+
+<hr>
+
+<h1 id="62-correlation">62. Correlation</h1>
+
+<p>여러 metric을 같은 시간축에서 비교하면 원인을 찾기 쉽다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>10:30
+CPU ↑
+Temp ↑
+Clock ↓
+Odometry Rate ↓
+</code></pre></div></div>
+
+<p>이렇게 보면 thermal throttling을 의심할 수 있다.</p>
+
+<hr>
+
+<h1 id="63-timestamp가-중요한-이유">63. Timestamp가 중요한 이유</h1>
+
+<p>모든 log/metric/event가 정확한 timestamp를 가져야
+서로 연결할 수 있다.</p>
+
+<p>Chapter 11의 time synchronization이 observability에도 중요하다.</p>
+
+<hr>
+
+<h1 id="64-multi-computer-robot">64. Multi-Computer Robot</h1>
+
+<p>Xavier와 Orin이 따로 있다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Xavier Logs
+Orin Logs
+LiDAR Events
+Cloud Events
+</code></pre></div></div>
+
+<p>시간이 맞아야 하나의 incident를 재구성할 수 있다.</p>
+
+<hr>
+
+<h1 id="65-structured-logging">65. Structured Logging</h1>
+
+<p>Text만 자유롭게 쓰는 대신 구조화된 log를 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lidar_timeout"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"sensor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"front_lidar"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"severity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>개념적으로 이런 구조다.</p>
+
+<hr>
+
+<h1 id="66-structured-log의-장점">66. Structured Log의 장점</h1>
+
+<p>Machine이 쉽게:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Filter
+Search
+Aggregate
+Analyze
+</code></pre></div></div>
+
+<p>할 수 있다.</p>
+
+<hr>
+
+<h1 id="67-log-context">67. Log Context</h1>
+
+<p>좋은 log에는 다음이 있으면 유용하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Timestamp
+Robot ID
+Process
+Node
+Severity
+Event
+Relevant values
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="68-bad-log-example">68. Bad Log Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error.
+</code></pre></div></div>
+
+<p>이건 거의 도움이 안 된다.</p>
+
+<hr>
+
+<h1 id="69-better-log">69. Better Log</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR timeout: no packet received for 500 ms
+</code></pre></div></div>
+
+<p>더 좋다.</p>
+
+<hr>
+
+<h1 id="70-even-better">70. Even Better</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>robot=vision60-001
+sensor=lidar_front
+event=packet_timeout
+duration_ms=500
+</code></pre></div></div>
+
+<p>처럼 context가 있으면 분석하기 쉽다.</p>
+
+<hr>
+
+<h1 id="71-correlation-id">71. Correlation ID</h1>
+
+<p>하나의 요청이나 작업에 unique ID를 붙일 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>request_id=abc123
+</code></pre></div></div>
+
+<p>여러 service의 log를 연결할 수 있다.</p>
+
+<hr>
+
+<h1 id="72-trace-id">72. Trace ID</h1>
+
+<p>Distributed tracing에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Trace ID
+Span ID
+</code></pre></div></div>
+
+<p>같은 identifier를 사용한다.</p>
+
+<hr>
+
+<h1 id="73-span">73. Span</h1>
+
+<p>Trace 안의 하나의 작업 구간:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Span
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Span 1: Camera Capture
+Span 2: Preprocess
+Span 3: Inference
+Span 4: Publish
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="74-latency-breakdown">74. Latency Breakdown</h1>
+
+<p>Trace를 사용하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Total latency = 50 ms
+</code></pre></div></div>
+
+<p>에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Capture       5 ms
+Preprocess   20 ms
+Inference    15 ms
+Publish      10 ms
+</code></pre></div></div>
+
+<p>처럼 분해할 수 있다.</p>
+
+<hr>
+
+<h1 id="75-profiling-vs-tracing">75. Profiling vs Tracing</h1>
+
+<p>Profiling:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>한 process 내부에서 CPU time이 어디에 쓰였는가?
+</code></pre></div></div>
+
+<p>Tracing:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>하나의 요청이 여러 component를 어떻게 지나갔는가?
+</code></pre></div></div>
+
+<p>에 더 가깝다.</p>
+
+<hr>
+
+<h1 id="76-metrics-cardinality">76. Metrics Cardinality</h1>
+
+<p>Monitoring system에서는 label 종류가 너무 많으면
+데이터 양이 크게 증가할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>robot_id
+topic
+sensor
+process
+</code></pre></div></div>
+
+<p>는 유용하다.</p>
+
+<p>하지만 매 요청마다 unique value를 metric label로 넣으면 비효율적일 수 있다.</p>
+
+<hr>
+
+<h1 id="77-sampling">77. Sampling</h1>
+
+<p>모든 trace/log를 항상 저장하면 비용이 클 수 있다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sampling
+</code></pre></div></div>
+
+<p>을 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Normal trace:
+1%
+
+Error trace:
+100%
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="78-edge-logging">78. Edge Logging</h1>
+
+<p>Robot이 offline일 수도 있으므로
+일부 observability data를 local에 저장해야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot
+   │
+   ├── local logs
+   ├── local metrics buffer
+   └── local events
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="79-store-and-forward">79. Store-and-Forward</h1>
+
+<p>Network가 복구되면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Local Buffer
+     ↓
+Upload
+     ↓
+Cloud
+</code></pre></div></div>
+
+<p>한다.</p>
+
+<p>Chapter 17과 연결된다.</p>
+
+<hr>
+
+<h1 id="80-offline-retention">80. Offline Retention</h1>
+
+<p>Local storage는 무한하지 않다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Logs 7 days
+Metrics 24 hours
+Critical events keep longer
+</code></pre></div></div>
+
+<p>같은 retention policy가 필요하다.</p>
+
+<hr>
+
+<h1 id="81-observability-data도-disk를-채울-수-있다">81. Observability Data도 Disk를 채울 수 있다</h1>
+
+<p>아이러니하게도 monitoring을 너무 많이 하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Disk Full
+</code></pre></div></div>
+
+<p>을 만들 수 있다.</p>
+
+<p>따라서 Chapter 13의 storage 관리와 연결된다.</p>
+
+<hr>
+
+<h1 id="82-monitoring-overhead">82. Monitoring Overhead</h1>
+
+<p>Observability 자체도:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+RAM
+Disk
+Network
+</code></pre></div></div>
+
+<p>를 사용한다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Measurement
+affects system
+</code></pre></div></div>
+
+<p>가능성이 있다.</p>
+
+<hr>
+
+<h1 id="83-너무-높은-metric-frequency">83. 너무 높은 Metric Frequency</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU telemetry 1000 Hz
+</code></pre></div></div>
+
+<p>는 대부분 필요 없다.</p>
+
+<p>Metric 성격에 따라 frequency를 정한다.</p>
+
+<hr>
+
+<h1 id="84-metric-frequency-example">84. Metric Frequency Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+1 Hz
+
+Temperature
+1 Hz
+
+Disk
+0.1 Hz
+
+Software Version
+on change
+
+Critical Event
+immediately
+</code></pre></div></div>
+
+<p>처럼 할 수 있다.</p>
+
+<hr>
+
+<h1 id="85-push-vs-pull">85. Push vs Pull</h1>
+
+<p>Monitoring data 수집에는 두 방식이 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Push
+Pull
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="86-push">86. Push</h1>
+
+<p>Robot이 monitoring server로 직접 보낸다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot
+  │
+  │ metrics
+  ▼
+Server
+</code></pre></div></div>
+
+<p>IoT/field robot에 잘 맞을 수 있다.</p>
+
+<hr>
+
+<h1 id="87-pull">87. Pull</h1>
+
+<p>Monitoring server가 robot의 endpoint를 주기적으로 읽는다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Server
+  │
+  │ scrape
+  ▼
+Robot
+</code></pre></div></div>
+
+<p>Datacenter 환경에서 흔하다.</p>
+
+<hr>
+
+<h1 id="88-robot에서는-push가-유리할-수-있다">88. Robot에서는 Push가 유리할 수 있다</h1>
+
+<p>Field robot은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NAT
+Firewall
+Unstable Network
+Mobile connection
+</code></pre></div></div>
+
+<p>뒤에 있을 수 있다.</p>
+
+<p>그래서 robot이 outbound connection으로 보내는 방식이 관리하기 쉬울 수 있다.</p>
+
+<hr>
+
+<h1 id="89-prometheus-개념">89. Prometheus 개념</h1>
+
+<p>Prometheus는 time-series metrics monitoring에서 자주 사용되는 system이다.</p>
+
+<p>전형적인 구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Exporter
+   │
+   ▼
+Prometheus
+   │
+   ▼
+Dashboard / Alert
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="90-exporter">90. Exporter</h1>
+
+<p>System 상태를 metric 형태로 노출하는 component다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+Memory
+Disk
+Network
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="91-grafana-개념">91. Grafana 개념</h1>
+
+<p>Grafana는 metrics/log data를 dashboard로 시각화하는 데 많이 사용된다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU graph
+Temperature graph
+Robot fleet table
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="92-loki-개념">92. Loki 개념</h1>
+
+<p>Loki 같은 system은 log aggregation에 사용할 수 있다.</p>
+
+<p>개념:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot Logs
+   ↓
+Log Backend
+   ↓
+Search / Dashboard
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="93-opentelemetry">93. OpenTelemetry</h1>
+
+<p>OpenTelemetry는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Metrics
+Logs
+Traces
+</code></pre></div></div>
+
+<p>를 수집하기 위한 표준화된 observability framework다.</p>
+
+<hr>
+
+<h1 id="94-robot에-꼭-이런-tool을-써야-하나">94. Robot에 꼭 이런 tool을 써야 하나?</h1>
+
+<p>아니다.</p>
+
+<p>중요한 것은 tool 이름이 아니라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>무엇을 측정할 것인가?
+어떻게 저장할 것인가?
+어떻게 alert할 것인가?
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="95-ros-diagnostics">95. ROS Diagnostics</h1>
+
+<p>ROS ecosystem에는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>diagnostic_msgs
+</code></pre></div></div>
+
+<p>등을 이용해 component health를 표현하는 방식도 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OK
+WARN
+ERROR
+STALE
+</code></pre></div></div>
+
+<p>상태를 나타낼 수 있다.</p>
+
+<hr>
+
+<h1 id="96-diagnostic-aggregator">96. Diagnostic Aggregator</h1>
+
+<p>여러 sensor/node diagnostics를 모아
+robot 전체 health를 구성할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR OK
+IMU OK
+Camera WARN
+Battery OK
+      │
+      ▼
+Robot Health
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="97-heartbeat-topic">97. Heartbeat Topic</h1>
+
+<p>Custom heartbeat topic을 만들 수도 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/fastlio/heartbeat
+/navigation/heartbeat
+</code></pre></div></div>
+
+<p>하지만 너무 많은 custom mechanism을 만들기보다
+표준 diagnostic framework를 검토하는 것이 좋다.</p>
+
+<hr>
+
+<h1 id="98-ros-node-monitoring">98. ROS Node Monitoring</h1>
+
+<p>확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 node list
+</code></pre></div></div>
+
+<p>Fleet system에서는 node list를 주기적으로 수집할 수도 있다.</p>
+
+<p>하지만 node 존재만으로 health를 판단하면 부족하다.</p>
+
+<hr>
+
+<h1 id="99-topic-connectivity">99. Topic Connectivity</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR publisher exists
+FAST-LIO2 subscriber exists
+</code></pre></div></div>
+
+<p>도 health indicator가 될 수 있다.</p>
+
+<hr>
+
+<h1 id="100-qos-monitoring">100. QoS Monitoring</h1>
+
+<p>Topic은 존재하지만 QoS mismatch 때문에 data가 안 흐를 수 있다.</p>
+
+<p>따라서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic info /topic <span class="nt">--verbose</span>
+</code></pre></div></div>
+
+<p>에서 QoS를 확인하는 것도 debugging에 중요하다.</p>
+
+<hr>
+
+<h1 id="101-dds-metrics">101. DDS Metrics</h1>
+
+<p>더 깊게 보면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Discovery
+Packet loss
+Matched endpoints
+Transport statistics
+</code></pre></div></div>
+
+<p>같은 DDS-level 정보도 observability 대상이 될 수 있다.</p>
+
+<hr>
+
+<h1 id="102-application-state">102. Application State</h1>
+
+<p>Robot application은 단순 healthy/unhealthy보다
+현재 mode를 알려주는 것이 좋다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BOOTING
+IDLE
+MAPPING
+NAVIGATING
+PAUSED
+ERROR
+ESTOP
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="103-state-machine-monitoring">103. State Machine Monitoring</h1>
+
+<p>현재 application state를 dashboard에 표시하면
+operator가 robot 상황을 빠르게 이해할 수 있다.</p>
+
+<hr>
+
+<h1 id="104-error-code">104. Error Code</h1>
+
+<p>Error를 text만 보내는 대신
+고유한 code를 정의할 수도 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>E101
+LiDAR timeout
+
+E205
+Localization lost
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="105-error-code-장점">105. Error Code 장점</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dashboard
+Documentation
+Alert automation
+Statistics
+</code></pre></div></div>
+
+<p>와 연결하기 쉽다.</p>
+
+<hr>
+
+<h1 id="106-incident">106. Incident</h1>
+
+<p>여러 warning/error가 하나의 큰 문제에서 발생할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Network switch failure
+      ↓
+LiDAR lost
+      ↓
+FAST-LIO2 lost
+      ↓
+Navigation stops
+</code></pre></div></div>
+
+<p>이 전체 사건을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Incident
+</code></pre></div></div>
+
+<p>로 묶어 분석할 수 있다.</p>
+
+<hr>
+
+<h1 id="107-incident-timeline">107. Incident Timeline</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>14:00:00 Network packet loss rises
+14:00:02 LiDAR rate drops
+14:00:03 Localization warning
+14:00:04 Navigation stops
+</code></pre></div></div>
+
+<p>이렇게 timeline을 만들면 root cause를 찾기 쉽다.</p>
+
+<hr>
+
+<h1 id="108-mttr">108. MTTR</h1>
+
+<p>MTTR은 문맥에 따라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Mean Time To Repair
+</code></pre></div></div>
+
+<p>또는 recovery 관련 의미로 사용된다.</p>
+
+<p>운영에서는:</p>
+
+<blockquote>
+  <p>문제가 발생한 후 정상 상태로 복구하는 데 얼마나 걸리는가?</p>
+</blockquote>
+
+<p>를 측정하는 데 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="109-reliability와-observability">109. Reliability와 Observability</h1>
+
+<p>좋은 observability는 failure 자체를 없애지는 않는다.</p>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Failure detection time ↓
+Root cause analysis time ↓
+Recovery time ↓
+</code></pre></div></div>
+
+<p>에 도움을 준다.</p>
+
+<hr>
+
+<h1 id="110-sli">110. SLI</h1>
+
+<p>SLI:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Service Level Indicator
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>System quality를 측정하는 실제 metric이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Localization uptime
+Navigation success rate
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="111-slo">111. SLO</h1>
+
+<p>SLO:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Service Level Objective
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>원하는 목표 수준이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Localization valid
+&gt;= 99.5% of mission time
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="112-robot-slo-example">112. Robot SLO Example</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR availability
+&gt; 99%
+
+Odometry rate
+&gt; 95 Hz during mission
+
+Temperature
+&lt; threshold for 99% of runtime
+</code></pre></div></div>
+
+<p>실제 기준은 robot 요구사항에 맞춰 정한다.</p>
+
+<hr>
+
+<h1 id="113-not-every-metric-needs-an-alert">113. Not Every Metric Needs an Alert</h1>
+
+<p>Metric은 많이 수집해도 되지만
+모든 metric에 alert를 걸 필요는 없다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Usage
+→ dashboard metric
+
+Localization Lost
+→ immediate alert
+</code></pre></div></div>
+
+<p>처럼 중요도를 구분한다.</p>
+
+<hr>
+
+<h1 id="114-golden-signals">114. Golden Signals</h1>
+
+<p>Cloud system에서는 흔히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Latency
+Traffic
+Errors
+Saturation
+</code></pre></div></div>
+
+<p>같은 핵심 signal을 본다.</p>
+
+<p>Robot에서도 비슷하게 적용할 수 있다.</p>
+
+<hr>
+
+<h1 id="115-robot-golden-signals">115. Robot Golden Signals</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Latency
+→ perception / control latency
+
+Traffic
+→ sensor/network rate
+
+Errors
+→ sensor failure / localization failure
+
+Saturation
+→ CPU/GPU/RAM/Disk utilization
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="116-vision60-suggested-metrics">116. Vision60 Suggested Metrics</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>System
+
+CPU %
+GPU %
+RAM %
+Disk %
+CPU Temp
+GPU Temp
+
+Network
+
+RX/TX Mbps
+Packet drop
+Latency
+
+Sensors
+
+LiDAR Hz
+IMU Hz
+Camera FPS
+Joint State Hz
+
+SLAM
+
+Odometry Hz
+Processing latency
+Tracking state
+Map size
+
+Robot
+
+Battery
+Mode
+E-stop
+Current gait
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="117-alert-examples">117. Alert Examples</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Critical
+E-stop triggered
+
+Critical
+Localization invalid while autonomous
+
+Critical
+Jetson temperature above safe threshold
+
+Warning
+Disk &gt; 85%
+
+Warning
+LiDAR frequency below expected rate
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="118-alert-context">118. Alert Context</h1>
+
+<p>Alert에는 가능하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot ID
+Time
+Current Mode
+Current Version
+Related Metrics
+</code></pre></div></div>
+
+<p>를 포함한다.</p>
+
+<hr>
+
+<h1 id="119-version-정보가-왜-필요할까">119. Version 정보가 왜 필요할까?</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot 001
+Failure
+
+Software v1.7
+</code></pre></div></div>
+
+<p>Robot 002:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Software v1.6
+Healthy
+</code></pre></div></div>
+
+<p>이면 software regression을 의심할 수 있다.</p>
+
+<p>Chapter 17과 연결된다.</p>
+
+<hr>
+
+<h1 id="120-config-정보도-필요하다">120. Config 정보도 필요하다</h1>
+
+<p>같은 software인데 특정 site에서만 문제라면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Site Config
+Map
+Calibration
+</code></pre></div></div>
+
+<p>차이를 볼 수 있어야 한다.</p>
+
+<hr>
+
+<h1 id="121-observability-metadata">121. Observability Metadata</h1>
+
+<p>모든 monitoring data에 다음 metadata가 있으면 유용하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot ID
+Site
+Hardware Model
+Software Version
+Config Version
+Timestamp
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="122-dashboard-계층">122. Dashboard 계층</h1>
+
+<p>Dashboard를 여러 level로 나눌 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fleet Overview
+     ↓
+Robot Detail
+     ↓
+Component Detail
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="123-fleet-overview">123. Fleet Overview</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Total robots: 50
+
+Healthy: 44
+Warning: 4
+Critical: 1
+Offline: 1
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="124-robot-detail">124. Robot Detail</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Vision60-007
+
+Mode:
+NAVIGATING
+
+CPU:
+62%
+
+GPU:
+75%
+
+LiDAR:
+10 Hz
+
+Odometry:
+98 Hz
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="125-component-detail">125. Component Detail</h1>
+
+<p>FAST-LIO2:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input LiDAR
+Input IMU
+Processing latency
+Output rate
+Residual
+Memory
+</code></pre></div></div>
+
+<p>등을 본다.</p>
+
+<hr>
+
+<h1 id="126-drill-down">126. Drill Down</h1>
+
+<p>Operator가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fleet Warning
+</code></pre></div></div>
+
+<p>을 클릭하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot 007
+</code></pre></div></div>
+
+<p>그리고:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+</code></pre></div></div>
+
+<p>까지 좁혀갈 수 있는 구조가 좋다.</p>
+
+<hr>
+
+<h1 id="127-observability-pipeline">127. Observability Pipeline</h1>
+
+<p>전체 구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                    Robot
+
+        ┌────────────┼────────────┐
+        ▼            ▼            ▼
+      Logs         Metrics       Events
+        │            │            │
+        └────────────┼────────────┘
+                     ▼
+              Collection Agent
+                     │
+                     ▼
+             Local Buffer
+                     │
+                     ▼
+               Network
+                     │
+                     ▼
+              Monitoring Backend
+                     │
+            ┌────────┴────────┐
+            ▼                 ▼
+        Dashboard           Alert
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="128-edge-agent">128. Edge Agent</h1>
+
+<p>Robot에서 observability data를 수집하는 agent를 둘 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+GPU
+ROS health
+Disk
+Network
+</code></pre></div></div>
+
+<p>를 하나로 모아 cloud로 보낸다.</p>
+
+<hr>
+
+<h1 id="129-agent-failure">129. Agent Failure</h1>
+
+<p>Monitoring agent 자체가 죽을 수도 있다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>No telemetry
+</code></pre></div></div>
+
+<p>가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot dead
+</code></pre></div></div>
+
+<p>인지:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Monitoring agent dead
+</code></pre></div></div>
+
+<p>인지 구분해야 한다.</p>
+
+<hr>
+
+<h1 id="130-heartbeat-layer">130. Heartbeat Layer</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot Agent Heartbeat
+ROS Health
+Sensor Health
+</code></pre></div></div>
+
+<p>를 별도로 구분하면 진단에 도움이 된다.</p>
+
+<hr>
+
+<h1 id="131-out-of-band-monitoring">131. Out-of-Band Monitoring</h1>
+
+<p>가능하다면 robot main application과 독립된 monitoring path를 둘 수도 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Autonomy crashed
+</code></pre></div></div>
+
+<p>해도:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Monitoring agent alive
+</code></pre></div></div>
+
+<p>라면 원격으로 상태를 확인할 수 있다.</p>
+
+<hr>
+
+<h1 id="132-crash-dump">132. Crash Dump</h1>
+
+<p>Program crash 시:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Stack trace
+Core dump
+Crash log
+</code></pre></div></div>
+
+<p>를 보존하면 debugging에 도움이 된다.</p>
+
+<hr>
+
+<h1 id="133-core-dump">133. Core Dump</h1>
+
+<p>Linux process가 crash했을 때 memory/process 상태를 기록한 file을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Core Dump
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>C/C++ segfault 분석에 매우 유용하다.</p>
+
+<hr>
+
+<h1 id="134-core-dump는-클-수-있다">134. Core Dump는 클 수 있다</h1>
+
+<p>Large process는 core dump가 매우 커질 수 있다.</p>
+
+<p>따라서 storage policy가 필요하다.</p>
+
+<hr>
+
+<h1 id="135-anomaly-detection">135. Anomaly Detection</h1>
+
+<p>단순 threshold가 아니라
+평소 pattern과 다른 상태를 감지할 수도 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>평상시 CPU = 40~60%
+
+갑자기 85%
+</code></pre></div></div>
+
+<p>같은 변화.</p>
+
+<hr>
+
+<h1 id="136-trend-detection">136. Trend Detection</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Disk:
+60%
+65%
+70%
+75%
+80%
+</code></pre></div></div>
+
+<p>지금은 critical이 아니어도
+곧 문제가 생길 것을 예상할 수 있다.</p>
+
+<hr>
+
+<h1 id="137-predictive-maintenance">137. Predictive Maintenance</h1>
+
+<p>장기간 metric을 분석하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fan degradation
+SSD wear
+Battery degradation
+Sensor instability
+</code></pre></div></div>
+
+<p>등을 미리 예측하는 데 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="138-observability와-privacy">138. Observability와 Privacy</h1>
+
+<p>Camera, audio, location 같은 데이터는 민감할 수 있다.</p>
+
+<p>Monitoring을 위해 필요 이상으로 raw data를 cloud에 보내지 않는 것이 좋다.</p>
+
+<hr>
+
+<h1 id="139-minimum-necessary-data">139. Minimum Necessary Data</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera raw video
+</code></pre></div></div>
+
+<p>대신:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera FPS
+Camera healthy=true
+</code></pre></div></div>
+
+<p>만 보내도 health monitoring에는 충분할 수 있다.</p>
+
+<hr>
+
+<h1 id="140-security">140. Security</h1>
+
+<p>Observability data에도 민감한 정보가 들어갈 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot location
+Network info
+Software version
+Logs
+</code></pre></div></div>
+
+<p>Chapter 16의:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authentication
+Encryption
+Authorization
+</code></pre></div></div>
+
+<p>을 적용해야 한다.</p>
+
+<hr>
+
+<h1 id="141-alert-channel">141. Alert Channel</h1>
+
+<p>Critical alert를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Email
+Slack
+SMS
+Pager
+Dashboard
+</code></pre></div></div>
+
+<p>등으로 보낼 수 있다.</p>
+
+<p>실제 운영 방식에 맞춰 선택한다.</p>
+
+<hr>
+
+<h1 id="142-alert-escalation">142. Alert Escalation</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Warning
+→ Dashboard
+
+Critical
+→ Slack
+
+Critical for 10 min
+→ Operator call
+</code></pre></div></div>
+
+<p>처럼 escalation policy를 둘 수 있다.</p>
+
+<hr>
+
+<h1 id="143-maintenance-window">143. Maintenance Window</h1>
+
+<p>Update나 maintenance 중에는 일부 alert가 예상된다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot intentionally offline
+</code></pre></div></div>
+
+<p>인데 offline critical alert가 계속 오면 불필요하다.</p>
+
+<p>Maintenance state를 monitoring에 반영할 수 있다.</p>
+
+<hr>
+
+<h1 id="144-silencing">144. Silencing</h1>
+
+<p>Known maintenance 동안 특정 alert를 임시로 suppress하는 것을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Silencing
+</code></pre></div></div>
+
+<p>이라고 할 수 있다.</p>
+
+<p>하지만 실제 critical issue까지 숨기지 않도록 주의해야 한다.</p>
+
+<hr>
+
+<h1 id="145-postmortem">145. Postmortem</h1>
+
+<p>큰 장애 이후:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>What happened?
+Why?
+How detected?
+How recovered?
+How prevent recurrence?
+</code></pre></div></div>
+
+<p>를 문서화하는 과정을 postmortem으로 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="146-observability가-postmortem을-가능하게-한다">146. Observability가 Postmortem을 가능하게 한다</h1>
+
+<p>좋은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Logs
+Metrics
+Events
+Versions
+</code></pre></div></div>
+
+<p>가 있으면 사고를 재구성할 수 있다.</p>
+
+<p>없으면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"현장에서 뭔가 이상했습니다."
+</code></pre></div></div>
+
+<p>수준에 머물게 된다.</p>
+
+<hr>
+
+<h1 id="147-mini-practice-1">147. Mini Practice 1</h1>
+
+<p>Vision60에서 monitoring해야 할 metric을 직접 분류한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>System
+Sensor
+ROS
+SLAM
+Navigation
+Safety
+</code></pre></div></div>
+
+<p>각 category별로 최소 3개씩 정한다.</p>
+
+<hr>
+
+<h1 id="148-mini-practice-2">148. Mini Practice 2</h1>
+
+<p>FAST-LIO2 health rule을 만든다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Healthy
+
+LiDAR &gt;= 9 Hz
+IMU &gt;= 180 Hz
+Odometry &gt;= 90 Hz
+Tracking valid
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="149-mini-practice-3">149. Mini Practice 3</h1>
+
+<p>다음 상황을 생각한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU = 95%
+Temperature = 88°C
+Odometry = 60 Hz
+</code></pre></div></div>
+
+<p>질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>어떤 metric을 더 확인해야 하는가?
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Clock
+Thermal throttling
+LiDAR rate
+FAST-LIO2 processing latency
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="150-mini-practice-4">150. Mini Practice 4</h1>
+
+<p>Disk가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>70%
+72%
+75%
+82%
+90%
+</code></pre></div></div>
+
+<p>로 빠르게 증가한다.</p>
+
+<p>질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>단순 threshold alert 외에 무엇을 볼 수 있는가?
+</code></pre></div></div>
+
+<p>답:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Rate of change
+Which process is writing?
+rosbag?
+Docker logs?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="151-mini-practice-5">151. Mini Practice 5</h1>
+
+<p>Robot:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Online
+</code></pre></div></div>
+
+<p>인데 FAST-LIO2가 죽었다.</p>
+
+<p>이 상황에 필요한 monitoring layer:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fleet connectivity
+Process health
+ROS node health
+Topic health
+Application health
+</code></pre></div></div>
+
+<p>를 구분한다.</p>
+
+<hr>
+
+<h1 id="152-mini-practice-6">152. Mini Practice 6</h1>
+
+<p>다음 incident timeline을 만든다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>14:00 LiDAR packet loss starts
+14:01 LiDAR rate drops
+14:02 FAST-LIO2 warning
+14:03 Localization invalid
+14:04 Navigation stops
+</code></pre></div></div>
+
+<p>질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Root cause 후보는 어디인가?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="153-반드시-구분할-것">153. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Monitoring
+≠
+Observability
+
+Log
+≠
+Metric
+
+Metric
+≠
+Event
+
+Alive
+≠
+Healthy
+
+Liveness
+≠
+Readiness
+
+Online
+≠
+Healthy
+
+Profiling
+≠
+Tracing
+
+Alert
+≠
+Metric
+
+Threshold
+≠
+Root Cause
+
+Telemetry
+≠
+Raw Sensor Data
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="154-observability-mental-model">154. Observability Mental Model</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>System
+  │
+  ├── What happened?
+  │      ↓
+  │     Logs
+  │
+  ├── How much?
+  │      ↓
+  │    Metrics
+  │
+  ├── Where did time go?
+  │      ↓
+  │    Traces
+  │
+  └── Is it healthy?
+         ↓
+       Health
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="155-robot-monitoring-mental-model">155. Robot Monitoring Mental Model</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                       Robot
+
+         Hardware
+            │
+            ▼
+        Linux / Jetson
+            │
+            ▼
+           ROS 2
+            │
+            ▼
+        Application
+            │
+            ▼
+          Mission
+
+각 Layer
+   │
+   ├── Logs
+   ├── Metrics
+   ├── Events
+   └── Health
+   │
+   ▼
+Monitoring System
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="156-chapter-17과-chapter-18-연결">156. Chapter 17과 Chapter 18 연결</h1>
+
+<p>Chapter 17:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>What software should this robot run?
+</code></pre></div></div>
+
+<p>Chapter 18:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Is that software actually running correctly?
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Deploy
+   ↓
+Observe
+   ↓
+Evaluate
+   ↓
+Rollback / Continue
+</code></pre></div></div>
+
+<p>가 하나의 운영 loop가 된다.</p>
+
+<hr>
+
+<h1 id="157-chapter-18-핵심">157. Chapter 18 핵심</h1>
+
+<p>좋은 robot observability system은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot is online
+</code></pre></div></div>
+
+<p>만 알려주는 것이 아니다.</p>
+
+<p>다음 질문에 답할 수 있어야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>What is failing?
+
+When did it start?
+
+Which layer is affected?
+
+How severe is it?
+
+Which software version is running?
+
+Is the issue getting worse?
+
+What should the operator do?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="next-chapter">Next Chapter</h1>
+
+<h2 id="chapter-19-reliability--fault-tolerance">Chapter 19. Reliability &amp; Fault Tolerance</h2>
+
+<p>마지막 Chapter에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Failure
+Fault
+Error
+Redundancy
+Watchdog
+Retry
+Timeout
+Graceful Degradation
+Fail-Safe
+Fail-Operational
+Recovery
+Redundant Sensors
+Single Point of Failure
+</code></pre></div></div>
+
+<p>를 다룬다.</p>
+
+<p>핵심 질문은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"문제가 생기지 않게 하는 방법"
+</code></pre></div></div>
+
+<p>을 넘어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"문제는 언젠가 생긴다고 가정했을 때,
+Robot이 어떻게 안전하게 계속 동작하거나 복구할 것인가?"
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Chapter 19까지 끝나면 Edge Computing 트랙을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware
+→ OS
+→ Network
+→ Runtime
+→ Deployment
+→ Monitoring
+→ Reliability
+</code></pre></div></div>
+
+<p>까지 완성하게 된다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/edge_computing/chapter19-reliability-fault-tolerance/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 19. Reliability &amp; Fault Tolerance</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

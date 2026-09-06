@@ -1,0 +1,3000 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 12. Power, Thermal &amp; Performance Management | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter12-power-thermal-performance/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 12. Power, Thermal &amp; Performance Management</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> Jetson 같은 edge computer가 단순히 “GPU가 빠른 컴퓨터”가 아니라
+제한된 전력과 냉각 환경에서 동작하는 embedded computer라는 점을 이해한다.</p>
+
+  <p>Power Mode, Clock, DVFS, Thermal Throttling, CPU/GPU Utilization,
+Memory Bandwidth, Bottleneck을 이해하고 실제 로봇에서
+성능을 어떻게 측정하고 안정적으로 유지하는지 익힌다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="1-edge-computer에서는-최고-성능만-중요하지-않다">1. Edge Computer에서는 최고 성능만 중요하지 않다</h1>
+
+<p>Desktop computer에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>성능이 부족하다
+↓
+더 강한 GPU
+더 큰 PSU
+더 큰 Cooling
+</code></pre></div></div>
+
+<p>을 사용할 수 있다.</p>
+
+<p>하지만 robot에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Battery
+Weight
+Space
+Temperature
+Cooling
+Power Supply
+</code></pre></div></div>
+
+<p>가 제한되어 있다.</p>
+
+<p>따라서 edge computing에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Performance
++
+Power
++
+Temperature
++
+Stability
+</code></pre></div></div>
+
+<p>를 함께 생각해야 한다.</p>
+
+<hr>
+
+<h1 id="2-robot의-power-budget">2. Robot의 Power Budget</h1>
+
+<p>로봇의 battery가 공급할 수 있는 전력은 무한하지 않다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Battery
+  │
+  ├── Motors
+  ├── Jetson
+  ├── LiDAR
+  ├── Camera
+  ├── Network
+  └── Other Electronics
+</code></pre></div></div>
+
+<p>모든 장치가 같은 energy source를 공유할 수 있다.</p>
+
+<p>따라서 Jetson이 사용하는 전력도 전체 robot system 관점에서 봐야 한다.</p>
+
+<hr>
+
+<h1 id="3-power와-energy는-다르다">3. Power와 Energy는 다르다</h1>
+
+<p>Power:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Watt
+W
+</code></pre></div></div>
+
+<p>Energy:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Watt-hour
+Wh
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Power는:</p>
+
+<blockquote>
+  <p>지금 얼마나 빠르게 energy를 사용하고 있는가?</p>
+</blockquote>
+
+<p>Energy는:</p>
+
+<blockquote>
+  <p>총 얼마만큼의 energy가 있는가?</p>
+</blockquote>
+
+<p>라고 생각하면 된다.</p>
+
+<hr>
+
+<h1 id="4-간단한-예">4. 간단한 예</h1>
+
+<p>Battery:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>500 Wh
+</code></pre></div></div>
+
+<p>Robot 전체 소비 전력:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>250 W
+</code></pre></div></div>
+
+<p>라고 단순하게 가정하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>500 Wh / 250 W
+≈ 2 h
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>실제로는 battery efficiency, voltage variation, motor load 등 때문에
+이렇게 정확히 나오지는 않는다.</p>
+
+<p>하지만 power budget을 이해하는 기본적인 계산이다.</p>
+
+<hr>
+
+<h1 id="5-watt">5. Watt</h1>
+
+<p>전력의 기본 단위:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>W = Watt
+</code></pre></div></div>
+
+<p>전기적으로는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Power = Voltage × Current
+</code></pre></div></div>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>P = V × I
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>20 V × 3 A
+=
+60 W
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="6-jetson도-power-limit이-있다">6. Jetson도 Power Limit이 있다</h1>
+
+<p>Jetson은 무조건 최대 clock으로 계속 동작하지 않는다.</p>
+
+<p>시스템은 상황에 따라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Clock
+GPU Clock
+Memory Clock
+Power Consumption
+</code></pre></div></div>
+
+<p>을 조절할 수 있다.</p>
+
+<p>이유:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Power 제한
+Temperature 제한
+Efficiency
+Battery
+</code></pre></div></div>
+
+<p>때문이다.</p>
+
+<hr>
+
+<h1 id="7-clock-frequency">7. Clock Frequency</h1>
+
+<p>CPU/GPU에는 clock frequency가 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+2.0 GHz
+
+GPU
+1.2 GHz
+</code></pre></div></div>
+
+<p>일반적으로 clock이 높아지면 더 많은 연산을 빠르게 수행할 가능성이 있다.</p>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Clock ↑
+→ Power ↑
+→ Heat ↑
+</code></pre></div></div>
+
+<p>경향도 있다.</p>
+
+<hr>
+
+<h1 id="8-clock이-2배면-성능도-2배인가">8. Clock이 2배면 성능도 2배인가?</h1>
+
+<p>아니다.</p>
+
+<p>성능은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+GPU
+Memory
+Algorithm
+Parallelism
+Cache
+Bandwidth
+I/O
+</code></pre></div></div>
+
+<p>등 여러 요소의 영향을 받는다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Clock × 2
+≠
+Performance × 2
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="9-dynamic-clock">9. Dynamic Clock</h1>
+
+<p>현대 CPU/GPU는 workload에 따라 clock을 동적으로 변경할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Idle
+CPU 500 MHz
+
+Heavy Load
+CPU 2 GHz
+</code></pre></div></div>
+
+<p>처럼 동작할 수 있다.</p>
+
+<hr>
+
+<h1 id="10-dvfs">10. DVFS</h1>
+
+<p>DVFS:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dynamic Voltage and Frequency Scaling
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>필요한 performance에 따라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Voltage
++
+Frequency
+</code></pre></div></div>
+
+<p>를 동적으로 조절한다.</p>
+
+<hr>
+
+<h1 id="11-왜-voltage까지-바꿀까">11. 왜 Voltage까지 바꿀까?</h1>
+
+<p>일반적으로 frequency를 높이려면 더 높은 voltage가 필요할 수 있다.</p>
+
+<p>그리고 power consumption은 voltage에 매우 민감하다.</p>
+
+<p>개념적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Higher Frequency
+      ↓
+Higher Voltage may be required
+      ↓
+More Power
+      ↓
+More Heat
+</code></pre></div></div>
+
+<p>라고 이해하면 된다.</p>
+
+<hr>
+
+<h1 id="12-idle-상태">12. Idle 상태</h1>
+
+<p>Robot이 서 있고 perception workload도 거의 없다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Load ↓
+GPU Load ↓
+</code></pre></div></div>
+
+<p>시스템은 clock을 낮출 수 있다.</p>
+
+<p>목적:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Power 절약
+Heat 감소
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="13-heavy-load-상태">13. Heavy Load 상태</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera AI
++
+LiDAR Processing
++
+SLAM
++
+Navigation
+</code></pre></div></div>
+
+<p>이 동시에 실행되면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Load ↑
+GPU Load ↑
+Memory Traffic ↑
+</code></pre></div></div>
+
+<p>시스템이 더 높은 performance state를 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="14-jetson-power-mode">14. Jetson Power Mode</h1>
+
+<p>Jetson에는 hardware와 JetPack 버전에 따라 여러 power mode가 제공될 수 있다.</p>
+
+<p>예를 들어 개념적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Low Power Mode
+Balanced Mode
+Higher Performance Mode
+</code></pre></div></div>
+
+<p>처럼 CPU/GPU 자원과 power budget을 다르게 설정할 수 있다.</p>
+
+<p>정확한 mode 이름과 power limit은 Jetson 모델 및 JetPack 버전에 따라 다르므로
+실제 장치에서 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="15-nvpmodel">15. <code class="language-plaintext highlighter-rouge">nvpmodel</code>
+</h1>
+
+<p>Jetson에서 power mode를 관리할 때 자주 사용하는 도구:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvpmodel
+</code></pre></div></div>
+
+<p>현재 mode 확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nvpmodel <span class="nt">-q</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="16-power-mode가-바꾸는-것">16. Power Mode가 바꾸는 것</h1>
+
+<p>Power mode에 따라 시스템이 사용할 수 있는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Core
+CPU Frequency
+GPU Frequency
+Memory-related limits
+Power Budget
+</code></pre></div></div>
+
+<p>등이 달라질 수 있다.</p>
+
+<p>정확한 설정은 Jetson 모델마다 다르다.</p>
+
+<hr>
+
+<h1 id="17-왜-benchmark에서-power-mode를-기록해야-할까">17. 왜 Benchmark에서 Power Mode를 기록해야 할까?</h1>
+
+<p>FAST-LIO2를 테스트했다고 하자.</p>
+
+<p>Experiment A:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>High-performance power mode
+</code></pre></div></div>
+
+<p>Experiment B:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Low-power mode
+</code></pre></div></div>
+
+<p>라면 실행 시간 차이가 algorithm 때문인지
+power configuration 때문인지 구분하기 어렵다.</p>
+
+<p>따라서 benchmark에는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson Model
+JetPack Version
+Power Mode
+Clock Configuration
+Temperature
+</code></pre></div></div>
+
+<p>도 기록하는 것이 좋다.</p>
+
+<hr>
+
+<h1 id="18-jetson_clocks">18. <code class="language-plaintext highlighter-rouge">jetson_clocks</code>
+</h1>
+
+<p>Jetson에서는 다음 명령을 볼 수 있다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>jetson_clocks
+</code></pre></div></div>
+
+<p>지원되는 환경에서는 CPU/GPU/메모리 관련 clock을
+현재 power mode에서 허용되는 높은 값으로 고정하는 데 사용할 수 있다.</p>
+
+<p>Benchmark를 안정적으로 비교할 때 유용할 수 있다.</p>
+
+<hr>
+
+<h1 id="19-jetson_clocks--무조건-최고-성능">19. <code class="language-plaintext highlighter-rouge">jetson_clocks</code> = 무조건 최고 성능?</h1>
+
+<p>정확히는 그렇게 단순하게 보면 안 된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvpmodel
+→ Power / performance envelope 설정
+
+jetson_clocks
+→ 해당 configuration 안에서 clock scaling을 제한/고정
+</code></pre></div></div>
+
+<p>으로 이해하는 것이 좋다.</p>
+
+<p>또 thermal/power limit은 여전히 존재할 수 있다.</p>
+
+<hr>
+
+<h1 id="20-benchmark와-실제-deployment는-다르다">20. Benchmark와 실제 Deployment는 다르다</h1>
+
+<p>Benchmark에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Maximum / Fixed Clock
+</code></pre></div></div>
+
+<p>이 유용할 수 있다.</p>
+
+<p>하지만 실제 robot에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Battery Runtime
+Temperature
+Noise
+Reliability
+</code></pre></div></div>
+
+<p>도 중요하다.</p>
+
+<p>따라서 항상 최대 clock으로 운영하는 것이 최선은 아니다.</p>
+
+<hr>
+
+<h1 id="21-heat는-어디서-생길까">21. Heat는 어디서 생길까?</h1>
+
+<p>CPU와 GPU가 연산하면 electrical energy 일부가 heat로 변한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Computation
+    ↓
+Power Consumption
+    ↓
+Heat
+</code></pre></div></div>
+
+<p>load가 높아질수록 temperature가 상승할 수 있다.</p>
+
+<hr>
+
+<h1 id="22-cooling">22. Cooling</h1>
+
+<p>발생한 heat를 밖으로 빼내야 한다.</p>
+
+<p>방법:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Heat Sink
+Fan
+Thermal Interface Material
+Air Flow
+Chassis
+</code></pre></div></div>
+
+<p>등이 있다.</p>
+
+<hr>
+
+<h1 id="23-passive-cooling">23. Passive Cooling</h1>
+
+<p>Fan 없이 heat sink 등을 이용해 냉각:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chip
+ ↓
+Heat Sink
+ ↓
+Air
+</code></pre></div></div>
+
+<p>장점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>조용함
+Moving part 적음
+</code></pre></div></div>
+
+<p>단점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>높은 sustained load에서 냉각 한계
+</code></pre></div></div>
+
+<p>가 있을 수 있다.</p>
+
+<hr>
+
+<h1 id="24-active-cooling">24. Active Cooling</h1>
+
+<p>Fan 등을 사용한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chip
+ ↓
+Heat Sink
+ ↓
+Fan
+ ↓
+Air Flow
+</code></pre></div></div>
+
+<p>높은 sustained performance를 유지하는 데 도움이 된다.</p>
+
+<hr>
+
+<h1 id="25-robot에서는-cooling이-더-어렵다">25. Robot에서는 Cooling이 더 어렵다</h1>
+
+<p>Desktop:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Large Case
+Large Fans
+Stable Room
+</code></pre></div></div>
+
+<p>Robot:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Small enclosure
+Dust
+Outdoor heat
+Direct sunlight
+Limited airflow
+Vibration
+</code></pre></div></div>
+
+<p>환경일 수 있다.</p>
+
+<p>따라서 실제 현장에서는 thermal management가 더 중요하다.</p>
+
+<hr>
+
+<h1 id="26-temperature">26. Temperature</h1>
+
+<p>Jetson에는 여러 thermal sensor가 있을 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Temperature
+GPU Temperature
+SoC Temperature
+Board Temperature
+</code></pre></div></div>
+
+<p>정확한 sensor 종류는 모델마다 다를 수 있다.</p>
+
+<hr>
+
+<h1 id="27-thermal-throttling">27. Thermal Throttling</h1>
+
+<p>Temperature가 너무 높아지면 hardware 보호를 위해
+clock을 낮출 수 있다.</p>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thermal Throttling
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Heavy Load
+   ↓
+Temperature ↑
+   ↓
+Thermal Limit
+   ↓
+Clock ↓
+   ↓
+Performance ↓
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="28-왜-thermal-throttling이-위험할까">28. 왜 Thermal Throttling이 위험할까?</h1>
+
+<p>예를 들어 처음 FAST-LIO2 실행:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100 Hz
+</code></pre></div></div>
+
+<p>10분 후:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>65 Hz
+</code></pre></div></div>
+
+<p>로 떨어진다고 하자.</p>
+
+<p>Code는 바뀌지 않았다.</p>
+
+<p>원인은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Temperature ↑
+↓
+Clock ↓
+↓
+Processing Rate ↓
+</code></pre></div></div>
+
+<p>일 수 있다.</p>
+
+<hr>
+
+<h1 id="29-sustained-performance">29. Sustained Performance</h1>
+
+<p>짧은 benchmark에서 빠른 것과
+30분 동안 같은 성능을 유지하는 것은 다르다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Peak Performance
+≠
+Sustained Performance
+</code></pre></div></div>
+
+<p>Robot에서는 sustained performance가 매우 중요하다.</p>
+
+<hr>
+
+<h1 id="30-tegrastats">30. <code class="language-plaintext highlighter-rouge">tegrastats</code>
+</h1>
+
+<p>Jetson monitoring에서 매우 중요한 도구:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tegrastats
+</code></pre></div></div>
+
+<p>실행:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tegrastats
+</code></pre></div></div>
+
+<p>환경에 따라 다음과 같은 정보를 볼 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RAM
+CPU
+GPU
+Temperature
+Power-related metrics
+Memory controller activity
+</code></pre></div></div>
+
+<p>표현 형식은 Jetson 모델과 JetPack 버전에 따라 다를 수 있다.</p>
+
+<hr>
+
+<h1 id="31-cpu-utilization">31. CPU Utilization</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU0 90%
+CPU1 20%
+CPU2 10%
+CPU3 5%
+</code></pre></div></div>
+
+<p>이런 결과라면 전체 CPU가 부족하다기보다
+특정 thread가 하나의 core를 강하게 사용하고 있을 수 있다.</p>
+
+<hr>
+
+<h1 id="32-single-thread-bottleneck">32. Single-Thread Bottleneck</h1>
+
+<p>CPU core가 8개여도 application의 핵심 부분이 single-thread라면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Core 0 = 100%
+
+Other cores = mostly idle
+</code></pre></div></div>
+
+<p>일 수 있다.</p>
+
+<p>이 경우 CPU 전체 평균만 보면 문제를 놓칠 수 있다.</p>
+
+<hr>
+
+<h1 id="33-multi-thread">33. Multi-Thread</h1>
+
+<p>작업을 여러 thread로 나누면 여러 CPU core를 활용할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Task
+ ├── Thread 1 → Core 0
+ ├── Thread 2 → Core 1
+ ├── Thread 3 → Core 2
+ └── Thread 4 → Core 3
+</code></pre></div></div>
+
+<p>하지만 모든 algorithm을 완벽하게 병렬화할 수 있는 것은 아니다.</p>
+
+<hr>
+
+<h1 id="34-gpu-utilization">34. GPU Utilization</h1>
+
+<p>GPU workload가 있다면 GPU utilization을 확인한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+ ↓
+Neural Network
+ ↓
+GPU
+</code></pre></div></div>
+
+<p>GPU utilization이 높다고 무조건 나쁜 것은 아니다.</p>
+
+<p>GPU를 사용하기 위해 만든 workload라면 높은 utilization은 정상일 수 있다.</p>
+
+<hr>
+
+<h1 id="35-utilization-100의-의미">35. Utilization 100%의 의미</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU = 100%
+</code></pre></div></div>
+
+<p>이면 GPU가 바쁘다는 뜻이다.</p>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100% = 문제
+</code></pre></div></div>
+
+<p>라는 뜻은 아니다.</p>
+
+<p>중요한 것은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Deadline을 만족하는가?
+Latency가 acceptable한가?
+Temperature가 안정적인가?
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="36-cpu-100도-같은-원리">36. CPU 100%도 같은 원리</h1>
+
+<p>CPU core 하나가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100%
+</code></pre></div></div>
+
+<p>라고 해서 반드시 문제가 아니다.</p>
+
+<p>문제는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Processing deadline miss
+Queue 증가
+Sensor data drop
+Latency 증가
+</code></pre></div></div>
+
+<p>가 발생하는가이다.</p>
+
+<hr>
+
+<h1 id="37-bottleneck">37. Bottleneck</h1>
+
+<p>System performance를 가장 크게 제한하는 부분을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bottleneck
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fast CPU
+Fast GPU
+Slow Network
+</code></pre></div></div>
+
+<p>이면 network가 bottleneck일 수 있다.</p>
+
+<hr>
+
+<h1 id="38-robot-pipeline-bottleneck">38. Robot Pipeline Bottleneck</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+30 FPS
+  ↓
+Preprocessing
+30 FPS
+  ↓
+Inference
+12 FPS
+  ↓
+Postprocessing
+12 FPS
+</code></pre></div></div>
+
+<p>이 경우 inference가 bottleneck일 가능성이 높다.</p>
+
+<hr>
+
+<h1 id="39-fast-lio2-pipeline">39. FAST-LIO2 Pipeline</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+10 Hz
+  ↓
+Point Cloud Preprocessing
+  ↓
+IMU Synchronization
+  ↓
+State Estimation
+  ↓
+Map Update
+  ↓
+Odometry
+</code></pre></div></div>
+
+<p>어느 단계가 가장 많은 CPU time을 사용하는지 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="40-profiling">40. Profiling</h1>
+
+<p>어디서 시간이 소비되는지 측정하는 것을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Profiling
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<p>Optimization 전에 profiling을 해야 한다.</p>
+
+<hr>
+
+<h1 id="41-가장-중요한-optimization-원칙">41. 가장 중요한 Optimization 원칙</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Measure First
+Optimize Second
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>감으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"GPU로 옮기면 빨라질 것 같다."
+</code></pre></div></div>
+
+<p>라고 결정하지 않는다.</p>
+
+<p>먼저:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>어디가 느린가?
+</code></pre></div></div>
+
+<p>를 측정한다.</p>
+
+<hr>
+
+<h1 id="42-latency">42. Latency</h1>
+
+<p>하나의 작업을 완료하는 데 걸리는 시간:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Latency
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>One camera frame inference
+=
+25 ms
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="43-throughput">43. Throughput</h1>
+
+<p>일정 시간 동안 처리할 수 있는 작업량:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Throughput
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>40 frames/s
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="44-latency와-throughput은-다르다">44. Latency와 Throughput은 다르다</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Batch 1
+Latency = 10 ms
+Throughput = 100 items/s
+</code></pre></div></div>
+
+<p>Batching을 하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Latency ↑
+Throughput ↑
+</code></pre></div></div>
+
+<p>가 될 수도 있다.</p>
+
+<p>Robot에서는 latency가 특히 중요할 수 있다.</p>
+
+<hr>
+
+<h1 id="45-fps">45. FPS</h1>
+
+<p>FPS:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Frames Per Second
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>30 FPS
+</code></pre></div></div>
+
+<p>이면 초당 30 frame을 처리한다.</p>
+
+<p>한 frame당 평균 시간은 단순 계산하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 / 30 s
+≈ 33.3 ms
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="46-deadline">46. Deadline</h1>
+
+<p>Real-time pipeline에서는 특정 시간 안에 결과가 필요할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera = 30 FPS
+
+Frame interval
+≈ 33.3 ms
+</code></pre></div></div>
+
+<p>처리가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>50 ms
+</code></pre></div></div>
+
+<p>걸리면 새 frame이 처리 속도보다 빠르게 들어온다.</p>
+
+<hr>
+
+<h1 id="47-queue가-쌓이는-상황">47. Queue가 쌓이는 상황</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input
+30 FPS
+
+Processing
+20 FPS
+</code></pre></div></div>
+
+<p>이면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input
+↓↓↓↓↓↓↓↓
+
+Queue
+████████
+
+Processing
+↓↓↓↓
+</code></pre></div></div>
+
+<p>queue가 계속 증가할 수 있다.</p>
+
+<hr>
+
+<h1 id="48-결과">48. 결과</h1>
+
+<p>Queue가 증가하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Latency ↑
+Memory Usage ↑
+Old Data Processing
+</code></pre></div></div>
+
+<p>문제가 생긴다.</p>
+
+<p>로봇에서는 오래된 sensor data를 처리하는 것이 특히 위험할 수 있다.</p>
+
+<hr>
+
+<h1 id="49-drop-전략">49. Drop 전략</h1>
+
+<p>실시간 perception에서는 오래된 frame을 모두 처리하는 것보다
+일부 frame을 버리고 최신 데이터를 처리하는 것이 나을 수도 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Old
+X X X
+
+Latest
+✓
+</code></pre></div></div>
+
+<p>application requirement에 따라 결정한다.</p>
+
+<hr>
+
+<h1 id="50-memory-bandwidth">50. Memory Bandwidth</h1>
+
+<p>CPU와 GPU가 아무리 빠르더라도
+memory에서 데이터를 충분히 빠르게 가져오지 못하면 성능이 제한된다.</p>
+
+<p>이를 이해하기 위해:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Memory Bandwidth
+</code></pre></div></div>
+
+<p>가 중요하다.</p>
+
+<hr>
+
+<h1 id="51-bandwidth">51. Bandwidth</h1>
+
+<p>Memory bandwidth는 대략:</p>
+
+<blockquote>
+  <p>단위 시간 동안 memory와 processor 사이에서 얼마나 많은 데이터를 이동할 수 있는가?</p>
+</blockquote>
+
+<p>를 나타낸다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GB/s
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="52-point-cloud는-memory-traffic이-크다">52. Point Cloud는 Memory Traffic이 크다</h1>
+
+<p>LiDAR point cloud:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Millions of points
+</code></pre></div></div>
+
+<p>를 반복해서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Read
+Transform
+Search
+Copy
+Write
+</code></pre></div></div>
+
+<p>하면 memory traffic이 커진다.</p>
+
+<hr>
+
+<h1 id="53-camera도-마찬가지다">53. Camera도 마찬가지다</h1>
+
+<p>고해상도 image:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1920 × 1080
+</code></pre></div></div>
+
+<p>을 여러 pipeline에서 복사하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+ ↓ copy
+CPU
+ ↓ copy
+GPU
+ ↓ copy
+Output
+</code></pre></div></div>
+
+<p>memory bandwidth와 latency를 많이 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="54-zero-copy가-등장하는-이유">54. Zero-Copy가 등장하는 이유</h1>
+
+<p>불필요한 memory copy를 줄이기 위해:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Zero-Copy
+</code></pre></div></div>
+
+<p>같은 기술을 고려할 수 있다.</p>
+
+<p>목표:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Copy
+Copy
+Copy
+</code></pre></div></div>
+
+<p>를 줄이는 것이다.</p>
+
+<hr>
+
+<h1 id="55-하지만-shared-memory--zero-copy는-아니다">55. 하지만 Shared Memory = Zero-Copy는 아니다</h1>
+
+<p>Jetson은 CPU와 GPU가 physical memory를 공유하는 architecture를 사용하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Shared Physical Memory
+≠
+Automatic Zero-Copy
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Software framework와 memory allocation 방식에 따라 실제 copy가 발생할 수 있다.</p>
+
+<hr>
+
+<h1 id="56-cpu-bottleneck">56. CPU Bottleneck</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU 100%
+GPU 20%
+</code></pre></div></div>
+
+<p>이고 application이 느리다면 CPU가 bottleneck일 가능성이 있다.</p>
+
+<p>하지만 utilization만으로 확정하지 말고 profiling해야 한다.</p>
+
+<hr>
+
+<h1 id="57-gpu-bottleneck">57. GPU Bottleneck</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU 30%
+GPU 100%
+Inference latency high
+</code></pre></div></div>
+
+<p>이면 GPU workload가 bottleneck 후보가 된다.</p>
+
+<hr>
+
+<h1 id="58-memory-bottleneck">58. Memory Bottleneck</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU arithmetic utilization 낮음
+GPU arithmetic utilization 낮음
+
+하지만
+Memory controller activity 높음
+</code></pre></div></div>
+
+<p>이면 memory bandwidth가 bottleneck일 수 있다.</p>
+
+<hr>
+
+<h1 id="59-io-bottleneck">59. I/O Bottleneck</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rosbag record
++
+Camera
++
+LiDAR
+</code></pre></div></div>
+
+<p>중 storage write가 느리면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Disk I/O
+</code></pre></div></div>
+
+<p>가 bottleneck이 될 수 있다.</p>
+
+<p>이 내용은 Chapter 13에서 더 자세히 다룬다.</p>
+
+<hr>
+
+<h1 id="60-network-bottleneck">60. Network Bottleneck</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera 500 Mbps
+LiDAR 200 Mbps
+Other ROS Traffic 400 Mbps
+</code></pre></div></div>
+
+<p>인데 1 Gbps network를 사용한다고 하자.</p>
+
+<p>Protocol overhead와 실제 link utilization까지 고려하면
+network가 bottleneck이 될 수 있다.</p>
+
+<hr>
+
+<h1 id="61-end-to-end-performance">61. End-to-End Performance</h1>
+
+<p>Robot에서는 component 하나만 빠르면 충분하지 않다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor
+  ↓
+Driver
+  ↓
+ROS 2
+  ↓
+Preprocessing
+  ↓
+AI / SLAM
+  ↓
+Planning
+  ↓
+Control
+</code></pre></div></div>
+
+<p>전체 latency를 봐야 한다.</p>
+
+<hr>
+
+<h1 id="62-peak-performance">62. Peak Performance</h1>
+
+<p>아주 짧은 시간 동안 낼 수 있는 최대 성능:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Peak Performance
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="63-sustained-performance">63. Sustained Performance</h1>
+
+<p>오랫동안 안정적으로 유지 가능한 성능:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sustained Performance
+</code></pre></div></div>
+
+<p>Robot에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Peak
+</code></pre></div></div>
+
+<p>보다:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sustained
+</code></pre></div></div>
+
+<p>가 더 중요한 경우가 많다.</p>
+
+<hr>
+
+<h1 id="64-performance-per-watt">64. Performance per Watt</h1>
+
+<p>Edge computing에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Performance / Watt
+</code></pre></div></div>
+
+<p>도 중요하다.</p>
+
+<p>같은 workload를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device A
+50 W
+
+Device B
+20 W
+</code></pre></div></div>
+
+<p>로 처리할 수 있다면,
+성능이 비슷한 경우 B가 battery robot에 더 유리할 수 있다.</p>
+
+<hr>
+
+<h1 id="65-efficiency">65. Efficiency</h1>
+
+<p>따라서 edge AI에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Maximum Performance
+</code></pre></div></div>
+
+<p>만 보는 것이 아니라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Performance per Watt
+</code></pre></div></div>
+
+<p>를 중요하게 본다.</p>
+
+<hr>
+
+<h1 id="66-cpu-vs-gpu-선택">66. CPU vs GPU 선택</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS callbacks
+State machine
+Serial communication
+</code></pre></div></div>
+
+<p>→ CPU가 적합.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Neural Network
+Image processing
+Large parallel matrix operations
+</code></pre></div></div>
+
+<p>→ GPU가 적합할 가능성이 높다.</p>
+
+<hr>
+
+<h1 id="67-gpu로-옮긴다고-항상-빨라지지-않는다">67. GPU로 옮긴다고 항상 빨라지지 않는다</h1>
+
+<p>GPU 실행에는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kernel Launch
+Synchronization
+Memory Access
+Data Transfer
+</code></pre></div></div>
+
+<p>overhead가 있다.</p>
+
+<p>작은 task라면 CPU가 더 빠를 수도 있다.</p>
+
+<hr>
+
+<h1 id="68-fast-lio2와-gpu">68. FAST-LIO2와 GPU</h1>
+
+<p>FAST-LIO2를 Jetson에서 실행한다고 해서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU가 자동 사용
+</code></pre></div></div>
+
+<p>되는 것은 아니다.</p>
+
+<p>기본 implementation의 핵심 연산이 CPU code라면
+GPU utilization이 거의 없을 수도 있다.</p>
+
+<hr>
+
+<h1 id="69-gpu가-놀고-있어도-문제는-아니다">69. GPU가 놀고 있어도 문제는 아니다</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2
+
+CPU 300%
+GPU 0%
+</code></pre></div></div>
+
+<p>라고 해서 GPU configuration이 잘못된 것은 아니다.</p>
+
+<p>Algorithm이 GPU를 사용하도록 구현되지 않았을 수 있다.</p>
+
+<hr>
+
+<h1 id="70-cpu-300">70. CPU 300%?</h1>
+
+<p>Linux monitoring tool에서는 multi-core CPU 사용률을 합산해서 표현할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100%
+≈ 한 core를 완전히 사용
+
+300%
+≈ 약 세 core 상당의 CPU time
+</code></pre></div></div>
+
+<p>단, 정확한 표시 방식은 tool마다 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="71-thread-scheduling">71. Thread Scheduling</h1>
+
+<p>Linux scheduler는 thread를 CPU core에 배치한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thread A → CPU 0
+Thread B → CPU 3
+Thread C → CPU 5
+</code></pre></div></div>
+
+<p>상황에 따라 core 사이를 이동할 수도 있다.</p>
+
+<hr>
+
+<h1 id="72-context-switch">72. Context Switch</h1>
+
+<p>CPU가 실행 중인 task를 바꾸는 것을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Context Switch
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>너무 많은 thread/process가 경쟁하면 context switching overhead가 증가할 수 있다.</p>
+
+<hr>
+
+<h1 id="73-more-threads--always-faster">73. More Threads ≠ Always Faster</h1>
+
+<p>Thread를 많이 만든다고 무조건 빨라지는 것은 아니다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>More Threads
+→ Parallelism ↑
+</code></pre></div></div>
+
+<p>가능성이 있지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Synchronization
+Lock contention
+Context switching
+Cache misses
+</code></pre></div></div>
+
+<p>도 증가할 수 있다.</p>
+
+<hr>
+
+<h1 id="74-thermal-test">74. Thermal Test</h1>
+
+<p>실제 robot에서는 짧은 1분 benchmark보다:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>30 min
+1 hour
+</code></pre></div></div>
+
+<p>같은 sustained test가 유용하다.</p>
+
+<p>기록:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Time
+CPU Load
+GPU Load
+Temperature
+Clock
+Power
+Latency
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="75-thermal-test-예">75. Thermal Test 예</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 min
+GPU 70%
+55°C
+Inference 20 ms
+
+10 min
+GPU 70%
+68°C
+Inference 20 ms
+
+30 min
+GPU 70%
+78°C
+Inference 23 ms
+
+45 min
+GPU 70%
+Thermal limit
+Inference 35 ms
+</code></pre></div></div>
+
+<p>이런 변화가 있다면 thermal 문제가 의심된다.</p>
+
+<hr>
+
+<h1 id="76-temperature만-보면-부족하다">76. Temperature만 보면 부족하다</h1>
+
+<p>다음도 같이 봐야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Temperature
+Clock
+Utilization
+Latency
+Power
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Temperature ↑
+Clock ↓
+Latency ↑
+</code></pre></div></div>
+
+<p>이면 throttling을 강하게 의심할 수 있다.</p>
+
+<hr>
+
+<h1 id="77-ambient-temperature">77. Ambient Temperature</h1>
+
+<p>같은 Jetson이라도:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Office 22°C
+</code></pre></div></div>
+
+<p>와:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Construction Site 38°C
+</code></pre></div></div>
+
+<p>에서는 냉각 성능이 다르다.</p>
+
+<p>Benchmark 환경의 ambient temperature도 중요하다.</p>
+
+<hr>
+
+<h1 id="78-enclosure">78. Enclosure</h1>
+
+<p>Jetson을 밀폐된 enclosure에 넣으면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dust protection ↑
+</code></pre></div></div>
+
+<p>에는 좋을 수 있지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Airflow ↓
+Temperature ↑
+</code></pre></div></div>
+
+<p>문제가 생길 수 있다.</p>
+
+<p>Mechanical design과 computing design이 연결되는 부분이다.</p>
+
+<hr>
+
+<h1 id="79-dust">79. Dust</h1>
+
+<p>건설 현장에서는 dust가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fan
+Heat Sink
+Air Intake
+</code></pre></div></div>
+
+<p>에 쌓일 수 있다.</p>
+
+<p>시간이 지나면 cooling performance가 저하될 수 있다.</p>
+
+<hr>
+
+<h1 id="80-power-supply-안정성">80. Power Supply 안정성</h1>
+
+<p>Jetson이 충분한 power를 받지 못하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Unexpected shutdown
+Instability
+Performance limitation
+</code></pre></div></div>
+
+<p>문제가 생길 수 있다.</p>
+
+<p>따라서 단순히 battery capacity만 볼 것이 아니라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Voltage
+Current capability
+Peak load
+Regulator
+Cable
+Connector
+</code></pre></div></div>
+
+<p>도 중요하다.</p>
+
+<hr>
+
+<h1 id="81-순간적인-peak-load">81. 순간적인 Peak Load</h1>
+
+<p>평균 전력이:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>30 W
+</code></pre></div></div>
+
+<p>여도 순간적으로 더 높은 current가 필요할 수 있다.</p>
+
+<p>Power supply가 이를 감당하지 못하면 system instability가 발생할 수 있다.</p>
+
+<hr>
+
+<h1 id="82-brownout">82. Brownout</h1>
+
+<p>공급 voltage가 순간적으로 너무 떨어지는 현상을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Brownout
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<p>Robot motor가 큰 current를 순간적으로 사용하면
+power architecture가 좋지 않은 경우 compute 쪽에도 영향을 줄 수 있다.</p>
+
+<hr>
+
+<h1 id="83-motor와-compute-power">83. Motor와 Compute Power</h1>
+
+<p>개념적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Battery
+   │
+   ├── Motor Power
+   │
+   └── DC/DC
+        │
+        ▼
+      Jetson
+</code></pre></div></div>
+
+<p>처럼 compute power를 안정적으로 공급하도록 설계할 수 있다.</p>
+
+<p>정확한 Vision60 내부 power architecture는 실제 hardware documentation을 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="84-performance-monitoring-stack">84. Performance Monitoring Stack</h1>
+
+<p>Jetson에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Application
+    │
+    ▼
+ROS 2 / CUDA
+    │
+    ▼
+CPU / GPU / RAM
+    │
+    ▼
+Clock / Power
+    │
+    ▼
+Temperature
+</code></pre></div></div>
+
+<p>를 함께 모니터링한다.</p>
+
+<hr>
+
+<h1 id="85-linux-tools">85. Linux Tools</h1>
+
+<p>CPU/process:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>htop
+</code></pre></div></div>
+
+<p>Memory:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>free <span class="nt">-h</span>
+</code></pre></div></div>
+
+<p>Jetson:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tegrastats
+</code></pre></div></div>
+
+<p>Power mode:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nvpmodel <span class="nt">-q</span>
+</code></pre></div></div>
+
+<p>Disk:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">df</span> <span class="nt">-h</span>
+</code></pre></div></div>
+
+<p>Network:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip <span class="nt">-s</span> <span class="nb">link</span>
+</code></pre></div></div>
+
+<p>등을 조합할 수 있다.</p>
+
+<hr>
+
+<h1 id="86-tegrastats를-볼-때-질문">86. <code class="language-plaintext highlighter-rouge">tegrastats</code>를 볼 때 질문</h1>
+
+<p>단순히 숫자를 읽는 것이 아니라 질문한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU가 꽉 찼나?
+
+GPU가 실제로 사용되나?
+
+RAM이 부족한가?
+
+Temperature가 계속 상승하나?
+
+Clock이 내려가나?
+
+Memory controller가 bottleneck인가?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="87-application-metric도-같이-봐야-한다">87. Application Metric도 같이 봐야 한다</h1>
+
+<p>System metric:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+GPU
+RAM
+Temperature
+</code></pre></div></div>
+
+<p>만으로는 부족하다.</p>
+
+<p>Application metric:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Hz
+Odometry Hz
+Inference FPS
+Planning latency
+Dropped frames
+</code></pre></div></div>
+
+<p>도 함께 기록한다.</p>
+
+<hr>
+
+<h1 id="88-예-fast-lio2-profiling">88. 예: FAST-LIO2 Profiling</h1>
+
+<p>기록:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Input
+10 Hz
+
+IMU
+200 Hz
+
+Odometry Output
+100 Hz
+
+CPU
+220%
+
+GPU
+0%
+
+RAM
+3.5 GB
+
+Temperature
+62°C
+</code></pre></div></div>
+
+<p>이런 식으로 baseline을 만든다.</p>
+
+<hr>
+
+<h1 id="89-ai--slam-동시-실행">89. AI + SLAM 동시 실행</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2
+→ CPU
+
+Object Detection
+→ GPU
+
+Camera Preprocessing
+→ CPU/GPU
+
+Nav2
+→ CPU
+</code></pre></div></div>
+
+<p>동시에 실행하면 서로 resource를 공유한다.</p>
+
+<hr>
+
+<h1 id="90-resource-contention">90. Resource Contention</h1>
+
+<p>여러 application이 같은 resource를 경쟁하는 것을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Resource Contention
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2
+      \
+       CPU
+      /
+Nav2
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera AI
+       \
+        Memory Bandwidth
+       /
+Point Cloud Processing
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="91-단독-benchmark만-보면-안-되는-이유">91. 단독 Benchmark만 보면 안 되는 이유</h1>
+
+<p>FAST-LIO2만 실행:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100 Hz
+</code></pre></div></div>
+
+<p>AI까지 실행:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>70 Hz
+</code></pre></div></div>
+
+<p>가 될 수 있다.</p>
+
+<p>실제 robot workload 조합으로도 benchmark해야 한다.</p>
+
+<hr>
+
+<h1 id="92-worst-case-scenario">92. Worst-Case Scenario</h1>
+
+<p>Robot system에서는 평균적인 상황뿐 아니라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>High-resolution camera
+Dense point cloud
+Large map
+Multiple ROS nodes
+Recording rosbag
+Hot environment
+</code></pre></div></div>
+
+<p>이 동시에 발생하는 worst-case도 테스트해야 한다.</p>
+
+<hr>
+
+<h1 id="93-headroom">93. Headroom</h1>
+
+<p>System을 항상 100% resource로 운영하면
+갑작스러운 workload 증가에 대응하기 어렵다.</p>
+
+<p>따라서 일정한:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Performance Headroom
+</code></pre></div></div>
+
+<p>을 남기는 것이 좋다.</p>
+
+<hr>
+
+<h1 id="94-headroom-예">94. Headroom 예</h1>
+
+<p>평상시:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU 60%
+GPU 65%
+RAM 55%
+</code></pre></div></div>
+
+<p>정도로 운영하고,
+순간적인 workload 증가를 처리할 여유를 남기는 식이다.</p>
+
+<p>정확한 적정 비율은 application 요구사항에 따라 다르다.</p>
+
+<hr>
+
+<h1 id="95-performance-regression">95. Performance Regression</h1>
+
+<p>Software update 이후:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Before
+FAST-LIO2 CPU 180%
+
+After
+FAST-LIO2 CPU 280%
+</code></pre></div></div>
+
+<p>가 되었다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Performance Regression
+</code></pre></div></div>
+
+<p>일 수 있다.</p>
+
+<p>기능이 정상이어도 성능이 악화된 것이다.</p>
+
+<hr>
+
+<h1 id="96-regression-test">96. Regression Test</h1>
+
+<p>Software version마다 동일한 benchmark를 실행한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Same Dataset
+Same Config
+Same Power Mode
+Same Hardware
+Same Environment
+</code></pre></div></div>
+
+<p>조건을 최대한 맞춘다.</p>
+
+<hr>
+
+<h1 id="97-benchmark-기록-예">97. Benchmark 기록 예</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Device</td>
+      <td>Jetson AGX Orin</td>
+    </tr>
+    <tr>
+      <td>Software Commit</td>
+      <td>abc123</td>
+    </tr>
+    <tr>
+      <td>Power Mode</td>
+      <td>Recorded mode</td>
+    </tr>
+    <tr>
+      <td>Input</td>
+      <td>Same rosbag</td>
+    </tr>
+    <tr>
+      <td>LiDAR Rate</td>
+      <td>10 Hz</td>
+    </tr>
+    <tr>
+      <td>IMU Rate</td>
+      <td>200 Hz</td>
+    </tr>
+    <tr>
+      <td>CPU Usage</td>
+      <td>measured</td>
+    </tr>
+    <tr>
+      <td>GPU Usage</td>
+      <td>measured</td>
+    </tr>
+    <tr>
+      <td>RAM</td>
+      <td>measured</td>
+    </tr>
+    <tr>
+      <td>Max Temperature</td>
+      <td>measured</td>
+    </tr>
+    <tr>
+      <td>Output Rate</td>
+      <td>measured</td>
+    </tr>
+    <tr>
+      <td>P95 Latency</td>
+      <td>measured</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>이런 표를 software version별로 비교할 수 있다.</p>
+
+<hr>
+
+<h1 id="98-p95-latency">98. P95 Latency</h1>
+
+<p>100번 측정했다고 하자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>대부분 10 ms
+
+일부 30 ms
+</code></pre></div></div>
+
+<p>평균만 보면 spike를 놓칠 수 있다.</p>
+
+<p>P95는 대략:</p>
+
+<blockquote>
+  <p>측정값의 95%가 이 값 이하에 들어오는 latency</p>
+</blockquote>
+
+<p>를 의미한다.</p>
+
+<hr>
+
+<h1 id="99-왜-robot에서-tail-latency가-중요한가">99. 왜 Robot에서 Tail Latency가 중요한가?</h1>
+
+<p>평균:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>10 ms
+</code></pre></div></div>
+
+<p>라도 가끔:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>300 ms
+</code></pre></div></div>
+
+<p>가 발생하면 control/perception pipeline에 문제가 될 수 있다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Average
+P95
+P99
+Maximum
+</code></pre></div></div>
+
+<p>을 함께 보는 것이 좋다.</p>
+
+<hr>
+
+<h1 id="100-optimization-순서">100. Optimization 순서</h1>
+
+<p>성능 문제가 발생하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Measure
+      ↓
+2. Find Bottleneck
+      ↓
+3. Form Hypothesis
+      ↓
+4. Optimize
+      ↓
+5. Measure Again
+</code></pre></div></div>
+
+<p>순서로 진행한다.</p>
+
+<hr>
+
+<h1 id="101-나쁜-optimization">101. 나쁜 Optimization</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2가 느리다.
+↓
+GPU로 옮긴다.
+</code></pre></div></div>
+
+<p>이렇게 바로 결정하면 안 된다.</p>
+
+<p>실제로 bottleneck이:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Network
+Disk
+Lock
+Memory allocation
+Single-threaded map search
+</code></pre></div></div>
+
+<p>일 수도 있다.</p>
+
+<hr>
+
+<h1 id="102-좋은-optimization">102. 좋은 Optimization</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Profiling
+↓
+Nearest-neighbor search = 45% CPU time
+↓
+Algorithm/data structure 개선 검토
+↓
+Benchmark
+↓
+Latency 20% 감소
+</code></pre></div></div>
+
+<p>처럼 근거를 가지고 진행한다.</p>
+
+<hr>
+
+<h1 id="103-vision60-example">103. Vision60 Example</h1>
+
+<p>개념적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                     Vision60
+
+                       Battery
+                          │
+          ┌───────────────┴──────────────┐
+          │                              │
+          ▼                              ▼
+      Locomotion                       Compute
+                                         │
+                                         ▼
+                                      Jetson
+                                         │
+                      ┌──────────────────┼──────────────────┐
+                      │                  │                  │
+                      ▼                  ▼                  ▼
+                   FAST-LIO2          Nav2              Vision AI
+                      │                  │                  │
+                      └──────────────────┼──────────────────┘
+                                         │
+                                         ▼
+                               CPU / GPU / Memory
+                                         │
+                                         ▼
+                                Power Consumption
+                                         │
+                                         ▼
+                                      Heat
+                                         │
+                                         ▼
+                                     Cooling
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="104-performance-debugging-mental-model">104. Performance Debugging Mental Model</h1>
+
+<p>Robot이 느려졌다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Application workload increased?
+          ↓
+CPU bottleneck?
+          ↓
+GPU bottleneck?
+          ↓
+Memory bottleneck?
+          ↓
+Network bottleneck?
+          ↓
+Disk bottleneck?
+          ↓
+Power mode changed?
+          ↓
+Temperature high?
+          ↓
+Thermal throttling?
+</code></pre></div></div>
+
+<p>순서로 확인할 수 있다.</p>
+
+<hr>
+
+<h1 id="105-mini-practice-1">105. Mini Practice 1</h1>
+
+<p>Jetson에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nvpmodel <span class="nt">-q</span>
+</code></pre></div></div>
+
+<p>를 실행한다.</p>
+
+<p>확인:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>현재 Power Mode는 무엇인가?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="106-mini-practice-2">106. Mini Practice 2</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tegrastats
+</code></pre></div></div>
+
+<p>를 실행한다.</p>
+
+<p>FAST-LIO2나 다른 workload를 실행하면서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+GPU
+RAM
+Temperature
+</code></pre></div></div>
+
+<p>변화를 관찰한다.</p>
+
+<hr>
+
+<h1 id="107-mini-practice-3">107. Mini Practice 3</h1>
+
+<p>다음 세 상태를 비교한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Idle
+
+2. FAST-LIO2 only
+
+3. FAST-LIO2 + AI
+</code></pre></div></div>
+
+<p>기록:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+GPU
+RAM
+Temperature
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="108-mini-practice-4">108. Mini Practice 4</h1>
+
+<p>FAST-LIO2를 30분 이상 실행하면서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Time
+Temperature
+Odometry Hz
+CPU Usage
+</code></pre></div></div>
+
+<p>를 기록한다.</p>
+
+<p>질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>시간이 지나면서 성능이 떨어지는가?
+
+Temperature와 관계가 있는가?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="109-mini-practice-5">109. Mini Practice 5</h1>
+
+<p>같은 workload를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Power Mode A
+
+vs
+
+Power Mode B
+</code></pre></div></div>
+
+<p>에서 실행해본다.</p>
+
+<p>비교:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Latency
+Power
+Temperature
+</code></pre></div></div>
+
+<p>단, 실제 로봇에서 power mode를 변경할 때는
+hardware 요구사항과 운영 정책을 먼저 확인한다.</p>
+
+<hr>
+
+<h1 id="110-반드시-구분할-것">110. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Power
+≠
+Energy
+
+Clock
+≠
+Performance
+
+Utilization
+≠
+Performance
+
+Peak Performance
+≠
+Sustained Performance
+
+Latency
+≠
+Throughput
+
+CPU 100%
+≠
+System Failure
+
+GPU 0%
+≠
+GPU Problem
+
+Shared Memory
+≠
+Automatic Zero-Copy
+
+High Temperature
+≠
+Thermal Throttling
+
+Benchmark
+≠
+Real Robot Workload
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="111-오늘의-핵심">111. 오늘의 핵심</h1>
+
+<p>Edge computer의 performance는 단순히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU가 빠른가?
+GPU가 빠른가?
+</code></pre></div></div>
+
+<p>만으로 결정되지 않는다.</p>
+
+<p>실제로는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                 Application
+                      │
+                      ▼
+                CPU / GPU
+                      │
+                      ▼
+             Memory / I/O
+                      │
+                      ▼
+                 Clock
+                      │
+                      ▼
+                 Power
+                      │
+                      ▼
+                  Heat
+                      │
+                      ▼
+                 Cooling
+                      │
+                      ▼
+          Sustained Performance
+</code></pre></div></div>
+
+<p>로 연결되어 있다.</p>
+
+<hr>
+
+<h1 id="112-edge-computing의-핵심-관점">112. Edge Computing의 핵심 관점</h1>
+
+<p>Cloud server에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>더 많은 compute resource
+</code></pre></div></div>
+
+<p>를 추가하기 상대적으로 쉽다.</p>
+
+<p>하지만 robot edge computer에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Limited Power
+Limited Cooling
+Limited Space
+Limited Weight
+Limited Network
+</code></pre></div></div>
+
+<p>안에서 필요한 performance를 만들어야 한다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Performance per Watt
++
+Sustained Performance
+</code></pre></div></div>
+
+<p>가 중요하다.</p>
+
+<hr>
+
+<h1 id="113-chapter-12-mental-model">113. Chapter 12 Mental Model</h1>
+
+<p>최종적으로 Jetson을 볼 때:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Workload
+   │
+   ▼
+CPU / GPU / Memory
+   │
+   ▼
+Power Consumption
+   │
+   ▼
+Heat Generation
+   │
+   ▼
+Cooling
+   │
+   ▼
+Temperature
+   │
+   ▼
+Clock / Throttling
+   │
+   ▼
+Application Performance
+</code></pre></div></div>
+
+<p>이 loop를 생각한다.</p>
+
+<hr>
+
+<h1 id="next-chapter">Next Chapter</h1>
+
+<h2 id="chapter-13-storage--data-logging">Chapter 13. Storage &amp; Data Logging</h2>
+
+<p>다음 Chapter에서는 robot이 생성하는 대용량 데이터를 다룬다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Point Cloud
+Camera Video
+ROS Bag
+Map
+Logs
+AI Dataset
+</code></pre></div></div>
+
+<p>그리고:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SSD
+NVMe
+eMMC
+Filesystem
+Read / Write Speed
+IOPS
+Write Endurance
+Mount
+Partition
+Disk Full
+Log Rotation
+rosbag2
+Data Retention
+</code></pre></div></div>
+
+<p>을 연결한다.</p>
+
+<p>특히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"LiDAR + Camera를 계속 저장하면
+왜 Jetson storage가 금방 차는가?"
+</code></pre></div></div>
+
+<p>와:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"NVMe가 빠르다는 것은 정확히 무엇이 빠른 것인가?"
+</code></pre></div></div>
+
+<p>를 이해하는 것이 Chapter 13의 목표다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/edge_computing/chapter14-device-drivers-kernel-basics/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 14. Device Drivers &amp; Kernel Basics</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,3339 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 17. Remote Deployment &amp; Fleet Management | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter17-remote-deployment-fleet-management/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 17. Remote Deployment &amp; Fleet Management</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> 여러 대의 robot edge device를 원격으로 관리하는 기본 구조를 이해한다.</p>
+
+  <p>Fleet, Device Identity, Provisioning, OTA Update, Container Registry,
+Versioning, Staged Rollout, Rollback, Remote Command, Telemetry,
+CI/CD, Device Group의 개념을 이해하고,
+Jetson/robot fleet을 실제 production 환경에서 어떻게 운영하는지 연결한다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="1-robot-한-대와-robot-100대는-완전히-다른-문제다">1. Robot 한 대와 Robot 100대는 완전히 다른 문제다</h1>
+
+<p>Robot이 한 대라면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Laptop
+   │
+   │ SSH
+   ▼
+Robot
+</code></pre></div></div>
+
+<p>직접 접속해서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git pull
+docker pull
+systemctl restart ...
+</code></pre></div></div>
+
+<p>하면 될 수 있다.</p>
+
+<p>하지만 robot이:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>10대
+100대
+1000대
+</code></pre></div></div>
+
+<p>가 되면 이런 방식은 유지하기 어렵다.</p>
+
+<hr>
+
+<h1 id="2-fleet이란">2. Fleet이란?</h1>
+
+<p>Fleet은:</p>
+
+<blockquote>
+  <p>중앙에서 함께 관리하는 device들의 집합</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fleet
+
+├── Robot 001
+├── Robot 002
+├── Robot 003
+├── Robot 004
+└── ...
+</code></pre></div></div>
+
+<p>각 robot은 독립된 device지만
+software version, configuration, health를 중앙에서 관리할 수 있다.</p>
+
+<hr>
+
+<h1 id="3-fleet-management가-필요한-이유">3. Fleet Management가 필요한 이유</h1>
+
+<p>여러 robot을 운영하면 다음 문제가 생긴다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>어떤 robot이 어느 software version인가?
+어떤 robot이 online인가?
+어떤 robot이 update에 실패했는가?
+어떤 robot이 disk가 거의 찼는가?
+어떤 robot의 sensor가 죽었는가?
+</code></pre></div></div>
+
+<p>Fleet management는 이런 문제를 중앙에서 관리하기 위한 구조다.</p>
+
+<hr>
+
+<h1 id="4-가장-단순한-fleet-architecture">4. 가장 단순한 Fleet Architecture</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                Developer / Operator
+
+                        │
+                        ▼
+                Fleet Management
+                     Server
+                        │
+        ┌───────────────┼───────────────┐
+        ▼               ▼               ▼
+     Robot A          Robot B          Robot C
+</code></pre></div></div>
+
+<p>중앙 system이 각 robot의 상태를 보고
+필요한 command나 update를 전달한다.</p>
+
+<hr>
+
+<h1 id="5-device-identity">5. Device Identity</h1>
+
+<p>Fleet에서는 각 robot이 고유한 identity를 가져야 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vision60-001
+vision60-002
+vision60-003
+</code></pre></div></div>
+
+<p>각 robot을 구분할 수 있어야 한다.</p>
+
+<hr>
+
+<h1 id="6-device-identity와-hostname은-다르다">6. Device Identity와 Hostname은 다르다</h1>
+
+<p>Hostname:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vision60-001
+</code></pre></div></div>
+
+<p>도 identity처럼 보일 수 있지만
+fleet identity는 더 큰 개념이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device ID
+Certificate
+Serial Number
+Cloud Thing Name
+Hardware UUID
+</code></pre></div></div>
+
+<p>등이 함께 사용될 수 있다.</p>
+
+<hr>
+
+<h1 id="7-왜-고유-identity가-중요한가">7. 왜 고유 Identity가 중요한가?</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot 001
+→ Site A
+
+Robot 002
+→ Site B
+
+Robot 003
+→ Lab
+</code></pre></div></div>
+
+<p>각 robot에 다른 config나 permission을 적용할 수 있다.</p>
+
+<hr>
+
+<h1 id="8-provisioning">8. Provisioning</h1>
+
+<p>새 robot을 fleet에 등록하는 과정을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Provisioning
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<p>보통 다음을 설정한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device Identity
+Credential
+Network Configuration
+Software Version
+Fleet Group
+Cloud Endpoint
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="9-factory-provisioning">9. Factory Provisioning</h1>
+
+<p>Robot 생산 단계에서 미리:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Certificate
+Device ID
+Initial software
+</code></pre></div></div>
+
+<p>를 넣을 수도 있다.</p>
+
+<hr>
+
+<h1 id="10-first-boot-provisioning">10. First-Boot Provisioning</h1>
+
+<p>Robot을 처음 켰을 때:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Boot
+  ↓
+Registration
+  ↓
+Cloud/Fleet Join
+</code></pre></div></div>
+
+<p>형태로 자동 등록할 수도 있다.</p>
+
+<hr>
+
+<h1 id="11-manual-provisioning">11. Manual Provisioning</h1>
+
+<p>초기에는 사람이 직접:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh
+copy certificate
+configure service
+</code></pre></div></div>
+
+<p>하는 방식도 가능하다.</p>
+
+<p>Robot 수가 적을 때는 단순하다.</p>
+
+<hr>
+
+<h1 id="12-zero-touch-provisioning">12. Zero-Touch Provisioning</h1>
+
+<p>대규모 fleet에서는 사람이 robot마다 직접 설정하지 않는 것이 이상적이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Power On
+   ↓
+Device authenticates
+   ↓
+Registers automatically
+   ↓
+Downloads configuration
+   ↓
+Starts service
+</code></pre></div></div>
+
+<p>이런 구조를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Zero-Touch Provisioning
+</code></pre></div></div>
+
+<p>이라고 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="13-credential">13. Credential</h1>
+
+<p>각 robot이 fleet service에 자신을 인증하기 위해:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Certificate
+Private Key
+Token
+</code></pre></div></div>
+
+<p>등을 사용할 수 있다.</p>
+
+<p>Chapter 16과 연결된다.</p>
+
+<hr>
+
+<h1 id="14-per-device-credential">14. Per-Device Credential</h1>
+
+<p>좋은 구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot A → Credential A
+Robot B → Credential B
+Robot C → Credential C
+</code></pre></div></div>
+
+<p>한 robot이 compromise되어도
+전체 fleet credential이 유출되지 않는다.</p>
+
+<hr>
+
+<h1 id="15-device-group">15. Device Group</h1>
+
+<p>비슷한 robot을 group으로 묶을 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fleet
+├── Vision60
+├── Forklift
+├── Blasting Robot
+└── Test Robots
+</code></pre></div></div>
+
+<p>또는 site 기준:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Site A
+Site B
+Lab
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="16-group의-장점">16. Group의 장점</h1>
+
+<p>Group 단위로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Software Deploy
+Configuration
+Monitoring
+Permission
+</code></pre></div></div>
+
+<p>을 적용할 수 있다.</p>
+
+<hr>
+
+<h1 id="17-software-version-management">17. Software Version Management</h1>
+
+<p>각 robot이 어떤 version을 실행하는지 알아야 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot 001 → autonomy v1.4.2
+Robot 002 → autonomy v1.4.2
+Robot 003 → autonomy v1.3.9
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="18-version은-하나가-아닐-수-있다">18. Version은 하나가 아닐 수 있다</h1>
+
+<p>Robot에는 여러 software가 존재한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OS Version
+JetPack Version
+Docker Image Version
+Autonomy Version
+SLAM Version
+Config Version
+Map Version
+</code></pre></div></div>
+
+<p>따라서 전체 deployment state를 기록하는 것이 중요하다.</p>
+
+<hr>
+
+<h1 id="19-git-commit">19. Git Commit</h1>
+
+<p>Software version을 정확히 추적하려면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Git Commit
+</code></pre></div></div>
+
+<p>을 함께 기록하면 좋다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Autonomy:
+v1.4.2
+commit: abc1234
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="20-semantic-versioning">20. Semantic Versioning</h1>
+
+<p>Version을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MAJOR.MINOR.PATCH
+</code></pre></div></div>
+
+<p>형태로 관리하는 방식을 많이 사용한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2.4.1
+</code></pre></div></div>
+
+<p>대략:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MAJOR
+→ 큰 호환성 변경
+
+MINOR
+→ 기능 추가
+
+PATCH
+→ 버그 수정
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="21-configuration도-versioning이-필요하다">21. Configuration도 Versioning이 필요하다</h1>
+
+<p>Code가 같아도:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2 parameter
+Camera config
+Site map
+Network config
+</code></pre></div></div>
+
+<p>가 다르면 robot 동작이 달라진다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Code Version
++
+Config Version
+</code></pre></div></div>
+
+<p>을 함께 관리한다.</p>
+
+<hr>
+
+<h1 id="22-artifact">22. Artifact</h1>
+
+<p>Build 결과물을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Artifact
+</code></pre></div></div>
+
+<p>라고 부른다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Binary
+Docker Image
+Deb Package
+Firmware
+Config Bundle
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="23-container-image를-deployment-artifact로-사용">23. Container Image를 Deployment Artifact로 사용</h1>
+
+<p>Robot software를 Docker image로 관리하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vision60-autonomy:v1.4.2
+</code></pre></div></div>
+
+<p>같은 artifact를 여러 robot에 동일하게 배포할 수 있다.</p>
+
+<hr>
+
+<h1 id="24-container-registry">24. Container Registry</h1>
+
+<p>Docker image를 저장하는 중앙 server:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Container Registry
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GitHub Container Registry
+AWS ECR
+Private Registry
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="25-registry-architecture">25. Registry Architecture</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Developer
+   │
+   ▼
+Build Image
+   │
+   ▼
+Registry
+   │
+   ▼
+Robot
+docker pull
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="26-왜-git-repository만으로-부족할까">26. 왜 Git Repository만으로 부족할까?</h1>
+
+<p>Robot에서 매번:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone
+colcon build
+pip <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>하면 robot마다 결과가 달라질 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dependency version mismatch
+Build environment mismatch
+Build failure
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="27-pre-built-artifact">27. Pre-Built Artifact</h1>
+
+<p>더 안정적인 방식:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CI Server에서 build
+      ↓
+Test
+      ↓
+Artifact 생성
+      ↓
+Robot은 artifact만 다운로드
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="28-ci">28. CI</h1>
+
+<p>CI:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Continuous Integration
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Code 변경이 생길 때 자동으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Build
+Test
+Lint
+Package
+</code></pre></div></div>
+
+<p>등을 수행한다.</p>
+
+<hr>
+
+<h1 id="29-cd">29. CD</h1>
+
+<p>CD는 문맥에 따라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Continuous Delivery
+Continuous Deployment
+</code></pre></div></div>
+
+<p>를 의미할 수 있다.</p>
+
+<p>Robot software에서는 build된 artifact를
+배포 가능한 상태로 만드는 과정과 연결된다.</p>
+
+<hr>
+
+<h1 id="30-cicd-pipeline">30. CI/CD Pipeline</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Developer Push
+      │
+      ▼
+Git Repository
+      │
+      ▼
+CI
+├── Build
+├── Test
+├── Static Analysis
+└── Package
+      │
+      ▼
+Container Registry
+      │
+      ▼
+Deployment System
+      │
+      ▼
+Robot Fleet
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="31-arm64-build">31. ARM64 Build</h1>
+
+<p>Jetson은 ARM64이므로 artifact도 target architecture가 맞아야 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux/arm64
+</code></pre></div></div>
+
+<p>container image가 필요할 수 있다.</p>
+
+<hr>
+
+<h1 id="32-multi-architecture-ci">32. Multi-Architecture CI</h1>
+
+<p>개발 PC가 x86_64이고 robot은 ARM64라면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CI
+├── linux/amd64
+└── linux/arm64
+</code></pre></div></div>
+
+<p>이미지를 모두 만들 수도 있다.</p>
+
+<hr>
+
+<h1 id="33-cross-build">33. Cross-Build</h1>
+
+<p>x86 server에서 ARM64 artifact를 만드는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cross Compilation
+Cross Build
+</code></pre></div></div>
+
+<p>을 사용할 수도 있다.</p>
+
+<p>Chapter 2와 연결된다.</p>
+
+<hr>
+
+<h1 id="34-ota-update">34. OTA Update</h1>
+
+<p>OTA:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Over-The-Air Update
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Network를 통해 robot software를 원격으로 업데이트하는 것.</p>
+
+<hr>
+
+<h1 id="35-ota-기본-구조">35. OTA 기본 구조</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Deployment Server
+       │
+       ▼
+    Internet /
+ Company Network
+       │
+       ▼
+      Robot
+       │
+       ▼
+Download
+       │
+       ▼
+Install / Switch
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="36-ota는-단순-git-pull이-아니다">36. OTA는 단순 <code class="language-plaintext highlighter-rouge">git pull</code>이 아니다</h1>
+
+<p>실무적인 OTA system은 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Version Check
+Authentication
+Download
+Integrity Check
+Install
+Restart
+Health Check
+Rollback
+</code></pre></div></div>
+
+<p>까지 포함한다.</p>
+
+<hr>
+
+<h1 id="37-update-package-검증">37. Update Package 검증</h1>
+
+<p>Robot이 artifact를 받으면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hash
+Signature
+</code></pre></div></div>
+
+<p>를 검증할 수 있다.</p>
+
+<p>Chapter 16의 signed update와 연결된다.</p>
+
+<hr>
+
+<h1 id="38-deployment-target">38. Deployment Target</h1>
+
+<p>Update를 모든 robot에 보낼 필요는 없다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>All Vision60
+Site A robots
+Test group
+Robot 007 only
+</code></pre></div></div>
+
+<p>처럼 target을 선택할 수 있다.</p>
+
+<hr>
+
+<h1 id="39-staged-rollout">39. Staged Rollout</h1>
+
+<p>새 version을 처음부터 모든 robot에 배포하지 않는다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Stage 1
+1 test robot
+
+Stage 2
+5% fleet
+
+Stage 3
+25%
+
+Stage 4
+100%
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="40-왜-staged-rollout을-할까">40. 왜 Staged Rollout을 할까?</h1>
+
+<p>Lab에서는 발견하지 못한 bug가
+실제 field에서 발생할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>New Version
+     ↓
+One Robot
+     ↓
+Issue?
+</code></pre></div></div>
+
+<p>먼저 작은 group에서 확인하면 피해를 줄일 수 있다.</p>
+
+<hr>
+
+<h1 id="41-canary-deployment">41. Canary Deployment</h1>
+
+<p>아주 작은 일부 device에 먼저 새 version을 배포하는 방법을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Canary Deployment
+</code></pre></div></div>
+
+<p>라고 부른다.</p>
+
+<hr>
+
+<h1 id="42-deployment-ring">42. Deployment Ring</h1>
+
+<p>Fleet을 여러 ring으로 나눌 수도 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ring 0
+Developers
+
+Ring 1
+Lab Robots
+
+Ring 2
+Pilot Site
+
+Ring 3
+Production Fleet
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="43-rollback">43. Rollback</h1>
+
+<p>새 version에 문제가 생기면 이전 version으로 돌아가는 기능:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Rollback
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="44-container-rollback">44. Container Rollback</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Current:
+vision60-autonomy:v1.4.2
+
+Previous:
+vision60-autonomy:v1.4.1
+</code></pre></div></div>
+
+<p>새 container가 실패하면 이전 image를 다시 실행한다.</p>
+
+<hr>
+
+<h1 id="45-rollback이-어려운-경우">45. Rollback이 어려운 경우</h1>
+
+<p>Software만 이전 version으로 돌리면 끝나지 않을 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Config Format Changed
+Database Migrated
+Firmware Changed
+Map Format Changed
+</code></pre></div></div>
+
+<p>등.</p>
+
+<p>그래서 backward compatibility를 고려해야 한다.</p>
+
+<hr>
+
+<h1 id="46-ab-partition">46. A/B Partition</h1>
+
+<p>OS update에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Partition A
+Partition B
+</code></pre></div></div>
+
+<p>두 system slot을 유지하는 방식을 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Current Boot
+→ A
+
+Update
+→ B에 설치
+
+Reboot
+→ B
+
+Failure
+→ A로 복귀
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="47-atomic-update">47. Atomic Update</h1>
+
+<p>Update 중 system이 반쯤만 변경되는 것을 피하고:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Old Version
+   ↓
+One Switch
+   ↓
+New Version
+</code></pre></div></div>
+
+<p>처럼 전환하는 개념을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Atomic Update
+</code></pre></div></div>
+
+<p>라고 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="48-partial-update의-위험">48. Partial Update의 위험</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2 new
+Nav2 old
+Config new
+</code></pre></div></div>
+
+<p>처럼 version이 섞이면
+호환성 문제가 생길 수 있다.</p>
+
+<p>가능하면 compatible set을 하나의 deployment unit으로 관리한다.</p>
+
+<hr>
+
+<h1 id="49-dependency-version-matrix">49. Dependency Version Matrix</h1>
+
+<p>예:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>JetPack</td>
+      <td>6.x</td>
+    </tr>
+    <tr>
+      <td>ROS 2</td>
+      <td>Humble</td>
+    </tr>
+    <tr>
+      <td>Autonomy</td>
+      <td>1.4.2</td>
+    </tr>
+    <tr>
+      <td>FAST-LIO2</td>
+      <td>commit abc</td>
+    </tr>
+    <tr>
+      <td>CycloneDDS Config</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Site Config</td>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>이런 식으로 compatibility를 기록할 수 있다.</p>
+
+<hr>
+
+<h1 id="50-remote-command">50. Remote Command</h1>
+
+<p>Fleet system에서는 robot에 원격 command를 보낼 수도 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Restart service
+Start diagnostics
+Download logs
+Update config
+Reboot
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="51-remote-command는-매우-민감하다">51. Remote Command는 매우 민감하다</h1>
+
+<p>Command channel이 compromise되면 공격자가 robot을 제어할 수 있다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authentication
+Authorization
+Encryption
+Audit Log
+</code></pre></div></div>
+
+<p>이 매우 중요하다.</p>
+
+<hr>
+
+<h1 id="52-control-plane과-data-plane">52. Control Plane과 Data Plane</h1>
+
+<p>Fleet architecture에서는 두 개념을 구분하면 좋다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Control Plane
+→ Update / Configuration / Command
+
+Data Plane
+→ Robot operational data
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="53-telemetry">53. Telemetry</h1>
+
+<p>Robot의 상태를 중앙으로 보내는 데이터를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Telemetry
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Usage
+GPU Usage
+Battery
+Temperature
+Robot Pose
+Current Mode
+Sensor Health
+Software Version
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="54-telemetry-vs-sensor-raw-data">54. Telemetry vs Sensor Raw Data</h1>
+
+<p>Telemetry는 일반적으로 작고 요약된 상태 정보다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Telemetry
+→ CPU 60%
+→ Temp 70°C
+→ LiDAR OK
+</code></pre></div></div>
+
+<p>반면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Point Cloud
+Camera Video
+</code></pre></div></div>
+
+<p>는 훨씬 큰 raw sensor data다.</p>
+
+<hr>
+
+<h1 id="55-왜-telemetry를-따로-보낼까">55. 왜 Telemetry를 따로 보낼까?</h1>
+
+<p>Robot 100대에서 모든 camera와 LiDAR raw data를 cloud로 보내면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Huge Bandwidth
+Huge Storage
+Huge Cost
+</code></pre></div></div>
+
+<p>가 필요하다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Small Telemetry
+</code></pre></div></div>
+
+<p>를 계속 보내고,
+raw data는 필요할 때만 가져오는 구조가 효율적일 수 있다.</p>
+
+<hr>
+
+<h1 id="56-edge-vs-cloud-역할-분리">56. Edge vs Cloud 역할 분리</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot Edge
+
+├── Real-time control
+├── SLAM
+├── Perception
+├── Local decisions
+└── Raw sensor processing
+
+Cloud
+
+├── Fleet monitoring
+├── Long-term analytics
+├── Software deployment
+├── Dataset storage
+└── Fleet dashboard
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="57-network가-끊겨도-robot은-동작해야-할-수-있다">57. Network가 끊겨도 Robot은 동작해야 할 수 있다</h1>
+
+<p>Field robot은 항상 인터넷이 연결된다고 가정하면 안 된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cloud
+   X
+Robot
+</code></pre></div></div>
+
+<p>이어도:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Local Control
+Local SLAM
+Safety
+</code></pre></div></div>
+
+<p>는 계속 동작해야 할 수 있다.</p>
+
+<hr>
+
+<h1 id="58-offline-first">58. Offline-First</h1>
+
+<p>Network가 없어도 핵심 기능은 local에서 동작하고,
+network가 돌아오면 data를 sync하는 구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Offline-First
+</code></pre></div></div>
+
+<p>로 설계할 수 있다.</p>
+
+<hr>
+
+<h1 id="59-store-and-forward">59. Store-and-Forward</h1>
+
+<p>Network가 끊겼을 때 telemetry를 local에 저장한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Network Offline
+      ↓
+Local Queue
+      ↓
+Network Restored
+      ↓
+Upload
+</code></pre></div></div>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Store-and-Forward
+</code></pre></div></div>
+
+<p>라고 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="60-queue-size가-무한하면-안-된다">60. Queue Size가 무한하면 안 된다</h1>
+
+<p>Network가 일주일 끊기면 local telemetry가 계속 쌓일 수 있다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Queue limit
+Retention policy
+Drop policy
+</code></pre></div></div>
+
+<p>가 필요하다.</p>
+
+<p>Chapter 13과 연결된다.</p>
+
+<hr>
+
+<h1 id="61-device-shadow--desired-state">61. Device Shadow / Desired State</h1>
+
+<p>Fleet system에서는 중앙에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Desired State
+</code></pre></div></div>
+
+<p>를 정의하고 robot이 현재 상태를 맞추도록 할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Desired:
+software_version = 1.4.2
+
+Reported:
+software_version = 1.4.1
+</code></pre></div></div>
+
+<p>그러면 update가 필요하다는 것을 알 수 있다.</p>
+
+<hr>
+
+<h1 id="62-desired-vs-reported-state">62. Desired vs Reported State</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Desired
+→ 중앙에서 원하는 상태
+
+Reported
+→ Robot이 현재 보고하는 상태
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="63-configuration-management">63. Configuration Management</h1>
+
+<p>Software binary뿐 아니라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS_DOMAIN_ID
+Site
+Sensor Config
+Power Mode
+Logging Policy
+</code></pre></div></div>
+
+<p>같은 configuration을 중앙에서 관리할 수 있다.</p>
+
+<hr>
+
+<h1 id="64-config-drift">64. Config Drift</h1>
+
+<p>같은 fleet인데 robot마다 config가 조금씩 달라지는 현상을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Configuration Drift
+</code></pre></div></div>
+
+<p>라고 할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot A
+ROS_DOMAIN_ID=123
+
+Robot B
+ROS_DOMAIN_ID=10
+</code></pre></div></div>
+
+<p>문제가 생기기 쉽다.</p>
+
+<hr>
+
+<h1 id="65-desired-state-management">65. Desired State Management</h1>
+
+<p>중앙에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>All Vision60:
+ROS_DOMAIN_ID=123
+Autonomy=v1.4.2
+</code></pre></div></div>
+
+<p>같이 desired state를 정의하면 drift를 줄일 수 있다.</p>
+
+<hr>
+
+<h1 id="66-infrastructure-as-code-개념">66. Infrastructure as Code 개념</h1>
+
+<p>Configuration을 GUI에서 손으로만 바꾸는 대신
+code/config file로 관리할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>YAML
+JSON
+Ansible
+Terraform
+</code></pre></div></div>
+
+<p>등.</p>
+
+<hr>
+
+<h1 id="67-ansible">67. Ansible</h1>
+
+<p>여러 Linux machine에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Package 설치
+Config 복사
+Service restart
+</code></pre></div></div>
+
+<p>같은 작업을 자동화할 수 있는 tool이다.</p>
+
+<p>Robot 수가 적은 초기 fleet에서도 유용할 수 있다.</p>
+
+<hr>
+
+<h1 id="68-ansible-vs-ota-platform">68. Ansible vs OTA Platform</h1>
+
+<p>Ansible:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>General server configuration automation
+</code></pre></div></div>
+
+<p>OTA/Fleet Platform:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device identity
+Offline handling
+Update status
+Rollback
+Fleet scale
+</code></pre></div></div>
+
+<p>등을 더 전문적으로 다룰 수 있다.</p>
+
+<hr>
+
+<h1 id="69-fleet-health">69. Fleet Health</h1>
+
+<p>각 robot에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Healthy
+Warning
+Critical
+Offline
+</code></pre></div></div>
+
+<p>같은 상태를 정의할 수 있다.</p>
+
+<hr>
+
+<h1 id="70-health-metric">70. Health Metric</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU &lt; 90%
+Disk &lt; 85%
+Temperature &lt; limit
+LiDAR heartbeat present
+Localization valid
+</code></pre></div></div>
+
+<p>등.</p>
+
+<hr>
+
+<h1 id="71-heartbeat">71. Heartbeat</h1>
+
+<p>Robot이 주기적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"I'm alive."
+</code></pre></div></div>
+
+<p>를 보내는 signal이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot
+   │
+   │ heartbeat every 30 s
+   ▼
+Fleet Server
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="72-heartbeat가-없으면">72. Heartbeat가 없으면</h1>
+
+<p>즉시 robot 고장이라고 단정할 수 없다.</p>
+
+<p>원인:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot powered off
+Network down
+Cloud down
+Process crashed
+Credential expired
+</code></pre></div></div>
+
+<p>등 다양하다.</p>
+
+<hr>
+
+<h1 id="73-online-vs-healthy">73. Online vs Healthy</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Online
+</code></pre></div></div>
+
+<p>은 network connection이 있다는 의미일 수 있다.</p>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Healthy
+</code></pre></div></div>
+
+<p>는 sensor/algorithm까지 정상이라는 의미다.</p>
+
+<p>둘은 다르다.</p>
+
+<hr>
+
+<h1 id="74-example">74. Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot online
+SSH works
+
+but
+
+LiDAR dead
+FAST-LIO2 stopped
+</code></pre></div></div>
+
+<p>이면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Online
+but Unhealthy
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="75-deployment-health-check">75. Deployment Health Check</h1>
+
+<p>Update 후 자동으로 확인한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Container running?
+      ↓
+ROS node alive?
+      ↓
+Sensor topics healthy?
+      ↓
+Odometry publishing?
+      ↓
+Temperature normal?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="76-단순-process-check만으로-부족하다">76. 단순 Process Check만으로 부족하다</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2 process exists
+</code></pre></div></div>
+
+<p>여도:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/odometry = 0 Hz
+</code></pre></div></div>
+
+<p>일 수 있다.</p>
+
+<p>그래서 application-level health check가 중요하다.</p>
+
+<hr>
+
+<h1 id="77-deployment-timeout">77. Deployment Timeout</h1>
+
+<p>Update 후 일정 시간 안에 healthy 상태가 되지 않으면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Deployment Failed
+</code></pre></div></div>
+
+<p>로 판단할 수 있다.</p>
+
+<hr>
+
+<h1 id="78-automatic-rollback">78. Automatic Rollback</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Deploy v1.5
+    ↓
+Health Check Failed
+    ↓
+Rollback v1.4
+</code></pre></div></div>
+
+<p>자동화할 수 있다.</p>
+
+<hr>
+
+<h1 id="79-telemetry-frequency">79. Telemetry Frequency</h1>
+
+<p>모든 metric을 초당 100번 cloud로 보낼 필요는 없다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+1 Hz
+
+Software Version
+on change
+
+Battery
+1 Hz
+
+Critical Error
+immediate
+</code></pre></div></div>
+
+<p>처럼 중요도에 따라 frequency를 정한다.</p>
+
+<hr>
+
+<h1 id="80-event">80. Event</h1>
+
+<p>주기적인 telemetry 외에 사건 발생 시 message를 보낼 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>E-stop pressed
+Localization lost
+Overheat
+Disk almost full
+Deployment failed
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="81-command-vs-event-vs-telemetry">81. Command vs Event vs Telemetry</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Command
+Cloud → Robot
+
+Telemetry
+Robot → Cloud, periodic
+
+Event
+Robot → Cloud, something happened
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="82-bidirectional-communication">82. Bidirectional Communication</h1>
+
+<p>Fleet system은 양방향 통신이 필요할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cloud
+   │
+   ├──► Command
+   │
+   ◄── Telemetry
+   ◄── Event
+   │
+Robot
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="83-mqtt">83. MQTT</h1>
+
+<p>IoT fleet에서 자주 사용하는 protocol:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MQTT
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Publish/Subscribe 구조를 사용한다.</p>
+
+<hr>
+
+<h1 id="84-mqtt-structure">84. MQTT Structure</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot
+ Publisher
+     │
+     ▼
+MQTT Broker
+     │
+     ▼
+Cloud Subscriber
+</code></pre></div></div>
+
+<p>반대로 command:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cloud Publisher
+     │
+     ▼
+MQTT Broker
+     │
+     ▼
+Robot Subscriber
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="85-topic">85. Topic</h1>
+
+<p>MQTT에도:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Topic
+</code></pre></div></div>
+
+<p>이라는 용어가 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>robots/vision60-001/telemetry
+robots/vision60-001/commands
+</code></pre></div></div>
+
+<p>ROS topic과 이름은 같지만 완전히 다른 middleware 개념이다.</p>
+
+<hr>
+
+<h1 id="86-mqtt-vs-ros-2">86. MQTT vs ROS 2</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2
+→ Robot 내부 / local distributed robotics communication
+
+MQTT
+→ Cloud/IoT messaging에서 많이 사용
+</code></pre></div></div>
+
+<p>둘을 함께 사용할 수도 있다.</p>
+
+<hr>
+
+<h1 id="87-example">87. Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot Internal
+
+LiDAR
+ ↓
+ROS 2
+ ↓
+FAST-LIO2
+ ↓
+Health Node
+ ↓
+MQTT
+ ↓
+Cloud
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="88-raw-ros-topic을-그대로-cloud에-보내는-것은">88. Raw ROS Topic을 그대로 Cloud에 보내는 것은?</h1>
+
+<p>가능할 수 있지만 항상 좋은 설계는 아니다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PointCloud2
+Camera Image
+</code></pre></div></div>
+
+<p>는 bandwidth가 매우 크다.</p>
+
+<p>Cloud에는 필요한 summary만 보내는 것이 효율적일 수 있다.</p>
+
+<hr>
+
+<h1 id="89-edge-aggregation">89. Edge Aggregation</h1>
+
+<p>Robot 내부에서 여러 metric을 모아서
+작은 telemetry message로 만든다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+GPU
+Battery
+SLAM
+Sensor
+      │
+      ▼
+Telemetry Agent
+      │
+      ▼
+Cloud
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="90-greengrass">90. Greengrass</h1>
+
+<p>AWS IoT Greengrass 같은 edge runtime은
+device에서 cloud-connected component를 실행하고 관리하는 데 사용할 수 있다.</p>
+
+<p>개념:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cloud
+  │
+  ▼
+Greengrass Deployment
+  │
+  ▼
+Edge Device
+  │
+  ├── Component A
+  ├── Component B
+  └── Component C
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="91-greengrass-core-device">91. Greengrass Core Device</h1>
+
+<p>Greengrass를 실행하는 edge machine을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Core Device
+</code></pre></div></div>
+
+<p>라고 부른다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>One Jetson
+=
+One Core Device
+</code></pre></div></div>
+
+<p>구조로 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="92-thing">92. Thing</h1>
+
+<p>AWS IoT에서 physical/logical device를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thing
+</code></pre></div></div>
+
+<p>으로 표현할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vision60-001
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="93-thing-group">93. Thing Group</h1>
+
+<p>여러 Thing을 group으로 묶는다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Vision60Fleet
+├── vision60-001
+├── vision60-002
+└── vision60-003
+</code></pre></div></div>
+
+<p>Group 단위 deployment에 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="94-component">94. Component</h1>
+
+<p>Greengrass에서 배포 가능한 software 단위를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Component
+</code></pre></div></div>
+
+<p>라고 부른다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Telemetry Agent
+Video Uploader
+Robot Updater
+Diagnostics
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="95-component와-docker-container">95. Component와 Docker Container</h1>
+
+<p>Component가 반드시 Docker container인 것은 아니다.</p>
+
+<p>Component recipe가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Script
+Binary
+Docker
+Artifact
+</code></pre></div></div>
+
+<p>등을 실행하도록 구성될 수 있다.</p>
+
+<hr>
+
+<h1 id="96-deployment">96. Deployment</h1>
+
+<p>Cloud에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thing
+Thing Group
+</code></pre></div></div>
+
+<p>에 특정 component version을 적용하는 것을 deployment라고 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="97-robot-software-전체를-cloud-runtime에-맡겨야-할까">97. Robot Software 전체를 Cloud Runtime에 맡겨야 할까?</h1>
+
+<p>반드시 그런 것은 아니다.</p>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hard/Local Autonomy
+→ ROS 2 / systemd / Docker
+
+Cloud Agent
+→ Greengrass
+</code></pre></div></div>
+
+<p>처럼 역할을 분리할 수 있다.</p>
+
+<hr>
+
+<h1 id="98-cloud-dependency를-줄인다">98. Cloud Dependency를 줄인다</h1>
+
+<p>Robot의 핵심 autonomy는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Internet down
+</code></pre></div></div>
+
+<p>이어도 계속 동작해야 할 수 있다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cloud = Management
+Edge = Operation
+</code></pre></div></div>
+
+<p>구조가 중요하다.</p>
+
+<hr>
+
+<h1 id="99-edge-agent">99. Edge Agent</h1>
+
+<p>Robot마다 작은 management agent를 둘 수 있다.</p>
+
+<p>역할:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Check desired version
+Download artifact
+Verify artifact
+Restart service
+Report status
+Upload logs
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="100-agent가-너무-강한-권한을-가지면">100. Agent가 너무 강한 권한을 가지면?</h1>
+
+<p>Security risk가 된다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Management Agent
+root access
+cloud command
+</code></pre></div></div>
+
+<p>가 compromise되면 system 전체가 위험하다.</p>
+
+<p>Chapter 16의 Least Privilege가 중요하다.</p>
+
+<hr>
+
+<h1 id="101-deployment-security">101. Deployment Security</h1>
+
+<p>Deployment channel에는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authentication
+TLS
+Artifact Signature
+Authorization
+</code></pre></div></div>
+
+<p>이 필요하다.</p>
+
+<hr>
+
+<h1 id="102-artifact-integrity">102. Artifact Integrity</h1>
+
+<p>Robot이 받은 image/package가
+CI에서 만든 것과 같은지 검증한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Digest
+Hash
+Signature
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="103-docker-digest">103. Docker Digest</h1>
+
+<p>Docker image에는 content digest가 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sha256:...
+</code></pre></div></div>
+
+<p>Tag는 변경될 수도 있지만
+digest는 content를 명확하게 식별한다.</p>
+
+<hr>
+
+<h1 id="104-tag-vs-digest">104. Tag vs Digest</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Tag
+v1.4.2
+→ 사람이 읽기 쉬움
+→ 다른 image를 가리키도록 변경 가능
+
+Digest
+sha256:...
+→ 정확한 content 식별
+</code></pre></div></div>
+
+<p>Production에서는 digest까지 기록하면 reproducibility가 더 좋아진다.</p>
+
+<hr>
+
+<h1 id="105-deployment-manifest">105. Deployment Manifest</h1>
+
+<p>어떤 robot에 무엇을 배포할지 하나의 manifest로 기록할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">robot</span><span class="pi">:</span> <span class="s">vision60-001</span>
+<span class="na">autonomy</span><span class="pi">:</span> <span class="s">1.4.2</span>
+<span class="na">config</span><span class="pi">:</span> <span class="s">site-a-v7</span>
+<span class="na">map</span><span class="pi">:</span> <span class="s">site-a-20260905</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="106-fleet-database">106. Fleet Database</h1>
+
+<p>Fleet server는 각 robot에 대해 다음 정보를 저장할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device ID
+Serial Number
+Software Version
+Config Version
+Last Seen
+Health
+Deployment Status
+Site
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="107-site-management">107. Site Management</h1>
+
+<p>Robot이 여러 현장에 있다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Shipyard A
+Construction Site B
+Lab
+</code></pre></div></div>
+
+<p>site metadata를 관리할 수 있다.</p>
+
+<p>Site별 configuration도 다를 수 있다.</p>
+
+<hr>
+
+<h1 id="108-environment-specific-config">108. Environment-Specific Config</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Site A
+LiDAR map A
+
+Site B
+LiDAR map B
+</code></pre></div></div>
+
+<p>Software는 같고 config/map만 다르게 배포할 수 있다.</p>
+
+<hr>
+
+<h1 id="109-fleet-drift">109. Fleet Drift</h1>
+
+<p>시간이 지나면서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot A
+new config
+
+Robot B
+old config
+
+Robot C
+manual hotfix
+</code></pre></div></div>
+
+<p>처럼 상태가 달라질 수 있다.</p>
+
+<p>이를 줄이는 것이 fleet management의 중요한 역할이다.</p>
+
+<hr>
+
+<h1 id="110-manual-hotfix의-문제">110. Manual Hotfix의 문제</h1>
+
+<p>SSH로 robot 하나에 직접 수정:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim config.yaml
+</code></pre></div></div>
+
+<p>하면 중앙 system은 이 변경을 모를 수 있다.</p>
+
+<p>나중에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"왜 Robot A만 다르지?"
+</code></pre></div></div>
+
+<p>문제가 생긴다.</p>
+
+<hr>
+
+<h1 id="111-declarative-management">111. Declarative Management</h1>
+
+<p>더 좋은 방식은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Desired Configuration
+</code></pre></div></div>
+
+<p>을 중앙에 정의하고
+robot이 그 상태와 맞도록 관리하는 것이다.</p>
+
+<hr>
+
+<h1 id="112-immutable-deployment">112. Immutable Deployment</h1>
+
+<p>Production에서는 running robot 내부 source를 직접 수정하기보다:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>New Artifact
+   ↓
+New Version
+   ↓
+Deploy
+</code></pre></div></div>
+
+<p>하는 방식이 관리하기 쉽다.</p>
+
+<hr>
+
+<h1 id="113-roll-forward">113. Roll Forward</h1>
+
+<p>문제 발생 시 이전 version으로 돌아가는 rollback 외에도
+새 patch version을 빠르게 만들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>v1.4.2
+ ↓ bug
+v1.4.3
+</code></pre></div></div>
+
+<p>로 해결할 수 있다.</p>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Roll Forward
+</code></pre></div></div>
+
+<p>전략으로 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="114-deployment-window">114. Deployment Window</h1>
+
+<p>Robot이 중요한 작업 중일 때 update하면 위험할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot moving
+      ↓
+Software restart
+</code></pre></div></div>
+
+<p>그래서 update 가능한 시간대를 정할 수 있다.</p>
+
+<hr>
+
+<h1 id="115-maintenance-mode">115. Maintenance Mode</h1>
+
+<p>Update 전에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Stop autonomy
+Park robot
+Save logs
+Enter maintenance
+Update
+Verify
+Resume
+</code></pre></div></div>
+
+<p>같은 workflow를 만들 수 있다.</p>
+
+<hr>
+
+<h1 id="116-safe-deployment">116. Safe Deployment</h1>
+
+<p>Robot software update는 web server update보다 더 신중해야 한다.</p>
+
+<p>왜냐하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Software
+   ↓
+Physical Machine
+   ↓
+Motion
+</code></pre></div></div>
+
+<p>으로 연결되기 때문이다.</p>
+
+<hr>
+
+<h1 id="117-pre-deployment-check">117. Pre-Deployment Check</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot stationary?
+Battery sufficient?
+Network stable?
+Disk sufficient?
+No critical task running?
+</code></pre></div></div>
+
+<p>를 확인할 수 있다.</p>
+
+<hr>
+
+<h1 id="118-battery와-ota">118. Battery와 OTA</h1>
+
+<p>Update 중 battery가 꺼지면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Corrupted installation
+</code></pre></div></div>
+
+<p>가능성이 있다.</p>
+
+<p>따라서 update 전 battery threshold를 확인하는 것이 좋다.</p>
+
+<hr>
+
+<h1 id="119-network-resume">119. Network Resume</h1>
+
+<p>Artifact가 큰 경우 download 중 network가 끊길 수 있다.</p>
+
+<p>좋은 updater는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Resume
+Retry
+Checksum
+</code></pre></div></div>
+
+<p>을 지원하는 것이 좋다.</p>
+
+<hr>
+
+<h1 id="120-exponential-backoff">120. Exponential Backoff</h1>
+
+<p>Cloud connection이 실패할 때 매 millisecond마다 재시도하면 network/server를 과부하시킬 수 있다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 s
+2 s
+4 s
+8 s
+...
+</code></pre></div></div>
+
+<p>처럼 재시도 간격을 늘릴 수 있다.</p>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Exponential Backoff
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<hr>
+
+<h1 id="121-idempotency">121. Idempotency</h1>
+
+<p>같은 deployment command가 여러 번 와도
+결과가 망가지지 않도록 설계하는 특성:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Idempotency
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"ensure autonomy v1.4.2 is running"
+</code></pre></div></div>
+
+<p>command를 두 번 받아도 최종 상태는 같다.</p>
+
+<hr>
+
+<h1 id="122-command-id">122. Command ID</h1>
+
+<p>Remote command에 unique ID를 붙일 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmd-12345
+</code></pre></div></div>
+
+<p>Robot이 이미 처리한 command인지 확인해
+duplicate execution을 방지할 수 있다.</p>
+
+<hr>
+
+<h1 id="123-state-machine">123. State Machine</h1>
+
+<p>Deployment 자체를 state machine으로 관리하면 좋다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IDLE
+ ↓
+DOWNLOADING
+ ↓
+VERIFYING
+ ↓
+INSTALLING
+ ↓
+RESTARTING
+ ↓
+HEALTH_CHECK
+ ↓
+SUCCESS
+</code></pre></div></div>
+
+<p>실패:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAILED
+ ↓
+ROLLBACK
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="124-fleet-deployment-status">124. Fleet Deployment Status</h1>
+
+<p>중앙 dashboard에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>20 Successful
+2 Updating
+1 Failed
+3 Offline
+</code></pre></div></div>
+
+<p>같이 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="125-offline-robot">125. Offline Robot</h1>
+
+<p>Robot이 offline이면 즉시 update할 수 없다.</p>
+
+<p>중앙에는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Desired Version = 1.4.2
+</code></pre></div></div>
+
+<p>를 저장해두고
+robot이 reconnect되면 update할 수 있다.</p>
+
+<hr>
+
+<h1 id="126-eventual-consistency">126. Eventual Consistency</h1>
+
+<p>모든 robot이 동시에 즉시 같은 상태가 되지 않더라도
+시간이 지나며 desired state에 수렴하는 구조를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Eventual Consistency
+</code></pre></div></div>
+
+<p>관점으로 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="127-fleet-management와-observability">127. Fleet Management와 Observability</h1>
+
+<p>Fleet management가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>무엇을 배포할까?
+</code></pre></div></div>
+
+<p>라면 observability는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>지금 system이 어떻게 동작하고 있는가?
+</code></pre></div></div>
+
+<p>를 보는 것이다.</p>
+
+<p>Chapter 18에서 본격적으로 다룬다.</p>
+
+<hr>
+
+<h1 id="128-data-flow-example">128. Data Flow Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                   Cloud
+
+          ┌─────────────────────┐
+          │ Fleet Manager       │
+          │                     │
+          │ Desired Version     │
+          │ Config              │
+          │ Deployment          │
+          └──────────┬──────────┘
+                     │
+                   TLS
+                     │
+                     ▼
+                 Robot Agent
+                     │
+          ┌──────────┼──────────┐
+          ▼          ▼          ▼
+        Docker      Config     Logs
+          │
+          ▼
+       ROS 2
+          │
+          ▼
+      Autonomy
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="129-vision60-fleet-example">129. Vision60 Fleet Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                     Vision60 Fleet
+
+              ┌────────────────────┐
+              │ Fleet Management   │
+              └─────────┬──────────┘
+                        │
+         ┌──────────────┼──────────────┐
+         ▼              ▼              ▼
+  Vision60-001    Vision60-002    Vision60-003
+      │               │               │
+      ▼               ▼               ▼
+    Orin             Orin            Orin
+      │               │               │
+      ├── Docker      ├── Docker      ├── Docker
+      ├── ROS 2       ├── ROS 2       ├── ROS 2
+      └── FAST-LIO2   └── FAST-LIO2   └── FAST-LIO2
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="130-fleet-update-example">130. Fleet Update Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Autonomy v1.5.0
+      │
+      ▼
+CI Test
+      │
+      ▼
+ARM64 Image
+      │
+      ▼
+Registry
+      │
+      ▼
+Test Robot
+      │
+      ▼
+Lab Fleet
+      │
+      ▼
+Production Fleet
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="131-failure-example">131. Failure Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Deploy v1.5.0
+      │
+      ▼
+FAST-LIO2 fails to publish
+      │
+      ▼
+Health Check Failure
+      │
+      ▼
+Stop rollout
+      │
+      ▼
+Rollback test robots
+</code></pre></div></div>
+
+<p>중앙 rollout system이 있으면
+문제가 전체 fleet으로 확산되는 것을 막을 수 있다.</p>
+
+<hr>
+
+<h1 id="132-remote-debugging">132. Remote Debugging</h1>
+
+<p>Fleet system에서 robot의:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Logs
+Metrics
+Version
+Network Status
+</code></pre></div></div>
+
+<p>를 원격으로 확인할 수 있다.</p>
+
+<p>하지만 무조건 remote shell access를 모든 사람에게 주는 것보다
+필요한 diagnostic 기능을 별도로 제공하는 것이 더 안전할 수 있다.</p>
+
+<hr>
+
+<h1 id="133-log-upload">133. Log Upload</h1>
+
+<p>Robot이 문제가 생기면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Selected logs
+Crash dump
+Small rosbag
+Diagnostics
+</code></pre></div></div>
+
+<p>를 중앙 server에 업로드할 수 있다.</p>
+
+<hr>
+
+<h1 id="134-raw-data-upload-정책">134. Raw Data Upload 정책</h1>
+
+<p>모든 raw sensor data를 항상 올리는 대신:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>On demand
+Failure event
+Wi-Fi available
+Robot charging
+</code></pre></div></div>
+
+<p>같은 조건에서 upload할 수 있다.</p>
+
+<hr>
+
+<h1 id="135-bandwidth-aware-upload">135. Bandwidth-Aware Upload</h1>
+
+<p>Robot이 cellular network를 사용한다면 bandwidth 비용이 중요할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Telemetry
+→ always
+
+Logs
+→ compressed
+
+Large bag
+→ Wi-Fi only
+</code></pre></div></div>
+
+<p>같은 정책을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="136-deployment와-site-network">136. Deployment와 Site Network</h1>
+
+<p>현장 network가 불안정할 수 있다.</p>
+
+<p>따라서 deployment system은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Retry
+Resume
+Partial download handling
+Offline mode
+</code></pre></div></div>
+
+<p>를 고려해야 한다.</p>
+
+<hr>
+
+<h1 id="137-fleet-security-checklist">137. Fleet Security Checklist</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ ] Per-device identity
+[ ] Unique credential
+[ ] TLS
+[ ] Artifact signature
+[ ] Least privilege
+[ ] Remote commands audited
+[ ] Credential revocation
+[ ] Rollback supported
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="138-deployment-checklist">138. Deployment Checklist</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ ] Target robots correct?
+[ ] Correct architecture?
+[ ] Version fixed?
+[ ] Artifact verified?
+[ ] Config compatible?
+[ ] Battery sufficient?
+[ ] Disk sufficient?
+[ ] Rollback available?
+[ ] Health check defined?
+[ ] Staged rollout?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="139-mini-practice-1">139. Mini Practice 1</h1>
+
+<p>Vision60이 3대 있다고 가정한다.</p>
+
+<p>다음 정보를 정의한다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Robot</th>
+      <th>Device ID</th>
+      <th>Site</th>
+      <th>Software</th>
+      <th>Config</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Robot 1</td>
+      <td>vision60-001</td>
+      <td>Lab</td>
+      <td>v1.4.2</td>
+      <td>lab-v3</td>
+    </tr>
+    <tr>
+      <td>Robot 2</td>
+      <td>vision60-002</td>
+      <td>Site A</td>
+      <td>v1.4.2</td>
+      <td>site-a-v7</td>
+    </tr>
+    <tr>
+      <td>Robot 3</td>
+      <td>vision60-003</td>
+      <td>Site A</td>
+      <td>v1.4.1</td>
+      <td>site-a-v7</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>어느 robot이 version drift 상태인가?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="140-mini-practice-2">140. Mini Practice 2</h1>
+
+<p>새 version:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>v1.5.0
+</code></pre></div></div>
+
+<p>을 배포한다고 하자.</p>
+
+<p>직접 rollout plan을 작성한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Step 1
+Lab robot 1대
+
+Step 2
+1 hour health monitoring
+
+Step 3
+Site A 1대
+
+Step 4
+Remaining production robots
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="141-mini-practice-3">141. Mini Practice 3</h1>
+
+<p>Update health check를 정의한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Container running
+ROS graph available
+LiDAR &gt; 9 Hz
+IMU &gt; 180 Hz
+Odometry &gt; required rate
+Temperature below limit
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="142-mini-practice-4">142. Mini Practice 4</h1>
+
+<p>Network가 끊겼다고 하자.</p>
+
+<p>질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot autonomy는 계속 동작해야 하는가?
+
+Telemetry는 어디에 저장할까?
+
+Reconnect 후 어떤 data를 먼저 upload할까?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="143-mini-practice-5">143. Mini Practice 5</h1>
+
+<p>Fleet command:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Restart FAST-LIO2
+</code></pre></div></div>
+
+<p>를 설계한다고 하자.</p>
+
+<p>필요한 것:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authentication
+Authorization
+Command ID
+Audit Log
+Result Status
+Timeout
+</code></pre></div></div>
+
+<p>을 생각한다.</p>
+
+<hr>
+
+<h1 id="144-mini-practice-6">144. Mini Practice 6</h1>
+
+<p>현재 robot update 방식이:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SSH
+git pull
+manual restart
+</code></pre></div></div>
+
+<p>라고 가정한다.</p>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Versioned Artifact
+Registry
+Deployment Agent
+Health Check
+Rollback
+</code></pre></div></div>
+
+<p>구조로 바꾸면 어떤 장점이 있는지 설명한다.</p>
+
+<hr>
+
+<h1 id="145-반드시-구분할-것">145. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fleet
+≠
+Network
+
+Provisioning
+≠
+Deployment
+
+Telemetry
+≠
+Raw Sensor Data
+
+Command
+≠
+Telemetry
+
+Online
+≠
+Healthy
+
+Tag
+≠
+Digest
+
+Update
+≠
+Rollback
+
+CI
+≠
+CD
+
+Robot Group
+≠
+ROS_DOMAIN_ID
+
+Cloud Management
+≠
+Robot Real-Time Control
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="146-fleet-mental-model">146. Fleet Mental Model</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Source Code
+    │
+    ▼
+Git
+    │
+    ▼
+CI
+    │
+    ▼
+Test
+    │
+    ▼
+Artifact
+    │
+    ▼
+Registry
+    │
+    ▼
+Fleet Manager
+    │
+    ▼
+Deployment
+    │
+    ▼
+Robot
+    │
+    ▼
+Health Check
+    │
+    ├── Success
+    │
+    └── Rollback
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="147-edgecloud-mental-model">147. Edge/Cloud Mental Model</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                       Cloud
+
+             Fleet Management
+             Deployment
+             Analytics
+             Long-term Storage
+             Dashboard
+                    │
+                    │ Secure Network
+                    ▼
+                       Edge
+
+                Jetson / Robot
+                ├── ROS 2
+                ├── SLAM
+                ├── AI
+                ├── Navigation
+                └── Safety
+</code></pre></div></div>
+
+<p>핵심 robot operation은 edge에서 실행하고,
+cloud는 management와 fleet-scale operation을 담당한다.</p>
+
+<hr>
+
+<h1 id="148-chapter-17-핵심">148. Chapter 17 핵심</h1>
+
+<p>Robot fleet management의 핵심 질문은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>What software is running where?
+
+How do we update it safely?
+
+How do we know the update worked?
+
+How do we recover when it fails?
+
+How do we manage hundreds of devices consistently?
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>한 대의 robot에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SSH
+</code></pre></div></div>
+
+<p>만으로 충분할 수 있지만,</p>
+
+<p>Fleet에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Identity
+Provisioning
+Versioning
+CI/CD
+OTA
+Staged Rollout
+Health Check
+Rollback
+Telemetry
+</code></pre></div></div>
+
+<p>가 필요해진다.</p>
+
+<hr>
+
+<h1 id="next-chapter">Next Chapter</h1>
+
+<h2 id="chapter-18-observability--monitoring">Chapter 18. Observability &amp; Monitoring</h2>
+
+<p>다음 Chapter에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Logs
+Metrics
+Tracing
+Dashboard
+Alert
+Health Check
+CPU/GPU/RAM
+Temperature
+Disk
+Network
+ROS Topic Rate
+Application Latency
+</code></pre></div></div>
+
+<p>를 다룬다.</p>
+
+<p>핵심 질문은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"Robot이 지금 살아 있는가?"
+</code></pre></div></div>
+
+<p>보다 한 단계 더 깊은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"Robot 내부에서 지금 무슨 일이 일어나고 있는가?"
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>특히 다음 구조를 다룬다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot
+  │
+  ├── Logs
+  ├── Metrics
+  ├── Events
+  └── Traces
+       │
+       ▼
+Monitoring System
+       │
+       ▼
+Dashboard / Alert
+</code></pre></div></div>
+
+<p>Chapter 18까지 이해하면 remote fleet에서 문제가 생겼을 때
+무조건 SSH로 들어가서 확인하지 않고도 원인을 빠르게 좁히는 구조를 이해할 수 있다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/edge_computing/chapter18-observability-monitoring/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 18. Observability &amp; Monitoring</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

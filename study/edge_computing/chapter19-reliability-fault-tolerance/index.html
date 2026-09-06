@@ -1,0 +1,4358 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 19. Reliability &amp; Fault Tolerance | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter19-reliability-fault-tolerance/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 19. Reliability &amp; Fault Tolerance</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> Robot system에서 failure가 언젠가는 발생한다고 가정하고,
+문제가 생겼을 때 얼마나 안전하게 버티고, 복구하고, 계속 동작할 수 있는지 이해한다.</p>
+
+  <p>Fault, Error, Failure, Redundancy, Watchdog, Retry, Timeout,
+Graceful Degradation, Fail-Safe, Fail-Operational,
+Single Point of Failure, Recovery, Redundant Sensor의 개념을
+실제 robot architecture와 연결하는 것이 목표다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="1-reliability란">1. Reliability란?</h1>
+
+<p>Reliability는:</p>
+
+<blockquote>
+  <p>시스템이 일정 기간 동안 요구된 기능을 정상적으로 수행할 가능성</p>
+</blockquote>
+
+<p>과 관련된 개념이다.</p>
+
+<p>쉽게 말하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>얼마나 잘 안 고장나는가?
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>하지만 실제 robot system에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>고장이 절대 안 남
+</code></pre></div></div>
+
+<p>을 기대하기 어렵다.</p>
+
+<p>그래서 더 중요한 질문은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>고장이 나면 어떻게 되는가?
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="2-fault-tolerance">2. Fault Tolerance</h1>
+
+<p>Fault Tolerance는:</p>
+
+<blockquote>
+  <p>일부 component에 문제가 생겨도 전체 system이 계속 기능하거나
+안전하게 동작할 수 있도록 만드는 능력</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera 1 failure
+     ↓
+Camera 2 available
+     ↓
+Perception continues
+</code></pre></div></div>
+
+<p>이런 구조가 fault tolerant하다.</p>
+
+<hr>
+
+<h1 id="3-fault-error-failure">3. Fault, Error, Failure</h1>
+
+<p>세 단어는 비슷하지만 구분하면 좋다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fault
+→ 문제의 원인
+
+Error
+→ 내부 상태가 잘못된 상태
+
+Failure
+→ 외부에서 요구 기능을 수행하지 못한 결과
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="4-예시">4. 예시</h1>
+
+<p>LiDAR cable이 빠졌다고 하자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fault
+→ Cable disconnected
+</code></pre></div></div>
+
+<p>그 결과:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error
+→ No LiDAR data
+</code></pre></div></div>
+
+<p>그리고:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Failure
+→ Localization unavailable
+</code></pre></div></div>
+
+<p>가 될 수 있다.</p>
+
+<hr>
+
+<h1 id="5-또-다른-예">5. 또 다른 예</h1>
+
+<p>SSD가 망가졌다고 하자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fault
+→ Storage hardware fault
+
+Error
+→ Write operation fails
+
+Failure
+→ rosbag recording unavailable
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="6-reliability와-fault-tolerance는-다르다">6. Reliability와 Fault Tolerance는 다르다</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reliability
+→ 고장이 얼마나 적게 발생하는가?
+
+Fault Tolerance
+→ 고장이 발생해도 얼마나 버틸 수 있는가?
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>둘 다 중요하다.</p>
+
+<hr>
+
+<h1 id="7-robot은-복잡한-system이다">7. Robot은 복잡한 System이다</h1>
+
+<p>Vision60 같은 robot은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Battery
+Motors
+MCU
+Jetson
+LiDAR
+IMU
+Camera
+Network
+Storage
+ROS 2
+SLAM
+Navigation
+</code></pre></div></div>
+
+<p>많은 component로 이루어진다.</p>
+
+<p>Component 수가 늘어날수록 failure point도 많아진다.</p>
+
+<hr>
+
+<h1 id="8-single-point-of-failure">8. Single Point of Failure</h1>
+
+<p>어떤 하나의 component failure가 전체 system failure로 이어지는 경우:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Single Point of Failure
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Single Power Supply
+       ↓ failure
+Entire Compute Down
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="9-spof">9. SPOF</h1>
+
+<p>Single Point of Failure를 줄여:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SPOF
+</code></pre></div></div>
+
+<p>라고도 한다.</p>
+
+<p>시스템 설계에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Where is the SPOF?
+</code></pre></div></div>
+
+<p>를 찾는 것이 중요하다.</p>
+
+<hr>
+
+<h1 id="10-예-lidar-하나만-사용하는-slam">10. 예: LiDAR 하나만 사용하는 SLAM</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+   ↓
+SLAM
+   ↓
+Localization
+</code></pre></div></div>
+
+<p>LiDAR가 죽으면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Localization lost
+</code></pre></div></div>
+
+<p>가 된다.</p>
+
+<p>이 경우 LiDAR는 중요한 SPOF일 수 있다.</p>
+
+<hr>
+
+<h1 id="11-redundancy">11. Redundancy</h1>
+
+<p>같은 기능을 수행할 수 있는 component를 여러 개 두는 것을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Redundancy
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor A
+Sensor B
+</code></pre></div></div>
+
+<p>한 sensor가 실패해도 다른 sensor를 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="12-hardware-redundancy">12. Hardware Redundancy</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dual IMU
+Dual Network Link
+Dual Power Supply
+</code></pre></div></div>
+
+<p>같은 구조가 hardware redundancy다.</p>
+
+<hr>
+
+<h1 id="13-software-redundancy">13. Software Redundancy</h1>
+
+<p>Software에서도 redundancy를 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Primary localization
+Backup localization
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Algorithm A
+Algorithm B
+</code></pre></div></div>
+
+<p>결과를 비교할 수 있다.</p>
+
+<hr>
+
+<h1 id="14-redundancy가-항상-좋은-것은-아니다">14. Redundancy가 항상 좋은 것은 아니다</h1>
+
+<p>장점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reliability ↑
+Fault tolerance ↑
+</code></pre></div></div>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cost ↑
+Weight ↑
+Power ↑
+Complexity ↑
+Maintenance ↑
+</code></pre></div></div>
+
+<p>도 증가한다.</p>
+
+<p>Robot에서는 특히 weight와 power가 중요하다.</p>
+
+<hr>
+
+<h1 id="15-active-redundancy">15. Active Redundancy</h1>
+
+<p>두 component를 동시에 사용한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU A
+IMU B
+</code></pre></div></div>
+
+<p>둘 다 계속 측정한다.</p>
+
+<p>한쪽 문제가 발생하면 즉시 다른 쪽을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="16-standby-redundancy">16. Standby Redundancy</h1>
+
+<p>평소에는 primary만 사용한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Primary
+active
+
+Backup
+standby
+</code></pre></div></div>
+
+<p>Primary failure 시 backup을 시작한다.</p>
+
+<hr>
+
+<h1 id="17-hot-standby">17. Hot Standby</h1>
+
+<p>Backup이 이미 실행 중이어서 빠르게 전환 가능:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Primary
+ACTIVE
+
+Backup
+READY
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="18-cold-standby">18. Cold Standby</h1>
+
+<p>Backup은 평소 꺼져 있다.</p>
+
+<p>Failure 후:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Start Backup
+</code></pre></div></div>
+
+<p>하므로 복구 시간이 더 길 수 있다.</p>
+
+<hr>
+
+<h1 id="19-fault-detection">19. Fault Detection</h1>
+
+<p>Fault tolerance를 하려면 먼저:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>문제가 생겼다는 것을 알아야 한다.
+</code></pre></div></div>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fault Detection
+</code></pre></div></div>
+
+<p>이 필요하다.</p>
+
+<hr>
+
+<h1 id="20-detection-example">20. Detection Example</h1>
+
+<p>LiDAR:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Expected:
+10 Hz
+
+Actual:
+0 Hz
+</code></pre></div></div>
+
+<p>이면 fault를 감지할 수 있다.</p>
+
+<hr>
+
+<h1 id="21-fault-isolation">21. Fault Isolation</h1>
+
+<p>문제가 있다는 것만으로는 부족하다.</p>
+
+<p>어디가 문제인지 좁히는 과정:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fault Isolation
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR hardware?
+Network?
+Driver?
+ROS?
+FAST-LIO2?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="22-fault-identification">22. Fault Identification</h1>
+
+<p>좀 더 구체적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>What exactly failed?
+</code></pre></div></div>
+
+<p>를 판단한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ethernet cable disconnected
+</code></pre></div></div>
+
+<p>처럼 원인을 특정한다.</p>
+
+<hr>
+
+<h1 id="23-fdi">23. FDI</h1>
+
+<p>이 세 개를 묶어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fault Detection and Isolation
+</code></pre></div></div>
+
+<p>또는 넓게:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fault Detection and Identification
+</code></pre></div></div>
+
+<p>이라고 부르는 경우가 있다.</p>
+
+<hr>
+
+<h1 id="24-health-monitoring">24. Health Monitoring</h1>
+
+<p>Chapter 18에서 배운 observability가 fault detection의 기반이 된다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Hz
+IMU Hz
+CPU Temp
+Disk Usage
+Process Heartbeat
+</code></pre></div></div>
+
+<p>을 계속 확인한다.</p>
+
+<hr>
+
+<h1 id="25-heartbeat">25. Heartbeat</h1>
+
+<p>Component가 살아 있음을 주기적으로 알리는 signal:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Heartbeat
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2
+    │
+    │ 10 Hz heartbeat
+    ▼
+Health Monitor
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="26-heartbeat-timeout">26. Heartbeat Timeout</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Expected:
+heartbeat every 100 ms
+
+No heartbeat for:
+500 ms
+</code></pre></div></div>
+
+<p>이면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Component failure suspected
+</code></pre></div></div>
+
+<p>로 판단할 수 있다.</p>
+
+<hr>
+
+<h1 id="27-timeout">27. Timeout</h1>
+
+<p>Timeout은:</p>
+
+<blockquote>
+  <p>일정 시간 동안 응답이 없으면 더 이상 기다리지 않고 failure로 판단</p>
+</blockquote>
+
+<p>하는 mechanism이다.</p>
+
+<hr>
+
+<h1 id="28-network-timeout">28. Network Timeout</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Send Command
+   ↓
+Wait for Response
+   ↓
+No response for 1 s
+   ↓
+Timeout
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="29-왜-timeout이-필요한가">29. 왜 Timeout이 필요한가?</h1>
+
+<p>Timeout이 없으면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Wait forever
+</code></pre></div></div>
+
+<p>가 될 수 있다.</p>
+
+<p>하나의 component failure가 전체 pipeline을 멈추게 할 수 있다.</p>
+
+<hr>
+
+<h1 id="30-timeout-값을-너무-짧게-잡으면">30. Timeout 값을 너무 짧게 잡으면?</h1>
+
+<p>정상적인 network jitter에도 failure로 판단할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>False Positive
+</code></pre></div></div>
+
+<p>가 증가한다.</p>
+
+<hr>
+
+<h1 id="31-timeout을-너무-길게-잡으면">31. Timeout을 너무 길게 잡으면?</h1>
+
+<p>실제 failure를 늦게 감지한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Failure Detection Delay ↑
+</code></pre></div></div>
+
+<p>따라서 실제 timing requirement를 기반으로 설정해야 한다.</p>
+
+<hr>
+
+<h1 id="32-retry">32. Retry</h1>
+
+<p>작업이 실패했을 때 다시 시도하는 것:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Retry
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cloud upload failed
+      ↓
+Retry
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="33-retry가-유용한-경우">33. Retry가 유용한 경우</h1>
+
+<p>일시적인:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Network glitch
+Temporary server error
+Packet loss
+</code></pre></div></div>
+
+<p>같은 문제에는 retry가 도움이 된다.</p>
+
+<hr>
+
+<h1 id="34-retry가-위험한-경우">34. Retry가 위험한 경우</h1>
+
+<p>근본적으로 실패한 상황:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Wrong credential
+Disk full
+Hardware disconnected
+</code></pre></div></div>
+
+<p>에서 계속 retry하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU waste
+Network flooding
+Log flooding
+</code></pre></div></div>
+
+<p>이 발생할 수 있다.</p>
+
+<hr>
+
+<h1 id="35-retry-limit">35. Retry Limit</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Retry 3 times
+</code></pre></div></div>
+
+<p>후:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Declare failure
+</code></pre></div></div>
+
+<p>처럼 제한할 수 있다.</p>
+
+<hr>
+
+<h1 id="36-exponential-backoff">36. Exponential Backoff</h1>
+
+<p>Chapter 17에서 배운 것처럼:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 s
+2 s
+4 s
+8 s
+16 s
+</code></pre></div></div>
+
+<p>처럼 retry interval을 늘릴 수 있다.</p>
+
+<p>Server/network에 부담을 줄인다.</p>
+
+<hr>
+
+<h1 id="37-jittered-backoff">37. Jittered Backoff</h1>
+
+<p>Robot 100대가 동시에 reconnect하면 모두:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 s
+2 s
+4 s
+</code></pre></div></div>
+
+<p>에 동시에 요청할 수 있다.</p>
+
+<p>그래서 약간의 random delay를 추가할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4 s ± random
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="38-watchdog">38. Watchdog</h1>
+
+<p>Watchdog은:</p>
+
+<blockquote>
+  <p>System/component가 멈췄는지 감시하고 필요 시 recovery action을 수행</p>
+</blockquote>
+
+<p>하는 mechanism이다.</p>
+
+<hr>
+
+<h1 id="39-software-watchdog">39. Software Watchdog</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2
+   │ heartbeat
+   ▼
+Watchdog Process
+</code></pre></div></div>
+
+<p>heartbeat가 끊기면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Restart FAST-LIO2
+</code></pre></div></div>
+
+<p>할 수 있다.</p>
+
+<hr>
+
+<h1 id="40-hardware-watchdog">40. Hardware Watchdog</h1>
+
+<p>SoC/MCU에 hardware timer가 있을 수 있다.</p>
+
+<p>Software가 주기적으로 watchdog을 reset해야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Software healthy
+→ Feed watchdog
+</code></pre></div></div>
+
+<p>Software가 멈추면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>No feed
+   ↓
+Timeout
+   ↓
+System Reset
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="41-watchdog-feed">41. Watchdog Feed</h1>
+
+<p>주기적으로 watchdog timer를 reset하는 것을 흔히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Feed the watchdog
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kick the watchdog
+</code></pre></div></div>
+
+<p>이라고 표현한다.</p>
+
+<hr>
+
+<h1 id="42-watchdog의-문제">42. Watchdog의 문제</h1>
+
+<p>잘못 설계하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Crash
+Restart
+Crash
+Restart
+</code></pre></div></div>
+
+<p>무한 restart loop가 생길 수 있다.</p>
+
+<hr>
+
+<h1 id="43-restart-storm">43. Restart Storm</h1>
+
+<p>여러 service가 서로 dependency가 있는데
+계속 재시작하면 system 전체가 불안정해질 수 있다.</p>
+
+<p>이를 흔히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Restart Storm
+</code></pre></div></div>
+
+<p>이라고 부를 수 있다.</p>
+
+<hr>
+
+<h1 id="44-restart-backoff">44. Restart Backoff</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1st restart → immediate
+2nd → 5 s
+3rd → 30 s
+4th → stop and alert
+</code></pre></div></div>
+
+<p>같은 정책을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="45-recovery">45. Recovery</h1>
+
+<p>Failure 후 정상 상태로 돌아오는 과정:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Recovery
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="46-recovery-level">46. Recovery Level</h1>
+
+<p>Recovery는 여러 단계로 할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Level 1
+Retry operation
+
+Level 2
+Restart node
+
+Level 3
+Restart container
+
+Level 4
+Restart service stack
+
+Level 5
+Reboot computer
+
+Level 6
+Operator intervention
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="47-가장-작은-recovery부터">47. 가장 작은 Recovery부터</h1>
+
+<p>가능하다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Restart entire robot
+</code></pre></div></div>
+
+<p>보다:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Restart failed component only
+</code></pre></div></div>
+
+<p>가 좋다.</p>
+
+<p>왜냐하면 영향 범위가 작기 때문이다.</p>
+
+<hr>
+
+<h1 id="48-blast-radius">48. Blast Radius</h1>
+
+<p>Failure나 recovery가 영향을 미치는 범위를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Blast Radius
+</code></pre></div></div>
+
+<p>라고 표현할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Restart camera node
+→ small blast radius
+
+Reboot Jetson
+→ large blast radius
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="49-isolation">49. Isolation</h1>
+
+<p>한 component failure가 다른 component로 퍼지지 않게 하는 것:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fault Isolation
+</code></pre></div></div>
+
+<p>과 연결된다.</p>
+
+<p>Docker/container 분리도 일부 도움이 될 수 있다.</p>
+
+<hr>
+
+<h1 id="50-process-isolation">50. Process Isolation</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera process crashes
+</code></pre></div></div>
+
+<p>해도:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2
+Navigation
+</code></pre></div></div>
+
+<p>까지 같이 죽지 않도록 process를 분리할 수 있다.</p>
+
+<hr>
+
+<h1 id="51-container-isolation">51. Container Isolation</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Perception Container
+SLAM Container
+Fleet Agent Container
+</code></pre></div></div>
+
+<p>를 나누면 dependency/failure 범위를 줄일 수 있다.</p>
+
+<p>하지만 container가 완벽한 fault isolation을 보장하는 것은 아니다.</p>
+
+<hr>
+
+<h1 id="52-resource-isolation">52. Resource Isolation</h1>
+
+<p>한 process가 모든 RAM을 사용하면
+다른 process까지 죽을 수 있다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Limit
+Memory Limit
+Queue Limit
+Disk Quota
+</code></pre></div></div>
+
+<p>같은 resource isolation을 고려할 수 있다.</p>
+
+<hr>
+
+<h1 id="53-memory-leak">53. Memory Leak</h1>
+
+<p>Program이 memory를 계속 할당하고 해제하지 않으면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Memory Leak
+</code></pre></div></div>
+
+<p>이 생긴다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 GB
+2 GB
+5 GB
+10 GB
+...
+</code></pre></div></div>
+
+<p>결국 OOM으로 이어질 수 있다.</p>
+
+<hr>
+
+<h1 id="54-memory-limit">54. Memory Limit</h1>
+
+<p>Container/process에 memory limit을 두면
+system 전체를 보호하는 데 도움이 될 수 있다.</p>
+
+<p>하지만 memory가 부족해 해당 component가 먼저 죽을 수 있으므로
+recovery 설계와 함께 봐야 한다.</p>
+
+<hr>
+
+<h1 id="55-disk-full-fault">55. Disk Full Fault</h1>
+
+<p>Chapter 13에서 배운 것처럼 disk full은 흔한 failure다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rosbag
+Docker log
+System log
+</code></pre></div></div>
+
+<p>가 계속 쌓이면 disk가 가득 찬다.</p>
+
+<hr>
+
+<h1 id="56-disk-full을-fault-tolerant하게-처리">56. Disk Full을 Fault Tolerant하게 처리</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Disk &gt; 80%
+→ Warning
+
+Disk &gt; 90%
+→ Stop optional recording
+
+Disk &gt; 95%
+→ Preserve critical logs only
+</code></pre></div></div>
+
+<p>처럼 단계적으로 degrade할 수 있다.</p>
+
+<hr>
+
+<h1 id="57-graceful-degradation">57. Graceful Degradation</h1>
+
+<p>System 전체를 바로 멈추는 대신
+일부 기능을 낮춰서 계속 동작하는 것:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Graceful Degradation
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="58-example-camera-failure">58. Example: Camera Failure</h1>
+
+<p>평상시:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+Camera
+IMU
+</code></pre></div></div>
+
+<p>모두 사용.</p>
+
+<p>Camera failure:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR + IMU SLAM continues
+Vision features disabled
+</code></pre></div></div>
+
+<p>이런 동작이 graceful degradation이다.</p>
+
+<hr>
+
+<h1 id="59-example-cloud-failure">59. Example: Cloud Failure</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Internet Lost
+</code></pre></div></div>
+
+<p>되어도:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Local SLAM
+Navigation
+Safety
+</code></pre></div></div>
+
+<p>는 계속 동작.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Telemetry Upload
+OTA
+</code></pre></div></div>
+
+<p>만 중단.</p>
+
+<hr>
+
+<h1 id="60-example-disk-almost-full">60. Example: Disk Almost Full</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Raw camera recording OFF
+Critical logs ON
+SLAM ON
+</code></pre></div></div>
+
+<p>처럼 중요한 기능을 우선한다.</p>
+
+<hr>
+
+<h1 id="61-degraded-mode">61. Degraded Mode</h1>
+
+<p>기능이 일부 제한된 상태를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Degraded Mode
+</code></pre></div></div>
+
+<p>라고 정의할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NORMAL
+DEGRADED
+SAFE_STOP
+ERROR
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="62-state-machine">62. State Machine</h1>
+
+<p>Reliability system은 state machine으로 관리하기 좋다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BOOT
+ ↓
+NORMAL
+ ↓ fault
+DEGRADED
+ ↓ severe fault
+SAFE_STOP
+</code></pre></div></div>
+
+<p>Recovery:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DEGRADED
+ ↓ recovered
+NORMAL
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="63-fail-safe">63. Fail-Safe</h1>
+
+<p>Failure가 발생하면:</p>
+
+<blockquote>
+  <p>안전한 상태로 가는 것</p>
+</blockquote>
+
+<p>을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fail-Safe
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<hr>
+
+<h1 id="64-example">64. Example</h1>
+
+<p>Localization이 사라졌는데 robot이 계속 자율주행하면 위험할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Localization Lost
+      ↓
+Stop Autonomous Motion
+</code></pre></div></div>
+
+<p>이 fail-safe 동작일 수 있다.</p>
+
+<hr>
+
+<h1 id="65-fail-operational">65. Fail-Operational</h1>
+
+<p>Failure가 생겨도:</p>
+
+<blockquote>
+  <p>필요한 기능을 계속 수행</p>
+</blockquote>
+
+<p>하는 것을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fail-Operational
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<hr>
+
+<h1 id="66-fail-safe-vs-fail-operational">66. Fail-Safe vs Fail-Operational</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fail-Safe
+→ 문제가 생기면 안전하게 정지
+
+Fail-Operational
+→ 문제가 생겨도 기능을 계속 수행
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="67-어떤-것을-선택할까">67. 어떤 것을 선택할까?</h1>
+
+<p>Application에 따라 다르다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Construction Robot
+Localization lost
+</code></pre></div></div>
+
+<p>라면 안전 정지가 더 적절할 수 있다.</p>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Aircraft flight control
+</code></pre></div></div>
+
+<p>처럼 즉시 멈출 수 없는 system은 fail-operational 요구가 더 강할 수 있다.</p>
+
+<hr>
+
+<h1 id="68-safety와-availability-trade-off">68. Safety와 Availability Trade-off</h1>
+
+<p>계속 동작하는 것이 항상 좋은 것은 아니다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Availability ↑
+</code></pre></div></div>
+
+<p>를 위해 불확실한 sensor를 계속 사용하면
+safety가 떨어질 수 있다.</p>
+
+<hr>
+
+<h1 id="69-confidence-based-degradation">69. Confidence-Based Degradation</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Localization confidence high
+→ Normal
+
+Confidence medium
+→ Slow speed
+
+Confidence low
+→ Stop
+</code></pre></div></div>
+
+<p>같은 방식도 가능하다.</p>
+
+<hr>
+
+<h1 id="70-redundant-sensors">70. Redundant Sensors</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+Camera
+IMU
+Joint Encoder
+</code></pre></div></div>
+
+<p>가 서로 다른 방식으로 motion/environment를 측정한다.</p>
+
+<p>이런 heterogeneous redundancy는 유용하다.</p>
+
+<hr>
+
+<h1 id="71-homogeneous-redundancy">71. Homogeneous Redundancy</h1>
+
+<p>같은 종류 sensor 여러 개:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU A
+IMU B
+IMU C
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="72-heterogeneous-redundancy">72. Heterogeneous Redundancy</h1>
+
+<p>다른 종류 sensor로 같은 state를 보완:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+Camera
+Leg Odometry
+</code></pre></div></div>
+
+<p>모두 robot motion에 대한 정보를 제공할 수 있다.</p>
+
+<hr>
+
+<h1 id="73-common-mode-failure">73. Common-Mode Failure</h1>
+
+<p>Redundant sensor를 두 개 달아도
+둘이 같은 원인으로 동시에 죽을 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Two Cameras
+     │
+     └── Same power supply
+              ↓ failure
+       Both cameras lost
+</code></pre></div></div>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Common-Mode Failure
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<hr>
+
+<h1 id="74-common-cause-failure">74. Common-Cause Failure</h1>
+
+<p>하나의 공통 원인이 여러 component를 동시에 실패시키는 것을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Common-Cause Failure
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Overheat
+Power loss
+Water ingress
+Network switch failure
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="75-redundancy-설계-시-중요한-것">75. Redundancy 설계 시 중요한 것</h1>
+
+<p>단순히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2개 달기
+</code></pre></div></div>
+
+<p>가 아니라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Independent Power?
+Independent Network?
+Different Failure Mode?
+</code></pre></div></div>
+
+<p>까지 생각해야 한다.</p>
+
+<hr>
+
+<h1 id="76-sensor-voting">76. Sensor Voting</h1>
+
+<p>3개의 sensor가 있다고 하자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor A = 10.0
+Sensor B = 10.1
+Sensor C = 50.0
+</code></pre></div></div>
+
+<p>C가 이상하다고 판단할 수 있다.</p>
+
+<p>이를 voting/consistency checking으로 처리할 수 있다.</p>
+
+<hr>
+
+<h1 id="77-majority-voting">77. Majority Voting</h1>
+
+<p>3개 component 중 2개가 같은 결과를 내면
+그 결과를 선택하는 방식.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A → 1
+B → 1
+C → 0
+
+Result → 1
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="78-triple-modular-redundancy">78. Triple Modular Redundancy</h1>
+
+<p>세 개의 동일한 subsystem과 voter를 사용하는 구조를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TMR
+=
+Triple Modular Redundancy
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>Safety-critical system에서 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="79-robot에서는-항상-tmr을-쓰나">79. Robot에서는 항상 TMR을 쓰나?</h1>
+
+<p>아니다.</p>
+
+<p>비용과 무게가 매우 크다.</p>
+
+<p>Robot에서는 필요한 critical subsystem에 선택적으로 redundancy를 적용한다.</p>
+
+<hr>
+
+<h1 id="80-plausibility-check">80. Plausibility Check</h1>
+
+<p>Sensor 값이 물리적으로 가능한 범위인지 확인할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot speed:
+500 m/s
+</code></pre></div></div>
+
+<p>이면 명백히 이상하다.</p>
+
+<hr>
+
+<h1 id="81-range-check">81. Range Check</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Battery voltage
+Temperature
+Joint angle
+</code></pre></div></div>
+
+<p>가 allowed range 밖이면 fault로 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="82-rate-of-change-check">82. Rate-of-Change Check</h1>
+
+<p>값 자체는 정상 범위인데
+갑자기 너무 빠르게 바뀌는 것도 이상할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Pose:
+0 m → 100 m in 10 ms
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="83-cross-sensor-consistency">83. Cross-Sensor Consistency</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU says robot stationary
+
+Leg odometry says 5 m/s
+</code></pre></div></div>
+
+<p>이면 sensor 중 하나가 이상할 가능성이 있다.</p>
+
+<hr>
+
+<h1 id="84-residual-monitoring">84. Residual Monitoring</h1>
+
+<p>State estimator에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Prediction
+vs
+Measurement
+</code></pre></div></div>
+
+<p>차이를 residual로 볼 수 있다.</p>
+
+<p>Residual이 갑자기 매우 커지면 sensor fault나 model 문제를 의심할 수 있다.</p>
+
+<hr>
+
+<h1 id="85-covariance와-health">85. Covariance와 Health</h1>
+
+<p>Estimator의 covariance가 급격히 커지면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>State uncertainty ↑
+</code></pre></div></div>
+
+<p>를 의미할 수 있다.</p>
+
+<p>이를 degraded mode trigger로 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="86-localization-health-example">86. Localization Health Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Position covariance small
+→ Healthy
+
+Covariance increasing
+→ Warning
+
+Localization invalid
+→ Safe Stop
+</code></pre></div></div>
+
+<p>처럼 상태를 나눌 수 있다.</p>
+
+<hr>
+
+<h1 id="87-fault-injection">87. Fault Injection</h1>
+
+<p>Reliability를 테스트하려면 실제 failure를 일부러 만들어 볼 수 있다.</p>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fault Injection
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<hr>
+
+<h1 id="88-example-fault-injection">88. Example Fault Injection</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR cable disconnect
+Camera disable
+Network disconnect
+Disk fill
+Kill FAST-LIO2 process
+CPU overload
+</code></pre></div></div>
+
+<p>등을 일부러 발생시킨다.</p>
+
+<hr>
+
+<h1 id="89-왜-fault-injection을-할까">89. 왜 Fault Injection을 할까?</h1>
+
+<p>정상 상황만 테스트하면 recovery path를 검증할 수 없다.</p>
+
+<p>질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR가 실제로 죽으면 robot은 어떻게 행동하는가?
+</code></pre></div></div>
+
+<p>를 실제로 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="90-chaos-engineering">90. Chaos Engineering</h1>
+
+<p>Distributed/cloud system에서는
+의도적으로 failure를 주입해 resilience를 검증하는 접근을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chaos Engineering
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<p>Robot에도 일부 개념을 적용할 수 있지만
+physical safety를 매우 신중히 고려해야 한다.</p>
+
+<hr>
+
+<h1 id="91-robot-fault-test는-안전하게">91. Robot Fault Test는 안전하게</h1>
+
+<p>실제 robot에서 fault injection을 할 때는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot secured?
+Low speed?
+E-stop available?
+Human nearby?
+Safe test area?
+</code></pre></div></div>
+
+<p>를 먼저 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="92-fmea">92. FMEA</h1>
+
+<p>Reliability/safety 분야에서 많이 사용하는 방법:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FMEA
+=
+Failure Modes and Effects Analysis
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="93-fmea의-핵심-질문">93. FMEA의 핵심 질문</h1>
+
+<p>각 component에 대해:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>어떻게 실패할 수 있는가?
+그 failure의 영향은?
+어떻게 감지할 것인가?
+어떻게 대응할 것인가?
+</code></pre></div></div>
+
+<p>를 정리한다.</p>
+
+<hr>
+
+<h1 id="94-fmea-example">94. FMEA Example</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Failure Mode</th>
+      <th>Effect</th>
+      <th>Detection</th>
+      <th>Response</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>LiDAR</td>
+      <td>Data loss</td>
+      <td>SLAM degraded</td>
+      <td>Topic 0 Hz</td>
+      <td>Stop autonomy</td>
+    </tr>
+    <tr>
+      <td>Camera</td>
+      <td>Frame loss</td>
+      <td>Vision unavailable</td>
+      <td>FPS 0</td>
+      <td>LiDAR-only mode</td>
+    </tr>
+    <tr>
+      <td>SSD</td>
+      <td>Disk full</td>
+      <td>Logging fails</td>
+      <td>Disk &gt;95%</td>
+      <td>Stop optional logs</td>
+    </tr>
+    <tr>
+      <td>FAST-LIO2</td>
+      <td>Process crash</td>
+      <td>No localization</td>
+      <td>Heartbeat lost</td>
+      <td>Restart once</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="95-severity">95. Severity</h1>
+
+<p>Failure가 얼마나 심각한 영향을 주는지:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Severity
+</code></pre></div></div>
+
+<p>를 평가할 수 있다.</p>
+
+<hr>
+
+<h1 id="96-occurrence">96. Occurrence</h1>
+
+<p>Failure가 얼마나 자주 발생할 가능성이 있는지:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Occurrence
+</code></pre></div></div>
+
+<p>를 평가할 수 있다.</p>
+
+<hr>
+
+<h1 id="97-detectability">97. Detectability</h1>
+
+<p>Failure를 얼마나 쉽게 감지할 수 있는지:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Detectability
+</code></pre></div></div>
+
+<p>를 평가할 수 있다.</p>
+
+<hr>
+
+<h1 id="98-fault-tree">98. Fault Tree</h1>
+
+<p>Failure의 원인을 tree 형태로 분석하는 방법:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fault Tree Analysis
+</code></pre></div></div>
+
+<p>도 있다.</p>
+
+<hr>
+
+<h1 id="99-example-fault-tree">99. Example Fault Tree</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Localization Lost
+       │
+       ├── LiDAR Failure
+       │
+       ├── IMU Failure
+       │
+       ├── Time Sync Failure
+       │
+       ├── FAST-LIO2 Crash
+       │
+       └── CPU Overload
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="100-root-cause와-symptom">100. Root Cause와 Symptom</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Navigation stopped
+</code></pre></div></div>
+
+<p>는 symptom일 수 있다.</p>
+
+<p>Root cause:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ethernet cable intermittent
+</code></pre></div></div>
+
+<p>일 수 있다.</p>
+
+<p>Observability와 fault analysis를 함께 봐야 한다.</p>
+
+<hr>
+
+<h1 id="101-mtbf">101. MTBF</h1>
+
+<p>MTBF:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Mean Time Between Failures
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Repair 가능한 system에서 failure 사이의 평균 시간을 나타내는 데 사용된다.</p>
+
+<hr>
+
+<h1 id="102-mttf">102. MTTF</h1>
+
+<p>MTTF:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Mean Time To Failure
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Repair하지 않는 component의 평균 failure 시간 등을 표현할 때 사용한다.</p>
+
+<hr>
+
+<h1 id="103-mttr">103. MTTR</h1>
+
+<p>MTTR:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Mean Time To Repair
+</code></pre></div></div>
+
+<p>또는 운영 문맥에 따라 recovery 의미로 쓰이기도 한다.</p>
+
+<p>여기서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Failure 발생 후 정상 복구까지 걸리는 평균 시간
+</code></pre></div></div>
+
+<p>으로 이해하면 된다.</p>
+
+<hr>
+
+<h1 id="104-availability">104. Availability</h1>
+
+<p>Availability는 단순화하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>얼마나 자주 system을 사용할 수 있는가?
+</code></pre></div></div>
+
+<p>다.</p>
+
+<p>개념적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Availability
+≈
+Uptime / Total Time
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="105-availability와-mtbfmttr">105. Availability와 MTBF/MTTR</h1>
+
+<p>매우 단순화하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Availability
+≈
+MTBF / (MTBF + MTTR)
+</code></pre></div></div>
+
+<p>관계를 생각할 수 있다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>고장을 줄이는 것
++
+복구 시간을 줄이는 것
+</code></pre></div></div>
+
+<p>둘 다 availability를 높인다.</p>
+
+<hr>
+
+<h1 id="106-recovery-time-objective">106. Recovery Time Objective</h1>
+
+<p>RTO:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Recovery Time Objective
+</code></pre></div></div>
+
+<p>같은 개념을 운영에서 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2 failure 후
+5초 이내 recovery
+</code></pre></div></div>
+
+<p>같은 목표를 정의할 수 있다.</p>
+
+<hr>
+
+<h1 id="107-persistent-state">107. Persistent State</h1>
+
+<p>Restart 후에도 유지해야 하는 데이터:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Map
+Config
+Calibration
+Mission state
+</code></pre></div></div>
+
+<p>가 있을 수 있다.</p>
+
+<p>Recovery를 설계할 때 어떤 state를 보존해야 하는지 생각해야 한다.</p>
+
+<hr>
+
+<h1 id="108-stateless-component">108. Stateless Component</h1>
+
+<p>Restart해도 잃을 중요한 내부 상태가 적은 component는
+복구하기 쉽다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Stateless
+</code></pre></div></div>
+
+<p>하게 설계하면 reliability에 도움이 될 수 있다.</p>
+
+<hr>
+
+<h1 id="109-stateful-component">109. Stateful Component</h1>
+
+<p>SLAM처럼 내부에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Map
+Filter state
+Trajectory
+</code></pre></div></div>
+
+<p>를 가진 component는 restart가 더 복잡하다.</p>
+
+<hr>
+
+<h1 id="110-checkpoint">110. Checkpoint</h1>
+
+<p>중간 state를 저장해 두는 것을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Checkpoint
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>Failure 후 처음부터 시작하지 않고
+최근 checkpoint에서 복구할 수 있다.</p>
+
+<hr>
+
+<h1 id="111-checkpoint-trade-off">111. Checkpoint Trade-off</h1>
+
+<p>자주 저장하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Recovery loss ↓
+</code></pre></div></div>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Storage I/O ↑
+Performance overhead ↑
+</code></pre></div></div>
+
+<p>가 생긴다.</p>
+
+<hr>
+
+<h1 id="112-state-persistence-example">112. State Persistence Example</h1>
+
+<p>Mapping 중:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Map snapshot every 5 min
+</code></pre></div></div>
+
+<p>을 저장하면 crash 후 일부 작업을 복구할 수 있다.</p>
+
+<hr>
+
+<h1 id="113-transaction">113. Transaction</h1>
+
+<p>여러 변경을 하나의 단위로 처리해:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>전부 성공
+or
+전부 실패
+</code></pre></div></div>
+
+<p>하도록 하는 개념이:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Transaction
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Config/update consistency에서 유용하다.</p>
+
+<hr>
+
+<h1 id="114-atomic-configuration-update">114. Atomic Configuration Update</h1>
+
+<p>Config file을 직접 덮어쓰다가 power loss가 나면
+file이 깨질 수 있다.</p>
+
+<p>더 안전한 방식:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Write new file
+     ↓
+Verify
+     ↓
+Atomic rename/switch
+</code></pre></div></div>
+
+<p>같은 패턴을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="115-safe-update와-reliability">115. Safe Update와 Reliability</h1>
+
+<p>Chapter 17의 OTA도 reliability 문제다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Download
+Verify
+Install
+Health Check
+Rollback
+</code></pre></div></div>
+
+<p>이 모두 fault-tolerant deployment를 위한 구조다.</p>
+
+<hr>
+
+<h1 id="116-network-partition">116. Network Partition</h1>
+
+<p>Robot과 cloud가 서로 통신할 수 없는 상황:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Network Partition
+</code></pre></div></div>
+
+<p>이 발생할 수 있다.</p>
+
+<p>Robot은 이런 상황을 정상적인 failure mode로 취급해야 한다.</p>
+
+<hr>
+
+<h1 id="117-cloud가-없어도-동작">117. Cloud가 없어도 동작</h1>
+
+<p>좋은 edge design:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cloud unavailable
+        ↓
+Robot still:
+SLAM
+Navigation
+Safety
+</code></pre></div></div>
+
+<p>핵심 기능을 계속 수행할 수 있다.</p>
+
+<hr>
+
+<h1 id="118-local-autonomy">118. Local Autonomy</h1>
+
+<p>Edge computing의 중요한 장점이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cloud
+   X
+
+Robot
+├── Perception
+├── SLAM
+├── Navigation
+└── Safety
+</code></pre></div></div>
+
+<p>local에서 계속 동작한다.</p>
+
+<hr>
+
+<h1 id="119-network-reconnection">119. Network Reconnection</h1>
+
+<p>Cloud가 다시 연결되면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Buffered telemetry
+Logs
+Events
+</code></pre></div></div>
+
+<p>를 다시 upload할 수 있다.</p>
+
+<hr>
+
+<h1 id="120-duplicate-message">120. Duplicate Message</h1>
+
+<p>Reconnect 과정에서 같은 telemetry/event가 두 번 전달될 수 있다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Message ID
+Sequence Number
+Idempotency
+</code></pre></div></div>
+
+<p>가 중요할 수 있다.</p>
+
+<hr>
+
+<h1 id="121-sensor-failure-modes">121. Sensor Failure Modes</h1>
+
+<p>Sensor는 단순히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ON
+OFF
+</code></pre></div></div>
+
+<p>만 있는 것이 아니다.</p>
+
+<p>Failure mode:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>No data
+Wrong data
+Frozen data
+Delayed data
+Noisy data
+Intermittent data
+</code></pre></div></div>
+
+<p>가 있을 수 있다.</p>
+
+<hr>
+
+<h1 id="122-frozen-sensor">122. Frozen Sensor</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU value:
+0.01
+0.01
+0.01
+0.01
+...
+</code></pre></div></div>
+
+<p>계속 message는 오지만 값이 멈춰 있을 수 있다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Topic Hz &gt; 0
+</code></pre></div></div>
+
+<p>만으로 health를 판단하면 부족하다.</p>
+
+<hr>
+
+<h1 id="123-stale-data">123. Stale Data</h1>
+
+<p>Message가 오지만 timestamp가 오래된 경우:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Stale Data
+</code></pre></div></div>
+
+<p>다.</p>
+
+<p>Chapter 18의 message age monitoring과 연결된다.</p>
+
+<hr>
+
+<h1 id="124-plausible-but-wrong">124. Plausible but Wrong</h1>
+
+<p>가장 어려운 failure:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor data가 그럴듯하지만 틀림
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU bias drift
+LiDAR calibration shift
+</code></pre></div></div>
+
+<p>health monitoring이 더 어렵다.</p>
+
+<hr>
+
+<h1 id="125-calibration-failure">125. Calibration Failure</h1>
+
+<p>Sensor mounting이 움직이면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Extrinsic changed
+</code></pre></div></div>
+
+<p>할 수 있다.</p>
+
+<p>Sensor 자체는 정상인데 SLAM 결과가 나빠진다.</p>
+
+<p>이것도 failure mode다.</p>
+
+<hr>
+
+<h1 id="126-time-sync-failure">126. Time Sync Failure</h1>
+
+<p>NTP/PTP 문제가 생기면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR data normal
+IMU data normal
+</code></pre></div></div>
+
+<p>이어도 fusion 결과가 틀릴 수 있다.</p>
+
+<p>즉 Chapter 11의 time sync도 reliability 대상이다.</p>
+
+<hr>
+
+<h1 id="127-silent-failure">127. Silent Failure</h1>
+
+<p>명확한 error 없이 결과만 틀리는 failure:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Silent Failure
+</code></pre></div></div>
+
+<p>가 가장 위험한 경우 중 하나다.</p>
+
+<hr>
+
+<h1 id="128-fail-stop-failure">128. Fail-Stop Failure</h1>
+
+<p>Component가 문제 발생 시 완전히 멈추는 형태:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fail-Stop
+</code></pre></div></div>
+
+<p>는 오히려 감지하기 쉬운 편이다.</p>
+
+<hr>
+
+<h1 id="129-byzantine-failure">129. Byzantine Failure</h1>
+
+<p>Distributed system에서는 component가
+예측 불가능하거나 일관되지 않은 잘못된 값을 보내는 failure를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Byzantine Failure
+</code></pre></div></div>
+
+<p>라고 부른다.</p>
+
+<p>일반 robot system에서 자주 직접 구현하는 개념은 아니지만
+failure가 항상 단순 crash는 아니라는 점을 이해하는 데 유용하다.</p>
+
+<hr>
+
+<h1 id="130-safety-monitor">130. Safety Monitor</h1>
+
+<p>Main autonomy와 별도로
+system 상태를 감시하는 safety monitor를 둘 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Autonomy
+   │
+   ▼
+Command
+   │
+   ▼
+Safety Monitor
+   │
+   ▼
+Controller
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="131-independent-safety-path">131. Independent Safety Path</h1>
+
+<p>가능하면 safety mechanism이 main application failure에 같이 죽지 않도록 설계한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson crash
+     ↓
+
+MCU still detects command timeout
+     ↓
+Safe stop
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="132-command-timeout">132. Command Timeout</h1>
+
+<p>Jetson에서 velocity command가 더 이상 오지 않는다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Last command age &gt; threshold
+</code></pre></div></div>
+
+<p>일 때 MCU가 robot을 stop할 수 있다.</p>
+
+<hr>
+
+<h1 id="133-stale-command-위험">133. Stale Command 위험</h1>
+
+<p>마지막 command가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Walk forward
+</code></pre></div></div>
+
+<p>였는데 Jetson이 죽으면
+이를 계속 실행하면 위험하다.</p>
+
+<p>따라서 command freshness가 중요하다.</p>
+
+<hr>
+
+<h1 id="134-e-stop">134. E-stop</h1>
+
+<p>Emergency Stop은 reliability/safety architecture의 마지막 보호 수단 중 하나다.</p>
+
+<p>개념적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Operator
+   ↓
+E-stop
+   ↓
+Safety system
+   ↓
+Actuation stop
+</code></pre></div></div>
+
+<p>Main autonomy software와 독립적인 path가 중요한 경우가 많다.</p>
+
+<hr>
+
+<h1 id="135-fail-silent">135. Fail-Silent</h1>
+
+<p>Component가 이상할 때 잘못된 값을 계속 보내는 대신
+output을 중단하는 동작을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fail-Silent
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>잘못된 command를 계속 내는 것보다 안전할 수 있다.</p>
+
+<hr>
+
+<h1 id="136-safety-vs-reliability">136. Safety vs Reliability</h1>
+
+<p>둘은 같은 개념이 아니다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reliability
+→ 정상 기능을 얼마나 잘 유지하는가?
+
+Safety
+→ 위험한 상태를 얼마나 잘 피하는가?
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>신뢰성이 낮아도 안전하게 멈출 수 있고,
+신뢰성이 높아도 잘못된 동작이 위험할 수 있다.</p>
+
+<hr>
+
+<h1 id="137-availability-vs-safety">137. Availability vs Safety</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Localization uncertain
+</code></pre></div></div>
+
+<p>인데 계속 움직이면 availability는 높아 보일 수 있지만
+safety가 낮아질 수 있다.</p>
+
+<p>따라서 critical robot에서는 safety가 우선일 수 있다.</p>
+
+<hr>
+
+<h1 id="138-reliability-requirement">138. Reliability Requirement</h1>
+
+<p>Component마다 요구 수준을 다르게 정의할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cloud telemetry
+→ temporary failure acceptable
+
+Camera AI
+→ degraded mode possible
+
+Localization
+→ critical
+
+Low-level safety controller
+→ highly critical
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="139-failure-budget">139. Failure Budget</h1>
+
+<p>System이 어느 정도 failure를 허용할 수 있는지 정할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Telemetry:
+1% packet loss acceptable
+
+Control:
+deadline miss almost unacceptable
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="140-error-budget">140. Error Budget</h1>
+
+<p>SRE에서 사용하는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error Budget
+</code></pre></div></div>
+
+<p>개념도 reliability 목표와 연결할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SLO = 99.9%
+</code></pre></div></div>
+
+<p>라면 남은 0.1%의 failure allowance를 error budget으로 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="141-reliability-testing">141. Reliability Testing</h1>
+
+<p>정상 테스트 외에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Long-duration test
+Reboot test
+Network loss test
+Sensor disconnect test
+Disk full test
+CPU overload test
+</code></pre></div></div>
+
+<p>를 해야 한다.</p>
+
+<hr>
+
+<h1 id="142-soak-test">142. Soak Test</h1>
+
+<p>System을 오랫동안 계속 실행하는 테스트:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Soak Test
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>24 hours
+72 hours
+1 week
+</code></pre></div></div>
+
+<p>Memory leak, thermal issue, log growth를 찾는 데 유용하다.</p>
+
+<hr>
+
+<h1 id="143-stress-test">143. Stress Test</h1>
+
+<p>System에 높은 workload를 주는 테스트:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Stress Test
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Maximum camera
+Large point cloud
+rosbag recording
+AI inference
+</code></pre></div></div>
+
+<p>를 동시에 실행한다.</p>
+
+<hr>
+
+<h1 id="144-endurance-test">144. Endurance Test</h1>
+
+<p>장시간 실제 operating condition에서
+system이 안정적으로 동작하는지 확인한다.</p>
+
+<p>Robot 현장 deployment 전에 중요하다.</p>
+
+<hr>
+
+<h1 id="145-reboot-test">145. Reboot Test</h1>
+
+<p>Robot을 여러 번 reboot하면서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Network comes up?
+Docker starts?
+ROS nodes start?
+Sensors reconnect?
+</code></pre></div></div>
+
+<p>를 확인한다.</p>
+
+<hr>
+
+<h1 id="146-power-cycle-test">146. Power Cycle Test</h1>
+
+<p>전원을 완전히 껐다 켜는 test도 중요하다.</p>
+
+<p>단순 software reboot와 다른 hardware initialization 문제를 찾을 수 있다.</p>
+
+<hr>
+
+<h1 id="147-dependency-failure-test">147. Dependency Failure Test</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Start FAST-LIO2 before LiDAR
+</code></pre></div></div>
+
+<p>했을 때 system이 어떻게 행동하는지 본다.</p>
+
+<p>잘 설계하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Wait
+Retry
+Become Ready
+</code></pre></div></div>
+
+<p>할 수 있다.</p>
+
+<hr>
+
+<h1 id="148-startup-dependency">148. Startup Dependency</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Network
+   ↓
+Sensor
+   ↓
+Driver
+   ↓
+SLAM
+   ↓
+Navigation
+</code></pre></div></div>
+
+<p>dependency를 명확하게 관리해야 한다.</p>
+
+<hr>
+
+<h1 id="149-readiness">149. Readiness</h1>
+
+<p>Component가 process로 시작됐다고 바로 준비된 것은 아니다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2 started
+but waiting for IMU
+</code></pre></div></div>
+
+<p>이면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Alive
+but not Ready
+</code></pre></div></div>
+
+<p>다.</p>
+
+<p>Chapter 18과 연결된다.</p>
+
+<hr>
+
+<h1 id="150-reliability-architecture">150. Reliability Architecture</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                         Robot
+
+                ┌──────────────────┐
+                │ Health Monitor   │
+                └────────┬─────────┘
+                         │
+         ┌───────────────┼───────────────┐
+         ▼               ▼               ▼
+      LiDAR           FAST-LIO2        Camera
+         │               │               │
+         │ health        │ heartbeat     │ FPS
+         └───────────────┼───────────────┘
+                         ▼
+                   Fault Manager
+                         │
+              ┌──────────┼───────────┐
+              ▼          ▼           ▼
+             Retry     Degrade     Safe Stop
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="151-fault-manager">151. Fault Manager</h1>
+
+<p>여러 failure를 중앙에서 판단하는 component를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fault Manager
+</code></pre></div></div>
+
+<p>형태로 설계할 수 있다.</p>
+
+<p>역할:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Collect health
+Classify fault
+Choose recovery
+Escalate if needed
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="152-local-recovery-vs-central-recovery">152. Local Recovery vs Central Recovery</h1>
+
+<p>각 component가 스스로 recovery할 수도 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera node
+→ reconnect
+</code></pre></div></div>
+
+<p>또는 중앙 supervisor가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Restart camera node
+</code></pre></div></div>
+
+<p>할 수도 있다.</p>
+
+<p>둘의 책임을 명확히 해야 한다.</p>
+
+<hr>
+
+<h1 id="153-recovery-escalation">153. Recovery Escalation</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera timeout
+   ↓
+Reconnect
+   ↓ fail
+Restart driver
+   ↓ fail
+Restart container
+   ↓ fail
+Mark degraded
+</code></pre></div></div>
+
+<p>처럼 단계적으로 올라간다.</p>
+
+<hr>
+
+<h1 id="154-recovery가-성공했는지-확인">154. Recovery가 성공했는지 확인</h1>
+
+<p>Restart했다고 끝이 아니다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Restart
+  ↓
+Health Check
+  ↓
+Healthy?
+</code></pre></div></div>
+
+<p>를 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="155-recovery-loop">155. Recovery Loop</h1>
+
+<p>전체:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Detect
+   ↓
+Diagnose
+   ↓
+Recover
+   ↓
+Verify
+   ↓
+Resume
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="156-incident-logging">156. Incident Logging</h1>
+
+<p>Failure가 발생하면 반드시 기록한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Timestamp
+Robot ID
+Fault
+Detection method
+Recovery action
+Recovery result
+Software version
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="157-fleet-reliability">157. Fleet Reliability</h1>
+
+<p>Robot 한 대뿐 아니라 fleet 전체도 본다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100 Robots
+
+97 Healthy
+2 Degraded
+1 Offline
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="158-correlated-failure">158. Correlated Failure</h1>
+
+<p>여러 robot이 동시에 실패하면
+개별 robot 문제보다 공통 원인을 의심해야 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>New software deployment
+Cloud outage
+Site network outage
+Extreme temperature
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="159-fleet-wide-rollback">159. Fleet-Wide Rollback</h1>
+
+<p>새 version 배포 후:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>30% robots fail
+</code></pre></div></div>
+
+<p>한다면 rollout을 중지하고 rollback할 수 있어야 한다.</p>
+
+<p>Chapter 17과 연결된다.</p>
+
+<hr>
+
+<h1 id="160-deployment-failure도-fault다">160. Deployment Failure도 Fault다</h1>
+
+<p>Reliability는 runtime hardware failure만 다루는 것이 아니다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bad Config
+Bad Software
+Bad Update
+Expired Certificate
+</code></pre></div></div>
+
+<p>도 failure source다.</p>
+
+<hr>
+
+<h1 id="161-human-error">161. Human Error</h1>
+
+<p>현실에서 중요한 failure source:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Human Error
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Wrong config
+Wrong robot updated
+Cable connected incorrectly
+Wrong command
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="162-human-error-줄이기">162. Human Error 줄이기</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Automation
+Validation
+Confirmation
+Version Control
+Access Control
+Checklists
+</code></pre></div></div>
+
+<p>로 줄일 수 있다.</p>
+
+<hr>
+
+<h1 id="163-configuration-validation">163. Configuration Validation</h1>
+
+<p>잘못된 config를 실행 전에 검사한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR IP valid?
+Map exists?
+ROS_DOMAIN_ID valid?
+Calibration file exists?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="164-preflight-check">164. Preflight Check</h1>
+
+<p>Mission 시작 전:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensors healthy?
+Localization valid?
+Battery enough?
+Disk enough?
+Temperature normal?
+Network required?
+</code></pre></div></div>
+
+<p>를 확인한다.</p>
+
+<hr>
+
+<h1 id="165-go--no-go">165. Go / No-Go</h1>
+
+<p>Preflight 결과에 따라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GO
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NO-GO
+</code></pre></div></div>
+
+<p>를 결정할 수 있다.</p>
+
+<hr>
+
+<h1 id="166-fail-early">166. Fail Early</h1>
+
+<p>문제가 명확하다면 시작 후 이상 동작하는 것보다
+처음부터 실행을 막는 것이 좋다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Calibration missing
+      ↓
+Do not start autonomy
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="167-defensive-programming">167. Defensive Programming</h1>
+
+<p>잘못된 input이나 예상치 못한 상황을 고려해 code를 작성한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>null check
+range check
+timeout
+exception handling
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="168-assertion">168. Assertion</h1>
+
+<p>개발 단계에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>이 조건은 반드시 참이어야 한다.
+</code></pre></div></div>
+
+<p>를 assertion으로 확인할 수 있다.</p>
+
+<p>Production에서는 assertion failure를 어떻게 처리할지도 생각해야 한다.</p>
+
+<hr>
+
+<h1 id="169-exception-handling">169. Exception Handling</h1>
+
+<p>예외를 무조건 무시하면 안 된다.</p>
+
+<p>나쁜 방식:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>catch (...) {
+}
+</code></pre></div></div>
+
+<p>좋은 방식:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Log
+Classify
+Recover or Fail Safely
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="170-fail-fast">170. Fail Fast</h1>
+
+<p>복구할 수 없는 잘못된 상태에서
+계속 잘못 동작하는 것보다 빠르게 failure를 명확히 드러내는 전략:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fail Fast
+</code></pre></div></div>
+
+<p>이 유용할 수 있다.</p>
+
+<hr>
+
+<h1 id="171-silent-data-corruption">171. Silent Data Corruption</h1>
+
+<p>가장 위험한 문제 중 하나:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>System appears alive
+but data is wrong
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Corrupted map
+Bad calibration
+Wrong timestamp
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="172-checksum">172. Checksum</h1>
+
+<p>Stored/transferred data corruption을 확인하기 위해 checksum/hash를 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sha256sum</span>
+</code></pre></div></div>
+
+<p>Chapter 13, 16과 연결된다.</p>
+
+<hr>
+
+<h1 id="173-ecc-memory">173. ECC Memory</h1>
+
+<p>일부 system에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ECC
+=
+Error-Correcting Code
+</code></pre></div></div>
+
+<p>memory를 사용해 memory bit error를 감지/보정할 수 있다.</p>
+
+<p>Hardware reliability와 관련된다.</p>
+
+<hr>
+
+<h1 id="174-bit-flip">174. Bit Flip</h1>
+
+<p>Radiation, electrical noise 등으로 memory bit가 의도치 않게 바뀔 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 → 1
+</code></pre></div></div>
+
+<p>이런 현상을 bit flip이라고 한다.</p>
+
+<hr>
+
+<h1 id="175-industrial-environment">175. Industrial Environment</h1>
+
+<p>건설/조선 현장에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dust
+Vibration
+Heat
+Cold
+Water
+EMI
+Power fluctuation
+</code></pre></div></div>
+
+<p>등이 reliability에 영향을 준다.</p>
+
+<p>Software만 잘 짠다고 충분하지 않다.</p>
+
+<hr>
+
+<h1 id="176-environmental-qualification">176. Environmental Qualification</h1>
+
+<p>Hardware를 실제 operating environment에서 검증해야 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Temperature
+Shock
+Vibration
+Ingress
+EMC
+</code></pre></div></div>
+
+<p>등.</p>
+
+<hr>
+
+<h1 id="177-connector-reliability">177. Connector Reliability</h1>
+
+<p>Robot에서는 cable/connector가 흔한 failure source다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Vibration
+Repeated movement
+Dust
+Loose connector
+</code></pre></div></div>
+
+<p>로 intermittent failure가 발생할 수 있다.</p>
+
+<hr>
+
+<h1 id="178-intermittent-fault">178. Intermittent Fault</h1>
+
+<p>계속 고장난 것이 아니라 가끔 발생하는 문제:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Intermittent Fault
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>가장 debugging하기 어려운 유형 중 하나다.</p>
+
+<hr>
+
+<h1 id="179-example">179. Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+works 10 min
+drops 1 sec
+works again
+</code></pre></div></div>
+
+<p>일 수 있다.</p>
+
+<p>그래서 long-term logs와 counters가 중요하다.</p>
+
+<hr>
+
+<h1 id="180-fault-counter">180. Fault Counter</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR reconnect count
+Network reset count
+FAST-LIO2 restart count
+</code></pre></div></div>
+
+<p>를 metric으로 관리하면 intermittent problem을 찾는 데 도움이 된다.</p>
+
+<hr>
+
+<h1 id="181-recovery-counter">181. Recovery Counter</h1>
+
+<p>Component가 하루에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Restart 30 times
+</code></pre></div></div>
+
+<p>인데 현재는 healthy라면
+단순 현재 상태만 보고 정상이라고 하면 안 된다.</p>
+
+<hr>
+
+<h1 id="182-reliability-trend">182. Reliability Trend</h1>
+
+<p>시간에 따라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Failures/day
+Restarts/day
+Packet errors
+Temperature
+</code></pre></div></div>
+
+<p>trend를 본다.</p>
+
+<hr>
+
+<h1 id="183-predictive-maintenance">183. Predictive Maintenance</h1>
+
+<p>이런 trend를 이용해 failure 전에 maintenance할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SSD error increasing
+Fan speed abnormal
+Battery degradation
+Connector error count increasing
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="184-maintenance">184. Maintenance</h1>
+
+<p>Reliability는 software recovery만이 아니다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cleaning
+Cable inspection
+Fan replacement
+SSD replacement
+Calibration
+</code></pre></div></div>
+
+<p>같은 physical maintenance도 포함된다.</p>
+
+<hr>
+
+<h1 id="185-preventive-maintenance">185. Preventive Maintenance</h1>
+
+<p>고장 전에 주기적으로 maintenance:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Preventive Maintenance
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="186-corrective-maintenance">186. Corrective Maintenance</h1>
+
+<p>고장난 후 수리:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Corrective Maintenance
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="187-predictive-maintenance">187. Predictive Maintenance</h1>
+
+<p>데이터를 기반으로 고장 가능성을 예측해서 maintenance:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Predictive Maintenance
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="188-reliability-dashboard">188. Reliability Dashboard</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Vision60-001
+
+Status:
+DEGRADED
+
+LiDAR:
+Healthy
+
+Camera:
+Failed
+
+SLAM:
+Healthy
+
+Restart Count:
+2
+
+Disk:
+72%
+
+Temperature:
+68°C
+
+Last Failure:
+Camera timeout 13:42
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="189-reliability-kpi">189. Reliability KPI</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Mission Success Rate
+Localization Uptime
+Failure Count / Hour
+Automatic Recovery Rate
+MTTR
+Unexpected Reboot Count
+</code></pre></div></div>
+
+<p>등.</p>
+
+<hr>
+
+<h1 id="190-automatic-recovery-rate">190. Automatic Recovery Rate</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100 failures
+
+85 automatically recovered
+15 required human intervention
+</code></pre></div></div>
+
+<p>이면 automatic recovery rate:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>85%
+</code></pre></div></div>
+
+<p>라고 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="191-human-intervention-rate">191. Human Intervention Rate</h1>
+
+<p>운영 효율을 위해:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>몇 번이나 사람이 직접 robot에 가야 했는가?
+</code></pre></div></div>
+
+<p>도 중요한 metric일 수 있다.</p>
+
+<hr>
+
+<h1 id="192-remote-recoverability">192. Remote Recoverability</h1>
+
+<p>현장에 직접 가지 않고:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Remote restart
+Remote update
+Remote diagnostics
+</code></pre></div></div>
+
+<p>로 복구할 수 있는 능력도 fleet reliability에 중요하다.</p>
+
+<hr>
+
+<h1 id="193-but-remote-access-can-fail">193. But Remote Access Can Fail</h1>
+
+<p>Network 자체가 failure라면 remote recovery가 불가능하다.</p>
+
+<p>그래서 local autonomous recovery가 중요하다.</p>
+
+<hr>
+
+<h1 id="194-local-vs-remote-recovery">194. Local vs Remote Recovery</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Local
+→ Watchdog
+→ Automatic restart
+→ Safe stop
+
+Remote
+→ Operator diagnosis
+→ Config fix
+→ Software update
+</code></pre></div></div>
+
+<p>둘 다 필요하다.</p>
+
+<hr>
+
+<h1 id="195-recovery-priority">195. Recovery Priority</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Safety
+2. Stabilize system
+3. Restore critical function
+4. Restore optional function
+5. Upload diagnostics
+</code></pre></div></div>
+
+<p>순서로 생각할 수 있다.</p>
+
+<hr>
+
+<h1 id="196-reliability-design-질문">196. Reliability Design 질문</h1>
+
+<p>각 component마다 다음을 묻는다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>How can it fail?
+
+How do we detect it?
+
+How fast can we detect it?
+
+What is the impact?
+
+Can we continue without it?
+
+Can we recover automatically?
+
+What is the safe state?
+
+What logs do we need?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="197-vision60-example">197. Vision60 Example</h1>
+
+<p>개념적인 fault handling:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                    Vision60
+
+LiDAR ───────┐
+IMU ─────────┤
+Camera ──────┤
+Jetson ──────┤
+Network ─────┤
+             ▼
+       Health Monitor
+             │
+             ▼
+        Fault Manager
+             │
+     ┌───────┼────────┐
+     ▼       ▼        ▼
+   Retry   Degrade   Stop
+     │       │        │
+     ▼       ▼        ▼
+ Recover   Limited   Safe
+          Operation  State
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="198-fast-lio2-failure-example">198. FAST-LIO2 Failure Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAST-LIO2 /odometry stops
+      ↓
+Health Monitor detects 0 Hz
+      ↓
+Check LiDAR / IMU
+      │
+      ├── Sensors healthy
+      │       ↓
+      │   Restart FAST-LIO2
+      │
+      └── LiDAR failed
+              ↓
+         Stop autonomy
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="199-network-failure-example">199. Network Failure Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Company Wi-Fi Lost
+      ↓
+Cloud Offline
+      ↓
+Fleet telemetry stopped
+      ↓
+Local autonomy continues
+      ↓
+Store logs locally
+      ↓
+Reconnect later
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="200-disk-failure-example">200. Disk Failure Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Disk &gt; 90%
+     ↓
+Stop optional camera recording
+     ↓
+Preserve critical logs
+     ↓
+Alert operator
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="201-thermal-failure-example">201. Thermal Failure Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Temperature rising
+      ↓
+Warning
+      ↓
+Reduce optional workload
+      ↓
+Temperature still high
+      ↓
+Safe shutdown / degraded mode
+</code></pre></div></div>
+
+<p>정확한 threshold는 hardware specification을 사용해야 한다.</p>
+
+<hr>
+
+<h1 id="202-power-failure-example">202. Power Failure Example</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Battery low
+    ↓
+Stop non-critical workload
+    ↓
+Return / Safe position
+    ↓
+Shutdown cleanly
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="203-reliability-layer">203. Reliability Layer</h1>
+
+<p>전체 stack의 각 layer에서 failure가 생길 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware
+   ↓
+Driver
+   ↓
+Linux
+   ↓
+Network
+   ↓
+Docker
+   ↓
+ROS 2
+   ↓
+SLAM / AI
+   ↓
+Control
+</code></pre></div></div>
+
+<p>따라서 reliability는 특정 하나의 layer만의 문제가 아니다.</p>
+
+<hr>
+
+<h1 id="204-chapter-10과-연결">204. Chapter 10과 연결</h1>
+
+<p>Chapter 10에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>문제가 생기면 어떻게 debugging할까?
+</code></pre></div></div>
+
+<p>를 배웠다.</p>
+
+<p>Chapter 19에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>문제가 생기기 전에 어떻게 감지하고,
+생겼을 때 system이 스스로 어떻게 대응할까?
+</code></pre></div></div>
+
+<p>를 배운다.</p>
+
+<hr>
+
+<h1 id="205-chapter-18과-연결">205. Chapter 18과 연결</h1>
+
+<p>Chapter 18:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Observe
+Detect
+Alert
+</code></pre></div></div>
+
+<p>Chapter 19:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Respond
+Recover
+Degrade
+Fail Safely
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="206-chapter-17과-연결">206. Chapter 17과 연결</h1>
+
+<p>Chapter 17:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fleet Deployment
+Rollback
+Remote Management
+</code></pre></div></div>
+
+<p>Chapter 19:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Failure Recovery
+Fault Tolerance
+Reliability
+</code></pre></div></div>
+
+<p>가 결합된다.</p>
+
+<hr>
+
+<h1 id="207-mini-practice-1">207. Mini Practice 1</h1>
+
+<p>Vision60의 가능한 failure mode 10개를 적어본다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR disconnect
+IMU failure
+Camera failure
+Xavier crash
+Orin crash
+Disk full
+Overtemperature
+Network loss
+FAST-LIO2 crash
+Time synchronization failure
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="208-mini-practice-2">208. Mini Practice 2</h1>
+
+<p>각 failure에 대해 다음을 적는다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Detection
+Impact
+Recovery
+Safe State
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="209-mini-practice-3">209. Mini Practice 3</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Failure:
+LiDAR 0 Hz
+</code></pre></div></div>
+
+<p>다음 질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR hardware failure인가?
+
+Network failure인가?
+
+Driver failure인가?
+
+ROS failure인가?
+</code></pre></div></div>
+
+<p>어떻게 구분할지 생각한다.</p>
+
+<hr>
+
+<h1 id="210-mini-practice-4">210. Mini Practice 4</h1>
+
+<p>다음 state machine을 직접 작성한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NORMAL
+ ↓
+DEGRADED
+ ↓
+SAFE_STOP
+</code></pre></div></div>
+
+<p>어떤 조건에서 state가 변경되는지 정의한다.</p>
+
+<hr>
+
+<h1 id="211-mini-practice-5">211. Mini Practice 5</h1>
+
+<p>Fault injection test:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kill FAST-LIO2 process
+</code></pre></div></div>
+
+<p>를 가정한다.</p>
+
+<p>원하는 system behavior:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Detect within ? seconds
+Restart how many times?
+When to give up?
+When to safe stop?
+What log to save?
+</code></pre></div></div>
+
+<p>를 정한다.</p>
+
+<hr>
+
+<h1 id="212-mini-practice-6">212. Mini Practice 6</h1>
+
+<p>현재 architecture에서 SPOF를 찾는다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Single Jetson?
+Single LiDAR?
+Single network switch?
+Single power rail?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="213-mini-practice-7">213. Mini Practice 7</h1>
+
+<p>다음 중 graceful degradation 가능한 것을 구분한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera lost
+Cloud lost
+LiDAR lost
+Logging lost
+Battery critical
+</code></pre></div></div>
+
+<p>각 상황에서 어떤 기능을 유지할 수 있는지 적는다.</p>
+
+<hr>
+
+<h1 id="214-mini-practice-8">214. Mini Practice 8</h1>
+
+<p>FMEA table을 직접 만든다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Failure</th>
+      <th>Detection</th>
+      <th>Impact</th>
+      <th>Response</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>LiDAR</td>
+      <td>No packets</td>
+      <td>0 Hz</td>
+      <td>Localization risk</td>
+      <td>Stop autonomy</td>
+    </tr>
+    <tr>
+      <td>Camera</td>
+      <td>No frames</td>
+      <td>0 FPS</td>
+      <td>No vision AI</td>
+      <td>Degraded</td>
+    </tr>
+    <tr>
+      <td>Cloud</td>
+      <td>Offline</td>
+      <td>Heartbeat</td>
+      <td>No fleet link</td>
+      <td>Continue local</td>
+    </tr>
+    <tr>
+      <td>SSD</td>
+      <td>Full</td>
+      <td>&gt;95%</td>
+      <td>Logging loss</td>
+      <td>Drop optional logs</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="215-반드시-구분할-것">215. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fault
+≠
+Error
+≠
+Failure
+
+Reliability
+≠
+Fault Tolerance
+
+Redundancy
+≠
+Backup only
+
+Fail-Safe
+≠
+Fail-Operational
+
+Retry
+≠
+Recovery
+
+Watchdog
+≠
+Health Check
+
+Alive
+≠
+Correct
+
+No Error Log
+≠
+Healthy
+
+Availability
+≠
+Safety
+
+Redundancy
+≠
+No Common-Mode Failure
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="216-reliability-mental-model">216. Reliability Mental Model</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fault
+  │
+  ▼
+Detect
+  │
+  ▼
+Isolate
+  │
+  ▼
+Assess Severity
+  │
+  ├── Retry
+  ├── Restart
+  ├── Switch Backup
+  ├── Degrade
+  └── Safe Stop
+  │
+  ▼
+Verify Recovery
+  │
+  ▼
+Return to Service
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="217-robot-reliability-mental-model">217. Robot Reliability Mental Model</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                   Robot System
+
+                         │
+                         ▼
+                   Normal Operation
+                         │
+                         ▼
+                       Fault
+                         │
+                         ▼
+                     Detection
+                         │
+                         ▼
+                 Fault Management
+                         │
+          ┌──────────────┼───────────────┐
+          ▼              ▼               ▼
+        Recover        Degrade         Safe Stop
+          │              │               │
+          └──────────────┼───────────────┘
+                         ▼
+                    Verify State
+                         │
+                         ▼
+                    Continue / Alert
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="218-chapter-19-핵심">218. Chapter 19 핵심</h1>
+
+<p>Reliable robot은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>절대 고장나지 않는 robot
+</code></pre></div></div>
+
+<p>이 아니다.</p>
+
+<p>현실적으로는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>문제를 빨리 감지하고,
+영향을 제한하고,
+가능하면 자동 복구하고,
+복구할 수 없으면 안전하게 동작하는 robot
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Detect
++
+Isolate
++
+Recover
++
+Degrade
++
+Fail Safely
+</code></pre></div></div>
+
+<p>가 핵심이다.</p>
+
+<hr>
+
+<h1 id="edge-computing-course-complete">Edge Computing Course Complete</h1>
+
+<h2 id="chapter-1--chapter-19">Chapter 1 ~ Chapter 19</h2>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 1
+Computer Hardware Basics
+
+Chapter 2
+ARM vs x86
+
+Chapter 3
+Linux for Edge Computers
+
+Chapter 4
+NVIDIA Jetson &amp; JetPack
+
+Chapter 5
+Hardware Interfaces
+
+Chapter 6
+ROS 2 as a Robotics Middleware
+
+Chapter 7
+CUDA &amp; TensorRT for Robotics
+
+Chapter 8
+Networking for Robots
+
+Chapter 9
+Docker on Jetson
+
+Chapter 10
+ROS 2 + Jetson Debugging &amp; Deployment
+
+Chapter 11
+Time Synchronization &amp; Sensor Timing
+
+Chapter 12
+Power, Thermal &amp; Performance Management
+
+Chapter 13
+Storage &amp; Data Logging
+
+Chapter 14
+Device Drivers &amp; Kernel Basics
+
+Chapter 15
+Real-Time Computing
+
+Chapter 16
+Embedded Security
+
+Chapter 17
+Remote Deployment &amp; Fleet Management
+
+Chapter 18
+Observability &amp; Monitoring
+
+Chapter 19
+Reliability &amp; Fault Tolerance
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="전체-edge-computing-mental-model">전체 Edge Computing Mental Model</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                         Robot
+
+                    Sensors / Motors
+                           │
+                           ▼
+                   Hardware Interface
+               Ethernet / CAN / USB
+                           │
+                           ▼
+                     Linux Kernel
+                           │
+                           ▼
+                   Drivers / Runtime
+                           │
+                           ▼
+                       ROS 2
+                           │
+            ┌──────────────┼──────────────┐
+            ▼              ▼              ▼
+           SLAM         Perception     Navigation
+            │              │              │
+            └──────────────┼──────────────┘
+                           ▼
+                         Robot
+
+그리고 전체 system을 둘러싸는 것:
+
+Power / Thermal
+Storage
+Timing
+Security
+Deployment
+Monitoring
+Reliability
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="다음-study-track">다음 Study Track</h1>
+
+<p>Edge Computing 트랙은 여기서 마무리하고,
+다음은 별도 <code class="language-plaintext highlighter-rouge">_study/slam/</code> 트랙으로 넘어가는 것이 좋다.</p>
+
+<p>추천 순서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SLAM Chapter 1
+Coordinate Frames &amp; TF
+
+SLAM Chapter 2
+Rotation Matrix / Euler / Quaternion
+
+SLAM Chapter 3
+Rigid Body Transformations
+
+SLAM Chapter 4
+IMU Fundamentals
+
+SLAM Chapter 5
+State Estimation
+
+SLAM Chapter 6
+Kalman Filter
+
+SLAM Chapter 7
+EKF / ESKF
+
+SLAM Chapter 8
+LiDAR Odometry
+
+SLAM Chapter 9
+FAST-LIO2
+
+SLAM Chapter 10
+Mapping / Local Map / Global Map
+
+SLAM Chapter 11
+Loop Closure / Pose Graph Optimization
+
+SLAM Chapter 12
+Leg Odometry
+
+SLAM Chapter 13
+Contact / Gait-Aware Estimation
+
+SLAM Chapter 14
+Quadruped SLAM Architecture
+
+SLAM Chapter 15
+Vision60 FAST-LIO2 Code Walkthrough
+</code></pre></div></div>
+
+<p>이제 Edge Computing 쪽은 <strong>“Jetson 기반 로봇이 실제 현장에서 안정적으로 돌아가게 하는 컴퓨팅 시스템 전체”</strong>를 한 번 훑은 상태라고 보면 돼.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

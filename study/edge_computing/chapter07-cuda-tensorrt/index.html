@@ -1,0 +1,2924 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 7. CUDA &amp; TensorRT for Robotics | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter07-cuda-tensorrt/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 7. CUDA &amp; TensorRT for Robotics</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> Jetson의 NVIDIA GPU를 프로그램이 실제로 어떻게 사용하는지 이해한다.
+CPU와 GPU의 차이, CUDA kernel, thread/block/grid, GPU memory, PyTorch CUDA,
+TensorRT, FP16/INT8, latency/throughput을 로봇 실무 관점에서 연결한다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="1-gpu는-있다고-자동으로-쓰는-것이-아니다">1. GPU는 있다고 자동으로 쓰는 것이 아니다</h1>
+
+<p>Jetson에는 NVIDIA GPU가 들어 있다.</p>
+
+<p>하지만 Jetson에서 프로그램을 실행한다고 해서
+자동으로 GPU를 사용하는 것은 아니다.</p>
+
+<p>예를 들어 일반적인 C++ 코드를 작성하면:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">input</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>기본적으로 이 코드는 CPU에서 실행된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C++ Code
+   │
+   ▼
+CPU
+</code></pre></div></div>
+
+<p>Jetson 안에 GPU가 존재하더라도,
+프로그램이 GPU 연산을 요청하지 않으면 GPU는 그 계산에 사용되지 않는다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson has GPU
+≠
+Every program uses GPU
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="2-cpu와-gpu의-차이-다시-보기">2. CPU와 GPU의 차이 다시 보기</h1>
+
+<p>CPU는 복잡한 제어 흐름과 다양한 종류의 작업에 강하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+
+Core 0
+Core 1
+Core 2
+Core 3
+...
+</code></pre></div></div>
+
+<p>GPU는 같은 종류의 계산을 매우 많이 병렬로 수행하는 데 강하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU
+
+Thread Thread Thread Thread
+Thread Thread Thread Thread
+Thread Thread Thread Thread
+...
+</code></pre></div></div>
+
+<p>예를 들어 1,000,000개의 숫자에 같은 계산을 적용한다면 GPU가 유리할 수 있다.</p>
+
+<hr>
+
+<h1 id="3-parallel-computing">3. Parallel Computing</h1>
+
+<p>병렬 계산은 여러 계산을 동시에 수행하는 것이다.</p>
+
+<p>CPU 방식:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1
+2
+3
+4
+5
+6
+...
+</code></pre></div></div>
+
+<p>순서대로 처리하는 경우가 많다.</p>
+
+<p>GPU 방식은 독립적인 계산이라면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 2 3 4 5 6 ...
+↓ ↓ ↓ ↓ ↓ ↓
+동시에 많은 작업 실행
+</code></pre></div></div>
+
+<p>이 가능하다.</p>
+
+<p>물론 실제 hardware scheduling은 훨씬 복잡하지만,
+개념적으로는 이 차이를 이해하면 된다.</p>
+
+<hr>
+
+<h1 id="4-어떤-연산이-gpu에-적합할까">4. 어떤 연산이 GPU에 적합할까?</h1>
+
+<p>GPU에 적합한 연산은 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>같은 계산을
+많은 데이터에
+반복적으로 적용
+</code></pre></div></div>
+
+<p>하는 형태다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Matrix Multiplication
+Image Processing
+Neural Network
+Point-wise Operation
+Large Vector Operation
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="5-어떤-연산은-gpu에-잘-맞지-않을까">5. 어떤 연산은 GPU에 잘 맞지 않을까?</h1>
+
+<p>다음처럼:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>복잡한 조건문
+불규칙한 memory access
+작은 데이터
+순차적인 dependency가 강한 계산
+</code></pre></div></div>
+
+<p>은 GPU의 장점을 충분히 활용하지 못할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="n">condition_a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+<span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">condition_b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>가 매우 복잡하게 얽혀 있는 알고리즘은 GPU로 옮겼다고 무조건 빨라지지 않는다.</p>
+
+<hr>
+
+<h1 id="6-cuda란">6. CUDA란?</h1>
+
+<p>CUDA는 NVIDIA가 만든:</p>
+
+<blockquote>
+  <p>NVIDIA GPU를 general-purpose computing에 사용하기 위한 programming platform</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>CUDA를 사용하면 CPU가 GPU에게 계산을 요청할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Program
+    │
+    │ Launch
+    ▼
+CUDA Kernel
+    │
+    ▼
+GPU
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="7-host와-device">7. Host와 Device</h1>
+
+<p>CUDA에서는 자주 다음 용어를 사용한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host
+Device
+</code></pre></div></div>
+
+<p>보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host = CPU side
+Device = GPU side
+</code></pre></div></div>
+
+<p>를 의미한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host Code
+   │
+   ▼
+CPU
+
+Device Code
+   │
+   ▼
+GPU
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="8-cuda-kernel">8. CUDA Kernel</h1>
+
+<p>GPU에서 실행되는 함수를 <strong>Kernel</strong>이라고 한다.</p>
+
+<p>예를 들어 매우 단순화한 CUDA kernel:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">multiplyByTwo</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span> <span class="n">data</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+    <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">2.0f</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>CPU에서 kernel을 실행할 때:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">multiplyByTwo</span><span class="o">&lt;&lt;&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="mi">256</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>같은 문법을 사용할 수 있다.</p>
+
+<p>여기서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;&lt;&lt; &gt;&gt;&gt;
+</code></pre></div></div>
+
+<p>안에는 GPU에서 얼마나 많은 thread를 실행할지에 대한 configuration이 들어간다.</p>
+
+<hr>
+
+<h1 id="9-cuda-thread">9. CUDA Thread</h1>
+
+<p>GPU에서는 작은 작업 단위를 thread라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Data
+
+0 1 2 3 4 5 6 7
+
+각 데이터마다
+
+Thread 0
+Thread 1
+Thread 2
+Thread 3
+...
+</code></pre></div></div>
+
+<p>를 대응시킬 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thread 0 → data[0]
+Thread 1 → data[1]
+Thread 2 → data[2]
+...
+</code></pre></div></div>
+
+<p>이렇게 동일한 계산을 병렬로 수행한다.</p>
+
+<hr>
+
+<h1 id="10-thread-block-grid">10. Thread, Block, Grid</h1>
+
+<p>CUDA에서는 thread를 계층적으로 구성한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Grid
+ │
+ ├── Block 0
+ │    ├── Thread 0
+ │    ├── Thread 1
+ │    └── ...
+ │
+ ├── Block 1
+ │    ├── Thread 0
+ │    ├── Thread 1
+ │    └── ...
+ │
+ └── ...
+</code></pre></div></div>
+
+<p>구조는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Grid
+ ↓
+Block
+ ↓
+Thread
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="11-왜-block이-필요할까">11. 왜 Block이 필요할까?</h1>
+
+<p>GPU에는 실제로 수많은 thread가 실행될 수 있다.</p>
+
+<p>모든 thread를 하나의 거대한 단위로 관리하지 않고
+block 단위로 묶어서 scheduling과 memory sharing을 효율적으로 관리한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Grid
+
+Block 0
+Block 1
+Block 2
+Block 3
+...
+</code></pre></div></div>
+
+<p>각 block 안에는 여러 thread가 있다.</p>
+
+<hr>
+
+<h1 id="12-thread-index">12. Thread Index</h1>
+
+<p>각 thread는 자신의 위치를 알 수 있다.</p>
+
+<p>CUDA에서는:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span>
+<span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span>
+<span class="n">blockDim</span><span class="p">.</span><span class="n">x</span>
+</code></pre></div></div>
+
+<p>같은 값을 사용한다.</p>
+
+<p>전체 데이터 index를 계산할 때 흔히:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>형태를 사용한다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>어느 Block인가?
++
+Block 안에서 몇 번째 Thread인가?
+=
+전체 데이터 index
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="13-예제-vector-addition">13. 예제: Vector Addition</h1>
+
+<p>두 vector를 더한다고 하자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A = [1, 2, 3, 4]
+B = [5, 6, 7, 8]
+</code></pre></div></div>
+
+<p>결과:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C = [6, 8, 10, 12]
+</code></pre></div></div>
+
+<p>CPU에서는:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>GPU에서는 conceptually:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thread 0 → C[0] = A[0] + B[0]
+Thread 1 → C[1] = A[1] + B[1]
+Thread 2 → C[2] = A[2] + B[2]
+Thread 3 → C[3] = A[3] + B[3]
+</code></pre></div></div>
+
+<p>를 병렬로 수행할 수 있다.</p>
+
+<hr>
+
+<h1 id="14-gpu에는-정말-수천-개의-thread가-동시에-실행될까">14. GPU에는 정말 수천 개의 Thread가 동시에 실행될까?</h1>
+
+<p>CUDA program에서는 수천~수백만 개의 thread를 생성할 수 있다.</p>
+
+<p>하지만 생성한 모든 thread가 물리적으로 정확히 동시에 실행되는 것은 아니다.</p>
+
+<p>GPU hardware가 thread들을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Schedule
+Execute
+Pause
+Resume
+</code></pre></div></div>
+
+<p>하면서 처리한다.</p>
+
+<p>중요한 것은 개발자가 매우 많은 독립적인 작은 작업을 정의하고,
+GPU scheduler가 이를 병렬 hardware에 배치한다는 것이다.</p>
+
+<hr>
+
+<h1 id="15-warp">15. Warp</h1>
+
+<p>NVIDIA GPU에서는 thread가 보통 <strong>Warp</strong>라는 단위로 묶여 실행된다.</p>
+
+<p>일반적으로 한 warp는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>32 threads
+</code></pre></div></div>
+
+<p>로 구성된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Warp
+
+Thread 0
+Thread 1
+...
+Thread 31
+</code></pre></div></div>
+
+<p>이 thread들이 비슷한 instruction을 함께 수행한다.</p>
+
+<hr>
+
+<h1 id="16-branch-divergence">16. Branch Divergence</h1>
+
+<p>같은 warp 안의 thread들이 서로 다른 조건문을 실행하면 성능이 떨어질 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="n">idx</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">pathA</span><span class="p">();</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">pathB</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>한 warp 안에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thread 0 → A
+Thread 1 → B
+Thread 2 → A
+Thread 3 → B
+</code></pre></div></div>
+
+<p>처럼 갈라지면 GPU가 두 path를 효율적으로 완전히 동시에 처리하지 못할 수 있다.</p>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Branch Divergence
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<hr>
+
+<h1 id="17-gpu-memory">17. GPU Memory</h1>
+
+<p>GPU 계산에서는 memory도 중요하다.</p>
+
+<p>Desktop discrete GPU에서는 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+ │
+System RAM
+ │
+PCIe
+ │
+GPU
+ │
+VRAM
+</code></pre></div></div>
+
+<p>구조다.</p>
+
+<p>GPU가 계산하려면 데이터를 GPU memory로 옮겨야 하는 경우가 많다.</p>
+
+<hr>
+
+<h1 id="18-cuda-memory-copy">18. CUDA Memory Copy</h1>
+
+<p>CUDA에서는 이런 개념을 자주 본다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU RAM
+   │
+   │ cudaMemcpy
+   ▼
+GPU Memory
+</code></pre></div></div>
+
+<p>계산 후:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU Memory
+   │
+   │ cudaMemcpy
+   ▼
+CPU RAM
+</code></pre></div></div>
+
+<p>으로 다시 가져올 수도 있다.</p>
+
+<p>GPU 연산 자체가 빨라도 copy 시간이 길면 전체 성능이 나빠질 수 있다.</p>
+
+<hr>
+
+<h1 id="19-data-transfer-overhead">19. Data Transfer Overhead</h1>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU → GPU copy: 5 ms
+GPU calculation: 1 ms
+GPU → CPU copy: 5 ms
+</code></pre></div></div>
+
+<p>라면 실제 전체 시간은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>11 ms
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>GPU 연산만 보면 1 ms지만,
+전체 pipeline은 그렇지 않다.</p>
+
+<p>그래서:</p>
+
+<blockquote>
+  <p>GPU optimization에서 compute 시간뿐 아니라 data movement가 매우 중요하다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="20-jetson에서는-memory가-조금-다르다">20. Jetson에서는 Memory가 조금 다르다</h1>
+
+<p>Chapter 4에서 배운 것처럼 Jetson은 integrated SoC 구조다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+  \
+   \
+    System Memory
+   /
+  /
+GPU
+</code></pre></div></div>
+
+<p>CPU와 GPU가 같은 physical system memory를 공유할 수 있다.</p>
+
+<p>그래서 discrete GPU system보다 data movement를 효율적으로 구성할 가능성이 있다.</p>
+
+<hr>
+
+<h1 id="21-하지만-shared-memory--zero-copy는-아니다">21. 하지만 Shared Memory = Zero Copy는 아니다</h1>
+
+<p>다시 강조하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Shared Physical Memory
+≠
+Automatically Zero Copy
+</code></pre></div></div>
+
+<p>software가 memory를 어떻게 allocate하고
+framework가 buffer를 어떻게 관리하는지에 따라 copy가 발생할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera Buffer
+   ↓
+CPU Buffer
+   ↓
+Framework Copy
+   ↓
+GPU Tensor
+</code></pre></div></div>
+
+<p>처럼 불필요한 copy가 생길 수도 있다.</p>
+
+<hr>
+
+<h1 id="22-zero-copy">22. Zero-Copy</h1>
+
+<p>Zero-copy는 불필요한 data copy를 줄이고
+같은 memory buffer를 여러 component가 공유하도록 하는 최적화 개념이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+  │
+  ▼
+Shared Buffer
+  ├── CPU
+  └── GPU
+</code></pre></div></div>
+
+<p>로봇 vision pipeline에서는 매우 중요할 수 있다.</p>
+
+<hr>
+
+<h1 id="23-pinned-memory">23. Pinned Memory</h1>
+
+<p>CUDA에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Pinned Memory
+</code></pre></div></div>
+
+<p>라는 개념도 등장한다.</p>
+
+<p>일반적인 pageable host memory와 달리
+OS가 memory를 swap out하지 않도록 고정된 memory다.</p>
+
+<p>CPU ↔ GPU transfer를 빠르게 만드는 데 사용될 수 있다.</p>
+
+<p>다만 pinned memory를 너무 많이 사용하면 system memory 관리에 부담이 될 수 있다.</p>
+
+<hr>
+
+<h1 id="24-cuda-stream">24. CUDA Stream</h1>
+
+<p>GPU에서는 operation을 비동기적으로 실행할 수 있다.</p>
+
+<p>CUDA Stream은 GPU operation의 실행 순서를 관리하는 queue처럼 생각할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Stream 1
+H2D Copy
+Kernel
+D2H Copy
+</code></pre></div></div>
+
+<p>다른 stream:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Stream 2
+H2D Copy
+Kernel
+D2H Copy
+</code></pre></div></div>
+
+<p>를 사용하면 일부 작업을 겹쳐 실행할 수 있다.</p>
+
+<hr>
+
+<h1 id="25-synchronous-vs-asynchronous">25. Synchronous vs Asynchronous</h1>
+
+<p>동기 방식:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+ ↓
+GPU 작업 시작
+ ↓
+GPU 끝날 때까지 기다림
+ ↓
+다음 작업
+</code></pre></div></div>
+
+<p>비동기 방식:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+ ↓
+GPU 작업 요청
+ ↓
+CPU 다른 작업 수행
+</code></pre></div></div>
+
+<p>GPU pipeline에서는 asynchronous programming이 매우 중요할 수 있다.</p>
+
+<hr>
+
+<h1 id="26-pytorch에서-gpu-사용">26. PyTorch에서 GPU 사용</h1>
+
+<p>PyTorch에서는 CUDA 사용이 더 쉽게 추상화되어 있다.</p>
+
+<p>예:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>기본적으로 CPU tensor일 수 있다.</p>
+
+<p>GPU로 이동:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>그러면 GPU에서 사용할 수 있는 tensor가 된다.</p>
+
+<hr>
+
+<h1 id="27-tocuda가-의미하는-것">27. <code class="language-plaintext highlighter-rouge">.to("cuda")</code>가 의미하는 것</h1>
+
+<p>개념적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Tensor
+    │
+    │ .to("cuda")
+    ▼
+GPU Tensor
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Discrete GPU에서는 실제 memory copy가 일어날 수 있다.</p>
+
+<p>Jetson에서는 shared memory architecture의 영향을 받지만,
+framework 관점에서는 CPU tensor와 CUDA tensor를 여전히 구분한다.</p>
+
+<hr>
+
+<h1 id="28-tensor의-device-확인">28. Tensor의 Device 확인</h1>
+
+<p>PyTorch에서는:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>를 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cpu
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cuda:0
+</code></pre></div></div>
+
+<p>가 나올 수 있다.</p>
+
+<hr>
+
+<h1 id="29-model도-gpu로-보내야-한다">29. Model도 GPU로 보내야 한다</h1>
+
+<p>Tensor만 GPU에 있고 model이 CPU에 있으면 계산할 수 없다.</p>
+
+<p>예:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">input_tensor</span> <span class="o">=</span> <span class="n">input_tensor</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Model
+  │
+  ▼
+GPU
+
+Input
+  │
+  ▼
+GPU
+
+      ↓
+
+Inference
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="30-cpugpu-device-mismatch">30. CPU/GPU Device Mismatch</h1>
+
+<p>PyTorch에서 자주 보는 error가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Expected all tensors to be on the same device
+</code></pre></div></div>
+
+<p>같은 형태다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Model → cuda
+Input → cpu
+</code></pre></div></div>
+
+<p>이면 연산이 불가능할 수 있다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Model Device
+=
+Input Device
+</code></pre></div></div>
+
+<p>를 맞춰야 한다.</p>
+
+<hr>
+
+<h1 id="31-neural-network-inference">31. Neural Network Inference</h1>
+
+<p>학습된 model로 prediction하는 과정이 inference다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+  ↓
+Image Tensor
+  ↓
+GPU
+  ↓
+Neural Network
+  ↓
+Bounding Boxes
+</code></pre></div></div>
+
+<p>Jetson에서는 이러한 inference를 local edge에서 처리할 수 있다.</p>
+
+<hr>
+
+<h1 id="32-tensorrt">32. TensorRT</h1>
+
+<p>TensorRT는 NVIDIA가 제공하는
+<strong>Deep Learning Inference Optimization Runtime</strong>이다.</p>
+
+<p>목표는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Trained Model
+    │
+    ▼
+Optimization
+    │
+    ▼
+Efficient GPU Execution
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="33-pytorch와-tensorrt-관계">33. PyTorch와 TensorRT 관계</h1>
+
+<p>개념적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PyTorch
+   │
+   │ Model Export / Conversion
+   ▼
+ONNX or other representation
+   │
+   ▼
+TensorRT
+   │
+   ▼
+TensorRT Engine
+   │
+   ▼
+Jetson GPU
+</code></pre></div></div>
+
+<p>같은 pipeline을 사용할 수 있다.</p>
+
+<p>실제 conversion 경로는 model과 toolchain에 따라 달라진다.</p>
+
+<hr>
+
+<h1 id="34-tensorrt-engine">34. TensorRT Engine</h1>
+
+<p>TensorRT는 model을 분석하여 optimized execution engine을 생성할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Neural Network
+
+Conv
+ReLU
+Conv
+BN
+ReLU
+...
+
+      │
+      ▼
+TensorRT Optimization
+      │
+      ▼
+Optimized Engine
+</code></pre></div></div>
+
+<p>이 engine은 특정 hardware/software 환경과 밀접하게 연관될 수 있다.</p>
+
+<hr>
+
+<h1 id="35-layer-fusion">35. Layer Fusion</h1>
+
+<p>TensorRT optimization 중 하나로 자주 언급되는 것이 Layer Fusion이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Convolution
+   ↓
+BatchNorm
+   ↓
+Activation
+</code></pre></div></div>
+
+<p>을 각각 따로 실행하는 대신
+가능한 경우 더 적은 GPU operation으로 합쳐 실행할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Conv + BN + Activation
+        ↓
+   Fused Operation
+</code></pre></div></div>
+
+<p>이를 통해:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kernel Launch Overhead 감소
+Memory Access 감소
+Latency 감소
+</code></pre></div></div>
+
+<p>효과를 기대할 수 있다.</p>
+
+<hr>
+
+<h1 id="36-precision">36. Precision</h1>
+
+<p>AI 계산에서는 숫자를 어떤 precision으로 표현할지도 중요하다.</p>
+
+<p>대표적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FP32
+FP16
+INT8
+</code></pre></div></div>
+
+<p>을 많이 본다.</p>
+
+<hr>
+
+<h1 id="37-fp32">37. FP32</h1>
+
+<p>FP32는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>32-bit Floating Point
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>일반적인 deep learning 계산의 기준 precision 중 하나다.</p>
+
+<p>장점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>높은 numerical precision
+</code></pre></div></div>
+
+<p>단점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Memory 사용량 큼
+연산량 큼
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="38-fp16">38. FP16</h1>
+
+<p>FP16은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>16-bit Floating Point
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>FP32보다 적은 memory를 사용하고
+지원되는 GPU에서는 더 빠른 연산이 가능할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FP32
+32 bit
+
+FP16
+16 bit
+</code></pre></div></div>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Memory 감소
+Bandwidth 절약
+Tensor Core 활용
+</code></pre></div></div>
+
+<p>등의 장점이 있을 수 있다.</p>
+
+<hr>
+
+<h1 id="39-int8">39. INT8</h1>
+
+<p>INT8은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>8-bit Integer
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>더 낮은 precision을 사용함으로써
+더 높은 inference performance와 낮은 memory 사용량을 얻을 수 있다.</p>
+
+<p>하지만 model accuracy가 영향을 받을 수 있다.</p>
+
+<hr>
+
+<h1 id="40-quantization">40. Quantization</h1>
+
+<p>Floating point model을 INT8 같은 낮은 precision으로 변환하는 과정을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Quantization
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FP32 Model
+    │
+    ▼
+Quantization
+    │
+    ▼
+INT8 Model
+</code></pre></div></div>
+
+<p>정확한 scale을 결정하기 위해 calibration data가 필요한 방식도 있다.</p>
+
+<hr>
+
+<h1 id="41-precision-trade-off">41. Precision Trade-off</h1>
+
+<p>일반적인 관계를 단순화하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FP32
+
+높은 precision
+높은 memory
+낮은 speed 가능성
+
+        ↓
+
+FP16
+
+        ↓
+
+INT8
+
+낮은 precision
+낮은 memory
+높은 speed 가능성
+</code></pre></div></div>
+
+<p>하지만 항상 INT8이 무조건 더 좋은 것은 아니다.</p>
+
+<p>Model accuracy와 hardware support를 함께 봐야 한다.</p>
+
+<hr>
+
+<h1 id="42-latency">42. Latency</h1>
+
+<p>Latency는 하나의 입력을 처리하는 데 걸리는 시간이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera Frame
+    │
+    ▼
+Model
+    │
+    ▼
+Detection
+
+Total = 20 ms
+</code></pre></div></div>
+
+<p>이때 inference latency는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>20 ms
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>로봇에서는 latency가 매우 중요하다.</p>
+
+<hr>
+
+<h1 id="43-throughput">43. Throughput</h1>
+
+<p>Throughput은 일정 시간 동안 몇 개의 input을 처리할 수 있는지를 의미한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100 images / second
+</code></pre></div></div>
+
+<p>라면 throughput은 대략:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100 FPS
+</code></pre></div></div>
+
+<p>라고 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="44-latency와-throughput은-다르다">44. Latency와 Throughput은 다르다</h1>
+
+<p>예를 들어 batching을 크게 하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Batch = 32
+</code></pre></div></div>
+
+<p>GPU utilization이 좋아져 throughput은 증가할 수 있다.</p>
+
+<p>하지만 한 input이 결과를 받기까지 기다리는 시간은 길어질 수 있다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>High Throughput
+≠
+Low Latency
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="45-robot에서는-latency가-더-중요한-경우가-많다">45. Robot에서는 Latency가 더 중요한 경우가 많다</h1>
+
+<p>Cloud AI에서는 throughput이 매우 중요할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>수천 개 image 처리
+</code></pre></div></div>
+
+<p>하지만 로봇에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+  ↓
+Obstacle Detection
+  ↓
+Decision
+  ↓
+Control
+</code></pre></div></div>
+
+<p>까지 빠르게 이어져야 한다.</p>
+
+<p>그래서 real-time robotics에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Low Latency
+</code></pre></div></div>
+
+<p>가 특히 중요하다.</p>
+
+<hr>
+
+<h1 id="46-fps">46. FPS</h1>
+
+<p>Camera나 inference에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FPS
+</code></pre></div></div>
+
+<p>를 많이 사용한다.</p>
+
+<p>FPS:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Frames Per Second
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>30 FPS
+</code></pre></div></div>
+
+<p>이면 초당 30 frame 처리라는 뜻이다.</p>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>30 FPS
+</code></pre></div></div>
+
+<p>라고 해서 latency가 반드시:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>33 ms
+</code></pre></div></div>
+
+<p>인 것은 아니다.</p>
+
+<p>Pipeline과 batching 방식에 따라 다를 수 있다.</p>
+
+<hr>
+
+<h1 id="47-gpu-utilization">47. GPU Utilization</h1>
+
+<p>GPU가 얼마나 바쁘게 동작하는지 확인하는 값이다.</p>
+
+<p>Jetson에서는:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tegrastats
+</code></pre></div></div>
+
+<p>등을 통해 GPU 관련 utilization을 확인할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GR3D_FREQ
+</code></pre></div></div>
+
+<p>와 같은 항목을 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="48-gpu-사용률이-100면-좋은가">48. GPU 사용률이 100%면 좋은가?</h1>
+
+<p>항상 그렇지는 않다.</p>
+
+<p>GPU 100%는 hardware를 잘 활용하고 있다는 의미일 수도 있지만,
+전체 system이 bottleneck에 걸려 있다는 뜻일 수도 있다.</p>
+
+<p>확인해야 하는 것:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Latency
+Temperature
+Power
+Memory
+CPU usage
+Input queue
+Dropped frame
+</code></pre></div></div>
+
+<p>등이다.</p>
+
+<hr>
+
+<h1 id="49-bottleneck">49. Bottleneck</h1>
+
+<p>전체 pipeline에서 성능을 제한하는 부분을 bottleneck이라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+  │
+  ▼
+CPU Preprocessing   ← 40 ms
+  │
+  ▼
+GPU Inference       ← 5 ms
+  │
+  ▼
+Postprocessing      ← 10 ms
+</code></pre></div></div>
+
+<p>GPU inference만 최적화해도 전체 latency는 크게 줄지 않을 수 있다.</p>
+
+<p>실제 bottleneck은 CPU preprocessing이기 때문이다.</p>
+
+<hr>
+
+<h1 id="50-amdahls-law-관점">50. Amdahl’s Law 관점</h1>
+
+<p>프로그램의 일부만 빨라지면
+전체 성능 향상에는 한계가 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Total 100 ms
+
+CPU part = 90 ms
+GPU-able part = 10 ms
+</code></pre></div></div>
+
+<p>GPU 부분을 10배 빠르게 만들어도:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>90 ms
++
+1 ms
+=
+91 ms
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>즉 전체가 10배 빨라지는 것이 아니다.</p>
+
+<hr>
+
+<h1 id="51-slam을-gpu로-옮기면-무조건-빨라질까">51. SLAM을 GPU로 옮기면 무조건 빨라질까?</h1>
+
+<p>아니다.</p>
+
+<p>FAST-LIO2 같은 SLAM에는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Point Cloud Processing
+Nearest Neighbor Search
+Kalman Filter
+Matrix Operations
+Map Update
+Conditional Logic
+</code></pre></div></div>
+
+<p>등 다양한 계산이 섞여 있다.</p>
+
+<p>일부는 GPU에 적합할 수 있지만,
+일부는 CPU에서 효율적일 수 있다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SLAM
+   │
+   ├── GPU-friendly operation
+   └── CPU-friendly operation
+</code></pre></div></div>
+
+<p>을 분석해야 한다.</p>
+
+<hr>
+
+<h1 id="52-gpu-porting-cost">52. GPU Porting Cost</h1>
+
+<p>CPU algorithm을 GPU로 옮기면 다음 문제가 생긴다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CUDA implementation 필요
+Memory management
+Synchronization
+Debugging
+Data transfer
+Build complexity
+Hardware dependency
+</code></pre></div></div>
+
+<p>즉 단순히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU slow
+→ GPU로 이동
+</code></pre></div></div>
+
+<p>은 아니다.</p>
+
+<hr>
+
+<h1 id="53-point-cloud와-gpu">53. Point Cloud와 GPU</h1>
+
+<p>Point cloud는 많은 point에 비슷한 연산을 수행하는 부분이 있어
+GPU에 적합한 작업도 존재한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Point Transform
+Filtering
+Voxelization
+Feature Extraction
+</code></pre></div></div>
+
+<p>하지만 tree search나 복잡한 data structure는
+구현 방식에 따라 GPU 최적화 난이도가 높을 수 있다.</p>
+
+<hr>
+
+<h1 id="54-vision에서-gpu가-특히-강한-이유">54. Vision에서 GPU가 특히 강한 이유</h1>
+
+<p>Camera image는 매우 규칙적인 grid 형태의 data다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1920 × 1080 pixels
+</code></pre></div></div>
+
+<p>각 pixel이나 tensor element에 비슷한 연산을 반복한다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Convolution
+Matrix Multiplication
+Image Resize
+Normalization
+</code></pre></div></div>
+
+<p>등은 GPU parallelism과 잘 맞는다.</p>
+
+<hr>
+
+<h1 id="55-vision60에서-gpu-활용-예">55. Vision60에서 GPU 활용 예</h1>
+
+<p>Vision60의 Jetson에서 GPU를 활용할 수 있는 예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+  │
+  ▼
+Object Detection
+  │
+  ▼
+Obstacle / Person Detection
+
+Camera
+  │
+  ▼
+Semantic Segmentation
+  │
+  ▼
+Terrain Understanding
+
+LiDAR + Camera
+  │
+  ▼
+Sensor Fusion Network
+</code></pre></div></div>
+
+<p>등이 있다.</p>
+
+<hr>
+
+<h1 id="56-cpu와-gpu-역할-분담">56. CPU와 GPU 역할 분담</h1>
+
+<p>Vision60에서 단순화하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             Jetson
+
+┌─────────────────────────────┐
+│                             │
+│ CPU                         │
+│ ├── Linux                   │
+│ ├── ROS 2                   │
+│ ├── Sensor Driver           │
+│ ├── FAST-LIO2               │
+│ └── Navigation / Control    │
+│                             │
+│ GPU                         │
+│ ├── Deep Learning           │
+│ ├── Vision                  │
+│ ├── Tensor Operations       │
+│ └── CUDA Parallel Compute   │
+│                             │
+└─────────────────────────────┘
+</code></pre></div></div>
+
+<p>실제로는 application마다 CPU/GPU 경계가 달라진다.</p>
+
+<hr>
+
+<h1 id="57-cpu-gpu-pipeline">57. CPU-GPU Pipeline</h1>
+
+<p>예를 들어 camera AI pipeline:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+  │
+  ▼
+Capture
+CPU / hardware
+  │
+  ▼
+Preprocessing
+CPU or GPU
+  │
+  ▼
+Inference
+GPU
+  │
+  ▼
+Postprocessing
+CPU or GPU
+  │
+  ▼
+ROS 2 Publisher
+CPU
+</code></pre></div></div>
+
+<p>성능 최적화에서는 전체 pipeline을 봐야 한다.</p>
+
+<hr>
+
+<h1 id="58-tensorrt와-ros-2">58. TensorRT와 ROS 2</h1>
+
+<p>TensorRT inference를 ROS 2 node 안에서 실행할 수도 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera Driver
+     │
+     │ ROS 2 Image
+     ▼
+Detection Node
+     │
+     ├── TensorRT
+     │      │
+     │      ▼
+     │     GPU
+     │
+     ▼
+Detection Topic
+</code></pre></div></div>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2
+→ communication/framework
+
+TensorRT
+→ inference runtime
+
+CUDA
+→ GPU computing platform
+</code></pre></div></div>
+
+<p>로 역할이 다르다.</p>
+
+<hr>
+
+<h1 id="59-cuda와-tensorrt는-같은가">59. CUDA와 TensorRT는 같은가?</h1>
+
+<p>아니다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CUDA
+
+GPU general-purpose computing platform
+</code></pre></div></div>
+
+<p>반면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TensorRT
+
+Deep Learning inference optimization/runtime
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>TensorRT 내부에서는 CUDA를 활용한다.</p>
+
+<p>개념:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TensorRT
+   │
+   ▼
+CUDA
+   │
+   ▼
+NVIDIA GPU
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="60-cudnn과-tensorrt-차이">60. cuDNN과 TensorRT 차이</h1>
+
+<p>cuDNN:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Deep learning primitive library
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Convolution
+Activation
+Normalization
+</code></pre></div></div>
+
+<p>같은 operation을 optimized implementation으로 제공한다.</p>
+
+<p>TensorRT:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>전체 inference graph를 분석하고 최적화
+</code></pre></div></div>
+
+<p>한다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Framework
+   │
+   ├── cuDNN
+   │     └── optimized operations
+   │
+   └── TensorRT
+         └── optimized inference engine
+</code></pre></div></div>
+
+<p>정도로 이해할 수 있다.</p>
+
+<hr>
+
+<h1 id="61-cuda-synchronization">61. CUDA Synchronization</h1>
+
+<p>CPU와 GPU가 비동기적으로 동작하기 때문에
+특정 순간에는 GPU 작업 완료를 기다려야 할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cudaDeviceSynchronize</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>개념적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+ │
+ │ GPU task launch
+ ▼
+GPU running
+ │
+ │ wait
+ ▼
+cudaDeviceSynchronize
+ │
+ ▼
+Continue
+</code></pre></div></div>
+
+<p>과도한 synchronization은 performance를 떨어뜨릴 수 있다.</p>
+
+<hr>
+
+<h1 id="62-kernel-launch-overhead">62. Kernel Launch Overhead</h1>
+
+<p>GPU kernel을 실행하는 데도 일정 overhead가 있다.</p>
+
+<p>매우 작은 연산을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU Kernel
+GPU Kernel
+GPU Kernel
+GPU Kernel
+...
+</code></pre></div></div>
+
+<p>수천 번 따로 실행하면 launch overhead가 커질 수 있다.</p>
+
+<p>그래서 kernel fusion 같은 최적화가 중요하다.</p>
+
+<hr>
+
+<h1 id="63-memory-access가-compute보다-중요할-수도-있다">63. Memory Access가 Compute보다 중요할 수도 있다</h1>
+
+<p>GPU 연산에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Compute
+</code></pre></div></div>
+
+<p>보다:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Memory Access
+</code></pre></div></div>
+
+<p>가 bottleneck이 되는 경우가 많다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU Core는 계산 준비 완료
+       │
+       ▼
+Memory에서 data 기다림
+</code></pre></div></div>
+
+<p>이 상황에서는 core 수를 늘려도 performance가 크게 좋아지지 않는다.</p>
+
+<hr>
+
+<h1 id="64-memory-coalescing">64. Memory Coalescing</h1>
+
+<p>GPU thread들이 연속적인 memory 위치를 효율적으로 읽도록 구성하면
+memory bandwidth를 더 잘 활용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thread 0 → data[0]
+Thread 1 → data[1]
+Thread 2 → data[2]
+Thread 3 → data[3]
+</code></pre></div></div>
+
+<p>같은 pattern이 효율적일 수 있다.</p>
+
+<p>반대로 매우 불규칙한 access:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thread 0 → data[10000]
+Thread 1 → data[4]
+Thread 2 → data[820]
+</code></pre></div></div>
+
+<p>는 비효율적일 수 있다.</p>
+
+<hr>
+
+<h1 id="65-gpu-optimization-순서">65. GPU Optimization 순서</h1>
+
+<p>GPU optimization을 할 때 무작정 kernel부터 수정하지 않는다.</p>
+
+<p>먼저:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Profile
+2. Find bottleneck
+3. Check data transfer
+4. Check GPU utilization
+5. Check memory bandwidth
+6. Optimize algorithm
+7. Re-profile
+</code></pre></div></div>
+
+<p>순서가 중요하다.</p>
+
+<hr>
+
+<h1 id="66-profiling">66. Profiling</h1>
+
+<p>Profiling은 프로그램이 실제로 어디에서 시간을 사용하는지 측정하는 것이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Preprocess      15 ms
+Inference        8 ms
+Postprocess      4 ms
+ROS publish      1 ms
+</code></pre></div></div>
+
+<p>이런 정보를 알아야 무엇을 최적화해야 하는지 결정할 수 있다.</p>
+
+<p>NVIDIA는 CUDA/Nsight 계열 profiling tool을 제공한다.</p>
+
+<hr>
+
+<h1 id="67-optimization-전에-측정">67. Optimization 전에 측정</h1>
+
+<p>중요한 원칙:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Don't guess.
+Measure.
+</code></pre></div></div>
+
+<p>예를 들어:</p>
+
+<blockquote>
+  <p>“GPU inference가 느린 것 같다.”</p>
+</blockquote>
+
+<p>라고 생각했는데 profiling 결과:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Inference = 5 ms
+Image copy = 30 ms
+</code></pre></div></div>
+
+<p>라면 실제 문제는 inference가 아니다.</p>
+
+<hr>
+
+<h1 id="68-real-time과-fast는-다르다">68. Real-Time과 Fast는 다르다</h1>
+
+<p>로봇에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fast
+</code></pre></div></div>
+
+<p>와:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Real-Time
+</code></pre></div></div>
+
+<p>은 같은 의미가 아니다.</p>
+
+<p>Fast:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>평균적으로 빠름
+</code></pre></div></div>
+
+<p>Real-Time:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>정해진 시간 안에 결과가 나오는 것이 중요
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Average latency = 5 ms
+</code></pre></div></div>
+
+<p>여도 가끔:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100 ms
+</code></pre></div></div>
+
+<p>까지 튄다면 control system에는 문제가 될 수 있다.</p>
+
+<hr>
+
+<h1 id="69-jitter">69. Jitter</h1>
+
+<p>Latency가 일정하지 않고 흔들리는 것을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jitter
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>5 ms
+6 ms
+5 ms
+40 ms
+6 ms
+</code></pre></div></div>
+
+<p>로봇에서는 평균 latency뿐 아니라 jitter도 중요하다.</p>
+
+<hr>
+
+<h1 id="70-gpu와-determinism">70. GPU와 Determinism</h1>
+
+<p>GPU는 높은 throughput에는 강하지만
+복잡한 scheduling과 resource sharing 때문에
+hard real-time control에 직접 사용하는 데는 주의가 필요하다.</p>
+
+<p>그래서 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU
+→ Perception / AI
+
+MCU / RT Controller
+→ Hard real-time motor control
+</code></pre></div></div>
+
+<p>같은 역할 분리가 많이 사용된다.</p>
+
+<hr>
+
+<h1 id="71-edge-ai의-장점">71. Edge AI의 장점</h1>
+
+<p>Jetson에서 inference를 직접 수행하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+  ↓
+Jetson
+  ↓
+AI
+  ↓
+Robot Decision
+</code></pre></div></div>
+
+<p>이 가능하다.</p>
+
+<p>Cloud로 보내는 방식:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+  ↓
+Internet
+  ↓
+Cloud
+  ↓
+AI
+  ↓
+Internet
+  ↓
+Robot
+</code></pre></div></div>
+
+<p>보다 latency와 network dependency를 줄일 수 있다.</p>
+
+<hr>
+
+<h1 id="72-edge-ai의-단점">72. Edge AI의 단점</h1>
+
+<p>하지만 Edge device에는 제한이 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Power Limit
+Thermal Limit
+Memory Limit
+Compute Limit
+Storage Limit
+</code></pre></div></div>
+
+<p>그래서 model optimization이 중요하다.</p>
+
+<hr>
+
+<h1 id="73-model-optimization">73. Model Optimization</h1>
+
+<p>Jetson에서는 다음 최적화를 고려할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Smaller Model
+FP16
+INT8
+TensorRT
+Batch Size tuning
+Input Resolution tuning
+Pipeline optimization
+</code></pre></div></div>
+
+<p>즉 단순히 가장 큰 model을 올리는 것이 항상 최선은 아니다.</p>
+
+<hr>
+
+<h1 id="74-accuracy-vs-performance">74. Accuracy vs Performance</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Large Model
+Accuracy ↑
+Latency ↑
+Power ↑
+
+Small Model
+Accuracy ↓ 가능
+Latency ↓
+Power ↓
+</code></pre></div></div>
+
+<p>로봇에서는 application requirement에 맞춰 trade-off를 정해야 한다.</p>
+
+<hr>
+
+<h1 id="75-vision60-예제">75. Vision60 예제</h1>
+
+<p>예를 들어 Vision60이 공사 현장에서 사람을 탐지해야 한다고 하자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+   │
+   ▼
+Jetson Orin
+   │
+   ▼
+TensorRT Object Detector
+   │
+   ▼
+Person Detection
+   │
+   ▼
+ROS 2 Topic
+   │
+   ▼
+Navigation
+   │
+   ▼
+Stop / Avoid
+</code></pre></div></div>
+
+<p>여기에는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 1 → CPU/GPU/RAM
+Chapter 2 → ARM64
+Chapter 3 → Linux
+Chapter 4 → Jetson/CUDA
+Chapter 5 → Camera Interface
+Chapter 6 → ROS 2
+Chapter 7 → GPU/TensorRT
+</code></pre></div></div>
+
+<p>가 모두 연결되어 있다.</p>
+
+<hr>
+
+<h1 id="76-fast-lio2--ai-구조">76. FAST-LIO2 + AI 구조</h1>
+
+<p>Vision60에서는 예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR + IMU
+     │
+     ▼
+FAST-LIO2
+     │
+     ▼
+Robot Pose
+</code></pre></div></div>
+
+<p>와:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+   │
+   ▼
+GPU AI
+   │
+   ▼
+Object / Terrain Information
+</code></pre></div></div>
+
+<p>를 동시에 사용할 수 있다.</p>
+
+<p>전체:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                   Jetson
+
+LiDAR ───────┐
+IMU ─────────┤
+             ▼
+          FAST-LIO2
+             │
+             ▼
+            Pose
+             │
+             ├──────────┐
+             │          │
+Camera ──────┼──────► GPU AI
+             │          │
+             │          ▼
+             │      Perception
+             │          │
+             └────┬─────┘
+                  ▼
+              Navigation
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="77-gpu-사용-여부-확인">77. GPU 사용 여부 확인</h1>
+
+<p>PyTorch:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>True
+</code></pre></div></div>
+
+<p>이면 PyTorch가 CUDA device를 사용할 수 있다는 뜻이다.</p>
+
+<p>GPU 개수:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">print</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">device_count</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>Device 이름:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">print</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">get_device_name</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="78-cuda-version-확인">78. CUDA Version 확인</h1>
+
+<p>Jetson에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvcc <span class="nt">--version</span>
+</code></pre></div></div>
+
+<p>CUDA compiler toolkit version을 확인할 수 있다.</p>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvcc version
+</code></pre></div></div>
+
+<p>과:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU driver capability
+</code></pre></div></div>
+
+<p>는 완전히 같은 개념은 아니다.</p>
+
+<hr>
+
+<h1 id="79-jetson-monitoring">79. Jetson Monitoring</h1>
+
+<p>실제 inference 실행 중:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tegrastats
+</code></pre></div></div>
+
+<p>를 실행한다.</p>
+
+<p>확인:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+GPU
+RAM
+Temperature
+Power
+</code></pre></div></div>
+
+<p>GPU AI를 켰을 때와 껐을 때를 비교해 보면 좋다.</p>
+
+<hr>
+
+<h1 id="80-mini-practice-1-cuda-확인">80. Mini Practice 1: CUDA 확인</h1>
+
+<p>Jetson에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-m</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvcc <span class="nt">--version</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tegrastats
+</code></pre></div></div>
+
+<p>를 실행한다.</p>
+
+<hr>
+
+<h1 id="81-mini-practice-2-pytorch-gpu">81. Mini Practice 2: PyTorch GPU</h1>
+
+<p>Python:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">())</span>
+
+<span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">():</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">get_device_name</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>를 실행한다.</p>
+
+<hr>
+
+<h1 id="82-mini-practice-3-cpu-vs-gpu-tensor">82. Mini Practice 3: CPU vs GPU Tensor</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>출력 예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cpu
+cuda:0
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="83-mini-practice-4-실제-bottleneck-생각하기">83. Mini Practice 4: 실제 Bottleneck 생각하기</h1>
+
+<p>다음 pipeline이 있다고 하자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera Capture   5 ms
+Preprocessing   20 ms
+Inference        6 ms
+Postprocessing   4 ms
+ROS Publish      1 ms
+</code></pre></div></div>
+
+<p>질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU inference를 6 ms → 3 ms로 줄이는 것이
+가장 효과적인 최적화인가?
+</code></pre></div></div>
+
+<p>아니다.</p>
+
+<p>현재 가장 큰 bottleneck은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Preprocessing = 20 ms
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="84-오늘의-핵심">84. 오늘의 핵심</h1>
+
+<p>GPU programming의 핵심은 단순히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU = 빠르다
+</code></pre></div></div>
+
+<p>가 아니다.</p>
+
+<p>더 정확하게는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU
+=
+많은 독립적 계산을
+병렬로 처리하는 데 강한 processor
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>그리고 실제 performance는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Parallelism
+Memory Access
+Data Transfer
+Kernel Launch
+Synchronization
+Precision
+Thermal
+Power
+</code></pre></div></div>
+
+<p>등에 모두 영향을 받는다.</p>
+
+<hr>
+
+<h1 id="85-반드시-구분할-것">85. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU ≠ CUDA
+
+CUDA ≠ TensorRT
+
+TensorRT ≠ PyTorch
+
+FP16 ≠ INT8
+
+Latency ≠ Throughput
+
+FPS ≠ Latency
+
+Shared Memory ≠ Automatic Zero Copy
+
+GPU Utilization 100%
+≠
+System is optimal
+
+Fast
+≠
+Real-Time
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="86-chapter-17-전체-stack">86. Chapter 1~7 전체 Stack</h1>
+
+<p>지금까지의 모든 Chapter를 하나로 연결하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──────────────────────────────────┐
+│ Robot Application                │
+│ SLAM / AI / Navigation           │
+├──────────────────────────────────┤
+│ ROS 2                            │
+│ Node / Topic / DDS               │
+├──────────────────────────────────┤
+│ CUDA / TensorRT                  │
+│ GPU Parallel Computing           │
+├──────────────────────────────────┤
+│ Linux / JetPack                  │
+├──────────────────────────────────┤
+│ ARM64                            │
+├──────────────────────────────────┤
+│ CPU / GPU / RAM / Storage        │
+├──────────────────────────────────┤
+│ Ethernet / CAN / USB / PCIe      │
+├──────────────────────────────────┤
+│ Sensors / Jetson / MCU           │
+└──────────────────────────────────┘
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="87-vision60-전체-mental-model">87. Vision60 전체 Mental Model</h1>
+
+<p>최종적으로 Vision60을 다음처럼 볼 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                     Vision60
+
+Sensors
+│
+├── LiDAR ── Ethernet ───────┐
+├── Camera ── USB / CSI ─────┤
+├── IMU ─────────────────────┤
+└── Joint Sensors ───────────┤
+                             ▼
+                    ┌─────────────────┐
+                    │ Jetson / Xavier │
+                    │                 │
+                    │ ARM CPU         │
+                    │ ├── Linux       │
+                    │ ├── ROS 2       │
+                    │ ├── Drivers     │
+                    │ ├── FAST-LIO2   │
+                    │ └── Navigation  │
+                    │                 │
+                    │ NVIDIA GPU      │
+                    │ ├── CUDA        │
+                    │ ├── Vision      │
+                    │ └── TensorRT    │
+                    └────────┬────────┘
+                             │
+                             ▼
+                            MCU
+                             │
+                          CAN / Bus
+                             │
+                             ▼
+                      Motor Controllers
+                             │
+                             ▼
+                           Motors
+</code></pre></div></div>
+
+<p>이 그림을 이해하면:</p>
+
+<blockquote>
+  <p>“센서 데이터가 들어와서 로봇이 움직이기까지 어떤 software/hardware layer를 거치는가?”</p>
+</blockquote>
+
+<p>를 전체적으로 설명할 수 있다.</p>
+
+<hr>
+
+<h1 id="88-final-checklist">88. Final Checklist</h1>
+
+<p>이 학습을 끝낸 뒤 다음 질문에 답할 수 있어야 한다.</p>
+
+<h3 id="hardware">Hardware</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU와 GPU는 무엇이 다른가?
+RAM과 Storage는 무엇이 다른가?
+Jetson이 왜 SoC인가?
+</code></pre></div></div>
+
+<h3 id="architecture">Architecture</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x86_64와 aarch64는 무엇이 다른가?
+왜 x86 binary를 Jetson에서 실행할 수 없는가?
+</code></pre></div></div>
+
+<h3 id="linux">Linux</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Process와 Service는 무엇이 다른가?
+source setup.bash는 무엇을 하는가?
+SSH로 접속하면 프로그램은 어디에서 실행되는가?
+</code></pre></div></div>
+
+<h3 id="jetson">Jetson</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>JetPack과 Ubuntu는 무엇이 다른가?
+CUDA와 TensorRT는 무엇이 다른가?
+tegrastats는 왜 사용하는가?
+</code></pre></div></div>
+
+<h3 id="interface">Interface</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ethernet과 Internet은 무엇이 다른가?
+CAN과 ROS 2는 무엇이 다른가?
+PCIe와 M.2는 무엇이 다른가?
+</code></pre></div></div>
+
+<h3 id="ros-2">ROS 2</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS 2는 protocol인가?
+rclcpp → RMW → DDS는 어떻게 연결되는가?
+QoS는 왜 필요한가?
+</code></pre></div></div>
+
+<h3 id="gpu">GPU</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CUDA kernel이란?
+Thread / Block / Grid란?
+.to("cuda")는 무엇을 하는가?
+Latency와 Throughput은 무엇이 다른가?
+</code></pre></div></div>
+
+<p>이 질문에 자연스럽게 답할 수 있다면
+Jetson 기반 로봇 software architecture의 기본 토대는 잡힌 것이다.</p>
+
+<hr>
+
+<h1 id="course-complete">Course Complete</h1>
+
+<h2 id="jetson--edge-computing-fundamentals">Jetson &amp; Edge Computing Fundamentals</h2>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 1
+Computer Hardware Basics
+
+Chapter 2
+ARM vs x86
+
+Chapter 3
+Linux for Edge Computers
+
+Chapter 4
+NVIDIA Jetson &amp; JetPack
+
+Chapter 5
+Hardware Interfaces
+
+Chapter 6
+ROS 2 as a Robotics Middleware
+
+Chapter 7
+CUDA &amp; TensorRT for Robotics
+</code></pre></div></div>
+
+<p>이제 다음 단계부터는 기초 개념보다는
+실제 Vision60/Jetson 환경을 직접 분석하는 실습 중심 학습으로 넘어갈 수 있다.</p>
+
+<p>추천 다음 과정:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Practical 1
+Vision60 Network Architecture 분석
+
+Practical 2
+Xavier / Orin System Inspection
+
+Practical 3
+ROS 2 Communication Debugging
+
+Practical 4
+FAST-LIO2 Runtime Profiling
+
+Practical 5
+Jetson CPU/GPU/Memory Profiling
+
+Practical 6
+Docker on Jetson
+
+Practical 7
+Vision60 전체 Software Architecture 작성
+</code></pre></div></div>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/edge_computing/chapter08-robot-networking/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 8. Networking for Robots</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

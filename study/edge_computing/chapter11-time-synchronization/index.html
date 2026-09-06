@@ -1,0 +1,2637 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 11. Time Synchronization &amp; Sensor Timing | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter11-time-synchronization/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 11. Time Synchronization &amp; Sensor Timing</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> 로봇에서 여러 센서와 여러 컴퓨터의 timestamp를 어떻게 맞추는지 이해한다.
+특히 LiDAR, IMU, Camera, Joint Encoder를 fusion할 때 왜 시간 정렬이 중요한지,
+NTP, PTP, hardware timestamp, ROS 2 timestamp가 어떻게 연결되는지 이해하는 것이 목표다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="1-로봇에서-시간은-왜-중요한가">1. 로봇에서 시간은 왜 중요한가?</h1>
+
+<p>Sensor fusion은 단순히 여러 센서 데이터를 동시에 사용하는 것이 아니다.</p>
+
+<p>실제로는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>같은 시점의 데이터를
+정확히 맞춰서 사용
+</code></pre></div></div>
+
+<p>해야 한다.</p>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR scan = 10:00:00.100
+
+IMU       = 10:00:00.100
+</code></pre></div></div>
+
+<p>이면 같은 시점의 motion을 설명한다.</p>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR = 10:00:00.100
+
+IMU   = 10:00:00.180
+</code></pre></div></div>
+
+<p>이면 80 ms 차이가 난다.</p>
+
+<p>로봇이 빠르게 움직이는 중이라면 이 차이는 매우 큰 오차를 만들 수 있다.</p>
+
+<hr>
+
+<h1 id="2-timestamp란">2. Timestamp란?</h1>
+
+<p>Timestamp는:</p>
+
+<blockquote>
+  <p>특정 데이터가 어느 시점에 발생했는지 나타내는 시간 정보</p>
+</blockquote>
+
+<p>다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2026-09-05 21:10:32.123456
+</code></pre></div></div>
+
+<p>또는 ROS 2에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sec
+nanosec
+</code></pre></div></div>
+
+<p>형태로 표현될 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sec: 1788610232
+nanosec: 123456789
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="3-sensor-data와-timestamp">3. Sensor Data와 Timestamp</h1>
+
+<p>센서 message는 일반적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor Data
++
+Timestamp
+</code></pre></div></div>
+
+<p>로 생각해야 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU
+
+angular_velocity
+linear_acceleration
+timestamp
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+
+point cloud
+timestamp
+</code></pre></div></div>
+
+<p>즉 데이터 값만 맞는 것이 아니라
+시간도 정확해야 한다.</p>
+
+<hr>
+
+<h1 id="4-ros-2-header">4. ROS 2 Header</h1>
+
+<p>ROS 2 sensor message에는 자주:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>std_msgs/Header
+</code></pre></div></div>
+
+<p>가 들어간다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sensor_msgs/msg/Imu
+
+header
+angular_velocity
+linear_acceleration
+...
+</code></pre></div></div>
+
+<p>Header에는 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>stamp
+frame_id
+</code></pre></div></div>
+
+<p>가 있다.</p>
+
+<hr>
+
+<h1 id="5-headerstamp">5. <code class="language-plaintext highlighter-rouge">header.stamp</code>
+</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msg.header.stamp
+</code></pre></div></div>
+
+<p>는 이 sensor message의 시간 정보를 나타낸다.</p>
+
+<p>FAST-LIO2 같은 sensor fusion algorithm은
+이 timestamp를 이용해 LiDAR와 IMU를 정렬할 수 있다.</p>
+
+<hr>
+
+<h1 id="6-frame_id">6. <code class="language-plaintext highlighter-rouge">frame_id</code>
+</h1>
+
+<p>Header의 또 다른 중요한 값:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>frame_id
+</code></pre></div></div>
+
+<p>는 이 데이터가 어느 coordinate frame 기준인지 나타낸다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>frame_id = imu_link
+</code></pre></div></div>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Timestamp
+→ 언제?
+
+Frame ID
+→ 어디 기준?
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="7-sensor-fusion에서-시간-오차">7. Sensor Fusion에서 시간 오차</h1>
+
+<p>예를 들어 로봇이 회전하고 있다고 하자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>t = 0.00 s
+orientation = 0 deg
+
+t = 0.10 s
+orientation = 20 deg
+</code></pre></div></div>
+
+<p>10 Hz 수준으로 빠르게 움직이면 100 ms 동안 20도나 회전할 수 있다.</p>
+
+<p>그런데 LiDAR와 IMU timestamp가 100 ms 어긋나면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR는 과거 자세
+IMU는 현재 자세
+</code></pre></div></div>
+
+<p>를 섞게 된다.</p>
+
+<p>결과:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Map distortion
+Pose error
+Deskew failure
+</code></pre></div></div>
+
+<p>가 발생할 수 있다.</p>
+
+<hr>
+
+<h1 id="8-lidar-deskew와-timestamp">8. LiDAR Deskew와 Timestamp</h1>
+
+<p>LiDAR 한 scan은 순간적으로 생성되는 것이 아니다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Scan Start
+t = 0.000
+
+Point 1
+Point 2
+Point 3
+...
+
+Scan End
+t = 0.100
+</code></pre></div></div>
+
+<p>즉 하나의 scan 안에서도 point마다 측정 시간이 다를 수 있다.</p>
+
+<hr>
+
+<h1 id="9-motion-distortion">9. Motion Distortion</h1>
+
+<p>로봇이 scan 도중 움직이면 point cloud가 찌그러질 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot Moving
+
+Point A measured at t=0.00
+Point B measured at t=0.05
+Point C measured at t=0.10
+</code></pre></div></div>
+
+<p>이 point들을 마치 같은 시점에 찍었다고 가정하면 distortion이 생긴다.</p>
+
+<hr>
+
+<h1 id="10-deskew">10. Deskew</h1>
+
+<p>Deskew는 각 point의 측정 시점을 고려해서
+motion을 보정하는 과정이다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Point Timestamp
+        +
+IMU Motion
+        ↓
+Deskew
+        ↓
+Corrected Point Cloud
+</code></pre></div></div>
+
+<p>FAST-LIO2에서 중요한 과정 중 하나다.</p>
+
+<hr>
+
+<h1 id="11-imu가-왜-시간-해상도가-높은가">11. IMU가 왜 시간 해상도가 높은가?</h1>
+
+<p>IMU는 보통 LiDAR보다 훨씬 높은 frequency로 측정한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+10 Hz
+
+IMU
+200 Hz
+</code></pre></div></div>
+
+<p>그러면 LiDAR scan 사이에 많은 IMU measurement가 존재한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Scan
+|----------------|
+
+IMU
+| | | | | | | | |
+</code></pre></div></div>
+
+<p>이 IMU를 이용해서 scan 내부 motion을 추정한다.</p>
+
+<hr>
+
+<h1 id="12-frequency와-period">12. Frequency와 Period</h1>
+
+<p>Frequency가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>200 Hz
+</code></pre></div></div>
+
+<p>이면 초당 200번 측정한다.</p>
+
+<p>Period는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 / 200
+=
+0.005 s
+=
+5 ms
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>즉 IMU measurement가 약 5 ms마다 들어온다.</p>
+
+<hr>
+
+<h1 id="13-여러-sensor-clock">13. 여러 Sensor Clock</h1>
+
+<p>문제는 모든 sensor가 같은 clock을 사용하지 않을 수 있다는 점이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Clock
+Camera Clock
+IMU Clock
+Jetson Clock
+Xavier Clock
+MCU Clock
+</code></pre></div></div>
+
+<p>각각 독립적인 oscillator를 가질 수 있다.</p>
+
+<hr>
+
+<h1 id="14-clock-drift">14. Clock Drift</h1>
+
+<p>두 clock은 처음에는 같은 시간을 가리켜도
+시간이 지나면서 조금씩 차이가 날 수 있다.</p>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Clock Drift
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Start
+
+Clock A = 0.000
+Clock B = 0.000
+
+1 hour later
+
+Clock A = 3600.000
+Clock B = 3600.120
+</code></pre></div></div>
+
+<p>120 ms 차이가 생길 수도 있다.</p>
+
+<hr>
+
+<h1 id="15-clock-offset">15. Clock Offset</h1>
+
+<p>두 clock 사이의 현재 시간 차이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Clock Offset
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson clock = 10:00:00.000
+LiDAR clock  = 10:00:00.050
+</code></pre></div></div>
+
+<p>Offset:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+50 ms
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="16-offset와-drift-차이">16. Offset와 Drift 차이</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Offset
+→ 지금 얼마나 차이 나는가?
+
+Drift
+→ 시간이 지나면서 차이가 얼마나 변하는가?
+</code></pre></div></div>
+
+<p>둘 다 중요하다.</p>
+
+<hr>
+
+<h1 id="17-system-clock">17. System Clock</h1>
+
+<p>Linux computer는 system clock을 가진다.</p>
+
+<p>확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">date</span>
+</code></pre></div></div>
+
+<p>더 자세히:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>timedatectl
+</code></pre></div></div>
+
+<p>을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="18-timedatectl">18. <code class="language-plaintext highlighter-rouge">timedatectl</code>
+</h1>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>timedatectl
+</code></pre></div></div>
+
+<p>확인할 수 있는 것:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Local time
+Universal time
+RTC time
+Time zone
+NTP status
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="19-rtc">19. RTC</h1>
+
+<p>RTC는:</p>
+
+<p><strong>Real-Time Clock</strong></p>
+
+<p>이다.</p>
+
+<p>Computer가 꺼져 있어도 시간을 유지하는 hardware clock이다.</p>
+
+<p>Boot 시 system time을 초기화하는 데 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="20-system-clock-vs-hardware-clock">20. System Clock vs Hardware Clock</h1>
+
+<p>단순화하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware RTC
+      ↓
+Boot
+      ↓
+Linux System Clock
+</code></pre></div></div>
+
+<p>그리고 system clock은 NTP/PTP 등에 의해 보정될 수 있다.</p>
+
+<hr>
+
+<h1 id="21-utc">21. UTC</h1>
+
+<p>분산 시스템에서는 local timezone보다
+UTC를 기준으로 관리하는 것이 일반적으로 편리하다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Korea Local Time
+UTC+9
+</code></pre></div></div>
+
+<p>하지만 sensor fusion에서 중요한 것은 timezone 자체보다
+각 장치의 timestamp가 동일한 기준에 맞는지다.</p>
+
+<hr>
+
+<h1 id="22-ntp">22. NTP</h1>
+
+<p>NTP는:</p>
+
+<p><strong>Network Time Protocol</strong></p>
+
+<p>이다.</p>
+
+<p>Network를 통해 computer clock을 동기화한다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Time Server
+     │
+     ▼
+   Network
+     │
+     ├── Xavier
+     ├── Orin
+     └── Laptop
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="23-ntp가-필요한-이유">23. NTP가 필요한 이유</h1>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Xavier
+FAST-LIO2
+
+Orin
+Camera AI
+</code></pre></div></div>
+
+<p>가 서로 다른 computer라면 clock이 다를 수 있다.</p>
+
+<p>NTP를 사용하면 이 clock 차이를 줄일 수 있다.</p>
+
+<hr>
+
+<h1 id="24-ntp는-어느-정도-정확한가">24. NTP는 어느 정도 정확한가?</h1>
+
+<p>NTP 정확도는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Network latency
+Network jitter
+Server quality
+Configuration
+</code></pre></div></div>
+
+<p>등에 따라 달라진다.</p>
+
+<p>일반 computer synchronization에는 충분한 경우가 많지만
+고정밀 sensor fusion에서는 더 높은 정확도가 필요할 수 있다.</p>
+
+<hr>
+
+<h1 id="25-ptp">25. PTP</h1>
+
+<p>PTP는:</p>
+
+<p><strong>Precision Time Protocol</strong></p>
+
+<p>이다.</p>
+
+<p>NTP보다 더 높은 정밀도의 clock synchronization을 목표로 한다.</p>
+
+<p>Industrial automation, robotics, telecom 등에서 사용된다.</p>
+
+<hr>
+
+<h1 id="26-ntp-vs-ptp">26. NTP vs PTP</h1>
+
+<p>단순 비교:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>NTP</th>
+      <th>PTP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>일반 network time sync</td>
+      <td>고정밀 time sync</td>
+    </tr>
+    <tr>
+      <td>설정 비교적 단순</td>
+      <td>설정 복잡</td>
+    </tr>
+    <tr>
+      <td>일반 server sync</td>
+      <td>산업/센서 sync</td>
+    </tr>
+    <tr>
+      <td>software timestamp 가능</td>
+      <td>hardware timestamp 활용 가능</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="27-ptp-clock-structure">27. PTP Clock Structure</h1>
+
+<p>PTP에서는 일반적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Grandmaster Clock
+       │
+       ▼
+    Network
+       │
+       ├── Device A
+       ├── Device B
+       └── Device C
+</code></pre></div></div>
+
+<p>구조를 사용한다.</p>
+
+<hr>
+
+<h1 id="28-grandmaster">28. Grandmaster</h1>
+
+<p>Grandmaster는 전체 PTP network의 기준 clock 역할을 한다.</p>
+
+<p>다른 device들은 이 clock에 맞춘다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Grandmaster
+    │
+    ▼
+Jetson
+LiDAR
+Camera
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="29-hardware-timestamp">29. Hardware Timestamp</h1>
+
+<p>Network packet timestamp를 software에서 찍는 대신
+NIC hardware에서 직접 기록할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Packet arrives
+      │
+      ▼
+NIC Hardware
+      │
+Timestamp
+      │
+      ▼
+Kernel
+</code></pre></div></div>
+
+<p>이를 hardware timestamping이라고 한다.</p>
+
+<hr>
+
+<h1 id="30-software-timestamp">30. Software Timestamp</h1>
+
+<p>Software timestamp는 packet이 kernel이나 application layer에 도착한 뒤
+시간을 기록할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Physical Arrival
+     ↓
+Driver
+     ↓
+Kernel
+     ↓
+Application
+     ↓
+Timestamp
+</code></pre></div></div>
+
+<p>중간 processing delay가 포함될 수 있다.</p>
+
+<hr>
+
+<h1 id="31-hardware-timestamp-장점">31. Hardware Timestamp 장점</h1>
+
+<p>Hardware timestamp는 실제 physical packet arrival 시점과 더 가까운 시간을 기록할 수 있다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Network jitter 영향 감소
+Software scheduling 영향 감소
+</code></pre></div></div>
+
+<p>효과가 있다.</p>
+
+<hr>
+
+<h1 id="32-lidar-hardware-synchronization">32. LiDAR Hardware Synchronization</h1>
+
+<p>고급 LiDAR는 다음 입력을 지원할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PTP
+PPS
+GPS
+Trigger
+</code></pre></div></div>
+
+<p>이를 통해 sensor clock을 외부 기준에 맞출 수 있다.</p>
+
+<hr>
+
+<h1 id="33-pps">33. PPS</h1>
+
+<p>PPS는:</p>
+
+<p><strong>Pulse Per Second</strong></p>
+
+<p>이다.</p>
+
+<p>정확히 1초마다 pulse signal을 보낸다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPS Receiver
+      │
+      │ PPS
+      ▼
+LiDAR / IMU
+</code></pre></div></div>
+
+<p>정확한 초 경계를 맞추는 데 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="34-gps-time-synchronization">34. GPS Time Synchronization</h1>
+
+<p>GPS receiver는 매우 정확한 time source가 될 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPS
+ │
+ ├── Time Message
+ └── PPS
+      │
+      ▼
+Sensor
+</code></pre></div></div>
+
+<p>야외 autonomous system에서 많이 사용된다.</p>
+
+<hr>
+
+<h1 id="35-trigger-synchronization">35. Trigger Synchronization</h1>
+
+<p>Camera 여러 대를 동시에 촬영하려면
+hardware trigger를 사용할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Trigger Generator
+       │
+       ├── Camera A
+       ├── Camera B
+       └── Camera C
+</code></pre></div></div>
+
+<p>같은 signal로 exposure timing을 맞춘다.</p>
+
+<hr>
+
+<h1 id="36-software-sync-vs-hardware-sync">36. Software Sync vs Hardware Sync</h1>
+
+<h2 id="software-sync">Software Sync</h2>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Timestamp 비교 후
+가장 가까운 데이터를 매칭
+</code></pre></div></div>
+
+<p>장점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>구현 쉬움
+추가 wiring 적음
+</code></pre></div></div>
+
+<p>단점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>정확도 제한
+Clock drift 영향
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="hardware-sync">Hardware Sync</h2>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>같은 clock / trigger 사용
+</code></pre></div></div>
+
+<p>장점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>정확한 synchronization
+</code></pre></div></div>
+
+<p>단점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware 구성 복잡
+Sensor support 필요
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="37-exact-synchronization">37. Exact Synchronization</h1>
+
+<p>두 message timestamp가 정확히 같을 때만 pair를 만든다고 하자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR 10.000
+IMU   10.000
+</code></pre></div></div>
+
+<p>이런 방식은 strict하다.</p>
+
+<p>실제 sensor frequency가 다르면 exact match가 어려울 수 있다.</p>
+
+<hr>
+
+<h1 id="38-approximate-synchronization">38. Approximate Synchronization</h1>
+
+<p>가까운 timestamp끼리 매칭하는 방법도 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+10.000
+
+LiDAR
+10.006
+</code></pre></div></div>
+
+<p>6 ms 차이 안에서 acceptable하다고 판단할 수 있다.</p>
+
+<hr>
+
+<h1 id="39-ros-message-filters">39. ROS Message Filters</h1>
+
+<p>ROS ecosystem에서는 여러 message를 timestamp 기준으로 동기화하는 helper를 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+    \
+     \
+      Synchronizer
+     /
+LiDAR
+</code></pre></div></div>
+
+<p>Exact / Approximate sync concept을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="40-fast-lio2의-sync">40. FAST-LIO2의 Sync</h1>
+
+<p>FAST-LIO2에서는 LiDAR와 IMU data를 buffer에 저장한 뒤
+시간 기준으로 묶어서 processing한다.</p>
+
+<p>개념:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR Buffer
+      │
+      ├── scan t0
+      ├── scan t1
+      └── scan t2
+
+IMU Buffer
+      │
+      ├── many IMU measurements
+      └── ...
+
+        ↓
+
+sync_packages()
+
+        ↓
+
+LiDAR scan
++
+corresponding IMU measurements
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="41-sync_packages">41. <code class="language-plaintext highlighter-rouge">sync_packages</code>
+</h1>
+
+<p>이름 그대로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sync
+=
+synchronize
+
+packages
+=
+sensor data bundles
+</code></pre></div></div>
+
+<p>라고 이해할 수 있다.</p>
+
+<p>FAST-LIO2에서 LiDAR scan과 해당 시간 구간의 IMU를 맞추는 역할을 한다.</p>
+
+<hr>
+
+<h1 id="42-timestamp가-이상하면-생기는-현상">42. Timestamp가 이상하면 생기는 현상</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR time jumps backward
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU timestamp ahead of LiDAR
+</code></pre></div></div>
+
+<p>등이 발생하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Buffer 문제
+Sync 실패
+Deskew 이상
+Pose jump
+Map distortion
+</code></pre></div></div>
+
+<p>가 생길 수 있다.</p>
+
+<hr>
+
+<h1 id="43-monotonic-time">43. Monotonic Time</h1>
+
+<p>일부 algorithm에서는 시간이 항상 앞으로 증가해야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.0
+1.1
+1.2
+1.3
+</code></pre></div></div>
+
+<p>이런 clock을 monotonic하게 본다.</p>
+
+<hr>
+
+<h1 id="44-wall-clock">44. Wall Clock</h1>
+
+<p>사람이 보는 실제 날짜/시간:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2026-09-05 21:00
+</code></pre></div></div>
+
+<p>같은 clock이다.</p>
+
+<p>NTP correction 등으로 시간이 조금 조정될 수 있다.</p>
+
+<hr>
+
+<h1 id="45-monotonic-clock과-wall-clock-차이">45. Monotonic Clock과 Wall Clock 차이</h1>
+
+<p>Wall clock은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NTP correction
+manual change
+timezone
+</code></pre></div></div>
+
+<p>등의 영향을 받을 수 있다.</p>
+
+<p>Monotonic clock은 elapsed time 계산에 더 적합하다.</p>
+
+<hr>
+
+<h1 id="46-ros-time">46. ROS Time</h1>
+
+<p>ROS에서는 clock source를 추상화해서 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>System Time
+ROS Time
+Steady Time
+</code></pre></div></div>
+
+<p>등을 구분할 수 있다.</p>
+
+<hr>
+
+<h1 id="47-simulation-time">47. Simulation Time</h1>
+
+<p>Isaac Sim이나 Gazebo 같은 simulator에서는 실제 wall clock 대신:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Simulation Time
+</code></pre></div></div>
+
+<p>을 사용할 수 있다.</p>
+
+<p>ROS 2 parameter:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use_sim_time
+</code></pre></div></div>
+
+<p>를 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="48-clock">48. <code class="language-plaintext highlighter-rouge">/clock</code>
+</h1>
+
+<p>Simulation에서는 <code class="language-plaintext highlighter-rouge">/clock</code> topic을 통해 simulated time을 제공할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Simulator
+   │
+   │ /clock
+   ▼
+ROS 2 Nodes
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="49-use_sim_time">49. <code class="language-plaintext highlighter-rouge">use_sim_time</code>
+</h1>
+
+<p>Node가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use_sim_time=true
+</code></pre></div></div>
+
+<p>이면 system clock 대신 simulation clock을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="50-simulation에서-시간-문제가-중요한-이유">50. Simulation에서 시간 문제가 중요한 이유</h1>
+
+<p>Simulator가 pause되면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Simulation Time stops
+</code></pre></div></div>
+
+<p>할 수 있다.</p>
+
+<p>실제 wall clock은 계속 흐른다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sim time
+≠
+wall clock
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="51-bag-replay와-time">51. Bag Replay와 Time</h1>
+
+<p>rosbag replay에서도 recorded timestamp를 기준으로
+과거 sensor data를 재생할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Recorded Data
+      │
+      ▼
+Replay
+      │
+      ▼
+ROS Nodes
+</code></pre></div></div>
+
+<p>시간을 실제보다 빠르게/느리게 재생할 수도 있다.</p>
+
+<hr>
+
+<h1 id="52-timestamp-source">52. Timestamp Source</h1>
+
+<p>Sensor message timestamp가 어디에서 생성되는지 반드시 확인해야 한다.</p>
+
+<p>가능한 source:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor hardware
+Driver receipt time
+Kernel timestamp
+Jetson system clock
+MCU clock
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="53-receipt-time">53. Receipt Time</h1>
+
+<p>Driver가 message를 받은 순간:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>now()
+</code></pre></div></div>
+
+<p>를 timestamp로 넣는 경우가 있을 수 있다.</p>
+
+<p>하지만 이는 실제 measurement time과 다르다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor measures at 10.000
+Network delay
+Driver receives at 10.010
+</code></pre></div></div>
+
+<p>Receipt timestamp:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>10.010
+</code></pre></div></div>
+
+<p>measurement timestamp:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>10.000
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="54-왜-measurement-time이-더-중요할까">54. 왜 Measurement Time이 더 중요할까?</h1>
+
+<p>Sensor fusion에서는:</p>
+
+<blockquote>
+  <p>언제 packet을 받았는가?</p>
+</blockquote>
+
+<p>보다:</p>
+
+<blockquote>
+  <p>실제 물리량을 언제 측정했는가?</p>
+</blockquote>
+
+<p>가 더 중요하다.</p>
+
+<hr>
+
+<h1 id="55-lidar-packet-time">55. LiDAR Packet Time</h1>
+
+<p>LiDAR는 하나의 full point cloud가 한 packet으로 오는 것이 아닐 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Packet 1
+Packet 2
+Packet 3
+...
+</code></pre></div></div>
+
+<p>각 packet과 point에 timing information이 있을 수 있다.</p>
+
+<p>Driver가 이를 이용해 full scan timestamp를 계산한다.</p>
+
+<hr>
+
+<h1 id="56-camera-exposure-time">56. Camera Exposure Time</h1>
+
+<p>Camera에서도 timestamp가 단순히 “image message 생성 시각”만 의미하는 것이 아닐 수 있다.</p>
+
+<p>실제로 중요한 것은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Exposure Start
+Exposure End
+Frame Readout
+Driver Arrival
+</code></pre></div></div>
+
+<p>등이다.</p>
+
+<p>Rolling shutter camera에서는 특히 더 중요하다.</p>
+
+<hr>
+
+<h1 id="57-rolling-shutter">57. Rolling Shutter</h1>
+
+<p>Rolling shutter camera는 image 전체를 같은 순간에 촬영하지 않는다.</p>
+
+<p>위쪽 row와 아래쪽 row의 exposure time이 다를 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Top row    t=0.000
+Middle     t=0.005
+Bottom     t=0.010
+</code></pre></div></div>
+
+<p>빠른 motion에서는 image distortion이 생길 수 있다.</p>
+
+<hr>
+
+<h1 id="58-global-shutter">58. Global Shutter</h1>
+
+<p>Global shutter는 전체 sensor가 거의 같은 시점에 exposure된다.</p>
+
+<p>빠른 robot motion에서 geometry 측면에서 유리할 수 있다.</p>
+
+<hr>
+
+<h1 id="59-joint-encoder-time">59. Joint Encoder Time</h1>
+
+<p>Quadruped에서 leg odometry를 사용한다면 joint encoder timestamp도 중요하다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Joint Angle q
+Joint Velocity qdot
+Foot Contact
+</code></pre></div></div>
+
+<p>이 data가 IMU와 같은 시점이어야 body motion을 정확히 추정할 수 있다.</p>
+
+<hr>
+
+<h1 id="60-contact-timing">60. Contact Timing</h1>
+
+<p>사족보행에서는 foot contact state 변화가 빠르다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Swing
+   ↓
+Touchdown
+   ↓
+Stance
+</code></pre></div></div>
+
+<p>contact timestamp가 늦으면
+실제로는 stance인데 estimator는 아직 swing으로 판단할 수 있다.</p>
+
+<hr>
+
+<h1 id="61-gait-aware-estimation과-timing">61. Gait-aware Estimation과 Timing</h1>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU
+Joint Encoder
+Foot Contact
+LiDAR
+     │
+     ▼
+Time Synchronization
+     │
+     ▼
+State Estimator
+</code></pre></div></div>
+
+<p>Quadruped SLAM에서는 sensor 종류가 많아질수록 timing이 더 중요해진다.</p>
+
+<hr>
+
+<h1 id="62-multi-computer-sensor-fusion">62. Multi-Computer Sensor Fusion</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Xavier
+LiDAR + IMU
+
+Orin
+Camera
+</code></pre></div></div>
+
+<p>두 computer에서 data를 생성하고 ROS 2로 fusion한다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Xavier Clock
+Orin Clock
+</code></pre></div></div>
+
+<p>이 맞아야 한다.</p>
+
+<hr>
+
+<h1 id="63-network-delay">63. Network Delay</h1>
+
+<p>ROS 2 message 전달에는 delay가 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor measured
+     │
+     ▼
+Driver
+     │
+     ▼
+DDS
+     │
+     ▼
+Network
+     │
+     ▼
+Subscriber
+</code></pre></div></div>
+
+<p>이 latency와 measurement timestamp를 구분해야 한다.</p>
+
+<hr>
+
+<h1 id="64-timestamp와-arrival-time은-다르다">64. Timestamp와 Arrival Time은 다르다</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Measurement Time = 10.000
+Arrival Time     = 10.015
+</code></pre></div></div>
+
+<p>15 ms network/processing delay가 있다.</p>
+
+<p>Sensor fusion에서는 보통 measurement timestamp를 사용한다.</p>
+
+<hr>
+
+<h1 id="65-latency-compensation">65. Latency Compensation</h1>
+
+<p>실시간 system에서는 sensor latency를 측정하고
+필요한 경우 estimator에서 보상할 수도 있다.</p>
+
+<p>하지만 먼저:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Latency가 얼마인지 측정
+Timestamp source 확인
+</code></pre></div></div>
+
+<p>이 필요하다.</p>
+
+<hr>
+
+<h1 id="66-out-of-order-message">66. Out-of-Order Message</h1>
+
+<p>Network 상황에 따라 message가 예상 순서와 다르게 도착할 수도 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Message t=10.2 arrives
+then
+Message t=10.1 arrives
+</code></pre></div></div>
+
+<p>Algorithm이 이런 상황을 처리할 수 있어야 할 수 있다.</p>
+
+<hr>
+
+<h1 id="67-queue">67. Queue</h1>
+
+<p>ROS 2와 sensor driver는 message queue를 사용할 수 있다.</p>
+
+<p>Processing이 느리면 오래된 message가 queue에 쌓인다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor
+  ↓
+Queue
+1
+2
+3
+4
+5
+...
+  ↓
+Slow Processing
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="68-queue-delay">68. Queue Delay</h1>
+
+<p>Queue가 너무 길면 최신 sensor data가 아니라
+과거 data를 처리하게 될 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Current Time = 10.500
+
+Processing Message Timestamp = 10.100
+</code></pre></div></div>
+
+<p>400 ms 뒤처진 상태다.</p>
+
+<hr>
+
+<h1 id="69-real-time-sensor-pipeline">69. Real-Time Sensor Pipeline</h1>
+
+<p>좋은 pipeline은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor measures
+    ↓
+Timestamp
+    ↓
+Transfer
+    ↓
+Processing
+    ↓
+Output
+</code></pre></div></div>
+
+<p>의 각 delay를 이해해야 한다.</p>
+
+<hr>
+
+<h1 id="70-end-to-end-latency">70. End-to-End Latency</h1>
+
+<p>전체 delay:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor measurement
+        ↓
+Driver
+        ↓
+ROS 2
+        ↓
+Algorithm
+        ↓
+Control
+</code></pre></div></div>
+
+<p>까지의 시간을 end-to-end latency라고 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="71-timestamp-debugging">71. Timestamp Debugging</h1>
+
+<p>Sensor fusion 문제가 의심되면 다음을 확인한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Sensor timestamp source?
+2. Unit correct?
+3. Clock domain same?
+4. Timestamp monotonic?
+5. Offset?
+6. Drift?
+7. Network delay?
+8. Queue delay?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="72-unit-문제">72. Unit 문제</h1>
+
+<p>Timestamp 단위가 다를 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seconds
+milliseconds
+microseconds
+nanoseconds
+</code></pre></div></div>
+
+<p>변환을 잘못하면 큰 문제가 생긴다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 second
+=
+1000 milliseconds
+=
+1,000,000 microseconds
+=
+1,000,000,000 nanoseconds
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="73-millisecond">73. Millisecond</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ms
+=
+10^-3 seconds
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>5 ms
+=
+0.005 s
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="74-microsecond">74. Microsecond</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>us
+=
+10^-6 seconds
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="75-nanosecond">75. Nanosecond</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ns
+=
+10^-9 seconds
+</code></pre></div></div>
+
+<p>ROS 2 timestamp에서 nanosecond 단위를 자주 본다.</p>
+
+<hr>
+
+<h1 id="76-timestamp-overflow">76. Timestamp Overflow</h1>
+
+<p>작은 integer type으로 timestamp를 저장하면
+오래 실행했을 때 overflow가 날 수도 있다.</p>
+
+<p>그래서 데이터 type도 중요하다.</p>
+
+<hr>
+
+<h1 id="77-clock-reset">77. Clock Reset</h1>
+
+<p>Sensor reboot나 driver restart 후 timestamp가 다시 0부터 시작할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100.1
+100.2
+100.3
+0.0
+0.1
+</code></pre></div></div>
+
+<p>Algorithm이 이런 reset을 처리하지 못하면 문제가 생긴다.</p>
+
+<hr>
+
+<h1 id="78-ros-bag으로-timing-분석">78. ROS Bag으로 Timing 분석</h1>
+
+<p>센서 topic을 rosbag으로 저장한 뒤
+timestamp 간 차이를 분석할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR stamp
+IMU stamp
+Joint stamp
+</code></pre></div></div>
+
+<p>간의 delta를 계산한다.</p>
+
+<hr>
+
+<h1 id="79-timing-histogram">79. Timing Histogram</h1>
+
+<p>예를 들어 LiDAR와 가장 가까운 IMU timestamp 차이를 계산한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.8 ms
+1.2 ms
+0.5 ms
+4.3 ms
+...
+</code></pre></div></div>
+
+<p>Histogram으로 보면 synchronization quality를 평가할 수 있다.</p>
+
+<hr>
+
+<h1 id="80-frequency만-보면-부족하다">80. Frequency만 보면 부족하다</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU = 200 Hz
+</code></pre></div></div>
+
+<p>라고 해도 timestamp가 불규칙할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>5 ms
+5 ms
+20 ms
+1 ms
+4 ms
+</code></pre></div></div>
+
+<p>평균 frequency만 맞아도 jitter가 클 수 있다.</p>
+
+<hr>
+
+<h1 id="81-inter-arrival-time">81. Inter-Arrival Time</h1>
+
+<p>연속 message가 도착하는 시간 간격:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>t[n] - t[n-1]
+</code></pre></div></div>
+
+<p>을 확인할 수 있다.</p>
+
+<p>이 값이 일정한지 보면 sensor timing stability를 알 수 있다.</p>
+
+<hr>
+
+<h1 id="82-measurement-interval-vs-arrival-interval">82. Measurement Interval vs Arrival Interval</h1>
+
+<p>두 개를 구분해야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Measurement Timestamp Interval
+</code></pre></div></div>
+
+<p>과:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host Arrival Interval
+</code></pre></div></div>
+
+<p>은 다를 수 있다.</p>
+
+<p>Network jitter가 있으면 arrival interval이 흔들릴 수 있다.</p>
+
+<hr>
+
+<h1 id="83-fast-lio2-debugging-example">83. FAST-LIO2 Debugging Example</h1>
+
+<p>Map이 이상하게 찌그러진다고 하자.</p>
+
+<p>확인:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR frequency normal?
+IMU frequency normal?
+Extrinsic correct?
+Timestamp monotonic?
+LiDAR-IMU offset?
+Deskew active?
+</code></pre></div></div>
+
+<p>시간 문제도 주요 원인 후보다.</p>
+
+<hr>
+
+<h1 id="84-quadruped에서-더-중요한-이유">84. Quadruped에서 더 중요한 이유</h1>
+
+<p>사족보행은 몸체 motion이 부드럽지 않을 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Foot impact
+Body vibration
+Rapid pitch/roll
+Gait transition
+</code></pre></div></div>
+
+<p>짧은 시간에도 motion 변화가 크다.</p>
+
+<p>그래서 timestamp error가 wheeled robot보다 더 크게 영향을 줄 수 있다.</p>
+
+<hr>
+
+<h1 id="85-foot-impact-example">85. Foot Impact Example</h1>
+
+<p>Touchdown 순간:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>t = 1.000
+impact
+</code></pre></div></div>
+
+<p>IMU acceleration이 크게 변한다.</p>
+
+<p>Contact timestamp가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.030
+</code></pre></div></div>
+
+<p>으로 30 ms 늦다면 estimator가 잘못된 contact constraint를 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="86-lidar--leg-odometry">86. LiDAR + Leg Odometry</h1>
+
+<p>향후 구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+IMU
+Joint Encoder
+Foot Contact
+      │
+      ▼
+Synchronization
+      │
+      ▼
+Leg Odometry
+      │
+      ▼
+State Estimator
+      │
+      ▼
+SLAM
+</code></pre></div></div>
+
+<p>이때 각 sensor clock alignment가 필수다.</p>
+
+<hr>
+
+<h1 id="87-time-calibration">87. Time Calibration</h1>
+
+<p>Sensor 간 일정한 time offset이 있다면
+이를 calibration parameter처럼 추정할 수도 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera timestamp
+=
+IMU timestamp + 8 ms
+</code></pre></div></div>
+
+<p>이 offset을 보정하는 방식이다.</p>
+
+<hr>
+
+<h1 id="88-temporal-calibration">88. Temporal Calibration</h1>
+
+<p>Spatial calibration:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor A와 B의 위치/회전 관계
+</code></pre></div></div>
+
+<p>Temporal calibration:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor A와 B의 시간 관계
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>둘 다 sensor fusion에 중요하다.</p>
+
+<hr>
+
+<h1 id="89-spatial--temporal-calibration">89. Spatial + Temporal Calibration</h1>
+
+<p>Sensor fusion을 정확히 하려면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Where?
++
+When?
+</code></pre></div></div>
+
+<p>을 모두 알아야 한다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Extrinsic Calibration
++
+Time Synchronization
+</code></pre></div></div>
+
+<p>이 필요하다.</p>
+
+<hr>
+
+<h1 id="90-linux에서-time-확인-명령어">90. Linux에서 Time 확인 명령어</h1>
+
+<p>현재 시간:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">date</span>
+</code></pre></div></div>
+
+<p>상태:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>timedatectl
+</code></pre></div></div>
+
+<p>NTP 관련:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>timedatectl status
+</code></pre></div></div>
+
+<p>환경에 따라:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chronyc tracking
+</code></pre></div></div>
+
+<p>등을 사용할 수도 있다.</p>
+
+<hr>
+
+<h1 id="91-chrony">91. <code class="language-plaintext highlighter-rouge">chrony</code>
+</h1>
+
+<p>Linux에서 NTP synchronization을 위해 <code class="language-plaintext highlighter-rouge">chrony</code>를 사용하는 경우가 많다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chronyc tracking
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chronyc sources
+</code></pre></div></div>
+
+<p>로 synchronization 상태를 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="92-ptp-linux-tools">92. PTP Linux Tools</h1>
+
+<p>PTP를 사용할 때:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ptp4l
+phc2sys
+</code></pre></div></div>
+
+<p>같은 tool을 볼 수 있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ptp4l</code>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PTP network synchronization
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">phc2sys</code>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PTP Hardware Clock과 system clock sync
+</code></pre></div></div>
+
+<p>에 사용될 수 있다.</p>
+
+<hr>
+
+<h1 id="93-phc">93. PHC</h1>
+
+<p>PHC는:</p>
+
+<p><strong>PTP Hardware Clock</strong></p>
+
+<p>이다.</p>
+
+<p>Network card가 자체 hardware clock을 제공할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NIC
+ └── PHC
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="94-ptp-전체-구조-예">94. PTP 전체 구조 예</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Grandmaster
+     │
+     │ PTP
+     ▼
+Jetson NIC PHC
+     │
+     ▼
+phc2sys
+     │
+     ▼
+Linux System Clock
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="95-robot-time-architecture-문서화">95. Robot Time Architecture 문서화</h1>
+
+<p>실제 robot에서는 다음을 문서화하면 좋다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Device</th>
+      <th>Clock Source</th>
+      <th>Sync Method</th>
+      <th>Timestamp Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Xavier</td>
+      <td>System clock</td>
+      <td>NTP/PTP</td>
+      <td>Linux time</td>
+    </tr>
+    <tr>
+      <td>Orin</td>
+      <td>System clock</td>
+      <td>NTP/PTP</td>
+      <td>Linux time</td>
+    </tr>
+    <tr>
+      <td>LiDAR</td>
+      <td>Internal/PTP</td>
+      <td>PTP</td>
+      <td>Sensor time</td>
+    </tr>
+    <tr>
+      <td>IMU</td>
+      <td>Sensor clock</td>
+      <td>driver sync</td>
+      <td>Sensor time</td>
+    </tr>
+    <tr>
+      <td>Camera</td>
+      <td>Sensor/host</td>
+      <td>trigger/PTP</td>
+      <td>Exposure time</td>
+    </tr>
+    <tr>
+      <td>MCU</td>
+      <td>MCU clock</td>
+      <td>custom sync</td>
+      <td>MCU timestamp</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="96-debugging-checklist">96. Debugging Checklist</h1>
+
+<p>Sensor fusion 문제가 있으면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ ] All clocks synchronized?
+[ ] Timestamp source known?
+[ ] Timestamp units correct?
+[ ] No time jumps?
+[ ] No clock reset?
+[ ] Offset measured?
+[ ] Drift measured?
+[ ] Queue latency low?
+[ ] Network jitter acceptable?
+[ ] Hardware sync available?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="97-mini-practice-1">97. Mini Practice 1</h1>
+
+<p>Jetson에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">date</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>timedatectl
+</code></pre></div></div>
+
+<p>실행.</p>
+
+<p>Xavier와 Orin의 시간을 비교한다.</p>
+
+<hr>
+
+<h1 id="98-mini-practice-2">98. Mini Practice 2</h1>
+
+<p>ROS 2 sensor topic:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic <span class="nb">echo</span> /imu <span class="nt">--once</span>
+</code></pre></div></div>
+
+<p>또는 환경에 맞는 방식으로 header timestamp를 확인한다.</p>
+
+<p>확인:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>header.stamp.sec
+header.stamp.nanosec
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="99-mini-practice-3">99. Mini Practice 3</h1>
+
+<p>LiDAR와 IMU topic의 timestamp를 각각 기록하고
+시간 차이를 확인한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR:
+100.125
+
+Nearest IMU:
+100.123
+
+Difference:
+2 ms
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="100-mini-practice-4">100. Mini Practice 4</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic hz /imu
+</code></pre></div></div>
+
+<p>만 보지 말고
+연속 timestamp 차이도 확인한다.</p>
+
+<p>목표:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>200 Hz
+≈
+5 ms interval
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="101-오늘의-핵심">101. 오늘의 핵심</h1>
+
+<p>Sensor fusion에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Data correctness
+</code></pre></div></div>
+
+<p>뿐 아니라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Timing correctness
+</code></pre></div></div>
+
+<p>가 중요하다.</p>
+
+<p>전체 구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor
+   │
+Measurement
+   │
+Timestamp
+   │
+Transfer
+   │
+ROS 2
+   │
+Synchronization
+   │
+Estimator
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="102-반드시-구분할-것">102. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Timestamp
+≠
+Arrival Time
+
+Frequency
+≠
+Perfect Timing
+
+NTP
+≠
+PTP
+
+Software Timestamp
+≠
+Hardware Timestamp
+
+Wall Clock
+≠
+Monotonic Clock
+
+System Time
+≠
+Simulation Time
+
+Spatial Calibration
+≠
+Temporal Calibration
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="103-vision60-timing-mental-model">103. Vision60 Timing Mental Model</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                       Vision60
+
+ LiDAR Clock ────────┐
+ IMU Clock ──────────┤
+ Joint Clock ────────┤
+ Contact Clock ──────┤
+ Camera Clock ───────┤
+                     ▼
+             Time Synchronization
+                     │
+                     ▼
+                  Jetson
+                     │
+          ┌──────────┼──────────┐
+          │          │          │
+          ▼          ▼          ▼
+       FAST-LIO2  Leg Odom    Vision
+          │          │          │
+          └──────────┼──────────┘
+                     ▼
+               State Estimation
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="104-지금까지-chapter-연결">104. 지금까지 Chapter 연결</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 1
+CPU / GPU / RAM
+
+Chapter 2
+ARM64 / x86
+
+Chapter 3
+Linux
+
+Chapter 4
+Jetson / JetPack
+
+Chapter 5
+Hardware Interfaces
+
+Chapter 6
+ROS 2
+
+Chapter 7
+CUDA / TensorRT
+
+Chapter 8
+Robot Networking
+
+Chapter 9
+Docker
+
+Chapter 10
+Debugging &amp; Deployment
+
+Chapter 11
+Time Synchronization &amp; Sensor Timing
+</code></pre></div></div>
+
+<p>다음 Chapter를 추가한다면 가장 자연스러운 흐름은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 12
+Robot State Estimation Fundamentals
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>여기서는 지금까지의 sensor data와 timing을 실제로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU
+LiDAR
+Joint Encoder
+Foot Contact
+      ↓
+State Estimation
+      ↓
+Position
+Orientation
+Velocity
+Bias
+</code></pre></div></div>
+
+<p>로 만드는 과정을 배우면 된다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/edge_computing/chapter12-power-thermal-performance/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 12. Power, Thermal &amp; Performance Management</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

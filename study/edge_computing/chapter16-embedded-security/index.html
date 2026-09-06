@@ -1,0 +1,2992 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 16. Embedded Security | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter16-embedded-security/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 16. Embedded Security</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> Jetson과 robot edge computer를 network에 연결할 때 필요한 기본 security 개념을 이해한다.</p>
+
+  <p>User/Root, SSH Key, Firewall, Port, Least Privilege, Secret Management,
+TLS, Certificate, Secure Boot, Disk Encryption, Container Security,
+Software Update의 기본을 이해하고 실제 robot deployment에 연결한다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="1-robot-security는-왜-중요한가">1. Robot Security는 왜 중요한가?</h1>
+
+<p>로봇이 network에 연결되면 단순한 embedded device가 아니라
+networked computer가 된다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot
+  │
+  ├── Jetson
+  ├── Xavier
+  ├── LiDAR
+  ├── Camera
+  ├── MCU
+  └── Wi-Fi / Ethernet
+</code></pre></div></div>
+
+<p>외부에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Laptop
+Company Network
+Cloud
+Internet
+</code></pre></div></div>
+
+<p>와 연결될 수 있다.</p>
+
+<p>즉 공격 surface가 커진다.</p>
+
+<hr>
+
+<h1 id="2-attack-surface">2. Attack Surface</h1>
+
+<p>Attack Surface는:</p>
+
+<blockquote>
+  <p>공격자가 접근하거나 악용할 수 있는 모든 접점</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SSH
+Open Ports
+Web UI
+Wi-Fi
+Bluetooth
+USB
+Cloud API
+Container
+Default Password
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="3-robot은-일반-서버보다-더-위험할-수-있다">3. Robot은 일반 서버보다 더 위험할 수 있다</h1>
+
+<p>서버가 해킹되면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Data leak
+Service failure
+</code></pre></div></div>
+
+<p>가 발생할 수 있다.</p>
+
+<p>로봇은 추가로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Physical movement
+Actuator control
+Sensor manipulation
+Safety risk
+</code></pre></div></div>
+
+<p>까지 이어질 수 있다.</p>
+
+<hr>
+
+<h1 id="4-security의-기본-목표">4. Security의 기본 목표</h1>
+
+<p>보안의 핵심은 자주 다음 세 가지로 설명한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Confidentiality
+Integrity
+Availability
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="5-confidentiality">5. Confidentiality</h1>
+
+<p>허가되지 않은 사람이 데이터를 보지 못하게 하는 것.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera footage
+Map
+Robot logs
+Credentials
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="6-integrity">6. Integrity</h1>
+
+<p>데이터나 command가 임의로 변경되지 않도록 하는 것.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Navigation Command
+Firmware
+Software Update
+Config
+</code></pre></div></div>
+
+<p>가 공격자에 의해 바뀌면 위험하다.</p>
+
+<hr>
+
+<h1 id="7-availability">7. Availability</h1>
+
+<p>필요할 때 system을 정상적으로 사용할 수 있게 하는 것.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Network flooding
+Disk full
+Resource exhaustion
+</code></pre></div></div>
+
+<p>으로 robot service가 마비되면 availability 문제가 된다.</p>
+
+<hr>
+
+<h1 id="8-authentication">8. Authentication</h1>
+
+<p>Authentication은:</p>
+
+<blockquote>
+  <p>누구인지 확인하는 것</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Username + Password
+SSH Key
+Certificate
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="9-authorization">9. Authorization</h1>
+
+<p>Authorization은:</p>
+
+<blockquote>
+  <p>인증된 사용자가 무엇을 할 수 있는지 결정하는 것</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User A
+→ log read only
+
+User B
+→ service restart
+
+Admin
+→ software update
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="10-authentication-vs-authorization">10. Authentication vs Authorization</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authentication
+→ 당신은 누구인가?
+
+Authorization
+→ 무엇을 할 수 있는가?
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="11-root">11. Root</h1>
+
+<p>Linux의 root user는 매우 강력한 권한을 가진다.</p>
+
+<p>Root는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>System file 수정
+User 관리
+Network 설정
+Driver/module 관리
+Service 제어
+</code></pre></div></div>
+
+<p>등을 할 수 있다.</p>
+
+<hr>
+
+<h1 id="12-일반-user와-root-구분">12. 일반 User와 Root 구분</h1>
+
+<p>일반적으로 application을 항상 root로 실행하는 것은 좋지 않다.</p>
+
+<p>왜냐하면 application compromise가 발생했을 때:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Application compromise
+      ↓
+Root privilege
+      ↓
+Entire system compromise
+</code></pre></div></div>
+
+<p>로 이어질 수 있기 때문이다.</p>
+
+<hr>
+
+<h1 id="13-least-privilege">13. Least Privilege</h1>
+
+<p>보안에서 매우 중요한 원칙:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Least Privilege
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>의미:</p>
+
+<blockquote>
+  <p>필요한 최소한의 권한만 부여한다.</p>
+</blockquote>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera Node
+→ /dev/video0 access만 필요
+
+SLAM Node
+→ root 필요 없음
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="14-sudo">14. <code class="language-plaintext highlighter-rouge">sudo</code>
+</h1>
+
+<p><code class="language-plaintext highlighter-rouge">sudo</code>는 필요할 때 일시적으로 높은 권한으로 command를 실행하는 방법이다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl restart robot.service
+</code></pre></div></div>
+
+<p>무조건 모든 command에 <code class="language-plaintext highlighter-rouge">sudo</code>를 붙이는 습관은 좋지 않다.</p>
+
+<hr>
+
+<h1 id="15-default-password">15. Default Password</h1>
+
+<p>Robot이나 embedded device에 기본 password가 설정되어 있는 경우가 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user: admin
+password: admin
+</code></pre></div></div>
+
+<p>이 상태로 network에 연결하면 매우 위험하다.</p>
+
+<p>따라서 초기 setup에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Default password 변경
+</code></pre></div></div>
+
+<p>이 중요하다.</p>
+
+<hr>
+
+<h1 id="16-ssh-security">16. SSH Security</h1>
+
+<p>SSH는 remote shell access를 제공한다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh user@robot
+</code></pre></div></div>
+
+<p>즉 SSH access를 얻은 사용자는 robot 내부에서 command를 실행할 수 있다.</p>
+
+<hr>
+
+<h1 id="17-ssh-password-authentication">17. SSH Password Authentication</h1>
+
+<p>간단한 방식:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Username
++
+Password
+</code></pre></div></div>
+
+<p>하지만 password는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Guessing
+Reuse
+Brute Force
+Phishing
+</code></pre></div></div>
+
+<p>위험이 있다.</p>
+
+<hr>
+
+<h1 id="18-ssh-key">18. SSH Key</h1>
+
+<p>더 안전하고 편리한 방식으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SSH Public Key Authentication
+</code></pre></div></div>
+
+<p>을 많이 사용한다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Laptop
+
+Private Key
+    │
+    ▼
+
+Robot
+
+Public Key
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="19-private-key">19. Private Key</h1>
+
+<p>Private key는 절대 다른 사람에게 공개하면 안 된다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/.ssh/id_ed25519
+</code></pre></div></div>
+
+<p>이 private key를 가진 사람은
+해당 key가 허용된 system에 접근할 수 있다.</p>
+
+<hr>
+
+<h1 id="20-public-key">20. Public Key</h1>
+
+<p>Public key는 remote machine에 등록한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/.ssh/authorized_keys
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="21-ssh-key-생성">21. SSH Key 생성</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Private Key
+id_ed25519
+
+Public Key
+id_ed25519.pub
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="22-public-key-복사">22. Public Key 복사</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-copy-id user@robot-ip
+</code></pre></div></div>
+
+<p>또는 public key를 직접:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/.ssh/authorized_keys
+</code></pre></div></div>
+
+<p>에 추가할 수 있다.</p>
+
+<hr>
+
+<h1 id="23-ssh-config">23. SSH Config</h1>
+
+<p>여러 robot을 관리할 때:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/.ssh/config
+</code></pre></div></div>
+
+<p>를 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host vision60
+    HostName 192.168.10.10
+    User robot
+    IdentityFile ~/.ssh/id_ed25519
+</code></pre></div></div>
+
+<p>그러면:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh vision60
+</code></pre></div></div>
+
+<p>처럼 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="24-ssh-private-key를-github에-올리면-안-된다">24. SSH Private Key를 GitHub에 올리면 안 된다</h1>
+
+<p>절대 repository에 넣으면 안 되는 것:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Private SSH Key
+Password
+API Token
+AWS Access Key
+Cloud Credential
+Certificate Private Key
+</code></pre></div></div>
+
+<p>특히 public repository에는 매우 위험하다.</p>
+
+<hr>
+
+<h1 id="25-secret">25. Secret</h1>
+
+<p>Password, token, private key 같은 민감한 인증 정보를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Secret
+</code></pre></div></div>
+
+<p>이라고 부른다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AWS_ACCESS_KEY_ID
+API_TOKEN
+PRIVATE_KEY
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="26-secret를-code에-hard-code하지-않는다">26. Secret를 Code에 Hard-Code하지 않는다</h1>
+
+<p>나쁜 예:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">TOKEN</span> <span class="o">=</span> <span class="sh">"</span><span class="s">abc123-secret-token</span><span class="sh">"</span>
+</code></pre></div></div>
+
+<p>이 code를 Git에 올리면 secret도 함께 유출된다.</p>
+
+<hr>
+
+<h1 id="27-environment-variable">27. Environment Variable</h1>
+
+<p>Secret을 environment variable로 전달할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">API_TOKEN</span><span class="o">=</span>...
+</code></pre></div></div>
+
+<p>하지만 environment variable도 완벽하게 안전한 storage는 아니다.</p>
+
+<p>중요한 것은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Secret를 source code와 분리
+</code></pre></div></div>
+
+<p>하는 것이다.</p>
+
+<hr>
+
+<h1 id="28-env">28. <code class="language-plaintext highlighter-rouge">.env</code>
+</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>API_TOKEN=...
+ROBOT_PASSWORD=...
+</code></pre></div></div>
+
+<p>를 <code class="language-plaintext highlighter-rouge">.env</code> file에 저장할 수 있다.</p>
+
+<p>이 file은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.gitignore
+</code></pre></div></div>
+
+<p>에 넣어 Git에 올라가지 않도록 해야 한다.</p>
+
+<hr>
+
+<h1 id="29-secret-manager">29. Secret Manager</h1>
+
+<p>Production에서는 더 안전한 secret management system을 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cloud Secret Manager
+Vault
+Hardware-backed key storage
+</code></pre></div></div>
+
+<p>등.</p>
+
+<hr>
+
+<h1 id="30-port">30. Port</h1>
+
+<p>Network application은 port를 사용한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>22
+→ SSH
+
+80
+→ HTTP
+
+443
+→ HTTPS
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="31-open-port">31. Open Port</h1>
+
+<p>어떤 port에서 service가 외부 connection을 받고 있다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Open Port
+</code></pre></div></div>
+
+<p>라고 볼 수 있다.</p>
+
+<p>필요 없는 port가 열려 있으면 attack surface가 증가한다.</p>
+
+<hr>
+
+<h1 id="32-listening-port-확인">32. Listening Port 확인</h1>
+
+<p>Linux:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ss <span class="nt">-tulpen</span>
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ss <span class="nt">-tuln</span>
+</code></pre></div></div>
+
+<p>으로 listening port를 확인할 수 있다.</p>
+
+<hr>
+
+<h1 id="33-firewall">33. Firewall</h1>
+
+<p>Firewall은:</p>
+
+<blockquote>
+  <p>어떤 network traffic을 허용하고 차단할지 결정</p>
+</blockquote>
+
+<p>한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Allow SSH from company subnet
+Block unknown inbound traffic
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="34-ufw">34. UFW</h1>
+
+<p>Ubuntu에서는:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ufw
+</code></pre></div></div>
+
+<p>를 사용할 수 있다.</p>
+
+<p>상태:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>ufw status
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="35-firewall의-목적">35. Firewall의 목적</h1>
+
+<p>모든 traffic을 열어놓는 대신:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Required Traffic Only
+</code></pre></div></div>
+
+<p>를 허용하는 것이 원칙이다.</p>
+
+<hr>
+
+<h1 id="36-example">36. Example</h1>
+
+<p>Robot에서 필요한 것이:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SSH
+ROS 2 internal traffic
+Monitoring
+</code></pre></div></div>
+
+<p>뿐이라면 불필요한 web/database port는 열 필요가 없다.</p>
+
+<hr>
+
+<h1 id="37-firewall을-무작정-켜면-ros-2가-안-될-수-있다">37. Firewall을 무작정 켜면 ROS 2가 안 될 수 있다</h1>
+
+<p>ROS 2 DDS는 여러 port와 multicast를 사용할 수 있다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Firewall enabled
+      ↓
+ROS 2 discovery blocked
+</code></pre></div></div>
+
+<p>가 발생할 수 있다.</p>
+
+<p>즉 security와 connectivity를 함께 설계해야 한다.</p>
+
+<hr>
+
+<h1 id="38-network-segmentation">38. Network Segmentation</h1>
+
+<p>Robot network와 company network를 분리할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Company Network
+      │
+      ▼
+Gateway
+      │
+      ▼
+Robot Network
+</code></pre></div></div>
+
+<p>Robot sensor network를 외부에 직접 노출하지 않는 것이 좋다.</p>
+
+<hr>
+
+<h1 id="39-internal-network">39. Internal Network</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot Internal LAN
+
+Xavier
+Orin
+LiDAR
+Camera
+</code></pre></div></div>
+
+<p>이 network는 외부 internet과 직접 연결하지 않을 수 있다.</p>
+
+<hr>
+
+<h1 id="40-external-network">40. External Network</h1>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Company Wi-Fi
+Internet
+Cloud
+</code></pre></div></div>
+
+<p>외부 communication용 network다.</p>
+
+<hr>
+
+<h1 id="41-dual-interface-architecture">41. Dual Interface Architecture</h1>
+
+<p>Jetson:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eth0
+→ Robot Internal Network
+
+wlan0
+→ Company Network
+</code></pre></div></div>
+
+<p>처럼 두 network를 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="42-이런-구조의-보안-장점">42. 이런 구조의 보안 장점</h1>
+
+<p>Sensor와 low-level robot network를 외부와 분리할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Internet
+   │
+   X
+LiDAR / MCU
+</code></pre></div></div>
+
+<p>직접 접근을 막을 수 있다.</p>
+
+<hr>
+
+<h1 id="43-routing-주의">43. Routing 주의</h1>
+
+<p>Jetson이 두 network 사이에서 routing을 수행하면
+원하지 않게 internal network가 외부에 노출될 수 있다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IP forwarding
+NAT
+Firewall
+</code></pre></div></div>
+
+<p>설정을 신중히 해야 한다.</p>
+
+<hr>
+
+<h1 id="44-ros-2-security">44. ROS 2 Security</h1>
+
+<p>ROS 2는 network에서 node끼리 통신한다.</p>
+
+<p>기본 환경에서는 같은 domain/network에서
+원하지 않는 node가 discovery될 가능성을 고려해야 한다.</p>
+
+<hr>
+
+<h1 id="45-sros2">45. SROS2</h1>
+
+<p>ROS 2에는 security extension으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SROS2
+</code></pre></div></div>
+
+<p>가 있다.</p>
+
+<p>DDS Security를 활용해:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authentication
+Encryption
+Access Control
+</code></pre></div></div>
+
+<p>을 구성할 수 있다.</p>
+
+<hr>
+
+<h1 id="46-dds-security">46. DDS Security</h1>
+
+<p>DDS Security specification에는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authentication
+Access Control
+Cryptographic Protection
+</code></pre></div></div>
+
+<p>기능이 있다.</p>
+
+<p>ROS 2에서 SROS2를 통해 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="47-ros_domain_id는-security-기능이-아니다">47. ROS_DOMAIN_ID는 Security 기능이 아니다</h1>
+
+<p>매우 중요하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS_DOMAIN_ID
+</code></pre></div></div>
+
+<p>는 discovery domain을 분리하는 데 사용한다.</p>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS_DOMAIN_ID
+≠
+Authentication
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>같은 domain ID를 알아내면 접근할 수 있는 환경도 있을 수 있다.</p>
+
+<hr>
+
+<h1 id="48-ros_domain_id--방화벽이-아니다">48. ROS_DOMAIN_ID = 방화벽이 아니다</h1>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS_DOMAIN_ID=123
+</code></pre></div></div>
+
+<p>만 설정했다고:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Secure Robot Network
+</code></pre></div></div>
+
+<p>가 되는 것은 아니다.</p>
+
+<hr>
+
+<h1 id="49-encryption">49. Encryption</h1>
+
+<p>Network에서 데이터를 암호화하면
+중간에서 packet을 보더라도 내용을 쉽게 읽지 못하게 할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Plain Data
+    ↓
+Encryption
+    ↓
+Ciphertext
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="50-tls">50. TLS</h1>
+
+<p>TLS:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Transport Layer Security
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Network communication의:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Encryption
+Authentication
+Integrity
+</code></pre></div></div>
+
+<p>를 제공하는 데 사용된다.</p>
+
+<hr>
+
+<h1 id="51-https">51. HTTPS</h1>
+
+<p>HTTPS는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP
++
+TLS
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>그래서 web browser에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://
+</code></pre></div></div>
+
+<p>를 사용하는 것이다.</p>
+
+<hr>
+
+<h1 id="52-certificate">52. Certificate</h1>
+
+<p>TLS에서는 certificate를 사용해
+server/client identity를 확인할 수 있다.</p>
+
+<p>Certificate에는 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Public Key
+Identity Information
+Signature
+</code></pre></div></div>
+
+<p>등이 포함된다.</p>
+
+<hr>
+
+<h1 id="53-x509-certificate">53. X.509 Certificate</h1>
+
+<p>IoT/AWS 환경에서 자주 보는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>X.509 Certificate
+</code></pre></div></div>
+
+<p>는 public key certificate 표준이다.</p>
+
+<p>Robot device authentication에 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="54-certificate와-private-key">54. Certificate와 Private Key</h1>
+
+<p>보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Certificate
+→ 공개 가능
+
+Private Key
+→ 비밀
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Private key는 절대 외부에 노출되면 안 된다.</p>
+
+<hr>
+
+<h1 id="55-mutual-tls">55. Mutual TLS</h1>
+
+<p>일반 TLS에서는 주로 client가 server를 인증한다.</p>
+
+<p>Mutual TLS:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mTLS
+</code></pre></div></div>
+
+<p>에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Client verifies Server
++
+Server verifies Client
+</code></pre></div></div>
+
+<p>둘 다 certificate로 인증할 수 있다.</p>
+
+<p>IoT device identity에서 많이 사용된다.</p>
+
+<hr>
+
+<h1 id="56-robot-identity">56. Robot Identity</h1>
+
+<p>Fleet system에서는 각 robot에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Unique Device Identity
+</code></pre></div></div>
+
+<p>를 부여하는 것이 좋다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot 001
+→ Certificate A
+
+Robot 002
+→ Certificate B
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="57-한-credential을-모든-robot이-공유하면">57. 한 Credential을 모든 Robot이 공유하면?</h1>
+
+<p>위험하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot A compromised
+      ↓
+Shared Credential stolen
+      ↓
+Robot B/C/D도 접근 가능
+</code></pre></div></div>
+
+<p>이 될 수 있다.</p>
+
+<hr>
+
+<h1 id="58-per-device-credential">58. Per-Device Credential</h1>
+
+<p>더 좋은 구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot A → Key A
+Robot B → Key B
+Robot C → Key C
+</code></pre></div></div>
+
+<p>한 robot이 compromise되어도
+해당 credential만 revoke할 수 있다.</p>
+
+<hr>
+
+<h1 id="59-revocation">59. Revocation</h1>
+
+<p>Credential이 유출되었거나 robot이 분실되면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Revoke
+</code></pre></div></div>
+
+<p>할 수 있어야 한다.</p>
+
+<p>즉 더 이상 해당 credential을 신뢰하지 않는 것이다.</p>
+
+<hr>
+
+<h1 id="60-secure-boot">60. Secure Boot</h1>
+
+<p>Secure Boot는:</p>
+
+<blockquote>
+  <p>부팅 시 신뢰된 software만 실행되도록 검증</p>
+</blockquote>
+
+<p>하는 기술이다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Power On
+   ↓
+Boot ROM
+   ↓
+Verify Bootloader
+   ↓
+Verify Kernel
+   ↓
+Boot
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="61-왜-secure-boot가-필요할까">61. 왜 Secure Boot가 필요할까?</h1>
+
+<p>공격자가 storage를 수정해서
+악성 kernel/bootloader를 넣는 것을 막는 데 도움이 된다.</p>
+
+<hr>
+
+<h1 id="62-chain-of-trust">62. Chain of Trust</h1>
+
+<p>각 단계가 다음 단계를 cryptographically verify한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Root of Trust
+      ↓
+Bootloader
+      ↓
+Kernel
+      ↓
+OS
+</code></pre></div></div>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chain of Trust
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<hr>
+
+<h1 id="63-secure-boot가-모든-공격을-막는가">63. Secure Boot가 모든 공격을 막는가?</h1>
+
+<p>아니다.</p>
+
+<p>Secure Boot는 주로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Boot integrity
+</code></pre></div></div>
+
+<p>를 보호한다.</p>
+
+<p>Application vulnerability, stolen password 등은 별도 문제다.</p>
+
+<hr>
+
+<h1 id="64-disk-encryption">64. Disk Encryption</h1>
+
+<p>Storage를 암호화하면
+SSD를 분리해 다른 computer에서 읽더라도
+내용을 보호할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot stolen
+      ↓
+NVMe removed
+      ↓
+Encrypted Data
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="65-full-disk-encryption">65. Full Disk Encryption</h1>
+
+<p>전체 filesystem/storage를 암호화할 수 있다.</p>
+
+<p>Linux에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LUKS
+</code></pre></div></div>
+
+<p>같은 기술을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="66-disk-encryption의-trade-off">66. Disk Encryption의 Trade-off</h1>
+
+<p>장점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Data confidentiality
+</code></pre></div></div>
+
+<p>단점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Key management
+Boot complexity
+Performance overhead
+Recovery complexity
+</code></pre></div></div>
+
+<p>가 있다.</p>
+
+<hr>
+
+<h1 id="67-physical-access">67. Physical Access</h1>
+
+<p>Embedded security에서 중요한 현실:</p>
+
+<blockquote>
+  <p>공격자가 hardware를 직접 만질 수 있다.</p>
+</blockquote>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USB port
+Debug port
+SSD
+Ethernet
+Serial console
+</code></pre></div></div>
+
+<p>에 접근할 수 있다.</p>
+
+<hr>
+
+<h1 id="68-usb-security">68. USB Security</h1>
+
+<p>Robot의 외부 USB port에 아무 device나 연결할 수 있다면
+위험할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Malicious USB device
+Storage device
+Keyboard emulation
+</code></pre></div></div>
+
+<p>등.</p>
+
+<p>필요하지 않은 physical port는 제한할 수 있다.</p>
+
+<hr>
+
+<h1 id="69-debug-interface">69. Debug Interface</h1>
+
+<p>개발 board에는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UART console
+JTAG
+Recovery mode
+</code></pre></div></div>
+
+<p>같은 debug interface가 있을 수 있다.</p>
+
+<p>Production에서는 이런 interface가 공격 경로가 될 수 있다.</p>
+
+<hr>
+
+<h1 id="70-jtag">70. JTAG</h1>
+
+<p>JTAG는 hardware debugging에 사용되는 interface다.</p>
+
+<p>CPU debugging이나 firmware programming 등에 사용할 수 있다.</p>
+
+<p>강력한 access가 가능할 수 있으므로 production에서 보호가 필요하다.</p>
+
+<hr>
+
+<h1 id="71-container-security">71. Container Security</h1>
+
+<p>Docker container는 isolation을 제공하지만
+완벽한 security boundary라고 가정하면 안 된다.</p>
+
+<hr>
+
+<h1 id="72-root-container">72. Root Container</h1>
+
+<p>Container를 root로 실행하면
+container 내부에서 높은 권한을 가진다.</p>
+
+<p>Host와 device를 많이 expose한 경우 위험이 커질 수 있다.</p>
+
+<hr>
+
+<h1 id="73---privileged">73. <code class="language-plaintext highlighter-rouge">--privileged</code>
+</h1>
+
+<p>다음 옵션:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--privileged</span>
+</code></pre></div></div>
+
+<p>는 container에 매우 강한 system access를 준다.</p>
+
+<p>편하지만 보안상 위험하다.</p>
+
+<p>필요하지 않다면 피하는 것이 좋다.</p>
+
+<hr>
+
+<h1 id="74-device-최소-노출">74. Device 최소 노출</h1>
+
+<p>나쁜 방식:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--privileged</span>
+</code></pre></div></div>
+
+<p>대신 필요한 경우:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--device</span><span class="o">=</span>/dev/video0
+</code></pre></div></div>
+
+<p>처럼 필요한 device만 전달하는 것이 더 안전하다.</p>
+
+<hr>
+
+<h1 id="75-read-only-filesystem">75. Read-Only Filesystem</h1>
+
+<p>Application이 runtime에 filesystem을 수정할 필요가 없다면
+일부 filesystem을 read-only로 구성할 수도 있다.</p>
+
+<p>변조 surface를 줄일 수 있다.</p>
+
+<hr>
+
+<h1 id="76-container-image-security">76. Container Image Security</h1>
+
+<p>Container image에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Old package
+Known vulnerability
+Secret
+Debug tool
+</code></pre></div></div>
+
+<p>이 들어있을 수 있다.</p>
+
+<p>따라서 image도 관리 대상이다.</p>
+
+<hr>
+
+<h1 id="77-minimal-image">77. Minimal Image</h1>
+
+<p>Production image에는 필요한 것만 넣는 것이 좋다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Compiler
+Debug tools
+Unused package
+</code></pre></div></div>
+
+<p>가 필요 없다면 제거할 수 있다.</p>
+
+<p>Attack surface와 image size를 줄인다.</p>
+
+<hr>
+
+<h1 id="78-dependency-vulnerability">78. Dependency Vulnerability</h1>
+
+<p>사용하는 library 자체에 보안 취약점이 있을 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OpenSSL
+Python package
+ROS dependency
+System library
+</code></pre></div></div>
+
+<p>그래서 dependency version 관리와 security update가 필요하다.</p>
+
+<hr>
+
+<h1 id="79-업데이트의-딜레마">79. 업데이트의 딜레마</h1>
+
+<p>보안상:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Update regularly
+</code></pre></div></div>
+
+<p>가 중요하다.</p>
+
+<p>하지만 robot에서는 update로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Driver broken
+CUDA mismatch
+ROS incompatibility
+</code></pre></div></div>
+
+<p>가 생길 수도 있다.</p>
+
+<hr>
+
+<h1 id="80-무작정-apt-upgrade가-위험한-이유">80. 무작정 <code class="language-plaintext highlighter-rouge">apt upgrade</code>가 위험한 이유</h1>
+
+<p>Jetson은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>JetPack
+Kernel
+Driver
+CUDA
+</code></pre></div></div>
+
+<p>dependency가 밀접하다.</p>
+
+<p>무심코 system update를 하면 compatibility가 깨질 수 있다.</p>
+
+<hr>
+
+<h1 id="81-controlled-update">81. Controlled Update</h1>
+
+<p>더 좋은 방식:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Test Environment
+      ↓
+Update
+      ↓
+Regression Test
+      ↓
+Deploy
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="82-version-pinning">82. Version Pinning</h1>
+
+<p>Production에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OS Version
+JetPack Version
+Docker Image
+Application Commit
+Config
+</code></pre></div></div>
+
+<p>를 명확히 기록한다.</p>
+
+<hr>
+
+<h1 id="83-ota-update">83. OTA Update</h1>
+
+<p>OTA:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Over-The-Air Update
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Robot에 physical access 없이 network를 통해 software를 업데이트한다.</p>
+
+<hr>
+
+<h1 id="84-ota-장점">84. OTA 장점</h1>
+
+<p>Fleet이 커지면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>10 robots
+100 robots
+1000 robots
+</code></pre></div></div>
+
+<p>각 robot에 직접 USB를 연결해 업데이트하기 어렵다.</p>
+
+<p>OTA가 필요해진다.</p>
+
+<hr>
+
+<h1 id="85-ota-위험">85. OTA 위험</h1>
+
+<p>잘못된 update를 모든 robot에 동시에 배포하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fleet-wide failure
+</code></pre></div></div>
+
+<p>가 발생할 수 있다.</p>
+
+<hr>
+
+<h1 id="86-staged-rollout">86. Staged Rollout</h1>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 Robot
+   ↓
+Small Group
+   ↓
+Entire Fleet
+</code></pre></div></div>
+
+<p>순서로 배포하는 방법이 안전하다.</p>
+
+<hr>
+
+<h1 id="87-rollback">87. Rollback</h1>
+
+<p>Update 후 문제가 생기면 이전 version으로 돌아갈 수 있어야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>v2.0
+ ↓ failure
+v1.9
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="88-signed-update">88. Signed Update</h1>
+
+<p>Software update file에 digital signature를 사용하면
+신뢰된 update인지 검증할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Update Package
+      +
+Signature
+      ↓
+Robot verifies
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="89-code-signing">89. Code Signing</h1>
+
+<p>공격자가 악성 update를 배포하는 것을 막기 위해
+software artifact를 cryptographically sign할 수 있다.</p>
+
+<hr>
+
+<h1 id="90-integrity-check">90. Integrity Check</h1>
+
+<p>Hash를 이용해 file이 변경되었는지 확인할 수도 있다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sha256sum </span>file
+</code></pre></div></div>
+
+<p>하지만 hash만으로는 누가 만든 file인지 인증하지는 못한다.</p>
+
+<hr>
+
+<h1 id="91-hash-vs-signature">91. Hash vs Signature</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hash
+→ 내용이 같은가?
+
+Digital Signature
+→ 내용이 변하지 않았는가?
+  +
+  신뢰된 주체가 서명했는가?
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="92-audit-log">92. Audit Log</h1>
+
+<p>누가 언제 어떤 작업을 했는지 기록하면
+보안 사고 분석에 도움이 된다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User A SSH login
+User B software update
+Robot config changed
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="93-login-기록">93. Login 기록</h1>
+
+<p>Linux에서는:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>last
+</code></pre></div></div>
+
+<p>같은 command로 login history 일부를 확인할 수 있다.</p>
+
+<p>환경에 따라 system journal도 확인할 수 있다.</p>
+
+<hr>
+
+<h1 id="94-security-log">94. Security Log</h1>
+
+<p>SSH 관련:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>journalctl <span class="nt">-u</span> ssh
+</code></pre></div></div>
+
+<p>또는 system 환경에 따라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/var/log/auth.log
+</code></pre></div></div>
+
+<p>등을 확인할 수 있다.</p>
+
+<hr>
+
+<h1 id="95-brute-force">95. Brute Force</h1>
+
+<p>공격자가 많은 password를 반복해서 시도하는 것을:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Brute Force Attack
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<hr>
+
+<h1 id="96-ssh를-internet에-바로-열지-않는다">96. SSH를 Internet에 바로 열지 않는다</h1>
+
+<p>가능하다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Internet
+   │
+   X
+Robot SSH
+</code></pre></div></div>
+
+<p>직접 노출을 피한다.</p>
+
+<p>대신:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>VPN
+Bastion
+Private Network
+</code></pre></div></div>
+
+<p>등을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="97-vpn">97. VPN</h1>
+
+<p>VPN:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Virtual Private Network
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Internet 위에 암호화된 private network처럼 사용할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Laptop
+   │
+Internet
+   │
+Encrypted Tunnel
+   │
+VPN
+   │
+Robot Network
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="98-bastion-host">98. Bastion Host</h1>
+
+<p>내부 robot network에 직접 접속하지 않고
+중간 관리 server를 통해 접근할 수도 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Developer
+   │
+   ▼
+Bastion
+   │
+   ▼
+Robot
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="99-zero-trust-개념">99. Zero Trust 개념</h1>
+
+<p>단순히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"회사 network 안이니까 안전하다."
+</code></pre></div></div>
+
+<p>고 가정하지 않는다.</p>
+
+<p>각 접근마다:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Who?
+What device?
+What permission?
+</code></pre></div></div>
+
+<p>을 검증하는 관점이 Zero Trust와 연결된다.</p>
+
+<hr>
+
+<h1 id="100-robot-internal-network도-무조건-신뢰하지-않는다">100. Robot Internal Network도 무조건 신뢰하지 않는다</h1>
+
+<p>Robot 안에 연결된 device도 compromise될 가능성이 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera module
+Third-party sensor
+External laptop
+</code></pre></div></div>
+
+<p>따라서 내부 network라고 무조건 모든 traffic을 신뢰하면 안 된다.</p>
+
+<hr>
+
+<h1 id="101-sensor-spoofing">101. Sensor Spoofing</h1>
+
+<p>공격자가 sensor data를 조작하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fake GPS
+Fake LiDAR packet
+Fake command
+</code></pre></div></div>
+
+<p>같은 문제가 생길 수 있다.</p>
+
+<p>Security와 state estimation이 연결되는 부분이다.</p>
+
+<hr>
+
+<h1 id="102-command-authentication">102. Command Authentication</h1>
+
+<p>High-level control command가 network를 통해 온다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Who sent this command?
+</code></pre></div></div>
+
+<p>를 확인할 수 있어야 한다.</p>
+
+<hr>
+
+<h1 id="103-replay-attack">103. Replay Attack</h1>
+
+<p>공격자가 과거의 정상 command를 저장했다가 다시 보내는 공격:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Replay Attack
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"Move forward"
+</code></pre></div></div>
+
+<p>command를 나중에 다시 보내는 것이다.</p>
+
+<hr>
+
+<h1 id="104-replay-방어">104. Replay 방어</h1>
+
+<p>프로토콜에 따라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Timestamp
+Nonce
+Sequence Number
+Session Key
+</code></pre></div></div>
+
+<p>등을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="105-security와-time-synchronization">105. Security와 Time Synchronization</h1>
+
+<p>Chapter 11의 time sync는 security에서도 중요하다.</p>
+
+<p>Certificate validity나 replay prevention에서
+정확한 clock이 필요할 수 있다.</p>
+
+<hr>
+
+<h1 id="106-certificate-time">106. Certificate Time</h1>
+
+<p>Certificate에는 validity period가 있을 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Not Before
+Not After
+</code></pre></div></div>
+
+<p>Robot clock이 크게 틀리면 정상 certificate도 invalid로 판단할 수 있다.</p>
+
+<hr>
+
+<h1 id="107-data-at-rest">107. Data at Rest</h1>
+
+<p>Storage에 저장된 data:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rosbag
+Map
+Log
+Video
+Credentials
+</code></pre></div></div>
+
+<p>를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Data at Rest
+</code></pre></div></div>
+
+<p>라고 한다.</p>
+
+<hr>
+
+<h1 id="108-data-in-transit">108. Data in Transit</h1>
+
+<p>Network를 통해 이동하는 data:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ROS message
+Cloud telemetry
+Video stream
+SSH
+</code></pre></div></div>
+
+<p>를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Data in Transit
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<hr>
+
+<h1 id="109-보호-방법">109. 보호 방법</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Data at Rest
+→ Disk encryption / file permission
+
+Data in Transit
+→ TLS / VPN / DDS Security
+</code></pre></div></div>
+
+<p>등을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="110-file-permission">110. File Permission</h1>
+
+<p>Linux에서는 중요한 config/secret file에
+적절한 permission을 설정한다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod </span>600 private_key
+</code></pre></div></div>
+
+<p>의미:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Owner read/write only
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="111-chmod-777-문제">111. <code class="language-plaintext highlighter-rouge">chmod 777</code> 문제</h1>
+
+<p>편하다고:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod </span>777 ...
+</code></pre></div></div>
+
+<p>를 자주 사용하면 누구나 읽고 쓰고 실행할 수 있는 상태가 될 수 있다.</p>
+
+<p>Production에서는 피하는 것이 좋다.</p>
+
+<hr>
+
+<h1 id="112-ownership">112. Ownership</h1>
+
+<p>확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-l</span>
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">stat </span>file
+</code></pre></div></div>
+
+<p>Owner와 group을 확인한다.</p>
+
+<hr>
+
+<h1 id="113-secrets의-backup">113. Secrets의 Backup</h1>
+
+<p>Secret도 backup이 필요할 수 있지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Plain text copy everywhere
+</code></pre></div></div>
+
+<p>는 위험하다.</p>
+
+<p>암호화된 backup과 access policy가 필요하다.</p>
+
+<hr>
+
+<h1 id="114-credential-rotation">114. Credential Rotation</h1>
+
+<p>Password, token, key를 일정 주기로 교체하거나
+사고 발생 시 즉시 교체할 수 있어야 한다.</p>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Credential Rotation
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<hr>
+
+<h1 id="115-employee-offboarding">115. Employee Offboarding</h1>
+
+<p>회사 계정이나 SSH key를 가진 사람이 더 이상 접근할 필요가 없다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Key removal
+Account disable
+Token revoke
+</code></pre></div></div>
+
+<p>가 필요하다.</p>
+
+<hr>
+
+<h1 id="116-shared-account-문제">116. Shared Account 문제</h1>
+
+<p>여러 사람이:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>robot / password123
+</code></pre></div></div>
+
+<p>하나의 account를 공유하면
+누가 어떤 작업을 했는지 알기 어렵다.</p>
+
+<p>가능하면 individual account/access를 사용하는 것이 좋다.</p>
+
+<hr>
+
+<h1 id="117-environment-separation">117. Environment Separation</h1>
+
+<p>개발용과 production credential을 분리한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Development
+Staging
+Production
+</code></pre></div></div>
+
+<p>환경마다 access 권한을 다르게 한다.</p>
+
+<hr>
+
+<h1 id="118-production-robot에-debug-credential-남기지-않는다">118. Production Robot에 Debug Credential 남기지 않는다</h1>
+
+<p>개발 중 사용한:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Test password
+Debug SSH key
+Open debug port
+</code></pre></div></div>
+
+<p>를 production에 남기지 않는 것이 중요하다.</p>
+
+<hr>
+
+<h1 id="119-security-baseline">119. Security Baseline</h1>
+
+<p>Robot 출고/배포 전에 최소한 다음을 확인한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Default password removed
+SSH key configured
+Unused user removed
+Unused port closed
+Firewall policy set
+Secrets protected
+Software versions recorded
+Update path defined
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="120-incident-response">120. Incident Response</h1>
+
+<p>보안 문제가 발생했을 때:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Detect
+   ↓
+Isolate
+   ↓
+Revoke Credential
+   ↓
+Collect Logs
+   ↓
+Patch
+   ↓
+Redeploy
+</code></pre></div></div>
+
+<p>절차가 필요하다.</p>
+
+<hr>
+
+<h1 id="121-robot-격리">121. Robot 격리</h1>
+
+<p>Compromise가 의심되면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Network disconnect
+Fleet isolation
+Credential revoke
+</code></pre></div></div>
+
+<p>를 통해 피해 확산을 막을 수 있다.</p>
+
+<hr>
+
+<h1 id="122-fleet-security">122. Fleet Security</h1>
+
+<p>Robot이 여러 대라면 보안은 device 단위가 아니라 fleet 단위가 된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fleet
+
+Robot A
+Robot B
+Robot C
+...
+</code></pre></div></div>
+
+<p>필요한 것:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Unique identity
+Version tracking
+Credential management
+Update management
+Monitoring
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="123-aws-iot-예제">123. AWS IoT 예제</h1>
+
+<p>Cloud IoT system에서는 각 robot에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thing / Device Identity
+Certificate
+Private Key
+Policy
+</code></pre></div></div>
+
+<p>를 줄 수 있다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot
+Certificate
+   │
+   │ TLS
+   ▼
+IoT Service
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="124-policy">124. Policy</h1>
+
+<p>각 device가 어떤 cloud resource를 사용할 수 있는지 제한한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot A
+→ publish /robotA/telemetry
+→ subscribe /robotA/commands
+
+Robot B
+→ /robotB/*
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="125-least-privilege-in-cloud">125. Least Privilege in Cloud</h1>
+
+<p>Robot credential에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>All S3
+All IoT
+All Cloud resources
+</code></pre></div></div>
+
+<p>권한을 주는 것보다</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>필요한 topic
+필요한 bucket
+필요한 action
+</code></pre></div></div>
+
+<p>만 허용하는 것이 좋다.</p>
+
+<hr>
+
+<h1 id="126-security-vs-convenience">126. Security vs Convenience</h1>
+
+<p>개발에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root
+777
+--privileged
+firewall off
+</code></pre></div></div>
+
+<p>가 편할 수 있다.</p>
+
+<p>하지만 production에서는 위험하다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Development Convenience
+vs
+Production Security
+</code></pre></div></div>
+
+<p>를 구분해야 한다.</p>
+
+<hr>
+
+<h1 id="127-security-vs-availability">127. Security vs Availability</h1>
+
+<p>보안을 너무 강하게 설정하면 정상 동작을 막을 수도 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Firewall
+      ↓
+ROS 2 blocked
+</code></pre></div></div>
+
+<p>그래서 실제 traffic requirement를 이해하고
+필요한 것만 허용해야 한다.</p>
+
+<hr>
+
+<h1 id="128-security-testing">128. Security Testing</h1>
+
+<p>배포 전 다음을 확인할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Open ports
+Default credentials
+SSH access
+Firewall
+Container privileges
+File permissions
+Secrets
+Update signatures
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="129-basic-security-inspection-commands">129. Basic Security Inspection Commands</h1>
+
+<p>Listening ports:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ss <span class="nt">-tulpen</span>
+</code></pre></div></div>
+
+<p>Users:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /etc/passwd
+</code></pre></div></div>
+
+<p>Current user:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">whoami</span>
+</code></pre></div></div>
+
+<p>Groups:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">groups</span>
+</code></pre></div></div>
+
+<p>SSH login history:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>last
+</code></pre></div></div>
+
+<p>Firewall:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>ufw status
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="130-mini-practice-1">130. Mini Practice 1</h1>
+
+<p>Jetson에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">whoami</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">groups</span>
+</code></pre></div></div>
+
+<p>를 확인한다.</p>
+
+<p>질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>현재 user는 root인가?
+어떤 group에 속하는가?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="131-mini-practice-2">131. Mini Practice 2</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ss <span class="nt">-tuln</span>
+</code></pre></div></div>
+
+<p>실행한다.</p>
+
+<p>질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>어떤 port가 listening 중인가?
+왜 열려 있는가?
+</code></pre></div></div>
+
+<p>모르는 service가 있으면 확인한다.</p>
+
+<hr>
+
+<h1 id="132-mini-practice-3">132. Mini Practice 3</h1>
+
+<p>SSH key directory:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-la</span> ~/.ssh
+</code></pre></div></div>
+
+<p>확인.</p>
+
+<p>다음 파일의 차이를 이해한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>id_ed25519
+id_ed25519.pub
+authorized_keys
+known_hosts
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="133-mini-practice-4">133. Mini Practice 4</h1>
+
+<p>Private key permission 확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-l</span> ~/.ssh/id_ed25519
+</code></pre></div></div>
+
+<p>일반적으로 private key는 다른 user가 읽을 수 없도록 제한해야 한다.</p>
+
+<hr>
+
+<h1 id="134-mini-practice-5">134. Mini Practice 5</h1>
+
+<p>Repository에서 secret 검색 습관을 만든다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rg <span class="s2">"password|secret|token|private_key|access_key"</span>
+</code></pre></div></div>
+
+<p>단순 keyword search라 false positive/false negative가 있을 수 있지만
+초기 점검에는 도움이 된다.</p>
+
+<hr>
+
+<h1 id="135-mini-practice-6">135. Mini Practice 6</h1>
+
+<p>Docker container가 있다면:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker inspect &lt;container&gt;
+</code></pre></div></div>
+
+<p>확인.</p>
+
+<p>질문:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Privileged인가?
+어떤 device를 mount했는가?
+Host network를 쓰는가?
+Secret environment variable이 있는가?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="136-mini-practice-7">136. Mini Practice 7</h1>
+
+<p>Robot access architecture를 그린다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Developer Laptop
+      │
+      ▼
+Company Network
+      │
+      ▼
+Jetson Orin
+      │
+      ▼
+Robot Internal Network
+      │
+      ├── Xavier
+      ├── LiDAR
+      └── Other Devices
+</code></pre></div></div>
+
+<p>각 연결에 대해:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Who can access?
+What protocol?
+What authentication?
+</code></pre></div></div>
+
+<p>을 작성한다.</p>
+
+<hr>
+
+<h1 id="137-반드시-구분할-것">137. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authentication
+≠
+Authorization
+
+Public Key
+≠
+Private Key
+
+Certificate
+≠
+Private Key
+
+ROS_DOMAIN_ID
+≠
+Security
+
+Firewall
+≠
+Encryption
+
+Hash
+≠
+Digital Signature
+
+Secure Boot
+≠
+Disk Encryption
+
+Container
+≠
+Perfect Security Boundary
+
+Internal Network
+≠
+Automatically Trusted
+
+Development Access
+≠
+Production Access
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="138-security-mental-model">138. Security Mental Model</h1>
+
+<p>Robot security를 layer별로 본다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Physical Security
+       │
+       ▼
+Secure Boot
+       │
+       ▼
+Linux Users / Permissions
+       │
+       ▼
+Container Isolation
+       │
+       ▼
+Network Firewall
+       │
+       ▼
+Authentication
+       │
+       ▼
+Encryption
+       │
+       ▼
+Application Authorization
+       │
+       ▼
+Cloud Policy
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="139-vision60-example">139. Vision60 Example</h1>
+
+<p>개념적인 구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                   Developer
+                       │
+                  SSH Key / VPN
+                       │
+                       ▼
+                 Company Network
+                       │
+                       ▼
+                 ┌──────────┐
+                 │   Orin   │
+                 │          │
+                 │ Firewall │
+                 │ SSH      │
+                 └────┬─────┘
+                      │
+               Robot Internal LAN
+                      │
+          ┌───────────┼───────────┐
+          ▼           ▼           ▼
+       Xavier       LiDAR       Other
+          │
+          ▼
+       ROS 2
+          │
+          ▼
+     Robot Control
+</code></pre></div></div>
+
+<p>가능하면 외부 user가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+MCU
+Low-Level Controller
+</code></pre></div></div>
+
+<p>에 직접 접근할 필요가 없도록 설계한다.</p>
+
+<hr>
+
+<h1 id="140-security의-가장-중요한-질문">140. Security의 가장 중요한 질문</h1>
+
+<p>각 system component에 대해 항상 묻는다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Who can access it?
+
+How are they authenticated?
+
+What are they allowed to do?
+
+Is traffic encrypted?
+
+Where are secrets stored?
+
+What happens if the device is stolen?
+
+How do we revoke access?
+
+How do we update securely?
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="141-chapter-16-핵심">141. Chapter 16 핵심</h1>
+
+<p>Embedded Security는 단순히 password를 설정하는 문제가 아니다.</p>
+
+<p>전체 lifecycle을 봐야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Manufacture / Provision
+        ↓
+Deploy
+        ↓
+Authenticate
+        ↓
+Operate
+        ↓
+Monitor
+        ↓
+Update
+        ↓
+Revoke
+        ↓
+Retire
+</code></pre></div></div>
+
+<p>Robot이 network와 cloud에 연결될수록
+보안도 software architecture의 일부가 된다.</p>
+
+<hr>
+
+<h1 id="next-chapter">Next Chapter</h1>
+
+<h2 id="chapter-17-remote-deployment--fleet-management">Chapter 17. Remote Deployment &amp; Fleet Management</h2>
+
+<p>다음 Chapter에서는 robot이 여러 대가 되었을 때
+software를 어떻게 운영하는지 다룬다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fleet
+Device Identity
+Provisioning
+OTA Update
+Container Registry
+Versioning
+Staged Rollout
+Rollback
+Telemetry
+Remote Command
+AWS IoT
+Greengrass
+Device Group
+</code></pre></div></div>
+
+<p>특히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Developer
+    ↓
+CI/CD
+    ↓
+Container Registry
+    ↓
+Robot Fleet
+</code></pre></div></div>
+
+<p>구조를 배우고,</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"Robot 100대를 어떻게 같은 version으로 유지하는가?"
+
+"Update가 실패하면 어떻게 이전 version으로 돌아가는가?"
+
+"각 robot의 상태와 log를 어떻게 원격으로 확인하는가?"
+</code></pre></div></div>
+
+<p>를 다룬다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/edge_computing/chapter17-remote-deployment-fleet-management/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 17. Remote Deployment &amp; Fleet Management</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

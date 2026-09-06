@@ -261,56 +261,261 @@ ninja.data = [{
           description: "Amateur Dancer at SNU",
           section: "Projects",handler: () => {
               window.location.href = "/projects/dance/";
-            },},{id: "projects-autonomous-driving",
-          title: 'Autonomous Driving',
-          description: "Using ROS2 (Jazzy) and AI for Autonomous Driving",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/study1_Autunomous/";
-            },},{id: "projects-linear-algebra",
-          title: 'Linear Algebra',
-          description: "Linear Algebra Hands-on Exercises in Python",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/study2_linearAlgebra/";
-            },},{id: "projects-computer-vision",
-          title: 'Computer Vision',
-          description: "Computer Vision Study",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/study3_CV/";
-            },},{id: "projects-c-project-book",
-          title: 'C++ Project Book',
-          description: "Project-based C++ learning material built with Jupyter Book",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/study4_cpp_project_book/";
             },},{id: "projects-ted-talk",
           title: 'TED talk',
           description: "English to Korean translation volunteer",
           section: "Projects",handler: () => {
               window.location.href = "/projects/ted/";
-            },},{id: "study-hardware-notes",
-          title: 'Hardware Notes',
-          description: "TODO — one-line summary shown on the Study index card.",
+            },},{id: "study-chapter-1-computer-hardware-basics",
+          title: 'Chapter 1. Computer Hardware Basics',
+          description: "",
           section: "Study",handler: () => {
-              window.location.href = "/study/hw/overview/";
-            },},{id: "study-getting-started-with-isaac-sim",
-          title: 'Getting Started with Isaac Sim',
-          description: "TODO — one-line summary shown on the Study index card.",
+              window.location.href = "/study/edge_computing/chapter01-computer-basics/";
+            },},{id: "study-chapter-2-arm-vs-x86",
+          title: 'Chapter 2. ARM vs x86',
+          description: "",
           section: "Study",handler: () => {
-              window.location.href = "/study/isaacsim_isaaclab/getting-started/";
-            },},{id: "study-rl-fundamentals",
-          title: 'RL Fundamentals',
-          description: "TODO — one-line summary shown on the Study index card.",
+              window.location.href = "/study/edge_computing/chapter02-arm-vs-x86/";
+            },},{id: "study-chapter-3-linux-for-edge-computers",
+          title: 'Chapter 3. Linux for Edge Computers',
+          description: "",
           section: "Study",handler: () => {
-              window.location.href = "/study/rl/overview/";
-            },},{id: "study-rust-basics",
-          title: 'Rust Basics',
-          description: "TODO — one-line summary shown on the Study index card.",
+              window.location.href = "/study/edge_computing/chapter03-linux/";
+            },},{id: "study-chapter-4-nvidia-jetson-amp-jetpack",
+          title: 'Chapter 4. NVIDIA Jetson &amp;amp; JetPack',
+          description: "",
           section: "Study",handler: () => {
-              window.location.href = "/study/rust/overview/";
-            },},{id: "study-slam-overview",
-          title: 'SLAM Overview',
-          description: "TODO — one-line summary shown on the Study index card.",
+              window.location.href = "/study/edge_computing/chapter04-jetson-jetpack/";
+            },},{id: "study-chapter-5-hardware-interfaces-ethernet-can-pcie-usb",
+          title: 'Chapter 5. Hardware Interfaces — Ethernet, CAN, PCIe, USB',
+          description: "",
           section: "Study",handler: () => {
-              window.location.href = "/study/slam/overview/";
+              window.location.href = "/study/edge_computing/chapter05-hardware-interfaces/";
+            },},{id: "study-chapter-6-ros-2-as-a-robotics-middleware",
+          title: 'Chapter 6. ROS 2 as a Robotics Middleware',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter06-ros2/";
+            },},{id: "study-chapter-7-cuda-amp-tensorrt-for-robotics",
+          title: 'Chapter 7. CUDA &amp;amp; TensorRT for Robotics',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter07-cuda-tensorrt/";
+            },},{id: "study-chapter-8-networking-for-robots",
+          title: 'Chapter 8. Networking for Robots',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter08-robot-networking/";
+            },},{id: "study-chapter-9-docker-on-jetson",
+          title: 'Chapter 9. Docker on Jetson',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter09-docker-on-jetson/";
+            },},{id: "study-chapter-10-ros-2-jetson-debugging-amp-deployment",
+          title: 'Chapter 10. ROS 2 + Jetson Debugging &amp;amp; Deployment',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter10-debugging-deployment/";
+            },},{id: "study-chapter-11-time-synchronization-amp-sensor-timing",
+          title: 'Chapter 11. Time Synchronization &amp;amp; Sensor Timing',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter11-time-synchronization/";
+            },},{id: "study-chapter-12-power-thermal-amp-performance-management",
+          title: 'Chapter 12. Power, Thermal &amp;amp; Performance Management',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter12-power-thermal-performance/";
+            },},{id: "study-chapter-14-device-drivers-amp-kernel-basics",
+          title: 'Chapter 14. Device Drivers &amp;amp; Kernel Basics',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter14-device-drivers-kernel-basics/";
+            },},{id: "study-chapter-15-real-time-computing",
+          title: 'Chapter 15. Real-Time Computing',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter15-real-time-computing/";
+            },},{id: "study-chapter-16-embedded-security",
+          title: 'Chapter 16. Embedded Security',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter16-embedded-security/";
+            },},{id: "study-chapter-17-remote-deployment-amp-fleet-management",
+          title: 'Chapter 17. Remote Deployment &amp;amp; Fleet Management',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter17-remote-deployment-fleet-management/";
+            },},{id: "study-chapter-18-observability-amp-monitoring",
+          title: 'Chapter 18. Observability &amp;amp; Monitoring',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter18-observability-monitoring/";
+            },},{id: "study-chapter-19-reliability-amp-fault-tolerance",
+          title: 'Chapter 19. Reliability &amp;amp; Fault Tolerance',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter19-reliability-fault-tolerance/";
+            },},{id: "study-edge-computing",
+          title: 'Edge Computing',
+          description: "On-device compute for robots — hardware, Jetson, deployment.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/";
+            },},{id: "study-isaac-sim-amp-isaac-lab",
+          title: 'Isaac Sim &amp;amp; Isaac Lab',
+          description: "NVIDIA robot simulation and RL training environments.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/isaacsim_isaaclab/";
+            },},{id: "study-reinforcement-learning",
+          title: 'Reinforcement Learning',
+          description: "Reinforcement learning theory and implementation notes.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/rl/";
+            },},{id: "study-rust",
+          title: 'Rust',
+          description: "Learning Rust.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/rust/";
+            },},{id: "study-slam",
+          title: 'SLAM',
+          description: "SLAM의 역사와 LiDAR-inertial state estimation을 단계별로 공부합니다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/";
+            },},{id: "study-chapter-1-slam은-왜-필요한가",
+          title: 'Chapter 1. SLAM은 왜 필요한가?',
+          description: "위치와 지도의 관계, odometry와 SLAM, 발전의 큰 흐름.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/01-why-slam/";
+            },},{id: "study-chapter-2-확률과-ekf-slam",
+          title: 'Chapter 2. 확률과 EKF-SLAM',
+          description: "한 점의 정답 대신 불확실성을 추적하는 방법.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/02-probability-ekf/";
+            },},{id: "study-chapter-3-fastslam과-조건부-독립",
+          title: 'Chapter 3. FastSLAM과 조건부 독립',
+          description: "큰 공동 추정 문제를 경로와 landmark 문제로 나누기.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/03-fastslam/";
+            },},{id: "study-chapter-4-좌표계와-회전",
+          title: 'Chapter 4. 좌표계와 회전',
+          description: "3D SLAM 수식을 읽기 위한 최소한의 기하학.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/04-coordinate-rotation/";
+            },},{id: "study-chapter-5-icp와-점군-정합",
+          title: 'Chapter 5. ICP와 점군 정합',
+          description: "두 관측을 맞추는 문제에서 반복 최적화를 이해하기.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/05-registration-icp/";
+            },},{id: "study-chapter-6-graph-slam과-loop-closure",
+          title: 'Chapter 6. Graph SLAM과 loop closure',
+          description: "과거 궤적을 다시 고칠 수 있는 제약 기반 표현.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/06-graph-slam/";
+            },},{id: "study-chapter-7-희소성과-isam",
+          title: 'Chapter 7. 희소성과 iSAM',
+          description: "변수가 많아도 모든 변수가 서로 연결되는 것은 아니다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/07-sparsity-isam/";
+            },},{id: "study-chapter-8-visual-slam과-bundle-adjustment",
+          title: 'Chapter 8. Visual SLAM과 Bundle Adjustment',
+          description: "카메라 관측에서 pose와 3D point를 함께 개선하기.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/08-visual-slam/";
+            },},{id: "study-chapter-9-sparse-map에서-dense-map으로",
+          title: 'Chapter 9. Sparse map에서 Dense map으로',
+          description: "지도는 무엇을 저장하고 어떤 질문에 답해야 할까?",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/09-dense-maps/";
+            },},{id: "study-chapter-10-imu-융합에서-lio까지",
+          title: 'Chapter 10. IMU 융합에서 LIO까지',
+          description: "빠른 관성 예측과 외부 관측이 서로 필요한 이유.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/10-inertial-lio/";
+            },},{id: "study-chapter-11-학습-기반-slam과-spatial-ai",
+          title: 'Chapter 11. 학습 기반 SLAM과 Spatial AI',
+          description: "학습은 파이프라인의 어느 부분을 바꾸는가?",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/11-learning-spatial-ai/";
+            },},{id: "study-chapter-12-평가와-다음-학습-경로",
+          title: 'Chapter 12. 평가와 다음 학습 경로',
+          description: "역사를 성능표와 코드 읽기로 연결하는 방법.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/12-evaluation-reading-map/";
+            },},{id: "study-slam-history",
+          title: 'SLAM History',
+          description: "SLAM이 어떤 문제를 해결하며 센서·수학·컴퓨팅의 변화에 따라 어떻게 발전했는지 공부합니다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/";
+            },},{id: "study-fast-lio-논문-리뷰",
+          title: 'FAST-LIO — 논문 리뷰',
+          description: "LiDAR 특징점과 IMU를 반복 EKF로 결합하며, 많은 관측을 효율적으로 처리하는 FAST-LIO2의 기반이다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/state-estimation/fast-lio/";
+            },},{id: "study-fast-lio2-논문-리뷰",
+          title: 'FAST-LIO2 — 논문 리뷰',
+          description: "원시 LiDAR 점을 로컬 맵에 직접 정합하고 IMU와 반복 필터로 융합하는, 현재 Vision60 시스템의 기준선이다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/state-estimation/fast-lio2/";
+            },},{id: "study-fast-livo-논문-리뷰",
+          title: 'FAST-LIVO — 논문 리뷰',
+          description: "LiDAR·관성·영상을 sparse-direct 방식으로 결합하는 FAST-LIVO2의 선행 연구다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/state-estimation/fast-livo/";
+            },},{id: "study-fast-livo2-경량화-논문-리뷰",
+          title: 'FAST-LIVO2 경량화 — 논문 리뷰',
+          description: "관측의 유용성과 맵 보존 범위를 조절해 FAST-LIVO2의 메모리·계산 비용을 줄이는 연구다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/state-estimation/fast-livo2-resource-constrained/";
+            },},{id: "study-fast-livo2-논문-리뷰",
+          title: 'FAST-LIVO2 — 논문 리뷰',
+          description: "LiDAR 기하와 영상 밝기 정보를 같은 voxel map에서 연결하고 ESIKF로 순차 융합하는 LIVO다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/state-estimation/fast-livo2/";
+            },},{id: "study-glim-논문-리뷰",
+          title: 'GLIM — 논문 리뷰',
+          description: "시간 창 안의 상태와 서브맵 간 정합을 최적화하고 GPU로 계산량을 처리하는 매핑 프레임워크다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/state-estimation/glim/";
+            },},{id: "study-상태-추정-계보-lidar에서-livo-다리-센서-융합까지",
+          title: '상태 추정 계보 — LiDAR에서 LIVO·다리 센서 융합까지',
+          description: "FAST-LIO2 기준 논문 비교: 센서, 추정 구조, 루프클로저, Vision60 적용 관점.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/lio/";
+            },},{id: "study-legolas-논문-리뷰",
+          title: 'Legolas — 논문 리뷰',
+          description: "다리·관성 센서만으로 odometry를 학습해 외부 센서 추적이 어려운 상황을 다루는 연구다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/state-estimation/legolas/";
+            },},{id: "study-lijo-논문-리뷰",
+          title: 'LIJO — 논문 리뷰',
+          description: "LiDAR·IMU·관절 속도 정보를 EKF로 결합해 4족 odometry의 고주파 jitter를 줄이는 연구다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/state-estimation/lijo/";
+            },},{id: "study-lio-sam-논문-리뷰",
+          title: 'LIO-SAM — 논문 리뷰',
+          description: "LiDAR·관성 추정을 factor graph로 구성해 GPS와 루프 제약을 함께 다루는 smoothing 기반 대조군이다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/state-estimation/lio-sam/";
+            },},{id: "study-loam-논문-리뷰",
+          title: 'LOAM — 논문 리뷰',
+          description: "고주파 odometry와 저주파 정밀 mapping을 분리해 LiDAR 실시간 추정을 가능하게 한 계보의 출발점이다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/state-estimation/loam/";
+            },},{id: "study-lta-om-논문-리뷰",
+          title: 'LTA-OM — 논문 리뷰',
+          description: "FAST-LIO2에 루프 검출·기각·보정과 과거 맵의 재사용을 연결한 장기 매핑 시스템이다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/state-estimation/lta-om/";
+            },},{id: "study-point-lio-논문-리뷰",
+          title: 'Point-LIO — 논문 리뷰',
+          description: "스캔이 완성되기를 기다리지 않고 점의 측정 시각에 맞춰 상태를 갱신하는 고대역폭 LIO다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/state-estimation/point-lio/";
+            },},{id: "study-vilens-논문-리뷰",
+          title: 'VILENS — 논문 리뷰',
+          description: "비전·IMU·LiDAR·다리 odometry를 그래프로 융합하고 다리 속도 bias를 추정하는 4족 상태 추정기다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/state-estimation/vilens/";
             },},{
         id: 'social-email',
         title: 'email',

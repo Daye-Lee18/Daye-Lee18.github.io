@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 2. ARM vs x86 | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter02-arm-vs-x86/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 2. ARM vs x86</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> Jetson에서 사용하는 ARM CPU와 일반 PC에서 많이 사용하는 x86 CPU의 차이를 이해한다.
+특히 <code class="language-plaintext highlighter-rouge">aarch64</code>, <code class="language-plaintext highlighter-rouge">x86_64</code>, binary compatibility, Docker image, cross compilation이 왜 중요한지 로봇 개발 관점에서 이해한다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="1-cpu는-아무-명령어나-이해하지-못한다">1. CPU는 아무 명령어나 이해하지 못한다</h1>
+
+<p>Chapter 1에서 CPU는 프로그램의 명령을 실행하는 장치라고 배웠다.</p>
+
+<p>하지만 CPU가 우리가 작성한 C++, Rust, Python 코드를 그대로 읽는 것은 아니다.</p>
+
+<p>예를 들어 C++로:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>라고 작성했다고 하자.</p>
+
+<p>CPU는 <code class="language-plaintext highlighter-rouge">int</code>, <code class="language-plaintext highlighter-rouge">a</code>, <code class="language-plaintext highlighter-rouge">+</code> 같은 C++ 문법을 직접 이해하지 못한다.</p>
+
+<p>컴파일 과정을 거쳐 CPU가 이해할 수 있는 <strong>Machine Instruction</strong>으로 변환되어야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C++ Source Code
+
+int c = a + b;
+
+      │
+      │ Compiler
+      ▼
+
+Machine Instructions
+
+      │
+      ▼
+
+CPU
+</code></pre></div></div>
+
+<p>그런데 여기서 중요한 문제가 있다.</p>
+
+<blockquote>
+  <p>모든 CPU가 같은 Machine Instruction을 이해하는 것은 아니다.</p>
+</blockquote>
+
+<p>CPU 종류마다 이해하는 명령어 체계가 다를 수 있다.</p>
+
+<p>이것이 ARM과 x86을 이해하는 출발점이다.</p>
+
+<hr>
+
+<h1 id="2-isa란">2. ISA란?</h1>
+
+<p>ISA는 <strong>Instruction Set Architecture</strong>의 약자다.</p>
+
+<p>쉽게 말하면:</p>
+
+<blockquote>
+  <p>CPU와 Software 사이에서 약속한 “명령어 규칙”</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>CPU가 어떤 명령어를 이해하는지, register는 어떻게 구성되는지, memory를 어떻게 접근하는지 등의 규칙을 정의한다.</p>
+
+<p>전체 구조를 보면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Application
+    │
+    ▼
+C++ / Rust
+    │
+    ▼
+Compiler
+    │
+    ▼
+Machine Instructions
+    │
+    │  ← ISA
+    ▼
+CPU
+</code></pre></div></div>
+
+<p>대표적인 ISA 계열이 바로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x86
+ARM
+RISC-V
+</code></pre></div></div>
+
+<p>등이다.</p>
+
+<hr>
+
+<h1 id="3-x86이란">3. x86이란?</h1>
+
+<p>x86은 Intel에서 시작된 CPU instruction architecture 계열이다.</p>
+
+<p>현재 Desktop PC와 Server에서 매우 널리 사용된다.</p>
+
+<p>대표적인 제조사는:</p>
+
+<ul>
+  <li>Intel</li>
+  <li>AMD</li>
+</ul>
+
+<p>이다.</p>
+
+<p>예를 들어 일반적인 Linux workstation이 다음 CPU를 사용한다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Intel Core
+AMD Ryzen
+AMD EPYC
+Intel Xeon
+</code></pre></div></div>
+
+<p>대부분 x86 계열이다.</p>
+
+<p>현재 64-bit x86 architecture는 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x86_64
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AMD64
+</code></pre></div></div>
+
+<p>라고 부른다.</p>
+
+<hr>
+
+<h1 id="4-arm이란">4. ARM이란?</h1>
+
+<p>ARM 역시 CPU instruction architecture 계열이다.</p>
+
+<p>특히 다음과 같은 장치에서 많이 사용된다.</p>
+
+<ul>
+  <li>Smartphone</li>
+  <li>Tablet</li>
+  <li>Embedded System</li>
+  <li>Raspberry Pi</li>
+  <li>NVIDIA Jetson</li>
+  <li>Robot</li>
+  <li>Automotive Computer</li>
+</ul>
+
+<p>ARM architecture는 전력 효율이 중요한 시스템에서 널리 사용되어 왔다.</p>
+
+<p>로봇은 배터리로 움직이는 경우가 많기 때문에:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Performance
++
+Power Consumption
++
+Heat
++
+Size
+</code></pre></div></div>
+
+<p>를 모두 고려해야 한다.</p>
+
+<p>그래서 ARM 기반 SoC가 Edge Computing에서 많이 사용된다.</p>
+
+<hr>
+
+<h1 id="5-arm과-x86의-핵심-차이">5. ARM과 x86의 핵심 차이</h1>
+
+<p>아주 단순화하면:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>x86</th>
+      <th>ARM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PC / Server에서 매우 흔함</td>
+      <td>Mobile / Embedded / Edge에서 매우 흔함</td>
+    </tr>
+    <tr>
+      <td>Intel, AMD CPU</td>
+      <td>Jetson, Raspberry Pi 등의 SoC</td>
+    </tr>
+    <tr>
+      <td>x86_64</td>
+      <td>aarch64</td>
+    </tr>
+    <tr>
+      <td>높은 범용 성능 중심의 역사</td>
+      <td>전력 효율과 SoC 통합에 강점</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>과거에는 흔히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x86 = CISC
+ARM = RISC
+</code></pre></div></div>
+
+<p>라고 설명했다.</p>
+
+<p>개념적으로는 도움이 되지만 현대 CPU는 내부 구조가 매우 복잡하기 때문에</p>
+
+<blockquote>
+  <p>“x86은 복잡하고 ARM은 단순하다”</p>
+</blockquote>
+
+<p>정도로만 이해하면 지나치게 단순화한 설명이 된다.</p>
+
+<p>실무에서는 오히려 다음이 훨씬 중요하다.</p>
+
+<blockquote>
+  <p><strong>ARM용으로 만들어진 프로그램과 x86용으로 만들어진 프로그램은 일반적으로 같은 binary가 아니다.</strong></p>
+</blockquote>
+
+<hr>
+
+<h1 id="6-x86_64와-aarch64">6. x86_64와 aarch64</h1>
+
+<p>현재 우리가 자주 만나는 두 architecture 이름은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x86_64
+aarch64
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<h2 id="x86_64">x86_64</h2>
+
+<p>64-bit x86 architecture.</p>
+
+<p>다른 이름으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>amd64
+</code></pre></div></div>
+
+<p>라고도 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Intel PC
+AMD PC
+많은 Cloud Server
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="aarch64">aarch64</h2>
+
+<p>64-bit ARM architecture를 의미한다.</p>
+
+<p>다른 표현으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ARM64
+arm64
+</code></pre></div></div>
+
+<p>를 볼 수 있다.</p>
+
+<p>Jetson은 대표적인 ARM64 기반 시스템이다.</p>
+
+<p>따라서 Jetson에서 Linux 명령어:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-m</span>
+</code></pre></div></div>
+
+<p>을 실행하면 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aarch64
+</code></pre></div></div>
+
+<p>가 나온다.</p>
+
+<hr>
+
+<h1 id="7-직접-확인하기">7. 직접 확인하기</h1>
+
+<p>Linux에서 현재 machine architecture를 확인하는 가장 간단한 방법:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-m</span>
+</code></pre></div></div>
+
+<p>예를 들어 x86 Linux PC에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x86_64
+</code></pre></div></div>
+
+<p>Jetson에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aarch64
+</code></pre></div></div>
+
+<p>가 나올 수 있다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>uname -m
+   │
+   ▼
+현재 Linux가 실행되는 CPU architecture 확인
+</code></pre></div></div>
+
+<p>이라고 생각하면 된다.</p>
+
+<hr>
+
+<h1 id="8-왜-architecture가-중요할까">8. 왜 Architecture가 중요할까?</h1>
+
+<p>다음 상황을 생각해보자.</p>
+
+<p>개발 PC:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ubuntu PC
+AMD CPU
+x86_64
+</code></pre></div></div>
+
+<p>Robot:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson Orin
+ARM CPU
+aarch64
+</code></pre></div></div>
+
+<p>PC에서 프로그램을 컴파일했다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ main.cpp <span class="nt">-o</span> robot_app
+</code></pre></div></div>
+
+<p>그러면 기본적으로 생성되는 binary는 PC architecture를 대상으로 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>main.cpp
+
+   │
+   │ x86 compiler
+   ▼
+
+robot_app
+[x86_64 binary]
+</code></pre></div></div>
+
+<p>이 파일을 Jetson으로 복사한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x86_64 binary
+      │
+      ▼
+Jetson
+aarch64
+</code></pre></div></div>
+
+<p>그러면 일반적으로 그대로 실행할 수 없다.</p>
+
+<p>왜냐하면 Jetson ARM CPU가 x86 machine instruction을 직접 실행할 수 없기 때문이다.</p>
+
+<hr>
+
+<h1 id="9-source-code와-binary는-다르다">9. Source Code와 Binary는 다르다</h1>
+
+<p>여기서 매우 중요한 차이가 있다.</p>
+
+<p>C++ source code:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Hello Robot"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>이 파일 자체는 architecture에 종속되지 않을 수도 있다.</p>
+
+<p>즉 같은 source code를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                 main.cpp
+                    │
+           ┌────────┴────────┐
+           │                 │
+           ▼                 ▼
+      x86 compiler      ARM compiler
+           │                 │
+           ▼                 ▼
+      x86_64 binary     aarch64 binary
+           │                 │
+           ▼                 ▼
+          PC              Jetson
+</code></pre></div></div>
+
+<p>처럼 각각 컴파일할 수 있다.</p>
+
+<p>따라서:</p>
+
+<blockquote>
+  <p><strong>Source code가 동일하다고 binary까지 동일한 것은 아니다.</strong></p>
+</blockquote>
+
+<hr>
+
+<h1 id="10-works-on-my-machine-문제">10. “Works on my machine” 문제</h1>
+
+<p>로봇 개발에서 자주 발생하는 상황이다.</p>
+
+<p>내 PC에서는:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./robot_app
+</code></pre></div></div>
+
+<p>가 잘 실행된다.</p>
+
+<p>그런데 Jetson으로 옮기면:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./robot_app
+</code></pre></div></div>
+
+<p>실행이 안 된다.</p>
+
+<p>원인은 여러 가지일 수 있지만 architecture mismatch도 대표적인 원인 중 하나다.</p>
+
+<p>확인할 때:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>file robot_app
+</code></pre></div></div>
+
+<p>을 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ELF 64-bit ... x86-64
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ELF 64-bit ... ARM aarch64
+</code></pre></div></div>
+
+<p>같은 정보를 확인할 수 있다.</p>
+
+<hr>
+
+<h1 id="11-docker도-architecture가-중요하다">11. Docker도 Architecture가 중요하다</h1>
+
+<p>Docker를 사용한다고 CPU architecture 문제가 사라지는 것은 아니다.</p>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Docker Image
+linux/amd64
+</code></pre></div></div>
+
+<p>이미지를 Jetson에서 실행하려고 한다고 하자.</p>
+
+<p>Jetson은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux/arm64
+</code></pre></div></div>
+
+<p>환경이다.</p>
+
+<p>구조는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Docker Image
+linux/amd64
+     │
+     ▼
+Jetson
+linux/arm64
+</code></pre></div></div>
+
+<p>이므로 architecture mismatch 문제가 발생할 수 있다.</p>
+
+<hr>
+
+<h1 id="12-amd64와-arm64">12. amd64와 arm64</h1>
+
+<p>Docker에서는 다음 표현을 매우 자주 본다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux/amd64
+linux/arm64
+</code></pre></div></div>
+
+<p>대략 다음처럼 연결하면 된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x86_64  ≈ amd64
+aarch64 ≈ arm64
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Desktop Ubuntu
+Architecture: x86_64
+Docker platform: linux/amd64
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson
+Architecture: aarch64
+Docker platform: linux/arm64
+</code></pre></div></div>
+
+<p>이 관계는 꼭 기억해두는 것이 좋다.</p>
+
+<hr>
+
+<h1 id="13-multi-architecture-docker-image">13. Multi-Architecture Docker Image</h1>
+
+<p>일부 Docker image는 여러 architecture를 지원한다.</p>
+
+<p>예를 들어 하나의 image 이름 아래:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>my_robot_image
+
+├── linux/amd64
+└── linux/arm64
+</code></pre></div></div>
+
+<p>버전이 모두 존재할 수 있다.</p>
+
+<p>이런 image를 <strong>multi-platform / multi-architecture image</strong>라고 한다.</p>
+
+<p>사용자는 같은 image 이름을 사용하더라도 Docker가 현재 platform에 맞는 image를 선택할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                Docker Image
+                     │
+             ┌───────┴───────┐
+             │               │
+        linux/amd64      linux/arm64
+             │               │
+             ▼               ▼
+          x86 PC           Jetson
+</code></pre></div></div>
+
+<p>로봇용 Docker image를 만들 때 중요한 개념이다.</p>
+
+<hr>
+
+<h1 id="14-jetson에서는-한-가지가-더-중요하다">14. Jetson에서는 한 가지가 더 중요하다</h1>
+
+<p>Jetson에서는 단순히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ARM CPU
+</code></pre></div></div>
+
+<p>만 고려하면 끝나지 않는다.</p>
+
+<p>Jetson에는 NVIDIA GPU가 있기 때문이다.</p>
+
+<p>따라서 실제 환경에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Architecture
++
+CUDA Version
++
+JetPack Version
++
+Driver
++
+Library Version
+</code></pre></div></div>
+
+<p>까지 호환성을 확인해야 한다.</p>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson Orin
+   │
+   ├── ARM64 CPU
+   ├── NVIDIA GPU
+   ├── JetPack
+   ├── CUDA
+   ├── cuDNN
+   └── TensorRT
+</code></pre></div></div>
+
+<p>가 하나의 software stack으로 연결되어 있다.</p>
+
+<p>그래서 일반 Ubuntu PC용 Docker image를 Jetson에 그대로 가져오는 것이 항상 가능한 것은 아니다.</p>
+
+<hr>
+
+<h1 id="15-cross-compilation">15. Cross Compilation</h1>
+
+<p>그렇다면 x86 PC에서 Jetson용 프로그램을 만들 수는 없을까?</p>
+
+<p>가능하다.</p>
+
+<p>이를 위해 사용하는 방법 중 하나가 <strong>Cross Compilation</strong>이다.</p>
+
+<p>Cross Compilation은:</p>
+
+<blockquote>
+  <p>프로그램을 컴파일하는 컴퓨터와 실제 프로그램이 실행될 CPU architecture가 다른 컴파일 방식</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x86_64 Development PC
+        │
+        │ Cross Compiler
+        ▼
+aarch64 Binary
+        │
+        ▼
+   Jetson Orin
+</code></pre></div></div>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Compile machine = x86_64
+Target machine  = aarch64
+</code></pre></div></div>
+
+<p>가 가능하다.</p>
+
+<hr>
+
+<h1 id="16-native-compilation-vs-cross-compilation">16. Native Compilation vs Cross Compilation</h1>
+
+<h2 id="native-compilation">Native Compilation</h2>
+
+<p>Jetson에서 직접 compile:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson
+aarch64
+
+source
+  │
+  ▼
+compile
+  │
+  ▼
+aarch64 binary
+</code></pre></div></div>
+
+<p>이것을 native compilation이라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ main.cpp <span class="nt">-o</span> robot_app
+</code></pre></div></div>
+
+<p>를 Jetson에서 직접 실행한다.</p>
+
+<p>장점:</p>
+
+<ul>
+  <li>단순하다.</li>
+  <li>환경 차이가 적다.</li>
+  <li>디버깅하기 편하다.</li>
+</ul>
+
+<p>단점:</p>
+
+<ul>
+  <li>Jetson의 CPU 성능이나 storage에 따라 대규모 build가 느릴 수 있다.</li>
+</ul>
+
+<hr>
+
+<h2 id="cross-compilation">Cross Compilation</h2>
+
+<p>강력한 PC에서 Jetson용 binary 생성:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PC
+x86_64
+   │
+   │ Cross Compile
+   ▼
+aarch64 binary
+   │
+   ▼
+Jetson
+</code></pre></div></div>
+
+<p>장점:</p>
+
+<ul>
+  <li>강력한 workstation에서 빠르게 build 가능</li>
+  <li>CI/CD와 결합하기 좋음</li>
+</ul>
+
+<p>단점:</p>
+
+<ul>
+  <li>Toolchain 설정이 복잡해질 수 있음</li>
+  <li>Target library와 dependency를 맞춰야 함</li>
+</ul>
+
+<hr>
+
+<h1 id="17-compiler와-target-architecture">17. Compiler와 Target Architecture</h1>
+
+<p>Compiler도 target architecture를 알아야 한다.</p>
+
+<p>일반적으로 PC에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++
+</code></pre></div></div>
+
+<p>를 실행하면 현재 PC를 위한 binary를 생성한다.</p>
+
+<p>ARM64 target compiler의 이름에서는 다음과 같은 표현을 볼 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aarch64-linux-gnu
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aarch64-linux-gnu-g++
+</code></pre></div></div>
+
+<p>이름을 분해하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aarch64
+   │
+   └── Target Architecture
+
+linux
+   │
+   └── Target OS
+
+gnu
+   │
+   └── GNU Toolchain
+</code></pre></div></div>
+
+<p>정도로 이해할 수 있다.</p>
+
+<hr>
+
+<h1 id="18-python은-괜찮은가">18. Python은 괜찮은가?</h1>
+
+<p>Python source code는 조금 다르다.</p>
+
+<p>예를 들어:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Hello Robot</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>같은 Python code 자체는 일반적으로 CPU machine instruction binary가 아니다.</p>
+
+<p>Python interpreter가 실행한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Python Source
+     │
+     ▼
+Python Interpreter
+     │
+     ▼
+CPU
+</code></pre></div></div>
+
+<p>따라서 동일한 <code class="language-plaintext highlighter-rouge">.py</code> 파일을 x86과 ARM에서 실행할 수 있는 경우가 많다.</p>
+
+<p>하지만 여기에도 함정이 있다.</p>
+
+<hr>
+
+<h1 id="19-python-library는-architecture에-영향을-받을-수-있다">19. Python Library는 Architecture에 영향을 받을 수 있다</h1>
+
+<p>예를 들어:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span>
+<span class="kn">import</span> <span class="n">torch</span>
+</code></pre></div></div>
+
+<p>를 사용한다고 하자.</p>
+
+<p>Python 코드 자체는 같더라도 NumPy, PyTorch 같은 package 내부에는 C/C++/CUDA로 compile된 native binary가 포함될 수 있다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Python Source
+      │
+      ├── Pure Python
+      │
+      └── Native Library
+             │
+             ├── x86_64
+             └── aarch64
+</code></pre></div></div>
+
+<p>문제가 발생할 수 있다.</p>
+
+<p>그래서:</p>
+
+<blockquote>
+  <p>“Python이니까 architecture는 신경 쓰지 않아도 된다”</p>
+</blockquote>
+
+<p>는 것은 틀린 생각이다.</p>
+
+<p>특히 Jetson에서 PyTorch, CUDA, TensorRT 등을 설치할 때 architecture와 JetPack compatibility가 중요하다.</p>
+
+<hr>
+
+<h1 id="20-mac도-확인해보자">20. Mac도 확인해보자</h1>
+
+<p>최근 Apple Silicon Mac은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>M1
+M2
+M3
+M4
+...
+</code></pre></div></div>
+
+<p>와 같은 ARM 기반 processor를 사용한다.</p>
+
+<p>터미널에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-m</span>
+</code></pre></div></div>
+
+<p>을 실행하면 보통:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>arm64
+</code></pre></div></div>
+
+<p>가 나온다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Apple Silicon Mac → ARM64
+Jetson            → ARM64
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>하지만 둘 다 ARM64라고 해서 binary를 그대로 공유할 수 있는 것은 아니다.</p>
+
+<p>왜냐하면 OS와 ABI, library 환경 등이 다르기 때문이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Mac
+
+ARM64
++
+macOS
+
+vs
+
+Jetson
+
+ARM64
++
+Linux
+</code></pre></div></div>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Same CPU Architecture
+≠
+Same Executable Environment
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="21-os와-architecture는-다른-개념이다">21. OS와 Architecture는 다른 개념이다</h1>
+
+<p>이 부분도 중요하다.</p>
+
+<p>Ubuntu와 ARM은 같은 종류의 이름이 아니다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ubuntu
+→ Operating System
+
+ARM
+→ CPU Architecture
+</code></pre></div></div>
+
+<p>따라서 다음과 같은 조합이 가능하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ubuntu + x86_64
+Ubuntu + ARM64
+
+macOS + ARM64
+macOS + x86_64
+</code></pre></div></div>
+
+<p>즉 컴퓨터 환경을 볼 때 최소한:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hardware Architecture
+        +
+Operating System
+</code></pre></div></div>
+
+<p>을 따로 생각해야 한다.</p>
+
+<hr>
+
+<h1 id="22-vision60--jetson-관점에서-보기">22. Vision60 / Jetson 관점에서 보기</h1>
+
+<p>우리가 실제로 개발하는 상황을 생각해보자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Development Computer
+        │
+        │ Git
+        ▼
+Source Code
+        │
+        ▼
+Vision60 Jetson
+        │
+        ├── ARM64 CPU
+        ├── NVIDIA GPU
+        ├── Ubuntu
+        ├── ROS 2
+        ├── CUDA
+        └── FAST-LIO2
+</code></pre></div></div>
+
+<p>Git repository의 source code를 clone하는 것은 architecture와 크게 관계없을 수 있다.</p>
+
+<p>하지만:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Build
+Docker
+Library Installation
+Binary Deployment
+</code></pre></div></div>
+
+<p>단계부터 architecture가 매우 중요해진다.</p>
+
+<hr>
+
+<h1 id="23-ros-2에서도-architecture가-중요하다">23. ROS 2에서도 Architecture가 중요하다</h1>
+
+<p>ROS 2 package가 source code 형태라면 Jetson에서 직접 build할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>colcon build
+</code></pre></div></div>
+
+<p>그러면 Jetson에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C++ Source
+    │
+    │ colcon / CMake
+    ▼
+ARM64 Binary
+</code></pre></div></div>
+
+<p>가 만들어진다.</p>
+
+<p>그래서 source repository를 Jetson에 clone한 뒤 직접 <code class="language-plaintext highlighter-rouge">colcon build</code>하는 방식을 많이 볼 수 있다.</p>
+
+<p>반면 x86 PC에서 이미 build한 ROS 2 executable을 Jetson으로 단순 복사하면 architecture 문제를 만날 수 있다.</p>
+
+<hr>
+
+<h1 id="24-실무에서-확인할-명령어">24. 실무에서 확인할 명령어</h1>
+
+<h2 id="현재-cpu-architecture">현재 CPU Architecture</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-m</span>
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x86_64
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aarch64
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="더-자세한-cpu-정보">더 자세한 CPU 정보</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lscpu
+</code></pre></div></div>
+
+<p>확인할 수 있는 정보:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Architecture
+CPU count
+Core
+Thread
+Model
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="binary-architecture-확인">Binary Architecture 확인</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>file &lt;binary&gt;
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>file robot_app
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="ubuntu-package-architecture-확인">Ubuntu Package Architecture 확인</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dpkg <span class="nt">--print-architecture</span>
+</code></pre></div></div>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>amd64
+</code></pre></div></div>
+
+<p>또는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>arm64
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="docker-architecture-확인">Docker Architecture 확인</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker info
+</code></pre></div></div>
+
+<p>또는 image 정보를 확인할 때:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker image inspect &lt;image&gt;
+</code></pre></div></div>
+
+<p>등을 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="25-용어-정리">25. 용어 정리</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>용어</th>
+      <th>의미</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ISA</td>
+      <td>CPU가 이해하는 명령어 체계</td>
+    </tr>
+    <tr>
+      <td>x86</td>
+      <td>Intel에서 시작된 CPU architecture 계열</td>
+    </tr>
+    <tr>
+      <td>x86_64</td>
+      <td>64-bit x86</td>
+    </tr>
+    <tr>
+      <td>amd64</td>
+      <td>일반적으로 x86_64를 가리키는 이름</td>
+    </tr>
+    <tr>
+      <td>ARM</td>
+      <td>Embedded/Mobile/Edge에서 널리 사용되는 architecture 계열</td>
+    </tr>
+    <tr>
+      <td>ARM64</td>
+      <td>64-bit ARM</td>
+    </tr>
+    <tr>
+      <td>aarch64</td>
+      <td>ARM의 64-bit execution architecture를 나타내는 표현</td>
+    </tr>
+    <tr>
+      <td>Binary</td>
+      <td>CPU가 실행할 수 있도록 만들어진 executable code</td>
+    </tr>
+    <tr>
+      <td>Native Compilation</td>
+      <td>실행할 machine과 같은 architecture에서 compile</td>
+    </tr>
+    <tr>
+      <td>Cross Compilation</td>
+      <td>다른 architecture를 위한 binary를 compile</td>
+    </tr>
+    <tr>
+      <td>Multi-Arch Image</td>
+      <td>여러 CPU architecture를 지원하는 container image</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="26-가장-중요한-연결-관계">26. 가장 중요한 연결 관계</h1>
+
+<p>전체 내용을 한 그림으로 연결하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Source Code
+    │
+    ▼
+Compiler
+    │
+    │ Target ISA
+    ▼
+Binary
+    │
+    ├──────────────┐
+    ▼              ▼
+ x86_64         aarch64
+    │              │
+    ▼              ▼
+Intel/AMD PC     Jetson
+</code></pre></div></div>
+
+<p>Docker까지 추가하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Development Environment
+        │
+        ▼
+     Software
+        │
+        ├── linux/amd64 → x86_64 machine
+        │
+        └── linux/arm64 → ARM64 machine
+                            │
+                            ▼
+                        Jetson Orin
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="27-오늘의-핵심">27. 오늘의 핵심</h1>
+
+<p>다음 네 가지는 꼭 기억한다.</p>
+
+<h3 id="1">1.</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x86_64 ≈ amd64
+</code></pre></div></div>
+
+<h3 id="2">2.</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aarch64 ≈ arm64
+</code></pre></div></div>
+
+<h3 id="3">3.</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Same Source Code
+≠
+Same Binary
+</code></pre></div></div>
+
+<h3 id="4">4.</h3>
+
+<p>Jetson에서 software를 설치할 때는 항상:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Architecture
++
+OS
++
+JetPack
++
+CUDA
++
+Library Version
+</code></pre></div></div>
+
+<p>을 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="28-mini-practice">28. Mini Practice</h1>
+
+<p>현재 사용 중인 Linux PC나 Jetson에서 다음을 실행해본다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-m</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lscpu
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dpkg <span class="nt">--print-architecture</span>
+</code></pre></div></div>
+
+<p>그리고 각각의 결과가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x86_64 / amd64
+</code></pre></div></div>
+
+<p>인지:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aarch64 / arm64
+</code></pre></div></div>
+
+<p>인지 확인한다.</p>
+
+<p>실행 파일이 있다면:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>file &lt;binary&gt;
+</code></pre></div></div>
+
+<p>도 실행해본다.</p>
+
+<hr>
+
+<h1 id="next-chapter">Next Chapter</h1>
+
+<h2 id="chapter-3-linux-for-edge-computers">Chapter 3. Linux for Edge Computers</h2>
+
+<p>다음 Chapter에서는 Jetson에 SSH로 접속했을 때 실제로 가장 많이 사용하는 Linux 개념을 다룬다.</p>
+
+<ul>
+  <li>Linux filesystem은 어떻게 생겼는가?</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">/</code>, <code class="language-plaintext highlighter-rouge">/home</code>, <code class="language-plaintext highlighter-rouge">/etc</code>, <code class="language-plaintext highlighter-rouge">/opt</code>, <code class="language-plaintext highlighter-rouge">/dev</code>, <code class="language-plaintext highlighter-rouge">/proc</code>는 무엇인가?</li>
+  <li>Process와 Service는 무엇이 다른가?</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ps</code>, <code class="language-plaintext highlighter-rouge">top</code>, <code class="language-plaintext highlighter-rouge">htop</code>은 무엇을 보여주는가?</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">sudo</code>는 정확히 무엇인가?</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">apt</code>는 무엇을 하는가?</li>
+  <li>Environment Variable은 무엇인가?</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">PATH</code>는 왜 필요한가?</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">source setup.bash</code>는 대체 무엇을 하는가?</li>
+  <li>Jetson에 SSH로 접속한다는 것은 무슨 뜻인가?</li>
+</ul>
+
+<p>Chapter 3부터는 실제 Jetson/Ubuntu terminal에서 보는 것들이 본격적으로 연결된다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/edge_computing/chapter03-linux/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 3. Linux for Edge Computers</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

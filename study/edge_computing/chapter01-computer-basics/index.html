@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 1. Computer Hardware Basics | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter01-computer-basics/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 1. Computer Hardware Basics</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> Jetson을 배우기 전에 CPU, GPU, RAM, Storage가 각각 무슨 일을 하는지 이해하고,
+이것들이 실제 로봇에서 어떻게 사용되는지 연결한다.</p>
+</blockquote>
+
+<hr>
+
+<h2 id="1-로봇도-결국-하나의-컴퓨터다">1. 로봇도 결국 하나의 컴퓨터다</h2>
+
+<p>Vision60 같은 로봇 안에는 여러 컴퓨터와 MCU가 들어간다.</p>
+
+<p>예를 들어 전체 구조를 아주 단순화하면 다음과 같다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR ─────┐
+Camera ────┤
+IMU ───────┤
+           ▼
+     ┌─────────────┐
+     │ Edge Computer│
+     │ Xavier / Orin│
+     └──────┬──────┘
+            │
+     Perception / SLAM
+     Navigation / Control
+            │
+            ▼
+           MCU
+            │
+            ▼
+         Motors
+</code></pre></div></div>
+
+<p>센서에서 들어온 데이터를 Edge Computer가 처리하고,
+그 결과를 이용하여 로봇의 위치를 추정하거나 움직임을 결정한다.</p>
+
+<p>Vision60의 NVIDIA Xavier나 Jetson Orin 역시 본질적으로는 <strong>Linux가 돌아가는 컴퓨터</strong>다.</p>
+
+<hr>
+
+<h1 id="2-cpu">2. CPU</h1>
+
+<p>CPU는 <strong>Central Processing Unit</strong>의 약자다.</p>
+
+<p>컴퓨터에서 일반적인 프로그램의 명령을 실행하는 핵심 프로세서다.</p>
+
+<p>예를 들어 다음과 같은 작업을 한다.</p>
+
+<ul>
+  <li>Linux 운영체제 실행</li>
+  <li>ROS 2 node 실행</li>
+  <li>C++ / Rust / Python 코드 실행</li>
+  <li>네트워크 통신</li>
+  <li>파일 읽기/쓰기</li>
+  <li>센서 driver 실행</li>
+  <li>프로그램의 전체적인 흐름 제어</li>
+</ul>
+
+<p>예를 들어 ROS 2에서 다음과 같은 코드가 있다고 하자.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="p">(</span><span class="n">rclcpp</span><span class="o">::</span><span class="n">ok</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">read_sensor</span><span class="p">();</span>
+    <span class="n">process_data</span><span class="p">();</span>
+    <span class="n">publish_data</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>이 프로그램의 명령을 실제로 하나씩 수행하는 주체가 CPU다.</p>
+
+<hr>
+
+<h2 id="21-cpu-core">2.1 CPU Core</h2>
+
+<p>CPU 내부에는 여러 개의 <strong>Core</strong>가 존재할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+├── Core 0
+├── Core 1
+├── Core 2
+├── Core 3
+├── Core 4
+├── Core 5
+├── Core 6
+└── Core 7
+</code></pre></div></div>
+
+<p>각 core는 독립적으로 명령을 실행할 수 있기 때문에 여러 작업을 동시에 처리할 수 있다.</p>
+
+<p>로봇에서는 예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Core 0 → ROS 2 communication
+Core 1 → LiDAR driver
+Core 2 → IMU processing
+Core 3 → SLAM
+Core 4 → Navigation
+...
+</code></pre></div></div>
+
+<p>처럼 여러 프로세스/thread가 CPU 자원을 나눠 사용할 수 있다.</p>
+
+<p>실제로 어떤 core가 어떤 프로그램만 담당하도록 고정되는 것은 아니며,
+Linux scheduler가 실행할 작업을 여러 CPU core에 배분한다.</p>
+
+<hr>
+
+<h1 id="3-gpu">3. GPU</h1>
+
+<p>GPU는 <strong>Graphics Processing Unit</strong>의 약자다.</p>
+
+<p>원래 그래픽 계산을 위해 만들어졌지만,
+현재는 <strong>같은 종류의 계산을 매우 많이 병렬로 처리하는 작업</strong>에도 사용된다.</p>
+
+<p>CPU와 GPU의 핵심적인 차이는 다음과 같이 생각할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+
+강력한 작업자 몇 명
+↓
+복잡하고 서로 다른 작업을 처리하는 데 강함
+
+
+GPU
+
+비교적 단순한 작업자 수백~수천 명
+↓
+비슷한 계산을 대량으로 동시에 처리하는 데 강함
+</code></pre></div></div>
+
+<p>예를 들어 이미지에는 수백만 개의 pixel이 존재한다.</p>
+
+<p>각 pixel 또는 tensor element에 비슷한 계산을 수행해야 한다면 GPU의 병렬 처리 능력을 활용할 수 있다.</p>
+
+<hr>
+
+<h2 id="31-로봇에서-gpu를-사용하는-곳">3.1 로봇에서 GPU를 사용하는 곳</h2>
+
+<p>대표적으로:</p>
+
+<ul>
+  <li>Object Detection</li>
+  <li>Semantic Segmentation</li>
+  <li>Depth Estimation</li>
+  <li>Neural Network inference</li>
+  <li>Reinforcement Learning</li>
+  <li>Computer Vision</li>
+  <li>CUDA 기반 연산</li>
+</ul>
+
+<p>등이 있다.</p>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera
+   ↓
+Image
+   ↓
+GPU
+   ↓
+Neural Network
+   ↓
+Person / Vehicle / Obstacle Detection
+</code></pre></div></div>
+
+<p>Jetson이 로봇 분야에서 많이 사용되는 중요한 이유 중 하나가
+<strong>CPU와 NVIDIA GPU를 하나의 Edge Computer에서 사용할 수 있기 때문</strong>이다.</p>
+
+<hr>
+
+<h1 id="4-cpu-vs-gpu">4. CPU vs GPU</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>CPU</th>
+      <th>GPU</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>복잡한 제어 흐름에 강함</td>
+      <td>대규모 병렬 계산에 강함</td>
+    </tr>
+    <tr>
+      <td>비교적 적은 수의 강력한 core</td>
+      <td>매우 많은 병렬 연산 unit</td>
+    </tr>
+    <tr>
+      <td>OS, ROS 2, driver 등</td>
+      <td>AI, Vision, CUDA 등</td>
+    </tr>
+    <tr>
+      <td>general-purpose processing</td>
+      <td>parallel processing</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>중요한 것은:</p>
+
+<blockquote>
+  <p>GPU가 CPU보다 무조건 빠른 것이 아니다.</p>
+</blockquote>
+
+<p>작업 특성에 따라 다르다.</p>
+
+<p>예를 들어 ROS 2 node의 일반적인 제어 흐름이나 파일 처리 등을
+GPU로 옮긴다고 해서 빨라지는 것은 아니다.</p>
+
+<p>반대로 거대한 matrix multiplication이나 neural network inference처럼
+병렬화하기 좋은 계산은 GPU가 매우 강하다.</p>
+
+<hr>
+
+<h1 id="5-ram">5. RAM</h1>
+
+<p>RAM은 <strong>Random Access Memory</strong>다.</p>
+
+<p>현재 실행 중인 프로그램과 데이터를 임시로 저장하는 공간이다.</p>
+
+<p>예를 들어 FAST-LIO2를 실행한다면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SSD
+ │
+ │ program load
+ ▼
+RAM
+ ├── FAST-LIO2 program
+ ├── incoming LiDAR points
+ ├── IMU data
+ ├── current map
+ └── state estimation data
+       │
+       ▼
+      CPU
+</code></pre></div></div>
+
+<p>프로그램을 실행하면 필요한 코드와 데이터가 Storage에서 RAM으로 올라오고,
+CPU가 RAM에 있는 데이터를 사용하여 계산한다.</p>
+
+<hr>
+
+<h2 id="51-ram은-왜-필요한가">5.1 RAM은 왜 필요한가?</h2>
+
+<p>Storage보다 RAM이 훨씬 빠르기 때문이다.</p>
+
+<p>CPU가 계산할 때마다 SSD에서 데이터를 직접 가져온다면 너무 느리다.</p>
+
+<p>따라서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Storage
+   ↓
+  RAM
+   ↓
+  CPU
+</code></pre></div></div>
+
+<p>구조로 사용한다.</p>
+
+<hr>
+
+<h1 id="6-storage">6. Storage</h1>
+
+<p>Storage는 데이터를 <strong>장기간 보관하는 공간</strong>이다.</p>
+
+<p>대표적으로:</p>
+
+<ul>
+  <li>SSD</li>
+  <li>NVMe SSD</li>
+  <li>eMMC</li>
+  <li>SD Card</li>
+</ul>
+
+<p>등이 있다.</p>
+
+<p>전원이 꺼져도 데이터가 유지된다.</p>
+
+<p>로봇에서는 다음과 같은 것들이 저장될 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Storage
+├── Ubuntu
+├── ROS 2
+├── Robot Software
+├── FAST-LIO2
+├── Maps
+├── rosbag
+├── Logs
+└── AI Models
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="7-ram-vs-storage">7. RAM vs Storage</h1>
+
+<p>RAM과 Storage는 자주 혼동되지만 완전히 다른 역할을 한다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>RAM</th>
+      <th>Storage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>작업 공간</td>
+      <td>장기 저장 공간</td>
+    </tr>
+    <tr>
+      <td>매우 빠름</td>
+      <td>RAM보다 느림</td>
+    </tr>
+    <tr>
+      <td>실행 중인 데이터</td>
+      <td>파일/프로그램 저장</td>
+    </tr>
+    <tr>
+      <td>전원을 끄면 데이터 사라짐</td>
+      <td>전원을 꺼도 유지</td>
+    </tr>
+    <tr>
+      <td>예: 32 GB RAM</td>
+      <td>예: 1 TB NVMe SSD</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>비유하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Storage = 책장
+RAM     = 책상
+CPU     = 책상에서 일하는 사람
+</code></pre></div></div>
+
+<p>책장에서 필요한 책을 꺼내 책상 위에 놓고 작업하는 것과 비슷하다.</p>
+
+<hr>
+
+<h1 id="8-jetson의-특징">8. Jetson의 특징</h1>
+
+<p>일반적인 Desktop PC에서는 CPU와 GPU가 별도의 장치인 경우가 많다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Desktop
+
+CPU ── RAM
+ │
+PCIe
+ │
+GPU ── VRAM
+</code></pre></div></div>
+
+<p>Jetson은 조금 다르다.</p>
+
+<p>Jetson은 <strong>SoC(System on Chip)</strong> 기반으로 설계되어 있다.</p>
+
+<p>하나의 시스템에 CPU, GPU, memory controller 등 여러 기능이 통합되어 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson SoC
+┌──────────────────────────┐
+│                          │
+│   CPU         GPU        │
+│                          │
+│      Memory Controller   │
+│                          │
+│   Video / AI Engines     │
+│                          │
+└────────────┬─────────────┘
+             │
+         System RAM
+</code></pre></div></div>
+
+<p>특히 Jetson에서는 CPU와 GPU가 <strong>Unified Memory Architecture</strong>를 사용하여
+같은 system memory를 공유할 수 있다.</p>
+
+<p>이것은 센서 데이터를 CPU와 GPU 사이에서 처리해야 하는
+로봇/AI workload에서 중요한 특징이다.</p>
+
+<hr>
+
+<h1 id="9-soc란">9. SoC란?</h1>
+
+<p>SoC는 <strong>System on Chip</strong>이다.</p>
+
+<p>기존 컴퓨터에서 여러 chip으로 존재하던 기능을 하나의 chip에 통합한 구조다.</p>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Traditional PC
+
+CPU
+GPU
+Memory Controller
+Video Processor
+I/O Controller
+...
+
+       ↓ integration
+
+Jetson SoC
+
+┌────────────────────┐
+│ CPU                │
+│ GPU                │
+│ Memory Controller  │
+│ Video Engine       │
+│ AI Accelerator     │
+│ I/O                │
+└────────────────────┘
+</code></pre></div></div>
+
+<p>이러한 구조는 크기와 전력 소비가 중요한 로봇, 드론, 자율주행 시스템에 유리하다.</p>
+
+<hr>
+
+<h1 id="10-edge-computing">10. Edge Computing</h1>
+
+<p>그렇다면 <strong>Edge Computer</strong>에서 Edge는 무슨 뜻일까?</p>
+
+<p>데이터를 멀리 떨어진 Cloud Server까지 보내서 처리하지 않고,
+<strong>데이터가 발생하는 현장 가까이에서 직접 처리하는 것</strong>을 Edge Computing이라고 한다.</p>
+
+<p>예를 들어 로봇이 LiDAR 데이터를 받았다고 하자.</p>
+
+<p>Cloud 방식:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+  ↓
+Robot
+  ↓
+Internet
+  ↓
+Cloud Server
+  ↓
+SLAM
+  ↓
+Internet
+  ↓
+Robot
+</code></pre></div></div>
+
+<p>Edge 방식:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+  ↓
+Jetson
+  ↓
+SLAM
+  ↓
+Robot Control
+</code></pre></div></div>
+
+<p>로봇에서는 실시간성이 매우 중요하기 때문에 Edge Computing이 특히 중요하다.</p>
+
+<p>네트워크가 끊겨도 로봇이 계속 동작해야 하는 경우가 많기 때문이다.</p>
+
+<hr>
+
+<h1 id="11-vision60에-연결해서-생각하기">11. Vision60에 연결해서 생각하기</h1>
+
+<p>Vision60을 예로 들면 전체 구조를 다음처럼 생각할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                Vision60
+
+ LiDAR ──────────────┐
+ IMU ────────────────┤
+ Camera ─────────────┤
+                     ▼
+              ┌─────────────┐
+              │ Xavier /    │
+              │ Jetson Orin │
+              └──────┬──────┘
+                     │
+        ┌────────────┼────────────┐
+        │            │            │
+      ROS 2       FAST-LIO2    Perception
+        │            │            │
+        └────────────┼────────────┘
+                     │
+              Robot State /
+              Motion Command
+                     │
+                     ▼
+                    MCU
+                     │
+                     ▼
+                  Motors
+</code></pre></div></div>
+
+<p>여기에서:</p>
+
+<ul>
+  <li>
+<strong>CPU</strong>: Linux, ROS 2, driver, SLAM의 일반 연산 등</li>
+  <li>
+<strong>GPU</strong>: AI / Vision / CUDA 병렬 연산</li>
+  <li>
+<strong>RAM</strong>: sensor data, map, 실행 중인 프로그램</li>
+  <li>
+<strong>Storage</strong>: Ubuntu, ROS 2, source code, map, rosbag, logs</li>
+  <li>
+<strong>Jetson/Xavier</strong>: 위 요소들을 포함하는 Edge Computer</li>
+  <li>
+<strong>MCU</strong>: 모터와 같은 하드웨어에 가까운 실시간 제어</li>
+</ul>
+
+<p>라고 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="12-오늘의-핵심">12. 오늘의 핵심</h1>
+
+<p>이 Chapter에서 가장 중요한 그림은 이것이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                ROBOT COMPUTER
+
+Sensors
+   │
+   ▼
+┌────────────────────────────┐
+│       Edge Computer        │
+│                            │
+│  CPU ─── General Programs  │
+│  GPU ─── Parallel Compute  │
+│  RAM ─── Working Memory    │
+│  SSD ─── Persistent Data   │
+│                            │
+└─────────────┬──────────────┘
+              │
+              ▼
+          Robot Control
+</code></pre></div></div>
+
+<p>그리고 Jetson을 공부할 때 계속 다음 질문을 던져야 한다.</p>
+
+<blockquote>
+  <p><strong>이 계산은 CPU에서 돌아가는가, GPU에서 돌아가는가?<br>
+데이터는 RAM 어디에 존재하는가?<br>
+센서 데이터는 어떤 경로로 Jetson까지 들어오는가?</strong></p>
+</blockquote>
+
+<p>이 세 가지를 이해하기 시작하면 이후의 CUDA, TensorRT, ROS 2, sensor interface가 서로 연결되기 시작한다.</p>
+
+<hr>
+
+<h1 id="next-chapter">Next Chapter</h1>
+
+<h2 id="chapter-2-arm-vs-x86">Chapter 2. ARM vs x86</h2>
+
+<p>다음 Chapter에서는 다음 질문을 다룬다.</p>
+
+<ul>
+  <li>Jetson은 왜 ARM CPU를 사용하는가?</li>
+  <li>내 Mac/PC의 CPU와 Jetson CPU는 무엇이 다른가?</li>
+  <li>x86_64와 aarch64는 무엇인가?</li>
+  <li>왜 어떤 Docker image는 Jetson에서 실행되지 않는가?</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">uname -m</code>은 무엇을 보여주는가?</li>
+  <li>Cross Compilation은 왜 필요한가?</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-m</span>
+</code></pre></div></div>
+
+<p>Jetson에서 위 명령을 실행했을 때 나오는 <code class="language-plaintext highlighter-rouge">aarch64</code>가 Chapter 2의 시작점이다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/edge_computing/chapter02-arm-vs-x86/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 2. ARM vs x86</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

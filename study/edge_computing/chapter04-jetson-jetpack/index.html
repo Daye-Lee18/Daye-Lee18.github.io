@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 4. NVIDIA Jetson &amp; JetPack | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter04-jetson-jetpack/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 4. NVIDIA Jetson &amp; JetPack</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> NVIDIA Jetson이 어떤 하드웨어인지 이해하고,
+JetPack, Ubuntu, L4T, CUDA, cuDNN, TensorRT가 서로 어떤 관계인지 이해한다.
+또한 Jetson이 왜 로봇용 Edge Computer로 많이 사용되는지 실제 Vision60 관점에서 연결한다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="1-jetson은-정확히-무엇인가">1. Jetson은 정확히 무엇인가?</h1>
+
+<p>NVIDIA Jetson은 로봇, 드론, 자율주행, AI Edge Computing 등을 위해 만들어진
+<strong>ARM 기반의 Embedded AI Computer Platform</strong>이다.</p>
+
+<p>Jetson에는 보통 다음이 통합되어 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson
+
+├── ARM CPU
+├── NVIDIA GPU
+├── RAM
+├── Memory Controller
+├── Video Encoder / Decoder
+├── Camera Interface
+├── PCIe
+├── Ethernet
+├── USB
+└── 기타 I/O
+</code></pre></div></div>
+
+<p>즉 Jetson은 단순히 GPU 하나가 아니라:</p>
+
+<blockquote>
+  <p>CPU + GPU + Memory + I/O가 통합된 하나의 컴퓨터 시스템</p>
+</blockquote>
+
+<p>이라고 보는 것이 맞다.</p>
+
+<hr>
+
+<h1 id="2-왜-로봇에-jetson을-많이-사용할까">2. 왜 로봇에 Jetson을 많이 사용할까?</h1>
+
+<p>로봇은 보통 동시에 여러 종류의 계산이 필요하다.</p>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+Camera
+IMU
+Joint Encoder
+        │
+        ▼
+     Jetson
+        │
+        ├── ROS 2
+        ├── SLAM
+        ├── Object Detection
+        ├── Navigation
+        └── Robot Control
+</code></pre></div></div>
+
+<p>이때 필요한 것은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>General CPU Processing
++
+GPU Parallel Processing
++
+Low Power
++
+Small Size
++
+Sensor I/O
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>Jetson은 이 조건을 한 장치에 통합한 플랫폼이다.</p>
+
+<hr>
+
+<h1 id="3-jetson은-pc와-무엇이-다를까">3. Jetson은 PC와 무엇이 다를까?</h1>
+
+<p>일반적인 Desktop PC는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+ │
+ ├── System RAM
+ │
+ └── PCIe
+      │
+      ▼
+     GPU
+      │
+      └── VRAM
+</code></pre></div></div>
+
+<p>구조인 경우가 많다.</p>
+
+<p>Jetson은 SoC 기반으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson SoC
+
+┌──────────────────────────┐
+│                          │
+│ ARM CPU      NVIDIA GPU  │
+│                          │
+│ Memory Controller        │
+│                          │
+│ Video Engines            │
+│ AI Accelerators          │
+│ I/O Controllers          │
+│                          │
+└─────────────┬────────────┘
+              │
+              ▼
+         System Memory
+</code></pre></div></div>
+
+<p>처럼 여러 기능이 훨씬 긴밀하게 통합되어 있다.</p>
+
+<hr>
+
+<h1 id="4-jetson-module과-developer-kit">4. Jetson Module과 Developer Kit</h1>
+
+<p>Jetson을 구매할 때 헷갈리는 개념이 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson Module
+Jetson Developer Kit
+</code></pre></div></div>
+
+<p>둘은 다르다.</p>
+
+<hr>
+
+<h2 id="41-jetson-module">4.1 Jetson Module</h2>
+
+<p>실제 computing module이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson AGX Orin Module
+Jetson Orin NX Module
+Jetson Orin Nano Module
+</code></pre></div></div>
+
+<p>Module 내부에는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+GPU
+RAM
+Storage 일부
+</code></pre></div></div>
+
+<p>등이 포함된다.</p>
+
+<p>하지만 module 자체만으로는 일반적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USB port
+Ethernet port
+HDMI
+Power connector
+</code></pre></div></div>
+
+<p>등을 직접 사용하기 어렵다.</p>
+
+<p>그래서 carrier board가 필요하다.</p>
+
+<hr>
+
+<h2 id="42-developer-kit">4.2 Developer Kit</h2>
+
+<p>Developer Kit은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson Module
++
+Carrier Board
++
+Cooling
++
+Power Supply
+</code></pre></div></div>
+
+<p>등을 묶어 개발자가 바로 사용할 수 있게 만든 제품이다.</p>
+
+<p>구조:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Developer Kit
+
+┌─────────────────────────┐
+│ Carrier Board           │
+│                         │
+│   ┌─────────────────┐   │
+│   │ Jetson Module   │   │
+│   └─────────────────┘   │
+│                         │
+│ USB / Ethernet / HDMI   │
+│ PCIe / Camera / GPIO    │
+└─────────────────────────┘
+</code></pre></div></div>
+
+<p>즉:</p>
+
+<blockquote>
+  <p>Module = 실제 컴퓨팅 핵심</p>
+
+  <p>Developer Kit = 개발할 수 있도록 주변 hardware까지 포함한 전체 보드</p>
+</blockquote>
+
+<p>라고 생각하면 된다.</p>
+
+<hr>
+
+<h1 id="5-carrier-board란">5. Carrier Board란?</h1>
+
+<p>Carrier Board는 Jetson Module을 실제 장치와 연결해주는 board다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson Module
+      │
+      ▼
+Carrier Board
+      │
+      ├── Ethernet
+      ├── USB
+      ├── PCIe
+      ├── M.2
+      ├── Camera
+      ├── GPIO
+      └── Power
+</code></pre></div></div>
+
+<p>제품화된 로봇에서는 NVIDIA Developer Kit 그대로 사용하는 대신
+custom carrier board를 사용하는 경우도 많다.</p>
+
+<p>이유는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Size
+Power
+Connector
+Environment
+Mechanical Design
+</code></pre></div></div>
+
+<p>등을 제품에 맞게 최적화하기 위해서다.</p>
+
+<hr>
+
+<h1 id="6-jetson-제품군">6. Jetson 제품군</h1>
+
+<p>Jetson에는 여러 세대와 등급이 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson Nano
+Jetson Xavier NX
+Jetson AGX Xavier
+Jetson Orin Nano
+Jetson Orin NX
+Jetson AGX Orin
+Jetson AGX Thor
+</code></pre></div></div>
+
+<p>대체로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Nano
+  ↓
+NX
+  ↓
+AGX
+</code></pre></div></div>
+
+<p>순으로 computing capability와 power budget이 커지는 식으로 볼 수 있다.</p>
+
+<p>하지만 세대마다 구조가 다르기 때문에 단순히 이름만 보고 성능을 판단하면 안 된다.</p>
+
+<hr>
+
+<h1 id="7-xavier-orin-thor">7. Xavier, Orin, Thor</h1>
+
+<p>Vision60과 연결해서 보면 이 이름들을 자주 만나게 된다.</p>
+
+<h2 id="xavier">Xavier</h2>
+
+<p>이전 세대 Jetson platform.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson AGX Xavier
+Jetson Xavier NX
+</code></pre></div></div>
+
+<p>Vision60 내부 onboard computer로 NVIDIA Xavier가 사용되는 경우가 있다.</p>
+
+<hr>
+
+<h2 id="orin">Orin</h2>
+
+<p>Xavier 다음 세대.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson AGX Orin
+Jetson Orin NX
+Jetson Orin Nano
+</code></pre></div></div>
+
+<p>더 높은 AI compute capability와 향상된 GPU architecture를 제공한다.</p>
+
+<p>로봇에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SLAM
+Vision
+Deep Learning
+Planning
+</code></pre></div></div>
+
+<p>을 함께 수행하기에 강력하다.</p>
+
+<hr>
+
+<h2 id="thor">Thor</h2>
+
+<p>더 새로운 세대의 고성능 Jetson platform이다.</p>
+
+<p>로봇과 Physical AI workload를 강하게 겨냥한 platform으로 볼 수 있다.</p>
+
+<p>구체적인 성능과 software support는 JetPack 버전과 제품 출시 시점에 따라 확인해야 한다.</p>
+
+<p>실무에서는:</p>
+
+<blockquote>
+  <p>Jetson 이름만 볼 것이 아니라
+정확한 Module + JetPack + CUDA 조합을 확인해야 한다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="8-jetpack이란">8. JetPack이란?</h1>
+
+<p>JetPack은 Jetson에서 매우 중요한 software stack이다.</p>
+
+<p>많이 하는 오해:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>JetPack = Ubuntu
+</code></pre></div></div>
+
+<p>가 아니다.</p>
+
+<p>JetPack은 Jetson을 위한 NVIDIA software stack이다.</p>
+
+<p>대략:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>JetPack
+
+├── Jetson Linux
+├── Ubuntu Root Filesystem
+├── NVIDIA Driver
+├── CUDA
+├── cuDNN
+├── TensorRT
+├── Multimedia API
+└── Development Tools
+</code></pre></div></div>
+
+<p>등을 포함한다.</p>
+
+<p>즉:</p>
+
+<blockquote>
+  <p>JetPack은 Jetson Hardware를 사용하기 위한 NVIDIA의 전체 software package 묶음</p>
+</blockquote>
+
+<p>이라고 이해하면 된다.</p>
+
+<hr>
+
+<h1 id="9-jetson-linux와-ubuntu">9. Jetson Linux와 Ubuntu</h1>
+
+<p>Jetson에서는 Ubuntu를 사용하지만,
+일반 PC Ubuntu와 완전히 동일한 boot/kernel/driver 환경은 아니다.</p>
+
+<p>NVIDIA는 Jetson용:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson Linux
+</code></pre></div></div>
+
+<p>를 제공한다.</p>
+
+<p>과거에는 흔히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>L4T
+</code></pre></div></div>
+
+<p>라는 이름을 많이 봤다.</p>
+
+<p>L4T는:</p>
+
+<p><strong>Linux for Tegra</strong></p>
+
+<p>의 약자다.</p>
+
+<p>Tegra는 NVIDIA의 embedded SoC 계열 이름이다.</p>
+
+<hr>
+
+<h1 id="10-전체-software-stack">10. 전체 Software Stack</h1>
+
+<p>Jetson의 software stack을 위에서 아래로 보면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Robot Application
+
+ROS 2
+FAST-LIO2
+PyTorch
+TensorRT
+
+        │
+        ▼
+
+CUDA / cuDNN
+NVIDIA Libraries
+
+        │
+        ▼
+
+Ubuntu User Space
+
+        │
+        ▼
+
+Jetson Linux
+Linux Kernel
+NVIDIA Drivers
+
+        │
+        ▼
+
+Jetson Hardware
+CPU / GPU / I/O
+</code></pre></div></div>
+
+<p>이 구조를 이해하는 것이 중요하다.</p>
+
+<hr>
+
+<h1 id="11-jetpack과-jetson-linux의-관계">11. JetPack과 Jetson Linux의 관계</h1>
+
+<p>대략적으로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>JetPack
+   │
+   ├── Jetson Linux
+   ├── CUDA
+   ├── cuDNN
+   ├── TensorRT
+   └── 기타 SDK
+</code></pre></div></div>
+
+<p>라고 보면 된다.</p>
+
+<p>즉 Jetson Linux는 JetPack 구성 요소 중 하나다.</p>
+
+<hr>
+
+<h1 id="12-l4t-version">12. L4T Version</h1>
+
+<p>Jetson에서 system 정보를 확인하다 보면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>R36.x
+R35.x
+</code></pre></div></div>
+
+<p>같은 version을 볼 수 있다.</p>
+
+<p>이것은 Jetson Linux / L4T release 계열을 의미한다.</p>
+
+<p>JetPack version과 L4T version은 서로 연결되어 있다.</p>
+
+<p>예를 들어 어떤 software가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>JetPack 6.x required
+</code></pre></div></div>
+
+<p>라고 하면 실제로는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ubuntu version
+CUDA version
+Driver version
+L4T version
+</code></pre></div></div>
+
+<p>까지 같이 영향을 받을 수 있다.</p>
+
+<hr>
+
+<h1 id="13-cuda란">13. CUDA란?</h1>
+
+<p>CUDA는 NVIDIA GPU에서 general-purpose parallel computing을 하기 위한
+NVIDIA의 computing platform과 programming model이다.</p>
+
+<p>쉽게 말하면:</p>
+
+<blockquote>
+  <p>NVIDIA GPU를 그래픽 외의 계산에도 사용할 수 있게 하는 기술</p>
+</blockquote>
+
+<p>이다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+ │
+ │ CUDA API
+ ▼
+GPU
+ │
+ └── Parallel Computation
+</code></pre></div></div>
+
+<p>로봇에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Deep Learning
+Point Cloud Processing
+Image Processing
+Matrix Operations
+</code></pre></div></div>
+
+<p>등에서 사용할 수 있다.</p>
+
+<hr>
+
+<h1 id="14-cuda-core란">14. CUDA Core란?</h1>
+
+<p>NVIDIA GPU 내부에는 많은 연산 unit이 존재한다.</p>
+
+<p>보통 설명할 때 CUDA Core라는 표현을 많이 사용한다.</p>
+
+<p>CPU와 비교하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+
+적은 수의 강한 core
+
+vs
+
+GPU
+
+매우 많은 병렬 연산 unit
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>하지만 CUDA Core 개수만 보고 GPU 전체 성능을 판단하면 안 된다.</p>
+
+<p>성능은:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Architecture
+Clock
+Memory Bandwidth
+Tensor Core
+Power Mode
+Software
+</code></pre></div></div>
+
+<p>등에 영향을 받는다.</p>
+
+<hr>
+
+<h1 id="15-tensor-core란">15. Tensor Core란?</h1>
+
+<p>NVIDIA GPU에는 AI 연산에 특화된 <strong>Tensor Core</strong>가 존재할 수 있다.</p>
+
+<p>Tensor Core는 특히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Matrix Multiplication
+Deep Learning
+Mixed Precision
+</code></pre></div></div>
+
+<p>같은 연산을 빠르게 수행하도록 설계되었다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Neural Network
+
+Matrix × Matrix
+
+        │
+        ▼
+   Tensor Core
+</code></pre></div></div>
+
+<p>그래서 Jetson은 AI inference workload에서 강하다.</p>
+
+<hr>
+
+<h1 id="16-cudnn이란">16. cuDNN이란?</h1>
+
+<p>cuDNN은:</p>
+
+<p><strong>CUDA Deep Neural Network library</strong></p>
+
+<p>이다.</p>
+
+<p>NVIDIA가 Deep Learning 연산을 GPU에서 효율적으로 수행할 수 있도록 제공하는 library다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PyTorch
+TensorFlow
+    │
+    ▼
+  cuDNN
+    │
+    ▼
+  CUDA
+    │
+    ▼
+NVIDIA GPU
+</code></pre></div></div>
+
+<p>개발자가 모든 convolution이나 activation 연산을 직접 CUDA로 구현하지 않아도
+optimized library를 사용할 수 있게 한다.</p>
+
+<hr>
+
+<h1 id="17-tensorrt란">17. TensorRT란?</h1>
+
+<p>TensorRT는 NVIDIA의 <strong>Deep Learning Inference Optimization Runtime</strong>이다.</p>
+
+<p>학습이 끝난 neural network를 실제 device에서 빠르게 추론할 수 있도록 최적화한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PyTorch Model
+      │
+      ▼
+Optimization
+      │
+      ▼
+TensorRT Engine
+      │
+      ▼
+Jetson GPU
+      │
+      ▼
+Fast Inference
+</code></pre></div></div>
+
+<p>TensorRT는 특히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Lower Precision
+Layer Fusion
+Kernel Optimization
+Memory Optimization
+</code></pre></div></div>
+
+<p>등을 사용해 inference latency와 throughput을 개선할 수 있다.</p>
+
+<hr>
+
+<h1 id="18-training과-inference">18. Training과 Inference</h1>
+
+<p>Deep Learning에서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Training
+Inference
+</code></pre></div></div>
+
+<p>는 다르다.</p>
+
+<h2 id="training">Training</h2>
+
+<p>Model parameter를 학습.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dataset
+   ↓
+Neural Network
+   ↓
+Backpropagation
+   ↓
+Weight Update
+</code></pre></div></div>
+
+<p>보통 매우 많은 계산이 필요하다.</p>
+
+<hr>
+
+<h2 id="inference">Inference</h2>
+
+<p>이미 학습된 model을 사용해 prediction.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera Image
+   ↓
+Trained Model
+   ↓
+Person detected
+</code></pre></div></div>
+
+<p>Jetson은 특히 Edge Inference에 많이 사용된다.</p>
+
+<hr>
+
+<h1 id="19-jetson에서-pytorch와-tensorrt">19. Jetson에서 PyTorch와 TensorRT</h1>
+
+<p>예를 들어 로봇 camera에서 object detection을 한다고 하자.</p>
+
+<p>처음 개발:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Python
+  ↓
+PyTorch
+  ↓
+GPU
+</code></pre></div></div>
+
+<p>성능 최적화 후:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Model
+  ↓
+TensorRT
+  ↓
+Jetson GPU
+</code></pre></div></div>
+
+<p>구조로 가져갈 수 있다.</p>
+
+<p>하지만 모든 model이 TensorRT로 자동 변환되는 것은 아니고
+operator support와 version compatibility를 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="20-unified-memory-architecture">20. Unified Memory Architecture</h1>
+
+<p>Jetson에서 중요한 특징 중 하나는 CPU와 GPU가 system memory를 공유하는 구조다.</p>
+
+<p>일반 PC discrete GPU:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+ │
+ └── System RAM
+
+GPU
+ │
+ └── VRAM
+</code></pre></div></div>
+
+<p>CPU memory와 GPU memory가 물리적으로 분리되어 있다.</p>
+
+<p>그래서 data transfer가 필요할 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>System RAM
+    │
+    │ PCIe Copy
+    ▼
+GPU VRAM
+</code></pre></div></div>
+
+<hr>
+
+<p>Jetson은 integrated SoC 구조이므로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+  \
+   \
+    Shared System Memory
+   /
+  /
+GPU
+</code></pre></div></div>
+
+<p>형태로 memory를 공유한다.</p>
+
+<hr>
+
+<h1 id="21-shared-memory가-무조건-copy가-없는-것은-아니다">21. Shared Memory가 무조건 Copy가 없는 것은 아니다</h1>
+
+<p>중요한 점:</p>
+
+<blockquote>
+  <p>CPU와 GPU가 같은 physical memory를 사용할 수 있다고 해서
+모든 software에서 자동으로 zero-copy가 되는 것은 아니다.</p>
+</blockquote>
+
+<p>실제 data movement는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CUDA API
+Memory allocation 방식
+Framework
+Driver
+Buffer type
+</code></pre></div></div>
+
+<p>에 따라 달라진다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Unified Architecture
+≠
+Always Zero Copy
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<hr>
+
+<h1 id="22-왜-memory-bandwidth가-중요할까">22. 왜 Memory Bandwidth가 중요할까?</h1>
+
+<p>SLAM, Vision, AI는 큰 데이터를 계속 처리한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Camera Image
+LiDAR Point Cloud
+Tensor
+Map
+</code></pre></div></div>
+
+<p>이 데이터는 CPU/GPU 사이에서 계속 읽고 써야 한다.</p>
+
+<p>이때 중요한 성능 지표가:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Memory Bandwidth
+</code></pre></div></div>
+
+<p>이다.</p>
+
+<p>즉:</p>
+
+<blockquote>
+  <p>Memory에서 얼마나 빠르게 데이터를 읽고 쓸 수 있는가</p>
+</blockquote>
+
+<p>를 의미한다.</p>
+
+<p>GPU가 아무리 빠르더라도 data 공급이 느리면 전체 성능이 제한될 수 있다.</p>
+
+<hr>
+
+<h1 id="23-jetson의-storage">23. Jetson의 Storage</h1>
+
+<p>Jetson model에 따라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eMMC
+NVMe SSD
+microSD
+</code></pre></div></div>
+
+<p>등을 사용할 수 있다.</p>
+
+<p>로봇에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rosbag
+LiDAR data
+Video
+Log
+Map
+</code></pre></div></div>
+
+<p>같은 데이터가 매우 빠르게 쌓일 수 있다.</p>
+
+<p>그래서 Storage capacity뿐 아니라:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Read Speed
+Write Speed
+Endurance
+</code></pre></div></div>
+
+<p>도 중요하다.</p>
+
+<hr>
+
+<h1 id="24-jetson에서-nvidia-smi">24. Jetson에서 <code class="language-plaintext highlighter-rouge">nvidia-smi</code>
+</h1>
+
+<p>Desktop NVIDIA GPU에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvidia-smi
+</code></pre></div></div>
+
+<p>는 매우 유명한 명령이다.</p>
+
+<p>GPU usage, memory, process 등을 확인할 수 있다.</p>
+
+<p>하지만 Jetson에서는 desktop discrete GPU 환경과 동일하게 동작하지 않거나
+보여주는 정보가 제한될 수 있다.</p>
+
+<p>Jetson에서는 대신:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tegrastats
+</code></pre></div></div>
+
+<p>를 매우 자주 사용한다.</p>
+
+<hr>
+
+<h1 id="25-tegrastats">25. <code class="language-plaintext highlighter-rouge">tegrastats</code>
+</h1>
+
+<p><code class="language-plaintext highlighter-rouge">tegrastats</code>는 Jetson의 system resource를 모니터링하는 도구다.</p>
+
+<p>실행:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tegrastats
+</code></pre></div></div>
+
+<p>다음과 같은 정보를 볼 수 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RAM usage
+CPU usage
+GPU usage
+Temperature
+Power-related values
+Memory Controller load
+</code></pre></div></div>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GR3D_FREQ
+</code></pre></div></div>
+
+<p>같은 값을 볼 수 있는데,
+GPU activity와 관련된 정보를 나타낸다.</p>
+
+<hr>
+
+<h1 id="26-jtop">26. <code class="language-plaintext highlighter-rouge">jtop</code>
+</h1>
+
+<p>Jetson에서는 <code class="language-plaintext highlighter-rouge">jtop</code>이라는 tool도 많이 사용한다.</p>
+
+<p>보통 <code class="language-plaintext highlighter-rouge">jetson-stats</code> package를 통해 설치한다.</p>
+
+<p>실행:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jtop
+</code></pre></div></div>
+
+<p>좀 더 보기 편한 UI로:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU
+GPU
+Memory
+Temperature
+Power
+JetPack
+CUDA
+</code></pre></div></div>
+
+<p>정보 등을 볼 수 있다.</p>
+
+<hr>
+
+<h1 id="27-jetson-version-확인">27. Jetson Version 확인</h1>
+
+<p>Jetson에서 환경을 확인할 때는 version 확인이 매우 중요하다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /etc/os-release
+</code></pre></div></div>
+
+<p>Ubuntu version 확인.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-a</span>
+</code></pre></div></div>
+
+<p>Kernel 정보 확인.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-m</span>
+</code></pre></div></div>
+
+<p>Architecture 확인.</p>
+
+<p>Jetson에서는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aarch64
+</code></pre></div></div>
+
+<p>가 나오는 경우가 일반적이다.</p>
+
+<hr>
+
+<h1 id="28-l4t-확인">28. L4T 확인</h1>
+
+<p>다음 파일을 확인하는 방법도 자주 사용된다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /etc/nv_tegra_release
+</code></pre></div></div>
+
+<p>Jetson Linux / L4T 관련 release 정보를 볼 수 있다.</p>
+
+<p>환경에 따라 파일이 없거나 다른 방식으로 확인해야 할 수도 있다.</p>
+
+<hr>
+
+<h1 id="29-cuda-version-확인">29. CUDA Version 확인</h1>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvcc <span class="nt">--version</span>
+</code></pre></div></div>
+
+<p>CUDA compiler가 설치되어 있다면 version 확인 가능.</p>
+
+<p>또는:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> /usr/local/cuda
+</code></pre></div></div>
+
+<p>등을 확인하기도 한다.</p>
+
+<p>중요한 점:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CUDA Toolkit Version
+Driver Capability
+Framework Compatibility
+</code></pre></div></div>
+
+<p>를 서로 구분해야 한다.</p>
+
+<hr>
+
+<h1 id="30-power-mode">30. Power Mode</h1>
+
+<p>Jetson은 Edge Device이기 때문에 전력 제한이 매우 중요하다.</p>
+
+<p>Desktop GPU처럼 항상 최대 전력으로 동작하도록 설계된 것이 아니다.</p>
+
+<p>Jetson에서는 여러 power mode가 존재할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Low Power Mode
+Balanced Mode
+Max Performance Mode
+</code></pre></div></div>
+
+<p>model마다 이름과 구성은 다를 수 있다.</p>
+
+<p>Power mode는:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU Core Count
+CPU Clock
+GPU Clock
+Power Budget
+</code></pre></div></div>
+
+<p>등에 영향을 줄 수 있다.</p>
+
+<hr>
+
+<h1 id="31-nvpmodel">31. <code class="language-plaintext highlighter-rouge">nvpmodel</code>
+</h1>
+
+<p>Jetson power mode를 관리할 때:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvpmodel
+</code></pre></div></div>
+
+<p>을 사용한다.</p>
+
+<p>현재 mode 확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nvpmodel <span class="nt">-q</span>
+</code></pre></div></div>
+
+<p>정확한 option과 mode 번호는 Jetson model에 따라 다르므로
+무작정 mode를 변경하지 않고 device documentation을 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="32-clock과-performance">32. Clock과 Performance</h1>
+
+<p>CPU/GPU는 항상 최대 clock으로 동작하지 않는다.</p>
+
+<p>필요에 따라 clock이 변한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Low workload
+     ↓
+Lower Clock
+
+Heavy workload
+     ↓
+Higher Clock
+</code></pre></div></div>
+
+<p>전력과 열을 줄이기 위해서다.</p>
+
+<p>Performance test를 할 때는 power mode와 clock 상태를 함께 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="33-thermal-throttling">33. Thermal Throttling</h1>
+
+<p>Jetson이 너무 뜨거워지면 hardware 보호를 위해 성능을 낮출 수 있다.</p>
+
+<p>이를:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thermal Throttling
+</code></pre></div></div>
+
+<p>이라고 한다.</p>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU 100%
+   ↓
+Temperature 상승
+   ↓
+Thermal Limit
+   ↓
+Clock 감소
+   ↓
+Performance 감소
+</code></pre></div></div>
+
+<p>따라서 실험 중 FPS나 SLAM frequency가 떨어진다면
+software 문제뿐 아니라 thermal 문제도 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="34-cooling이-중요한-이유">34. Cooling이 중요한 이유</h1>
+
+<p>Jetson AGX급 module은 높은 compute performance를 낼 수 있지만
+동시에 상당한 열이 발생한다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Heatsink
+Fan
+Airflow
+Thermal Interface
+</code></pre></div></div>
+
+<p>가 중요하다.</p>
+
+<p>로봇 내부에 Jetson을 넣을 때 enclosure만 보고 설계하면 안 되고,
+열이 빠져나갈 경로까지 고려해야 한다.</p>
+
+<hr>
+
+<h1 id="35-로봇에서-power-budget">35. 로봇에서 Power Budget</h1>
+
+<p>로봇은 전체 배터리 에너지를 여러 장치가 나눠 사용한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Battery
+  │
+  ├── Motors
+  ├── Jetson
+  ├── LiDAR
+  ├── Camera
+  ├── Network
+  └── Other Sensors
+</code></pre></div></div>
+
+<p>Jetson compute performance를 높이면 power consumption과 heat도 증가할 수 있다.</p>
+
+<p>그래서:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Performance
+Power
+Thermal
+Battery Life
+</code></pre></div></div>
+
+<p>사이에 trade-off가 존재한다.</p>
+
+<hr>
+
+<h1 id="36-jetson에서-ros-2-실행">36. Jetson에서 ROS 2 실행</h1>
+
+<p>Jetson에서는 일반 Ubuntu PC와 비슷하게 ROS 2를 사용할 수 있다.</p>
+
+<p>예:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> /opt/ros/humble/setup.bash
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 node list
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic list
+</code></pre></div></div>
+
+<p>하지만 Jetson은 ARM64이므로 package와 binary가 ARM64를 지원해야 한다.</p>
+
+<hr>
+
+<h1 id="37-fast-lio2는-cpu일까-gpu일까">37. FAST-LIO2는 CPU일까 GPU일까?</h1>
+
+<p>FAST-LIO2 같은 SLAM을 보면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR
+IMU
+ │
+ ▼
+FAST-LIO2
+ │
+ ▼
+Odometry / Map
+</code></pre></div></div>
+
+<p>기본적으로 상당 부분의 계산이 CPU 기반으로 실행될 수 있다.</p>
+
+<p>즉:</p>
+
+<blockquote>
+  <p>Jetson에 GPU가 있다고 모든 robot algorithm이 자동으로 GPU를 사용하는 것은 아니다.</p>
+</blockquote>
+
+<p>어떤 algorithm이 GPU를 사용하는지는 구현에 따라 결정된다.</p>
+
+<hr>
+
+<h1 id="38-gpu-사용-여부는-코드가-결정한다">38. GPU 사용 여부는 코드가 결정한다</h1>
+
+<p>예:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(...)</span> <span class="p">{</span>
+    <span class="n">process_point</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>일반 C++ 코드라면 기본적으로 CPU에서 실행된다.</p>
+
+<p>CUDA kernel을 사용하면:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">kernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">blocks</span><span class="p">,</span> <span class="n">threads</span><span class="o">&gt;&gt;&gt;</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>GPU에서 실행할 수 있다.</p>
+
+<p>PyTorch에서도:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tensor</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>등을 통해 GPU tensor로 옮겨 연산할 수 있다.</p>
+
+<p>즉:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson has GPU
+≠
+Every program uses GPU
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="39-vision60에서-jetson-역할">39. Vision60에서 Jetson 역할</h1>
+
+<p>Vision60 같은 로봇에서 computing architecture를 단순화하면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensors
+
+LiDAR
+IMU
+Camera
+Joint Encoder
+      │
+      ▼
+┌────────────────────────┐
+│ Xavier / Jetson Orin   │
+│                        │
+│ CPU                    │
+│ ├── ROS 2              │
+│ ├── Sensor Driver      │
+│ ├── FAST-LIO2          │
+│ └── Navigation         │
+│                        │
+│ GPU                    │
+│ ├── Vision             │
+│ ├── AI Inference       │
+│ └── CUDA Processing    │
+└────────────┬───────────┘
+             │
+             ▼
+           MCU
+             │
+             ▼
+          Actuator
+</code></pre></div></div>
+
+<p>Jetson은 high-level perception/computation을 담당하고,
+MCU는 hardware에 가까운 motor control을 담당하는 구조로 이해할 수 있다.</p>
+
+<hr>
+
+<h1 id="40-jetson과-mcu의-차이">40. Jetson과 MCU의 차이</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Jetson</th>
+      <th>MCU</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Linux 실행</td>
+      <td>Bare-metal / RTOS 가능</td>
+    </tr>
+    <tr>
+      <td>ROS 2 실행 가능</td>
+      <td>Low-level control</td>
+    </tr>
+    <tr>
+      <td>CPU + GPU</td>
+      <td>작은 CPU</td>
+    </tr>
+    <tr>
+      <td>Perception / SLAM</td>
+      <td>Motor / Sensor timing</td>
+    </tr>
+    <tr>
+      <td>높은 computing capability</td>
+      <td>높은 deterministic control</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>예:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson
+"앞으로 이동해야 한다"
+
+        ↓
+
+MCU
+"각 joint motor에 정확히 언제 얼마의 torque를 줄 것인가"
+</code></pre></div></div>
+
+<p>정도로 역할을 나누어 생각할 수 있다.</p>
+
+<hr>
+
+<h1 id="41-jetson-software-compatibility">41. Jetson Software Compatibility</h1>
+
+<p>Jetson에서 설치 문제를 만났다면 다음을 확인한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Jetson Model
+2. CPU Architecture
+3. Ubuntu Version
+4. JetPack Version
+5. L4T Version
+6. CUDA Version
+7. cuDNN Version
+8. TensorRT Version
+9. Python Version
+10. Framework Version
+</code></pre></div></div>
+
+<p>특히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PyTorch
+TensorFlow
+CUDA
+TensorRT
+</code></pre></div></div>
+
+<p>는 version compatibility가 매우 중요하다.</p>
+
+<hr>
+
+<h1 id="42-docker를-사용할-때도-jetpack이-중요하다">42. Docker를 사용할 때도 JetPack이 중요하다</h1>
+
+<p>Jetson에서 Docker를 사용할 때 image가 단순히:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux/arm64
+</code></pre></div></div>
+
+<p>를 지원한다고 끝이 아니다.</p>
+
+<p>GPU를 사용하려면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson Driver
+CUDA Runtime
+Container Runtime
+JetPack
+</code></pre></div></div>
+
+<p>의 호환성이 맞아야 한다.</p>
+
+<p>그래서 Jetson용 NVIDIA container image를 사용할 때
+JetPack/L4T version을 함께 확인하는 경우가 많다.</p>
+
+<hr>
+
+<h1 id="43-jetson-debugging-mental-model">43. Jetson Debugging Mental Model</h1>
+
+<p>Jetson에서 어떤 AI program이 안 돌아간다면 다음 순서로 생각한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Application
+   │
+   ▼
+Framework
+PyTorch / TensorRT
+   │
+   ▼
+CUDA / cuDNN
+   │
+   ▼
+NVIDIA Driver
+   │
+   ▼
+Jetson Linux
+   │
+   ▼
+Hardware
+GPU / Memory
+</code></pre></div></div>
+
+<p>예를 들어:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PyTorch CUDA unavailable
+</code></pre></div></div>
+
+<p>라고 나왔다면 바로 GPU가 고장났다고 판단하면 안 된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PyTorch build?
+CUDA version?
+Driver?
+Container?
+Environment variable?
+</code></pre></div></div>
+
+<p>등 여러 층을 확인해야 한다.</p>
+
+<hr>
+
+<h1 id="44-실무-확인-명령어">44. 실무 확인 명령어</h1>
+
+<h2 id="architecture">Architecture</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-m</span>
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="os">OS</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /etc/os-release
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="kernel">Kernel</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-a</span>
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="cpu">CPU</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lscpu
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="memory">Memory</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>free <span class="nt">-h</span>
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="storage">Storage</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">df</span> <span class="nt">-h</span>
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="jetson-resource">Jetson Resource</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tegrastats
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="power-mode">Power Mode</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nvpmodel <span class="nt">-q</span>
+</code></pre></div></div>
+
+<hr>
+
+<h2 id="cuda-compiler">CUDA Compiler</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvcc <span class="nt">--version</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="45-mini-practice">45. Mini Practice</h1>
+
+<p>Jetson에 SSH로 접속해서 다음을 확인한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-m</span>
+</code></pre></div></div>
+
+<p>예상:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aarch64
+</code></pre></div></div>
+
+<hr>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /etc/os-release
+</code></pre></div></div>
+
+<p>Ubuntu version을 확인한다.</p>
+
+<hr>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lscpu
+</code></pre></div></div>
+
+<p>CPU 정보를 확인한다.</p>
+
+<hr>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>free <span class="nt">-h</span>
+</code></pre></div></div>
+
+<p>RAM 사용량 확인.</p>
+
+<hr>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">df</span> <span class="nt">-h</span>
+</code></pre></div></div>
+
+<p>Storage 사용량 확인.</p>
+
+<hr>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tegrastats
+</code></pre></div></div>
+
+<p>CPU/GPU/RAM/temperature 정보를 관찰한다.</p>
+
+<p>ROS 2나 SLAM을 실행한 상태에서 <code class="language-plaintext highlighter-rouge">tegrastats</code> 값이 어떻게 변하는지 비교하면 더 좋다.</p>
+
+<hr>
+
+<h1 id="46-오늘의-핵심">46. 오늘의 핵심</h1>
+
+<p>Jetson을 이해할 때 가장 중요한 구조는 다음과 같다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson Hardware
+
+ARM CPU
++
+NVIDIA GPU
++
+Shared Memory
++
+Sensor I/O
+
+        │
+        ▼
+
+Jetson Linux
+
+        │
+        ▼
+
+Ubuntu
+
+        │
+        ▼
+
+JetPack Libraries
+
+CUDA
+cuDNN
+TensorRT
+
+        │
+        ▼
+
+ROS 2 / SLAM / AI
+</code></pre></div></div>
+
+<p>그리고 다음을 반드시 기억한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jetson ≠ GPU
+
+JetPack ≠ Ubuntu
+
+CUDA ≠ GPU
+
+TensorRT ≠ Training Framework
+
+ARM64 support
+≠
+Jetson compatibility automatically guaranteed
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="47-가장-중요한-질문">47. 가장 중요한 질문</h1>
+
+<p>Jetson에서 어떤 software를 설치하거나 실행할 때 항상 다음을 먼저 확인한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>What Jetson model?
+
+What JetPack version?
+
+What Ubuntu version?
+
+What architecture?
+
+What CUDA version?
+
+What library version?
+</code></pre></div></div>
+
+<p>이 정보를 모르면 Jetson software 문제를 정확히 디버깅하기 어렵다.</p>
+
+<hr>
+
+<h1 id="next-chapter">Next Chapter</h1>
+
+<h2 id="chapter-5-hardware-interfaces--ethernet-can-pcie-usb">Chapter 5. Hardware Interfaces — Ethernet, CAN, PCIe, USB</h2>
+
+<p>다음 Chapter에서는 Jetson에 센서와 장치가 실제로 어떻게 연결되는지 다룬다.</p>
+
+<ul>
+  <li>Ethernet은 단순히 인터넷 연결용인가?</li>
+  <li>MAC address와 IP address는 무엇이 다른가?</li>
+  <li>USB sensor는 Linux에서 어떻게 보이는가?</li>
+  <li>Serial 통신이란?</li>
+  <li>CAN Bus는 왜 로봇과 자동차에서 많이 사용하는가?</li>
+  <li>PCIe는 무엇인가?</li>
+  <li>M.2는 PCIe와 같은 것인가?</li>
+  <li>LiDAR는 Ethernet으로 어떻게 데이터를 보내는가?</li>
+  <li>Camera는 USB / CSI 중 무엇을 사용할까?</li>
+  <li>Xavier와 Orin 사이를 Ethernet으로 연결한다는 것은 무슨 뜻인가?</li>
+  <li>Robot 내부 network와 Internet은 어떻게 다른가?</li>
+</ul>
+
+<p>Chapter 5에서는 이제:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sensor
+   │
+   ▼
+Physical Interface
+   │
+   ▼
+Linux Driver
+   │
+   ▼
+ROS 2
+</code></pre></div></div>
+
+<p>가 실제로 어떻게 연결되는지 살펴본다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/edge_computing/chapter05-hardware-interfaces/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 5. Hardware Interfaces — Ethernet, CAN, PCIe, USB</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>
