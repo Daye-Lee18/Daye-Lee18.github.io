@@ -369,7 +369,7 @@
   </header>
 
   <article>
-    <p><a href="/study/slam/lio/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
 
 <blockquote>
   <p><strong>한 문장 요약:</strong> FAST-LIO2에 루프 검출·기각·보정과 과거 맵의 재사용을 연결한 장기 매핑 시스템이다.</p>
@@ -454,7 +454,57 @@
 
 <p><strong>제안 실험:</strong> 재방문 로그에서 장기 맵 재사용 유무를 비교한다. 전역 일관성, 잘못된 루프, 재방문 이후 로컬 오차와 출력 jump를 별도로 기록한다.</p>
 
-<h2 id="6-정독발표-기록">6. 정독·발표 기록</h2>
+<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+
+<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+
+<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+
+<p>LTA-OM의 장기 연관이 루프 보정 후 지도만 저장하는 방식보다 현재 odometry에 더 직접적인 영향을 주는 이유는 무엇인가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>보정된 history map을 이후 scan-to-map 등록에 다시 사용하기 때문이다. 전역 보정 결과가 현재 프론트엔드의 정합 기준으로 되먹임된다. 따라서 map version, 좌표계, 동시성 관리가 추정 정확도와 안정성에 직접 영향을 준다.</p>
+
+</details>
+
+<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+
+<p>두 루프 제약 (T<em>{ij}), (T</em>{kl})가 있을 때 pairwise consistency를 SE(3) cycle error로 검사하는 일반 원리를 설명하라.</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>odometry 경로와 두 루프 변환을 합성해 닫힌 cycle (T<em>{cycle})을 만들고 (e=\mathrm{Log}(T</em>{cycle})\in\mathbb{R}^6)를 계산한다. (e^\top\Sigma^{-1}e)가 임계값보다 작으면 불확실성 범위에서 일관적이라고 본다. 변환 합성 순서는 frame convention에 맞아야 하며 독립성 가정도 검토해야 한다.</p>
+
+</details>
+
+<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+
+<p>백엔드가 과거 맵을 보정하는 동안 프론트엔드가 그 맵을 읽으면 어떤 race와 불연속이 생길 수 있는가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>서로 다른 map version의 점과 pose가 섞여 잘못된 대응점을 만들 수 있다. immutable snapshot, versioned map, atomic swap 또는 명시적 synchronization이 필요하다. 보정 전후 transform을 관리하고 출력 pose가 갑자기 바뀌지 않도록 local/global 상태 인터페이스도 분리한다.</p>
+
+</details>
+
+<h3 id="q4-코드-리뷰구현">Q4. 코드 리뷰·구현</h3>
+
+<p><strong>GitHub:</strong> <a href="https://github.com/hku-mars/LTAOM" rel="external nofollow noopener" target="_blank">공식 또는 저자 연결 저장소</a></p>
+
+<p>저장소에서 loop candidate가 pose graph constraint가 되고 보정된 map이 다시 등록에 쓰이는 경로를 찾는 코드 리뷰 계획을 세워라. false positive를 주입하는 테스트도 제안하라.</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>subscriber·keyframe 생성에서 시작해 STD descriptor 생성·검색, geometric verification, loop edge 생성, graph optimization, corrected pose/map 갱신 순서로 call graph를 만든다. 후보 ID, 상대 transform, score, 승인 이유와 map version을 로그로 남긴다. 반복 구조의 서로 다른 장소를 의도적으로 후보로 주입해 기각되는지 보고, 승인됐을 때도 robust backend와 rollback이 있는지 확인한다. 전후 map snapshot과 local odometry 연속성을 함께 검사한다.</p>
+
+</details>
+
+<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
 
 <p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
 
@@ -510,8 +560,7 @@
 <input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/lio-sam/">LIO-SAM 리뷰</a> · <a href="/study/slam/lio/">전체 비교표</a></p>
-
+<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/lio-sam/">LIO-SAM 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
 
 
 
@@ -522,7 +571,7 @@
 
 <nav class="study-chapter-nav" aria-label="챕터 이동">
   
-    <a href="/study/slam/lio/">← 목차로 돌아가기</a>
+    <a href="/study/slam/state-estimation/">← 목차로 돌아가기</a>
   
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/glim/" rel="next">

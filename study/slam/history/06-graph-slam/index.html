@@ -399,11 +399,41 @@
 
 <p>학습할 때는 시스템을 다음 두 질문으로 나누자. “왜 이 제약을 만들었나?”는 front-end 질문이고, “주어진 제약들을 어떻게 조정했나?”는 back-end 질문이다.</p>
 
-<h2 id="확인-질문">확인 질문</h2>
+<h2 id="면접형-확인-문제">면접형 확인 문제</h2>
 
-<p>정보 행렬을 크게 설정한 틀린 loop closure는 왜 특히 위험할까?</p>
+<h3 id="문제-1--개념">문제 1 — 개념</h3>
 
-<p><strong>확인:</strong> 그 제약을 강하게 신뢰한다는 뜻이기 때문에 다른 타당한 제약을 희생하면서 맞출 수 있다. 기하 검증과 불확실성 설정을 함께 확인해야 한다.</p>
+<p>잘못된 loop closure 하나가 들어왔을 때 robust kernel만 적용하면 문제가 완전히 해결되는가? Front-end와 back-end 관점에서 답하라.</p>
+
+<details class="study-answer">
+  <summary>답변 보기</summary>
+
+  <p>완전히 해결된다고 보장할 수 없다. Robust kernel은 residual이 큰 factor의 영향력을 줄이지만, 초기 추정 근처에서 false loop의 residual이 작거나 정보 행렬이 지나치게 크면 정상 제약보다 강하게 작용할 수 있다. Front-end에서 descriptor 검색 뒤 기하 검증과 temporal/spatial consistency를 확인하고, back-end에서는 robust loss, switchable constraint, DCS 또는 graph consistency 검사를 사용할 수 있다. 잘못된 loop를 애초에 기각하는 단계와 들어온 outlier의 영향력을 줄이는 단계가 함께 필요하다.</p>
+
+</details>
+
+<h3 id="문제-2--수학추론">문제 2 — 수학·추론</h3>
+
+<p>1차원 pose graph에서 $x_0=0$을 고정하고 odometry 측정이 $x_1-x_0=1$, $x_2-x_1=1$이며, loop 측정이 $x_2-x_0=1.8$이라고 하자. 모든 정보 가중치가 같을 때 최소제곱 해 $x_1,x_2$를 구하라.</p>
+
+<details class="study-answer">
+  <summary>답변 보기</summary>
+
+  <p>목적함수는</p>
+
+\[E=(x_1-1)^2+(x_2-x_1-1)^2+(x_2-1.8)^2\]
+
+  <p>이다. 편미분을 0으로 두면</p>
+
+\[2x_1-x_2=0,\qquad -x_1+2x_2=2.8.\]
+
+  <p>첫 식에서 $x_2=2x_1$이고, 두 번째 식에 대입하면 $3x_1=2.8$이다. 따라서</p>
+
+\[x_1\approx0.9333,\qquad x_2\approx1.8667.\]
+
+  <p>Loop 오차 $0.2m$가 마지막 pose에만 적용되지 않고 두 odometry 구간에 나뉘어 분배되는 것을 볼 수 있다.</p>
+
+</details>
 
 <h2 id="원문-읽기">원문 읽기</h2>
 

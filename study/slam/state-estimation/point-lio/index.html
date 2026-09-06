@@ -369,7 +369,7 @@
   </header>
 
   <article>
-    <p><a href="/study/slam/lio/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
 
 <blockquote>
   <p><strong>한 문장 요약:</strong> 스캔이 완성되기를 기다리지 않고 점의 측정 시각에 맞춰 상태를 갱신하는 고대역폭 LIO다.</p>
@@ -452,7 +452,57 @@
 
 <p><strong>제안 실험:</strong> 동일한 충격·회전 로그로 FAST-LIO2와 비교하고 추정 실패 횟수, 점군 왜곡, 지연 분포를 측정한다. IMU clipping 구간을 따로 표시해 개선 원인을 분리한다.</p>
 
-<h2 id="6-정독발표-기록">6. 정독·발표 기록</h2>
+<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+
+<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+
+<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+
+<p>Point-LIO의 point-by-point 갱신이 frame-based deskew와 본질적으로 다른 점은 무엇인가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>frame-based 방식은 한 스캔을 기준 시각으로 보정한 뒤 묶어서 갱신한다. Point-LIO는 각 점의 실제 측정 시각에서 상태를 예측·갱신하므로 스캔 내 운동을 상태 시간축에 직접 반영한다. 둘 다 정확한 timestamp가 필요하며 point-wise 처리만으로 동기화 오차가 사라지지는 않는다.</p>
+
+</details>
+
+<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+
+<p>점률이 (f_p), 한 점의 평균 처리 시간이 (t_u)일 때 온라인 처리의 필요조건을 쓰라. 평균 조건만 충족해도 실시간성이 보장되는가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>필요조건은 대략 (f_p t_u&lt;1), 또는 처리율 (1/t_u&gt;f_p)이다. 충분조건은 아니다. 처리 시간 분산, burst, queue, 메모리 접근, 다른 스레드와의 경쟁 때문에 backlog가 생길 수 있다. deadline 관점에서는 최악 또는 높은 백분위 지연과 queue 길이를 함께 측정해야 한다.</p>
+
+</details>
+
+<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+
+<p>4–8 kHz pose 출력이 100 Hz 출력보다 제어에 항상 유리하지 않은 이유를 설명하라.</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>출력률, 정보가 새로 들어오는 비율, 추정 지연, noise bandwidth는 서로 다르다. 고주파 출력이 상관된 추정치나 큰 jitter를 전달할 수 있고 계산 경쟁으로 제어 deadline을 방해할 수 있다. closed-loop 성능은 timestamp 기반 latency, covariance, 주파수 응답과 실제 tracking error로 검증해야 한다.</p>
+
+</details>
+
+<h3 id="q4-코드-리뷰구현">Q4. 코드 리뷰·구현</h3>
+
+<p><strong>GitHub:</strong> <a href="https://github.com/hku-mars/Point-LIO" rel="external nofollow noopener" target="_blank">공식 또는 저자 연결 저장소</a></p>
+
+<p>설정의 <code class="language-plaintext highlighter-rouge">satu_gyro</code>보다 큰 gyro가 들어왔을 때 단순 clamp, 해당 관측 폐기, Point-LIO의 포화 모델 사용을 코드 수준에서 어떻게 비교 검증하겠는가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>raw IMU, 포화 판정, 필터에 실제 전달된 관측과 covariance, LiDAR innovation을 모두 기록할 수 있게 계측한다. 동일 bag을 세 정책으로 replay하고 포화 전·중·후 orientation error, recovery time, covariance consistency와 point-map residual을 비교한다. clamp 값만 바꿔 결과가 좋아졌다고 결론 내리지 말고 센서 실제 range와 YAML 단위가 일치하는지 먼저 검증한다. 저장소 예제도 데이터셋별 <code class="language-plaintext highlighter-rouge">satu_gyro</code> 설정을 요구한다.</p>
+
+</details>
+
+<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
 
 <p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
 
@@ -508,8 +558,7 @@
 <input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-lio2/">FAST-LIO2 리뷰</a> · <a href="/study/slam/lio/">전체 비교표</a></p>
-
+<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-lio2/">FAST-LIO2 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
 
 
 
@@ -520,7 +569,7 @@
 
 <nav class="study-chapter-nav" aria-label="챕터 이동">
   
-    <a href="/study/slam/lio/">← 목차로 돌아가기</a>
+    <a href="/study/slam/state-estimation/">← 목차로 돌아가기</a>
   
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/fast-livo2/" rel="next">

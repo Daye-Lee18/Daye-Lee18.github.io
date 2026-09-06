@@ -369,7 +369,7 @@
   </header>
 
   <article>
-    <p><a href="/study/slam/lio/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
 
 <blockquote>
   <p><strong>한 문장 요약:</strong> 시간 창 안의 상태와 서브맵 간 정합을 최적화하고 GPU로 계산량을 처리하는 매핑 프레임워크다.</p>
@@ -454,7 +454,57 @@
 
 <p><strong>제안 실험:</strong> 동일 퇴화 로그에서 FAST-LIO2와 비교하고 구간별 오차, 지연 상위 백분위수, GPU 메모리를 기록한다. 카메라 사용 여부를 맞춘 뒤 비교한다.</p>
 
-<h2 id="6-정독발표-기록">6. 정독·발표 기록</h2>
+<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+
+<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+
+<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+
+<p>fixed-lag smoothing이 EKF보다 일시적인 LiDAR 퇴화에 유리할 수 있는 이유와 비용을 설명하라.</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>시간 창의 여러 상태와 관측을 함께 다시 선형화하므로 퇴화 구간 전후의 정보가 내부 상태를 연결할 수 있다. 반면 상태·factor 수, 메모리, 선형계 풀이 비용과 지연이 증가한다. 창 밖 상태의 marginalization이 만든 prior의 일관성도 고려해야 한다.</p>
+
+</details>
+
+<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+
+<p>비선형 least squares (\min<em>\delta\sum_i|r_i(x\boxplus\delta)|</em>{\Sigma_i^{-1}}^2)를 1차 선형화한 normal equation을 쓰고, 퇴화와의 관계를 설명하라.</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>(H\delta=-g), (H=\sum_iJ_i^\top\Sigma_i^{-1}J_i), (g=\sum_iJ_i^\top\Sigma_i^{-1}r_i)이다. (H)의 작은 고유값은 해당 상태 방향을 제약하는 정보가 약함을 뜻한다. damping은 수치 안정성을 줄 수 있지만 관측 정보를 새로 만들지는 않는다.</p>
+
+</details>
+
+<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+
+<p>평균 실행 시간은 실시간인데 Vision60 제어가 간헐적으로 deadline을 놓친다. GPU 기반 SLAM 관점에서 무엇을 측정할 것인가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>kernel·memory transfer·synchronization별 시간, p95/p99와 최악 지연, GPU memory peak, queue depth, 인지·학습 작업과의 contention, thermal throttling을 측정한다. 평균 FPS만 보면 burst와 blocking을 놓친다. 제어와 SLAM의 stream·priority·resource partition도 확인한다.</p>
+
+</details>
+
+<h3 id="q4-코드-리뷰구현">Q4. 코드 리뷰·구현</h3>
+
+<p><strong>GitHub:</strong> <a href="https://github.com/koide3/glim" rel="external nofollow noopener" target="_blank">공식 또는 저자 연결 저장소</a></p>
+
+<p>GLIM에 새로운 속도 factor를 추가한다고 하자. factor 구현 외에 registration, config, state timestamp, Jacobian 검증과 실시간 성능을 어떻게 확인하겠는가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>기존 factor가 생성·등록되는 경로와 optimizer가 보유하는 state key·timestamp convention을 먼저 따른다. noise model과 robust kernel을 config로 노출하고 센서 측정 시각을 어떤 두 상태에 연결할지 명시한다. analytic Jacobian은 manifold perturbation convention을 맞춰 finite difference와 비교한다. factor on/off의 동일 bag A/B 테스트에서 trajectory error, innovation, graph size, solve-time p95/p99를 측정하고 marginalization 뒤에도 dangling key가 없는지 검사한다.</p>
+
+</details>
+
+<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
 
 <p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
 
@@ -510,8 +560,7 @@
 <input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-lio2/">FAST-LIO2 리뷰</a> · <a href="/study/slam/lio/">전체 비교표</a></p>
-
+<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-lio2/">FAST-LIO2 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
 
 
 
@@ -522,7 +571,7 @@
 
 <nav class="study-chapter-nav" aria-label="챕터 이동">
   
-    <a href="/study/slam/lio/">← 목차로 돌아가기</a>
+    <a href="/study/slam/state-estimation/">← 목차로 돌아가기</a>
   
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/loam/" rel="next">

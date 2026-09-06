@@ -480,7 +480,7 @@ ninja.data = [{
           title: '상태 추정 계보 — LiDAR에서 LIVO·다리 센서 융합까지',
           description: "FAST-LIO2 기준 논문 비교: 센서, 추정 구조, 루프클로저, Vision60 적용 관점.",
           section: "Study",handler: () => {
-              window.location.href = "/study/slam/lio/";
+              window.location.href = "/study/slam/state-estimation/";
             },},{id: "study-legolas-논문-리뷰",
           title: 'Legolas — 논문 리뷰',
           description: "다리·관성 센서만으로 odometry를 학습해 외부 센서 추적이 어려운 상황을 다루는 연구다.",

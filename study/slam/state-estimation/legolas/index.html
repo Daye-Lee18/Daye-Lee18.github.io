@@ -369,7 +369,7 @@
   </header>
 
   <article>
-    <p><a href="/study/slam/lio/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
 
 <blockquote>
   <p><strong>한 문장 요약:</strong> 다리·관성 센서만으로 odometry를 학습해 외부 센서 추적이 어려운 상황을 다루는 연구다.</p>
@@ -452,7 +452,44 @@
 
 <p><strong>제안 실험:</strong> 학습 모델 단독 odometry의 정상 보행·슬립 구간 상대 오차를 먼저 측정한다. LIO 융합은 그 후 단계로 두고 새로운 factor의 공분산을 어떻게 정할지 검토한다.</p>
 
-<h2 id="6-정독발표-기록">6. 정독·발표 기록</h2>
+<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+
+<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+
+<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+
+<p>학습 기반 leg-inertial odometry가 새로운 로봇에 바로 일반화하기 어려운 이유를 입력 표현과 동역학 관점에서 설명하라.</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>관절 수·순서·축, 링크 길이, actuator dynamics, gait, 마찰, 센서 bias·주기가 달라 같은 입력 패턴의 물리적 의미가 바뀐다. normalization과 augmentation만으로 invariance가 보장되지 않는다. morphology-aware 표현, adaptation과 불확실성 평가가 필요하다.</p>
+
+</details>
+
+<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+
+<p>모델이 시간창 (x<em>{t-k:t})에서 상대 변환 (\hat T</em>{t,t+1})을 예측할 때 SE(3) loss를 하나 쓰고, translation·rotation scale 문제를 설명하라.</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>예를 들어 (\xi=\mathrm{Log}(T_{gt}^{-1}\hat T)), (L=\xi^\top W\xi)를 쓸 수 있다. (\xi=[\rho,\phi])에서 m와 rad의 scale이 달라 (W) 또는 learned uncertainty가 필요하다. 회전 표현의 discontinuity와 긴 rollout에서 누적되는 상관 오차도 별도로 평가해야 한다.</p>
+
+</details>
+
+<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+
+<p>학습 odometry를 LIO factor로 추가했더니 전체 정확도가 나빠졌다. 가능한 원인과 안전한 결합법은 무엇인가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>분포 밖 상황에서 bias가 커졌는데 covariance를 작게 주어 과신했을 수 있다. 시간 상관된 출력을 독립 factor처럼 반복 사용했을 수도 있다. innovation gating, OOD·uncertainty 추정, covariance calibration, 낮은 초기 가중치와 failure fallback을 사용하고 sensor ablation으로 원인을 분리한다.</p>
+
+</details>
+
+<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
 
 <p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
 
@@ -508,8 +545,7 @@
 <input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/vilens/">VILENS 리뷰</a> · <a href="/study/slam/lio/">전체 비교표</a></p>
-
+<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/vilens/">VILENS 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
 
 
 
@@ -520,7 +556,7 @@
 
 <nav class="study-chapter-nav" aria-label="챕터 이동">
   
-    <a href="/study/slam/lio/">← 목차로 돌아가기</a>
+    <a href="/study/slam/state-estimation/">← 목차로 돌아가기</a>
   
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/lijo/" rel="next">

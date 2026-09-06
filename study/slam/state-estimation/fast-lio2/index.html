@@ -369,7 +369,7 @@
   </header>
 
   <article>
-    <p><a href="/study/slam/lio/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
 
 <blockquote>
   <p><strong>한 문장 요약:</strong> 원시 LiDAR 점을 로컬 맵에 직접 정합하고 IMU와 반복 필터로 융합하는, 현재 Vision60 시스템의 기준선이다.</p>
@@ -452,7 +452,57 @@
 
 <p><strong>제안 실험:</strong> 같은 로그의 평지·회전·착지 구간을 분리해 상대 pose 오차, 높이 오차, 처리 지연을 기록한다. ground truth가 없으면 drift 수치를 정확도로 단정하지 말고 맵 중첩·반복 주행 차이를 보조 지표로 남긴다.</p>
 
-<h2 id="6-정독발표-기록">6. 정독·발표 기록</h2>
+<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+
+<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+
+<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+
+<p>FAST-LIO2의 <code class="language-plaintext highlighter-rouge">direct</code>가 “ICP나 대응점 탐색을 하지 않는다”는 뜻인지 설명하고, 특징 기반 LIO와 비교하라.</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>그 뜻이 아니다. FAST-LIO2는 hand-crafted edge/plane 특징 추출을 생략하고 원시 점을 map에 직접 등록한다. 각 점 주변의 map 이웃을 찾고 국소 평면을 구성해 point-to-plane 잔차를 만든다. 차이는 <strong>관측을 만들 점을 미리 특징으로 선별하는가</strong>에 가깝다. 좋은 답은 direct 등록, 대응점 탐색, 잔차 계산을 서로 구분한다.</p>
+
+</details>
+
+<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+
+<p>점 (p<em>i^L)를 world frame으로 변환한 (p_i^W=R</em>{WI}(R<em>{IL}p_i^L+t</em>{IL})+t_{WI})와 평면 (n_i^\top x+d_i=0)가 있다. LiDAR 잔차를 쓰고, 어떤 상태에 대한 Jacobian이 퇴화할 수 있는지 설명하라.</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>잔차는 (r<em>i=n_i^\top p_i^W+d_i)이다. 작은 회전 섭동 (\delta\theta)에 대해 회전 Jacobian은 부호 convention에 따라 (-n_i^\top R</em>{WI}[R_{IL}p_i^L+t_{IL}]_\times), 위치 Jacobian은 (n_i^\top) 꼴이다. 모든 법선이 비슷하면 법선에 수직인 평행이동이 약하게 관측되고, 회전도 점 분포와 법선이 충분히 다양하지 않으면 약해진다. 핵심은 Jacobian 또는 information matrix의 작은 고유값과 기하 퇴화를 연결하는 것이다.</p>
+
+</details>
+
+<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+
+<p>계단 착지 직후 Z가 튄다. 필터 튜닝 전에 어떤 로그를 어떤 순서로 확인할 것인가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>점별 timestamp와 LiDAR–IMU 시간 기준, IMU clipping·drop, extrinsic, deskew 전후 점군, 잔차와 선택된 평면 법선, covariance 순서로 본다. 같은 raw log를 재생해 재현성을 확보하고 착지 전후를 분리한다. 단순히 process noise를 줄이면 출력은 매끄러워질 수 있지만 bias나 시간 오차를 숨기고 지연을 키울 수 있다.</p>
+
+</details>
+
+<h3 id="q4-코드-리뷰구현">Q4. 코드 리뷰·구현</h3>
+
+<p><strong>GitHub:</strong> <a href="https://github.com/hku-mars/FAST_LIO" rel="external nofollow noopener" target="_blank">공식 또는 저자 연결 저장소</a></p>
+
+<p>저장소에서 새 LiDAR의 <code class="language-plaintext highlighter-rouge">PointCloud2</code>를 지원해야 한다. 점별 시간 필드의 단위가 기존 센서와 다를 때, 어느 처리 경로와 설정을 추적하고 어떤 회귀 테스트를 작성하겠는가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p><code class="language-plaintext highlighter-rouge">config</code>의 <code class="language-plaintext highlighter-rouge">lidar_type</code>, <code class="language-plaintext highlighter-rouge">timestamp_unit</code>, topic 설정에서 시작해 <code class="language-plaintext highlighter-rouge">src/preprocess.cpp</code>의 센서별 callback·점 시간 변환, <code class="language-plaintext highlighter-rouge">src/laserMapping.cpp</code>의 measurement synchronization, <code class="language-plaintext highlighter-rouge">src/IMU_Processing.hpp</code>의 undistortion까지 추적한다. 내부 시간 단위를 하나로 정규화하고 scan 시작·끝 시각 및 점별 상대 시간이 단조인지 검사한다. 정지 bag, 일정 각속도 bag, 알려진 timestamp offset을 넣은 bag을 재생해 deskew 후 평면 두께와 pose를 비교한다. 단순히 컴파일되는지만 보는 테스트는 시간 단위 오류를 잡지 못한다.</p>
+
+</details>
+
+<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
 
 <p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
 
@@ -508,8 +558,7 @@
 <input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-lio/">FAST-LIO 리뷰</a> · <a href="/study/slam/lio/">전체 비교표</a></p>
-
+<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-lio/">FAST-LIO 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
 
 
 
@@ -520,7 +569,7 @@
 
 <nav class="study-chapter-nav" aria-label="챕터 이동">
   
-    <a href="/study/slam/lio/">← 목차로 돌아가기</a>
+    <a href="/study/slam/state-estimation/">← 목차로 돌아가기</a>
   
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/lio-sam/" rel="next">

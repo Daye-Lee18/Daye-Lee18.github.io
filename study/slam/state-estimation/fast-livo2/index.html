@@ -369,7 +369,7 @@
   </header>
 
   <article>
-    <p><a href="/study/slam/lio/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
 
 <blockquote>
   <p><strong>한 문장 요약:</strong> LiDAR 기하와 영상 밝기 정보를 같은 voxel map에서 연결하고 ESIKF로 순차 융합하는 LIVO다.</p>
@@ -452,7 +452,57 @@
 
 <p><strong>제안 실험:</strong> 기하가 약한 구간을 밝음·어두움·블러 구간으로 나눠 LiDAR-only와 영상 융합의 오차·실패율·계산량을 비교한다.</p>
 
-<h2 id="6-정독발표-기록">6. 정독·발표 기록</h2>
+<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+
+<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+
+<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+
+<p>FAST-LIVO2가 LiDAR와 영상을 하나의 voxel map에 연결하는 이유와 순차 갱신의 이점을 설명하라.</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>LiDAR 점이 기하 구조를 만들고 그 점에 image patch를 연결하면 두 모달리티가 같은 3D 기준을 공유한다. 순차 갱신은 차원과 모델이 다른 LiDAR 기하 잔차와 영상 광도 잔차를 각각 처리하면서 같은 상태를 갱신할 수 있게 한다. 다만 독립성·선형화 가정과 갱신 순서의 영향은 확인해야 한다.</p>
+
+</details>
+
+<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+
+<p>광도 잔차 (r(u)=I<em>k(\pi(TP))-I</em>{ref}(u))의 pose Jacobian을 chain rule로 분해하라. 어떤 영상에서 정보가 작아지는가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>(\partial r/\partial\xi=\nabla I_k\,(\partial\pi/\partial P’)\,(\partial P’/\partial\xi))이다. 이미지 gradient, 투영 Jacobian, SE(3) 운동 Jacobian의 곱이다. 무텍스처에서는 (\nabla I)가 작고, 포화·노출 변화는 brightness constancy를 깨뜨리며, 깊이·기하 배치에 따라 특정 운동의 sensitivity가 약해진다.</p>
+
+</details>
+
+<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+
+<p>LiDAR-only보다 LIVO의 ATE는 좋아졌지만 착지 때 실패율이 늘었다. 가능한 원인과 ablation을 제안하라.</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>motion blur, rolling shutter, 노출 변화, camera–IMU 시간 오차, extrinsic flex, 영상 갱신의 계산 지연을 의심한다. LiDAR update만, visual update만, blur frame 제외, exposure estimation on/off, timestamp offset sweep를 같은 로그에서 비교한다. 평균 ATE와 충격 구간 실패율·최악 지연을 별도로 본다.</p>
+
+</details>
+
+<h3 id="q4-코드-리뷰구현">Q4. 코드 리뷰·구현</h3>
+
+<p><strong>GitHub:</strong> <a href="https://github.com/hku-mars/FAST-LIVO2" rel="external nofollow noopener" target="_blank">공식 또는 저자 연결 저장소</a></p>
+
+<p><code class="language-plaintext highlighter-rouge">src/LIVMapper.cpp</code>에서 이미지 시각이 LiDAR·IMU 최신 시각보다 앞서거나 뒤설 때 measurement buffer가 어떤 결정을 내리는지 추적하라. image drop과 wait를 구분하는 테스트를 어떻게 만들겠는가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p><code class="language-plaintext highlighter-rouge">img_time_buffer</code>, LiDAR scan 시작·끝과 마지막 LIO update 시각, 최신 IMU 시각, <code class="language-plaintext highlighter-rouge">exposure_time_init</code>을 표로 기록한다. 이미지가 이미 처리된 LIO 시각보다 오래되면 drop되고, 필요한 LiDAR/IMU가 아직 도착하지 않았으면 buffer를 유지한 채 wait해야 한다. 합성 메시지 시각을 순서별로 주입해 buffer 크기, 반환 상태, <code class="language-plaintext highlighter-rouge">lio_vio_flg</code>, 처리 timestamp를 검증한다. mutex가 잠긴 채 early return하지 않는지도 함께 본다.</p>
+
+</details>
+
+<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
 
 <p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
 
@@ -508,8 +558,7 @@
 <input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-livo/">FAST-LIVO 리뷰</a> · <a href="/study/slam/lio/">전체 비교표</a></p>
-
+<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-livo/">FAST-LIVO 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
 
 
 
@@ -520,7 +569,7 @@
 
 <nav class="study-chapter-nav" aria-label="챕터 이동">
   
-    <a href="/study/slam/lio/">← 목차로 돌아가기</a>
+    <a href="/study/slam/state-estimation/">← 목차로 돌아가기</a>
   
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/vilens/" rel="next">

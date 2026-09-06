@@ -369,7 +369,7 @@
   </header>
 
   <article>
-    <p><a href="/study/slam/lio/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
 
 <blockquote>
   <p><strong>한 문장 요약:</strong> 고주파 odometry와 저주파 정밀 mapping을 분리해 LiDAR 실시간 추정을 가능하게 한 계보의 출발점이다.</p>
@@ -452,7 +452,44 @@
 
 <p><strong>제안 실험:</strong> 먼저 스캔 내 점의 시간 분포와 보행 중 회전량을 시각화한다. 직접 구현하기 전에 FAST-LIO2가 같은 문제에 IMU를 어떻게 쓰는지 비교한다.</p>
 
-<h2 id="6-정독발표-기록">6. 정독·발표 기록</h2>
+<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+
+<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+
+<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+
+<p>LOAM에서 odometry와 mapping의 주기를 분리한 이유를 정확도와 계산량 관점에서 설명하라.</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>odometry는 적은 계산으로 빠르게 속도·운동을 따라가고 mapping은 더 많은 점과 반복으로 느리지만 정밀하게 등록한다. 두 결과가 서로 보완해 실시간성과 낮은 drift를 절충한다. 이 mapping을 전역 루프클로저와 동일시하면 안 된다.</p>
+
+</details>
+
+<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+
+<p>point-to-plane 잔차 (r=n^\top(Rp+t-q))와 point-to-line 거리의 차이를 설명하고, 각각 어떤 특징에 쓰이는가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>평면 잔차는 변환된 점과 평면 기준점 (q)의 차이를 법선 (n)에 투영한 scalar다. 선 잔차는 점과 선 방향 (d) 사이의 수직 성분, 예를 들어 (|(I-dd^\top)(Rp+t-q)|)로 쓸 수 있다. planar feature에는 전자, edge feature에는 후자를 사용한다.</p>
+
+</details>
+
+<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+
+<p>보행 중 한 스캔 안에서 각속도가 일정하지 않다면 constant-velocity deskew가 만드는 지도 오류를 설명하라.</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>실제 pose interpolation과 가정한 pose가 달라 점이 시간에 따라 체계적으로 잘못 변환된다. 평면이 휘거나 이중으로 보이고, 잘못된 대응점이 다음 pose에도 bias를 준다. 점별 timestamp와 고주파 IMU 기반 trajectory를 사용하고 착지 구간의 deskew 전후를 시각화해야 한다.</p>
+
+</details>
+
+<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
 
 <p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
 
@@ -508,8 +545,7 @@
 <input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/lio-sam/">LIO-SAM 리뷰</a> · <a href="/study/slam/lio/">전체 비교표</a></p>
-
+<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/lio-sam/">LIO-SAM 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
 
 
 
@@ -520,7 +556,7 @@
 
 <nav class="study-chapter-nav" aria-label="챕터 이동">
   
-    <a href="/study/slam/lio/">← 목차로 돌아가기</a>
+    <a href="/study/slam/state-estimation/">← 목차로 돌아가기</a>
   
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/fast-lio/" rel="next">

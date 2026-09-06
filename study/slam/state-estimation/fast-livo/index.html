@@ -369,7 +369,7 @@
   </header>
 
   <article>
-    <p><a href="/study/slam/lio/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
 
 <blockquote>
   <p><strong>한 문장 요약:</strong> LiDAR·관성·영상을 sparse-direct 방식으로 결합하는 FAST-LIVO2의 선행 연구다.</p>
@@ -452,7 +452,57 @@
 
 <p><strong>제안 실험:</strong> 동일한 센서 로그를 재현할 수 있는지 먼저 확인한다. 영상 노출·블러 상태를 표시해 영상 정보가 유효한 구간과 그렇지 않은 구간을 구분한다.</p>
 
-<h2 id="6-정독발표-기록">6. 정독·발표 기록</h2>
+<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+
+<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+
+<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+
+<p>FAST-LIVO를 두 tightly coupled subsystem으로 설명하는 것과 FAST-LIVO2의 unified voxel map을 혼동하면 안 되는 이유는 무엇인가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>선행 방법의 LIO·VIO 결합 구조와 후속 방법의 단일 map 표현·순차 갱신은 구체적 데이터 공유 방식이 다르다. 후속 논문의 개선을 선행 방법에 소급하면 상태, 잔차, map association을 잘못 이해하게 된다. 논문별 실제 인터페이스를 확인해야 한다.</p>
+
+</details>
+
+<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+
+<p>LiDAR 잔차 (r<em>L)와 영상 잔차 (r_V)를 한 목적함수 (J=|r_L|</em>{W<em>L}^2+|r_V|</em>{W_V}^2)로 결합할 때 가중치가 중요한 이유는 무엇인가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>두 잔차는 단위·차원·noise가 다르다. 공분산에 맞지 않는 가중치는 한 모달리티가 수치적으로 지배하게 만든다. whitened residual과 robust loss, 상관관계 및 선형화 지점을 검토해야 한다. 단순히 residual 개수를 맞추는 것으로 충분하지 않다.</p>
+
+</details>
+
+<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+
+<p>카메라를 추가한 뒤 정적 장면에서도 pose가 천천히 흐른다. 캘리브레이션 문제를 어떻게 분리할 것인가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>시간 offset, extrinsic, camera intrinsics·distortion, exposure model을 하나씩 고정·변화시켜 ablation한다. 회전 중심 실험은 시간·extrinsic 회전 오차, 여러 깊이의 표적은 translation·intrinsic 오차에 유용하다. LiDAR-only 기준과 reprojection·photometric residual의 방향성을 함께 본다.</p>
+
+</details>
+
+<h3 id="q4-코드-리뷰구현">Q4. 코드 리뷰·구현</h3>
+
+<p><strong>GitHub:</strong> <a href="https://github.com/hku-mars/FAST-LIVO" rel="external nofollow noopener" target="_blank">공식 또는 저자 연결 저장소</a></p>
+
+<p>저장소에서 LIO와 VIO 하위 시스템이 공유하는 상태를 찾아 데이터 소유권 표를 작성하라. 두 callback이 동시에 상태를 갱신할 수 있다면 어떤 버그가 생기며 어떻게 고치겠는가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>ROS subscriber에서 시작해 LiDAR·IMU queue, camera queue, state 구조체, map과 publish 경로까지 symbol reference를 따라간다. 각 객체에 writer, reader, timestamp, lock을 기록한다. 동시에 갱신하면 lost update, 서로 다른 timestamp 상태의 혼합, map–pose 불일치가 생길 수 있다. 단일 estimator thread로 serialized update를 수행하거나 timestamp 순서의 event queue와 명확한 mutex/snapshot 소유권을 둔다. lock 추가만으로 시간 순서가 보장되지는 않는다.</p>
+
+</details>
+
+<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
 
 <p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
 
@@ -508,8 +558,7 @@
 <input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-livo2/">FAST-LIVO2 리뷰</a> · <a href="/study/slam/lio/">전체 비교표</a></p>
-
+<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-livo2/">FAST-LIVO2 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
 
 
 
@@ -520,7 +569,7 @@
 
 <nav class="study-chapter-nav" aria-label="챕터 이동">
   
-    <a href="/study/slam/lio/">← 목차로 돌아가기</a>
+    <a href="/study/slam/state-estimation/">← 목차로 돌아가기</a>
   
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/fast-livo2-resource-constrained/" rel="next">

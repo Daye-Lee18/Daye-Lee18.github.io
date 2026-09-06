@@ -369,7 +369,7 @@
   </header>
 
   <article>
-    <p><a href="/study/slam/lio/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
 
 <blockquote>
   <p><strong>한 문장 요약:</strong> 비전·IMU·LiDAR·다리 odometry를 그래프로 융합하고 다리 속도 bias를 추정하는 4족 상태 추정기다.</p>
@@ -452,7 +452,44 @@
 
 <p><strong>제안 실험:</strong> 미끄러지는 구간과 정상 접촉 구간을 표시한 로그로 다리 속도와 외부 기준 속도를 비교한다. bias 추가 전후의 속도·높이 오차를 구간별로 기록한다.</p>
 
-<h2 id="6-정독발표-기록">6. 정독·발표 기록</h2>
+<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+
+<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+
+<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+
+<p>VILENS가 다리 odometry에 단순한 고정 공분산만 주는 대신 선속도 bias를 상태로 추정하는 이유는 무엇인가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>지형 변형, 다리 유연성, 미끄러짐이 지속적·방향성 있는 속도 오차를 만들 수 있기 때문이다. 고정 공분산은 신뢰도를 낮출 뿐 체계적 오차를 명시적으로 보정하지 못한다. 다른 센서 제약이 있어야 bias와 실제 운동을 구별할 관측 가능성이 생긴다.</p>
+
+</details>
+
+<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+
+<p>측정 모델 (z_v=v+b_v+n)만 있고 (v)와 (b_v)를 모두 미지수로 두면 왜 둘을 분리하기 어려운가? 어떤 추가 정보가 필요한가?</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>한 측정은 (v+b_v)의 합만 제한하므로 (v\leftarrow v+\Delta, b_v\leftarrow b_v-\Delta)가 같은 측정을 만든다. 따라서 rank가 부족하다. IMU 동역학, LiDAR·visual pose 변화, bias random-walk prior 같은 시간·외부 제약이 필요하다. 단순히 센서 수가 많다는 답보다 관측 Jacobian의 null space를 설명해야 한다.</p>
+
+</details>
+
+<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+
+<p>접촉 중인 한 발이 미끄러질 때 모든 다리의 속도를 평균하면 어떤 문제가 생기는가? 강건화 방법을 제안하라.</p>
+
+<details class="study-answer">
+  <summary>답변과 채점 포인트 보기</summary>
+
+  <p>outlier인 발이 몸통 속도 추정을 오염시킨다. 발별 contact probability와 innovation을 유지하고 gating, robust loss, 발별 covariance 조절 또는 consistency 검사로 영향력을 낮출 수 있다. 실제 접촉 센서가 없으면 torque·kinematics 기반 접촉 추정의 지연과 오검출도 평가해야 한다.</p>
+
+</details>
+
+<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
 
 <p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
 
@@ -508,8 +545,7 @@
 <input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/lijo/">LIJO 리뷰</a> · <a href="/study/slam/lio/">전체 비교표</a></p>
-
+<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/lijo/">LIJO 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
 
 
 
@@ -520,7 +556,7 @@
 
 <nav class="study-chapter-nav" aria-label="챕터 이동">
   
-    <a href="/study/slam/lio/">← 목차로 돌아가기</a>
+    <a href="/study/slam/state-estimation/">← 목차로 돌아가기</a>
   
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/lta-om/" rel="next">
