@@ -1,0 +1,27 @@
+{% assign topic_notes = site.study | where: "category", topic.category %}
+{% assign note_count = topic_notes | size | minus: 1 %}
+<a class="study-card-link" href="{{ topic.url | relative_url }}">
+  <div class="study-card">
+    {% if topic.img %}
+      <div class="study-card-image">
+        {%
+          include figure.liquid
+          loading="eager"
+          path=topic.img
+          sizes="(min-width: 900px) 260px, 100vw"
+          alt=topic.title
+          class="study-card-img"
+        %}
+      </div>
+    {% endif %}
+    <div class="study-card-content">
+      <h3 class="study-card-title">{{ topic.title }}</h3>
+      {% if topic.description %}
+        <p class="study-card-description">{{ topic.description }}</p>
+      {% endif %}
+      <span class="study-card-count">
+        {{ note_count }} note{% unless note_count == 1 %}s{% endunless %}
+      </span>
+    </div>
+  </div>
+</a>

@@ -1,0 +1,22 @@
+---
+layout: page
+---
+{{ content }}
+
+{% assign notes = site.study | where: "category", page.category | sort: "importance" %}
+<ol class="study-toc">
+  {% for note in notes %}
+    {% unless note.topic_index %}
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="{{ note.url | relative_url }}">
+          <span class="study-toc-title">{{ note.title }}</span>
+          {% if note.description %}
+            <span class="study-toc-desc">{{ note.description }}</span>
+          {% endif %}
+        </a>
+      </li>
+    {% endunless %}
+  {% endfor %}
+</ol>
+
+<p class="study-back"><a href="{{ '/study/' | relative_url }}">&larr; All study topics</a></p>

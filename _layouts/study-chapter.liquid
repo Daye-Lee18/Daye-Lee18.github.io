@@ -1,0 +1,35 @@
+---
+layout: page
+---
+{{ content }}
+
+{% if page.series %}
+  {% assign chapters = site.study | where: 'series', page.series | sort: 'importance' %}
+{% else %}
+  {% assign chapters = site.study | where: 'category', page.category | sort: 'importance' %}
+{% endif %}
+{% assign current_found = false %}
+{% assign next_chapter = null %}
+{% assign topic_page = null %}
+{% for chapter in chapters %}
+  {% if chapter.series_index or chapter.topic_index %}
+    {% assign topic_page = chapter %}
+  {% elsif current_found and next_chapter == null and chapter.importance %}
+    {% assign next_chapter = chapter %}
+  {% endif %}
+  {% if chapter.url == page.url %}
+    {% assign current_found = true %}
+  {% endif %}
+{% endfor %}
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  {% if topic_page %}
+    <a href="{{ topic_page.url | relative_url }}">&larr; 목차로 돌아가기</a>
+  {% endif %}
+  {% if next_chapter %}
+    <a class="study-chapter-next" href="{{ next_chapter.url | relative_url }}" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 &rarr;</span>
+      <span>{{ next_chapter.title | escape }}</span>
+    </a>
+  {% endif %}
+</nav>

@@ -1,0 +1,22 @@
+---
+layout: page
+---
+{{ content }}
+
+{% assign notes = site.study | where: 'series', page.series | sort: 'importance' %}
+<ol class="study-toc">
+  {% for note in notes %}
+    {% unless note.series_index %}
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="{{ note.url | relative_url }}">
+          <span class="study-toc-title">{{ note.title }}</span>
+          {% if note.description %}
+            <span class="study-toc-desc">{{ note.description }}</span>
+          {% endif %}
+        </a>
+      </li>
+    {% endunless %}
+  {% endfor %}
+</ol>
+
+<p class="study-back"><a href="{{ '/study/slam/' | relative_url }}">&larr; SLAM 학습 목차</a></p>

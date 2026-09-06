@@ -1,0 +1,212 @@
+[
+  {
+    "file": "kroc2026/01-history-ayoung-kim.pdf",
+    "title": "History of SLAM and the SLAM Handbook Project",
+    "author": "Ayoung Kim",
+    "url": "https://drive.google.com/uc?export=download&id=1tmWxcQFD0lGZPO3L6wjxT1k6am4EXyMK",
+    "source_page": "https://drive.google.com/file/d/1tmWxcQFD0lGZPO3L6wjxT1k6am4EXyMK/view",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 2606026,
+    "sha256": "5e447c56d829f4ff32e2f18450c5621ca3247c1ef20fbf4f9bb9fd1923ec58fd",
+    "pages": 32
+  },
+  {
+    "file": "kroc2026/02-3d-vision-sunglok-choi.pdf",
+    "title": "A Short Journey from 3D Vision to 3D Representations",
+    "author": "Sunglok Choi",
+    "url": "https://drive.google.com/uc?export=download&id=1mL52klpHEYU6e-yZk3guMaJocLthSAA7",
+    "source_page": "https://drive.google.com/file/d/1mL52klpHEYU6e-yZk3guMaJocLthSAA7/view",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 10574317,
+    "sha256": "5a51d1d34a9fb2734985dc7143f6010a1d7e4b79201269d32591b90b70b688fd",
+    "pages": 91
+  },
+  {
+    "file": "kroc2026/03-representations-pyojin-kim.pdf",
+    "title": "Representations for 3D Visual World: from Geometry to Spatial AI",
+    "author": "Pyojin Kim",
+    "url": "https://drive.google.com/uc?export=download&id=1OTZjzUGls3fjSQed7LU-xzjS_78e7BIW",
+    "source_page": "https://drive.google.com/file/d/1OTZjzUGls3fjSQed7LU-xzjS_78e7BIW/view",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 12038934,
+    "sha256": "5b3f90e32fa5d348c90db53c47ee63fa18273f3f52613f7f4bb31d5a3d842472",
+    "pages": 87
+  },
+  {
+    "file": "kroc2026/04-backend-younggun-cho.pdf",
+    "title": "SLAM Back-end: Probabilistic and Linear Algebra Foundations for Optimization",
+    "author": "Younggun Cho",
+    "url": "https://drive.google.com/uc?export=download&id=1FGnya__7ZQYsgE7CRhRjggeU2fIQ3izH",
+    "source_page": "https://drive.google.com/file/d/1FGnya__7ZQYsgE7CRhRjggeU2fIQ3izH/view",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 14706226,
+    "sha256": "1f4a263e35cbf8e2fa0363ee41b558d6070376f2d47733c02d49d19667bb133e",
+    "pages": 69
+  },
+  {
+    "file": "kroc2026/05-imu-giseop-kim.pdf",
+    "title": "IMU Basics and Inertial Aided Navigation",
+    "author": "Giseop Kim",
+    "url": "https://drive.google.com/uc?export=download&id=1byqGAKCCsnv8rZbko4RBG9KiQQD_4h8x",
+    "source_page": "https://drive.google.com/file/d/1byqGAKCCsnv8rZbko4RBG9KiQQD_4h8x/view",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 4428479,
+    "sha256": "0d894637d38d71981d6c8b3ca162b2542f92686209b3f4f02b5bc50d60b0dbfd",
+    "pages": 35
+  },
+  {
+    "file": "kroc2026/06-registration-hyungtae-lim.pdf",
+    "title": "From ICP to Learning-based Approaches: The Evolution of Point Cloud Registration",
+    "author": "Hyungtae Lim",
+    "url": "https://drive.google.com/uc?export=download&id=1fwaHF77iwTxcDVl1s1h8BcCZE0EvPmUC",
+    "source_page": "https://drive.google.com/file/d/1fwaHF77iwTxcDVl1s1h8BcCZE0EvPmUC/view",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 11862845,
+    "sha256": "4086880ca31851b8cb0259e6a2eb917075c242f5027f5c40522567eff36d00be",
+    "pages": 71
+  },
+  {
+    "file": "kroc2026/07-ai-visual-slam-alex-lee.pdf",
+    "title": "AI Fundamentals for Monocular Visual SLAM",
+    "author": "Alex Junho Lee",
+    "url": "https://drive.google.com/uc?export=download&id=1-FZ207zXWqZiEudDnd5EEAaybWdIJzNe",
+    "source_page": "https://drive.google.com/file/d/1-FZ207zXWqZiEudDnd5EEAaybWdIJzNe/view",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 8068905,
+    "sha256": "0c1e102f04a703271774a4423abb47179829703d2bd00095e0a3b089fb12221d",
+    "pages": 43
+  },
+  {
+    "file": "foundations/sola2017-quaternion-eskf.pdf",
+    "title": "Quaternion kinematics for the error-state Kalman filter",
+    "author": "Joan Sola",
+    "url": "https://arxiv.org/pdf/1711.02508",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 1686327,
+    "sha256": "6a3d3d3933c425eb6cef049290c2b48b71a90f5189e9810575d83d3a922faaca",
+    "pages": 95
+  },
+  {
+    "file": "foundations/grisetti2016-least-squares-icp.pdf",
+    "title": "From Least-Squares to ICP",
+    "author": "Giorgio Grisetti",
+    "url": "https://gisbi-kim.github.io/materials/study/icra16tuto/icra16_slam_tutorial_grisetti.pdf",
+    "status": "failed",
+    "error": "curl: (56) The requested URL returned error: 404"
+  },
+  {
+    "file": "foundations/stachniss2016-graph-slam.pdf",
+    "title": "Graph-Based SLAM and Sparsity",
+    "author": "Cyrill Stachniss",
+    "url": "https://gisbi-kim.github.io/materials/study/icra16tuto/icra16_slam_tutorial_stachniss.pdf",
+    "status": "failed",
+    "error": "curl: (56) The requested URL returned error: 404"
+  },
+  {
+    "file": "foundations/sola2017-course-on-slam.pdf",
+    "title": "Course on SLAM",
+    "author": "Joan Sola",
+    "url": "https://upcommons.upc.edu/bitstream/2117/337287/1/1775-Course-on-SLAM.pdf",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 12607243,
+    "sha256": "1a73eea9b591327a4688e8937873175022ea0d765269fb8aee6d4c6cd06cb3a2",
+    "pages": 71
+  },
+  {
+    "file": "foundations/dellaert-kaess2017-factor-graphs.pdf",
+    "title": "Factor Graphs for Robot Perception",
+    "author": "Frank Dellaert and Michael Kaess",
+    "url": "https://dellaert.github.io/21S-8803MM/Readings/Dellaert17fnt.pdf",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 14664955,
+    "sha256": "7c8dfb7d740565a176b6cc73ef7dcbed0bc6dcb131379b3614d5b4bb3437030b",
+    "pages": 144
+  },
+  {
+    "file": "foundations/triggs1999-bundle-adjustment.pdf",
+    "title": "Bundle Adjustment - A Modern Synthesis",
+    "author": "Bill Triggs et al.",
+    "url": "https://lear.inrialpes.fr/people/triggs/pubs/Triggs-va99.pdf",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 583567,
+    "sha256": "a42cbfbd0ffcfc9407a5da57d4b4bed45c91fac097c85ebf6ab0a37113ce2247",
+    "pages": 71
+  },
+  {
+    "file": "papers/cadena2016-slam-survey.pdf",
+    "title": "Past, Present, and Future of SLAM",
+    "author": "Cesar Cadena et al.",
+    "url": "https://arxiv.org/pdf/1606.05830",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 6691958,
+    "sha256": "df97dd92e8183bd95806187e28b4fba8a6ba330ff69023a45b3b8796e0d06617",
+    "pages": 25
+  },
+  {
+    "file": "papers/orb-slam2015.pdf",
+    "title": "ORB-SLAM",
+    "author": "Raul Mur-Artal et al.",
+    "url": "https://arxiv.org/pdf/1502.00956",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 4202706,
+    "sha256": "442bcef21b04c007628c452e21b3122296e76fee727b1fc766e7d2b666ec3634",
+    "pages": 18
+  },
+  {
+    "file": "papers/lio-sam2020.pdf",
+    "title": "LIO-SAM",
+    "author": "Tixiao Shan et al.",
+    "url": "https://arxiv.org/pdf/2007.00258",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 4368703,
+    "sha256": "8ad11438fc0849de88b1604932f8bfd2732aee640aaf5fb41974b34f555c86f6",
+    "pages": 8
+  },
+  {
+    "file": "papers/fast-lio2-2021.pdf",
+    "title": "FAST-LIO2",
+    "author": "Wei Xu et al.",
+    "url": "https://arxiv.org/pdf/2107.06829",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 13481318,
+    "sha256": "ba5072e06e75dec5222bcb528143f3aa3238d6f6692bac1e22a9fe1bc55a15dd",
+    "pages": 19
+  },
+  {
+    "file": "papers/droid-slam2021.pdf",
+    "title": "DROID-SLAM",
+    "author": "Zachary Teed and Jia Deng",
+    "url": "https://arxiv.org/pdf/2108.10869",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 11003883,
+    "sha256": "0e15f20bff5f7ceac468c2899baafc8c114a3018c7a7b213eed7c402e5ccec90",
+    "pages": 15
+  },
+  {
+    "file": "papers/kinectfusion2011.pdf",
+    "title": "KinectFusion: Real-time 3D Reconstruction and Interaction Using a Moving Depth Camera",
+    "author": "Shahram Izadi et al.",
+    "url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/kinectfusion-uist-comp.pdf",
+    "status": "downloaded",
+    "downloaded_on": "2026-09-07",
+    "bytes": 917189,
+    "sha256": "c647f2f373bac4b51f6e0a18fbdb481a9298fd3e56363714e69298742578ccff",
+    "pages": 10
+  }
+]

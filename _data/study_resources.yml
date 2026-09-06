@@ -1,0 +1,23 @@
+- title: Autonomous Driving
+  description: Using ROS2 (Jazzy) and AI for Autonomous Driving
+  img: assets/img/thumnail/autonomous_driving_perception.jpg
+  importance: 1
+  url: https://daye-lee18.github.io/ros_autonomous/intro.html
+
+- title: Linear Algebra
+  description: Linear Algebra Hands-on Exercises in Python
+  img: assets/img/thumnail/linalg_logo.png
+  importance: 2
+  url: https://daye-lee18.github.io/linearAlgebra/
+
+- title: Computer Vision
+  description: Computer Vision Study
+  img: assets/img/thumnail/computervision.jpg
+  importance: 3
+  url: https://daye-lee18.github.io/computervision/
+
+- title: C++ Project Book
+  description: Project-based C++ learning material built with Jupyter Book
+  img: assets/img/thumnail/1.png
+  importance: 4
+  url: https://daye-lee18.github.io/cpp-project-book/

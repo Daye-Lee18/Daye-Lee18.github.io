@@ -5,7 +5,7 @@ permalink: /projects/
 description: A collection of my projects.
 nav: true
 nav_order: 3
-display_categories: [master's degree thesis, work, study, fun]
+display_categories: [master's degree thesis, work, fun]
 ---
 
 <div class="projects-page">

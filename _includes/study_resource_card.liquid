@@ -1,0 +1,24 @@
+{% assign resource = include.resource %}
+<a class="study-card-link" href="{{ resource.url }}">
+  <div class="study-card">
+    {% if resource.img %}
+      <div class="study-card-image">
+        {%
+          include figure.liquid
+          loading="lazy"
+          path=resource.img
+          sizes="(min-width: 900px) 200px, 100vw"
+          alt=resource.title
+          class="study-card-img"
+        %}
+      </div>
+    {% endif %}
+    <div class="study-card-content">
+      <h3 class="study-card-title">{{ resource.title }}</h3>
+      {% if resource.description %}
+        <p class="study-card-description">{{ resource.description }}</p>
+      {% endif %}
+      <span class="study-card-count">External study site &rarr;</span>
+    </div>
+  </div>
+</a>

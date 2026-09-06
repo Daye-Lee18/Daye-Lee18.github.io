@@ -246,10 +246,11 @@ defaults:
     values:
       category: IsaacSim
   - scope:
-      path: "_study/hw"
+      path: "_study/edge_computing"
       type: study
     values:
-      category: HW
+      category: EdgeComputing
+      layout: study-chapter
   - scope:
       path: "_study/rust"
       type: study

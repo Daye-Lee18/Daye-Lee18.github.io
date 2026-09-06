@@ -10,5 +10,6 @@ Gemfile.lock
 assets/libs/
 node_modules/
 vendor
+/_resource/slam/**/*.pdf
 .idea
 # assets/video/*.mp4
