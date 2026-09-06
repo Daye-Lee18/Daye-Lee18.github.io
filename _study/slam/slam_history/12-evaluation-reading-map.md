@@ -7,6 +7,7 @@ category: SLAM
 series: slam_history
 permalink: /study/slam/history/12-evaluation-reading-map/
 ---
+
 > **목표:** SLAM 결과를 비교하기 전에 실험 조건을 맞춘다.  
 > **학습량:** 15분. History 마지막 장이다.
 
@@ -18,14 +19,14 @@ Trajectory 오차를 비교할 때는 timestamp 대응, 좌표 정렬, scale 보
 
 ## 2. 연대표는 위치를 잡는 도구
 
-| 시기 / 대표 사례 | 이 노트에서 배운 질문 | 복습 |
-|---|---|---|
-| 초기 확률적 SLAM | 위치와 지도의 오차가 어떻게 연결되나? | 1~2장 |
-| FastSLAM, 2002 | 경로 조건으로 문제를 나눌 수 있나? | 3장 |
-| Graph/smoothing 계열 | 과거 상태와 큰 문제를 어떻게 갱신하나? | 6~7장 |
-| KinectFusion, 2011 / ORB-SLAM, 2015 | 센서와 지도 표현이 설계를 어떻게 바꾸나? | 8~9장 |
-| LIO-SAM, 2020 / FAST-LIO2, 2021 preprint | 빠른 관성 예측을 어떻게 보정하나? | 10장 |
-| DROID-SLAM, 2021 및 neural map 계열 | 무엇을 학습하고 무엇을 최적화하나? | 11장 |
+| 시기 / 대표 사례                         | 이 노트에서 배운 질문                    | 복습  |
+| ---------------------------------------- | ---------------------------------------- | ----- |
+| 초기 확률적 SLAM                         | 위치와 지도의 오차가 어떻게 연결되나?    | 1~2장 |
+| FastSLAM, 2002                           | 경로 조건으로 문제를 나눌 수 있나?       | 3장   |
+| Graph/smoothing 계열                     | 과거 상태와 큰 문제를 어떻게 갱신하나?   | 6~7장 |
+| KinectFusion, 2011 / ORB-SLAM, 2015      | 센서와 지도 표현이 설계를 어떻게 바꾸나? | 8~9장 |
+| LIO-SAM, 2020 / FAST-LIO2, 2021 preprint | 빠른 관성 예측을 어떻게 보정하나?        | 10장  |
+| DROID-SLAM, 2021 및 neural map 계열      | 무엇을 학습하고 무엇을 최적화하나?       | 11장  |
 
 이는 앞 장의 원문들을 연결한 학습용 연대표이며, 각 계열의 최초 발명 목록이나 완전한 역사표가 아니다. 병렬로 발전한 기법들을 하나의 교체 순서로 읽지 말자.
 
@@ -40,11 +41,43 @@ Trajectory 오차를 비교할 때는 timestamp 대응, 좌표 정렬, scale 보
 
 [SLAM Handbook 공식 페이지](https://asrl.utias.utoronto.ca/~tdb/slam/)는 더 넓은 주제를 찾아가는 색인으로 사용한다. 필요한 장을 골라 읽고, 판본과 공개 저장소의 갱신 시점을 확인한다.
 
-## 4. 마무리 활동
+## 4. 면접형 확인 문제
 
-관심 시스템 하나에 대해 다음 여섯 줄을 작성한다: 입력 센서, 추정 상태, 관측 residual, 지도 표현, 전역 보정 유무, 실패할 환경.
+### 문제 1 — 개념
 
-**확인 예:** IMU가 들어간다고 전역 위치가 자동으로 관측되는 것은 아니다. “빠른 예측”과 “누적 오차를 잡아 줄 기준”을 분리해서 설명할 수 있으면 LIO 학습을 시작할 준비가 됐다.
+두 SLAM 논문 중 A는 ATE가 더 작고 B는 RPE와 실패율이 더 작다. 회사의 장시간 자율주행 로봇에 적용할 방법을 고르라는 질문에 어떻게 답하겠는가?
+
+<details class="study-answer" markdown="1">
+<summary>답변 보기</summary>
+
+숫자 하나로 선택하지 않고 운영 조건부터 맞춘다. ATE는 전역 궤적 일치도를, RPE는 일정 구간의 local drift를 주로 반영하며 정렬 방식에도 민감하다. 장시간 로봇에서는 catastrophic failure, relocalization 시간, loop closure 오검출, memory 증가, latency tail과 recovery behavior가 중요하다. 동일 센서·연산 장치·데이터 구간과 같은 SE(3)/Sim(3) 정렬 조건에서 재평가하고, 실패 비용이 큰 제품이라면 평균 정확도보다 failure rate와 복구 가능성에 높은 가중치를 둘 수 있다. 최종 선택은 실제 운용 분포에서의 요구사항과 위험 허용치로 결정한다.
+
+</details>
+
+### 문제 2 — 수학·평가
+
+2D trajectory의 추정점이 $(0,0),(1.1,0),(2.2,0)$이고 ground truth가 $(0,0),(1,0),(2,0)$이다. 시작점을 맞춘 상태에서 translation ATE RMSE와, 두 연속 구간의 translation RPE RMSE를 구하라. 두 지표가 무엇을 보여주는지도 설명하라.
+
+<details class="study-answer" markdown="1">
+<summary>답변 보기</summary>
+
+각 pose의 위치 오차 크기는 $0,0.1,0.2$이므로
+
+$$
+\mathrm{ATE}_{RMSE}
+=\sqrt{\frac{0^2+0.1^2+0.2^2}{3}}
+\approx0.129m.
+$$
+
+각 1m ground-truth 구간에 대해 추정 이동은 1.1m이므로 두 구간의 상대 translation 오차는 모두 0.1m다.
+
+$$
+\mathrm{RPE}_{RMSE}=\sqrt{\frac{0.1^2+0.1^2}{2}}=0.1m.
+$$
+
+RPE는 매 구간의 10cm drift를 보여주고, ATE는 그 drift가 누적되어 마지막 pose에서 20cm가 된 결과까지 반영한다. 실제 평가는 회전, timestamp association, trajectory alignment와 구간 길이 정의를 명시해야 한다.
+
+</details>
 
 ## 다음 학습
 

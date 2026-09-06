@@ -7,6 +7,7 @@ category: SLAM
 series: slam_history
 permalink: /study/slam/history/11-learning-spatial-ai/
 ---
+
 > **목표:** learned feature, learned depth, neural map을 구분한다.  
 > **학습량:** 10~15분. 최신 순위보다 구성 요소를 읽는 장이다.
 
@@ -24,21 +25,51 @@ NeRF는 장면을 radiance field로 표현하고, 3D Gaussian Splatting은 Gauss
 
 다음 표를 새 논문마다 한 줄씩 채운다.
 
-| 항목 | 기록할 내용 |
-|---|---|
-| 입력 | RGB만 받나, depth/IMU/pose도 받나? |
-| 학습하는 부분 | correspondence, depth, update, map 중 무엇인가? |
-| 남은 기하학 | projection, pose optimization, loop 검증은 어디 있나? |
-| 실행 조건 | GPU, 해상도, memory, 사전 학습 데이터는? |
-| 출력 | trajectory, surface, semantic label 중 무엇인가? |
+| 항목          | 기록할 내용                                           |
+| ------------- | ----------------------------------------------------- |
+| 입력          | RGB만 받나, depth/IMU/pose도 받나?                    |
+| 학습하는 부분 | correspondence, depth, update, map 중 무엇인가?       |
+| 남은 기하학   | projection, pose optimization, loop 검증은 어디 있나? |
+| 실행 조건     | GPU, 해상도, memory, 사전 학습 데이터는?              |
+| 출력          | trajectory, surface, semantic label 중 무엇인가?      |
 
 예를 들어 새 시점의 이미지가 선명해도 로봇 궤적이 미터 단위로 정확한지는 별도 실험이 필요하다. 사람에게 자연스러운 렌더링과 충돌 회피용 지도가 요구하는 정보도 다르다.
 
-## 확인 질문
+## 면접형 확인 문제
 
-“NeRF를 쓴다”는 말만으로 그 시스템에 loop closure가 있다고 알 수 있을까?
+### 문제 1 — 개념
 
-**확인:** 아니다. 재방문 검출과 전역 일관성 보정이 별도로 구현되어 있는지 확인해야 한다.
+학습 기반 Visual SLAM이 학습 데이터에서는 기존 방법보다 좋지만 새로운 도시에서 크게 실패했다. 연구 면접에서 원인 분석과 추가 실험을 어떻게 제안하겠는가?
+
+<details class="study-answer" markdown="1">
+<summary>답변 보기</summary>
+
+먼저 학습 데이터와 새 도시 사이의 appearance, camera intrinsics, motion, weather, dynamic object 분포 차이를 확인한다. Learned feature, depth, pose update, map representation 중 어느 module에서 성능이 무너지는지 classical component로 교체하는 ablation을 수행한다. Geometry consistency, uncertainty calibration, catastrophic failure rate를 평균 ATE와 함께 측정한다. 여러 도시를 leave-one-domain-out으로 평가하고, 조도·blur·intrinsics를 통제한 실험으로 원인을 분리한다. Test-time adaptation을 쓴다면 ground-truth leakage, 계산량과 online stability도 보고해야 한다.
+
+</details>
+
+### 문제 2 — 수학·평가
+
+Depth estimator가 모든 true depth $d_i$에 대해 $\hat d_i=1.2d_i$를 출력한다고 하자. Absolute relative error
+
+$$
+\mathrm{AbsRel}=\frac1N\sum_i\frac{|\hat d_i-d_i|}{d_i}
+$$
+
+를 구하라. 이 결과가 monocular SLAM의 pose 정확도를 충분히 설명하지 못하는 이유도 말하라.
+
+<details class="study-answer" markdown="1">
+<summary>답변 보기</summary>
+
+각 점에서
+
+$$
+\frac{|1.2d_i-d_i|}{d_i}=0.2
+$$
+
+이므로 $\mathrm{AbsRel}=0.2$, 즉 20%다. 그러나 이 값은 depth의 전역 scale bias만 요약하며 frame 사이의 temporal consistency, correspondence, camera pose, loop closure와 drift를 직접 측정하지 않는다. Monocular trajectory를 Sim(3)로 정렬하면 일정 scale bias가 평가에서 제거될 수도 있다. Depth metric과 trajectory metric, failure rate를 함께 봐야 한다.
+
+</details>
 
 ## 원문 읽기
 

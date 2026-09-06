@@ -7,6 +7,7 @@ category: SLAM
 series: slam_history
 permalink: /study/slam/history/05-registration-icp/
 ---
+
 > **목표:** correspondence와 pose update를 구분한다.  
 > **학습량:** 15분. Chapter 4의 좌표 변환을 사용한다.
 
@@ -32,11 +33,48 @@ Point-to-plane은 점과 대응 평면 사이의 법선 방향 거리를 사용�
 
 그런데 마지막 target을 40으로 잘못 매칭하면 최적 이동은 $(2+2+38)/3=14$가 된다. 계산은 정확해도 대응이 틀리면 추정은 틀린다. Robust loss와 correspondence 검증은 서로 보완한다.
 
-## 확인 질문
+## 면접형 확인 문제
 
-ICP가 수렴했다는 로그가 “실제 위치를 찾았다”는 뜻일까?
+### 문제 1 — 개념
 
-**확인:** 아니다. 선택한 목적함수와 초기값 아래에서 변화가 작아졌다는 의미일 수 있다. 다른 정합 해, 잘못된 대응, 관측 불가능한 방향이 남아 있을 수 있다.
+ICP가 낮은 residual로 수렴했지만 추정 pose가 틀렸다. 가능한 원인 세 가지와 각각을 확인할 진단 방법을 설명하라.
+
+<details class="study-answer" markdown="1">
+<summary>답변 보기</summary>
+
+첫째, 반복 구조에서 잘못된 local minimum에 수렴할 수 있으므로 초기값을 바꾸거나 global registration 결과와 비교한다. 둘째, 잘못된 correspondence와 outlier가 목적함수를 지배할 수 있으므로 대응 거리·법선 각도 분포와 inlier ratio를 확인한다. 셋째, 평면이나 긴 복도처럼 특정 운동 방향이 관측되지 않는 degeneracy일 수 있으므로 Hessian 또는 normal matrix의 eigenvalue와 condition number를 본다. 겹침이 적거나 시간 왜곡이 있는 경우도 raw scan과 deskew 결과를 시각화해 확인한다.
+
+</details>
+
+### 문제 2 — 수학
+
+Point-to-plane ICP의 residual을 $r_i=n_i^T(Rp_i+t-q_i)$로 둔다. 현재 추정 근처에서 왼쪽 작은 회전 $R'\approx(I+[\delta\theta]_\times)R$과 이동 변화 $\delta t$를 적용할 때, $\delta\xi=[\delta\theta^T,\delta t^T]^T$에 대한 Jacobian 한 행을 구하라.
+
+<details class="study-answer" markdown="1">
+<summary>답변 보기</summary>
+
+$a_i=Rp_i$라고 두면
+
+$$
+R'p_i\approx a_i+[\delta\theta]_\times a_i
+=a_i-[a_i]_\times\delta\theta.
+$$
+
+따라서
+
+$$
+r_i'\approx r_i+n_i^T\left(-[a_i]_\times\delta\theta+\delta t\right)
+$$
+
+이고 Jacobian은
+
+$$
+J_i=\begin{bmatrix}-n_i^T[a_i]_\times & n_i^T\end{bmatrix}.
+$$
+
+오른쪽 perturbation이나 다른 pose convention을 사용하면 회전 Jacobian의 형태가 달라진다. 유도에서 사용한 convention을 코드와 맞추는 것이 핵심이다.
+
+</details>
 
 ## 원문 읽기
 

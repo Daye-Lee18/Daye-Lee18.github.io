@@ -8,17 +8,17 @@ importance: 9
 permalink: /study/slam/state-estimation/loam/
 ---
 
-[← 상태 추정 논문 비교]({{ '/study/slam/lio/' | relative_url }})
+[← 상태 추정 논문 비교]({{ '/study/slam/state-estimation/' | relative_url }})
 
 > **한 문장 요약:** 고주파 odometry와 저주파 정밀 mapping을 분리해 LiDAR 실시간 추정을 가능하게 한 계보의 출발점이다.
 
-| 항목 | 내용 |
-|:---|:---|
-| 논문 | LOAM: Lidar Odometry and Mapping in Real-time |
-| 발표 | RSS 2014 |
-| 자료 | [논문·저자 자료](https://publications.ri.cmu.edu/loam-lidar-odometry-and-mapping-in-real-time) |
-| 정리 상태 | 입문 리뷰 초안 · 개인 정독·재현 기록은 아래에 추가 |
-| 자료 확인일 | 2026-09-07 |
+| 항목        | 내용                                                                                           |
+| :---------- | :--------------------------------------------------------------------------------------------- |
+| 논문        | LOAM: Lidar Odometry and Mapping in Real-time                                                  |
+| 발표        | RSS 2014                                                                                       |
+| 자료        | [논문·저자 자료](https://publications.ri.cmu.edu/loam-lidar-odometry-and-mapping-in-real-time) |
+| 정리 상태   | 입문 리뷰 초안 · 개인 정독·재현 기록은 아래에 추가                                             |
+| 자료 확인일 | 2026-09-07                                                                                     |
 
 ## 1. 해결하려는 문제
 
@@ -60,24 +60,60 @@ LiDAR 중심의 기하 정합은 충분한 구조와 적절한 운동 추정에 
 
 **제안 실험:** 먼저 스캔 내 점의 시간 분포와 보행 중 회전량을 시각화한다. 직접 구현하기 전에 FAST-LIO2가 같은 문제에 IMU를 어떻게 쓰는지 비교한다.
 
-## 6. 정독·발표 기록
+## 6. 면접형 확인 질문
+
+각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.
+
+### Q1. 개념·구조
+
+LOAM에서 odometry와 mapping의 주기를 분리한 이유를 정확도와 계산량 관점에서 설명하라.
+
+<details class="study-answer" markdown="1">
+<summary>답변과 채점 포인트 보기</summary>
+
+odometry는 적은 계산으로 빠르게 속도·운동을 따라가고 mapping은 더 많은 점과 반복으로 느리지만 정밀하게 등록한다. 두 결과가 서로 보완해 실시간성과 낮은 drift를 절충한다. 이 mapping을 전역 루프클로저와 동일시하면 안 된다.
+
+</details>
+
+### Q2. 수학·추론
+
+point-to-plane 잔차 \(r=n^\top(Rp+t-q)\)와 point-to-line 거리의 차이를 설명하고, 각각 어떤 특징에 쓰이는가?
+
+<details class="study-answer" markdown="1">
+<summary>답변과 채점 포인트 보기</summary>
+
+평면 잔차는 변환된 점과 평면 기준점 \(q\)의 차이를 법선 \(n\)에 투영한 scalar다. 선 잔차는 점과 선 방향 \(d\) 사이의 수직 성분, 예를 들어 \(\|(I-dd^\top)(Rp+t-q)\|\)로 쓸 수 있다. planar feature에는 전자, edge feature에는 후자를 사용한다.
+
+</details>
+
+### Q3. 시스템·디버깅
+
+보행 중 한 스캔 안에서 각속도가 일정하지 않다면 constant-velocity deskew가 만드는 지도 오류를 설명하라.
+
+<details class="study-answer" markdown="1">
+<summary>답변과 채점 포인트 보기</summary>
+
+실제 pose interpolation과 가정한 pose가 달라 점이 시간에 따라 체계적으로 잘못 변환된다. 평면이 휘거나 이중으로 보이고, 잘못된 대응점이 다음 pose에도 bias를 준다. 점별 timestamp와 고주파 IMU 기반 trajectory를 사용하고 착지 구간의 deskew 전후를 시각화해야 한다.
+
+</details>
+
+## 7. 정독·발표 기록
 
 위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.
 
-| 기록할 항목 | 개인 리뷰 메모 |
-|:---|:---|
-| 상태·입력·출력 | 미작성 — 좌표계, 단위, 센서 주기까지 기록 |
-| 핵심 수식 | 미작성 — 식 번호, 변수 의미, 가정과 잔차를 설명 |
-| 대표 그림 | 미작성 — 그림 번호와 데이터 흐름을 본인의 말로 설명 |
-| 실험 근거 | 미작성 — 표·그림 번호, 데이터셋, baseline, 지표와 조건 |
-| Ablation | 미작성 — 어떤 요소를 제거했고 무엇이 바뀌었는지 기록 |
-| 실패 사례·한계 | 미작성 — 저자 보고와 자신의 추론을 구분 |
-| 코드·재현 | 미작성 — 버전, 설정, 로그, 장치, 측정 결과 |
-| 최종 판단 | 미작성 — Vision60에서 채택·보류할 이유 |
+| 기록할 항목    | 개인 리뷰 메모                                         |
+| :------------- | :----------------------------------------------------- |
+| 상태·입력·출력 | 미작성 — 좌표계, 단위, 센서 주기까지 기록              |
+| 핵심 수식      | 미작성 — 식 번호, 변수 의미, 가정과 잔차를 설명        |
+| 대표 그림      | 미작성 — 그림 번호와 데이터 흐름을 본인의 말로 설명    |
+| 실험 근거      | 미작성 — 표·그림 번호, 데이터셋, baseline, 지표와 조건 |
+| Ablation       | 미작성 — 어떤 요소를 제거했고 무엇이 바뀌었는지 기록   |
+| 실패 사례·한계 | 미작성 — 저자 보고와 자신의 추론을 구분                |
+| 코드·재현      | 미작성 — 버전, 설정, 로그, 장치, 측정 결과             |
+| 최종 판단      | 미작성 — Vision60에서 채택·보류할 이유                 |
 
 - [ ] 핵심 기여 3개를 원문 근거와 함께 설명할 수 있다.
 - [ ] 상태와 관측이 어떻게 연결되는지 설명할 수 있다.
 - [ ] 실험 결과와 Vision60 적용 가설을 구분했다.
 
-**이어 읽기:** [LIO-SAM 리뷰]({{ '/study/slam/state-estimation/lio-sam/' | relative_url }}) · [전체 비교표]({{ '/study/slam/lio/' | relative_url }})
-
+**이어 읽기:** [LIO-SAM 리뷰]({{ '/study/slam/state-estimation/lio-sam/' | relative_url }}) · [전체 비교표]({{ '/study/slam/state-estimation/' | relative_url }})

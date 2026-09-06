@@ -7,6 +7,7 @@ category: SLAM
 series: slam_history
 permalink: /study/slam/history/02-probability-ekf/
 ---
+
 > **목표:** 예측·보정과 로봇-지도 사이의 상관관계를 이해한다.  
 > **학습량:** 15분. 평균과 분산의 의미를 알고 있으면 좋다.
 
@@ -39,11 +40,45 @@ $$
 
 이 예제에서는 더 작은 분산을 가진 관측 쪽으로 많이 움직인다. 실제 EKF-SLAM에서는 관측이 위치 그 자체가 아니라 거리·각도일 수 있어 Jacobian과 상관관계를 포함해야 한다.
 
-## 확인 질문
+## 면접형 확인 문제
 
-“센서가 더 정확해졌으니 모든 landmark의 공분산을 0으로 두자”는 설정은 왜 문제가 될까?
+### 문제 1 — 개념
 
-**확인:** 오차가 완전히 없다는 가정을 하게 된다. 이후 관측과 충돌하더라도 불확실성을 현실적으로 배분할 수 없다. 분산은 보기 좋은 숫자가 아니라 모델의 가정이다.
+EKF-SLAM에서 로봇 pose와 landmark 사이의 cross-covariance를 모두 0으로 유지하면 어떤 문제가 생기는가?
+
+<details class="study-answer" markdown="1">
+<summary>답변 보기</summary>
+
+같은 불확실한 robot pose에서 관측된 landmark들은 공통 위치 오차를 공유한다. Cross-covariance를 0으로 만들면 이 상관관계를 잃어버리고, landmark 재관측이 robot pose와 다른 landmark에 전달해야 할 정보를 차단한다. 필터가 실제보다 독립적인 측정이 많다고 해석해 과도하게 확신하는 inconsistency가 생길 수 있다. 계산량을 줄이기 위한 근사는 가능하지만, 어떤 상관관계를 버렸으며 consistency를 어떻게 관리하는지 설명해야 한다.
+
+</details>
+
+### 문제 2 — 수학
+
+1차원 상태의 prior가 $x\sim\mathcal N(2.0,0.25)$이고 측정 모델이 $z=x+v$, $v\sim\mathcal N(0,0.04)$이다. 실제 측정이 $z=2.4$일 때 Kalman gain, posterior mean, posterior variance를 구하라.
+
+<details class="study-answer" markdown="1">
+<summary>답변 보기</summary>
+
+측정 Jacobian은 $H=1$이므로
+
+$$
+K=\frac{0.25}{0.25+0.04}\approx0.8621
+$$
+
+이다. 따라서
+
+$$
+\hat x^+=2.0+0.8621(2.4-2.0)\approx2.3448,
+$$
+
+$$
+P^+=(1-K)0.25\approx0.0345.
+$$
+
+측정 분산이 prior 분산보다 작아 평균은 측정 쪽으로 크게 이동하고 posterior 불확실성은 감소한다. 실제 EKF에서는 $H$가 현재 추정점에서 선형화된 Jacobian이므로 초기 추정과 선형화 오차도 함께 고려해야 한다.
+
+</details>
 
 ## 원문 읽기
 

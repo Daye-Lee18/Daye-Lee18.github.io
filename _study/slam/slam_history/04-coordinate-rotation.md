@@ -7,6 +7,7 @@ category: SLAM
 series: slam_history
 permalink: /study/slam/history/04-coordinate-rotation/
 ---
+
 > **목표:** 변환 방향을 명시하고 회전을 단순 덧셈으로 갱신하지 않는 이유를 이해한다.  
 > **학습량:** 15분. 행렬-벡터 곱이 선행 지식이다.
 
@@ -44,11 +45,48 @@ $$
 
 이 예제에서 결과가 $(5,0,0)$으로 나오면 이동 부호나 변환 방향을 잘못 적용한 것이다. 복잡한 코드 전에 이런 단순 예제를 통과시키자.
 
-## 확인 질문
+## 면접형 확인 문제
 
-로봇 위치는 맞는데 point cloud가 로봇을 중심으로 회전해 보인다면 무엇을 먼저 확인할까?
+### 문제 1 — 개념
 
-**확인:** sensor-to-body extrinsic의 방향, 회전 단위, quaternion 성분 순서와 active/passive convention을 확인한다. 최적화 파라미터를 바꾸기 전에 좌표 정의가 일치하는지 본다.
+로봇의 평행이동 궤적은 맞지만 point cloud가 robot origin 주위를 잘못된 방향으로 회전한다. 최적화 파라미터를 조정하기 전에 확인할 항목을 우선순위대로 설명하라.
+
+<details class="study-answer" markdown="1">
+<summary>답변 보기</summary>
+
+먼저 $T_{BS}$와 $T_{SB}$ 중 어느 방향의 extrinsic을 코드가 요구하는지 확인한다. 다음으로 active/passive rotation, quaternion 성분 순서 `(w,x,y,z)` 또는 `(x,y,z,w)`, degree/radian, 좌표축 handedness와 ROS optical frame 규약을 점검한다. Timestamp가 어긋나면 회전 운동 중 비슷한 현상이 생기므로 시간 동기화도 확인한다. 단위 변환과 단순한 알려진 pose 예제를 통과시킨 뒤 residual과 optimizer를 조사하는 순서가 효율적이다.
+
+</details>
+
+### 문제 2 — 수학
+
+$T_{AB}=(R_{AB},t_{AB})$, $T_{BC}=(R_{BC},t_{BC})$이고 $p_A=R_{AB}p_B+t_{AB}$로 정의한다. $T_{AC}$의 회전과 이동을 유도하고, $T_{AB}^{-1}$을 구하라.
+
+<details class="study-answer" markdown="1">
+<summary>답변 보기</summary>
+
+$p_B=R_{BC}p_C+t_{BC}$를 첫 식에 대입하면
+
+$$
+p_A=R_{AB}R_{BC}p_C+R_{AB}t_{BC}+t_{AB}.
+$$
+
+따라서
+
+$$
+R_{AC}=R_{AB}R_{BC},\qquad
+t_{AC}=R_{AB}t_{BC}+t_{AB}.
+$$
+
+역변환은 $p_B=R_{AB}^T(p_A-t_{AB})$이므로
+
+$$
+T_{AB}^{-1}=(R_{AB}^T,-R_{AB}^Tt_{AB}).
+$$
+
+이동 벡터를 단순히 빼는 것이 아니라 역회전까지 적용해야 한다.
+
+</details>
 
 ## 원문 읽기
 

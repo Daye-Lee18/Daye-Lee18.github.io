@@ -8,17 +8,17 @@ importance: 14
 permalink: /study/slam/state-estimation/lijo/
 ---
 
-[← 상태 추정 논문 비교]({{ '/study/slam/lio/' | relative_url }})
+[← 상태 추정 논문 비교]({{ '/study/slam/state-estimation/' | relative_url }})
 
 > **한 문장 요약:** LiDAR·IMU·관절 속도 정보를 EKF로 결합해 4족 odometry의 고주파 jitter를 줄이는 연구다.
 
-| 항목 | 내용 |
-|:---|:---|
-| 논문 | Smooth LiDAR–Inertial–Joint Odometry for perception-driven legged locomotion |
-| 발표 | Robot Learning · 2026-08-10 |
-| 자료 | [논문·저자 자료](https://www.elspub.com/doi/10.55092/rl20260024) |
-| 정리 상태 | 입문 리뷰 초안 · 개인 정독·재현 기록은 아래에 추가 |
-| 자료 확인일 | 2026-09-07 |
+| 항목        | 내용                                                                         |
+| :---------- | :--------------------------------------------------------------------------- |
+| 논문        | Smooth LiDAR–Inertial–Joint Odometry for perception-driven legged locomotion |
+| 발표        | Robot Learning · 2026-08-10                                                  |
+| 자료        | [논문·저자 자료](https://www.elspub.com/doi/10.55092/rl20260024)             |
+| 정리 상태   | 입문 리뷰 초안 · 개인 정독·재현 기록은 아래에 추가                           |
+| 자료 확인일 | 2026-09-07                                                                   |
 
 ## 1. 해결하려는 문제
 
@@ -60,24 +60,60 @@ permalink: /study/slam/state-estimation/lijo/
 
 **제안 실험:** 정지·저속·착지 구간에서 pose 및 속도 분산, 상대 오차, 지연을 함께 측정한다. 단순 저역통과 필터도 비교군으로 두어 관절 융합 자체의 효과를 분리한다.
 
-## 6. 정독·발표 기록
+## 6. 면접형 확인 질문
+
+각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.
+
+### Q1. 개념·구조
+
+LIJO의 관절 기반 속도 제약과 단순 저역통과 필터가 pose jitter를 줄이는 방식의 차이는 무엇인가?
+
+<details class="study-answer" markdown="1">
+<summary>답변과 채점 포인트 보기</summary>
+
+저역통과 필터는 출력의 고주파 성분을 제거하지만 새로운 물리 관측을 추가하지 않고 지연을 만든다. 관절 기반 속도는 운동학에서 얻은 독립 제약을 상태 추정에 넣는다. 다만 slip과 모델 오류가 있으면 이 제약도 bias될 수 있어 가중치·접촉 처리가 필요하다.
+
+</details>
+
+### Q2. 수학·추론
+
+LiDAR 속도 관측 \(z_L=v+n_L\), 관절 속도 관측 \(z_K=v+n_K\)의 분산이 각각 \(\sigma_L^2,\sigma_K^2\)일 때 1차원 최적 융합값과 분산을 쓰라.
+
+<details class="study-answer" markdown="1">
+<summary>답변과 채점 포인트 보기</summary>
+
+독립 Gaussian이면 \(\hat v=(z_L/\sigma_L^2+z_K/\sigma_K^2)/(1/\sigma_L^2+1/\sigma_K^2)\), \(\sigma^2=(1/\sigma_L^2+1/\sigma_K^2)^{-1}\)이다. slip 때 \(\sigma_K^2\)를 키우면 관절 관측 영향이 줄어든다. 두 noise가 상관되거나 bias가 있으면 이 식은 과신할 수 있다.
+
+</details>
+
+### Q3. 시스템·디버깅
+
+정지 jitter RMS는 줄었는데 계단 착지 응답이 늦어졌다. 채택 여부를 어떻게 판단할 것인가?
+
+<details class="study-answer" markdown="1">
+<summary>답변과 채점 포인트 보기</summary>
+
+정확도, smoothness, latency를 별도 지표로 측정한다. 정지 pose·velocity RMS, 착지 이벤트의 위상 지연·rise time, 상대 pose error와 실제 제어 tracking·안정성을 비교한다. 동적 가중치와 단순 필터 baseline을 ablation해 jitter 감소가 정보 융합 때문인지 smoothing 때문인지 분리한다.
+
+</details>
+
+## 7. 정독·발표 기록
 
 위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.
 
-| 기록할 항목 | 개인 리뷰 메모 |
-|:---|:---|
-| 상태·입력·출력 | 미작성 — 좌표계, 단위, 센서 주기까지 기록 |
-| 핵심 수식 | 미작성 — 식 번호, 변수 의미, 가정과 잔차를 설명 |
-| 대표 그림 | 미작성 — 그림 번호와 데이터 흐름을 본인의 말로 설명 |
-| 실험 근거 | 미작성 — 표·그림 번호, 데이터셋, baseline, 지표와 조건 |
-| Ablation | 미작성 — 어떤 요소를 제거했고 무엇이 바뀌었는지 기록 |
-| 실패 사례·한계 | 미작성 — 저자 보고와 자신의 추론을 구분 |
-| 코드·재현 | 미작성 — 버전, 설정, 로그, 장치, 측정 결과 |
-| 최종 판단 | 미작성 — Vision60에서 채택·보류할 이유 |
+| 기록할 항목    | 개인 리뷰 메모                                         |
+| :------------- | :----------------------------------------------------- |
+| 상태·입력·출력 | 미작성 — 좌표계, 단위, 센서 주기까지 기록              |
+| 핵심 수식      | 미작성 — 식 번호, 변수 의미, 가정과 잔차를 설명        |
+| 대표 그림      | 미작성 — 그림 번호와 데이터 흐름을 본인의 말로 설명    |
+| 실험 근거      | 미작성 — 표·그림 번호, 데이터셋, baseline, 지표와 조건 |
+| Ablation       | 미작성 — 어떤 요소를 제거했고 무엇이 바뀌었는지 기록   |
+| 실패 사례·한계 | 미작성 — 저자 보고와 자신의 추론을 구분                |
+| 코드·재현      | 미작성 — 버전, 설정, 로그, 장치, 측정 결과             |
+| 최종 판단      | 미작성 — Vision60에서 채택·보류할 이유                 |
 
 - [ ] 핵심 기여 3개를 원문 근거와 함께 설명할 수 있다.
 - [ ] 상태와 관측이 어떻게 연결되는지 설명할 수 있다.
 - [ ] 실험 결과와 Vision60 적용 가설을 구분했다.
 
-**이어 읽기:** [VILENS 리뷰]({{ '/study/slam/state-estimation/vilens/' | relative_url }}) · [전체 비교표]({{ '/study/slam/lio/' | relative_url }})
-
+**이어 읽기:** [VILENS 리뷰]({{ '/study/slam/state-estimation/vilens/' | relative_url }}) · [전체 비교표]({{ '/study/slam/state-estimation/' | relative_url }})

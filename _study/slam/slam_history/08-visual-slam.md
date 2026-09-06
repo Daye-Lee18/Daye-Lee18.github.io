@@ -7,6 +7,7 @@ category: SLAM
 series: slam_history
 permalink: /study/slam/history/08-visual-slam/
 ---
+
 > **목표:** reprojection error와 tracking/mapping의 역할을 이해한다.  
 > **학습량:** 15분. Chapter 4와 Chapter 6을 먼저 읽는다.
 
@@ -34,11 +35,39 @@ Bundle Adjustment(BA)는 이 reprojection residual을 사용해 camera와 point 
 
 순수 monocular 기하에서 장면과 카메라 이동을 함께 두 배로 늘려도 같은 영상 투영을 만들 수 있다. 알려진 길이, stereo baseline 등 추가 정보 없이 절대 크기를 정하기 어렵다는 뜻이다. 학습 depth를 쓰는 경우에는 데이터에서 얻은 prior와 일반화 조건을 별도로 살펴야 한다.
 
-## 확인 질문
+## 면접형 확인 문제
 
-재투영 오차가 작다면 미터 단위 궤적 길이도 맞을까?
+### 문제 1 — 개념
 
-**확인:** 항상 그렇지 않다. scale의 관측 가능성과 평가 정렬 방식을 따로 확인해야 한다.
+Monocular Visual SLAM의 reprojection error가 매우 작지만 trajectory scale이 틀릴 수 있는 이유를 observability 관점에서 설명하라. 어떤 정보가 scale을 정할 수 있는가?
+
+<details class="study-answer" markdown="1">
+<summary>답변 보기</summary>
+
+순수 monocular projection에서는 모든 3D point와 camera translation을 같은 비율 $s$로 늘려도 정규화 영상 좌표가 변하지 않는다. 따라서 영상 관측만으로 global metric scale은 관측 불가능한 gauge freedom이다. 알려진 stereo baseline, calibrated depth, 올바르게 모델링한 IMU와 중력·동역학 정보, wheel odometry, 알려진 물체 크기 또는 metric prior가 scale을 제공할 수 있다. 평가 때 Sim(3) 정렬을 사용하면 scale 오차가 제거되므로 SE(3) 정렬 결과와 구분해야 한다.
+
+</details>
+
+### 문제 2 — 수학
+
+Pinhole camera에서 $u=f_xX/Z+c_x$, $v=f_yY/Z+c_y$다. 3D camera point $[X,Y,Z]^T$에 대한 projection Jacobian $\partial[u,v]/\partial[X,Y,Z]$를 구하라. $Z$가 0에 가까워질 때 어떤 수치 문제가 생기는가?
+
+<details class="study-answer" markdown="1">
+<summary>답변 보기</summary>
+
+Jacobian은
+
+$$
+J_\pi=
+\begin{bmatrix}
+f_x/Z & 0 & -f_xX/Z^2\\
+0 & f_y/Z & -f_yY/Z^2
+\end{bmatrix}.
+$$
+
+$Z$가 0에 가까우면 각 항이 매우 커져 작은 3D 변화가 큰 pixel 변화로 나타나며 선형화가 불안정해진다. $Z\le0$인 점은 camera 앞의 유효 관측이 아니므로 최적화에 넣기 전에 cheirality와 최소 depth를 검사해야 한다.
+
+</details>
 
 ## 원문 읽기
 
