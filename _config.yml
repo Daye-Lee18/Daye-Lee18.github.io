@@ -256,6 +256,13 @@ defaults:
       type: study
     values:
       category: RUST
+      layout: study-chapter
+  - scope:
+      path: "_study/sensors"
+      type: study
+    values:
+      category: Sensors
+      layout: study-chapter
 
 sass:
   style: compressed
