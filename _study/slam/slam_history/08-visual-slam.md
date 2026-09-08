@@ -1,61 +1,118 @@
 ---
 layout: study-chapter
-title: "Chapter 8. Visual SLAM과 Bundle Adjustment"
-description: "카메라 관측에서 pose와 3D point를 함께 개선하기."
+title: "Chapter 8. Visual SLAM and Bundle Adjustment"
+description: "Refining poses and 3D points together from camera observations."
 importance: 8
 category: SLAM
 series: slam_history
 permalink: /study/slam/history/08-visual-slam/
 ---
 
-> **목표:** reprojection error와 tracking/mapping의 역할을 이해한다.  
-> **학습량:** 15분. Chapter 4와 Chapter 6을 먼저 읽는다.
+> **Goal:** Understand reprojection error and the roles of tracking and mapping.  
+> **Workload:** 15 minutes. Read Chapters 4 and 6 first.
 
-## 1. 사진에는 깊이가 직접 보이지 않는다
+## 1. A photograph does not show depth directly
 
-한 픽셀은 카메라에서 나가는 시선 방향을 알려주지만 그 위의 거리를 바로 정하지는 못한다. 서로 다른 시점의 대응과 기하학을 사용해 3D 구조를 추정한다. 카메라 모델과 pose 추정의 연결은 [KRoC 3D Vision 강연](https://drive.google.com/file/d/1mL52klpHEYU6e-yZk3guMaJocLthSAA7/view)의 camera projection과 relative pose 부분을 참고한다.
+A LiDAR returns a distance. A camera does not — it returns a _direction_ and nothing else.
 
-## 2. Bundle Adjustment는 무엇을 맞추나?
+Suppose a point lands on pixel (320, 240) of a camera with $f_x = f_y = 500$ and principal point (320, 240). Work backwards through the projection $u = f_xX/Z + c_x$ and you get:
 
-추정한 세계 점 $P_j$를 camera pose로 변환한 뒤 영상에 투영해 관측 픽셀 $u_{ij}$와 비교한다.
+```text
+  Z = 1 m   →   the point is at (0, 0, 1)
+  Z = 5 m   →   the point is at (0, 0, 5)
+  Z = 50 m  →   the point is at (0, 0, 50)
+
+  every one of these lands on exactly pixel (320, 240)
+```
+
+One pixel, infinitely many possible 3D points, all on one ray leaving the camera. A single image simply does not contain the answer.
+
+Move the camera 1 m sideways and take a second picture, though, and the ray from the _new_ position is different for each candidate. The two rays cross at exactly one place:
+
+```text
+        cam 1                 cam 2
+          ●───────────────────────► ray 1
+           ╲                    ╱
+            ╲                  ╱
+             ╲                ╱
+              ●──────────────●  ← the two rays meet here: that is the point
+```
+
+That is triangulation, and it is why structure is estimated from correspondences across viewpoints rather than from one frame. For how the camera model connects to pose estimation, see the camera projection and relative pose sections of the [KRoC 3D Vision lecture](https://drive.google.com/file/d/1mL52klpHEYU6e-yZk3guMaJocLthSAA7/view).
+
+## 2. What does Bundle Adjustment actually fit?
+
+It fits everything against one simple test: **if my guesses were right, where would this point have landed in the picture?**
+
+Take the guessed 3D point, push it through the guessed camera pose, project it into the image, and compare against the pixel where the feature actually was.
 
 $$
 r_{ij}=u_{ij}-\pi(T_{C_iW}P_j)
 $$
 
-Bundle Adjustment(BA)는 이 reprojection residual을 사용해 camera와 point 변수를 함께 개선한다. Robust cost, gauge freedom, 희소성이 중요한 구현 요소다. BA는 SLAM 이전의 photogrammetry와 시각 재구성에도 뿌리를 둔다. [Triggs 등의 원문](https://lear.inrialpes.fr/people/triggs/pubs/Triggs-va99.pdf)은 이러한 배경과 수치 최적화를 다룬다.
+With numbers:
 
-## 3. 모든 프레임을 계속 최적화할까?
+```text
+  guessed point      P = (2.0, 0.0, 10.0)   in the camera frame
+  projection         u = 500·(2.0/10.0) + 320 = 420
+  actually observed  u = 423
+                     ─────────────────────────
+  reprojection error r = 423 - 420 = 3 pixels
+```
 
-[ORB-SLAM (2015)](https://arxiv.org/abs/1502.00956)은 tracking, local mapping, loop closing을 분리하며 ORB feature를 여러 작업에 활용하는 대표 사례다. 핵심 장면을 keyframe으로 유지하는 이유를 생각하면 계산량과 지도 관리가 연결된다.
+Three pixels of disagreement. Something in the inputs is wrong — the point may be slightly misplaced, or the camera pose slightly off, and from one residual you cannot tell which.
 
-영상의 photometric error를 사용하는 direct 방식도 있다. “feature/direct”는 관측 오차를 구성하는 방법의 구분이고, “sparse/dense”는 얼마나 많은 정보를 사용하는지와 관련된다. 같은 구분으로 취급하지 말자. [KRoC 3D World 강연](https://drive.google.com/file/d/1OTZjzUGls3fjSQed7LU-xzjS_78e7BIW/view)은 이 계열들을 비교한다.
+That ambiguity is the point of the word _bundle_. Bundle Adjustment does not fix the point and then the pose; it nudges **all** the points and **all** the poses at once, searching for the arrangement in which every reprojection error across every frame is as small as possible. A point seen in 20 frames is constrained by 20 such tests, and a pose that sees 200 points is constrained by 200. Robust cost, gauge freedom and sparsity are the key implementation elements. BA has roots in photogrammetry and visual reconstruction that predate SLAM; [the original paper by Triggs et al.](https://lear.inrialpes.fr/people/triggs/pubs/Triggs-va99.pdf) covers that background and the numerical optimisation.
 
-## 4. Scale 사고 실험
+## 3. Do we keep optimising every frame?
 
-순수 monocular 기하에서 장면과 카메라 이동을 함께 두 배로 늘려도 같은 영상 투영을 만들 수 있다. 알려진 길이, stereo baseline 등 추가 정보 없이 절대 크기를 정하기 어렵다는 뜻이다. 학습 depth를 쓰는 경우에는 데이터에서 얻은 prior와 일반화 조건을 별도로 살펴야 한다.
+[ORB-SLAM (2015)](https://arxiv.org/abs/1502.00956) separates tracking, local mapping and loop closing, and is a well-known case of reusing ORB features across several tasks. Thinking about why key scenes are retained as keyframes connects computational cost to map management.
 
-## 면접형 확인 문제
+There are also direct methods that use the photometric error of the image. “Feature versus direct” is a distinction about how the observation error is built, while “sparse versus dense” concerns how much information is used. Do not treat them as the same distinction. The [KRoC 3D World lecture](https://drive.google.com/file/d/1OTZjzUGls3fjSQed7LU-xzjS_78e7BIW/view) compares these families.
 
-### 문제 1 — 개념
+## 4. A scale thought experiment
 
-Monocular Visual SLAM의 reprojection error가 매우 작지만 trajectory scale이 틀릴 수 있는 이유를 observability 관점에서 설명하라. 어떤 정보가 scale을 정할 수 있는가?
+Here is the one thing a single camera can never recover, no matter how good the algorithm is.
+
+Take a scene and double everything — the camera's movement _and_ the distances to every point:
+
+```text
+  version A                          version B (everything ×2)
+  camera moves    1 m                camera moves    2 m
+  point at        Z = 10 m           point at        Z = 20 m
+  projection u = 500·(2/10)+320      projection u = 500·(4/20)+320
+             = 420                              = 420
+                                                  ↑
+                            identical pixel. identical image. every frame.
+```
+
+A dollhouse filmed up close and a real house filmed from far away produce the same video. So a monocular system can report a trajectory that is perfectly shaped and uniformly, say, 1.7× too large, with zero reprojection error to warn you.
+
+Scale has to come from somewhere outside the images: a stereo baseline (a known distance between two cameras), an IMU (gravity is a known 9.81 m/s²), wheel odometry, or a known object size. If learned depth supplies it instead, that is a prior baked in from training data, and its generalisation has to be examined separately.
+
+One evaluation trap follows directly. Aligning a trajectory with Sim(3) lets the alignment rescale it, which silently erases exactly this error; SE(3) alignment does not. Papers reporting the two are not comparable. If learned depth is used, the prior obtained from the data and the conditions for generalisation have to be examined separately.
+
+## Check questions
+
+### Question 1 — Concept
+
+Explain, from an observability standpoint, why the reprojection error of monocular Visual SLAM can be very small while the trajectory scale is wrong. What information can fix the scale?
 
 <details class="study-answer" markdown="1">
-<summary>답변 보기</summary>
+<summary>Show answer</summary>
 
-순수 monocular projection에서는 모든 3D point와 camera translation을 같은 비율 $s$로 늘려도 정규화 영상 좌표가 변하지 않는다. 따라서 영상 관측만으로 global metric scale은 관측 불가능한 gauge freedom이다. 알려진 stereo baseline, calibrated depth, 올바르게 모델링한 IMU와 중력·동역학 정보, wheel odometry, 알려진 물체 크기 또는 metric prior가 scale을 제공할 수 있다. 평가 때 Sim(3) 정렬을 사용하면 scale 오차가 제거되므로 SE(3) 정렬 결과와 구분해야 한다.
+In pure monocular projection, scaling all 3D points and the camera translation by the same factor $s$ leaves the normalised image coordinates unchanged. Global metric scale is therefore an unobservable gauge freedom under image observations alone. A known stereo baseline, calibrated depth, a correctly modelled IMU with gravity and dynamics, wheel odometry, a known object size or a metric prior can supply scale. Note also that Sim(3) alignment in evaluation removes scale error, so those results must be distinguished from SE(3)-aligned ones.
 
 </details>
 
-### 문제 2 — 수학
+### Question 2 — Math
 
-Pinhole camera에서 $u=f_xX/Z+c_x$, $v=f_yY/Z+c_y$다. 3D camera point $[X,Y,Z]^T$에 대한 projection Jacobian $\partial[u,v]/\partial[X,Y,Z]$를 구하라. $Z$가 0에 가까워질 때 어떤 수치 문제가 생기는가?
+For a pinhole camera, $u=f_xX/Z+c_x$ and $v=f_yY/Z+c_y$. Derive the projection Jacobian $\partial[u,v]/\partial[X,Y,Z]$ for a 3D camera point $[X,Y,Z]^T$. What numerical problem arises as $Z$ approaches zero?
 
 <details class="study-answer" markdown="1">
-<summary>답변 보기</summary>
+<summary>Show answer</summary>
 
-Jacobian은
+The Jacobian is
 
 $$
 J_\pi=
@@ -65,11 +122,11 @@ f_x/Z & 0 & -f_xX/Z^2\\
 \end{bmatrix}.
 $$
 
-$Z$가 0에 가까우면 각 항이 매우 커져 작은 3D 변화가 큰 pixel 변화로 나타나며 선형화가 불안정해진다. $Z\le0$인 점은 camera 앞의 유효 관측이 아니므로 최적화에 넣기 전에 cheirality와 최소 depth를 검사해야 한다.
+As $Z$ approaches zero each term becomes very large, so a small 3D change appears as a large pixel change and the linearisation becomes unstable. Points with $Z\le0$ are not valid observations in front of the camera, so cheirality and a minimum depth have to be checked before they enter the optimisation.
 
 </details>
 
-## 원문 읽기
+## Original reading
 
-- ORB-SLAM: system overview 그림과 세 thread 설명. 로컬: `_resource/slam/papers/orb-slam2015.pdf`.
-- KRoC 3D Vision: PDF 31~38쪽. BA 교재는 Introduction과 cost function부터 읽는다.
+- ORB-SLAM: the system overview figure and the description of the three threads. Local copy: `_resource/slam/papers/orb-slam2015.pdf`.
+- KRoC 3D Vision: PDF pages 31–38. For the BA text, start with the Introduction and the cost function.

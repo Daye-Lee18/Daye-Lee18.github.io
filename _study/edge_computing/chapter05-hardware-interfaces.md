@@ -9,6 +9,29 @@ importance: 6
 
 ---
 
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `lsusb` · `ls /dev/tty*` · `dmesg -w`
+
+| 명령어                            | 하는 일                                   |
+| :-------------------------------- | :---------------------------------------- |
+| `lsusb`                           | 연결된 USB device 목록                    |
+| `lspci`                           | PCIe device 목록                          |
+| `lsblk`                           | 저장장치                                  |
+| `ls -l /dev/ttyUSB*`              | USB-serial device (권한도 함께 확인)      |
+| `ls -l /dev/ttyACM*`              | USB CDC device                            |
+| `ls /dev/video*`                  | 카메라 device node                        |
+| `dmesg -w`                        | **꽂는 순간** 커널이 뭐라고 하는지 실시간 |
+| `dmesg \| tail -30`               | 방금 무슨 일이 있었는지                   |
+| `ip addr`                         | 랜 카드와 IP                              |
+| `ip link`                         | 인터페이스 up/down 상태                   |
+| `ip route`                        | 어느 인터페이스로 나가는지                |
+| `ping -c 3 192.168.0.201`         | 센서까지 닿는지                           |
+| `udevadm info -a -n /dev/ttyUSB0` | udev rule 쓸 때 필요한 속성               |
+| `sudo usermod -aG dialout $USER`  | serial 권한 (재로그인 필요)               |
+
+---
+
 # 1. 센서 데이터는 어떻게 Jetson까지 들어올까?
 
 로봇에서 센서는 데이터를 만들고,
@@ -181,11 +204,11 @@ MAC address는 network interface 자체에 연결되는 hardware-level identifie
 
 IP address와 MAC address는 역할이 다르다.
 
-| IP Address | MAC Address |
-|---|---|
+| IP Address                   | MAC Address                          |
+| ---------------------------- | ------------------------------------ |
 | Network 상의 logical address | Network interface의 hardware address |
-| 변경 가능 | 보통 interface에 고유하게 연결 |
-| Router가 다루는 주소 | Local network에서 frame 전달에 사용 |
+| 변경 가능                    | 보통 interface에 고유하게 연결       |
+| Router가 다루는 주소         | Local network에서 frame 전달에 사용  |
 
 단순히:
 
@@ -1205,12 +1228,12 @@ UDP는 connection-oriented reliability보다
 
 단순 비교:
 
-| TCP | UDP |
-|---|---|
-| 연결 지향 | 비연결형 |
-| 순서/재전송 지원 | 기본적으로 재전송 없음 |
-| 신뢰성 중심 | 낮은 latency/overhead |
-| Web, SSH 등 | Streaming, sensor data 등에 자주 사용 |
+| TCP              | UDP                                   |
+| ---------------- | ------------------------------------- |
+| 연결 지향        | 비연결형                              |
+| 순서/재전송 지원 | 기본적으로 재전송 없음                |
+| 신뢰성 중심      | 낮은 latency/overhead                 |
+| Web, SSH 등      | Streaming, sensor data 등에 자주 사용 |
 
 하지만 실제 protocol 선택은 application 요구에 따라 달라진다.
 
@@ -1550,15 +1573,15 @@ Number of Devices
 
 # 57. 간단 비교
 
-| Interface | 주요 용도 |
-|---|---|
-| Ethernet | LiDAR, computer-to-computer, network device |
-| USB | Camera, serial adapter, general peripheral |
-| UART | MCU, simple sensor |
-| RS-485 | Industrial serial communication |
-| CAN | Motor controller, automotive/robot bus |
-| PCIe | NVMe, accelerator, high-speed device |
-| MIPI CSI | Embedded camera |
+| Interface | 주요 용도                                   |
+| --------- | ------------------------------------------- |
+| Ethernet  | LiDAR, computer-to-computer, network device |
+| USB       | Camera, serial adapter, general peripheral  |
+| UART      | MCU, simple sensor                          |
+| RS-485    | Industrial serial communication             |
+| CAN       | Motor controller, automotive/robot bus      |
+| PCIe      | NVMe, accelerator, high-speed device        |
+| MIPI CSI  | Embedded camera                             |
 
 ---
 

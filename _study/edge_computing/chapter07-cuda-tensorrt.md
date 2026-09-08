@@ -9,6 +9,23 @@ importance: 8
 
 ---
 
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `nvcc --version` · `tegrastats` · `trtexec`
+
+| 명령어                                                        | 하는 일                                                    |
+| :------------------------------------------------------------ | :--------------------------------------------------------- |
+| `nvcc --version`                                              | CUDA toolkit 버전                                          |
+| `cat /etc/nv_tegra_release`                                   | JetPack 버전 (CUDA/TensorRT 버전을 결정)                   |
+| `dpkg -l \| grep -i tensorrt`                                 | 설치된 TensorRT 버전                                       |
+| `tegrastats`                                                  | GPU 사용률·전력 실시간                                     |
+| `/usr/src/tensorrt/bin/trtexec --onnx=m.onnx`                 | ONNX를 TensorRT engine으로 변환·벤치마크                   |
+| `trtexec --onnx=m.onnx --fp16`                                | FP16으로 변환                                              |
+| `python3 -c "import torch; print(torch.cuda.is_available())"` | PyTorch가 GPU를 보는지                                     |
+| `nvidia-smi`                                                  | desktop GPU 전용 (**Jetson에는 없다 — tegrastats를 쓴다**) |
+
+---
+
 # 1. GPU는 있다고 자동으로 쓰는 것이 아니다
 
 Jetson에는 NVIDIA GPU가 들어 있다.

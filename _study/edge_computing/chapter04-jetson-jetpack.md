@@ -9,6 +9,26 @@ importance: 5
 
 ---
 
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `tegrastats` · `nvpmodel -q` · `cat /etc/nv_tegra_release`
+
+| 명령어                            | 하는 일                                             |
+| :-------------------------------- | :-------------------------------------------------- |
+| `cat /etc/nv_tegra_release`       | **JetPack / L4T 버전** — Jetson에서 가장 먼저 볼 것 |
+| `cat /etc/os-release`             | Ubuntu 버전                                         |
+| `uname -a`                        | 커널 버전                                           |
+| `uname -m`                        | `aarch64` 확인                                      |
+| `tegrastats`                      | CPU·GPU·RAM·온도·전력 실시간 (Jetson 전용)          |
+| `sudo nvpmodel -q`                | 현재 전력 모드 조회                                 |
+| `sudo nvpmodel -m 0`              | 최대 성능 모드로 전환                               |
+| `sudo jetson_clocks`              | 클럭을 최대로 고정                                  |
+| `nvcc --version`                  | CUDA toolkit 버전                                   |
+| `free -h` / `df -h`               | RAM·디스크 (Jetson은 둘 다 빠듯하다)                |
+| `sudo apt install nvidia-jetpack` | JetPack 구성요소 설치                               |
+
+---
+
 # 1. Jetson은 정확히 무엇인가?
 
 NVIDIA Jetson은 로봇, 드론, 자율주행, AI Edge Computing 등을 위해 만들어진
@@ -1356,12 +1376,12 @@ MCU는 hardware에 가까운 motor control을 담당하는 구조로 이해할 �
 
 # 40. Jetson과 MCU의 차이
 
-| Jetson | MCU |
-|---|---|
-| Linux 실행 | Bare-metal / RTOS 가능 |
-| ROS 2 실행 가능 | Low-level control |
-| CPU + GPU | 작은 CPU |
-| Perception / SLAM | Motor / Sensor timing |
+| Jetson                    | MCU                        |
+| ------------------------- | -------------------------- |
+| Linux 실행                | Bare-metal / RTOS 가능     |
+| ROS 2 실행 가능           | Low-level control          |
+| CPU + GPU                 | 작은 CPU                   |
+| Perception / SLAM         | Motor / Sensor timing      |
 | 높은 computing capability | 높은 deterministic control |
 
 예:

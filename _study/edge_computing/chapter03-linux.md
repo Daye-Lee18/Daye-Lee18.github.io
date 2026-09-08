@@ -2,9 +2,31 @@
 title: "Chapter 3. Linux for Edge Computers"
 importance: 4
 ---
+
 > **Goal:** Jetson에 SSH로 접속했을 때 보이는 Linux 환경을 이해한다.
 > 파일 시스템, process, service, permission, environment variable을
 > ROS 2와 로봇 개발에 연결해서 이해하는 것이 목표다.
+
+---
+
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `source` · `echo $VAR` · `systemctl status`
+
+| 명령어                                      | 하는 일                                                |
+| :------------------------------------------ | :----------------------------------------------------- |
+| `pwd` / `ls -al` / `cd`                     | 현재 위치, 목록(숨김 포함), 이동                       |
+| `export MY_VALUE=123`                       | 환경변수 설정. 자식 process에 전달됨                   |
+| `echo $PATH`                                | 값 확인. 비어 있으면 설정이 안 된 것                   |
+| `env \| grep ROS`                           | 관련 환경변수 한꺼번에 확인                            |
+| `source ~/.bashrc`                          | 설정 파일을 **현재 shell에** 적용 (실행 ≠ source)      |
+| `which python3`                             | 실제로 어느 실행파일이 잡히는지                        |
+| `ps aux \| grep ros`                        | 무엇이 돌고 있는지                                     |
+| `kill -9 <pid>`                             | 강제 종료                                              |
+| `chmod +x run.sh`                           | 실행 권한 부여                                         |
+| `sudo systemctl status <svc>`               | service 상태 (`start` / `stop` / `restart` / `enable`) |
+| `journalctl -u <svc> -f`                    | 그 service 로그를 실시간으로                           |
+| `sudo apt update && sudo apt install <pkg>` | 패키지 설치                                            |
 
 ---
 
@@ -1914,26 +1936,26 @@ ros2 launch
 
 # 43. 실무에서 자주 쓰는 명령어
 
-| 목적 | Command |
-|---|---|
-| 현재 위치 | `pwd` |
-| 파일 목록 | `ls -la` |
-| directory 이동 | `cd` |
-| directory 생성 | `mkdir -p dir` |
-| 파일 내용 | `cat file` |
-| CPU architecture | `uname -m` |
-| CPU 정보 | `lscpu` |
-| Process 확인 | `ps aux` |
-| 실시간 resource | `top` / `htop` |
-| Process 종료 | `kill PID` |
-| 실행 파일 위치 | `which command` |
-| Environment 확인 | `env` |
-| 변수 확인 | `echo $VAR` |
-| Service 상태 | `systemctl status` |
-| IP 확인 | `ip addr` |
-| SSH | `ssh user@IP` |
-| Disk 사용량 | `df -h` |
-| Directory 크기 | `du -sh directory` |
+| 목적             | Command            |
+| ---------------- | ------------------ |
+| 현재 위치        | `pwd`              |
+| 파일 목록        | `ls -la`           |
+| directory 이동   | `cd`               |
+| directory 생성   | `mkdir -p dir`     |
+| 파일 내용        | `cat file`         |
+| CPU architecture | `uname -m`         |
+| CPU 정보         | `lscpu`            |
+| Process 확인     | `ps aux`           |
+| 실시간 resource  | `top` / `htop`     |
+| Process 종료     | `kill PID`         |
+| 실행 파일 위치   | `which command`    |
+| Environment 확인 | `env`              |
+| 변수 확인        | `echo $VAR`        |
+| Service 상태     | `systemctl status` |
+| IP 확인          | `ip addr`          |
+| SSH              | `ssh user@IP`      |
+| Disk 사용량      | `df -h`            |
+| Directory 크기   | `du -sh directory` |
 
 ---
 

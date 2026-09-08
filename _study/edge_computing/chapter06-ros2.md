@@ -9,6 +9,29 @@ importance: 7
 
 ---
 
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `ros2 topic list` · `ros2 topic hz` · `colcon build`
+
+| 명령어                                              | 하는 일                                |
+| :-------------------------------------------------- | :------------------------------------- |
+| `source /opt/ros/humble/setup.bash`                 | underlay — ROS 2 배포판                |
+| `source install/setup.bash`                         | overlay — 내가 빌드한 것 (항상 나중에) |
+| `colcon build --symlink-install`                    | workspace build                        |
+| `ros2 node list`                                    | 실행 중인 node                         |
+| `ros2 topic list`                                   | topic 목록                             |
+| `ros2 topic echo /imu --once`                       | 실제 data 한 번 보기                   |
+| `ros2 topic hz /imu`                                | 실제로 몇 Hz로 오는지                  |
+| `ros2 topic info /imu --verbose`                    | publisher·subscriber와 QoS             |
+| `ros2 topic type /imu`                              | 메시지 타입                            |
+| `ros2 interface show sensor_msgs/msg/Imu`           | 그 타입의 필드 정의                    |
+| `ros2 run <pkg> <exe>` / `ros2 launch <pkg> <file>` | 실행                                   |
+| `ros2 param list` / `ros2 param get <node> <p>`     | parameter                              |
+| `echo $ROS_DOMAIN_ID`                               | 통신 영역 번호. **안 보일 때 1순위**   |
+| `echo $RMW_IMPLEMENTATION`                          | 어떤 DDS를 쓰는지                      |
+
+---
+
 # 1. ROS 2는 정확히 무엇인가?
 
 ROS는:
@@ -477,12 +500,12 @@ Server
 Client
 ```
 
-| Topic | Service |
-|---|---|
-| 지속적 data stream | 요청/응답 |
-| Publisher/Subscriber | Client/Server |
-| Sensor data에 적합 | 명령/조회에 적합 |
-| 비동기적인 pub/sub | request-response |
+| Topic                | Service          |
+| -------------------- | ---------------- |
+| 지속적 data stream   | 요청/응답        |
+| Publisher/Subscriber | Client/Server    |
+| Sensor data에 적합   | 명령/조회에 적합 |
+| 비동기적인 pub/sub   | request-response |
 
 ---
 
@@ -553,11 +576,11 @@ Navigation에서 Action을 많이 사용하는 이유다.
 
 # 17. Topic / Service / Action
 
-| 종류 | 용도 | 예 |
-|---|---|---|
-| Topic | 지속적인 data | LiDAR, IMU, Odometry |
+| 종류    | 용도           | 예                   |
+| ------- | -------------- | -------------------- |
+| Topic   | 지속적인 data  | LiDAR, IMU, Odometry |
 | Service | 빠른 요청/응답 | 설정 변경, 상태 요청 |
-| Action | 장시간 작업 | Navigation goal |
+| Action  | 장시간 작업    | Navigation goal      |
 
 ---
 
@@ -778,6 +801,11 @@ Cyclone DDS
 이다.
 
 Vision60 같은 multi-computer robot에서 DDS 설정을 맞추는 것이 중요할 수 있다.
+
+> MCU(STM32 등)도 이 stack을 그대로 쓸 수 있다. 단 `rclcpp`와 DDS가 너무 무거워서
+> `rclc`와 Micro XRCE-DDS로 갈아끼운다. 그게 micro-ROS이고,
+> `/mcu/...` 토픽이 어디서 오는지는
+> [Chapter 6.5. micro-ROS와 MCU]({{ '/study/edge_computing/chapter06b-micro-ros-mcu/' | relative_url }})에서 다룬다.
 
 ---
 

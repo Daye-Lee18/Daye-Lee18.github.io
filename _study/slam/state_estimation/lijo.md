@@ -1,119 +1,119 @@
 ---
 layout: study-chapter
-title: "LIJO — 논문 리뷰"
-description: "LiDAR·IMU·관절 속도 정보를 EKF로 결합해 4족 odometry의 고주파 jitter를 줄이는 연구다."
+title: "LIJO — paper review"
+description: "Combines LiDAR, IMU and joint velocity information in an EKF to reduce high-frequency jitter in quadruped odometry."
 category: SLAM
 series: state_estimation
 importance: 14
 permalink: /study/slam/state-estimation/lijo/
 ---
 
-[← 상태 추정 논문 비교]({{ '/study/slam/state-estimation/' | relative_url }})
+[← State estimation paper comparison]({{ '/study/slam/state-estimation/' | relative_url }})
 
-> **한 문장 요약:** LiDAR·IMU·관절 속도 정보를 EKF로 결합해 4족 odometry의 고주파 jitter를 줄이는 연구다.
+> **One-sentence summary:** Combines LiDAR, IMU and joint velocity information in an EKF to reduce high-frequency jitter in quadruped odometry.
 
-| 항목        | 내용                                                                         |
-| :---------- | :--------------------------------------------------------------------------- |
-| 논문        | Smooth LiDAR–Inertial–Joint Odometry for perception-driven legged locomotion |
-| 발표        | Robot Learning · 2026-08-10                                                  |
-| 자료        | [논문·저자 자료](https://www.elspub.com/doi/10.55092/rl20260024)             |
-| 정리 상태   | 입문 리뷰 초안 · 개인 정독·재현 기록은 아래에 추가                           |
-| 자료 확인일 | 2026-09-07                                                                   |
+| Item           | Detail                                                                                |
+| :------------- | :------------------------------------------------------------------------------------ |
+| Paper          | Smooth LiDAR–Inertial–Joint Odometry for perception-driven legged locomotion          |
+| Venue          | Robot Learning · 2026-08-10                                                           |
+| Source         | [Paper / author material](https://www.elspub.com/doi/10.55092/rl20260024)             |
+| Status         | Introductory review draft · personal close-reading and reproduction notes added below |
+| Source checked | 2026-09-07                                                                            |
 
-## 1. 해결하려는 문제
+## 1. The problem it addresses
 
-정지·저속에서 pose가 흔들리면 인지·계획·제어에 불안정한 상태가 전달될 수 있다.
+If the pose wobbles at rest or low speed, an unstable state can be passed on to perception, planning and control.
 
-## 2. 발표할 핵심 3개
+## 2. Three key points to present
 
-1. **관절 기반 몸통 속도:** 관절각·각속도와 순기구학으로 속도를 추정해 EKF 예측에 사용한다.
-2. **동적 가중치:** 운동 속도에 따라 관절 기반 속도 정보의 신뢰도를 조절한다.
-3. **IMU 관측 모델:** IMU를 관측으로 취급하며 manifold EKF에서 센서들을 결합한다.
+1. **Joint-based body velocity:** velocity is estimated from joint angles and rates via forward kinematics and used in the EKF prediction.
+2. **Dynamic weighting:** the confidence in the joint-based velocity information is adjusted according to the motion speed.
+3. **IMU observation model:** the IMU is treated as an observation and the sensors are combined in a manifold EKF.
 
-기술 요약 근거: [논문·저자 설명](https://www.elspub.com/doi/10.55092/rl20260024).
+Basis for this technical summary: [paper / author description](https://www.elspub.com/doi/10.55092/rl20260024).
 
-## 3. 동작 구조
+## 3. How it works
 
-아래는 이해를 위한 개념 흐름이며 구현의 모든 스레드·갱신 주기를 나타내지는 않는다.
+The diagram below is a conceptual flow for understanding; it does not show every thread and update rate in the implementation.
 
 ```text
-관절각·각속도 → 운동학 속도·가중치 → EKF 예측 → IMU·LiDAR 관측 반영 → odometry
+joint angles and rates → kinematic velocity and weighting → EKF prediction → IMU and LiDAR observation update → odometry
 ```
 
-이 흐름은 출판사 초록의 개념 요약이다. 접촉 판정, 가중치 식, 정확한 상태 벡터와 갱신 스케줄은 본문 검증이 필요하다. 속도 의존 가중치를 곧바로 슬립 확률로 해석하지 않는다.
+This flow is a conceptual summary of the publisher's abstract. Contact determination, the weighting formula, the exact state vector and the update schedule need verification against the full text. Do not read the speed-dependent weighting directly as a slip probability.
 
-## 4. 실험 결과와 해석
+## 4. Experimental results and interpretation
 
-출판사 초록은 급한 계단과 큰 루프 궤적을 포함하는 실제 4족 실험에서 정확도를 유지하면서 고주파 jitter를 줄였다고 보고한다. 정량 수치·ablation은 이 페이지에서 아직 검증하지 않았다. [출처](https://www.elspub.com/doi/10.55092/rl20260024)
+The publisher's abstract reports that in real quadruped experiments including steep stairs and large loop trajectories, high-frequency jitter was reduced while accuracy was maintained. The quantitative figures and ablations have not yet been verified on this page. [Source](https://www.elspub.com/doi/10.55092/rl20260024)
 
-**출판사 초록 기반 1차 리뷰.** 지도 정확도와 제어에 유용한 매끄러움은 다른 지표다. 실제 제어 성능 개선은 별도 실험으로 확인해야 한다.
+**A first-pass review based on the publisher's abstract.** Map accuracy and the kind of smoothness that is useful for control are different metrics. Any actual improvement in control performance has to be confirmed by a separate experiment.
 
-정독할 때는 비교 방법 이름뿐 아니라 센서 구성, ground truth, 궤적 정렬 방식, 실행 장치와 실패 구간 포함 여부를 함께 기록한다.
+When reading closely, record not only the names of the compared methods but also the sensor configuration, ground truth, trajectory alignment method, the compute platform, and whether failed segments are included.
 
-## 5. Vision60 적용 질문
+## 5. Vision60 application questions
 
-다음은 논문의 검증 결과와 구분한 **프로젝트 적용 가설·검토 질문**이다.
+The following are **project application hypotheses and review questions**, kept separate from the paper's validated results.
 
-1. 동적 가중치가 저속 슬립과 고속 정상 접촉을 구별할 수 있는가?
-2. jitter 감소에 필터 지연 증가나 실제 운동 감쇠가 동반되는가?
-3. VILENS의 속도 bias 추정과 비교할 때 무엇을 상태로, 무엇을 가중치로 표현하는가?
+1. Can the dynamic weighting distinguish low-speed slip from high-speed normal contact?
+2. Does the jitter reduction come with increased filter latency or attenuation of real motion?
+3. Compared with VILENS's velocity bias estimation, what is expressed as a state and what as a weight?
 
-**제안 실험:** 정지·저속·착지 구간에서 pose 및 속도 분산, 상대 오차, 지연을 함께 측정한다. 단순 저역통과 필터도 비교군으로 두어 관절 융합 자체의 효과를 분리한다.
+**Proposed experiment:** measure pose and velocity variance, relative error and latency together over stationary, low-speed and landing segments. Include a plain low-pass filter as a control group to isolate the effect of the joint fusion itself.
 
-## 6. 면접형 확인 질문
+## 6. Check questions
 
-각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.
+Answer each question out loud first, then open the toggle. Practise stating the assumptions and equations together with the failure conditions and how you would verify them.
 
-### Q1. 개념·구조
+### Q1. Concept and structure
 
-LIJO의 관절 기반 속도 제약과 단순 저역통과 필터가 pose jitter를 줄이는 방식의 차이는 무엇인가?
+How does LIJO's joint-based velocity constraint differ from a plain low-pass filter in the way it reduces pose jitter?
 
 <details class="study-answer" markdown="1">
-<summary>답변과 채점 포인트 보기</summary>
+<summary>Show answer and key points</summary>
 
-저역통과 필터는 출력의 고주파 성분을 제거하지만 새로운 물리 관측을 추가하지 않고 지연을 만든다. 관절 기반 속도는 운동학에서 얻은 독립 제약을 상태 추정에 넣는다. 다만 slip과 모델 오류가 있으면 이 제약도 bias될 수 있어 가중치·접촉 처리가 필요하다.
+A low-pass filter removes high-frequency content from the output without adding any new physical observation, and it introduces latency. Joint-based velocity puts an independent constraint obtained from kinematics into the state estimate. That said, slip and model error can bias this constraint too, so weighting and contact handling are needed.
 
 </details>
 
-### Q2. 수학·추론
+### Q2. Math and reasoning
 
-LiDAR 속도 관측 \(z_L=v+n_L\), 관절 속도 관측 \(z_K=v+n_K\)의 분산이 각각 \(\sigma_L^2,\sigma_K^2\)일 때 1차원 최적 융합값과 분산을 쓰라.
+Given a LiDAR velocity observation \(z_L=v+n_L\) and a joint velocity observation \(z_K=v+n_K\) with variances \(\sigma_L^2\) and \(\sigma_K^2\), write the optimal one-dimensional fused value and its variance.
 
 <details class="study-answer" markdown="1">
-<summary>답변과 채점 포인트 보기</summary>
+<summary>Show answer and key points</summary>
 
-독립 Gaussian이면 \(\hat v=(z_L/\sigma_L^2+z_K/\sigma_K^2)/(1/\sigma_L^2+1/\sigma_K^2)\), \(\sigma^2=(1/\sigma_L^2+1/\sigma_K^2)^{-1}\)이다. slip 때 \(\sigma_K^2\)를 키우면 관절 관측 영향이 줄어든다. 두 noise가 상관되거나 bias가 있으면 이 식은 과신할 수 있다.
+For independent Gaussians, \(\hat v=(z_L/\sigma_L^2+z_K/\sigma_K^2)/(1/\sigma_L^2+1/\sigma_K^2)\) and \(\sigma^2=(1/\sigma_L^2+1/\sigma_K^2)^{-1}\). Increasing \(\sigma_K^2\) during slip reduces the influence of the joint observation. If the two noises are correlated or biased, this expression can be overconfident.
 
 </details>
 
-### Q3. 시스템·디버깅
+### Q3. Systems and debugging
 
-정지 jitter RMS는 줄었는데 계단 착지 응답이 늦어졌다. 채택 여부를 어떻게 판단할 것인가?
+The stationary jitter RMS is down, but the response on landing on a stair is slower. How would you decide whether to adopt it?
 
 <details class="study-answer" markdown="1">
-<summary>답변과 채점 포인트 보기</summary>
+<summary>Show answer and key points</summary>
 
-정확도, smoothness, latency를 별도 지표로 측정한다. 정지 pose·velocity RMS, 착지 이벤트의 위상 지연·rise time, 상대 pose error와 실제 제어 tracking·안정성을 비교한다. 동적 가중치와 단순 필터 baseline을 ablation해 jitter 감소가 정보 융합 때문인지 smoothing 때문인지 분리한다.
+Measure accuracy, smoothness and latency as separate metrics. Compare stationary pose and velocity RMS, the phase lag and rise time of landing events, relative pose error, and the actual control tracking and stability. Ablate the dynamic weighting against a plain filter baseline to separate whether the jitter reduction comes from information fusion or from smoothing.
 
 </details>
 
-## 7. 정독·발표 기록
+## 7. Close-reading and presentation record
 
-위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.
+Use the summary above as a starting point, check the equations, figures and experiment tables in the original, then fill this in yourself. Keep reproduction results you have not yet run separate from the paper's results.
 
-| 기록할 항목    | 개인 리뷰 메모                                         |
-| :------------- | :----------------------------------------------------- |
-| 상태·입력·출력 | 미작성 — 좌표계, 단위, 센서 주기까지 기록              |
-| 핵심 수식      | 미작성 — 식 번호, 변수 의미, 가정과 잔차를 설명        |
-| 대표 그림      | 미작성 — 그림 번호와 데이터 흐름을 본인의 말로 설명    |
-| 실험 근거      | 미작성 — 표·그림 번호, 데이터셋, baseline, 지표와 조건 |
-| Ablation       | 미작성 — 어떤 요소를 제거했고 무엇이 바뀌었는지 기록   |
-| 실패 사례·한계 | 미작성 — 저자 보고와 자신의 추론을 구분                |
-| 코드·재현      | 미작성 — 버전, 설정, 로그, 장치, 측정 결과             |
-| 최종 판단      | 미작성 — Vision60에서 채택·보류할 이유                 |
+| Item to record           | Personal review notes                                                                |
+| :----------------------- | :----------------------------------------------------------------------------------- |
+| States, inputs, outputs  | Not written — record frames, units and sensor rates                                  |
+| Key equations            | Not written — explain equation numbers, variable meanings, assumptions and residuals |
+| Key figures              | Not written — explain the figure number and the data flow in your own words          |
+| Experimental evidence    | Not written — table/figure numbers, dataset, baselines, metrics and conditions       |
+| Ablation                 | Not written — which element was removed and what changed                             |
+| Failure cases and limits | Not written — separate what the authors report from your own inference               |
+| Code and reproduction    | Not written — version, configuration, logs, hardware, measurements                   |
+| Final judgement          | Not written — reasons to adopt or defer for Vision60                                 |
 
-- [ ] 핵심 기여 3개를 원문 근거와 함께 설명할 수 있다.
-- [ ] 상태와 관측이 어떻게 연결되는지 설명할 수 있다.
-- [ ] 실험 결과와 Vision60 적용 가설을 구분했다.
+- [ ] I can explain the three key contributions with evidence from the original paper.
+- [ ] I can explain how the states and observations are connected.
+- [ ] I have separated the paper's results from the Vision60 application hypotheses.
 
-**이어 읽기:** [VILENS 리뷰]({{ '/study/slam/state-estimation/vilens/' | relative_url }}) · [전체 비교표]({{ '/study/slam/state-estimation/' | relative_url }})
+**Read next:** [VILENS review]({{ '/study/slam/state-estimation/vilens/' | relative_url }}) · [Full comparison table]({{ '/study/slam/state-estimation/' | relative_url }})

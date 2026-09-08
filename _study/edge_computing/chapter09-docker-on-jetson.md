@@ -3,10 +3,32 @@ title: "Chapter 9. Docker on Jetson"
 importance: 10
 ---
 
-
 > **Goal:** Docker container가 무엇인지 이해하고,
 > Jetson에서 ROS 2, CUDA, TensorRT 환경을 container로 관리하는 방법을 이해한다.
 > 또한 ARM64, GPU runtime, network, device access가 container에서 왜 중요한지 이해한다.
+
+---
+
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `docker ps` · `docker exec -it` · `docker logs -f`
+
+| 명령어                                 | 하는 일                            |
+| :------------------------------------- | :--------------------------------- |
+| `docker build -t myimg:tag .`          | Dockerfile로 **이미지** 생성       |
+| `docker images`                        | 이미지 목록                        |
+| `docker rmi <image>`                   | 이미지 삭제                        |
+| `docker run -it <image> bash`          | 이미지로 **컨테이너** 생성 후 접속 |
+| `docker run -d --name c1 <image>`      | 백그라운드로 생성                  |
+| `docker ps` / `docker ps -a`           | 실행 중 / 종료된 것 포함           |
+| `docker exec -it c1 bash`              | 실행 중인 컨테이너에 터미널 추가   |
+| `docker logs -f c1`                    | 컨테이너 로그 실시간               |
+| `docker stop c1` / `docker start c1`   | 정지 / 재시작                      |
+| `docker rm -f c1`                      | 컨테이너 삭제                      |
+| `docker stats`                         | 컨테이너별 CPU·메모리              |
+| `--network host`                       | ROS 2 DDS discovery에 사실상 필수  |
+| `--runtime nvidia`                     | 컨테이너에서 Jetson GPU 사용       |
+| `-v <host>:<container>` / `-e VAR=val` | bind mount / 환경변수              |
 
 ---
 
@@ -411,6 +433,10 @@ Container Build
 ```
 
 개발 환경에서 매우 편리하다.
+
+> 이 bind mount가 실제 작업공간에서 어떻게 쓰이는지 —
+> `/opt/ros/humble`과 `/ws`의 차이, `build.sh` / `run.sh` / `colcon build` 흐름 —
+> 는 [Chapter 9.5. Docker 실전]({{ '/study/edge_computing/chapter09b-docker-workspace-workflow/' | relative_url }})에서 이어서 다룬다.
 
 ---
 
@@ -1180,7 +1206,6 @@ AI Container
 
 ```yaml
 services:
-
   slam:
     image: vision60-slam
     network_mode: host
@@ -2172,6 +2197,9 @@ Robot Networking
 
 Chapter 9
 Docker on Jetson
+
+Chapter 9.5
+컨테이너 파일시스템과 개발 워크플로우
 ```
 
 이제 마지막으로 매우 실무적인 내용을 추가한다면:

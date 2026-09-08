@@ -11,6 +11,27 @@ importance: 17
 
 ---
 
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `ss -tuln` · `ls -l` · `ufw status`
+
+| 명령어                                  | 하는 일                                       |
+| :-------------------------------------- | :-------------------------------------------- |
+| `whoami` / `groups`                     | 지금 누구이고 어떤 권한인지                   |
+| `ls -l`                                 | 파일 소유자와 권한                            |
+| `chmod 600 secret.key`                  | 본인만 읽기                                   |
+| `ss -tuln`                              | **열려 있는 port** — 의도치 않게 열린 것 찾기 |
+| `ss -tulpen`                            | 어떤 process가 열었는지까지                   |
+| `sudo ufw status verbose`               | 방화벽 규칙                                   |
+| `sudo ufw allow 22/tcp`                 | 규칙 추가                                     |
+| `last`                                  | 최근 로그인 이력                              |
+| `journalctl -u ssh -f`                  | SSH 접속 시도 로그                            |
+| `ssh-keygen -t ed25519`                 | 키 기반 인증 (비밀번호 로그인 대신)           |
+| `rg "password\|secret\|token\|api_key"` | 저장소에 credential이 섞였는지                |
+| `docker run --privileged`               | **가급적 피하고** `--device`로 좁힌다         |
+
+---
+
 # 1. Robot Security는 왜 중요한가?
 
 로봇이 network에 연결되면 단순한 embedded device가 아니라

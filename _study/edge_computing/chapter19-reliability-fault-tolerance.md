@@ -13,6 +13,27 @@ importance: 20
 
 ---
 
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `systemctl status` · `journalctl -u` · `ros2 topic hz`
+
+| 명령어                                            | 하는 일                          |
+| :------------------------------------------------ | :------------------------------- |
+| `sudo systemctl status <svc>`                     | 살아 있는지, 몇 번 죽었는지      |
+| `sudo systemctl restart <svc>`                    | 수동 복구                        |
+| `journalctl -u <svc> -b`                          | 이번 부팅 이후 그 서비스 로그    |
+| `journalctl -p err -b`                            | 이번 부팅의 error만              |
+| `journalctl --since "1 hour ago"`                 | 죽기 직전 구간                   |
+| `docker run --restart unless-stopped`             | 컨테이너 자동 재시작             |
+| `docker ps -a`                                    | `Exited (1)` 같은 종료 코드 확인 |
+| `docker inspect <c> --format '{{.RestartCount}}'` | 몇 번 재시작됐는지               |
+| `ros2 topic hz /heartbeat`                        | heartbeat가 끊겼는지             |
+| `watch -n 1 'ros2 node list'`                     | node가 사라지는 순간 포착        |
+| `ros2 bag record -a`                              | 재현용 데이터 남기기             |
+| `uptime`                                          | 마지막 재부팅 이후 시간          |
+
+---
+
 # 1. Reliability란?
 
 Reliability는:
@@ -1653,12 +1674,12 @@ Failure Modes and Effects Analysis
 
 # 94. FMEA Example
 
-| Component | Failure Mode | Effect | Detection | Response |
-|---|---|---|---|---|
-| LiDAR | Data loss | SLAM degraded | Topic 0 Hz | Stop autonomy |
-| Camera | Frame loss | Vision unavailable | FPS 0 | LiDAR-only mode |
-| SSD | Disk full | Logging fails | Disk >95% | Stop optional logs |
-| FAST-LIO2 | Process crash | No localization | Heartbeat lost | Restart once |
+| Component | Failure Mode  | Effect             | Detection      | Response           |
+| --------- | ------------- | ------------------ | -------------- | ------------------ |
+| LiDAR     | Data loss     | SLAM degraded      | Topic 0 Hz     | Stop autonomy      |
+| Camera    | Frame loss    | Vision unavailable | FPS 0          | LiDAR-only mode    |
+| SSD       | Disk full     | Logging fails      | Disk >95%      | Stop optional logs |
+| FAST-LIO2 | Process crash | No localization    | Heartbeat lost | Restart once       |
 
 ---
 
@@ -3713,12 +3734,12 @@ Battery critical
 
 FMEA table을 직접 만든다.
 
-| Component | Failure | Detection | Impact | Response |
-|---|---|---|---|---|
-| LiDAR | No packets | 0 Hz | Localization risk | Stop autonomy |
-| Camera | No frames | 0 FPS | No vision AI | Degraded |
-| Cloud | Offline | Heartbeat | No fleet link | Continue local |
-| SSD | Full | >95% | Logging loss | Drop optional logs |
+| Component | Failure    | Detection | Impact            | Response           |
+| --------- | ---------- | --------- | ----------------- | ------------------ |
+| LiDAR     | No packets | 0 Hz      | Localization risk | Stop autonomy      |
+| Camera    | No frames  | 0 FPS     | No vision AI      | Degraded           |
+| Cloud     | Offline    | Heartbeat | No fleet link     | Continue local     |
+| SSD       | Full       | >95%      | Logging loss      | Drop optional logs |
 
 ---
 

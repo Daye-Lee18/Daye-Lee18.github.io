@@ -2,8 +2,27 @@
 title: "Chapter 1. Computer Hardware Basics"
 importance: 2
 ---
+
 > **Goal:** Jetson을 배우기 전에 CPU, GPU, RAM, Storage가 각각 무슨 일을 하는지 이해하고,
 > 이것들이 실제 로봇에서 어떻게 사용되는지 연결한다.
+
+---
+
+## 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `uname -m` · `lscpu` · `free -h`
+
+| 명령어              | 하는 일                                              |
+| :------------------ | :--------------------------------------------------- |
+| `uname -m`          | CPU 아키텍처 (`aarch64` = ARM, `x86_64` = Intel/AMD) |
+| `uname -a`          | 커널 버전까지 한 줄로                                |
+| `lscpu`             | 코어 수, 클럭, 캐시 크기                             |
+| `nproc`             | 논리 코어 개수만                                     |
+| `free -h`           | RAM 사용량 (`-h` = 사람이 읽기 좋게)                 |
+| `df -h`             | 디스크 남은 용량                                     |
+| `lsblk`             | 디스크·파티션 구조                                   |
+| `top` / `htop`      | 어떤 프로세스가 CPU·RAM을 쓰는지 실시간              |
+| `cat /proc/cpuinfo` | CPU 상세 정보 전체                                   |
 
 ---
 
@@ -171,12 +190,12 @@ Jetson이 로봇 분야에서 많이 사용되는 중요한 이유 중 하나가
 
 # 4. CPU vs GPU
 
-| CPU | GPU |
-|---|---|
-| 복잡한 제어 흐름에 강함 | 대규모 병렬 계산에 강함 |
+| CPU                          | GPU                      |
+| ---------------------------- | ------------------------ |
+| 복잡한 제어 흐름에 강함      | 대규모 병렬 계산에 강함  |
 | 비교적 적은 수의 강력한 core | 매우 많은 병렬 연산 unit |
-| OS, ROS 2, driver 등 | AI, Vision, CUDA 등 |
-| general-purpose processing | parallel processing |
+| OS, ROS 2, driver 등         | AI, Vision, CUDA 등      |
+| general-purpose processing   | parallel processing      |
 
 중요한 것은:
 
@@ -276,13 +295,13 @@ Storage
 
 RAM과 Storage는 자주 혼동되지만 완전히 다른 역할을 한다.
 
-| RAM | Storage |
-|---|---|
-| 작업 공간 | 장기 저장 공간 |
-| 매우 빠름 | RAM보다 느림 |
-| 실행 중인 데이터 | 파일/프로그램 저장 |
-| 전원을 끄면 데이터 사라짐 | 전원을 꺼도 유지 |
-| 예: 32 GB RAM | 예: 1 TB NVMe SSD |
+| RAM                       | Storage            |
+| ------------------------- | ------------------ |
+| 작업 공간                 | 장기 저장 공간     |
+| 매우 빠름                 | RAM보다 느림       |
+| 실행 중인 데이터          | 파일/프로그램 저장 |
+| 전원을 끄면 데이터 사라짐 | 전원을 꺼도 유지   |
+| 예: 32 GB RAM             | 예: 1 TB NVMe SSD  |
 
 비유하면:
 

@@ -8,6 +8,24 @@ importance: 3
 
 ---
 
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `uname -m` · `file <binary>` · `dpkg --print-architecture`
+
+| 명령어                                       | 하는 일                                                |
+| :------------------------------------------- | :----------------------------------------------------- |
+| `uname -m`                                   | 지금 이 machine의 아키텍처                             |
+| `dpkg --print-architecture`                  | apt가 설치할 패키지 아키텍처 (`arm64` / `amd64`)       |
+| `lscpu`                                      | CPU 모델과 아키텍처 상세                               |
+| `file robot_app`                             | **binary가 어느 아키텍처용인지** — 실행 안 될 때 1순위 |
+| `g++ main.cpp -o robot_app`                  | 지금 machine용으로 native build                        |
+| `aarch64-linux-gnu-g++ main.cpp`             | x86에서 ARM용으로 cross compile                        |
+| `docker info \| grep -i arch`                | Docker daemon이 보는 아키텍처                          |
+| `docker image inspect <img> \| grep -i arch` | image가 어느 아키텍처용인지                            |
+| `docker build --platform linux/arm64 .`      | 아키텍처를 지정해서 build                              |
+
+---
+
 # 1. CPU는 아무 명령어나 이해하지 못한다
 
 Chapter 1에서 CPU는 프로그램의 명령을 실행하는 장치라고 배웠다.
@@ -174,12 +192,12 @@ Size
 
 아주 단순화하면:
 
-| x86 | ARM |
-|---|---|
-| PC / Server에서 매우 흔함 | Mobile / Embedded / Edge에서 매우 흔함 |
-| Intel, AMD CPU | Jetson, Raspberry Pi 등의 SoC |
-| x86_64 | aarch64 |
-| 높은 범용 성능 중심의 역사 | 전력 효율과 SoC 통합에 강점 |
+| x86                        | ARM                                    |
+| -------------------------- | -------------------------------------- |
+| PC / Server에서 매우 흔함  | Mobile / Embedded / Edge에서 매우 흔함 |
+| Intel, AMD CPU             | Jetson, Raspberry Pi 등의 SoC          |
+| x86_64                     | aarch64                                |
+| 높은 범용 성능 중심의 역사 | 전력 효율과 SoC 통합에 강점            |
 
 과거에는 흔히:
 
@@ -1075,19 +1093,19 @@ docker image inspect <image>
 
 # 25. 용어 정리
 
-| 용어 | 의미 |
-|---|---|
-| ISA | CPU가 이해하는 명령어 체계 |
-| x86 | Intel에서 시작된 CPU architecture 계열 |
-| x86_64 | 64-bit x86 |
-| amd64 | 일반적으로 x86_64를 가리키는 이름 |
-| ARM | Embedded/Mobile/Edge에서 널리 사용되는 architecture 계열 |
-| ARM64 | 64-bit ARM |
-| aarch64 | ARM의 64-bit execution architecture를 나타내는 표현 |
-| Binary | CPU가 실행할 수 있도록 만들어진 executable code |
-| Native Compilation | 실행할 machine과 같은 architecture에서 compile |
-| Cross Compilation | 다른 architecture를 위한 binary를 compile |
-| Multi-Arch Image | 여러 CPU architecture를 지원하는 container image |
+| 용어               | 의미                                                     |
+| ------------------ | -------------------------------------------------------- |
+| ISA                | CPU가 이해하는 명령어 체계                               |
+| x86                | Intel에서 시작된 CPU architecture 계열                   |
+| x86_64             | 64-bit x86                                               |
+| amd64              | 일반적으로 x86_64를 가리키는 이름                        |
+| ARM                | Embedded/Mobile/Edge에서 널리 사용되는 architecture 계열 |
+| ARM64              | 64-bit ARM                                               |
+| aarch64            | ARM의 64-bit execution architecture를 나타내는 표현      |
+| Binary             | CPU가 실행할 수 있도록 만들어진 executable code          |
+| Native Compilation | 실행할 machine과 같은 architecture에서 compile           |
+| Cross Compilation  | 다른 architecture를 위한 binary를 compile                |
+| Multi-Arch Image   | 여러 CPU architecture를 지원하는 container image         |
 
 ---
 

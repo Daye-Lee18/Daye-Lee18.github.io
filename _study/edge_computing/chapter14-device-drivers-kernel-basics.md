@@ -11,6 +11,27 @@ importance: 15
 
 ---
 
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `lsmod` · `dmesg -w` · `journalctl -k`
+
+| 명령어                                              | 하는 일                                              |
+| :-------------------------------------------------- | :--------------------------------------------------- |
+| `uname -r`                                          | 커널 버전. **module은 커널 버전마다 다르다**         |
+| `lsmod`                                             | 로드된 module 목록                                   |
+| `modinfo can`                                       | 그 module의 정보와 parameter                         |
+| `sudo modprobe can`                                 | module 로드                                          |
+| `sudo rmmod can`                                    | module 제거                                          |
+| `dmesg -w`                                          | 커널 메시지 실시간 (**device 꽂을 때 이걸 켜 둔다**) |
+| `journalctl -k -f`                                  | 같은 것을 systemd journal로                          |
+| `ls -l /dev/ttyUSB0`                                | device node와 소유자·권한                            |
+| `udevadm info -a -n /dev/ttyUSB0`                   | udev rule에 쓸 속성                                  |
+| `udevadm control --reload-rules && udevadm trigger` | rule 다시 적용                                       |
+| `cat /proc/interrupts`                              | IRQ가 어느 코어로 가는지                             |
+| `sudo usermod -aG dialout $USER`                    | 권한 부여 (재로그인 필요)                            |
+
+---
+
 # 1. 센서를 꽂으면 왜 바로 프로그램에서 읽을 수 있을까?
 
 예를 들어 USB IMU를 Jetson에 연결했다고 하자.
@@ -2050,13 +2071,13 @@ I2C보다 더 높은 speed가 필요한 경우 사용할 수 있다.
 
 단순 비교:
 
-| Interface | 특징 |
-|---|---|
-| UART | 간단한 point-to-point serial |
-| I2C | 여러 low-speed device 공유 가능 |
-| SPI | 높은 speed, chip select 필요 |
-| CAN | robust multi-node robot/automotive bus |
-| Ethernet | 고속 network communication |
+| Interface | 특징                                   |
+| --------- | -------------------------------------- |
+| UART      | 간단한 point-to-point serial           |
+| I2C       | 여러 low-speed device 공유 가능        |
+| SPI       | 높은 speed, chip select 필요           |
+| CAN       | robust multi-node robot/automotive bus |
+| Ethernet  | 고속 network communication             |
 
 ---
 

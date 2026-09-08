@@ -1,87 +1,149 @@
 ---
 layout: study-chapter
-title: "Chapter 6. Graph SLAM과 loop closure"
-description: "과거 궤적을 다시 고칠 수 있는 제약 기반 표현."
+title: "Chapter 6. Graph SLAM and loop closure"
+description: "A constraint-based representation in which past trajectory can still be corrected."
 importance: 6
 category: SLAM
 series: slam_history
 permalink: /study/slam/history/06-graph-slam/
 ---
 
-> **목표:** front-end, back-end, factor의 역할을 나눈다.  
-> **학습량:** 15분. Chapter 5의 residual 개념을 사용한다.
+> **Goal:** Separate the roles of front-end, back-end and factor.  
+> **Workload:** 15 minutes. Uses the residual concept from Chapter 5.
 
-## 1. 한 번 지나온 궤적도 수정할 수 있다
+## 1. Even a trajectory you have already travelled can be revised
 
-Graph SLAM에서는 pose나 landmark를 변수로, 관측 관계를 제약으로 표현한다. Front-end는 대응과 상대 운동 등의 측정을 만들고, back-end는 그 측정들이 가능한 한 일관되도록 상태를 조정한다. Factor graph는 변수와 factor를 별도 노드로 나타낸다.
+A filter, as in Chapter 2, throws the past away. It keeps only the current state, so once pose $x_1$ has been folded into the estimate, there is no $x_1$ left to correct.
 
-가우시안 잡음을 가정한 대표적인 MAP 추정은 다음 가중 최소제곱 문제로 연결된다.
+Graph SLAM keeps all of them. Every pose stays a variable you can still edit:
+
+```text
+  filter                          graph
+  ───────────────                 ────────────────────────────
+  keeps: x_3 only                 keeps: x_0, x_1, x_2, x_3
+  past is gone                    all still editable
+
+  new information                 new information can revise
+  updates x_3                     any pose, including old ones
+```
+
+The measurements become **constraints** between those variables. "Odometry says $x_1$ is 1 m past $x_0$" is a constraint linking $x_0$ and $x_1$. A revisit constraint links $x_0$ and $x_3$ directly. The front-end produces these measurements; the back-end finds the set of poses that keeps as many of them as happy as possible.
+
+"As happy as possible" is exactly a least-squares problem. Assuming Gaussian noise, the MAP estimate reduces to:
 
 $$
 X^*=\arg\min_X\sum_k r_k(X)^T\Omega_k r_k(X)
 $$
 
-$\Omega_k$는 정보 행렬이며 공분산의 역행렬에 해당한다. 수식의 상세한 확률적 연결은 [KRoC Back-end 강연](https://drive.google.com/file/d/1FGnya__7ZQYsgE7CRhRjggeU2fIQ3izH/view)을 참고한다.
+Read it as: for every constraint $k$, measure how badly it is violated ($r_k$), weight that by how much you trust it ($\Omega_k$), and pick the poses $X$ that minimise the total. $\Omega_k$ is the information matrix, the inverse of the covariance — so a _confident_ measurement has a _large_ $\Omega$ and pulls harder. For the detailed probabilistic derivation, see the [KRoC Back-end lecture](https://drive.google.com/file/d/1FGnya__7ZQYsgE7CRhRjggeU2fIQ3izH/view).
 
-## 2. 재방문 제약을 넣으면
+## 2. What happens when you add a revisit constraint
 
 ```text
 x0 ── x1 ── x2 ── x3
 └─────────────────┘
-      재방문 제약
+    revisit constraint
 ```
 
-연속 이동 측정만 있던 그래프에 $x_0$와 $x_3$ 사이의 관계가 추가되면 중간 pose들도 바뀔 수 있다. 단순히 마지막 점만 붙이는 작업이 아니다. 절대 기준이 없는 상대 측정 그래프는 전체를 함께 이동·회전해도 같은 residual을 갖는다. 기준 pose를 고정하거나 적절한 prior를 두어 이 자유도를 처리한다. Stachniss의 *Graph-Based SLAM and Sparsity*는 그래프와 행렬의 관계를 설명하며, [추천 자료 안내](https://gisbi-kim.github.io/post/slam-textbooks/)에서 읽는 순서를 확인할 수 있다.
+When a relation between $x_0$ and $x_3$ is added to a graph that previously held only consecutive motion measurements, **the intermediate poses change too**. This is the part people expect least, so here it is with numbers.
 
-## 3. 틀린 loop도 최적화할 수 있다
+Odometry says each step is 1 m, so the chain reads 0, 1, 2, 3. Then a revisit constraint says $x_3$ is really only 2.7 m from $x_0$ — a 0.3 m disagreement. Give all four measurements the same weight and minimise:
 
-1층 복도와 2층 복도가 비슷해서 같은 장소로 연결했다고 하자. Solver가 낮은 비용을 찾더라도 지도 두 층이 붙어 버릴 수 있다. 최적화는 입력 제약이 참인지 자동으로 보증하지 않는다.
+$$
+E=(x_1-1)^2+(x_2-x_1-1)^2+(x_3-x_2-1)^2+(x_3-2.7)^2
+$$
 
-학습할 때는 시스템을 다음 두 질문으로 나누자. “왜 이 제약을 만들었나?”는 front-end 질문이고, “주어진 제약들을 어떻게 조정했나?”는 back-end 질문이다.
+```text
+  before                 the naive fix              what the graph does
+  ────────────           ─────────────────          ────────────────────
+  x0 = 0.000             x0 = 0.000                 x0 = 0.000
+  x1 = 1.000             x1 = 1.000                 x1 = 0.925
+  x2 = 2.000             x2 = 2.000                 x2 = 1.850
+  x3 = 3.000             x3 = 2.700 ← just moved    x3 = 2.775
+                                      the endpoint
+  loop error 0.300       steps: 1.0, 1.0, 0.7       steps: .925, .925, .925
 
-## 면접형 확인 문제
+                         residuals                  residuals
+                         odom  0, 0, -0.3           odom  -0.075 ×3
+                         loop  0                    loop  +0.075
+                         Σr²  = 0.090               Σr²  = 0.0225
+```
 
-### 문제 1 — 개념
+The naive fix satisfies the loop exactly but tells an absurd story: the robot moved exactly 1 m twice and then suddenly 0.7 m. Its total squared violation is four times worse.
 
-잘못된 loop closure 하나가 들어왔을 때 robust kernel만 적용하면 문제가 완전히 해결되는가? Front-end와 back-end 관점에서 답하라.
+Two things are worth noticing in the right-hand column. The 0.3 m got spread across every step rather than dumped on the last one. And the graph did **not** fully honour the loop either — it landed at 2.775, leaving 0.075 of loop residual. That is correct behaviour: the loop closure is just one more noisy measurement, not a decree. Weight it more heavily (a smaller covariance, a larger $\Omega$) and the solution slides towards 2.7; weight it less and it slides back towards 3.0.
+
+Question 2 below works through the same kind of problem step by step.
+
+It is not a matter of simply attaching the last point. A graph of purely relative measurements with no absolute reference gives the same residual if the whole thing is translated and rotated together. That degree of freedom is handled by fixing a reference pose or adding a suitable prior. Stachniss's _Graph-Based SLAM and Sparsity_ explains the relationship between the graph and the matrix; the [recommended-materials guide](https://gisbi-kim.github.io/post/slam-textbooks/) suggests a reading order.
+
+## 3. A wrong loop can be optimised too
+
+The solver has no idea what a building looks like. It minimises whatever you hand it, and it will do so obediently even when the input is nonsense.
+
+Suppose a first-floor corridor and a second-floor corridor look alike, and the front-end links them as the same place:
+
+```text
+  what is true                     what the constraint says
+
+  floor 2   ────────────           "x_50 and x_120 are the same place"
+                                              ↓
+  floor 1   ────────────           the solver folds the building in half
+                                   to make that true
+
+                                   result: one corridor, low cost,
+                                           completely wrong map
+```
+
+The cost went _down_. By its own scoring the solver improved the answer. A low final cost is evidence that the constraints agree with each other, not evidence that they are true.
+
+So when studying a system, split it with two questions: **“why was this constraint created?”** is a front-end question, and **“how were the given constraints reconciled?”** is a back-end question. Most catastrophic SLAM failures are the first kind wearing the second kind's clothes.
+
+When studying a system, split it with two questions: “why was this constraint created?” is a front-end question, and “how were the given constraints reconciled?” is a back-end question.
+
+## Check questions
+
+### Question 1 — Concept
+
+If a single wrong loop closure comes in, does applying a robust kernel fully solve the problem? Answer from both the front-end and the back-end perspective.
 
 <details class="study-answer" markdown="1">
-<summary>답변 보기</summary>
+<summary>Show answer</summary>
 
-완전히 해결된다고 보장할 수 없다. Robust kernel은 residual이 큰 factor의 영향력을 줄이지만, 초기 추정 근처에서 false loop의 residual이 작거나 정보 행렬이 지나치게 크면 정상 제약보다 강하게 작용할 수 있다. Front-end에서 descriptor 검색 뒤 기하 검증과 temporal/spatial consistency를 확인하고, back-end에서는 robust loss, switchable constraint, DCS 또는 graph consistency 검사를 사용할 수 있다. 잘못된 loop를 애초에 기각하는 단계와 들어온 outlier의 영향력을 줄이는 단계가 함께 필요하다.
+There is no guarantee it is fully solved. A robust kernel reduces the influence of factors with large residuals, but if a false loop has a small residual near the initial estimate, or an excessively large information matrix, it can act more strongly than the correct constraints. At the front-end, follow descriptor retrieval with geometric verification and temporal/spatial consistency checks; at the back-end you can use a robust loss, switchable constraints, DCS or graph consistency tests. You need both the stage that rejects wrong loops in the first place and the stage that reduces the influence of the outliers that get through.
 
 </details>
 
-### 문제 2 — 수학·추론
+### Question 2 — Math and reasoning
 
-1차원 pose graph에서 $x_0=0$을 고정하고 odometry 측정이 $x_1-x_0=1$, $x_2-x_1=1$이며, loop 측정이 $x_2-x_0=1.8$이라고 하자. 모든 정보 가중치가 같을 때 최소제곱 해 $x_1,x_2$를 구하라.
+In a one-dimensional pose graph, fix $x_0=0$ with odometry measurements $x_1-x_0=1$ and $x_2-x_1=1$, and a loop measurement $x_2-x_0=1.8$. With all information weights equal, find the least-squares solution $x_1,x_2$.
 
 <details class="study-answer" markdown="1">
-<summary>답변 보기</summary>
+<summary>Show answer</summary>
 
-목적함수는
+The objective is
 
 $$
-E=(x_1-1)^2+(x_2-x_1-1)^2+(x_2-1.8)^2
+E=(x_1-1)^2+(x_2-x_1-1)^2+(x_2-1.8)^2.
 $$
 
-이다. 편미분을 0으로 두면
+Setting the partial derivatives to zero,
 
 $$
 2x_1-x_2=0,\qquad -x_1+2x_2=2.8.
 $$
 
-첫 식에서 $x_2=2x_1$이고, 두 번째 식에 대입하면 $3x_1=2.8$이다. 따라서
+The first gives $x_2=2x_1$; substituting into the second gives $3x_1=2.8$. Therefore
 
 $$
 x_1\approx0.9333,\qquad x_2\approx1.8667.
 $$
 
-Loop 오차 $0.2m$가 마지막 pose에만 적용되지 않고 두 odometry 구간에 나뉘어 분배되는 것을 볼 수 있다.
+You can see that the $0.2m$ loop error is not applied to the last pose alone but distributed across both odometry segments.
 
 </details>
 
-## 원문 읽기
+## Original reading
 
-- KRoC Back-end: probability에서 least squares로 이어지는 부분. 로컬: `_resource/slam/kroc2026/04-backend-younggun-cho.pdf`.
-- Stachniss (2016)는 추천 글의 설명과 링크를 참고한다. 기존 직접 PDF 주소는 현재 404를 반환하므로 로컬 자료에는 포함하지 않았다.
+- KRoC Back-end: the part going from probability to least squares. Local copy: `_resource/slam/kroc2026/04-backend-younggun-cho.pdf`.
+- For Stachniss (2016), use the description and links in the recommended guide. The old direct PDF address now returns 404, so it is not included in the local resources.

@@ -1,76 +1,148 @@
 ---
 layout: study-chapter
-title: "Chapter 1. SLAM은 왜 필요한가?"
-description: "위치와 지도의 관계, odometry와 SLAM, 발전의 큰 흐름."
+title: "Chapter 1. Why do we need SLAM?"
+description: "The relationship between pose and map, odometry versus SLAM, and the broad arc of the field."
 importance: 1
 category: SLAM
 series: slam_history
 permalink: /study/slam/history/01-why-slam/
 ---
 
-> **목표:** 위치와 지도를 함께 추정하는 이유를 설명한다.  
-> **학습량:** 본문 10분 + 확인 문제 5분. 선행 지식 없이 시작한다.
+> **Goal:** Explain why pose and map have to be estimated together.  
+> **Workload:** 15 minutes of reading + 5 minutes of check questions. No prior knowledge needed.
 
-## 1. 지도가 있어야 위치를 알 수 있는데
+## 1. You need a map to know where you are
 
-처음 들어간 건물에서 로봇이 벽까지의 거리를 측정했다고 하자. 이 측정만으로 건물 전체에서 자신의 위치를 알 수는 없다. 반대로 벽을 지도에 그리려면 측정 당시 로봇이 어디에 있었는지 알아야 한다.
-
-SLAM은 이 두 미지수, **로봇의 위치·자세와 주변 지도**를 관측으로 함께 추정한다. 지도는 꼭 사람이 보는 그림일 필요는 없다. 재관측할 특징점의 좌표도 지도다. KRoC의 [History 강연](https://drive.google.com/file/d/1tmWxcQFD0lGZPO3L6wjxT1k6am4EXyMK/view)은 위치 추정과 지도의 요구사항을 구분하며 이 문제를 소개한다.
-
-## 2. Odometry와 loop closure
-
-Odometry는 연속 관측에서 이동을 추정한다. 작은 오차가 쌓이면 출발점에 돌아와도 추정 궤적의 끝이 시작점과 어긋날 수 있다. Loop closure는 과거 장소의 재방문을 확인해 먼 시점 사이에 제약을 추가한다. 장소가 비슷해 보이는 것과 실제 같은 장소임을 기하학적으로 검증하는 것은 별개다.
+Suppose a robot enters a building for the first time and its sensor reports “there is a wall 3 m ahead of me”. That single number does not tell it where it is. The robot could be anywhere in the building that happens to have a wall 3 m in front of it.
 
 ```text
-연속 관측 → 이동 추정 → 누적 궤적
-                         ↑
-과거 장소 재인식 → 기하 검증 → 재방문 제약
+"a wall 3 m ahead"  →  which of these is true?
+
+   room A          corridor B        room C
+  ┌──────┐        ┌──────────┐      ┌──────┐
+  │  🤖 ─┤ 3m     │  🤖 ─────┤ 3m   │ 🤖 ─ │ 3m
+  └──────┘        └──────────┘      └──────┘
+
+  all three are consistent with the same measurement
 ```
 
-Loop closure를 항상 성공해야만 SLAM인 것은 아니다. 지역 지도만 유지하는 시스템도 있다. 논문을 읽을 때는 이름보다 **추정하는 상태와 지도의 범위**를 확인하자. [Cadena 등의 SLAM survey](https://arxiv.org/abs/1606.05830)는 문제 정의와 전체 시스템의 구성, 남은 과제를 정리한다.
+Now turn it around. To draw that wall onto a map, you have to write down _where the wall is_, and for that you need to know where the robot was standing when it measured. If the robot was at (0, 0) facing +x, the wall goes at x = 3. If it was at (10, 0), the same measurement puts the wall at x = 13. Same sensor reading, two completely different maps.
 
-## 3. 역사를 읽는 네 가지 질문
+So each of the two problems needs the answer to the other one first.
 
-| 질문                              | 이 노트에서 만날 답           |
-| --------------------------------- | ----------------------------- |
-| 오차를 어떻게 표현할까?           | 확률 분포, 공분산, filtering  |
-| 큰 지도에서 계산을 어떻게 줄일까? | 조건부 독립, 희소 최적화      |
-| 어떤 센서와 지도를 사용할까?      | 카메라, LiDAR, IMU, 밀집 지도 |
-| 실제 환경에서 계속 동작할까?      | 재방문, 강건성, 학습, 평가    |
+SLAM estimates these two unknowns — **the robot's position and orientation, and the surrounding map** — jointly from observations. The map does not have to be a picture a human would look at; the coordinates of feature points to be re-observed are also a map. The KRoC [History lecture](https://drive.google.com/file/d/1tmWxcQFD0lGZPO3L6wjxT1k6am4EXyMK/view) introduces the problem by separating the requirements of localisation from those of mapping.
 
-이 순서는 학습용이다. 실제 연구는 서로 겹쳐 발전했다. 새 방법이 나와도 이전 접근이 사라지는 것은 아니다.
+## 2. Odometry measures a position _relative to the previous one_
 
-## 4. 면접형 확인 문제
+Odometry does not answer “where am I?”. From two consecutive observations it answers a much smaller question: **“how far have I moved since a moment ago?”** What it produces is a position relative to the previous pose, never an absolute position in the building.
 
-### 문제 1 — 개념
+Take a concrete case. The robot starts at the origin and drives straight along x, and odometry reports once per second.
 
-면접관이 “Odometry에 loop closure만 붙이면 항상 SLAM이라고 부를 수 있나요?”라고 물었다. 시스템 구성 요소와 추정 대상의 관점에서 답하라.
+```text
+t = 0   pose (x, y, z) = (0.00, 0.00, 0.00)   ← the starting point we declared
+
+t = 0 → 1   odometry says: Δ = (+1.00, 0.00, 0.00)     "I moved 1 m forward"
+t = 1   pose = (0.00 + 1.00, 0, 0) = (1.00, 0.00, 0.00)
+
+t = 1 → 2   odometry says: Δ = (+1.00, 0.00, 0.00)
+t = 2   pose = (1.00 + 1.00, 0, 0) = (2.00, 0.00, 0.00)
+
+t = 2 → 3   odometry says: Δ = (+1.00, 0.00, 0.00)
+t = 3   pose = (3.00, 0.00, 0.00)
+```
+
+Read the middle column carefully. The sensor never once said “you are at (2.00, 0, 0)”. It only ever said “+1.00 in x”. The absolute pose in the left column is something _we_ computed, by adding up relative measurements starting from a position we simply assumed. In reality each step also carries a rotation, so the quantity being added is a relative pose (translation together with rotation) rather than three numbers.
+
+## 3. Why adding up relative measurements drifts
+
+Because the pose is a running sum, every error in a step stays in the sum forever.
+
+Suppose the robot truly moves 1.00 m per step, but the wheels slip slightly and odometry reports 1.02 m each time.
+
+```text
+step      odometry sum      true position      error
+  1           1.02              1.00            0.02
+ 10          10.20             10.00            0.20
+100         102.00            100.00            2.00
+```
+
+A 2 cm error nobody would notice in a single step has become 2 m after a hundred steps. Nothing went wrong at step 100; the error was accumulated, not created.
+
+Rotation error is worse still, because it turns the _direction_ of every step that follows. Get the heading wrong by 1° early on and 100 m later the trajectory is off sideways by roughly 1.7 m, even if every distance was measured perfectly.
+
+This is what it looks like when the robot walks a 10 m square and comes back to its starting point.
+
+```text
+        estimated trajectory                 what actually happened
+
+   (0,10) ┌──────────┐ (10,10)              the robot is standing
+          │          │                       exactly where it started
+          │          │
+          │          │                       but the accumulated numbers say
+    start └──────────┘  (0.4, 0.3)           it is 0.5 m away from the start
+    (0,0)               ← should be (0,0)
+```
+
+The robot can see with its own eyes that it is back at the front door. Its arithmetic disagrees. That gap of 0.5 m is exactly the drift the sum has collected.
+
+## 4. Loop closure turns “I have been here before” into a constraint
+
+Loop closure confirms that the robot has revisited a past place, and adds a constraint between two distant points in time: _the pose at t = 400 and the pose at t = 0 are the same place_.
+
+That constraint is powerful because it is the first piece of information in the whole chain that is **not** relative to the immediately preceding moment. It lets the accumulated 0.5 m be pushed back and redistributed over the entire trajectory, rather than being dumped on the last pose. (Chapter 6 works through that redistribution with actual numbers.)
+
+```text
+relative measurements → running sum → accumulated trajectory
+                                            ↑
+place recognition → geometric verification → revisit constraint
+```
+
+Note the middle step. Two places _looking_ similar and being _geometrically verified_ as the same place are different things — a first-floor corridor and a second-floor corridor can look identical.
+
+Something is not SLAM only if loop closure always succeeds; some systems maintain only a local map. When you read a paper, check **which states it estimates and how far its map extends** rather than the name it uses. The [SLAM survey by Cadena et al.](https://arxiv.org/abs/1606.05830) lays out the problem definition, the structure of a full system, and the open challenges.
+
+## 5. Four questions for reading the history
+
+| Question                                     | The answer you will meet in these notes          |
+| -------------------------------------------- | ------------------------------------------------ |
+| How should error be represented?             | Probability distributions, covariance, filtering |
+| How can computation be reduced on a big map? | Conditional independence, sparse optimisation    |
+| Which sensors and maps should be used?       | Cameras, LiDAR, IMU, dense maps                  |
+| Will it keep working in the real world?      | Revisits, robustness, learning, evaluation       |
+
+This ordering is for study. Real research developed with heavy overlap, and a new method appearing does not mean earlier approaches disappear.
+
+## 6. Check questions
+
+### Question 1 — Concept
+
+“If you just bolt loop closure onto odometry, can you always call it SLAM?” Answer from the perspective of the system components and of what is being estimated.
 
 <details class="study-answer" markdown="1">
-<summary>답변 보기</summary>
+<summary>Show answer</summary>
 
-Loop closure의 존재만으로 판단하기는 어렵다. 먼저 시스템이 로봇 상태와 환경 표현을 어떤 범위에서 추정하는지 확인해야 한다. Odometry는 주로 연속 시점 사이의 상대 운동을 누적하고, SLAM은 관측과 상태·지도 사이의 일관성을 함께 다룬다. 지역 지도만 유지하거나 loop closure가 없는 SLAM도 가능하다. 반대로 과거 pose만 보정하고 재사용 가능한 환경 표현을 만들지 않는 시스템은 pose-graph localization 또는 trajectory optimization에 가까울 수 있다. 따라서 입력 센서, 상태 변수, map representation, 재방문 제약이 실제로 갱신하는 변수를 설명한 뒤 용어를 결정해야 한다.
+The presence of loop closure alone is not enough to decide. First check the scope over which the system estimates the robot state and the environment representation. Odometry mainly accumulates relative motion between consecutive instants, while SLAM also handles the consistency between observations and the state and map together. SLAM without loop closure, or maintaining only a local map, is possible. Conversely, a system that only corrects past poses without producing a reusable environment representation is closer to pose-graph localisation or trajectory optimisation. So describe the input sensors, the state variables, the map representation and which variables the revisit constraints actually update, and only then settle on the term.
 
 </details>
 
-### 문제 2 — 수학·추론
+### Question 2 — Math and reasoning
 
-정사각형 경로의 네 변을 각각 10m로 추정했는데 각 변의 이동량에 독립적인 표준편차 $0.1m$가 있다고 하자. 단순화를 위해 회전 오차를 무시할 때, 한 축에서 두 번의 반대 방향 이동이 상쇄된 뒤 남는 위치 오차의 표준편차는 얼마인가? 또한 마지막 pose만 원점으로 옮기는 방식의 한계를 설명하라.
+Suppose each of the four sides of a square path is estimated at 10 m, with an independent standard deviation of $0.1m$ on each side's displacement. Ignoring rotation error for simplicity, what is the standard deviation of the position error remaining on one axis after two opposite-direction motions cancel? Also explain the limitation of simply snapping the last pose back to the origin.
 
 <details class="study-answer" markdown="1">
-<summary>답변 보기</summary>
+<summary>Show answer</summary>
 
-한 축에서 독립인 두 이동 오차의 분산은 더해지므로
+On one axis the variances of two independent motion errors add, so
 
 $$
 \sigma_x=\sqrt{0.1^2+0.1^2}\approx0.141m
 $$
 
-이다. 다른 축도 같은 가정이면 동일하다. 실제로는 회전 오차가 이후 이동 방향에 영향을 주므로 오차가 독립적인 단순 합보다 커지고 축 사이 상관관계도 생긴다. 마지막 pose만 원점으로 옮기면 loop의 끝점만 맞을 뿐, 중간 궤적과 지도에 분배된 오차는 남는다. 전체 pose와 관측 제약의 불확실성을 사용해 궤적 전체를 조정해야 한다.
+and the other axis is the same under the same assumption. In practice rotation error also affects the direction of subsequent motion, so the error grows beyond this simple independent sum and correlations appear between axes. Snapping only the last pose to the origin makes just the loop's endpoint agree; the error distributed over the intermediate trajectory and the map remains. You need to adjust the whole trajectory using the uncertainty of all poses and observation constraints.
 
 </details>
 
-## 원문 읽기
+## Original reading
 
-- KRoC History 슬라이드: `What is SLAM?`, `History of SLAM` 부분. 로컬: `_resource/slam/kroc2026/01-history-ayoung-kim.pdf`.
-- Cadena et al. (2016): Introduction만 먼저 읽는다. 로컬: `_resource/slam/papers/cadena2016-slam-survey.pdf`.
+- KRoC History slides: the `What is SLAM?` and `History of SLAM` sections. Local copy: `_resource/slam/kroc2026/01-history-ayoung-kim.pdf`.
+- Cadena et al. (2016): read only the Introduction first. Local copy: `_resource/slam/papers/cadena2016-slam-survey.pdf`.

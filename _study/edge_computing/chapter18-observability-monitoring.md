@@ -12,6 +12,27 @@ importance: 19
 
 ---
 
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `htop` · `journalctl -f` · `ros2 topic hz`
+
+| 명령어                                     | 하는 일                                   |
+| :----------------------------------------- | :---------------------------------------- |
+| `htop` / `top`                             | CPU·메모리를 누가 쓰는지                  |
+| `free -h`                                  | RAM 여유                                  |
+| `df -h`                                    | 디스크 여유 (**로그가 채우는 일이 잦다**) |
+| `du -sh /var/log/*`                        | 어디가 용량을 먹는지                      |
+| `ip -s link`                               | 인터페이스별 drop·error                   |
+| `journalctl -f`                            | 전체 로그 실시간                          |
+| `journalctl -u <svc> --since "10 min ago"` | 특정 서비스, 특정 시간대                  |
+| `docker stats`                             | 컨테이너별 자원 사용                      |
+| `tegrastats`                               | Jetson 전용 종합 지표                     |
+| `ros2 node list`                           | node가 살아 있는지                        |
+| `ros2 topic hz /imu`                       | **실제 주기** — 선언값이 아니라           |
+| `ros2 topic info /imu --verbose`           | QoS 불일치 확인                           |
+
+---
+
 # 1. Monitoring이 왜 필요한가?
 
 Robot 한 대를 직접 보고 있다면:

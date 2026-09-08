@@ -1,6 +1,6 @@
 ---
 title: "Chapter 15. Real-Time Computing"
-impotance: 16
+importance: 16
 ---
 
 > **Goal:** 로봇에서 "빠르다"와 "정해진 시간 안에 반드시 실행된다"의 차이를 이해한다.
@@ -8,6 +8,25 @@ impotance: 16
 > Real-Time, Latency, Jitter, Deadline, Scheduler, Priority, Context Switch,
 > Interrupt Latency, CPU Affinity, Priority Inversion, PREEMPT_RT, Watchdog 개념을 이해하고,
 > 왜 Jetson과 MCU의 역할을 분리하는지 연결해서 이해하는 것이 목표다.
+
+---
+
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `chrt` · `taskset` · `cyclictest`
+
+| 명령어                                                      | 하는 일                                         |
+| :---------------------------------------------------------- | :---------------------------------------------- |
+| `chrt -f 80 ./my_node`                                      | SCHED_FIFO 우선순위 80으로 실행                 |
+| `chrt -p <pid>`                                             | 그 process의 scheduling 정책 확인               |
+| `taskset -c 2,3 ./my_node`                                  | CPU 2,3번에만 고정                              |
+| `taskset -pc <pid>`                                         | 현재 CPU affinity 확인                          |
+| `nice -n -10 ./cmd` / `renice -n -5 -p <pid>`               | 일반 process 우선순위                           |
+| `ps -eLo pid,tid,cls,rtprio,comm`                           | thread별 정책·우선순위 한눈에                   |
+| `cat /proc/interrupts`                                      | IRQ 분포                                        |
+| `sudo cyclictest -t1 -p 80 -i 1000 -l 10000`                | **실제 latency 분포 측정**                      |
+| `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor` | governor (`performance`로 고정하면 jitter 감소) |
+| `uname -a \| grep -i preempt`                               | PREEMPT_RT 커널인지                             |
 
 ---
 
@@ -2470,14 +2489,14 @@ Vision60 stack의 component를 직접 분류한다.
 
 예:
 
-| Component | Timing Type |
-|---|---|
+| Component             | Timing Type    |
+| --------------------- | -------------- |
 | Motor current control | Hard/Strict RT |
-| Joint control | RT |
-| IMU processing | Low-latency |
-| FAST-LIO2 | Soft/Firm RT |
-| Object detection | Soft/Firm RT |
-| Logging | Non-critical |
+| Joint control         | RT             |
+| IMU processing        | Low-latency    |
+| FAST-LIO2             | Soft/Firm RT   |
+| Object detection      | Soft/Firm RT   |
+| Logging               | Non-critical   |
 
 실제 요구사항은 system specification을 기준으로 정의한다.
 

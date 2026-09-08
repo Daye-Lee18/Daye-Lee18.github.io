@@ -9,6 +9,28 @@ importance: 9
 
 ---
 
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `ip addr` · `ping` · `ros2 topic hz`
+
+| 명령어                                             | 하는 일                                            |
+| :------------------------------------------------- | :------------------------------------------------- |
+| `ip addr`                                          | 인터페이스와 IP                                    |
+| `ip link`                                          | up/down 상태                                       |
+| `ip route`                                         | 어느 인터페이스로 나가는지 (**여러 개일 때 필수**) |
+| `ip -s link`                                       | 인터페이스별 송수신·drop 통계                      |
+| `ping -c 3 <ip>`                                   | 물리적으로 닿는지                                  |
+| `ethtool eth0`                                     | 링크 속도와 duplex                                 |
+| `nmcli con show`                                   | NetworkManager 연결 설정                           |
+| `ss -tuln`                                         | 열려 있는 port                                     |
+| `sudo tcpdump -i eth0 -n`                          | 실제로 패킷이 오가는지                             |
+| `iperf3 -s` / `iperf3 -c <ip>`                     | 실제 대역폭 측정                                   |
+| `sudo ufw status`                                  | 방화벽이 막고 있는지                               |
+| `echo $ROS_DOMAIN_ID` / `echo $RMW_IMPLEMENTATION` | 양쪽이 같아야 통신됨                               |
+| `ros2 topic hz /topic`                             | 네트워크 너머로 실제 도착하는 주기                 |
+
+---
+
 # 1. 로봇에서 Network가 왜 중요한가?
 
 현대 로봇은 하나의 컴퓨터만 사용하는 경우가 드물다.
@@ -710,12 +732,12 @@ Jetson
 
 # 28. DHCP vs Static IP
 
-| DHCP | Static IP |
-|---|---|
-| 자동 IP 할당 | 직접 고정 |
+| DHCP                   | Static IP             |
+| ---------------------- | --------------------- |
+| 자동 IP 할당           | 직접 고정             |
 | Laptop/Office에서 편리 | Sensor/Robot에서 편리 |
-| IP가 바뀔 수 있음 | 주소가 일정 |
-| DHCP server 필요 | 직접 관리 필요 |
+| IP가 바뀔 수 있음      | 주소가 일정           |
+| DHCP server 필요       | 직접 관리 필요        |
 
 ---
 
@@ -943,12 +965,12 @@ SSH
 
 # 39. Ethernet vs Wi-Fi
 
-| Ethernet | Wi-Fi |
-|---|---|
-| 유선 | 무선 |
-| 일반적으로 안정적 | 간섭 영향 가능 |
-| 낮은 jitter 가능 | 환경 영향 큼 |
-| cable 필요 | 이동성이 좋음 |
+| Ethernet          | Wi-Fi                  |
+| ----------------- | ---------------------- |
+| 유선              | 무선                   |
+| 일반적으로 안정적 | 간섭 영향 가능         |
+| 낮은 jitter 가능  | 환경 영향 큼           |
+| cable 필요        | 이동성이 좋음          |
 | Robot 내부에 적합 | Operator access에 편리 |
 
 ---
@@ -1884,13 +1906,13 @@ Interface
 
 예:
 
-| Device | Interface | IP | Role |
-|---|---|---|---|
-| Xavier | eth0 | 192.168.10.10 | Robot compute |
-| Orin | eth0 | 192.168.10.11 | AI compute |
-| LiDAR | eth | 192.168.10.20 | Point cloud |
-| Laptop | Wi-Fi | DHCP | Operator |
-| Router | LAN | 192.168.10.1 | Gateway |
+| Device | Interface | IP            | Role          |
+| ------ | --------- | ------------- | ------------- |
+| Xavier | eth0      | 192.168.10.10 | Robot compute |
+| Orin   | eth0      | 192.168.10.11 | AI compute    |
+| LiDAR  | eth       | 192.168.10.20 | Point cloud   |
+| Laptop | Wi-Fi     | DHCP          | Operator      |
+| Router | LAN       | 192.168.10.1  | Gateway       |
 
 이런 표가 있으면 troubleshooting이 훨씬 쉬워진다.
 

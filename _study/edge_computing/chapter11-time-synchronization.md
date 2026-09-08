@@ -9,6 +9,25 @@ importance: 12
 
 ---
 
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `timedatectl` · `chronyc tracking` · `ros2 topic hz`
+
+| 명령어                                      | 하는 일                           |
+| :------------------------------------------ | :-------------------------------- |
+| `date`                                      | 지금 시각                         |
+| `timedatectl status`                        | 시각·타임존·NTP 동기화 여부       |
+| `sudo timedatectl set-ntp true`             | NTP 동기화 켜기                   |
+| `chronyc tracking`                          | **얼마나 어긋나 있는지** (offset) |
+| `chronyc sources -v`                        | 어느 서버와 맞추고 있는지         |
+| `sudo chronyc makestep`                     | 즉시 강제 동기화                  |
+| `sudo ptp4l -i eth0 -m`                     | PTP 하드웨어 동기화 (μs급)        |
+| `ros2 topic echo /imu --field header.stamp` | 메시지 timestamp 직접 보기        |
+| `ros2 topic hz /imu`                        | 실제 주기                         |
+| `ros2 param set /node use_sim_time true`    | bag 재생 시 시뮬레이션 시각 사용  |
+
+---
+
 # 1. 로봇에서 시간은 왜 중요한가?
 
 Sensor fusion은 단순히 여러 센서 데이터를 동시에 사용하는 것이 아니다.
@@ -595,11 +614,11 @@ Industrial automation, robotics, telecom 등에서 사용된다.
 
 단순 비교:
 
-| NTP | PTP |
-|---|---|
-| 일반 network time sync | 고정밀 time sync |
-| 설정 비교적 단순 | 설정 복잡 |
-| 일반 server sync | 산업/센서 sync |
+| NTP                     | PTP                          |
+| ----------------------- | ---------------------------- |
+| 일반 network time sync  | 고정밀 time sync             |
+| 설정 비교적 단순        | 설정 복잡                    |
+| 일반 server sync        | 산업/센서 sync               |
 | software timestamp 가능 | hardware timestamp 활용 가능 |
 
 ---
@@ -1920,13 +1939,13 @@ Linux System Clock
 실제 robot에서는 다음을 문서화하면 좋다.
 
 | Device | Clock Source | Sync Method | Timestamp Source |
-|---|---|---|---|
-| Xavier | System clock | NTP/PTP | Linux time |
-| Orin | System clock | NTP/PTP | Linux time |
-| LiDAR | Internal/PTP | PTP | Sensor time |
-| IMU | Sensor clock | driver sync | Sensor time |
-| Camera | Sensor/host | trigger/PTP | Exposure time |
-| MCU | MCU clock | custom sync | MCU timestamp |
+| ------ | ------------ | ----------- | ---------------- |
+| Xavier | System clock | NTP/PTP     | Linux time       |
+| Orin   | System clock | NTP/PTP     | Linux time       |
+| LiDAR  | Internal/PTP | PTP         | Sensor time      |
+| IMU    | Sensor clock | driver sync | Sensor time      |
+| Camera | Sensor/host  | trigger/PTP | Exposure time    |
+| MCU    | MCU clock    | custom sync | MCU timestamp    |
 
 ---
 

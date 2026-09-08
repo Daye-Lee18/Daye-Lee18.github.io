@@ -12,6 +12,27 @@ importance: 18
 
 ---
 
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `ssh` · `docker pull` · `systemctl restart`
+
+| 명령어                                        | 하는 일                        |
+| :-------------------------------------------- | :----------------------------- |
+| `ssh user@robot`                              | 원격 접속                      |
+| `ssh-copy-id user@robot`                      | 키 등록 (비밀번호 없이)        |
+| `scp file user@robot:/path`                   | 파일 하나 복사                 |
+| `rsync -avz --progress src/ user@robot:/dst/` | 큰 디렉토리 동기화 (재개 가능) |
+| `git clone` / `git pull`                      | 소스 배포                      |
+| `git rev-parse --short HEAD`                  | **지금 배포된 버전이 뭔지**    |
+| `docker pull registry/img:v1.2.3`             | 이미지 배포                    |
+| `docker tag` / `docker push`                  | registry에 올리기              |
+| `sudo systemctl restart <svc>`                | 서비스 재시작                  |
+| `sudo systemctl enable <svc>`                 | 부팅 시 자동 시작              |
+| `ansible -i hosts all -m ping`                | 여러 대 한꺼번에               |
+| `hostnamectl`                                 | device identity 확인           |
+
+---
+
 # 1. Robot 한 대와 Robot 100대는 완전히 다른 문제다
 
 Robot이 한 대라면:
@@ -943,14 +964,14 @@ Config new
 
 예:
 
-| Component | Version |
-|---|---|
-| JetPack | 6.x |
-| ROS 2 | Humble |
-| Autonomy | 1.4.2 |
-| FAST-LIO2 | commit abc |
-| CycloneDDS Config | 3 |
-| Site Config | 12 |
+| Component         | Version    |
+| ----------------- | ---------- |
+| JetPack           | 6.x        |
+| ROS 2             | Humble     |
+| Autonomy          | 1.4.2      |
+| FAST-LIO2         | commit abc |
+| CycloneDDS Config | 3          |
+| Site Config       | 12         |
 
 이런 식으로 compatibility를 기록할 수 있다.
 
@@ -2610,11 +2631,11 @@ Vision60이 3대 있다고 가정한다.
 
 다음 정보를 정의한다.
 
-| Robot | Device ID | Site | Software | Config |
-|---|---|---|---|---|
-| Robot 1 | vision60-001 | Lab | v1.4.2 | lab-v3 |
-| Robot 2 | vision60-002 | Site A | v1.4.2 | site-a-v7 |
-| Robot 3 | vision60-003 | Site A | v1.4.1 | site-a-v7 |
+| Robot   | Device ID    | Site   | Software | Config    |
+| ------- | ------------ | ------ | -------- | --------- |
+| Robot 1 | vision60-001 | Lab    | v1.4.2   | lab-v3    |
+| Robot 2 | vision60-002 | Site A | v1.4.2   | site-a-v7 |
+| Robot 3 | vision60-003 | Site A | v1.4.1   | site-a-v7 |
 
 질문:
 

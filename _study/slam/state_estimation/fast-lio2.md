@@ -1,132 +1,132 @@
 ---
 layout: study-chapter
-title: "FAST-LIO2 — 논문 리뷰"
-description: "원시 LiDAR 점을 로컬 맵에 직접 정합하고 IMU와 반복 필터로 융합하는, 현재 Vision60 시스템의 기준선이다."
+title: "FAST-LIO2 — paper review"
+description: "Registers raw LiDAR points directly against a local map and fuses them with IMU in an iterated filter; the baseline of the current Vision60 system."
 category: SLAM
 series: state_estimation
 importance: 2
 permalink: /study/slam/state-estimation/fast-lio2/
 ---
 
-[← 상태 추정 논문 비교]({{ '/study/slam/state-estimation/' | relative_url }})
+[← State estimation paper comparison]({{ '/study/slam/state-estimation/' | relative_url }})
 
-> **한 문장 요약:** 원시 LiDAR 점을 로컬 맵에 직접 정합하고 IMU와 반복 필터로 융합하는, 현재 Vision60 시스템의 기준선이다.
+> **One-sentence summary:** Registers raw LiDAR points directly against a local map and fuses them with IMU in an iterated filter; the baseline of the current Vision60 system.
 
-| 항목        | 내용                                               |
-| :---------- | :------------------------------------------------- |
-| 논문        | FAST-LIO2: Fast Direct LiDAR-inertial Odometry     |
-| 발표        | T-RO 2022 · arXiv 2021                             |
-| 자료        | [논문·저자 자료](https://arxiv.org/abs/2107.06829) |
-| 정리 상태   | 입문 리뷰 초안 · 개인 정독·재현 기록은 아래에 추가 |
-| 자료 확인일 | 2026-09-07                                         |
+| Item           | Detail                                                                                |
+| :------------- | :------------------------------------------------------------------------------------ |
+| Paper          | FAST-LIO2: Fast Direct LiDAR-inertial Odometry                                        |
+| Venue          | T-RO 2022 · arXiv 2021                                                                |
+| Source         | [Paper / author material](https://arxiv.org/abs/2107.06829)                           |
+| Status         | Introductory review draft · personal close-reading and reproduction notes added below |
+| Source checked | 2026-09-07                                                                            |
 
-## 1. 해결하려는 문제
+## 1. The problem it addresses
 
-스캔 패턴마다 특징 추출을 설계하고 커지는 점군 맵을 관리하면 계산량이 증가한다. FAST-LIO2는 정합 방식과 맵 자료구조를 함께 바꾼다.
+Designing feature extraction for each scan pattern and managing a growing point cloud map increases the computational cost. FAST-LIO2 changes the registration method and the map data structure together.
 
-## 2. 발표할 핵심 3개
+## 2. Three key points to present
 
-1. **Direct 등록:** 미리 모서리·평면 특징점을 선별하지 않고 원시 점을 맵에 등록한다. 대응점과 기하 제약은 여전히 필요하다.
-2. **반복 필터 융합:** FAST-LIO 계열의 효율적인 tightly coupled iterated Kalman filter를 기반으로 관성·LiDAR 정보를 결합한다.
-3. **ikd-Tree:** 점 삽입·삭제·재균형과 downsampling을 지원해 이동 중 로컬 맵을 갱신한다. 논문이 강조하는 새 기여는 direct 등록과 이 자료구조다.
+1. **Direct registration:** raw points are registered to the map without pre-selecting edge and planar feature points. Correspondences and geometric constraints are still required.
+2. **Iterated filter fusion:** inertial and LiDAR information are combined on the efficient tightly coupled iterated Kalman filter of the FAST-LIO family.
+3. **ikd-Tree:** supports point insertion, deletion, rebalancing and downsampling, updating the local map while moving. The new contributions the paper emphasises are direct registration and this data structure.
 
-기술 요약 근거: [논문·저자 설명](https://arxiv.org/abs/2107.06829).
+Basis for this technical summary: [paper / author description](https://arxiv.org/abs/2107.06829).
 
-## 3. 동작 구조
+## 3. How it works
 
-아래는 이해를 위한 개념 흐름이며 구현의 모든 스레드·갱신 주기를 나타내지는 않는다.
+The diagram below is a conceptual flow for understanding; it does not show every thread and update rate in the implementation.
 
 ```text
-LiDAR + IMU → 관성 전파·스캔 운동 보정 → 로컬 맵 대응점 → 반복 상태 갱신 → pose·맵 갱신
+LiDAR + IMU → inertial propagation and scan motion correction → local map correspondences → iterated state update → pose and map update
 ```
 
-리뷰에서는 IMU가 만든 운동 예측과 LiDAR 정합이 그 예측을 수정하는 경로를 분리해 본다. 로컬 맵을 생성하지만 원 논문의 범위에 전역 루프클로저 백엔드는 포함되지 않는다.
+In the review, separate the motion prediction produced by the IMU from the path by which LiDAR registration corrects that prediction. It builds a local map, but a global loop closure back-end is outside the scope of the original paper.
 
-## 4. 실험 결과와 해석
+## 4. Experimental results and interpretation
 
-저자들은 공개 데이터 19개 시퀀스와 여러 LiDAR·플랫폼에서 평가했다. 초록은 특정 실험에서 최대 100 Hz odometry·mapping 및 1000 deg/s 회전 추정을 보고한다. 모든 센서와 장치에서 보장되는 수치로 해석하면 안 된다. [출처](https://arxiv.org/abs/2107.06829)
+The authors evaluate on 19 public sequences and on several LiDARs and platforms. The abstract reports up to 100 Hz odometry and mapping and estimation at 1000 deg/s rotation in particular experiments. These must not be read as figures guaranteed on every sensor and platform. [Source](https://arxiv.org/abs/2107.06829)
 
-정확도와 속도는 환경의 기하 구조와 연산 조건에 의존한다. 루프 없는 장거리 누적 오차와 순간적인 추정 실패를 구분해야 한다.
+Accuracy and speed depend on the geometric structure of the environment and on the compute conditions. Long-range accumulated error without loops has to be distinguished from momentary estimation failure.
 
-정독할 때는 비교 방법 이름뿐 아니라 센서 구성, ground truth, 궤적 정렬 방식, 실행 장치와 실패 구간 포함 여부를 함께 기록한다.
+When reading closely, record not only the names of the compared methods but also the sensor configuration, ground truth, trajectory alignment method, the compute platform, and whether failed segments are included.
 
-## 5. Vision60 적용 질문
+## 5. Vision60 application questions
 
-다음은 논문의 검증 결과와 구분한 **프로젝트 적용 가설·검토 질문**이다.
+The following are **project application hypotheses and review questions**, kept separate from the paper's validated results.
 
-1. Vision60 로그에서 점별 시각·IMU 시각·외부 파라미터는 어떻게 설정되어 있는가?
-2. 단차 구간의 Z drift가 점군 왜곡, IMU 이상, 기하 제약 부족 중 무엇과 함께 나타나는가?
-3. 후속 백엔드에 넘길 pose·점군의 좌표계와 시각은 무엇인가?
+1. How are per-point times, IMU times and extrinsics configured in the Vision60 logs?
+2. Does the Z drift on step segments appear together with point cloud distortion, IMU anomalies, or a lack of geometric constraint?
+3. What are the frame and the timestamp of the pose and point cloud passed on to a downstream back-end?
 
-**제안 실험:** 같은 로그의 평지·회전·착지 구간을 분리해 상대 pose 오차, 높이 오차, 처리 지연을 기록한다. ground truth가 없으면 drift 수치를 정확도로 단정하지 말고 맵 중첩·반복 주행 차이를 보조 지표로 남긴다.
+**Proposed experiment:** split the same log into flat, rotating and landing segments and record relative pose error, height error and processing latency. Without ground truth, do not treat drift figures as accuracy; keep map overlap and differences between repeated traverses as auxiliary indicators.
 
-## 6. 면접형 확인 질문
+## 6. Check questions
 
-각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.
+Answer each question out loud first, then open the toggle. Practise stating the assumptions and equations together with the failure conditions and how you would verify them.
 
-### Q1. 개념·구조
+### Q1. Concept and structure
 
-FAST-LIO2의 `direct`가 “ICP나 대응점 탐색을 하지 않는다”는 뜻인지 설명하고, 특징 기반 LIO와 비교하라.
+Explain whether `direct` in FAST-LIO2 means “no ICP and no correspondence search”, and compare with feature-based LIO.
 
 <details class="study-answer" markdown="1">
-<summary>답변과 채점 포인트 보기</summary>
+<summary>Show answer and key points</summary>
 
-그 뜻이 아니다. FAST-LIO2는 hand-crafted edge/plane 특징 추출을 생략하고 원시 점을 map에 직접 등록한다. 각 점 주변의 map 이웃을 찾고 국소 평면을 구성해 point-to-plane 잔차를 만든다. 차이는 **관측을 만들 점을 미리 특징으로 선별하는가**에 가깝다. 좋은 답은 direct 등록, 대응점 탐색, 잔차 계산을 서로 구분한다.
+That is not what it means. FAST-LIO2 skips hand-crafted edge/plane feature extraction and registers raw points directly to the map. It finds map neighbours around each point, builds a local plane, and forms a point-to-plane residual. The difference is closer to **whether the points that will form observations are pre-selected as features**. A good answer separates direct registration, correspondence search and residual computation from each other.
 
 </details>
 
-### Q2. 수학·추론
+### Q2. Math and reasoning
 
-점 \(p*i^L\)를 world frame으로 변환한 \(p_i^W=R*{WI}(R*{IL}p_i^L+t*{IL})+t\_{WI}\)와 평면 \(n_i^\top x+d_i=0\)가 있다. LiDAR 잔차를 쓰고, 어떤 상태에 대한 Jacobian이 퇴화할 수 있는지 설명하라.
+Given a point \(p*i^L\) transformed into the world frame as \(p_i^W=R*{WI}(R*{IL}p_i^L+t*{IL})+t\_{WI}\) and a plane \(n_i^\top x+d_i=0\), write the LiDAR residual and explain for which states the Jacobian can degenerate.
 
 <details class="study-answer" markdown="1">
-<summary>답변과 채점 포인트 보기</summary>
+<summary>Show answer and key points</summary>
 
-잔차는 \(r*i=n_i^\top p_i^W+d_i\)이다. 작은 회전 섭동 \(\delta\theta\)에 대해 회전 Jacobian은 부호 convention에 따라 \(-n_i^\top R*{WI}[R_{IL}p_i^L+t_{IL}]\_\times\), 위치 Jacobian은 \(n_i^\top\) 꼴이다. 모든 법선이 비슷하면 법선에 수직인 평행이동이 약하게 관측되고, 회전도 점 분포와 법선이 충분히 다양하지 않으면 약해진다. 핵심은 Jacobian 또는 information matrix의 작은 고유값과 기하 퇴화를 연결하는 것이다.
+The residual is \(r*i=n_i^\top p_i^W+d_i\). For a small rotation perturbation \(\delta\theta\), the rotation Jacobian takes the form \(-n_i^\top R*{WI}[R_{IL}p_i^L+t_{IL}]\_\times\) depending on the sign convention, and the position Jacobian the form \(n_i^\top\). If all the normals are similar, translation perpendicular to the normal is weakly observed, and rotation also becomes weak if the point distribution and normals are not diverse enough. The key is to connect small eigenvalues of the Jacobian or information matrix to geometric degeneracy.
 
 </details>
 
-### Q3. 시스템·디버깅
+### Q3. Systems and debugging
 
-계단 착지 직후 Z가 튄다. 필터 튜닝 전에 어떤 로그를 어떤 순서로 확인할 것인가?
+Z jumps right after landing on a stair. Which logs would you check, and in what order, before tuning the filter?
 
 <details class="study-answer" markdown="1">
-<summary>답변과 채점 포인트 보기</summary>
+<summary>Show answer and key points</summary>
 
-점별 timestamp와 LiDAR–IMU 시간 기준, IMU clipping·drop, extrinsic, deskew 전후 점군, 잔차와 선택된 평면 법선, covariance 순서로 본다. 같은 raw log를 재생해 재현성을 확보하고 착지 전후를 분리한다. 단순히 process noise를 줄이면 출력은 매끄러워질 수 있지만 bias나 시간 오차를 숨기고 지연을 키울 수 있다.
+Check per-point timestamps and the LiDAR–IMU time base, IMU clipping and drops, extrinsics, the point cloud before and after deskew, residuals and the selected plane normals, and covariance, in that order. Replay the same raw log to get reproducibility and separate before and after the landing. Simply reducing the process noise may smooth the output while hiding a bias or a timing error and increasing latency.
 
 </details>
 
-### Q4. 코드 리뷰·구현
+### Q4. Code review and implementation
 
-**GitHub:** [공식 또는 저자 연결 저장소](https://github.com/hku-mars/FAST_LIO)
+**GitHub:** [Official or author-linked repository](https://github.com/hku-mars/FAST_LIO)
 
-저장소에서 새 LiDAR의 `PointCloud2`를 지원해야 한다. 점별 시간 필드의 단위가 기존 센서와 다를 때, 어느 처리 경로와 설정을 추적하고 어떤 회귀 테스트를 작성하겠는가?
+You have to support a new LiDAR's `PointCloud2` in the repository. When the per-point time field has different units from the existing sensor, which processing paths and settings would you trace, and what regression tests would you write?
 
 <details class="study-answer" markdown="1">
-<summary>답변과 채점 포인트 보기</summary>
+<summary>Show answer and key points</summary>
 
-`config`의 `lidar_type`, `timestamp_unit`, topic 설정에서 시작해 `src/preprocess.cpp`의 센서별 callback·점 시간 변환, `src/laserMapping.cpp`의 measurement synchronization, `src/IMU_Processing.hpp`의 undistortion까지 추적한다. 내부 시간 단위를 하나로 정규화하고 scan 시작·끝 시각 및 점별 상대 시간이 단조인지 검사한다. 정지 bag, 일정 각속도 bag, 알려진 timestamp offset을 넣은 bag을 재생해 deskew 후 평면 두께와 pose를 비교한다. 단순히 컴파일되는지만 보는 테스트는 시간 단위 오류를 잡지 못한다.
+Start from `lidar_type`, `timestamp_unit` and the topic settings in `config`, and trace through the per-sensor callback and point-time conversion in `src/preprocess.cpp`, measurement synchronisation in `src/laserMapping.cpp`, and undistortion in `src/IMU_Processing.hpp`. Normalise the internal time unit to one, and check that the scan start and end times and the per-point relative times are monotonic. Replay a stationary bag, a constant-angular-rate bag and a bag with a known timestamp offset, and compare plane thickness and pose after deskew. A test that only checks whether it compiles will not catch a time-unit error.
 
 </details>
 
-## 7. 정독·발표 기록
+## 7. Close-reading and presentation record
 
-위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.
+Use the summary above as a starting point, check the equations, figures and experiment tables in the original, then fill this in yourself. Keep reproduction results you have not yet run separate from the paper's results.
 
-| 기록할 항목    | 개인 리뷰 메모                                         |
-| :------------- | :----------------------------------------------------- |
-| 상태·입력·출력 | 미작성 — 좌표계, 단위, 센서 주기까지 기록              |
-| 핵심 수식      | 미작성 — 식 번호, 변수 의미, 가정과 잔차를 설명        |
-| 대표 그림      | 미작성 — 그림 번호와 데이터 흐름을 본인의 말로 설명    |
-| 실험 근거      | 미작성 — 표·그림 번호, 데이터셋, baseline, 지표와 조건 |
-| Ablation       | 미작성 — 어떤 요소를 제거했고 무엇이 바뀌었는지 기록   |
-| 실패 사례·한계 | 미작성 — 저자 보고와 자신의 추론을 구분                |
-| 코드·재현      | 미작성 — 버전, 설정, 로그, 장치, 측정 결과             |
-| 최종 판단      | 미작성 — Vision60에서 채택·보류할 이유                 |
+| Item to record           | Personal review notes                                                                |
+| :----------------------- | :----------------------------------------------------------------------------------- |
+| States, inputs, outputs  | Not written — record frames, units and sensor rates                                  |
+| Key equations            | Not written — explain equation numbers, variable meanings, assumptions and residuals |
+| Key figures              | Not written — explain the figure number and the data flow in your own words          |
+| Experimental evidence    | Not written — table/figure numbers, dataset, baselines, metrics and conditions       |
+| Ablation                 | Not written — which element was removed and what changed                             |
+| Failure cases and limits | Not written — separate what the authors report from your own inference               |
+| Code and reproduction    | Not written — version, configuration, logs, hardware, measurements                   |
+| Final judgement          | Not written — reasons to adopt or defer for Vision60                                 |
 
-- [ ] 핵심 기여 3개를 원문 근거와 함께 설명할 수 있다.
-- [ ] 상태와 관측이 어떻게 연결되는지 설명할 수 있다.
-- [ ] 실험 결과와 Vision60 적용 가설을 구분했다.
+- [ ] I can explain the three key contributions with evidence from the original paper.
+- [ ] I can explain how the states and observations are connected.
+- [ ] I have separated the paper's results from the Vision60 application hypotheses.
 
-**이어 읽기:** [FAST-LIO 리뷰]({{ '/study/slam/state-estimation/fast-lio/' | relative_url }}) · [전체 비교표]({{ '/study/slam/state-estimation/' | relative_url }})
+**Read next:** [FAST-LIO review]({{ '/study/slam/state-estimation/fast-lio/' | relative_url }}) · [Full comparison table]({{ '/study/slam/state-estimation/' | relative_url }})

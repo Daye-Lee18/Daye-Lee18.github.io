@@ -12,6 +12,23 @@ importance: 13
 
 ---
 
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `tegrastats` · `nvpmodel -q` · `jetson_clocks`
+
+| 명령어                                                      | 하는 일                          |
+| :---------------------------------------------------------- | :------------------------------- |
+| `tegrastats`                                                | CPU·GPU·RAM·**온도·전력** 실시간 |
+| `sudo nvpmodel -q`                                          | 현재 전력 모드                   |
+| `sudo nvpmodel -m 0`                                        | 최대 성능 모드                   |
+| `sudo jetson_clocks`                                        | 클럭 최대 고정 (발열 주의)       |
+| `sudo jetson_clocks --show`                                 | 현재 클럭 상태                   |
+| `cat /sys/devices/virtual/thermal/thermal_zone*/temp`       | 존별 온도 (밀리도 단위)          |
+| `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor` | 주파수 governor                  |
+| `htop` · `free -h` · `df -h`                                | 부하·메모리·디스크               |
+
+---
+
 # 1. Edge Computer에서는 최고 성능만 중요하지 않다
 
 Desktop computer에서는:
@@ -2094,20 +2111,20 @@ Same Environment
 
 # 97. Benchmark 기록 예
 
-| Item | Value |
-|---|---|
-| Device | Jetson AGX Orin |
-| Software Commit | abc123 |
-| Power Mode | Recorded mode |
-| Input | Same rosbag |
-| LiDAR Rate | 10 Hz |
-| IMU Rate | 200 Hz |
-| CPU Usage | measured |
-| GPU Usage | measured |
-| RAM | measured |
-| Max Temperature | measured |
-| Output Rate | measured |
-| P95 Latency | measured |
+| Item            | Value           |
+| --------------- | --------------- |
+| Device          | Jetson AGX Orin |
+| Software Commit | abc123          |
+| Power Mode      | Recorded mode   |
+| Input           | Same rosbag     |
+| LiDAR Rate      | 10 Hz           |
+| IMU Rate        | 200 Hz          |
+| CPU Usage       | measured        |
+| GPU Usage       | measured        |
+| RAM             | measured        |
+| Max Temperature | measured        |
+| Output Rate     | measured        |
+| P95 Latency     | measured        |
 
 이런 표를 software version별로 비교할 수 있다.
 

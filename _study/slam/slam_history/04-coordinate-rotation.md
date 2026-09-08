@@ -1,94 +1,146 @@
 ---
 layout: study-chapter
-title: "Chapter 4. 좌표계와 회전"
-description: "3D SLAM 수식을 읽기 위한 최소한의 기하학."
+title: "Chapter 4. Frames and rotation"
+description: "The minimum geometry needed to read 3D SLAM equations."
 importance: 4
 category: SLAM
 series: slam_history
 permalink: /study/slam/history/04-coordinate-rotation/
 ---
 
-> **목표:** 변환 방향을 명시하고 회전을 단순 덧셈으로 갱신하지 않는 이유를 이해한다.  
-> **학습량:** 15분. 행렬-벡터 곱이 선행 지식이다.
+> **Goal:** State transform directions explicitly and understand why rotations are not updated by plain addition.  
+> **Workload:** 15 minutes. Matrix-vector products are assumed.
 
-## 1. 같은 점에도 좌표가 여러 개다
+## 1. The same point has several sets of coordinates
 
-이 노트에서 $T_{AB}$는 **B 좌표를 A 좌표로 바꾸는 변환**이다. 센서가 관측한 점을 세계 좌표로 바꾸면:
+A LiDAR does not report “the pillar is at (13, 0, 0) in the building”. It reports “the pillar is 3 m in front of _me_”. Same pillar, different numbers, depending on who is describing it.
+
+```text
+  the same pillar, two ways of saying where it is
+
+  in the sensor's frame   p_S = (3, 0, 0)     "3 m ahead of me"
+  in the world frame      p_W = (13, 0, 0)    "13 m from the building corner"
+
+  neither is wrong — they answer different questions
+```
+
+Converting between them is what this chapter is about. In these notes $T_{AB}$ is **the transform that takes B coordinates into A coordinates** — read the subscripts right-to-left, "from B, to A":
 
 $$
 p_W=R_{WS}p_S+t_{WS}
 $$
 
-$R$은 회전, $t$는 이동이다. $t_{WS}$는 센서 원점의 세계 좌표다. 프레임을 연결할 때는 $T_{WC}=T_{WB}T_{BC}$처럼 중간 좌표가 맞아야 한다. 좌표 변환과 관측 모델은 [Course on SLAM](https://gisbi-kim.github.io/materials/study/soal17courseslam.pdf)의 기초 부분에 나온다.
+$R$ is the rotation and $t$ the translation; $t_{WS}$ is the world coordinate of the sensor origin. In the example above the sensor sat at $t_{WS}=(10,0,0)$ with no rotation, so $p_W = (3,0,0) + (10,0,0) = (13,0,0)$.
 
-## 2. 회전 행렬을 그냥 더하면?
+When chaining frames, the inner subscripts have to match, as in $T_{WC}=T_{WB}T_{BC}$ — the B's touch and cancel. If you find yourself writing $T_{WB}T_{CB}$, the B's are on the wrong sides and one of the two needs inverting. Frame transforms and observation models are covered in the foundational part of the [Course on SLAM](https://gisbi-kim.github.io/materials/study/soal17courseslam.pdf).
 
-회전 행렬은 $R^TR=I$, $\det R=1$을 만족해야 한다. 임의의 행렬을 더하면 이 조건을 잃을 수 있다. 3D 회전의 집합을 $SO(3)$라고 부른다.
+## 2. What if you just add rotation matrices?
 
-작은 변화량 $\delta\theta$를 구한 뒤, 예를 들어 다음처럼 회전을 합성할 수 있다.
+With positions this works: if the estimate is off by 0.1 m, add 0.1 m. So why not do the same to a rotation matrix?
+
+Try it in 2D. Take a 30° rotation and a 10° rotation and add the matrices entry by entry:
+
+$$
+R_{30}+R_{10}=
+\begin{bmatrix}0.866 & -0.500\\ 0.500 & 0.866\end{bmatrix}
++
+\begin{bmatrix}0.985 & -0.174\\ 0.174 & 0.985\end{bmatrix}
+=
+\begin{bmatrix}1.851 & -0.674\\ 0.674 & 1.851\end{bmatrix}
+$$
+
+That result is not a 40° rotation. It is not a rotation at all. Feed it the unit vector $(1,0)$ and you get $(1.851, 0.674)$, a vector of length 1.97 — the "rotation" nearly doubled the object. A rotation matrix has to satisfy $R^TR=I$ and $\det R=1$, and adding threw both away. (Here $\det = 1.851^2+0.674^2 \approx 3.88$, not 1.)
+
+The correct composition is multiplication, not addition: $R_{30}R_{10}=R_{40}$. The set of matrices that stay legal under this operation is called $SO(3)$, and the practical consequence is that **an update has to be multiplied on, never added on**.
+
+Having computed a small increment $\delta\theta$, you compose it like this:
 
 $$
 R_{\text{new}}=R\operatorname{Exp}([\delta\theta]_\times)
 $$
 
-여기서는 오른쪽 perturbation을 사용했다. 왼쪽 갱신을 쓰는 문헌도 있으므로 Jacobian을 그대로 섞으면 안 된다. Quaternion도 단위 길이와 성분 순서 등 convention 확인이 필요하다. [Solà의 Quaternion kinematics](https://arxiv.org/abs/1711.02508)는 표현 간 관계와 perturbation을 상세히 다룬다.
+This uses a right perturbation. Some references use a left update, so you must not mix Jacobians across conventions. Quaternions also need their conventions checked, including unit norm and component ordering. [Solà's Quaternion kinematics](https://arxiv.org/abs/1711.02508) covers the relations between representations and the perturbations in detail.
 
-## 3. 손계산으로 방향 확인하기
+## 3. Checking direction by hand
 
-센서가 세계 원점에서 x 방향 2m에 있고 회전은 없다고 하자. 센서가 보는 점이 $p_S=(1,0,0)$이면 세계 좌표는 $(3,0,0)$이다.
+Most frame bugs are caught by one example small enough to check in your head. Sensor at 2 m along x, no rotation, seeing a point 1 m ahead of itself:
 
-반대로 세계 점을 센서 좌표로 바꾸려면:
+```text
+   world origin        sensor            point
+        │                │                 │
+        0                2                 3        (x axis)
+                    t_WS = 2          p_S = 1 ahead
+                                      p_W = 2 + 1 = 3   ✓
+```
+
+So $p_S=(1,0,0)$ gives $p_W=(3,0,0)$. To go the other way, from a world point to sensor coordinates:
 
 $$
 p_S=R_{WS}^{T}(p_W-t_{WS})
 $$
 
-이 예제에서 결과가 $(5,0,0)$으로 나오면 이동 부호나 변환 방향을 잘못 적용한 것이다. 복잡한 코드 전에 이런 단순 예제를 통과시키자.
+Check it: $(3,0,0)-(2,0,0)=(1,0,0)$, back where we started. ✓
 
-## 면접형 확인 문제
+Now the failure modes, which are the reason to run the example at all:
 
-### 문제 1 — 개념
+```text
+  computing p_S from p_W = 3, correct answer is 1
 
-로봇의 평행이동 궤적은 맞지만 point cloud가 robot origin 주위를 잘못된 방향으로 회전한다. 최적화 파라미터를 조정하기 전에 확인할 항목을 우선순위대로 설명하라.
+  you got     what went wrong
+  ─────────   ──────────────────────────────────────────
+  (1,0,0)     correct ✓
+  (5,0,0)     added the translation instead of subtracting
+              (3 + 2 = 5) — sign flipped
+  (3,0,0)     forgot the translation entirely — you returned p_W
+  (-1,0,0)    subtracted in the wrong order (2 - 3 = -1)
+```
+
+Make an example like this pass before you write complicated code. Make simple examples like this pass before you write complicated code.
+
+## Check questions
+
+### Question 1 — Concept
+
+The robot's translational trajectory is correct, but the point cloud rotates the wrong way around the robot origin. List, in priority order, what you would check before touching any optimiser parameters.
 
 <details class="study-answer" markdown="1">
-<summary>답변 보기</summary>
+<summary>Show answer</summary>
 
-먼저 $T_{BS}$와 $T_{SB}$ 중 어느 방향의 extrinsic을 코드가 요구하는지 확인한다. 다음으로 active/passive rotation, quaternion 성분 순서 `(w,x,y,z)` 또는 `(x,y,z,w)`, degree/radian, 좌표축 handedness와 ROS optical frame 규약을 점검한다. Timestamp가 어긋나면 회전 운동 중 비슷한 현상이 생기므로 시간 동기화도 확인한다. 단위 변환과 단순한 알려진 pose 예제를 통과시킨 뒤 residual과 optimizer를 조사하는 순서가 효율적이다.
+First check which direction of extrinsic the code expects, $T_{BS}$ or $T_{SB}$. Next check active versus passive rotation, quaternion component order `(w,x,y,z)` or `(x,y,z,w)`, degrees versus radians, axis handedness and the ROS optical-frame convention. A timestamp mismatch produces a similar symptom during rotational motion, so check time synchronisation too. It is more efficient to make unit conversions and a simple known-pose example pass first, and only then investigate residuals and the optimiser.
 
 </details>
 
-### 문제 2 — 수학
+### Question 2 — Math
 
-$T_{AB}=(R_{AB},t_{AB})$, $T_{BC}=(R_{BC},t_{BC})$이고 $p_A=R_{AB}p_B+t_{AB}$로 정의한다. $T_{AC}$의 회전과 이동을 유도하고, $T_{AB}^{-1}$을 구하라.
+With $T_{AB}=(R_{AB},t_{AB})$, $T_{BC}=(R_{BC},t_{BC})$ and the definition $p_A=R_{AB}p_B+t_{AB}$, derive the rotation and translation of $T_{AC}$, and find $T_{AB}^{-1}$.
 
 <details class="study-answer" markdown="1">
-<summary>답변 보기</summary>
+<summary>Show answer</summary>
 
-$p_B=R_{BC}p_C+t_{BC}$를 첫 식에 대입하면
+Substituting $p_B=R_{BC}p_C+t_{BC}$ into the first equation gives
 
 $$
 p_A=R_{AB}R_{BC}p_C+R_{AB}t_{BC}+t_{AB}.
 $$
 
-따라서
+Therefore
 
 $$
 R_{AC}=R_{AB}R_{BC},\qquad
 t_{AC}=R_{AB}t_{BC}+t_{AB}.
 $$
 
-역변환은 $p_B=R_{AB}^T(p_A-t_{AB})$이므로
+The inverse transform is $p_B=R_{AB}^T(p_A-t_{AB})$, so
 
 $$
 T_{AB}^{-1}=(R_{AB}^T,-R_{AB}^Tt_{AB}).
 $$
 
-이동 벡터를 단순히 빼는 것이 아니라 역회전까지 적용해야 한다.
+You do not simply subtract the translation vector; the inverse rotation has to be applied to it as well.
 
 </details>
 
-## 원문 읽기
+## Original reading
 
-- Quaternion kinematics: §2의 회전 표현, §3의 convention, §4의 perturbation 중 필요한 부분. 로컬: `_resource/slam/foundations/sola2017-quaternion-eskf.pdf`.
-- 첫 회독에서는 Jacobian 전체를 유도하지 않아도 된다.
+- Quaternion kinematics: whichever parts you need of §2 on rotation representations, §3 on conventions and §4 on perturbations. Local copy: `_resource/slam/foundations/sola2017-quaternion-eskf.pdf`.
+- You do not need to derive every Jacobian on a first pass.

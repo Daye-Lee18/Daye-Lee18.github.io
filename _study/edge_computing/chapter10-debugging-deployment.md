@@ -2,11 +2,30 @@
 title: "Chapter 10. ROS 2 + Jetson Debugging & Deployment"
 importance: 11
 ---
+
 > **Goal:** 로봇에서 문제가 생겼을 때 감으로 디버깅하지 않고
 > Hardware → Linux → Network → Docker → ROS 2 → CUDA → Application 순서로
 > 문제를 체계적으로 좁히는 방법을 익힌다.
 >
 > 또한 개발 환경에서 만든 software를 Jetson에 안정적으로 배포하고 운영하는 기본 전략을 이해한다.
+
+---
+
+# 0. 자주 쓰는 명령어
+
+> 이 chapter에서 가장 많이 치는 것: `dmesg` → `ip route` → `docker ps` → `ros2 topic hz`
+
+아래에서 위로 올라가며 좁힌다. 안 되는 지점에서 멈추면 그게 원인이다.
+
+| 계층        | 명령어                                                                                  |
+| :---------- | :-------------------------------------------------------------------------------------- |
+| Hardware    | `dmesg \| tail -30` · `lsusb` · `ls /dev/tty*` · `tegrastats`                           |
+| Linux       | `ps aux \| grep <name>` · `journalctl -u <svc> -f` · `df -h` · `free -h` · `htop`       |
+| Network     | `ip addr` · `ip route` · `ping -c 3 <ip>` · `ss -tuln`                                  |
+| Docker      | `docker ps` · `docker logs -f <c>` · `docker exec -it <c> bash`                         |
+| ROS 2       | `ros2 node list` · `ros2 topic list` · `ros2 topic hz /t` · `ros2 topic echo /t --once` |
+| CUDA        | `nvcc --version` · `tegrastats` · `trtexec`                                             |
+| Application | `du -sh *` · `ros2 bag record` · 자체 로그                                              |
 
 ---
 
