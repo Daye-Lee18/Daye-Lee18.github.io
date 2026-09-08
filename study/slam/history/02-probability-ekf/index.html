@@ -387,7 +387,7 @@
                                        but 1.5 or 2.5 would not surprise me"
 </code></pre></div></div>
 
-<p>The two numbers do different jobs. The mean is the answer; the variance is how much the next measurement is allowed to move that answer. A prediction with variance 0.25 will be dragged a long way by a good measurement, and one with variance 0.0001 will barely budge. That is the whole idea a Kalman filter runs on, and §3 does the arithmetic.</p>
+<p>The two numbers do different jobs. The mean is the answer; the variance is how much the next measurement is allowed to move that answer. A prediction with variance 0.25 will be dragged a long way by a good measurement, and one with variance 0.0001 will barely budge. <strong>How far it gets dragged is decided by a single number called the Kalman gain</strong>, and §5 derives it.</p>
 
 <p>EKF-SLAM linearises a nonlinear model around the current estimate and handles the robot state and the landmarks together; it is the representative filtering approach. The following equations show the structure of the problem.</p>
 
@@ -403,42 +403,289 @@
 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                    measured      robot thinks         truth
                     distance      pillar is at      pillar is at
-  pillar A            +3.0          5.0+3.0 = 8.0     5.2+3.0 = 8.4
-  pillar B            +7.0          5.0+7.0 = 12.0    5.2+7.0 = 12.4
+  pillar A            +3.0          5.0+3.0 = 8.0     5.2+3.0 = 8.2
+  pillar B            +7.0          5.0+7.0 = 12.0    5.2+7.0 = 12.2
                                           ↑                 ↑
                                     both wrong by the same 0.2
 </code></pre></div></div>
 
-<p>The distances themselves were measured perfectly. Both pillars are still wrong, by exactly the same amount and in the same direction, because they inherited the robot’s 0.2 m.</p>
+<p>The distances themselves were measured perfectly. <strong>Both pillars are still wrong, by exactly the same amount and in the same direction</strong>, because they inherited the robot’s 0.2 m.</p>
 
-<p>That is what correlation means here, and it is useful rather than merely annoying. Suppose the robot later drives back and re-measures pillar A with a good sensor, learning that A is really at 8.4. It has learned three things at once:</p>
+<p>That is what <strong>correlation</strong> means here, and it is useful rather than merely annoying. Suppose the robot later drives back and re-measures pillar A with a good sensor, learning that A is really at 8.2. It has learned three things at once:</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  pillar A is at 8.4     →  so my pose was 0.2 m short
-                         →  so pillar B is at 12.4 as well
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  pillar A is at 8.2     →  so my pose was 0.2 m short
+                         →  so pillar B is at 12.2 as well
 </code></pre></div></div>
 
 <p>The correction to B arrives without B ever being re-observed. The filter can only do this if it remembered that A, B and the pose share an error — and that memory is stored in the off-diagonal entries of the covariance matrix. The diagonal entries hold the variance of each variable on its own; the off-diagonal entries hold exactly this “they are wrong together” relationship. This coupling is useful, but it becomes expensive on a large map. The <a href="https://www.cs.cmu.edu/~thrun/papers/montemerlo.fastslam-tr.pdf" rel="external nofollow noopener" target="_blank">Introduction of the original FastSLAM paper</a> takes the scalability problem of the earlier EKF approach as its starting point.</p>
 
-<h2 id="3-a-one-dimensional-correction-example">3. A one-dimensional correction example</h2>
+<h2 id="3-what-linearising-actually-means">3. What “linearising” actually means</h2>
 
-<p>To simplify, assume a reference point on the map is known. The robot predicts it is at 2.0 m with variance 0.25, then a sensor measures 2.4 m with variance 0.04. Two different answers — which do we believe?</p>
+<p>§5 will compute a gain from $P$ and $R$ alone. That algebra only works if the models are
+<strong>linear</strong> — if the measurement is literally $z = Hx + v$ for some matrix $H$.
+Real sensors are not. A range measurement to a landmark at $(m_x,m_y)$ is</p>
 
-<p>The gain $K$ decides, and it is just a ratio of how uncertain each side is:</p>
+\[h(x_r,y_r)=\sqrt{(m_x-x_r)^2+(m_y-y_r)^2}\]
 
-\[K=\frac{0.25}{0.25+0.04}\approx0.862,\qquad
-\hat x=2.0+K(2.4-2.0)\approx2.345\]
+<p>That square root is not a matrix multiplication and never will be.
+The <strong>E</strong> in EKF is the fix: pretend it is one, near where we currently think we are.</p>
 
-<p>Read $K \approx 0.86$ as “move 86% of the way from the prediction to the measurement”. The gap is $2.4-2.0=0.4$, so we move $0.86 \times 0.4 \approx 0.35$ and land at 2.345 — much closer to the measurement than to the prediction.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   the true h()                 what the EKF uses
 
-<p>That is the right behaviour, because variance 0.04 (σ = 0.2 m) is a far tighter claim than variance 0.25 (σ = 0.5 m). Change the numbers and the filter changes its mind accordingly:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code> prediction var   measurement var      K       result    who wins
-      0.25             0.04           0.86      2.345    measurement
-      0.25             0.25           0.50      2.200    a tie, split evenly
-      0.25             4.00           0.06      2.024    prediction
+        ╱                            ╱
+      ╱                            ╱     a straight line,
+    ╱   curved                   ╱       tangent at x̂
+  ╱                            ╱
+ ────────────────────        ────────────────────
+        x̂                          x̂
+                              exact at x̂, wrong elsewhere
 </code></pre></div></div>
 
-<p>Nobody tuned those weights by hand. They fall out of the two variances. In real EKF-SLAM the observation may be a range and bearing rather than the position itself, so Jacobians and correlations have to be included.</p>
+<p>Formally it is a first-order Taylor expansion around the current estimate $\hat x$:</p>
+
+\[h(x)\;\approx\;h(\hat x)\;+\;H\,(x-\hat x),
+\qquad H=\left.\frac{\partial h}{\partial x}\right|_{\hat x}\]
+
+<p>So, to answer the question directly: <strong>linearising is not itself a matrix multiplication —
+it is taking a derivative.</strong> What it <em>produces</em> is a matrix, $H$ (the Jacobian),
+and once you have $H$ everything downstream is matrix multiplication.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   nonlinear h()  ──[ take ∂h/∂x at x̂ ]──▶  matrix H  ──▶  K = PHᵀ(HPHᵀ+R)⁻¹
+                        ← 이 단계가 linearisation          ← 여기부터가 행렬 연산
+</code></pre></div></div>
+
+<p>Work the range example. Robot at $(0,0)$, landmark at $(3,4)$, so $h=5$:</p>
+
+\[H=\frac{\partial h}{\partial (x_r,y_r)}
+=\left[-\frac{m_x-x_r}{h},\;-\frac{m_y-y_r}{h}\right]
+=[-0.6,\;-0.8]\]
+
+<p>That is just the <strong>unit vector pointing from the landmark to the robot</strong> —
+“move 1 m towards the landmark and the range drops by 1 m”, split across the two axes.
+Jacobians in SLAM usually have a plain geometric reading like this.</p>
+
+<p>Now check how good the straight line is. Move the robot along $x$ and compare:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      δx      true h()    linear     error
+    0.05       4.9702     4.9700    0.0002
+    0.10       4.9406     4.9400    0.0006
+    0.50       4.7170     4.7000    0.0170
+    1.00       4.4721     4.4000    0.0721
+    2.00       4.1231     3.8000    0.3231
+    3.00       4.0000     3.2000    0.8000
+</code></pre></div></div>
+
+<p><strong>Excellent nearby, useless far away.</strong> And “far” is measured in units of your own uncertainty —
+if $\sigma$ is 5 cm you live in the top rows; if $\sigma$ is 2 m you live in the bottom ones.</p>
+
+<p>That is the whole practical story of the EKF:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   small uncertainty  →  the tangent is a good stand-in  →  filter behaves
+   large uncertainty  →  the tangent is a bad stand-in   →  filter drifts,
+                                                            becomes overconfident,
+                                                            can diverge outright
+</code></pre></div></div>
+
+<p>There is a second, subtler cost. A Gaussian pushed through a curved function
+does not come out Gaussian, but the EKF assumes it does:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   σ = 0.1 m   true: mean 5.0005, std 0.060, skew +0.07   ← near enough
+   σ = 1.0 m   true: mean 5.0651, std 0.586, skew +0.63   ← visibly skewed
+               EKF thinks: mean 5.0000, std 0.600
+</code></pre></div></div>
+
+<p>At $\sigma=1$ m the real distribution is lopsided and its mean has shifted by 6.5 cm,
+while the filter still reports a clean symmetric Gaussian centred on the wrong value.
+<strong>The filter is not merely imprecise here — it is confidently wrong</strong>, and nothing
+in its own covariance warns it.</p>
+
+<p>This is why good initialisation matters so much in EKF-SLAM, why later methods
+relinearise (Chapter 7’s iSAM) or avoid a single linearisation point altogether
+(Chapter 3’s particles), and why iterated filters re-do the expansion several times
+per update (FAST-LIO’s iterated EKF, Part 2).</p>
+
+<hr>
+
+<h2 id="4-what-is-actually-in-the-state--and-what-the-matrix-looks-like">4. What is actually in the state — and what the matrix looks like</h2>
+
+<p>A natural guess is that the covariance relates <strong>the robot’s poses over time</strong> to
+<strong>the landmarks seen at each time</strong>. That is not what EKF-SLAM does.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   what EKF-SLAM keeps                what it does NOT keep
+   ─────────────────────────          ────────────────────────────
+   x = [ x_t          ]  ← one         [ x_0, x_1, x_2, … , x_t ]
+       [ m_1          ]    pose,        the whole trajectory
+       [ m_2          ]    the
+       [ …            ]    current      past poses are marginalised
+       [ m_n          ]    one          out and gone
+</code></pre></div></div>
+
+<p>The state holds <strong>one robot pose — the current one — plus every landmark.</strong>
+When the robot moves, $x_{t-1}$ is not appended; it is replaced.
+Its information does not vanish, though: it gets folded into the covariance,
+which is exactly why the landmarks end up correlated.</p>
+
+<p>(Chapter 6 takes the other road. Graph SLAM keeps $x_0 … x_t$ as variables,
+so old poses stay editable. That is the real filtering-versus-smoothing split.)</p>
+
+<p>For a 2D robot with $n$ landmarks the matrix is $(3+2n)\times(3+2n)$:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              x_r  y_r  θ_r │ m1x m1y │ m2x m2y
+            ┌───────────────┼─────────┼─────────┐
+      x_r   │               │         │         │
+      y_r   │  P_rr    3×3  │  P_rm1  │  P_rm2  │   ← robot ↔ landmark
+      θ_r   │               │         │         │
+            ├───────────────┼─────────┼─────────┤
+      m1x   │               │         │         │
+      m1y   │  P_m1r        │ P_m1m1  │ P_m1m2  │   ← landmark ↔ landmark
+            ├───────────────┼─────────┼─────────┤
+      m2x   │               │         │         │
+      m2y   │  P_m2r        │ P_m2m1  │ P_m2m2  │
+            └───────────────┴─────────┴─────────┘
+
+   one pose block, n landmark blocks.  no time axis anywhere.
+</code></pre></div></div>
+
+<p>The diagonal blocks are each variable’s own uncertainty.
+<strong>The off-diagonal blocks are §2’s story written down as numbers.</strong></p>
+
+<p>Take §2’s pillars in 1D and actually fill the matrix in. The robot’s position estimate
+has variance $0.25$ ($\sigma=0.5$ m), and each range measurement has variance $0.01$ ($\sigma=0.1$ m).
+A landmark is initialised as $\hat A = \hat x_r + z_A$, so its error is
+the robot’s error <em>plus</em> the measurement’s:</p>
+
+\[\operatorname{Var}(A)=0.25+0.01=0.26,\qquad
+\operatorname{Cov}(x_r,A)=\operatorname{Var}(x_r)=0.25\]
+
+\[\operatorname{Cov}(A,B)=\operatorname{Var}(x_r)=0.25\]
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             x_r     A       B
+          ┌─────────────────────┐
+    x_r   │ 0.25   0.25   0.25  │
+    A     │ 0.25   0.26   0.25  │
+    B     │ 0.25   0.25   0.26  │
+          └─────────────────────┘
+
+   every off-diagonal entry = 0.25 = the robot's own variance
+</code></pre></div></div>
+
+<p>That is the whole point in one picture. <strong>The number the pillars share is the robot’s error.</strong>
+Nothing else could have put it there — the two range measurements were independent.</p>
+
+<p>As correlation coefficients it is even starker:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             x_r     A       B
+    x_r    1.000   0.981   0.981
+    A      0.981   1.000   0.962
+    B      0.981   0.962   1.000
+</code></pre></div></div>
+
+<p>$\rho(A,B)=0.962$. Two pillars 4 m apart, measured independently, are almost
+perfectly correlated — because almost all of their uncertainty is one shared quantity.</p>
+
+<p>Now re-measure only A, precisely ($z=8.2$, $R=10^{-4}$), and run one EKF update
+with $H=\begin{bmatrix}0&amp;1&amp;0\end{bmatrix}$:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   innovation  8.2 − 8.0 = 0.2
+   K = P Hᵀ (H P Hᵀ + R)⁻¹ = [ 0.961,  1.000,  0.961 ]ᵀ
+                                 ↑        ↑       ↑
+                              robot      A       B
+                                              never observed,
+                                              yet its gain is 0.961
+
+                    before      after      truth
+        robot        5.00       5.192       5.2
+        A            8.00       8.200       8.2
+        B           12.00      12.192      12.2
+
+   σ   robot         0.50       0.099
+       A             0.51       0.010
+       B             0.51       0.140
+</code></pre></div></div>
+
+<p><strong>B moved 0.192 m and its σ dropped from 0.51 to 0.14 without being observed at all.</strong>
+The correction travelled through the off-diagonal 0.25. That entry is not bookkeeping
+overhead — it is the mechanism that makes loop closure work at all (Chapter 6).</p>
+
+<p>And it is also the cost. With $n$ landmarks the matrix has $O(n^2)$ entries and the update
+touches all of them, which is precisely the scalability wall
+<a href="https://www.cs.cmu.edu/~thrun/papers/montemerlo.fastslam-tr.pdf" rel="external nofollow noopener" target="_blank">FastSLAM</a> attacks in Chapter 3.</p>
+
+<hr>
+
+<h2 id="5-a-one-dimensional-correction-example">5. A one-dimensional correction example</h2>
+
+<p>To simplify, assume a reference point on the map is known. The robot predicts it is at 2.0 m with variance 0.25, then a sensor measures 2.4 m with variance 0.04.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  prediction    x = 2.0,  variance P = 0.25   (σ = 0.5 m)
+  measurement   z = 2.4,  variance R = 0.04   (σ = 0.2 m)
+
+  they disagree by 0.4 m.  which one do we believe?
+</code></pre></div></div>
+
+<p>Neither, entirely. We move <strong>part way</strong> from the prediction towards the measurement:</p>
+
+\[\hat x = x + K\,(z - x)\]
+
+<p>$(z-x)$ is the disagreement, called the <strong>innovation</strong>. $K$ is how much of it we accept:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  K = 0    ignore the measurement entirely, keep x = 2.0
+  K = 1    accept the measurement entirely, x = 2.4
+  K = 0.5  split the difference, x = 2.2
+</code></pre></div></div>
+
+<p>So the whole question is what $K$ should be. The answer is called the <strong>Kalman gain</strong>:</p>
+
+\[K=\frac{P}{P+R}\]
+
+<p>Read it as <strong>“what share of the total uncertainty is mine?”</strong>
+$P+R$ is all the doubt in the room; $P$ is my part of it.
+If most of the doubt is mine, I should move most of the way to the measurement.</p>
+
+<p>The extremes confirm this is the right shape.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  R → 0     a perfect sensor     K → 1     take the measurement whole
+  R → ∞     a useless sensor     K → 0     ignore it, keep my prediction
+  P → 0     a perfect prediction K → 0     nothing to correct
+  P = R     equally trustworthy  K = 0.5   split evenly
+</code></pre></div></div>
+
+<p>Now the numbers:</p>
+
+\[K=\frac{0.25}{0.25+0.04}\approx0.862,\qquad
+\hat x=2.0+0.862\,(2.4-2.0)\approx2.345\]
+
+<p>Read $K \approx 0.86$ as “move 86% of the way from the prediction to the measurement”.
+The gap is $0.4$, so we move $0.86 \times 0.4 \approx 0.35$ and land at 2.345 —
+much closer to the measurement than to the prediction.</p>
+
+<p>That is the right behaviour, because variance 0.04 (σ = 0.2 m) is a far tighter claim than variance 0.25 (σ = 0.5 m).</p>
+
+<p>The uncertainty shrinks too, and by the same gain:</p>
+
+\[P^{+}=(1-K)\,P=(1-0.862)\times0.25\approx0.034\]
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  before    P = 0.25    (σ = 0.50 m)
+  after     P⁺= 0.034   (σ = 0.19 m)
+
+  0.034 is smaller than 0.25  and  smaller than 0.04
+</code></pre></div></div>
+
+<p>That last line is worth pausing on. <strong>The result is more certain than either input.</strong>
+Two independent opinions that roughly agree are together stronger than either alone —
+which is exactly why fusing sensors is worth doing at all.</p>
+
+<p>Change the numbers and the filter changes its mind accordingly:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    P            R            K       x̂       P⁺      who wins
+   0.25         0.04         0.86     2.345   0.034    measurement
+   0.25         0.25         0.50     2.200   0.125    a tie, split evenly
+   0.25         4.00         0.06     2.024   0.235    prediction
+</code></pre></div></div>
+
+<p>Nobody tuned those weights by hand. <strong>They fall out of the two variances.</strong>
+That is the appeal of the whole approach: you state how much you trust each source,
+and the blending ratio follows. In real EKF-SLAM the observation may be a range and bearing rather than the position itself, so Jacobians and correlations have to be included.</p>
 
 <h2 id="check-questions">Check questions</h2>
 
