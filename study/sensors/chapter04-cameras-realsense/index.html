@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 4. 카메라 — RealSense D435i | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/sensors/chapter04-cameras-realsense/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 4. 카메라 — RealSense D435i</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> USB 센서가 Ethernet 센서와 무엇이 다른지 알고,
+<code class="language-plaintext highlighter-rouge">lsusb</code> / <code class="language-plaintext highlighter-rouge">dmesg</code> / <code class="language-plaintext highlighter-rouge">rs-enumerate-devices</code>로 계층별로 확인할 수 있다.</p>
+</blockquote>
+
+<p>Chapter 2·3의 LiDAR는 전부 Ethernet이었다. 카메라는 대개 USB다.
+<strong>확인 항목은 같지만 확인 방법이 전부 바뀐다.</strong></p>
+
+<hr>
+
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">lsusb</code> · <code class="language-plaintext highlighter-rouge">dmesg -w</code> · <code class="language-plaintext highlighter-rouge">rs-enumerate-devices</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">lsusb</code></td>
+      <td style="text-align: left">장치가 인식됐나</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">lsusb -t</code></td>
+      <td style="text-align: left"><strong>어느 USB 버스에 어떤 속도로 붙었나</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">dmesg -w</code></td>
+      <td style="text-align: left">꽂는 순간 커널 메시지 (켜 놓고 꽂는다)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ls -l /dev/video*</code></td>
+      <td style="text-align: left">video device node와 권한</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">rs-enumerate-devices</code></td>
+      <td style="text-align: left">librealsense가 장치를 보나</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">rs-enumerate-devices -s</code></td>
+      <td style="text-align: left">짧게 (모델·시리얼·펌웨어)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">realsense-viewer</code></td>
+      <td style="text-align: left">GUI로 직접 보기</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 launch realsense2_camera rs_launch.py</code></td>
+      <td style="text-align: left">드라이버 실행</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic hz /camera/camera/color/image_raw</code></td>
+      <td style="text-align: left">실제 fps</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">v4l2-ctl --list-devices</code></td>
+      <td style="text-align: left">V4L2 수준에서 보이나</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="1-한-장-요약">1. 한 장 요약</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">항목</th>
+      <th style="text-align: left">값</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">물리 인터페이스</td>
+      <td style="text-align: left">
+<strong>USB 3.x</strong> (Type-C)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">설정 프로토콜</td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">librealsense</code> SDK / ROS 파라미터</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">데이터 프로토콜</td>
+      <td style="text-align: left">USB stream (UVC 기반)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">주소·포트</td>
+      <td style="text-align: left">없음. <strong>시리얼 번호</strong>로 구분</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ROS 드라이버</td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">realsense2_camera</code> (<a href="https://github.com/IntelRealSense/realsense-ros" rel="external nofollow noopener" target="_blank">IntelRealSense/realsense-ros</a>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">출력 토픽</td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">/camera/camera/color/image_raw</code><br><code class="language-plaintext highlighter-rouge">/camera/camera/depth/image_rect_raw</code><br><code class="language-plaintext highlighter-rouge">/camera/camera/imu</code> (D435i)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">내장 IMU</td>
+      <td style="text-align: left">
+<strong>있음</strong> (D435i의 <code class="language-plaintext highlighter-rouge">i</code>가 그 뜻)</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ethernet 센서               USB 센서
+──────────────────         ────────────────────────
+IP 주소로 찾는다             시리얼 번호로 찾는다
+포트가 있다                  포트가 없다
+ping / tcpdump              lsusb / dmesg
+방화벽이 막을 수 있다         전원·케이블·대역폭이 문제
+여러 대 = IP 충돌            여러 대 = USB 대역폭 경쟁
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="2-usb에서-가장-많이-터지는-것">2. USB에서 가장 많이 터지는 것</h1>
+
+<p>Ethernet 센서와 달리, USB는 <strong>케이블과 전원이 절반</strong>이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>① 케이블      USB 2.0 케이블을 쓰면 3.0 속도가 안 난다. 겉으로는 똑같이 생겼다
+② 전원        Jetson 의 USB 포트가 전류를 못 대주면 간헐적으로 끊긴다
+③ 대역폭      한 컨트롤러에 카메라 두 대를 물리면 둘 다 프레임이 떨어진다
+④ 권한        /dev/video* 접근 권한. udev rule 이 필요할 수 있다
+</code></pre></div></div>
+
+<p>②③은 <strong>간헐적으로 실패</strong>해서 특히 골치 아프다. 로그를 봐야 보인다.</p>
+
+<p>속도 확인이 첫 번째다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsusb <span class="nt">-t</span>
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/4p, 5000M
+    |__ Port 2: Dev 3, If 0, Class=Video, Driver=uvcvideo, 5000M
+                                                            ^^^^^
+                                              5000M = USB 3.0 으로 붙었다
+                                              480M  = USB 2.0. 케이블 의심
+</code></pre></div></div>
+
+<p><strong><code class="language-plaintext highlighter-rouge">480M</code>이 보이면 케이블이나 포트 문제다.</strong> D435i는 USB 3.0이 아니면 해상도·fps가 제한된다.</p>
+
+<hr>
+
+<h1 id="3-계층별-확인--아래에서-위로">3. 계층별 확인 — 아래에서 위로</h1>
+
+<p>Ethernet의 <code class="language-plaintext highlighter-rouge">ping → tcpdump → 토픽</code> 순서에 대응하는 USB 버전이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>① 커널이 보나        dmesg -w  를 켜 놓고 꽂는다
+       ↓
+② USB 목록에 있나    lsusb | grep -i intel
+       ↓
+③ 속도가 맞나        lsusb -t   → 5000M 인가
+       ↓
+④ V4L2 로 보이나     v4l2-ctl --list-devices,  ls -l /dev/video*
+       ↓
+⑤ SDK 가 보나       rs-enumerate-devices        ← 경계선
+       ↓
+⑥ 드라이버          ros2 launch realsense2_camera rs_launch.py
+       ↓
+⑦ 토픽              ros2 topic hz /camera/camera/color/image_raw
+       ↓
+⑧ 내용              rviz2 로 보거나 echo
+</code></pre></div></div>
+
+<p>⑤가 Chapter 1 §6의 <code class="language-plaintext highlighter-rouge">tcpdump</code>에 해당하는 경계선이다.
+<strong><code class="language-plaintext highlighter-rouge">rs-enumerate-devices</code>가 장치를 보면 하드웨어·드라이버 문제는 끝</strong>이고,
+그 위는 전부 ROS 설정 문제다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rs-enumerate-devices <span class="nt">-s</span>
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device Name        Serial Number    Firmware Version
+Intel RealSense D435I   012345678901   5.13.0.50
+</code></pre></div></div>
+
+<p><strong>펌웨어 버전을 기록해 두는 게 중요하다.</strong> librealsense 버전과 궁합이 있다.</p>
+
+<hr>
+
+<h1 id="4-토픽-구조">4. 토픽 구조</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 launch realsense2_camera rs_launch.py
+ros2 topic list
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/camera/camera/color/camera_info
+/camera/camera/color/image_raw
+/camera/camera/color/metadata
+/camera/camera/depth/camera_info
+/camera/camera/depth/image_rect_raw
+/camera/camera/depth/metadata
+/camera/camera/extrinsics/depth_to_color
+</code></pre></div></div>
+
+<p>이름이 <code class="language-plaintext highlighter-rouge">/camera/camera/...</code>로 두 번 겹치는 이유는 <strong>네임스페이스와 노드 이름이 둘 다 기본값 <code class="language-plaintext highlighter-rouge">camera</code></strong>이기 때문이다. 바꿀 수 있다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 launch realsense2_camera rs_launch.py <span class="se">\</span>
+  camera_namespace:<span class="o">=</span>front camera_name:<span class="o">=</span>d435i
+<span class="c"># → /front/d435i/color/image_raw</span>
+</code></pre></div></div>
+
+<p>카메라 두 대를 붙일 때 <strong>반드시 나눠야 한다.</strong></p>
+
+<p>IMU는 기본으로 안 켜질 수 있다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 launch realsense2_camera rs_launch.py <span class="se">\</span>
+  enable_gyro:<span class="o">=</span><span class="nb">true </span>enable_accel:<span class="o">=</span><span class="nb">true </span>unite_imu_method:<span class="o">=</span>2
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unite_imu_method
+  0   합치지 않음 → /gyro/sample, /accel/sample 로 따로
+  1   copy
+  2   linear_interpolation     ← 하나의 /imu 토픽으로 합쳐진다
+</code></pre></div></div>
+
+<p><strong>LIO에 쓰려면 합쳐진 <code class="language-plaintext highlighter-rouge">sensor_msgs/msg/Imu</code> 하나가 필요</strong>하므로 대개 <code class="language-plaintext highlighter-rouge">2</code>를 쓴다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">extrinsics/depth_to_color</code>도 눈여겨볼 것이다.
+depth와 color가 물리적으로 떨어져 있으므로, 정렬하려면 이 변환이 필요하다.</p>
+
+<hr>
+
+<h1 id="5-docker-안에서">5. Docker 안에서</h1>
+
+<p>USB 센서는 Ethernet보다 컨테이너 설정이 까다롭다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="se">\</span>
+  <span class="nt">--network</span> host <span class="se">\</span>
+  <span class="nt">--device</span> /dev/video0 <span class="se">\</span>
+  <span class="nt">--device</span> /dev/video1 <span class="se">\</span>
+  <span class="nt">-v</span> /dev:/dev <span class="se">\</span>
+  <span class="nt">-v</span> /run/udev:/run/udev:ro <span class="se">\</span>
+  my-ros-image bash
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>--device /dev/videoN     그 노드만 넘긴다 (권장)
+-v /dev:/dev             전부 넘긴다. 재연결 시 노드 번호가 바뀌어도 대응됨
+-v /run/udev:/run/udev   librealsense 가 udev 정보를 읽는다
+--privileged             마지막 수단. 가급적 피한다
+</code></pre></div></div>
+
+<p><strong>카메라를 뽑았다 꽂으면 <code class="language-plaintext highlighter-rouge">/dev/videoN</code> 번호가 바뀐다.</strong>
+<code class="language-plaintext highlighter-rouge">--device</code>로 특정 노드만 넘겼다면 컨테이너가 그걸 잃는다.
+개발 중에는 <code class="language-plaintext highlighter-rouge">-v /dev:/dev</code>가 편하고, 운영에서는 udev rule로 고정 이름을 만드는 편이 낫다.</p>
+
+<p>호스트에 udev rule이 깔려 있어야 한다는 점도 주의한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 호스트에서</span>
+<span class="nb">ls</span> /etc/udev/rules.d/ | <span class="nb">grep</span> <span class="nt">-i</span> realsense
+</code></pre></div></div>
+
+<p>(Edge Computing Chapter 9.5, Chapter 14)</p>
+
+<hr>
+
+<h1 id="6-안-될-때">6. 안 될 때</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>증상                              먼저 볼 것
+────────────────────────────      ──────────────────────────────────
+lsusb 에 아예 없다                 케이블, 전원, 포트
+                                  dmesg -w 켜고 다시 꽂기
+
+lsusb -t 가 480M                   USB 2.0 케이블/포트
+                                  D435i 는 3.0 이어야 제 성능
+
+rs-enumerate-devices 가 빈 목록     권한 (udev rule)
+                                  librealsense 설치·버전
+                                  펌웨어 호환
+
+토픽은 뜨는데 fps 가 낮다          USB 대역폭 경쟁 (다른 USB 장치)
+                                  해상도·fps 설정
+                                  CPU 부하
+
+간헐적으로 끊긴다                  전원 부족이 1순위
+                                  dmesg 에 disconnect 가 찍히나
+                                  셀프파워 허브 시도
+
+/dev/videoN 번호가 계속 바뀐다      udev rule 로 고정 이름 만들기
+</code></pre></div></div>
+
+<p><strong>“간헐적”이면 거의 항상 전원 아니면 케이블이다.</strong></p>
+
+<hr>
+
+<h1 id="7-카메라는-저장-용량을-가장-많이-먹는다">7. 카메라는 저장 용량을 가장 많이 먹는다</h1>
+
+<p>Edge Computing Chapter 13의 계산을 다시 보면 카메라가 압도적이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                                    MB/s     GB/시간
+VLP-16 LiDAR                          4.6       16.6
+1080p30 카메라, JPEG 약 10:1         18.7       67.2
+1080p30 카메라, 무압축 RGB8         186.6      671.8   ← LiDAR 의 40배
+</code></pre></div></div>
+
+<p>D435i는 color + depth + IMU를 동시에 낸다.
+<strong><code class="language-plaintext highlighter-rouge">ros2 bag record -a</code>를 무심코 돌리면 몇 분 만에 디스크가 찬다.</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 필요한 것만</span>
+ros2 bag record /camera/camera/color/image_raw/compressed /camera/camera/imu
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="8-기록">8. 기록</h1>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gu">## Intel RealSense D435i</span>
+
+| 항목            | 값                                                           |
+| :-------------- | :----------------------------------------------------------- |
+| 물리 인터페이스 | USB 3.x (Type-C)                                             |
+| 식별            | 시리얼 번호                                                  |
+| 설정 프로토콜   | librealsense SDK / ROS 파라미터                              |
+| 데이터 프로토콜 | USB stream (UVC)                                             |
+| ROS 드라이버    | realsense2_camera                                            |
+| 출력 토픽       | /camera/camera/color/image_raw                               |
+|                 | /camera/camera/depth/image_rect_raw                          |
+|                 | /camera/camera/imu (enable_gyro/accel + unite_imu_method:=2) |
+| 내장 IMU        | 있음                                                         |
+| 펌웨어          | (rs-enumerate-devices -s 로 확인해 기록)                     |
+| librealsense    | (버전 기록)                                                  |
+| 확인일          | 2026-09-08                                                   |
+| 비고            | lsusb -t 가 5000M 인지 매번 확인                             |
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="9-chapter-연결">9. Chapter 연결</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 1   7가지 확인 항목
+Chapter 2   VLP-16 — Ethernet + HTTP + UDP
+Chapter 3   다른 LiDAR
+Chapter 4   ← 여기. USB 센서는 확인 방법이 다르다
+
+Edge Computing Chapter 5    USB, device node, udev
+Edge Computing Chapter 9.5  --device, /run/udev 마운트
+Edge Computing Chapter 13   카메라가 저장을 가장 많이 먹는다
+Edge Computing Chapter 14   udev rule 로 이름 고정하기
+</code></pre></div></div>
+
+<p><strong>출처:</strong> 토픽 이름과 파라미터는
+<a href="https://github.com/IntelRealSense/realsense-ros" rel="external nofollow noopener" target="_blank">IntelRealSense/realsense-ros</a> README에서 확인했다.
+펌웨어·librealsense 버전 궁합은 장비에서 직접 확인해 기록해야 한다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/sensors/">← 목차로 돌아가기</a>
+  
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

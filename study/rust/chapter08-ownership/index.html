@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 8. 함수로 쪼개다가 소유권을 만나기 | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/rust/chapter08-ownership/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 8. 함수로 쪼개다가 소유권을 만나기</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> Chapter 7의 프로그램을 함수로 나누면서 <code class="language-plaintext highlighter-rouge">E0382</code>, <code class="language-plaintext highlighter-rouge">E0499</code>, <code class="language-plaintext highlighter-rouge">E0502</code>를 직접 만나고,
+<code class="language-plaintext highlighter-rouge">&amp;</code>, <code class="language-plaintext highlighter-rouge">&amp;mut</code>, <code class="language-plaintext highlighter-rouge">&amp;[T]</code>를 언제 쓰는지 몸으로 익힌다.</p>
+</blockquote>
+
+<p>Chapter 7의 <code class="language-plaintext highlighter-rouge">main</code>은 전부 한 함수에 들어 있었다. 그래서 소유권 문제가 안 생겼다.
+<strong>함수로 쪼개는 순간 문제가 시작된다.</strong> 그리고 그게 Rust를 배우는 가장 자연스러운 지점이다.</p>
+
+<p>새 예제를 만들지 않는다. <strong>같은 프로그램을 리팩터링한다.</strong></p>
+
+<hr>
+
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">cargo check</code> · <code class="language-plaintext highlighter-rouge">rustc --explain E0382</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo check</code></td>
+      <td style="text-align: left">소유권 에러는 여기서 다 잡힌다</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">rustc --explain E0382</code></td>
+      <td style="text-align: left"><strong>move 에러 설명</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">rustc --explain E0499</code></td>
+      <td style="text-align: left">가변 대여 두 번</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">rustc --explain E0502</code></td>
+      <td style="text-align: left">불변·가변 대여 충돌</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">rustc --explain E0596</code></td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">mut</code>이 아닌데 가변으로 빌리려 함</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo clippy</code></td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">&amp;Vec&lt;T&gt;</code> 대신 <code class="language-plaintext highlighter-rouge">&amp;[T]</code> 같은 것을 제안</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="1-목표--이렇게-쪼개고-싶다">1. 목표 — 이렇게 쪼개고 싶다</h1>
+
+<p>Chapter 7의 <code class="language-plaintext highlighter-rouge">main</code>을 기능별로 나누면 이런 모양이 된다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">parse_all</span><span class="p">(</span><span class="n">raw</span><span class="p">:</span> <span class="o">&amp;</span><span class="nb">str</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="k">fn</span> <span class="nf">mean_magnitude</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">Sample</span><span class="p">])</span> <span class="k">-&gt;</span> <span class="nb">f64</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="k">fn</span> <span class="nf">worst_sample</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">Sample</span><span class="p">])</span> <span class="k">-&gt;</span> <span class="o">&amp;</span><span class="n">Sample</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="k">fn</span> <span class="nf">find_gaps</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">Sample</span><span class="p">],</span> <span class="n">expected_dt</span><span class="p">:</span> <span class="nb">f64</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="p">(</span><span class="nb">f64</span><span class="p">,</span> <span class="nb">f64</span><span class="p">)</span><span class="o">&gt;</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="k">fn</span> <span class="nf">remove_gravity</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="nb">f64</span><span class="p">)</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="k">mut</span> <span class="n">samples</span> <span class="o">=</span> <span class="nf">parse_all</span><span class="p">(</span><span class="n">raw</span><span class="p">);</span>
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"평균: {:.3}"</span><span class="p">,</span> <span class="nf">mean_magnitude</span><span class="p">(</span><span class="o">&amp;</span><span class="n">samples</span><span class="p">));</span>
+    <span class="o">...</span>
+    <span class="nf">remove_gravity</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span> <span class="n">samples</span><span class="p">,</span> <span class="mf">9.81</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>시그니처에 <code class="language-plaintext highlighter-rouge">&amp;</code>, <code class="language-plaintext highlighter-rouge">&amp;[T]</code>, <code class="language-plaintext highlighter-rouge">&amp;mut</code>가 섞여 있다.
+<strong>왜 각각 저것이어야 하는지</strong>가 이 chapter의 내용이다.</p>
+
+<p>먼저 순진하게 써 보고, 컴파일러에게 혼나면서 고쳐 간다.</p>
+
+<hr>
+
+<h1 id="2-첫-시도--그냥-값으로-넘기면">2. 첫 시도 — 그냥 값으로 넘기면</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">mean_magnitude</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f64</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>   <span class="c1">// &amp; 없이</span>
+<span class="k">fn</span> <span class="nf">count</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">usize</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="n">samples</span> <span class="o">=</span> <span class="nf">parse_all</span><span class="p">(</span><span class="n">raw</span><span class="p">);</span>
+    <span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="nf">mean_magnitude</span><span class="p">(</span><span class="n">samples</span><span class="p">);</span>
+    <span class="k">let</span> <span class="n">c</span> <span class="o">=</span> <span class="nf">count</span><span class="p">(</span><span class="n">samples</span><span class="p">);</span>          <span class="c1">// ← 여기서 막힌다</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>error[E0382]: use of moved value: `samples`
+  |
+6 |     let samples = vec![...];
+  |         ------- move occurs because `samples` has type `Vec&lt;Sample&gt;`,
+  |                 which does not implement the `Copy` trait
+7 |     let m = mean_magnitude(samples);
+  |                            ------- value moved here
+8 |     let c = count(samples);
+  |                   ^^^^^^^ value used here after move
+  |
+note: consider changing this parameter type in function `mean_magnitude`
+      to borrow instead if owning the value isn't necessary
+</code></pre></div></div>
+
+<p>Rust를 처음 하면 여기서 한 번 멈춘다. <strong>“넘겼을 뿐인데 왜 없어졌지?”</strong></p>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/ch04-01-what-is-ownership.html" rel="external nofollow noopener" target="_blank">4.1 소유권이 뭔가요?</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="3-왜-사라지는가--소유권">3. 왜 사라지는가 — 소유권</h1>
+
+<p>Rust의 규칙은 세 줄이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>① 모든 값에는 소유자(owner)가 정확히 하나 있다
+② 소유자가 스코프를 벗어나면 값은 버려진다(drop)
+③ 소유권은 넘어간다(move). 넘기면 원래 자리에서는 못 쓴다
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">mean_magnitude(samples)</code>는 <strong>소유권을 넘긴 것</strong>이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>호출 전                 호출 중                    호출 후
+─────────────          ──────────────────         ──────────────
+main:                   mean_magnitude:            main:
+  samples ──▶ [데이터]     samples ──▶ [데이터]        samples ──▶ ✗
+                                                     (더 이상 소유자가 아니다)
+                        함수가 끝나면 여기서 drop
+</code></pre></div></div>
+
+<p>왜 이렇게 만들었을까. <strong>메모리를 언제 해제할지 컴파일 타임에 정하기 위해서</strong>다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C/C++     free() 를 사람이 부른다   → 안 부르면 누수, 두 번 부르면 double free
+GC 언어    런타임이 알아서 치운다     → 언제 멈출지 예측이 어렵다
+Rust      소유자가 스코프를 벗어날 때 → 컴파일 타임에 결정. GC 없음
+</code></pre></div></div>
+
+<p>로봇 제어 루프처럼 <strong>멈추면 안 되는 코드</strong>에서 GC가 없다는 것이 Rust를 쓰는 큰 이유다.
+(Edge Computing Chapter 15의 실시간 이야기와 이어진다.)</p>
+
+<hr>
+
+<h1 id="4-copy가-붙은-것은-왜-안-사라지나">4. <code class="language-plaintext highlighter-rouge">Copy</code>가 붙은 것은 왜 안 사라지나</h1>
+
+<p>그런데 이건 잘 된다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="k">let</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+<span class="nd">println!</span><span class="p">(</span><span class="s">"{a} {b}"</span><span class="p">);</span>     <span class="c1">// 둘 다 잘 나온다</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">i32</code>처럼 <strong>작고 스택에만 있는 값</strong>은 <code class="language-plaintext highlighter-rouge">Copy</code> trait을 구현하고 있다.
+<code class="language-plaintext highlighter-rouge">Copy</code>가 있으면 move 대신 <strong>복사</strong>가 일어난다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Copy 인 것          i32, f64, bool, char, &amp;T,
+                   그리고 Copy 인 것들로만 이루어진 struct/tuple
+
+Copy 가 아닌 것     Vec&lt;T&gt;, String, Box&lt;T&gt;, 파일 핸들 …
+                   힙을 쓰거나 해제가 필요한 것
+</code></pre></div></div>
+
+<p>Chapter 7에서 <code class="language-plaintext highlighter-rouge">Sample</code>에 <code class="language-plaintext highlighter-rouge">#[derive(Clone, Copy)]</code>를 붙여 뒀던 것이 여기서 효과를 낸다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[derive(Debug,</span> <span class="nd">Clone,</span> <span class="nd">Copy)]</span>
+<span class="k">struct</span> <span class="n">Sample</span> <span class="p">{</span> <span class="n">stamp</span><span class="p">:</span> <span class="nb">f64</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="nb">f64</span><span class="p">,</span> <span class="n">ay</span><span class="p">:</span> <span class="nb">f64</span><span class="p">,</span> <span class="n">az</span><span class="p">:</span> <span class="nb">f64</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Sample</code>은 <code class="language-plaintext highlighter-rouge">f64</code> 네 개뿐이라 32바이트다. 복사가 싸므로 <code class="language-plaintext highlighter-rouge">Copy</code>가 적절하다.
+그래서 <code class="language-plaintext highlighter-rouge">Sample</code> 하나를 넘기는 것은 문제가 안 된다.</p>
+
+<p><strong>하지만 <code class="language-plaintext highlighter-rouge">Vec&lt;Sample&gt;</code>은 여전히 <code class="language-plaintext highlighter-rouge">Copy</code>가 아니다.</strong> 힙에 있기 때문이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Sample          32 바이트, 스택        → Copy 로 둘 만하다
+Vec&lt;Sample&gt;     힙 할당 + 길이 + 용량   → Copy 불가. move 된다
+</code></pre></div></div>
+
+<p>에러 메시지가 정확히 그 말을 하고 있었다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`Vec&lt;Sample&gt;`, which does not implement the `Copy` trait
+</code></pre></div></div>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/ch04-01-what-is-ownership.html" rel="external nofollow noopener" target="_blank">4.1 소유권</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="5-고치는-법-세-가지-그리고-왜-인가">5. 고치는 법 세 가지, 그리고 왜 <code class="language-plaintext highlighter-rouge">&amp;</code>인가</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ① clone — 복사본을 만든다</span>
+<span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="nf">mean_magnitude</span><span class="p">(</span><span class="n">samples</span><span class="nf">.clone</span><span class="p">());</span>
+<span class="k">let</span> <span class="n">c</span> <span class="o">=</span> <span class="nf">count</span><span class="p">(</span><span class="n">samples</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>된다. 하지만 데이터를 통째로 복사한다.
+샘플이 100만 개면 100만 개를 복사한다. 낭비다.
+</code></pre></div></div>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ② 돌려받기 — 소유권을 넘겼다가 되받는다</span>
+<span class="k">fn</span> <span class="nf">mean_magnitude</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="p">(</span><span class="nb">f64</span><span class="p">,</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="k">let</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span> <span class="o">=</span> <span class="nf">mean_magnitude</span><span class="p">(</span><span class="n">samples</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>된다. 하지만 시그니처가 흉해진다. 실제로 이렇게 쓰지 않는다.
+</code></pre></div></div>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ③ 빌리기(borrow) — 소유권은 그대로 두고 보기만 한다</span>
+<span class="k">fn</span> <span class="nf">mean_magnitude</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f64</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="nf">mean_magnitude</span><span class="p">(</span><span class="o">&amp;</span><span class="n">samples</span><span class="p">);</span>
+<span class="k">let</span> <span class="n">c</span> <span class="o">=</span> <span class="nf">count</span><span class="p">(</span><span class="o">&amp;</span><span class="n">samples</span><span class="p">);</span>        <span class="c1">// 몇 번이든 된다</span>
+</code></pre></div></div>
+
+<p><strong>③이 정답이다.</strong> <code class="language-plaintext highlighter-rouge">&amp;</code>는 “잠깐 빌려서 읽는다”는 뜻이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>소유권을 넘긴다(move)      값을 통째로 준다. 원래 자리는 비어버린다
+빌린다(borrow, &amp;)          주소만 준다. 소유자는 그대로
+</code></pre></div></div>
+
+<p>C++의 <code class="language-plaintext highlighter-rouge">const&amp;</code>와 비슷하지만, <strong>Rust는 빌린 것이 소유자보다 오래 살지 못하도록 컴파일러가 강제한다.</strong>
+C++에서 dangling reference가 되는 코드가 Rust에서는 컴파일이 안 된다.</p>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/ch04-02-references-and-borrowing.html" rel="external nofollow noopener" target="_blank">4.2 참조와 대여</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="6-vect-대신-t--clippy가-시키는-것">6. <code class="language-plaintext highlighter-rouge">&amp;Vec&lt;T&gt;</code> 대신 <code class="language-plaintext highlighter-rouge">&amp;[T]</code> — clippy가 시키는 것</h1>
+
+<p>③으로 고치고 <code class="language-plaintext highlighter-rouge">cargo clippy</code>를 돌리면 이런 말을 듣는다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>warning: writing `&amp;Vec` instead of `&amp;[_]` involves a new object where a slice will do
+help: change this to: `&amp;[Sample]`
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">&amp;[T]</code>는 <strong>슬라이스</strong>다. “연속된 T들의 어딘가”를 가리킨다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&amp;Vec&lt;Sample&gt;    반드시 Vec 이어야 한다
+&amp;[Sample]       Vec 이든 배열이든 그 일부든 다 받는다
+</code></pre></div></div>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">mean_magnitude</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">Sample</span><span class="p">])</span> <span class="k">-&gt;</span> <span class="nb">f64</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+
+<span class="k">let</span> <span class="n">v</span><span class="p">:</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>
+<span class="k">let</span> <span class="n">a</span><span class="p">:</span> <span class="p">[</span><span class="n">Sample</span><span class="p">;</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>
+
+<span class="nf">mean_magnitude</span><span class="p">(</span><span class="o">&amp;</span><span class="n">v</span><span class="p">);</span>          <span class="c1">// Vec 에서</span>
+<span class="nf">mean_magnitude</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">);</span>          <span class="c1">// 배열에서</span>
+<span class="nf">mean_magnitude</span><span class="p">(</span><span class="o">&amp;</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">3</span><span class="p">]);</span>    <span class="c1">// 일부만</span>
+</code></pre></div></div>
+
+<p><strong>읽기만 하는 함수는 <code class="language-plaintext highlighter-rouge">&amp;[T]</code>로 받는 것이 기본</strong>이다. 더 많은 것을 받으면서 잃는 게 없다.
+문자열도 같은 관계다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&amp;String   →  &amp;str        같은 이유로 &amp;str 을 쓴다
+&amp;Vec&lt;T&gt;   →  &amp;[T]
+</code></pre></div></div>
+
+<p>Chapter 7의 <code class="language-plaintext highlighter-rouge">parse_all(raw: &amp;str)</code>이 <code class="language-plaintext highlighter-rouge">&amp;String</code>이 아니었던 이유다.</p>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/ch04-03-slices.html" rel="external nofollow noopener" target="_blank">4.3 슬라이스</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="7-고쳐야-할-때는-mut">7. 고쳐야 할 때는 <code class="language-plaintext highlighter-rouge">&amp;mut</code>
+</h1>
+
+<p><code class="language-plaintext highlighter-rouge">remove_gravity</code>는 데이터를 <strong>바꿔야</strong> 한다. 읽기만으로는 안 된다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">remove_gravity</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="nb">f64</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="n">samples</span><span class="nf">.iter_mut</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">s</span><span class="py">.az</span> <span class="o">-=</span> <span class="n">g</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nf">remove_gravity</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span> <span class="n">samples</span><span class="p">,</span> <span class="mf">9.81</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>세 군데에 <code class="language-plaintext highlighter-rouge">mut</code>이 필요하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let mut samples = ...;                       ① 원본이 가변이어야 한다
+fn remove_gravity(samples: &amp;mut Vec&lt;Sample&gt;) ② 가변으로 빌리겠다고 선언
+remove_gravity(&amp;mut samples, 9.81);          ③ 호출할 때도 명시
+</code></pre></div></div>
+
+<p><strong>호출하는 쪽에도 <code class="language-plaintext highlighter-rouge">&amp;mut</code>을 쓰는 것</strong>이 특징이다. C++의 <code class="language-plaintext highlighter-rouge">foo(x)</code>가 <code class="language-plaintext highlighter-rouge">x</code>를 바꿀 수 있는지
+호출부만 봐서는 모르는 것과 다르다. Rust는 <strong>읽는 사람이 바로 안다.</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">iter_mut()</code>도 마찬가지다. 그냥 <code class="language-plaintext highlighter-rouge">for s in samples</code>면 읽기만 된다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="n">samples</span><span class="nf">.iter</span><span class="p">()</span>     <span class="p">{</span> <span class="cm">/* &amp;Sample     읽기만 */</span> <span class="p">}</span>
+<span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="n">samples</span><span class="nf">.iter_mut</span><span class="p">()</span> <span class="p">{</span> <span class="cm">/* &amp;mut Sample 고칠 수 있다 */</span> <span class="p">}</span>
+<span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="n">samples</span><span class="nf">.into_iter</span><span class="p">(){</span> <span class="cm">/* Sample      가져가버린다 */</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="8-대여-규칙--왜-이렇게-까다로운가">8. 대여 규칙 — 왜 이렇게 까다로운가</h1>
+
+<p>Rust는 어느 시점에든 다음 중 <strong>하나만</strong> 허용한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>· 불변 참조(&amp;T) 를 여러 개        (읽기만 하니 여럿이어도 안전)
+· 가변 참조(&amp;mut T) 를 딱 하나    (쓰는 건 하나만)
+
+  둘을 섞을 수 없다.
+</code></pre></div></div>
+
+<p>어기면 이렇게 된다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="k">mut</span> <span class="n">v</span> <span class="o">=</span> <span class="nd">vec!</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">];</span>
+<span class="k">let</span> <span class="n">a</span> <span class="o">=</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="n">v</span><span class="p">;</span>
+<span class="k">let</span> <span class="n">b</span> <span class="o">=</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="n">v</span><span class="p">;</span>
+<span class="n">a</span><span class="nf">.push</span><span class="p">(</span><span class="mf">3.0</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>error[E0499]: cannot borrow `v` as mutable more than once at a time
+  |
+3 |     let a = &amp;mut v;
+  |             ------ first mutable borrow occurs here
+4 |     let b = &amp;mut v;
+  |             ^^^^^^ second mutable borrow occurs here
+</code></pre></div></div>
+
+<p>섞어도 안 된다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="k">mut</span> <span class="n">data</span> <span class="o">=</span> <span class="nd">vec!</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">];</span>
+<span class="k">let</span> <span class="n">first</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>      <span class="c1">// 불변 대여</span>
+<span class="n">data</span><span class="nf">.push</span><span class="p">(</span><span class="mf">4.0</span><span class="p">);</span>            <span class="c1">// 가변 대여</span>
+<span class="nd">println!</span><span class="p">(</span><span class="s">"{first}"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>error[E0502]: cannot borrow `data` as mutable because it is also borrowed as immutable
+  |
+3 |     let first = &amp;data[0];
+  |                  ---- immutable borrow occurs here
+4 |     data.push(4.0);
+  |     ^^^^^^^^^^^^^^ mutable borrow occurs here
+5 |     println!("{first}");
+  |                ----- immutable borrow later used here
+</code></pre></div></div>
+
+<p><strong>이건 진짜 버그다.</strong> <code class="language-plaintext highlighter-rouge">push</code>가 용량을 넘기면 <code class="language-plaintext highlighter-rouge">Vec</code>은 힙에 새 공간을 잡고 옮긴다.
+그러면 <code class="language-plaintext highlighter-rouge">first</code>가 가리키던 주소는 해제된 메모리가 된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C++ 에서 같은 코드
+  std::vector&lt;double&gt; v = {1,2,3};
+  double* first = &amp;v[0];
+  v.push_back(4);          // 재할당 → first 가 dangling
+  std::cout &lt;&lt; *first;     // undefined behavior. 운이 나쁘면 그냥 돈다
+
+Rust
+  컴파일이 안 된다
+</code></pre></div></div>
+
+<p>까다로운 게 아니라, <strong>C++에서 런타임에 터지던 것을 컴파일 타임에 잡는 것</strong>이다.</p>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/ch04-02-references-and-borrowing.html" rel="external nofollow noopener" target="_blank">4.2 참조와 대여</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="9-참조를-반환하기--worst_sample">9. 참조를 반환하기 — <code class="language-plaintext highlighter-rouge">worst_sample</code>
+</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">worst_sample</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">Sample</span><span class="p">])</span> <span class="k">-&gt;</span> <span class="o">&amp;</span><span class="n">Sample</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="k">mut</span> <span class="n">worst</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">samples</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="n">samples</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">s</span><span class="nf">.magnitude</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">worst</span><span class="nf">.magnitude</span><span class="p">()</span> <span class="p">{</span> <span class="n">worst</span> <span class="o">=</span> <span class="n">s</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">worst</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>참조를 <strong>반환</strong>하는데도 컴파일이 된다. 왜 안전할까?</p>
+
+<p>반환된 <code class="language-plaintext highlighter-rouge">&amp;Sample</code>은 인자로 받은 <code class="language-plaintext highlighter-rouge">samples</code> 안의 한 원소를 가리킨다.
+컴파일러는 “<strong>반환값은 입력이 살아 있는 동안만 유효하다</strong>“고 기록해 둔다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">w</span> <span class="o">=</span> <span class="nf">worst_sample</span><span class="p">(</span><span class="o">&amp;</span><span class="n">samples</span><span class="p">);</span>
+<span class="nf">drop</span><span class="p">(</span><span class="n">samples</span><span class="p">);</span>          <span class="c1">// samples 를 없애면</span>
+<span class="nd">println!</span><span class="p">(</span><span class="s">"{:?}"</span><span class="p">,</span> <span class="n">w</span><span class="p">);</span>    <span class="c1">// ← error: borrow of moved value</span>
+</code></pre></div></div>
+
+<p>이 규칙을 <strong>라이프타임</strong>이라고 부른다.
+입력 참조가 하나뿐이면 컴파일러가 알아서 연결해 주기 때문에 여기서는 안 적어도 된다.
+입력 참조가 둘 이상이면 직접 적어야 한다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fn</span> <span class="n">longer</span><span class="o">&lt;</span><span class="nv">'a</span><span class="o">&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="o">&amp;</span><span class="nv">'a</span> <span class="p">[</span><span class="n">Sample</span><span class="p">],</span> <span class="n">b</span><span class="p">:</span> <span class="o">&amp;</span><span class="nv">'a</span> <span class="p">[</span><span class="n">Sample</span><span class="p">])</span> <span class="k">-&gt;</span> <span class="o">&amp;</span><span class="nv">'a</span> <span class="p">[</span><span class="n">Sample</span><span class="p">]</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="n">a</span><span class="nf">.len</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">b</span><span class="nf">.len</span><span class="p">()</span> <span class="p">{</span> <span class="n">a</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="n">b</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">'a</code>는 “이 세 참조의 수명이 같이 간다”는 표시다.
+<strong>지금은 이 정도만 알면 된다.</strong> 자세한 것은 필요해질 때 본다.</p>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/ch10-03-lifetime-syntax.html" rel="external nofollow noopener" target="_blank">10.3 라이프타임</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="10-완성된-프로그램">10. 완성된 프로그램</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[derive(Debug,</span> <span class="nd">Clone,</span> <span class="nd">Copy)]</span>
+<span class="k">struct</span> <span class="n">Sample</span> <span class="p">{</span> <span class="n">stamp</span><span class="p">:</span> <span class="nb">f64</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="nb">f64</span><span class="p">,</span> <span class="n">ay</span><span class="p">:</span> <span class="nb">f64</span><span class="p">,</span> <span class="n">az</span><span class="p">:</span> <span class="nb">f64</span> <span class="p">}</span>
+
+<span class="k">impl</span> <span class="n">Sample</span> <span class="p">{</span>
+    <span class="k">fn</span> <span class="nf">magnitude</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f64</span> <span class="p">{</span>
+        <span class="p">(</span><span class="k">self</span><span class="py">.ax</span> <span class="o">*</span> <span class="k">self</span><span class="py">.ax</span> <span class="o">+</span> <span class="k">self</span><span class="py">.ay</span> <span class="o">*</span> <span class="k">self</span><span class="py">.ay</span> <span class="o">+</span> <span class="k">self</span><span class="py">.az</span> <span class="o">*</span> <span class="k">self</span><span class="py">.az</span><span class="p">)</span><span class="nf">.sqrt</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">parse_all</span><span class="p">(</span><span class="n">raw</span><span class="p">:</span> <span class="o">&amp;</span><span class="nb">str</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="k">mut</span> <span class="n">samples</span> <span class="o">=</span> <span class="nn">Vec</span><span class="p">::</span><span class="nf">new</span><span class="p">();</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="k">in</span> <span class="n">raw</span><span class="nf">.lines</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">Vec</span><span class="o">&lt;&amp;</span><span class="nb">str</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">line</span><span class="nf">.split</span><span class="p">(</span><span class="sc">','</span><span class="p">)</span><span class="nf">.collect</span><span class="p">();</span>
+        <span class="n">samples</span><span class="nf">.push</span><span class="p">(</span><span class="n">Sample</span> <span class="p">{</span>
+            <span class="n">stamp</span><span class="p">:</span> <span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="nf">.parse</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">(),</span>
+            <span class="n">ax</span><span class="p">:</span> <span class="n">cols</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="nf">.parse</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">(),</span>
+            <span class="n">ay</span><span class="p">:</span> <span class="n">cols</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="nf">.parse</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">(),</span>
+            <span class="n">az</span><span class="p">:</span> <span class="n">cols</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="nf">.parse</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">(),</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+    <span class="n">samples</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">mean_magnitude</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">Sample</span><span class="p">])</span> <span class="k">-&gt;</span> <span class="nb">f64</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="k">mut</span> <span class="n">sum</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="n">samples</span> <span class="p">{</span> <span class="n">sum</span> <span class="o">+=</span> <span class="n">s</span><span class="nf">.magnitude</span><span class="p">();</span> <span class="p">}</span>
+    <span class="n">sum</span> <span class="o">/</span> <span class="n">samples</span><span class="nf">.len</span><span class="p">()</span> <span class="k">as</span> <span class="nb">f64</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">worst_sample</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">Sample</span><span class="p">])</span> <span class="k">-&gt;</span> <span class="o">&amp;</span><span class="n">Sample</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="k">mut</span> <span class="n">worst</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">samples</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="n">samples</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">s</span><span class="nf">.magnitude</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">worst</span><span class="nf">.magnitude</span><span class="p">()</span> <span class="p">{</span> <span class="n">worst</span> <span class="o">=</span> <span class="n">s</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">worst</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">find_gaps</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">Sample</span><span class="p">],</span> <span class="n">expected_dt</span><span class="p">:</span> <span class="nb">f64</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="p">(</span><span class="nb">f64</span><span class="p">,</span> <span class="nb">f64</span><span class="p">)</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="k">mut</span> <span class="n">gaps</span> <span class="o">=</span> <span class="nn">Vec</span><span class="p">::</span><span class="nf">new</span><span class="p">();</span>
+    <span class="k">for</span> <span class="n">pair</span> <span class="k">in</span> <span class="n">samples</span><span class="nf">.windows</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="n">dt</span> <span class="o">=</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="py">.stamp</span> <span class="o">-</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="py">.stamp</span><span class="p">;</span>
+        <span class="k">if</span> <span class="n">dt</span> <span class="o">&gt;</span> <span class="n">expected_dt</span> <span class="o">*</span> <span class="mf">1.5</span> <span class="p">{</span> <span class="n">gaps</span><span class="nf">.push</span><span class="p">((</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="py">.stamp</span><span class="p">,</span> <span class="n">dt</span><span class="p">));</span> <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">gaps</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">remove_gravity</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="nb">f64</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="n">samples</span><span class="nf">.iter_mut</span><span class="p">()</span> <span class="p">{</span> <span class="n">s</span><span class="py">.az</span> <span class="o">-=</span> <span class="n">g</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="n">raw</span> <span class="o">=</span> <span class="s">"</span><span class="err">\</span><span class="s">
+0.000,0.01,-0.02,9.79
+0.005,0.02,-0.01,9.81
+0.010,0.15,0.30,10.90
+0.015,0.01,0.00,9.80
+0.045,-0.02,0.01,9.78"</span><span class="p">;</span>
+
+    <span class="k">let</span> <span class="k">mut</span> <span class="n">samples</span> <span class="o">=</span> <span class="nf">parse_all</span><span class="p">(</span><span class="n">raw</span><span class="p">);</span>
+
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"샘플 {}개"</span><span class="p">,</span> <span class="n">samples</span><span class="nf">.len</span><span class="p">());</span>
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"평균: {:.3}"</span><span class="p">,</span> <span class="nf">mean_magnitude</span><span class="p">(</span><span class="o">&amp;</span><span class="n">samples</span><span class="p">));</span>
+
+    <span class="k">let</span> <span class="n">w</span> <span class="o">=</span> <span class="nf">worst_sample</span><span class="p">(</span><span class="o">&amp;</span><span class="n">samples</span><span class="p">);</span>
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"최대: {:.3} at t={:.3}"</span><span class="p">,</span> <span class="n">w</span><span class="nf">.magnitude</span><span class="p">(),</span> <span class="n">w</span><span class="py">.stamp</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span> <span class="k">in</span> <span class="nf">find_gaps</span><span class="p">(</span><span class="o">&amp;</span><span class="n">samples</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nd">println!</span><span class="p">(</span><span class="s">"간격 이상: t={t:.3} 에서 {dt:.3}s"</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nf">remove_gravity</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span> <span class="n">samples</span><span class="p">,</span> <span class="mf">9.81</span><span class="p">);</span>
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"중력 제거 후 평균: {:.3}"</span><span class="p">,</span> <span class="nf">mean_magnitude</span><span class="p">(</span><span class="o">&amp;</span><span class="n">samples</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>샘플 5개
+평균: 10.017
+최대: 10.905 at t=0.010
+간격 이상: t=0.015 에서 0.030s
+중력 제거 후 평균: 0.249
+</code></pre></div></div>
+
+<p>새로 나온 것 두 가지를 짚어 둔다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">find_gaps</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="p">(</span><span class="nb">f64</span><span class="p">,</span> <span class="nb">f64</span><span class="p">)</span><span class="o">&gt;</span>      <span class="c1">// 튜플. 이름 없이 값 두 개를 묶는다</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span> <span class="k">in</span> <span class="nf">find_gaps</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>             <span class="c1">// 구조 분해로 꺼낸다</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">parse_all</code>이 <code class="language-plaintext highlighter-rouge">Vec&lt;Sample&gt;</code>을 <strong>값으로 반환</strong>하는 것도 눈여겨볼 만하다.
+함수 안에서 만든 것을 밖으로 내보내는 것은 소유권을 <strong>넘겨주는</strong> 것이라 문제가 없다.</p>
+
+<hr>
+
+<h1 id="11-시그니처만-보고-판단하기">11. 시그니처만 보고 판단하기</h1>
+
+<p>Rust 함수는 시그니처만 봐도 무엇을 하는지 상당 부분 알 수 있다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">parse_all</span><span class="p">(</span><span class="n">raw</span><span class="p">:</span> <span class="o">&amp;</span><span class="nb">str</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span>
+<span class="c1">//           빌려서 읽기만 함      새로 만들어 소유권을 준다</span>
+
+<span class="k">fn</span> <span class="nf">mean_magnitude</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">Sample</span><span class="p">])</span> <span class="k">-&gt;</span> <span class="nb">f64</span>
+<span class="c1">//                빌려서 읽기만 함. 원본 안 바뀜</span>
+
+<span class="k">fn</span> <span class="nf">worst_sample</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="n">Sample</span><span class="p">])</span> <span class="k">-&gt;</span> <span class="o">&amp;</span><span class="n">Sample</span>
+<span class="c1">//              빌림                   입력 안의 것을 가리킨다</span>
+<span class="c1">//                                     → 입력이 살아 있어야 유효</span>
+
+<span class="k">fn</span> <span class="nf">remove_gravity</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="nb">f64</span><span class="p">)</span>
+<span class="c1">//                        원본을 고친다!         Copy 라 그냥 값</span>
+<span class="c1">//                반환값 없음 → 부수효과가 목적이다</span>
+
+<span class="k">fn</span> <span class="nf">consume</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Sample</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="c1">//                  가져가 버린다. 호출 후 원본 못 씀</span>
+</code></pre></div></div>
+
+<p><strong>C++에서는 주석이나 문서를 봐야 알 수 있는 것이 타입에 적혀 있다.</strong>
+<code class="language-plaintext highlighter-rouge">const&amp;</code>인지 <code class="language-plaintext highlighter-rouge">&amp;</code>인지 값인지 헷갈릴 일이 없고, 컴파일러가 강제한다.</p>
+
+<hr>
+
+<h1 id="12-mini-practice">12. Mini Practice</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /tmp/imu_stats
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1) mean_magnitude 의 &amp;[Sample] 을 Vec&lt;Sample&gt; 로 바꾸고 cargo check
+   → E0382. 에러 메시지가 어떤 수정을 제안하나?
+
+2) remove_gravity 의 &amp;mut 을 &amp; 로 바꾸고 cargo check
+   → error[E0596]: cannot borrow `*samples` as mutable,
+                   as it is behind a `&amp;` reference
+   "&amp; 로 빌렸으면서 고치려 한다"는 뜻이다
+
+3) main 의 let mut samples 에서 mut 을 지우고 cargo check
+   → E0596. 어느 줄을 가리키나?
+
+4) worst_sample 이 반환한 참조를 오래 살려 본다:
+       let w = worst_sample(&amp;samples);
+       remove_gravity(&amp;mut samples, 9.81);
+       println!("{:?}", w);
+   → E0502. 왜 위험한지 §8 과 연결해서 설명해 보기
+
+5) 아래를 넣고 무슨 일이 생기는지
+       let mut v = vec![1.0, 2.0, 3.0];
+       let first = &amp;v[0];
+       v.push(4.0);
+       println!("{first}");
+   → E0502. 같은 코드를 C++ 로 쓰면 어떻게 되나?
+
+6) Sample 에서 Copy 를 지운다: #[derive(Debug, Clone)]
+   → 놀랍게도 아무 에러도 안 난다. 왜일까?
+
+7) 6번 상태에서 main 에 한 줄을 추가한다:
+       let first = samples[0];
+       println!("{:?}", first);
+   → error[E0507]: cannot move out of index of `Vec&lt;Sample&gt;`
+                   ... `Sample`, which does not implement the `Copy` trait
+</code></pre></div></div>
+
+<p>6번과 7번을 붙여서 보는 게 이 chapter의 마무리다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>6번에 에러가 없는 이유
+   이 프로그램은 Sample 을 값으로 꺼내 쓰는 곳이 한 군데도 없다.
+   전부 &amp;[Sample] 로 빌려서 읽거나 iter_mut() 으로 고친다.
+   → Copy 가 필요 없었던 것이다
+
+7번에서 터지는 이유
+   samples[0] 은 Vec 안에서 값을 "꺼내오는" 것이다.
+   Copy 면 복사되고, 아니면 move 인데
+   Vec 의 일부만 move 로 빼낼 수는 없다 (나머지가 구멍 난 Vec 이 된다)
+   → 컴파일러가 &amp;samples[0] 또는 .clone() 을 제안한다
+</code></pre></div></div>
+
+<p><strong>참조로만 다루면 소유권 문제가 거의 안 생긴다</strong>는 것이 6번의 교훈이고,
+값을 꺼내는 순간 <code class="language-plaintext highlighter-rouge">Copy</code>인지 아닌지가 드러난다는 것이 7번의 교훈이다.</p>
+
+<p>4번과 7번이 특히 중요하다.
+<strong>Rust 배우기 = 컴파일러와 대화하기</strong>라는 말이 무슨 뜻인지 알게 된다.</p>
+
+<hr>
+
+<h1 id="13-오늘의-핵심">13. 오늘의 핵심</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                    값을 함수에 넘길 때
+
+   fn f(x: Vec&lt;T&gt;)        move    가져간다. 호출 후 원본 못 씀
+   fn f(x: &amp;Vec&lt;T&gt;)       borrow  빌려서 읽는다
+   fn f(x: &amp;[T])          borrow  ← 읽기 전용이면 이게 기본
+   fn f(x: &amp;mut Vec&lt;T&gt;)   borrow  빌려서 고친다
+
+                    동시에 가질 수 있는 것
+
+   &amp;T  &amp;T  &amp;T  &amp;T         불변 참조는 여러 개 OK
+   &amp;mut T                 가변 참조는 딱 하나
+   &amp;T + &amp;mut T            ✗ 섞을 수 없다
+
+                    왜?
+
+   Vec 이 재할당되면 옛 주소는 해제된다
+   C++ 이면 dangling. Rust 는 컴파일 거부
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="14-반드시-구분할-것">14. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>move  ≠  copy
+   Copy 가 구현된 타입만 복사된다 (f64, Sample)
+   Vec, String 은 move
+
+&amp;  ≠  &amp;mut
+   읽기 / 쓰기. 호출부에도 &amp;mut 을 적는다
+
+&amp;Vec&lt;T&gt;  ≠  &amp;[T]
+   후자가 더 많은 것을 받는다. 읽기 전용이면 &amp;[T]
+
+&amp;String  ≠  &amp;str
+   같은 이유로 &amp;str
+
+iter()  vs  iter_mut()  vs  into_iter()
+   빌려 읽기 / 빌려 고치기 / 가져가기
+
+clone()  ≠  borrow
+   clone 은 진짜 복사다. 큰 데이터에 습관적으로 쓰면 안 된다
+
+컴파일 에러  ≠  까다로움
+   C++ 이면 런타임에 터졌을 것을 미리 잡는 것
+
+참조 반환이 되는 이유
+   입력이 살아 있는 동안만 유효하다고 컴파일러가 묶어 둔다
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="15-chapter-연결">15. Chapter 연결</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 7
+프로그램 한 덩어리 — 소유권 문제가 안 생긴다
+
+Chapter 8  ← 여기
+함수로 쪼갠다 → move, borrow, &amp;mut, 슬라이스
+
+Chapter 9
+raw 문자열 대신 진짜 파일을 읽는다
+→ unwrap() 이 걷히고 Result, Option, ?, match 가 나온다
+
+Edge Computing Chapter 15
+GC 없이 실시간 보장 — Rust 를 로봇에 쓰는 이유
+</code></pre></div></div>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/rust/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/rust/chapter09-error-handling/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 9. 진짜 파일을 읽으며 unwrap() 걷어내기</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

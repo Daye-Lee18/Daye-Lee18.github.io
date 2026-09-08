@@ -386,11 +386,81 @@ ninja.data = [{
           description: "Reinforcement learning theory and implementation notes.",
           section: "Study",handler: () => {
               window.location.href = "/study/rl/";
+            },},{id: "study-chapter-1-workspace-package-crate-module",
+          title: 'Chapter 1. Workspace, Package, Crate, Module',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/rust/chapter01-workspace-package-crate/";
+            },},{id: "study-chapter-2-cargo-toml-한-줄씩-읽기",
+          title: 'Chapter 2. Cargo.toml 한 줄씩 읽기',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/rust/chapter02-cargo-toml/";
+            },},{id: "study-chapter-3-cargo-명령어와-target",
+          title: 'Chapter 3. cargo 명령어와 target/',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/rust/chapter03-cargo-build/";
+            },},{id: "study-chapter-4-의존성과-cargo-lock",
+          title: 'Chapter 4. 의존성과 Cargo.lock',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/rust/chapter04-dependencies-lock/";
+            },},{id: "study-chapter-5-module-시스템-crate-안으로",
+          title: 'Chapter 5. Module 시스템 — crate 안으로',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/rust/chapter05-modules/";
+            },},{id: "study-chapter-6-ros-2-저장소-안에서-rust-쓰기",
+          title: 'Chapter 6. ROS 2 저장소 안에서 Rust 쓰기',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/rust/chapter06-rust-in-ros2-repo/";
+            },},{id: "study-chapter-7-돌아가는-프로그램-하나-읽기",
+          title: 'Chapter 7. 돌아가는 프로그램 하나 읽기',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/rust/chapter07-reading-a-program/";
+            },},{id: "study-chapter-8-함수로-쪼개다가-소유권을-만나기",
+          title: 'Chapter 8. 함수로 쪼개다가 소유권을 만나기',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/rust/chapter08-ownership/";
+            },},{id: "study-chapter-9-진짜-파일을-읽으며-unwrap-걷어내기",
+          title: 'Chapter 9. 진짜 파일을 읽으며 unwrap() 걷어내기',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/rust/chapter09-error-handling/";
             },},{id: "study-rust",
           title: 'Rust',
-          description: "Learning Rust.",
+          description: "숲에서 나무로 — workspace, package, crate, module과 Cargo 빌드 구조부터.",
           section: "Study",handler: () => {
               window.location.href = "/study/rust/";
+            },},{id: "study-chapter-1-센서를-붙일-때-확인할-7가지",
+          title: 'Chapter 1. 센서를 붙일 때 확인할 7가지',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/sensors/chapter01-sensor-io-checklist/";
+            },},{id: "study-chapter-2-velodyne-vlp-16",
+          title: 'Chapter 2. Velodyne VLP-16',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/sensors/chapter02-velodyne-vlp16/";
+            },},{id: "study-chapter-3-hesai-livox-ouster-blk-arc",
+          title: 'Chapter 3. Hesai · Livox · Ouster · BLK ARC',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/sensors/chapter03-other-lidars/";
+            },},{id: "study-chapter-4-카메라-realsense-d435i",
+          title: 'Chapter 4. 카메라 — RealSense D435i',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/sensors/chapter04-cameras-realsense/";
+            },},{id: "study-sensors-amp-i-o",
+          title: 'Sensors &amp;amp; I/O',
+          description: "센서마다 다른 물리 인터페이스 · 설정 프로토콜 · 데이터 프로토콜 · ROS 토픽을 한 형식으로 정리한다.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/sensors/";
             },},{id: "study-slam",
           title: 'SLAM',
           description: "A step-by-step study of the history of SLAM and of LiDAR-inertial state estimation.",

@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 7. 돌아가는 프로그램 하나 읽기 | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/rust/chapter07-reading-a-program/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 7. 돌아가는 프로그램 하나 읽기</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> 실제로 컴파일되고 실행되는 Rust 프로그램 하나를 처음부터 끝까지 읽으면서,
+거기 쓰인 문법을 나오는 순서대로 이해한다.</p>
+</blockquote>
+
+<p>문법을 하나씩 배우고 예제를 보는 순서가 아니다.
+<strong>먼저 돌아가는 프로그램을 두고, 그 안에 실제로 쓰인 것만 설명한다.</strong>
+안 쓰인 문법은 안 나온다. 필요해지면 그때 나온다.</p>
+
+<p>이 chapter의 프로그램은 IMU 로그를 읽어 통계를 내고 샘플 누락을 찾는다.
+Chapter 8, 9에서 <strong>같은 프로그램을 계속 고쳐 가며</strong> 소유권과 에러 처리를 배운다.</p>
+
+<blockquote>
+  <p>참고: <a href="https://doc.rust-kr.org/title-page.html" rel="external nofollow noopener" target="_blank">Rust 프로그래밍 언어 (한국어판)</a>.
+각 절 끝에 대응하는 장을 달아 두었다.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">cargo run</code> · <code class="language-plaintext highlighter-rouge">cargo check</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo new imu_stats</code></td>
+      <td style="text-align: left">프로젝트 생성 (binary)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo run</code></td>
+      <td style="text-align: left">빌드하고 실행</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo run -q</code></td>
+      <td style="text-align: left">빌드 로그 없이 프로그램 출력만</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo check</code></td>
+      <td style="text-align: left">문법·타입만 빠르게 확인</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo fmt</code></td>
+      <td style="text-align: left">코드 정렬</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo clippy</code></td>
+      <td style="text-align: left">더 나은 표현 제안</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">rustc --explain E0382</code></td>
+      <td style="text-align: left"><strong>에러 코드 설명 보기</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="1-프로그램-전체">1. 프로그램 전체</h1>
+
+<p>먼저 통째로 본다. 지금은 이해 안 되는 줄이 있어도 괜찮다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// src/main.rs</span>
+<span class="nd">#[derive(Debug,</span> <span class="nd">Clone,</span> <span class="nd">Copy)]</span>
+<span class="k">struct</span> <span class="n">Sample</span> <span class="p">{</span>
+    <span class="n">stamp</span><span class="p">:</span> <span class="nb">f64</span><span class="p">,</span>
+    <span class="n">ax</span><span class="p">:</span> <span class="nb">f64</span><span class="p">,</span>
+    <span class="n">ay</span><span class="p">:</span> <span class="nb">f64</span><span class="p">,</span>
+    <span class="n">az</span><span class="p">:</span> <span class="nb">f64</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">impl</span> <span class="n">Sample</span> <span class="p">{</span>
+    <span class="k">fn</span> <span class="nf">magnitude</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f64</span> <span class="p">{</span>
+        <span class="p">(</span><span class="k">self</span><span class="py">.ax</span> <span class="o">*</span> <span class="k">self</span><span class="py">.ax</span> <span class="o">+</span> <span class="k">self</span><span class="py">.ay</span> <span class="o">*</span> <span class="k">self</span><span class="py">.ay</span> <span class="o">+</span> <span class="k">self</span><span class="py">.az</span> <span class="o">*</span> <span class="k">self</span><span class="py">.az</span><span class="p">)</span><span class="nf">.sqrt</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="n">raw</span> <span class="o">=</span> <span class="s">"</span><span class="err">\</span><span class="s">
+0.000,0.01,-0.02,9.79
+0.005,0.02,-0.01,9.81
+0.010,0.15,0.30,10.90
+0.015,0.01,0.00,9.80
+0.045,-0.02,0.01,9.78"</span><span class="p">;</span>
+
+    <span class="k">let</span> <span class="k">mut</span> <span class="n">samples</span> <span class="o">=</span> <span class="nn">Vec</span><span class="p">::</span><span class="nf">new</span><span class="p">();</span>
+
+    <span class="k">for</span> <span class="n">line</span> <span class="k">in</span> <span class="n">raw</span><span class="nf">.lines</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">Vec</span><span class="o">&lt;&amp;</span><span class="nb">str</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">line</span><span class="nf">.split</span><span class="p">(</span><span class="sc">','</span><span class="p">)</span><span class="nf">.collect</span><span class="p">();</span>
+        <span class="k">let</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Sample</span> <span class="p">{</span>
+            <span class="n">stamp</span><span class="p">:</span> <span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="nf">.parse</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">(),</span>
+            <span class="n">ax</span><span class="p">:</span> <span class="n">cols</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="nf">.parse</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">(),</span>
+            <span class="n">ay</span><span class="p">:</span> <span class="n">cols</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="nf">.parse</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">(),</span>
+            <span class="n">az</span><span class="p">:</span> <span class="n">cols</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="nf">.parse</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">(),</span>
+        <span class="p">};</span>
+        <span class="n">samples</span><span class="nf">.push</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"샘플 {}개"</span><span class="p">,</span> <span class="n">samples</span><span class="nf">.len</span><span class="p">());</span>
+
+    <span class="k">let</span> <span class="k">mut</span> <span class="n">sum</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="o">&amp;</span><span class="n">samples</span> <span class="p">{</span>
+        <span class="n">sum</span> <span class="o">+=</span> <span class="n">s</span><span class="nf">.magnitude</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">let</span> <span class="n">mean</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">/</span> <span class="n">samples</span><span class="nf">.len</span><span class="p">()</span> <span class="k">as</span> <span class="nb">f64</span><span class="p">;</span>
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"평균 가속도 크기: {:.3} m/s^2"</span><span class="p">,</span> <span class="n">mean</span><span class="p">);</span>
+
+    <span class="k">let</span> <span class="k">mut</span> <span class="n">worst</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">samples</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="o">&amp;</span><span class="n">samples</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">s</span><span class="nf">.magnitude</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">worst</span><span class="nf">.magnitude</span><span class="p">()</span> <span class="p">{</span>
+            <span class="n">worst</span> <span class="o">=</span> <span class="n">s</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"최대: {:.3} at t={:.3}"</span><span class="p">,</span> <span class="n">worst</span><span class="nf">.magnitude</span><span class="p">(),</span> <span class="n">worst</span><span class="py">.stamp</span><span class="p">);</span>
+
+    <span class="k">let</span> <span class="n">expected_dt</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">pair</span> <span class="k">in</span> <span class="n">samples</span><span class="nf">.windows</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="n">dt</span> <span class="o">=</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="py">.stamp</span> <span class="o">-</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="py">.stamp</span><span class="p">;</span>
+        <span class="k">if</span> <span class="n">dt</span> <span class="o">&gt;</span> <span class="n">expected_dt</span> <span class="o">*</span> <span class="mf">1.5</span> <span class="p">{</span>
+            <span class="nd">println!</span><span class="p">(</span><span class="s">"간격 이상: t={:.3} 에서 {:.3}s (기대 {:.3}s)"</span><span class="p">,</span>
+                     <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="py">.stamp</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">expected_dt</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>직접 돌려 본다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cargo new imu_stats
+<span class="nb">cd </span>imu_stats
+<span class="c"># 위 코드를 src/main.rs 에 붙여넣고</span>
+cargo run
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>샘플 5개
+평균 가속도 크기: 10.017 m/s^2
+최대: 10.905 at t=0.010
+간격 이상: t=0.015 에서 0.030s (기대 0.005s)
+</code></pre></div></div>
+
+<p>마지막 줄이 이 프로그램의 쓸모다. <strong>0.005초 간격이어야 하는데 0.030초가 비었다.</strong>
+Edge Computing Chapter 11의 시간 동기화 문제를 로그에서 찾아내는 일이다.</p>
+
+<p>이제 한 조각씩 읽는다.</p>
+
+<hr>
+
+<h1 id="2-struct--데이터를-묶기">2. <code class="language-plaintext highlighter-rouge">struct</code> — 데이터를 묶기</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Sample</span> <span class="p">{</span>
+    <span class="n">stamp</span><span class="p">:</span> <span class="nb">f64</span><span class="p">,</span>
+    <span class="n">ax</span><span class="p">:</span> <span class="nb">f64</span><span class="p">,</span>
+    <span class="n">ay</span><span class="p">:</span> <span class="nb">f64</span><span class="p">,</span>
+    <span class="n">az</span><span class="p">:</span> <span class="nb">f64</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>C의 구조체와 거의 같다. 관련된 값을 하나로 묶는다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct 이름 {
+    필드이름: 타입,
+    ...
+}
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">f64</code>는 64비트 부동소수점이다. Rust는 타입 이름에 <strong>크기가 그대로 들어간다.</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i8  i16  i32  i64  i128     부호 있는 정수
+u8  u16  u32  u64  u128     부호 없는 정수
+f32 f64                     부동소수점
+usize isize                 포인터 크기 (배열 인덱스에 쓴다)
+bool  char                  참거짓, 유니코드 문자 하나
+</code></pre></div></div>
+
+<p>C의 <code class="language-plaintext highlighter-rouge">int</code>, <code class="language-plaintext highlighter-rouge">long</code>처럼 <strong>플랫폼마다 크기가 달라지는 타입이 없다.</strong>
+x86에서 만든 코드가 Jetson에서 다르게 도는 일이 줄어든다.</p>
+
+<p>만드는 방법은 이렇다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Sample</span> <span class="p">{</span>
+    <span class="n">stamp</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">ax</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">ay</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">az</span><span class="p">:</span> <span class="mf">9.81</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><strong>모든 필드를 반드시 채워야 한다.</strong> 하나라도 빠지면 컴파일 에러다.
+C처럼 초기화 안 한 필드가 쓰레기 값으로 남는 일이 없다.</p>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/ch05-01-defining-structs.html" rel="external nofollow noopener" target="_blank">5.1 구조체 정의 및 인스턴트화</a>,
+<a href="https://doc.rust-kr.org/ch03-02-data-types.html" rel="external nofollow noopener" target="_blank">3.2 데이터 타입</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="3-derive--공짜로-얻는-기능">3. <code class="language-plaintext highlighter-rouge">#[derive(...)]</code> — 공짜로 얻는 기능</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[derive(Debug,</span> <span class="nd">Clone,</span> <span class="nd">Copy)]</span>
+<span class="k">struct</span> <span class="n">Sample</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">#[...]</code>는 어트리뷰트(attribute), 컴파일러에게 주는 지시다.
+<code class="language-plaintext highlighter-rouge">derive</code>는 <strong>흔한 기능을 자동으로 구현해 달라</strong>는 뜻이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Debug    {:?} 로 출력할 수 있게 된다
+Clone    .clone() 으로 복사본을 만들 수 있게 된다
+Copy     대입할 때 자동으로 복사된다 (Chapter 8 의 핵심)
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Debug</code>가 붙으면 이게 된다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">println!</span><span class="p">(</span><span class="s">"{:?}"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+<span class="c1">// Sample { stamp: 0.0, ax: 0.1, ay: 0.0, az: 9.81 }</span>
+
+<span class="nd">println!</span><span class="p">(</span><span class="s">"{:#?}"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>   <span class="c1">// 여러 줄로 예쁘게</span>
+</code></pre></div></div>
+
+<p><strong>디버깅할 때 거의 항상 붙인다.</strong> <code class="language-plaintext highlighter-rouge">Debug</code>가 없으면 <code class="language-plaintext highlighter-rouge">{:?}</code>가 컴파일 에러다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Copy</code>는 지금은 “작고 단순한 값이라 복사가 싸다”는 표시 정도로 넘어간다.
+Chapter 8에서 이게 왜 중요한지 나온다.</p>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/appendix-03-derivable-traits.html" rel="external nofollow noopener" target="_blank">부록 C - 파생 가능한 트레이트</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="4-impl--구조체에-동작-붙이기">4. <code class="language-plaintext highlighter-rouge">impl</code> — 구조체에 동작 붙이기</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">impl</span> <span class="n">Sample</span> <span class="p">{</span>
+    <span class="k">fn</span> <span class="nf">magnitude</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f64</span> <span class="p">{</span>
+        <span class="p">(</span><span class="k">self</span><span class="py">.ax</span> <span class="o">*</span> <span class="k">self</span><span class="py">.ax</span> <span class="o">+</span> <span class="k">self</span><span class="py">.ay</span> <span class="o">*</span> <span class="k">self</span><span class="py">.ay</span> <span class="o">+</span> <span class="k">self</span><span class="py">.az</span> <span class="o">*</span> <span class="k">self</span><span class="py">.az</span><span class="p">)</span><span class="nf">.sqrt</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">impl</code>은 implementation의 줄임말이다. <strong>데이터(struct)와 동작(impl)을 따로 쓴다.</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C++         class 안에 필드와 메서드가 같이 있다
+Rust        struct 에 필드,  impl 블록에 메서드
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">&amp;self</code>가 첫 인자인 것이 메서드의 표시다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fn magnitude(&amp;self) -&gt; f64
+              │        └── 반환 타입
+              └── "이 Sample 을 빌려서 읽기만 하겠다"
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">&amp;self</code>의 세 가지 형태가 있고, 이것이 Chapter 8의 예고편이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&amp;self       읽기만 한다        가장 흔하다
+&amp;mut self   고칠 수 있다
+self        가져가 버린다      호출 후 원본을 못 쓴다
+</code></pre></div></div>
+
+<p>호출은 점으로 한다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="n">s</span><span class="nf">.magnitude</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>마지막 줄에 세미콜론이 없는 것에 주의한다.
+<strong>Rust에서 세미콜론 없는 마지막 식이 반환값이다.</strong></p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">double</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">f64</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f64</span> <span class="p">{</span>
+    <span class="n">x</span> <span class="o">*</span> <span class="mf">2.0</span>        <span class="c1">// return 을 안 써도 된다</span>
+<span class="p">}</span>
+
+<span class="k">fn</span> <span class="nf">double2</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">f64</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f64</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">;</span>   <span class="c1">// 이렇게 써도 되지만 관용적이지 않다</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/ch05-03-method-syntax.html" rel="external nofollow noopener" target="_blank">5.3 메서드 문법</a>,
+<a href="https://doc.rust-kr.org/ch03-03-how-functions-work.html" rel="external nofollow noopener" target="_blank">3.3 함수</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="5-let과-mut--기본이-불변">5. <code class="language-plaintext highlighter-rouge">let</code>과 <code class="language-plaintext highlighter-rouge">mut</code> — 기본이 불변</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">raw</span> <span class="o">=</span> <span class="s">"..."</span><span class="p">;</span>              <span class="c1">// 못 바꾼다</span>
+<span class="k">let</span> <span class="k">mut</span> <span class="n">samples</span> <span class="o">=</span> <span class="nn">Vec</span><span class="p">::</span><span class="nf">new</span><span class="p">();</span> <span class="c1">// 바꿀 수 있다</span>
+<span class="k">let</span> <span class="k">mut</span> <span class="n">sum</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><strong>Rust는 아무것도 안 붙이면 변수를 못 바꾼다.</strong> 다른 언어와 반대다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>        <span class="c1">// error[E0384]: cannot assign twice to immutable variable</span>
+</code></pre></div></div>
+
+<p>바꾸려면 명시해야 한다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="k">mut</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>        <span class="c1">// OK</span>
+</code></pre></div></div>
+
+<p>귀찮아 보이지만 이득이 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>· "이 값은 안 바뀐다"가 코드에 적혀 있다
+· 실수로 덮어쓰는 버그를 컴파일러가 잡는다
+· 동시성에서 안전한 것과 아닌 것이 구분된다 (rust-kr 16장)
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">mut</code>을 안 붙였는데 필요하면 컴파일러가 알려준다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>help: consider changing this to be mutable: `mut samples`
+</code></pre></div></div>
+
+<p><strong>Rust 에러 메시지는 대부분 고치는 방법까지 알려준다.</strong> 읽는 습관을 들이는 게 좋다.</p>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/ch03-01-variables-and-mutability.html" rel="external nofollow noopener" target="_blank">3.1 변수와 가변성</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="6-타입을-안-적어도-되는-이유">6. 타입을 안 적어도 되는 이유</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="k">mut</span> <span class="n">sum</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>                    <span class="c1">// f64 로 추론</span>
+<span class="k">let</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">Vec</span><span class="o">&lt;&amp;</span><span class="nb">str</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">line</span><span class="nf">.split</span><span class="p">(</span><span class="sc">','</span><span class="p">)</span><span class="nf">.collect</span><span class="p">();</span>   <span class="c1">// 여기는 적었다</span>
+</code></pre></div></div>
+
+<p>Rust는 타입을 추론한다. <code class="language-plaintext highlighter-rouge">0.0</code>을 보고 <code class="language-plaintext highlighter-rouge">f64</code>라고 안다.
+그런데 <code class="language-plaintext highlighter-rouge">collect()</code> 줄에는 왜 적었을까?</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">line</span><span class="nf">.split</span><span class="p">(</span><span class="sc">','</span><span class="p">)</span><span class="nf">.collect</span><span class="p">();</span>   <span class="c1">// error[E0282]: type annotations needed</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">collect()</code>는 <strong>여러 타입으로 모을 수 있어서</strong> 컴파일러가 고를 수 없다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">a</span><span class="p">:</span> <span class="nb">Vec</span><span class="o">&lt;&amp;</span><span class="nb">str</span><span class="o">&gt;</span>       <span class="o">=</span> <span class="n">line</span><span class="nf">.split</span><span class="p">(</span><span class="sc">','</span><span class="p">)</span><span class="nf">.collect</span><span class="p">();</span>
+<span class="k">let</span> <span class="n">b</span><span class="p">:</span> <span class="nb">String</span>          <span class="o">=</span> <span class="n">line</span><span class="nf">.split</span><span class="p">(</span><span class="sc">','</span><span class="p">)</span><span class="nf">.collect</span><span class="p">();</span>
+<span class="k">let</span> <span class="n">c</span><span class="p">:</span> <span class="n">HashSet</span><span class="o">&lt;&amp;</span><span class="nb">str</span><span class="o">&gt;</span>   <span class="o">=</span> <span class="n">line</span><span class="nf">.split</span><span class="p">(</span><span class="sc">','</span><span class="p">)</span><span class="nf">.collect</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>이럴 때만 적어 준다. <strong>“컴파일러가 모를 때만 적는다”</strong>가 기준이다.</p>
+
+<p>함수 시그니처는 예외다. 항상 적어야 한다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fn</span> <span class="nf">magnitude</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">f64</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="c1">//                     ^^^ 생략 불가</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/ch03-02-data-types.html" rel="external nofollow noopener" target="_blank">3.2 데이터 타입</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="7-vec--늘어나는-배열">7. <code class="language-plaintext highlighter-rouge">Vec</code> — 늘어나는 배열</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="k">mut</span> <span class="n">samples</span> <span class="o">=</span> <span class="nn">Vec</span><span class="p">::</span><span class="nf">new</span><span class="p">();</span>
+<span class="n">samples</span><span class="nf">.push</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="n">samples</span><span class="nf">.len</span><span class="p">()</span>
+<span class="n">samples</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Vec&lt;T&gt;</code>는 C++의 <code class="language-plaintext highlighter-rouge">std::vector&lt;T&gt;</code>와 같다. 힙에 있고, 크기가 변한다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">v</span><span class="p">:</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="nb">f64</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nn">Vec</span><span class="p">::</span><span class="nf">new</span><span class="p">();</span>
+<span class="k">let</span> <span class="n">v</span> <span class="o">=</span> <span class="nd">vec!</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">];</span>      <span class="c1">// 매크로로 한 번에</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Vec::new()</code>에 타입을 안 적었는데 되는 이유는,
+아래에서 <code class="language-plaintext highlighter-rouge">samples.push(s)</code>를 보고 <code class="language-plaintext highlighter-rouge">Vec&lt;Sample&gt;</code>이라고 추론하기 때문이다.</p>
+
+<p>배열 인덱스는 <code class="language-plaintext highlighter-rouge">usize</code> 타입이고, <strong>범위를 벗어나면 패닉</strong>한다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="mi">999</span><span class="p">];</span>
+<span class="c1">// thread 'main' panicked at: index out of bounds: the len is 5 but the index is 999</span>
+</code></pre></div></div>
+
+<p>C처럼 조용히 엉뚱한 메모리를 읽지 않는다. Chapter 9에서 이걸 안전하게 다루는 법이 나온다.</p>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/ch08-01-vectors.html" rel="external nofollow noopener" target="_blank">8.1 벡터</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="8-for와-반복">8. <code class="language-plaintext highlighter-rouge">for</code>와 반복</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">line</span> <span class="k">in</span> <span class="n">raw</span><span class="nf">.lines</span><span class="p">()</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="o">&amp;</span><span class="n">samples</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="k">for</span> <span class="n">pair</span> <span class="k">in</span> <span class="n">samples</span><span class="nf">.windows</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Rust의 <code class="language-plaintext highlighter-rouge">for</code>는 <strong>항상 “무언가를 순회”</strong>한다. C 스타일 <code class="language-plaintext highlighter-rouge">for(i=0; i&lt;n; i++)</code>가 없다.</p>
+
+<p>세 줄이 다 다른 것을 순회한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>raw.lines()          문자열을 줄 단위로
+&amp;samples             Vec 의 각 원소를 빌려서
+samples.windows(2)   연속한 2개씩 겹치며
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">windows(2)</code>가 마지막 검사를 우아하게 만든다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>samples = [A, B, C, D, E]
+
+windows(2) →  [A,B]  [B,C]  [C,D]  [D,E]
+              연속한 쌍이 알아서 나온다
+</code></pre></div></div>
+
+<p>인덱스로 쓰면 이렇게 된다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 이렇게 쓸 수도 있지만</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">0</span><span class="o">..</span><span class="n">samples</span><span class="nf">.len</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="n">dt</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="py">.stamp</span> <span class="o">-</span> <span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="py">.stamp</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">samples</code>가 비어 있으면 <code class="language-plaintext highlighter-rouge">0 - 1</code>이 <strong>underflow로 패닉</strong>한다 (<code class="language-plaintext highlighter-rouge">usize</code>는 음수가 없다).
+<code class="language-plaintext highlighter-rouge">windows(2)</code>는 빈 경우에 그냥 0번 돈다. <strong>경계 조건을 안 틀리는 쪽을 고르는 게 낫다.</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">&amp;samples</code>의 <code class="language-plaintext highlighter-rouge">&amp;</code>는 Chapter 8의 주제다. 지금은 “빌려서 본다” 정도로 둔다.</p>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/ch03-05-control-flow.html" rel="external nofollow noopener" target="_blank">3.5 제어 흐름문</a>,
+<a href="https://doc.rust-kr.org/ch13-02-iterators.html" rel="external nofollow noopener" target="_blank">13.2 반복자</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="9-println과-포맷">9. <code class="language-plaintext highlighter-rouge">println!</code>과 포맷</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">println!</span><span class="p">(</span><span class="s">"샘플 {}개"</span><span class="p">,</span> <span class="n">samples</span><span class="nf">.len</span><span class="p">());</span>
+<span class="nd">println!</span><span class="p">(</span><span class="s">"평균 가속도 크기: {:.3} m/s^2"</span><span class="p">,</span> <span class="n">mean</span><span class="p">);</span>
+<span class="nd">println!</span><span class="p">(</span><span class="s">"최대: {:.3} at t={:.3}"</span><span class="p">,</span> <span class="n">worst</span><span class="nf">.magnitude</span><span class="p">(),</span> <span class="n">worst</span><span class="py">.stamp</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">!</code>가 붙으면 <strong>매크로</strong>다. 함수가 아니다.
+인자 개수가 가변이고 컴파일 타임에 형식 문자열을 검사하기 때문에 매크로여야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{}        기본 출력 (Display)
+{:?}      디버그 출력 (Debug)   ← #[derive(Debug)] 필요
+{:#?}     디버그 출력, 여러 줄
+{:.3}     소수점 3자리
+{:&gt;8}     오른쪽 정렬 폭 8
+{:.3e}    지수 표기
+</code></pre></div></div>
+
+<p>변수 이름을 직접 넣을 수도 있다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="nd">println!</span><span class="p">(</span><span class="s">"샘플 {n}개"</span><span class="p">);</span>           <span class="c1">// 짧다</span>
+<span class="nd">println!</span><span class="p">(</span><span class="s">"{:.3}"</span><span class="p">,</span> <span class="n">mean</span><span class="p">);</span>
+<span class="nd">println!</span><span class="p">(</span><span class="s">"{mean:.3}"</span><span class="p">);</span>            <span class="c1">// 이것도 된다</span>
+</code></pre></div></div>
+
+<p>형식이 안 맞으면 <strong>컴파일 에러</strong>다. C의 <code class="language-plaintext highlighter-rouge">printf</code>처럼 런타임에 깨지지 않는다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">println!</span><span class="p">(</span><span class="s">"{:.3}"</span><span class="p">,</span> <span class="s">"hello"</span><span class="p">);</span>
+<span class="c1">// error[E0277]: the trait bound `str: std::fmt::Display` is not satisfied</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/appendix-02-operators.html" rel="external nofollow noopener" target="_blank">부록 B - 연산자와 기호</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="10-parse와-unwrap--지금은-넘어가는-부분">10. <code class="language-plaintext highlighter-rouge">.parse()</code>와 <code class="language-plaintext highlighter-rouge">.unwrap()</code> — 지금은 넘어가는 부분</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">stamp</span><span class="p">:</span> <span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="nf">.parse</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">(),</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">parse()</code>는 문자열을 숫자로 바꾼다. 그런데 <strong>실패할 수 있다.</strong>
+<code class="language-plaintext highlighter-rouge">"abc".parse::&lt;f64&gt;()</code>는 어떻게 될까?</p>
+
+<p>Rust는 이런 함수가 <code class="language-plaintext highlighter-rouge">Result</code>를 반환하게 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>parse()  →  Result&lt;f64, ParseFloatError&gt;
+             성공이면 값, 실패면 에러가 들어 있는 상자
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">unwrap()</code>은 <strong>“상자를 열되, 실패였으면 그냥 죽어라”</strong>는 뜻이다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">x</span><span class="p">:</span> <span class="nb">f64</span> <span class="o">=</span> <span class="s">"abc"</span><span class="nf">.parse</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">();</span>
+<span class="c1">// thread 'main' panicked at: called `Result::unwrap()` on an `Err` value: ParseFloatError</span>
+</code></pre></div></div>
+
+<p>지금은 데이터가 확실하니 <code class="language-plaintext highlighter-rouge">unwrap()</code>으로 두었다.
+<strong>실제 프로그램에서는 이러면 안 된다.</strong> Chapter 9 전체가 이 이야기다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">parse()</code>가 <code class="language-plaintext highlighter-rouge">f64</code>인 줄 아는 이유는 <code class="language-plaintext highlighter-rouge">stamp: f64</code>라는 필드 타입에서 역추론하기 때문이다.
+따로 못 정하는 자리에서는 이렇게 적는다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="py">.parse</span><span class="p">::</span><span class="o">&lt;</span><span class="nb">f64</span><span class="o">&gt;</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">();</span>   <span class="c1">// 터보피시 ::&lt;&gt;</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/ch09-02-recoverable-errors-with-result.html" rel="external nofollow noopener" target="_blank">9.2 Result로 복구 가능한 에러 처리하기</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="11-as--타입-변환은-자동이-아니다">11. <code class="language-plaintext highlighter-rouge">as</code> — 타입 변환은 자동이 아니다</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">mean</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">/</span> <span class="n">samples</span><span class="nf">.len</span><span class="p">()</span> <span class="k">as</span> <span class="nb">f64</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">samples.len()</code>은 <code class="language-plaintext highlighter-rouge">usize</code>, <code class="language-plaintext highlighter-rouge">sum</code>은 <code class="language-plaintext highlighter-rouge">f64</code>다. 그냥 나누면 에러다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">mean</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">/</span> <span class="n">samples</span><span class="nf">.len</span><span class="p">();</span>
+<span class="c1">// error[E0277]: cannot divide `f64` by `usize`</span>
+</code></pre></div></div>
+
+<p><strong>Rust는 숫자 타입을 자동으로 섞지 않는다.</strong> C에서 <code class="language-plaintext highlighter-rouge">int</code>와 <code class="language-plaintext highlighter-rouge">float</code>가 조용히 승격되던 것과 다르다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">a</span><span class="p">:</span> <span class="nb">i32</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="k">let</span> <span class="n">b</span><span class="p">:</span> <span class="nb">i64</span> <span class="o">=</span> <span class="n">a</span> <span class="k">as</span> <span class="nb">i64</span><span class="p">;</span>
+<span class="k">let</span> <span class="n">c</span><span class="p">:</span> <span class="nb">f64</span> <span class="o">=</span> <span class="n">a</span> <span class="k">as</span> <span class="nb">f64</span><span class="p">;</span>
+<span class="k">let</span> <span class="n">d</span><span class="p">:</span> <span class="nb">u8</span>  <span class="o">=</span> <span class="mi">300</span> <span class="k">as</span> <span class="nb">u8</span><span class="p">;</span>    <span class="c1">// 44 — 잘린다! as 는 검사하지 않는다</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">as</code>는 <strong>자르기도 한다.</strong> 안전하게 하려면 <code class="language-plaintext highlighter-rouge">try_into()</code>를 쓴다.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">d</span><span class="p">:</span> <span class="nb">u8</span> <span class="o">=</span> <span class="mi">300i32</span><span class="nf">.try_into</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">();</span>   <span class="c1">// 여기서 패닉 → 잘림을 알아챈다</span>
+</code></pre></div></div>
+
+<p>정밀도 문제가 걱정되는 자리에서는 <code class="language-plaintext highlighter-rouge">as</code>를 습관적으로 쓰지 않는 편이 낫다.</p>
+
+<blockquote>
+  <p>rust-kr <a href="https://doc.rust-kr.org/ch03-02-data-types.html" rel="external nofollow noopener" target="_blank">3.2 데이터 타입</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="12--줄-이음--사소하지만-헷갈리는-것">12. <code class="language-plaintext highlighter-rouge">\</code> 줄 이음 — 사소하지만 헷갈리는 것</h1>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">raw</span> <span class="o">=</span> <span class="s">"</span><span class="err">\</span><span class="s">
+0.000,0.01,-0.02,9.79
+0.005,0.02,-0.01,9.81"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>문자열 끝의 <code class="language-plaintext highlighter-rouge">\</code>는 <strong>그 줄바꿈을 무시하라</strong>는 뜻이다. 없으면 맨 앞에 빈 줄이 하나 들어간다.</p>
+
+<p>여러 줄 문자열이 그냥 되는 것도 특징이다. C처럼 <code class="language-plaintext highlighter-rouge">"..." "..."</code>로 이어 붙이지 않아도 된다.</p>
+
+<hr>
+
+<h1 id="13-mini-practice">13. Mini Practice</h1>
+
+<p>프로그램을 조금씩 고쳐 보면서 컴파일러가 뭐라고 하는지 본다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /tmp/imu_stats
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1) let mut samples → let samples 로 바꾸고 cargo run
+   무슨 에러가 나고, 컴파일러가 뭐라고 제안하나?
+
+2) #[derive(Debug)] 를 지우고
+   println!("{:?}", samples[0]); 를 추가한 뒤 cargo run
+   에러 메시지에 어떤 trait 이 없다고 나오나?
+
+3) samples.len() as f64 에서 as f64 를 지우고 cargo run
+   → E0277
+
+4) raw 데이터 한 줄의 숫자를 abc 로 바꾸고 cargo run
+   → 컴파일은 되는데 실행 중에 패닉한다. 왜 컴파일 타임에 못 잡을까?
+
+5) expected_dt 를 0.05 로 바꾸면 "간격 이상" 이 사라지는지 확인
+
+6) 마지막 루프를 windows(2) 대신 인덱스로 바꿔 보고,
+   raw 를 빈 문자열 "" 로 만들면 어떻게 되는지 비교
+</code></pre></div></div>
+
+<p>4번이 이 chapter에서 가장 중요하다.
+<strong><code class="language-plaintext highlighter-rouge">unwrap()</code>은 문제를 컴파일 타임에서 런타임으로 미루는 일</strong>이다.
+Chapter 9에서 이걸 제대로 처리한다.</p>
+
+<hr>
+
+<h1 id="14-오늘의-핵심">14. 오늘의 핵심</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        지금까지 이 프로그램에 실제로 쓰인 것
+
+  데이터        struct Sample { stamp: f64, ... }
+                #[derive(Debug, Clone, Copy)]
+
+  동작          impl Sample { fn magnitude(&amp;self) -&gt; f64 }
+                세미콜론 없는 마지막 식이 반환값
+
+  변수          let (불변)  /  let mut (가변)
+                타입은 대개 추론. 애매할 때만 적는다
+
+  컬렉션        Vec::new(), push, len, [i]
+                범위를 벗어나면 패닉한다
+
+  반복          for x in 무언가
+                .lines()  &amp;vec  .windows(2)
+
+  출력          println!("{:.3}", x)   형식은 컴파일 타임에 검사
+
+  변환          as f64      자동 승격이 없다
+  실패          .unwrap()   지금은 넘어감 → Chapter 9
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="15-반드시-구분할-것">15. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let  ≠  let mut
+   기본이 불변이다. 다른 언어와 반대
+
+struct  ≠  impl
+   데이터와 동작을 따로 쓴다
+
+println!  은 함수가 아니라 매크로
+   ! 가 붙은 것은 전부 매크로
+
+{}  ≠  {:?}
+   Display vs Debug. Debug 는 derive 가 필요
+
+&amp;self  ≠  self
+   빌리는가, 가져가는가 (Chapter 8)
+
+as  ≠  안전한 변환
+   as 는 조용히 자른다. try_into() 는 알려준다
+
+컴파일 에러  ≠  런타임 패닉
+   unwrap() 은 후자로 미루는 것
+
+세미콜론 있음  ≠  없음
+   없는 마지막 식이 반환값이 된다
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="16-chapter-연결">16. Chapter 연결</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 1~6
+구성과 빌드 — 숲
+
+Chapter 7  ← 여기
+돌아가는 프로그램 하나를 통째로 읽기
+
+Chapter 8
+같은 프로그램을 함수로 쪼갠다 → 소유권과 대여를 만난다
+
+Chapter 9
+raw 문자열을 진짜 파일에서 읽는다 → unwrap() 을 걷어낸다
+</code></pre></div></div>
+
+<p>프로그램은 계속 이어진다. 새 예제를 만들지 않는다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/rust/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/rust/chapter08-ownership/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 8. 함수로 쪼개다가 소유권을 만나기</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 1. 센서를 붙일 때 확인할 7가지 | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/sensors/chapter01-sensor-io-checklist/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 1. 센서를 붙일 때 확인할 7가지</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> 처음 보는 센서를 받았을 때 무엇을 어떤 순서로 확인해야 하는지 알고,
+그 결과를 팀이 공유할 수 있는 형식으로 기록한다.</p>
+</blockquote>
+
+<p>센서마다 회사도 다르고 프로토콜도 다르지만, <strong>확인해야 할 항목은 항상 같다.</strong>
+그 목록을 먼저 정해 두면 새 센서를 붙일 때 헤매는 시간이 크게 줄어든다.</p>
+
+<hr>
+
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">tcpdump</code> · <code class="language-plaintext highlighter-rouge">ros2 topic hz</code> · <code class="language-plaintext highlighter-rouge">dmesg -w</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">ip addr</code> / <code class="language-plaintext highlighter-rouge">ip route</code>
+</td>
+      <td style="text-align: left">어느 인터페이스로 나가는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ping -c 3 192.168.1.201</code></td>
+      <td style="text-align: left">물리적으로 닿는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo tcpdump -i eth1 -n -c 10 'udp port 2368'</code></td>
+      <td style="text-align: left"><strong>데이터가 실제로 오는지</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo tcpdump -i eth1 -n 'host 192.168.1.201'</code></td>
+      <td style="text-align: left">그 센서와 오가는 전부</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ss -tuln</code></td>
+      <td style="text-align: left">내 쪽 포트가 열려 있나</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">curl -s http://192.168.1.201/cgi/settings.json</code></td>
+      <td style="text-align: left">HTTP 설정 조회</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">lsusb</code> / <code class="language-plaintext highlighter-rouge">dmesg -w</code>
+</td>
+      <td style="text-align: left">USB 센서 인식 확인</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ls -l /dev/ttyUSB* /dev/video*</code></td>
+      <td style="text-align: left">device node와 권한</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic list</code></td>
+      <td style="text-align: left">드라이버가 토픽을 냈나</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic hz /velodyne_points</code></td>
+      <td style="text-align: left"><strong>실제 주기</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic echo /x --once</code></td>
+      <td style="text-align: left">실제 값</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">ros2 topic type /x</code> + <code class="language-plaintext highlighter-rouge">ros2 interface show</code>
+</td>
+      <td style="text-align: left">메시지 정의</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="1-두-개의-통신이-따로-있다">1. 두 개의 통신이 따로 있다</h1>
+
+<p>가장 먼저 잡아야 할 그림이다. <strong>설정과 데이터는 다른 길로 간다.</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    호스트                                센서
+   ┌────────┐                          ┌────────┐
+   │        │ ──── HTTP / TCP ───────▶ │        │   설정·조회
+   │  Thor  │                          │ LiDAR  │   (내가 물어본다)
+   │        │ ◀─── UDP ──────────────  │        │   점군 데이터
+   └────────┘                          └────────┘   (센서가 계속 쏜다)
+</code></pre></div></div>
+
+<p>이 구조를 알면 증상 해석이 달라진다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ping 은 되는데 점군이 없다
+   → 네트워크는 연결됐다. UDP 경로나 목적지 설정 문제
+
+curl 로 설정은 읽히는데 점군이 없다
+   → 센서는 살아 있다. UDP 목적지 IP/포트가 내 쪽이 아닐 가능성
+
+tcpdump 에는 패킷이 보이는데 ROS 토픽이 없다
+   → 네트워크는 정상. 드라이버 설정 문제
+</code></pre></div></div>
+
+<p><strong><code class="language-plaintext highlighter-rouge">tcpdump</code>에서 패킷이 보이느냐</strong>가 네트워크 문제와 드라이버 문제를 가르는 경계선이다.</p>
+
+<hr>
+
+<h1 id="2-항목-1--물리-인터페이스">2. 항목 1 — 물리 인터페이스</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ethernet     대부분의 3D LiDAR. 대역폭이 크고 거리가 길다
+USB          카메라, 일부 IMU. 케이블 품질과 대역폭 공유가 문제
+CAN          모터 드라이버, 배터리. 대역폭은 작지만 실시간성이 최상
+Serial       저가 IMU, GNSS. 단순하고 확실
+</code></pre></div></div>
+
+<p>Edge Computing Chapter 5에서 다룬 그 계층이다. 확인은 이렇게 한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Ethernet</span>
+ip addr                       <span class="c"># 랜 카드에 IP가 붙어 있나</span>
+ip route                      <span class="c"># 그 센서 대역이 어느 인터페이스로 나가나</span>
+ping <span class="nt">-c</span> 3 192.168.1.201
+
+<span class="c"># USB</span>
+lsusb                         <span class="c"># 목록에 보이나</span>
+dmesg <span class="nt">-w</span>                      <span class="c"># 꽂는 순간 커널이 뭐라고 하나</span>
+<span class="nb">ls</span> <span class="nt">-l</span> /dev/video<span class="k">*</span> /dev/ttyUSB<span class="k">*</span>
+</code></pre></div></div>
+
+<p><strong>USB 센서는 <code class="language-plaintext highlighter-rouge">dmesg -w</code>를 켜 놓고 꽂는 것</strong>이 가장 빠르다.
+전원 부족, 케이블 불량, 드라이버 없음이 전부 여기 찍힌다.</p>
+
+<hr>
+
+<h1 id="3-항목-2--설정-프로토콜">3. 항목 2 — 설정 프로토콜</h1>
+
+<p>센서에 “FOV를 바꿔라”, “회전 속도를 바꿔라”를 어떻게 말하는가.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP CGI        브라우저로 열리는 웹 UI가 있다. curl 로도 된다   (Velodyne)
+TCP 전용 포트    회사가 정한 프로토콜. SDK 를 거쳐야 한다          (Hesai PTC)
+JSON 설정 파일   드라이버가 읽어서 센서에 밀어 넣는다            (Livox)
+SDK / API       C++/Python 라이브러리 호출                     (RealSense)
+</code></pre></div></div>
+
+<p><strong>설정을 바꾸면 확인하고, 필요하면 저장까지 해야 한다.</strong>
+전원을 껐다 켜면 되돌아가는 제품이 많다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 바꾸고</span>
+curl <span class="nt">-X</span> POST http://192.168.1.201/cgi/setting/fov <span class="nt">--data</span> <span class="s1">'start=0&amp;end=359'</span>
+
+<span class="c"># 반드시 다시 읽어서 확인</span>
+curl <span class="nt">-s</span> http://192.168.1.201/cgi/settings.json | python3 <span class="nt">-m</span> json.tool
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="4-항목-34--데이터-프로토콜과-포트">4. 항목 3·4 — 데이터 프로토콜과 포트</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UDP     대부분의 LiDAR. 빠르고 재전송이 없다. 놓치면 그냥 놓친다
+TCP     일부 설정·상태. 순서와 도착이 보장된다
+USB     카메라. 대역폭을 다른 USB 장치와 나눠 쓴다
+</code></pre></div></div>
+
+<p>LiDAR가 UDP를 쓰는 이유는 명확하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>점군은 초당 수십 MB 다
+재전송해서 늦게 받은 스캔은 이미 쓸모가 없다
+    → 놓치더라도 최신을 받는 편이 낫다
+</code></pre></div></div>
+
+<p>대신 <strong>패킷을 놓쳐도 아무도 알려주지 않는다.</strong> 그래서 <code class="language-plaintext highlighter-rouge">ros2 topic hz</code>로 실제 주기를 재는 습관이 필요하다.</p>
+
+<p>포트는 반드시 실측한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>tcpdump <span class="nt">-i</span> eth1 <span class="nt">-n</span> <span class="nt">-c</span> 10 <span class="s1">'udp port 2368'</span>
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>· 패킷이 보인다        → 센서가 내 쪽으로 쏘고 있다
+· 아무것도 안 보인다    → 포트가 다르거나, 목적지가 내가 아니거나, 방화벽
+</code></pre></div></div>
+
+<p>포트를 모를 때는 그 호스트와 오가는 것을 전부 본다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>tcpdump <span class="nt">-i</span> eth1 <span class="nt">-n</span> <span class="s1">'host 192.168.1.201'</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">tcpdump</code>는 <strong>호스트에서</strong> 돌리는 것이 안전하다.
+컨테이너 안에서는 <code class="language-plaintext highlighter-rouge">sudo</code>가 비밀번호를 요구해 막히는 경우가 많다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo: a password is required
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="5-항목-567--드라이버와-토픽">5. 항목 5·6·7 — 드라이버와 토픽</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>제조사 ROS 드라이버      UDP/USB 를 받아 ROS 메시지로 바꾼다
+raw 토픽                드라이버가 처음 뱉는 것. 원본 패킷에 가깝다
+출력 토픽               실제로 쓰는 PointCloud2 / Image / Imu
+</code></pre></div></div>
+
+<p>Velodyne을 예로 보면 두 단계다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UDP 2368  →  velodyne_driver  →  /velodyne_packets   (raw)
+                                       │
+                             velodyne_pointcloud
+                                       ▼
+                                 /velodyne_points    (PointCloud2)
+</code></pre></div></div>
+
+<p><strong>둘을 구분해야 어디까지 왔는지 알 수 있다.</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/velodyne_packets 만 있다   → 네트워크는 OK, 변환 노드가 안 떴다
+둘 다 없다                  → 드라이버 자체가 안 떴거나 UDP 를 못 받는다
+둘 다 있는데 hz 가 낮다     → 패킷 손실. MTU, 네트워크 부하 확인
+</code></pre></div></div>
+
+<p>확인 순서는 항상 같다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic list
+ros2 topic hz   /velodyne_points     <span class="c"># 실제 주기 (10 Hz 나오나)</span>
+ros2 topic <span class="nb">echo</span> /velodyne_points <span class="nt">--once</span>
+ros2 topic <span class="nb">type</span> /velodyne_points     <span class="c"># sensor_msgs/msg/PointCloud2</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="6-확인-순서--아래에서-위로">6. 확인 순서 — 아래에서 위로</h1>
+
+<p>Edge Computing Chapter 10과 같은 방식이다. 안 되는 지점에서 멈추면 그게 원인이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>① 전원·케이블        LED 가 켜지나. dmesg 에 뭐라고 나오나
+       ↓
+② 링크               ip addr / ip link — 랜 카드가 UP 인가
+       ↓
+③ IP 도달            ping -c 3 &lt;센서 IP&gt;
+       ↓
+④ 설정 채널          curl http://&lt;IP&gt;/... 로 응답이 오나
+       ↓
+⑤ 데이터 채널        tcpdump 에 UDP 패킷이 보이나       ← 경계선
+       ↓
+⑥ 드라이버           ros2 topic list 에 raw 토픽이 뜨나
+       ↓
+⑦ 변환               출력 토픽이 뜨고 hz 가 정상인가
+       ↓
+⑧ 내용               echo 로 값이 말이 되나 (전부 0 이 아닌가)
+</code></pre></div></div>
+
+<p>⑤가 가장 중요한 분기점이다. <strong>여기까지 되면 남은 문제는 전부 소프트웨어</strong>다.</p>
+
+<hr>
+
+<h1 id="7-같은-대역에-여러-센서를-둘-때">7. 같은 대역에 여러 센서를 둘 때</h1>
+
+<p>LiDAR 두 대가 기본 IP를 그대로 쓰면 충돌한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Velodyne VLP-16 기본   192.168.1.201
+Hesai 기본             192.168.1.201     ← 같다!
+</code></pre></div></div>
+
+<p>실제로 자주 겪는 사고다. 붙이기 전에 IP를 나눠 둔다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>192.168.1.201   LiDAR A
+192.168.1.202   LiDAR B
+192.168.1.100   호스트(Thor)
+</code></pre></div></div>
+
+<p>인터페이스가 여러 개면 라우팅도 확인한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip route get 192.168.1.201     <span class="c"># 어느 인터페이스로 나가는지</span>
+</code></pre></div></div>
+
+<p>DDS도 인터페이스를 골라야 한다. Edge Computing Chapter 9.5 §19의 <code class="language-plaintext highlighter-rouge">CYCLONEDDS_URI</code>가 그것이다.
+<strong>LiDAR 전용 랜으로 ROS 2 discovery가 새어 나가지 않게</strong> 해야 한다.</p>
+
+<hr>
+
+<h1 id="8-docssensor_checkmd--기록-형식">8. <code class="language-plaintext highlighter-rouge">docs/SENSOR_CHECK.md</code> — 기록 형식</h1>
+
+<p>확인한 것은 저장소에 남긴다. 형식을 고정해 두면 비교가 쉽다.</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gu">## Velodyne VLP-16</span>
+
+| 항목              | 값                                                 |
+| :---------------- | :------------------------------------------------- |
+| 물리 인터페이스   | Ethernet (100 Mbps)                                |
+| 센서 IP           | 192.168.1.201 (기본값)                             |
+| 호스트 인터페이스 | enP2p1s0                                           |
+| 설정 프로토콜     | HTTP CGI                                           |
+| 설정 확인         | <span class="sb">`curl -s http://192.168.1.201/cgi/settings.json`</span>   |
+| 데이터 프로토콜   | UDP                                                |
+| 데이터 포트       | 2368                                               |
+| 상태 포트         | 8308                                               |
+| ROS 드라이버      | <span class="sb">`velodyne_driver`</span> + <span class="sb">`velodyne_pointcloud`</span>          |
+| raw 토픽          | <span class="sb">`/velodyne_packets`</span>                                |
+| 출력 토픽         | <span class="sb">`/velodyne_points`</span> (<span class="sb">`sensor_msgs/msg/PointCloud2`</span>) |
+| 기대 주기         | 10 Hz                                              |
+| 확인일            | 2026-09-08                                         |
+| 비고              | FOV 변경 후 저장 절차는 매뉴얼 확인 필요           |
+</code></pre></div></div>
+
+<p><strong>“확인일”과 “비고”가 실제로 가장 쓸모 있다.</strong>
+반년 뒤에 이 표를 볼 때, 그때 무엇이 미확인이었는지가 남아 있어야 한다.</p>
+
+<hr>
+
+<h1 id="9-mini-practice">9. Mini Practice</h1>
+
+<p>지금 붙어 있는 센서 하나로 ①~⑧을 끝까지 해본다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ②③ 링크와 도달</span>
+ip addr
+ip route get 192.168.1.201
+ping <span class="nt">-c</span> 3 192.168.1.201
+
+<span class="c"># ④ 설정 채널</span>
+curl <span class="nt">-s</span> <span class="nt">--max-time</span> 3 http://192.168.1.201/cgi/settings.json | python3 <span class="nt">-m</span> json.tool | <span class="nb">head</span> <span class="nt">-20</span>
+
+<span class="c"># ⑤ 데이터 채널  ← 경계선</span>
+<span class="nb">sudo </span>tcpdump <span class="nt">-i</span> enP2p1s0 <span class="nt">-n</span> <span class="nt">-c</span> 10 <span class="s1">'udp port 2368'</span>
+
+<span class="c"># ⑥⑦ 드라이버와 토픽</span>
+ros2 topic list | <span class="nb">grep</span> <span class="nt">-i</span> velodyne
+ros2 topic hz /velodyne_points
+
+<span class="c"># ⑧ 내용</span>
+ros2 topic <span class="nb">echo</span> /velodyne_points <span class="nt">--once</span> | <span class="nb">head</span> <span class="nt">-20</span>
+</code></pre></div></div>
+
+<p>그 결과를 §8 형식으로 <code class="language-plaintext highlighter-rouge">docs/SENSOR_CHECK.md</code>에 적는다.
+<strong>모르는 칸은 비워 두지 말고 “미확인”이라고 적는다.</strong></p>
+
+<hr>
+
+<h1 id="10-오늘의-핵심">10. 오늘의 핵심</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              센서 하나 = 두 개의 통신 + 두 단계의 토픽
+
+   설정 채널                        데이터 채널
+   HTTP / TCP / SDK / JSON          UDP / TCP / USB
+   내가 물어본다                     센서가 계속 쏜다
+        │                                │
+        │                          tcpdump 로 확인  ← 경계선
+        │                                ▼
+        │                          제조사 ROS 드라이버
+        │                                │
+        │                          raw 토픽 (/xxx_packets)
+        │                                ▼
+        │                          출력 토픽 (PointCloud2)
+        └────────── 둘 다 확인해야 한다 ──────────┘
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="11-반드시-구분할-것">11. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>설정 채널  ≠  데이터 채널
+   ping 이 된다고 점군이 오는 게 아니다
+
+raw 토픽  ≠  출력 토픽
+   /velodyne_packets 와 /velodyne_points 는 다른 단계
+
+토픽이 있다  ≠  데이터가 온다
+   ros2 topic hz 로 실제 주기를 봐야 한다
+
+hz 가 정상  ≠  값이 정상
+   전부 0 이거나 NaN 일 수 있다. echo 로 본다
+
+UDP  ≠  TCP
+   UDP 는 놓쳐도 알려주지 않는다
+
+센서 기본 IP
+   제조사가 달라도 같을 수 있다 (다들 192.168.1.201)
+
+tcpdump 는 호스트에서
+   컨테이너 안에서는 sudo 가 막히는 경우가 많다
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="12-chapter-연결">12. Chapter 연결</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 1  ← 여기
+7가지 확인 항목과 순서
+
+Chapter 2
+Velodyne VLP-16 — 전부 채운 예시
+
+Chapter 3
+다른 LiDAR — Hesai, Livox, Ouster, BLK ARC
+
+Chapter 4
+카메라 — RealSense D435i
+
+Edge Computing Chapter 5
+Hardware Interfaces — 물리 계층
+
+Edge Computing Chapter 8
+Robot Networking — 인터페이스가 여러 개일 때
+
+Edge Computing Chapter 10
+Debugging — 계층별로 좁혀 들어가기
+</code></pre></div></div>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/sensors/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/sensors/chapter02-velodyne-vlp16/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 2. Velodyne VLP-16</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

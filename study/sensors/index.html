@@ -17,12 +17,12 @@
   
   
     
-      Rust | Daye Lee
+      Sensors &amp; I/O | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="숲에서 나무로 — workspace, package, crate, module과 Cargo 빌드 구조부터.">
+<meta name="description" content="센서마다 다른 물리 인터페이스 · 설정 프로토콜 · 데이터 프로토콜 · ROS 토픽을 한 형식으로 정리한다.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -59,7 +59,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://daye-lee18.github.io/study/rust/">
+<link rel="canonical" href="https://daye-lee18.github.io/study/sensors/">
 
 
   <!-- Dark Mode -->
@@ -364,52 +364,33 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Rust</h1>
-    <p class="post-description">숲에서 나무로 — workspace, package, crate, module과 Cargo 빌드 구조부터.</p>
+    <h1 class="post-title">Sensors &amp; I/O</h1>
+    <p class="post-description">센서마다 다른 물리 인터페이스 · 설정 프로토콜 · 데이터 프로토콜 · ROS 토픽을 한 형식으로 정리한다.</p>
   </header>
 
   <article>
-    <p>문법보다 <strong>구조</strong>를 먼저 본다.
-<code class="language-plaintext highlighter-rouge">Cargo.toml</code>이 왜 두 개인지, <code class="language-plaintext highlighter-rouge">crate</code>가 <code class="language-plaintext highlighter-rouge">[workspace].members</code>에 들어가는 건지,
-<code class="language-plaintext highlighter-rouge">cargo build</code>가 무엇을 어디에 만드는지를 먼저 정리하고 언어로 내려간다.</p>
+    <p>센서를 하나 붙일 때마다 매번 같은 것을 찾아 헤매게 된다.
+IP가 뭐였지, 설정은 웹으로 하나 SDK로 하나, 데이터는 몇 번 포트로 오나,
+드라이버는 뭘 깔아야 하나, 토픽 이름이 뭐였나.</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>숲 ──────────────────────────────────────────▶ 나무
+<p>이 섹션은 그걸 <strong>센서마다 같은 7줄로 기록</strong>해 두는 곳이다.</p>
 
-1부 · 구성과 빌드
-  Ch 1   workspace / package / crate / module    전체 지도
-  Ch 2   Cargo.toml 읽는 법                      설정 파일
-  Ch 3   cargo 명령어와 target/                  빌드가 하는 일
-  Ch 4   의존성과 Cargo.lock                     바깥과 연결
-  Ch 5   module 시스템 (mod / pub / use)         crate 안으로
-  Ch 6   ROS 2 저장소 안에서 Rust 쓰기            실제 프로젝트
-
-2부 · 언어  ─ 프로그램 하나를 계속 고쳐 가며
-  Ch 7   돌아가는 프로그램 하나 읽기              struct, impl, Vec, for
-  Ch 8   함수로 쪼개다가 소유권을 만나기           move, &amp;, &amp;mut, 슬라이스
-  Ch 9   진짜 파일을 읽으며 unwrap() 걷어내기      Result, Option, ?, match
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. 물리 인터페이스    Ethernet / USB / CAN / Serial
+2. 설정 프로토콜      HTTP CGI / TCP / SDK / JSON 파일
+3. 데이터 프로토콜    UDP / TCP / USB stream
+4. 포트 · 주소        기본값과 우리 장비의 실제 값
+5. ROS 드라이버       패키지 이름과 저장소
+6. raw 토픽           드라이버가 처음 뱉는 것
+7. 출력 토픽          실제로 쓰는 PointCloud2 / Image / Imu
 </code></pre></div></div>
 
-<h2 id="2부의-공부-방식">2부의 공부 방식</h2>
+<p>핵심은 <strong>설정용 통신과 데이터용 통신이 대개 분리되어 있다</strong>는 것이다.</p>
 
-<p>문법을 하나씩 배우고 예제를 보는 순서가 아니다.
-<strong>돌아가는 프로그램을 먼저 두고, 거기 실제로 쓰인 것만 설명한다.</strong></p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 7    IMU 로그를 읽어 통계를 내는 프로그램 (한 덩어리)
-                     │  함수로 쪼갠다
-Chapter 8    같은 프로그램 → 소유권 에러를 만난다
-                     │  진짜 파일을 읽게 한다
-Chapter 9    같은 프로그램 → unwrap() 을 걷어낸다
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Thor  ──── HTTP / TCP ────▶  LiDAR       설정·조회
+    Thor  ◀─── UDP ────────────  LiDAR       실제 점군 데이터
 </code></pre></div></div>
 
-<p>Chapter 9까지 오면 프로그램은 실제 CSV 파일을 읽고,
-깨진 줄·빈 파일·없는 파일을 전부 사람이 읽을 수 있는 메시지와
-종료 코드로 처리한다. 패닉이 하나도 남지 않는다.</p>
-
-<p>새 예제를 만들지 않는다. <strong>한 프로그램이 계속 자란다.</strong>
-안 쓰인 문법은 안 나오고, 필요해지면 그때 나온다.</p>
-
-<p>교재는 <a href="https://doc.rust-kr.org/title-page.html" rel="external nofollow noopener" target="_blank">Rust 프로그래밍 언어 (한국어판)</a>을 참고했고,
-각 절 끝에 대응하는 장을 링크해 두었다.</p>
+<p><code class="language-plaintext highlighter-rouge">ping</code>이 되는데 점군이 안 온다면 대개 이 두 경로 중 하나만 열려 있는 것이다.</p>
 
 
 
@@ -419,8 +400,8 @@ Chapter 9    같은 프로그램 → unwrap() 을 걷어낸다
   
     
       <li class="study-toc-item">
-        <a class="study-toc-link" href="/study/rust/chapter01-workspace-package-crate/">
-          <span class="study-toc-title">Chapter 1. Workspace, Package, Crate, Module</span>
+        <a class="study-toc-link" href="/study/sensors/chapter01-sensor-io-checklist/">
+          <span class="study-toc-title">Chapter 1. 센서를 붙일 때 확인할 7가지</span>
           
         </a>
       </li>
@@ -428,8 +409,8 @@ Chapter 9    같은 프로그램 → unwrap() 을 걷어낸다
   
     
       <li class="study-toc-item">
-        <a class="study-toc-link" href="/study/rust/chapter02-cargo-toml/">
-          <span class="study-toc-title">Chapter 2. Cargo.toml 한 줄씩 읽기</span>
+        <a class="study-toc-link" href="/study/sensors/chapter02-velodyne-vlp16/">
+          <span class="study-toc-title">Chapter 2. Velodyne VLP-16</span>
           
         </a>
       </li>
@@ -437,8 +418,8 @@ Chapter 9    같은 프로그램 → unwrap() 을 걷어낸다
   
     
       <li class="study-toc-item">
-        <a class="study-toc-link" href="/study/rust/chapter03-cargo-build/">
-          <span class="study-toc-title">Chapter 3. cargo 명령어와 target/</span>
+        <a class="study-toc-link" href="/study/sensors/chapter03-other-lidars/">
+          <span class="study-toc-title">Chapter 3. Hesai · Livox · Ouster · BLK ARC</span>
           
         </a>
       </li>
@@ -446,53 +427,8 @@ Chapter 9    같은 프로그램 → unwrap() 을 걷어낸다
   
     
       <li class="study-toc-item">
-        <a class="study-toc-link" href="/study/rust/chapter04-dependencies-lock/">
-          <span class="study-toc-title">Chapter 4. 의존성과 Cargo.lock</span>
-          
-        </a>
-      </li>
-    
-  
-    
-      <li class="study-toc-item">
-        <a class="study-toc-link" href="/study/rust/chapter05-modules/">
-          <span class="study-toc-title">Chapter 5. Module 시스템 — crate 안으로</span>
-          
-        </a>
-      </li>
-    
-  
-    
-      <li class="study-toc-item">
-        <a class="study-toc-link" href="/study/rust/chapter06-rust-in-ros2-repo/">
-          <span class="study-toc-title">Chapter 6. ROS 2 저장소 안에서 Rust 쓰기</span>
-          
-        </a>
-      </li>
-    
-  
-    
-      <li class="study-toc-item">
-        <a class="study-toc-link" href="/study/rust/chapter07-reading-a-program/">
-          <span class="study-toc-title">Chapter 7. 돌아가는 프로그램 하나 읽기</span>
-          
-        </a>
-      </li>
-    
-  
-    
-      <li class="study-toc-item">
-        <a class="study-toc-link" href="/study/rust/chapter08-ownership/">
-          <span class="study-toc-title">Chapter 8. 함수로 쪼개다가 소유권을 만나기</span>
-          
-        </a>
-      </li>
-    
-  
-    
-      <li class="study-toc-item">
-        <a class="study-toc-link" href="/study/rust/chapter09-error-handling/">
-          <span class="study-toc-title">Chapter 9. 진짜 파일을 읽으며 unwrap() 걷어내기</span>
+        <a class="study-toc-link" href="/study/sensors/chapter04-cameras-realsense/">
+          <span class="study-toc-title">Chapter 4. 카메라 — RealSense D435i</span>
           
         </a>
       </li>

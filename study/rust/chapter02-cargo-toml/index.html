@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 2. Cargo.toml 한 줄씩 읽기 | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/rust/chapter02-cargo-toml/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 2. Cargo.toml 한 줄씩 읽기</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> <code class="language-plaintext highlighter-rouge">Cargo.toml</code>의 각 섹션이 무엇을 결정하는지 알고,
+workspace 상속(<code class="language-plaintext highlighter-rouge">version.workspace = true</code>)과 <code class="language-plaintext highlighter-rouge">[lib]</code> / <code class="language-plaintext highlighter-rouge">[[bin]]</code> / <code class="language-plaintext highlighter-rouge">[dependencies]</code>를
+직접 쓸 수 있다.</p>
+</blockquote>
+
+<p>Chapter 1에서 <code class="language-plaintext highlighter-rouge">Cargo.toml</code>이 두 종류라는 것을 봤다.
+이 chapter는 그 안을 한 줄씩 연다.</p>
+
+<hr>
+
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">cargo add</code> · <code class="language-plaintext highlighter-rouge">cargo metadata</code> · <code class="language-plaintext highlighter-rouge">cargo check</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo add serde</code></td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">[dependencies]</code>에 자동으로 추가</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo add serde --features derive</code></td>
+      <td style="text-align: left">feature까지 지정해서 추가</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo add --dev criterion</code></td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">[dev-dependencies]</code>에 추가</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo remove serde</code></td>
+      <td style="text-align: left">의존성 제거</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo metadata --no-deps --format-version 1</code></td>
+      <td style="text-align: left">Cargo가 해석한 최종 설정</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo check</code></td>
+      <td style="text-align: left">설정을 고친 뒤 가장 먼저</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo verify-project</code></td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">Cargo.toml</code> 문법이 맞는지만 확인</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo run --bin &lt;name&gt;</code></td>
+      <td style="text-align: left">특정 binary 실행</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cargo build -p &lt;package&gt;</code></td>
+      <td style="text-align: left">특정 package만</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="1-toml-문법-최소한만">1. TOML 문법 최소한만</h1>
+
+<p><code class="language-plaintext highlighter-rouge">Cargo.toml</code>은 TOML 형식이다. 세 가지만 알면 읽을 수 있다.</p>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ① [이름]  = 테이블 하나</span>
+<span class="nn">[package]</span>
+<span class="py">name</span> <span class="p">=</span> <span class="s">"slam_interfaces"</span>
+
+<span class="c"># ② [[이름]] = 테이블 배열. 같은 이름을 여러 번 쓸 수 있다</span>
+<span class="nn">[[bin]]</span>
+<span class="py">name</span> <span class="p">=</span> <span class="s">"tool_a"</span>
+
+<span class="nn">[[bin]]</span>
+<span class="py">name</span> <span class="p">=</span> <span class="s">"tool_b"</span>
+
+<span class="c"># ③ { } = 인라인 테이블. 한 줄로 줄여 쓴 것</span>
+<span class="py">serde</span> <span class="o">=</span> <span class="p">{</span> <span class="py">version</span> <span class="p">=</span> <span class="s">"1.0"</span><span class="p">,</span> <span class="py">features</span> <span class="p">=</span> <span class="p">[</span><span class="s">"derive"</span><span class="p">]</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>②가 <code class="language-plaintext highlighter-rouge">[lib]</code>와 <code class="language-plaintext highlighter-rouge">[[bin]]</code>의 차이를 만든다.
+library crate는 package당 최대 하나라서 <code class="language-plaintext highlighter-rouge">[lib]</code>,
+binary crate는 여러 개라서 <code class="language-plaintext highlighter-rouge">[[bin]]</code>이다.</p>
+
+<hr>
+
+<h1 id="2-루트-cargotoml--workspace-쪽">2. 루트 <code class="language-plaintext highlighter-rouge">Cargo.toml</code> — workspace 쪽</h1>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[workspace]</span>
+<span class="py">resolver</span> <span class="p">=</span> <span class="s">"2"</span>
+<span class="py">members</span> <span class="p">=</span> <span class="p">[</span>
+    <span class="s">"src/interfaces"</span><span class="p">,</span>
+    <span class="s">"src/fusion"</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="py">exclude</span> <span class="p">=</span> <span class="p">[</span><span class="s">"experiments/scratch"</span><span class="p">]</span>
+
+<span class="nn">[workspace.package]</span>
+<span class="py">version</span> <span class="p">=</span> <span class="s">"0.1.0"</span>
+<span class="py">edition</span> <span class="p">=</span> <span class="s">"2021"</span>
+<span class="py">license</span> <span class="p">=</span> <span class="s">"Proprietary"</span>
+
+<span class="nn">[workspace.dependencies]</span>
+<span class="py">serde</span> <span class="o">=</span> <span class="p">{</span> <span class="py">version</span> <span class="p">=</span> <span class="s">"1.0"</span><span class="p">,</span> <span class="py">features</span> <span class="p">=</span> <span class="p">[</span><span class="s">"derive"</span><span class="p">]</span> <span class="p">}</span>
+<span class="py">nalgebra</span> <span class="p">=</span> <span class="s">"0.33"</span>
+</code></pre></div></div>
+
+<p>한 줄씩 보면 이렇다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>resolver = "2"        feature 해석 방식. edition 2021 이면 "2" 를 쓴다
+members               workspace 에 포함할 package 폴더 경로 (Chapter 1 §4)
+exclude               안에 있지만 workspace 에 넣지 않을 폴더
+[workspace.package]   하위 package 들이 상속할 공통 메타데이터
+[workspace.dependencies]  하위 package 들이 상속할 공통 의존성 버전
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">[workspace.package]</code>와 <code class="language-plaintext highlighter-rouge">[workspace.dependencies]</code>는 <strong>정의만 해둘 뿐</strong>이고,
+자동으로 적용되지 않는다. 각 package가 “그거 쓸게”라고 명시해야 한다. (§4)</p>
+
+<hr>
+
+<h1 id="3-하위-cargotoml--package-쪽">3. 하위 <code class="language-plaintext highlighter-rouge">Cargo.toml</code> — package 쪽</h1>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[package]</span>
+<span class="py">name</span> <span class="p">=</span> <span class="s">"slam_interfaces"</span>
+<span class="py">version.workspace</span> <span class="p">=</span> <span class="kc">true</span>
+<span class="py">edition.workspace</span> <span class="p">=</span> <span class="kc">true</span>
+<span class="py">license.workspace</span> <span class="p">=</span> <span class="kc">true</span>
+
+<span class="nn">[lib]</span>
+<span class="py">path</span> <span class="p">=</span> <span class="s">"lib.rs"</span>
+
+<span class="nn">[dependencies]</span>
+<span class="py">serde.workspace</span> <span class="p">=</span> <span class="kc">true</span>
+<span class="py">slam_common</span> <span class="o">=</span> <span class="p">{</span> <span class="py">path</span> <span class="p">=</span> <span class="s">"../common"</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name        crate 이름이 된다. use 에 쓰는 이름 (폴더 이름이 아니다)
+version     이 package 의 버전
+edition     Rust 판본. 2015 / 2018 / 2021 / 2024
+license     배포용 메타데이터
+[lib]       library crate 설정
+[dependencies]  이 package 가 쓰는 crate 들
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">edition</code>은 문법 판본이다. Rust는 하위 호환을 깨지 않으려고
+“새 문법은 새 edition에서만” 방식으로 간다.
+<strong>edition이 다른 crate끼리도 서로 의존할 수 있다.</strong></p>
+
+<hr>
+
+<h1 id="4-workspace--true--상속-문법">4. <code class="language-plaintext highlighter-rouge">.workspace = true</code> — 상속 문법</h1>
+
+<p>이게 처음 보면 낯설다.</p>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">version.workspace</span> <span class="p">=</span> <span class="kc">true</span>
+</code></pre></div></div>
+
+<p>이 한 줄의 뜻은 <strong>“이 값은 내가 안 쓰고 루트 <code class="language-plaintext highlighter-rouge">[workspace.package]</code>에서 가져오겠다”</strong>이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>루트 Cargo.toml                     하위 Cargo.toml
+────────────────────────           ─────────────────────────
+[workspace.package]                 [package]
+version = "0.1.0"      ────────▶    version.workspace = true
+edition = "2021"       ────────▶    edition.workspace = true
+</code></pre></div></div>
+
+<p>package가 10개일 때 버전을 올리려면 원래는 10군데를 고쳐야 한다.
+상속을 쓰면 루트 한 곳만 고치면 된다.</p>
+
+<p>의존성도 같은 방식이다.</p>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 루트</span>
+<span class="nn">[workspace.dependencies]</span>
+<span class="py">serde</span> <span class="o">=</span> <span class="p">{</span> <span class="py">version</span> <span class="p">=</span> <span class="s">"1.0"</span><span class="p">,</span> <span class="py">features</span> <span class="p">=</span> <span class="p">[</span><span class="s">"derive"</span><span class="p">]</span> <span class="p">}</span>
+
+<span class="c"># 하위</span>
+<span class="nn">[dependencies]</span>
+<span class="py">serde.workspace</span> <span class="p">=</span> <span class="kc">true</span>
+</code></pre></div></div>
+
+<p><strong>버전이 갈리는 사고를 막는 것</strong>이 진짜 목적이다.
+package마다 <code class="language-plaintext highlighter-rouge">serde = "1.0"</code>, <code class="language-plaintext highlighter-rouge">serde = "1.0.190"</code>을 따로 적으면
+서로 다른 버전이 동시에 링크되는 상황이 생길 수 있다.</p>
+
+<p>일부만 덮어쓸 수도 있다.</p>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[dependencies]</span>
+<span class="py">serde</span> <span class="o">=</span> <span class="p">{</span> <span class="py">workspace</span> <span class="p">=</span> <span class="kc">true</span><span class="p">,</span> <span class="py">features</span> <span class="p">=</span> <span class="p">[</span><span class="s">"rc"</span><span class="p">]</span> <span class="p">}</span>   <span class="c"># 버전은 상속, feature 는 추가</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="5-lib--library-crate-설정">5. <code class="language-plaintext highlighter-rouge">[lib]</code> — library crate 설정</h1>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[lib]</span>
+<span class="py">name</span> <span class="p">=</span> <span class="s">"slam_interfaces"</span>     <span class="c"># 생략하면 package name 을 씀</span>
+<span class="py">path</span> <span class="p">=</span> <span class="s">"lib.rs"</span>              <span class="c"># 생략하면 src/lib.rs</span>
+<span class="py">crate-type</span> <span class="p">=</span> <span class="p">[</span><span class="s">"rlib"</span><span class="p">]</span>        <span class="c"># 생략하면 rlib</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">crate-type</code>은 무엇으로 만들지를 정한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rlib        Rust 전용 정적 라이브러리. 기본값. Rust 끼리 쓸 때
+cdylib      C ABI 동적 라이브러리 (.so / .dylib / .dll)
+                → C++/Python 에서 부를 때
+staticlib   C ABI 정적 라이브러리 (.a)
+                → C++ 링커에 넘길 때
+proc-macro  컴파일 타임에 코드를 생성하는 특수 crate
+</code></pre></div></div>
+
+<p>ROS 2의 C++ 노드에서 Rust 코드를 부르고 싶다면 <code class="language-plaintext highlighter-rouge">rlib</code>으로는 안 된다.
+<code class="language-plaintext highlighter-rouge">cdylib</code>이나 <code class="language-plaintext highlighter-rouge">staticlib</code>이 필요하다. (Chapter 6)</p>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[lib]</span>
+<span class="py">crate-type</span> <span class="p">=</span> <span class="p">[</span><span class="s">"rlib"</span><span class="p">,</span> <span class="s">"cdylib"</span><span class="p">]</span>    <span class="c"># 둘 다 만들 수도 있다</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="6-bin--실행파일">6. <code class="language-plaintext highlighter-rouge">[[bin]]</code> — 실행파일</h1>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[[bin]]</span>
+<span class="py">name</span> <span class="p">=</span> <span class="s">"slam-node"</span>
+<span class="py">path</span> <span class="p">=</span> <span class="s">"main.rs"</span>
+
+<span class="nn">[[bin]]</span>
+<span class="py">name</span> <span class="p">=</span> <span class="s">"bag-dump"</span>
+<span class="py">path</span> <span class="p">=</span> <span class="s">"tools/bag_dump.rs"</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cargo run <span class="nt">--bin</span> slam-node
+cargo run <span class="nt">--bin</span> bag-dump
+cargo build <span class="nt">--bins</span>              <span class="c"># 모든 binary</span>
+</code></pre></div></div>
+
+<p>관례를 따르면 <code class="language-plaintext highlighter-rouge">[[bin]]</code>을 아예 안 써도 된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;package 루트&gt;/src/main.rs          → package 이름과 같은 binary
+&lt;package 루트&gt;/src/bin/foo.rs       → binary "foo"
+&lt;package 루트&gt;/src/bin/bar/main.rs  → binary "bar"
+</code></pre></div></div>
+
+<p><strong>경로가 package 루트 기준</strong>이라는 점이 중요하다. workspace 루트가 아니다.</p>
+
+<p>여기서 한 번 걸린다. Chapter 1의 구조처럼 <code class="language-plaintext highlighter-rouge">lib.rs</code>를 package 루트에 바로 두면
+(관례인 <code class="language-plaintext highlighter-rouge">src/lib.rs</code>가 아니라) <code class="language-plaintext highlighter-rouge">[lib] path</code>를 적어야 했다. 그런데 binary는 그것과 무관하게
+<strong>여전히 <code class="language-plaintext highlighter-rouge">src/bin/</code>을 찾는다.</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>src/fusion/                    ← package 루트
+├── Cargo.toml
+├── lib.rs                     ← 관례 밖. [lib] path = "lib.rs" 필요
+├── bin/demo.rs                ✗ 여기는 안 본다
+└── src/
+    └── bin/demo.rs            ✓ 여기를 본다
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">src/fusion/bin/demo.rs</code>에 두고 <code class="language-plaintext highlighter-rouge">cargo run --bin demo</code>를 하면 이렇게 나온다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>error: no bin target named `demo` in `demo_fusion` package
+</code></pre></div></div>
+
+<p>한 package 안에서 관례를 반만 따르면 이런 어긋남이 생긴다.
+그래서 이런 구조에서는 binary도 명시하는 편이 헷갈리지 않는다.</p>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[[bin]]</span>
+<span class="py">name</span> <span class="p">=</span> <span class="s">"demo"</span>
+<span class="py">path</span> <span class="p">=</span> <span class="s">"tools/demo.rs"</span>
+</code></pre></div></div>
+
+<p><strong>관례를 따를 거면 전부 따르고, 벗어날 거면 전부 명시한다.</strong> 반씩 섞는 것이 제일 나쁘다.</p>
+
+<hr>
+
+<h1 id="7-dependencies--세-가지-출처">7. <code class="language-plaintext highlighter-rouge">[dependencies]</code> — 세 가지 출처</h1>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[dependencies]</span>
+<span class="c"># ① crates.io 에서</span>
+<span class="py">serde</span> <span class="p">=</span> <span class="s">"1.0"</span>
+
+<span class="c"># ② 같은 저장소 안에서 (경로)</span>
+<span class="py">slam_interfaces</span> <span class="o">=</span> <span class="p">{</span> <span class="py">path</span> <span class="p">=</span> <span class="s">"../interfaces"</span> <span class="p">}</span>
+
+<span class="c"># ③ git 에서</span>
+<span class="py">some_crate</span> <span class="o">=</span> <span class="p">{</span> <span class="py">git</span> <span class="p">=</span> <span class="s">"https://github.com/user/repo"</span><span class="p">,</span> <span class="py">tag</span> <span class="p">=</span> <span class="s">"v0.3.0"</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>로컬 개발은 ②를 쓰고, 배포할 때는 ①로 바꾸는 것이 보통이다.
+③은 편하지만 <strong>재현성이 약하다.</strong> 반드시 <code class="language-plaintext highlighter-rouge">tag</code>나 <code class="language-plaintext highlighter-rouge">rev</code>로 고정한다.</p>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 나쁨 — 브랜치가 움직이면 빌드 결과가 달라진다</span>
+<span class="py">some_crate</span> <span class="o">=</span> <span class="p">{</span> <span class="py">git</span> <span class="p">=</span> <span class="s">"..."</span><span class="p">,</span> <span class="py">branch</span> <span class="p">=</span> <span class="s">"main"</span> <span class="p">}</span>
+
+<span class="c"># 좋음 — 커밋이 고정된다</span>
+<span class="py">some_crate</span> <span class="o">=</span> <span class="p">{</span> <span class="py">git</span> <span class="p">=</span> <span class="s">"..."</span><span class="p">,</span> <span class="py">rev</span> <span class="p">=</span> <span class="s">"a1b2c3d"</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="8-의존성의-세-종류">8. 의존성의 세 종류</h1>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[dependencies]</span>              <span class="c"># 빌드 결과물에 들어간다</span>
+<span class="py">nalgebra</span> <span class="p">=</span> <span class="s">"0.33"</span>
+
+<span class="nn">[dev-dependencies]</span>          <span class="c"># 테스트 · 예제 · 벤치마크에만</span>
+<span class="py">criterion</span> <span class="p">=</span> <span class="s">"0.5"</span>
+
+<span class="nn">[build-dependencies]</span>        <span class="c"># build.rs 에서만</span>
+<span class="py">cc</span> <span class="p">=</span> <span class="s">"1.0"</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">dev-dependencies</code>는 <strong>최종 산출물에 들어가지 않는다.</strong>
+테스트용 무거운 crate를 여기에 넣으면 배포 바이너리가 커지지 않는다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">build-dependencies</code>는 <code class="language-plaintext highlighter-rouge">build.rs</code>(빌드 전에 돌아가는 Rust 스크립트)에서 쓴다.
+C 라이브러리를 같이 컴파일하거나 코드 생성을 할 때 필요하다.</p>
+
+<hr>
+
+<h1 id="9-profile--최적화-설정">9. <code class="language-plaintext highlighter-rouge">[profile]</code> — 최적화 설정</h1>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[profile.dev]</span>
+<span class="py">opt-level</span> <span class="p">=</span> <span class="mi">0</span>        <span class="c"># 최적화 없음. 컴파일이 빠름</span>
+<span class="py">debug</span> <span class="p">=</span> <span class="kc">true</span>
+
+<span class="nn">[profile.release]</span>
+<span class="py">opt-level</span> <span class="p">=</span> <span class="mi">3</span>        <span class="c"># 최대 최적화</span>
+<span class="py">lto</span> <span class="p">=</span> <span class="kc">true</span>           <span class="c"># link-time optimization</span>
+<span class="py">codegen-units</span> <span class="p">=</span> <span class="mi">1</span>    <span class="c"># 병렬 코드 생성을 포기하고 최적화를 얻음</span>
+<span class="py">strip</span> <span class="p">=</span> <span class="kc">true</span>         <span class="c"># 디버그 심볼 제거 → 파일 크기 감소</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">profile</code>은 <strong>workspace 루트에만</strong> 쓸 수 있다.
+하위 package에 적으면 무시되고 경고가 뜬다.</p>
+
+<p>로봇에 올릴 바이너리라면 <code class="language-plaintext highlighter-rouge">release</code>가 사실상 필수다.
+<code class="language-plaintext highlighter-rouge">dev</code> 빌드는 최적화가 없어서 수십 배 느릴 수 있다. (Chapter 3 §5)</p>
+
+<p>디버깅이 필요한 배포판은 이렇게 절충한다.</p>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[profile.release]</span>
+<span class="py">debug</span> <span class="p">=</span> <span class="kc">true</span>         <span class="c"># 심볼은 남기고 최적화는 그대로</span>
+<span class="py">strip</span> <span class="p">=</span> <span class="kc">false</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="10-features--선택적-기능">10. <code class="language-plaintext highlighter-rouge">[features]</code> — 선택적 기능</h1>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[features]</span>
+<span class="py">default</span> <span class="p">=</span> <span class="p">[</span><span class="s">"std"</span><span class="p">]</span>
+<span class="py">std</span> <span class="p">=</span> <span class="p">[]</span>
+<span class="py">ros</span> <span class="p">=</span> <span class="p">[</span><span class="s">"dep:r2r"</span><span class="p">]</span>
+<span class="py">visualize</span> <span class="p">=</span> <span class="p">[</span><span class="s">"dep:plotters"</span><span class="p">]</span>
+
+<span class="nn">[dependencies]</span>
+<span class="py">r2r</span> <span class="o">=</span> <span class="p">{</span> <span class="py">version</span> <span class="p">=</span> <span class="s">"0.9"</span><span class="p">,</span> <span class="py">optional</span> <span class="p">=</span> <span class="kc">true</span> <span class="p">}</span>
+<span class="py">plotters</span> <span class="o">=</span> <span class="p">{</span> <span class="py">version</span> <span class="p">=</span> <span class="s">"0.3"</span><span class="p">,</span> <span class="py">optional</span> <span class="p">=</span> <span class="kc">true</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cargo build                          <span class="c"># default feature</span>
+cargo build <span class="nt">--features</span> ros           <span class="c"># ros 추가</span>
+cargo build <span class="nt">--no-default-features</span>    <span class="c"># default 끄기</span>
+cargo build <span class="nt">--all-features</span>           <span class="c"># 전부 켜기</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">optional = true</code>인 의존성은 그 feature를 켜야만 실제로 빌드된다.
+같은 코드베이스로 <strong>로봇용(가벼움)과 개발용(시각화 포함)을 나누는 데</strong> 쓴다.</p>
+
+<hr>
+
+<h1 id="11-전체를-한-장에">11. 전체를 한 장에</h1>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ─── 루트 Cargo.toml ───────────────────────────</span>
+<span class="nn">[workspace]</span>
+<span class="py">resolver</span> <span class="p">=</span> <span class="s">"2"</span>
+<span class="py">members</span> <span class="p">=</span> <span class="p">[</span><span class="s">"src/interfaces"</span><span class="p">,</span> <span class="s">"src/fusion"</span><span class="p">]</span>
+
+<span class="nn">[workspace.package]</span>
+<span class="py">version</span> <span class="p">=</span> <span class="s">"0.1.0"</span>
+<span class="py">edition</span> <span class="p">=</span> <span class="s">"2021"</span>
+
+<span class="nn">[workspace.dependencies]</span>
+<span class="py">nalgebra</span> <span class="p">=</span> <span class="s">"0.33"</span>
+
+<span class="nn">[profile.release]</span>
+<span class="py">opt-level</span> <span class="p">=</span> <span class="mi">3</span>
+<span class="py">lto</span> <span class="p">=</span> <span class="kc">true</span>
+
+<span class="c"># ─── src/fusion/Cargo.toml ─────────────────────</span>
+<span class="nn">[package]</span>
+<span class="py">name</span> <span class="p">=</span> <span class="s">"slam_fusion"</span>
+<span class="py">version.workspace</span> <span class="p">=</span> <span class="kc">true</span>
+<span class="py">edition.workspace</span> <span class="p">=</span> <span class="kc">true</span>
+
+<span class="nn">[lib]</span>
+<span class="py">path</span> <span class="p">=</span> <span class="s">"lib.rs"</span>
+
+<span class="nn">[dependencies]</span>
+<span class="py">nalgebra.workspace</span> <span class="p">=</span> <span class="kc">true</span>
+<span class="py">slam_interfaces</span> <span class="o">=</span> <span class="p">{</span> <span class="py">path</span> <span class="p">=</span> <span class="s">"../interfaces"</span> <span class="p">}</span>
+
+<span class="nn">[dev-dependencies]</span>
+<span class="py">approx</span> <span class="p">=</span> <span class="s">"0.5"</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="12-mini-practice">12. Mini Practice</h1>
+
+<p>Chapter 1에서 만든 <code class="language-plaintext highlighter-rouge">/tmp/rust_ws</code>에 이어서 해본다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /tmp/rust_ws
+
+<span class="c"># 1) 의존성을 직접 추가해 본다</span>
+cargo add <span class="nt">--package</span> demo_fusion serde <span class="nt">--features</span> derive
+<span class="nb">cat </span>src/fusion/Cargo.toml          <span class="c"># [dependencies] 에 추가된 것 확인</span>
+
+<span class="c"># 2) workspace 상속으로 바꿔 본다</span>
+<span class="c">#    루트 Cargo.toml 에 추가:</span>
+<span class="c">#      [workspace.dependencies]</span>
+<span class="c">#      serde = { version = "1", features = ["derive"] }</span>
+<span class="c">#    src/fusion/Cargo.toml 을 수정:</span>
+<span class="c">#      serde.workspace = true</span>
+cargo check
+
+<span class="c"># 3) Cargo 가 최종적으로 해석한 값 확인</span>
+cargo metadata <span class="nt">--no-deps</span> <span class="nt">--format-version</span> 1 <span class="se">\</span>
+  | python3 <span class="nt">-c</span> <span class="s2">"import sys,json; [print(p['name'], p['version'], p['edition']) for p in json.load(sys.stdin)['packages']]"</span>
+
+<span class="c"># 4) binary 를 관례 위치에 두면 — 동작한다</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> src/fusion/src/bin
+<span class="nb">echo</span> <span class="s1">'fn main(){ println!("convention works"); }'</span> <span class="o">&gt;</span> src/fusion/src/bin/demo.rs
+cargo run <span class="nt">-p</span> demo_fusion <span class="nt">--bin</span> demo
+
+<span class="c"># 5) 관례를 벗어난 위치로 옮기면 — 실패한다</span>
+<span class="nb">rm</span> <span class="nt">-rf</span> src/fusion/src
+<span class="nb">mkdir</span> <span class="nt">-p</span> src/fusion/tools
+<span class="nb">echo</span> <span class="s1">'fn main(){ println!("hi"); }'</span> <span class="o">&gt;</span> src/fusion/tools/demo.rs
+cargo run <span class="nt">-p</span> demo_fusion <span class="nt">--bin</span> demo
+<span class="c">#   error: no bin target named `demo` in `demo_fusion` package</span>
+
+<span class="c"># 6) [[bin]] 으로 명시하면 다시 동작한다</span>
+<span class="nb">cat</span> <span class="o">&gt;&gt;</span> src/fusion/Cargo.toml <span class="o">&lt;&lt;</span><span class="sh">'</span><span class="no">TOML</span><span class="sh">'
+
+[[bin]]
+name = "demo"
+path = "tools/demo.rs"
+</span><span class="no">TOML
+</span>cargo run <span class="nt">-p</span> demo_fusion <span class="nt">--bin</span> demo
+</code></pre></div></div>
+
+<p>4·5·6번이 §6의 내용이다. <strong>관례 위치면 설정이 필요 없고, 벗어나면 <code class="language-plaintext highlighter-rouge">path</code>로 알려줘야 한다.</strong></p>
+
+<hr>
+
+<h1 id="13-오늘의-핵심">13. 오늘의 핵심</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  루트 Cargo.toml                    하위 Cargo.toml
+  ────────────────────────           ──────────────────────────
+  [workspace]                        [package]
+    members    누구를 묶나              name      crate 이름이 된다
+    exclude                            version.workspace = true
+                                                   ↑ 루트에서 상속
+  [workspace.package]
+    version   ─────────────────▶     [lib]      library crate
+    edition   ─────────────────▶       path, crate-type
+
+  [workspace.dependencies]           [[bin]]    binary crate (여러 개)
+    serde     ─────────────────▶
+                                     [dependencies]
+  [profile.release]                    serde.workspace = true
+    루트에만 쓸 수 있다                  ../path, crates.io, git
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="14-반드시-구분할-것">14. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[workspace.dependencies] 에 적음  ≠  실제로 쓰임
+   하위에서 serde.workspace = true 로 명시해야 적용된다
+
+[dependencies]  ≠  [dev-dependencies]
+   후자는 최종 산출물에 들어가지 않는다
+
+[lib]  ≠  [[bin]]
+   대괄호 1개 = 최대 하나 / 2개 = 여러 개
+
+crate-type = "rlib"  ≠  "cdylib"
+   rlib 은 Rust 전용. C++ 에서 부르려면 cdylib / staticlib
+
+[profile] 은 루트에만
+   하위에 적으면 무시된다
+
+git 의존성의 branch  ≠  rev
+   branch 는 움직인다. 재현하려면 rev 나 tag
+
+관례를 따름  vs  path 로 지정
+   따를 수 있으면 따르는 쪽이 설정이 없어서 낫다
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="15-chapter-연결">15. Chapter 연결</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 1
+workspace / package / crate / module — 지도
+
+Chapter 2  ← 여기
+Cargo.toml — 그 지도를 적어 놓은 설정 파일
+
+Chapter 3
+cargo 명령어와 target/ — 설정대로 빌드하면 무엇이 생기나
+
+Chapter 4
+의존성과 Cargo.lock — 버전이 실제로 어떻게 정해지나
+</code></pre></div></div>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/rust/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/rust/chapter03-cargo-build/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 3. cargo 명령어와 target/</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>
