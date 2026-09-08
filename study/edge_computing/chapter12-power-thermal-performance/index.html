@@ -381,6 +381,59 @@ Memory Bandwidth, Bottleneck을 이해하고 실제 로봇에서
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">tegrastats</code> · <code class="language-plaintext highlighter-rouge">nvpmodel -q</code> · <code class="language-plaintext highlighter-rouge">jetson_clocks</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">tegrastats</code></td>
+      <td style="text-align: left">CPU·GPU·RAM·<strong>온도·전력</strong> 실시간</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo nvpmodel -q</code></td>
+      <td style="text-align: left">현재 전력 모드</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo nvpmodel -m 0</code></td>
+      <td style="text-align: left">최대 성능 모드</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo jetson_clocks</code></td>
+      <td style="text-align: left">클럭 최대 고정 (발열 주의)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo jetson_clocks --show</code></td>
+      <td style="text-align: left">현재 클럭 상태</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cat /sys/devices/virtual/thermal/thermal_zone*/temp</code></td>
+      <td style="text-align: left">존별 온도 (밀리도 단위)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor</code></td>
+      <td style="text-align: left">주파수 governor</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">htop</code> · <code class="language-plaintext highlighter-rouge">free -h</code> · <code class="language-plaintext highlighter-rouge">df -h</code>
+</td>
+      <td style="text-align: left">부하·메모리·디스크</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-edge-computer에서는-최고-성능만-중요하지-않다">1. Edge Computer에서는 최고 성능만 중요하지 않다</h1>
 
 <p>Desktop computer에서는:</p>
@@ -2855,9 +2908,9 @@ Data Retention
     <a href="/study/edge_computing/">← 목차로 돌아가기</a>
   
   
-    <a class="study-chapter-next" href="/study/edge_computing/chapter14-device-drivers-kernel-basics/" rel="next">
+    <a class="study-chapter-next" href="/study/edge_computing/chapter13-storage-data-logging/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Chapter 14. Device Drivers &amp; Kernel Basics</span>
+      <span>Chapter 13. Storage &amp; Data Logging</span>
     </a>
   
 </nav>

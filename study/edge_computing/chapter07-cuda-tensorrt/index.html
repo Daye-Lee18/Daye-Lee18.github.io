@@ -378,6 +378,57 @@ TensorRT, FP16/INT8, latency/throughput을 로봇 실무 관점에서 연결한�
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">nvcc --version</code> · <code class="language-plaintext highlighter-rouge">tegrastats</code> · <code class="language-plaintext highlighter-rouge">trtexec</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">nvcc --version</code></td>
+      <td style="text-align: left">CUDA toolkit 버전</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cat /etc/nv_tegra_release</code></td>
+      <td style="text-align: left">JetPack 버전 (CUDA/TensorRT 버전을 결정)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">dpkg -l \| grep -i tensorrt</code></td>
+      <td style="text-align: left">설치된 TensorRT 버전</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">tegrastats</code></td>
+      <td style="text-align: left">GPU 사용률·전력 실시간</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">/usr/src/tensorrt/bin/trtexec --onnx=m.onnx</code></td>
+      <td style="text-align: left">ONNX를 TensorRT engine으로 변환·벤치마크</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">trtexec --onnx=m.onnx --fp16</code></td>
+      <td style="text-align: left">FP16으로 변환</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">python3 -c "import torch; print(torch.cuda.is_available())"</code></td>
+      <td style="text-align: left">PyTorch가 GPU를 보는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">nvidia-smi</code></td>
+      <td style="text-align: left">desktop GPU 전용 (<strong>Jetson에는 없다 — tegrastats를 쓴다</strong>)</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-gpu는-있다고-자동으로-쓰는-것이-아니다">1. GPU는 있다고 자동으로 쓰는 것이 아니다</h1>
 
 <p>Jetson에는 NVIDIA GPU가 들어 있다.</p>

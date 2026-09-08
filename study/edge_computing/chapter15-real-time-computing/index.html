@@ -380,6 +380,67 @@ Interrupt Latency, CPU Affinity, Priority Inversion, PREEMPT_RT, Watchdog 개념
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">chrt</code> · <code class="language-plaintext highlighter-rouge">taskset</code> · <code class="language-plaintext highlighter-rouge">cyclictest</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">chrt -f 80 ./my_node</code></td>
+      <td style="text-align: left">SCHED_FIFO 우선순위 80으로 실행</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">chrt -p &lt;pid&gt;</code></td>
+      <td style="text-align: left">그 process의 scheduling 정책 확인</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">taskset -c 2,3 ./my_node</code></td>
+      <td style="text-align: left">CPU 2,3번에만 고정</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">taskset -pc &lt;pid&gt;</code></td>
+      <td style="text-align: left">현재 CPU affinity 확인</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">nice -n -10 ./cmd</code> / <code class="language-plaintext highlighter-rouge">renice -n -5 -p &lt;pid&gt;</code>
+</td>
+      <td style="text-align: left">일반 process 우선순위</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ps -eLo pid,tid,cls,rtprio,comm</code></td>
+      <td style="text-align: left">thread별 정책·우선순위 한눈에</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cat /proc/interrupts</code></td>
+      <td style="text-align: left">IRQ 분포</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo cyclictest -t1 -p 80 -i 1000 -l 10000</code></td>
+      <td style="text-align: left"><strong>실제 latency 분포 측정</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor</code></td>
+      <td style="text-align: left">governor (<code class="language-plaintext highlighter-rouge">performance</code>로 고정하면 jitter 감소)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">uname -a \| grep -i preempt</code></td>
+      <td style="text-align: left">PREEMPT_RT 커널인지</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-real-time은-단순히-빠르다는-뜻이-아니다">1. Real-Time은 단순히 빠르다는 뜻이 아니다</h1>
 
 <p>많이 하는 오해:</p>
@@ -2904,9 +2965,9 @@ Robot Internal Network
     <a href="/study/edge_computing/">← 목차로 돌아가기</a>
   
   
-    <a class="study-chapter-next" href="/study/edge_computing/chapter01-computer-basics/" rel="next">
+    <a class="study-chapter-next" href="/study/edge_computing/chapter16-embedded-security/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Chapter 1. Computer Hardware Basics</span>
+      <span>Chapter 16. Embedded Security</span>
     </a>
   
 </nav>

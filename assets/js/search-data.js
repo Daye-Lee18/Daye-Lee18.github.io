@@ -296,6 +296,11 @@ ninja.data = [{
           description: "",
           section: "Study",handler: () => {
               window.location.href = "/study/edge_computing/chapter06-ros2/";
+            },},{id: "study-chapter-6-5-micro-ros와-mcu-mcu-토픽은-어디서-오는가",
+          title: 'Chapter 6.5. micro-ROS와 MCU — /mcu/... 토픽은 어디서 오는가',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter06b-micro-ros-mcu/";
             },},{id: "study-chapter-7-cuda-amp-tensorrt-for-robotics",
           title: 'Chapter 7. CUDA &amp;amp; TensorRT for Robotics',
           description: "",
@@ -311,6 +316,11 @@ ninja.data = [{
           description: "",
           section: "Study",handler: () => {
               window.location.href = "/study/edge_computing/chapter09-docker-on-jetson/";
+            },},{id: "study-chapter-9-5-docker-실전-컨테이너-파일시스템과-개발-워크플로우",
+          title: 'Chapter 9.5. Docker 실전 — 컨테이너 파일시스템과 개발 워크플로우',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter09b-docker-workspace-workflow/";
             },},{id: "study-chapter-10-ros-2-jetson-debugging-amp-deployment",
           title: 'Chapter 10. ROS 2 + Jetson Debugging &amp;amp; Deployment',
           description: "",
@@ -326,6 +336,11 @@ ninja.data = [{
           description: "",
           section: "Study",handler: () => {
               window.location.href = "/study/edge_computing/chapter12-power-thermal-performance/";
+            },},{id: "study-chapter-13-storage-amp-data-logging",
+          title: 'Chapter 13. Storage &amp;amp; Data Logging',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter13-storage-data-logging/";
             },},{id: "study-chapter-14-device-drivers-amp-kernel-basics",
           title: 'Chapter 14. Device Drivers &amp;amp; Kernel Basics',
           description: "",
@@ -378,142 +393,142 @@ ninja.data = [{
               window.location.href = "/study/rust/";
             },},{id: "study-slam",
           title: 'SLAM',
-          description: "SLAM의 역사와 LiDAR-inertial state estimation을 단계별로 공부합니다.",
+          description: "A step-by-step study of the history of SLAM and of LiDAR-inertial state estimation.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/";
-            },},{id: "study-chapter-1-slam은-왜-필요한가",
-          title: 'Chapter 1. SLAM은 왜 필요한가?',
-          description: "위치와 지도의 관계, odometry와 SLAM, 발전의 큰 흐름.",
+            },},{id: "study-chapter-1-why-do-we-need-slam",
+          title: 'Chapter 1. Why do we need SLAM?',
+          description: "The relationship between pose and map, odometry versus SLAM, and the broad arc of the field.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/01-why-slam/";
-            },},{id: "study-chapter-2-확률과-ekf-slam",
-          title: 'Chapter 2. 확률과 EKF-SLAM',
-          description: "한 점의 정답 대신 불확실성을 추적하는 방법.",
+            },},{id: "study-chapter-2-probability-and-ekf-slam",
+          title: 'Chapter 2. Probability and EKF-SLAM',
+          description: "Tracking uncertainty instead of a single right answer.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/02-probability-ekf/";
-            },},{id: "study-chapter-3-fastslam과-조건부-독립",
-          title: 'Chapter 3. FastSLAM과 조건부 독립',
-          description: "큰 공동 추정 문제를 경로와 landmark 문제로 나누기.",
+            },},{id: "study-chapter-3-fastslam-and-conditional-independence",
+          title: 'Chapter 3. FastSLAM and conditional independence',
+          description: "Splitting one large joint estimation problem into a path problem and landmark problems.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/03-fastslam/";
-            },},{id: "study-chapter-4-좌표계와-회전",
-          title: 'Chapter 4. 좌표계와 회전',
-          description: "3D SLAM 수식을 읽기 위한 최소한의 기하학.",
+            },},{id: "study-chapter-4-frames-and-rotation",
+          title: 'Chapter 4. Frames and rotation',
+          description: "The minimum geometry needed to read 3D SLAM equations.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/04-coordinate-rotation/";
-            },},{id: "study-chapter-5-icp와-점군-정합",
-          title: 'Chapter 5. ICP와 점군 정합',
-          description: "두 관측을 맞추는 문제에서 반복 최적화를 이해하기.",
+            },},{id: "study-chapter-5-icp-and-point-cloud-registration",
+          title: 'Chapter 5. ICP and point cloud registration',
+          description: "Understanding iterative optimisation through the problem of aligning two observations.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/05-registration-icp/";
-            },},{id: "study-chapter-6-graph-slam과-loop-closure",
-          title: 'Chapter 6. Graph SLAM과 loop closure',
-          description: "과거 궤적을 다시 고칠 수 있는 제약 기반 표현.",
+            },},{id: "study-chapter-6-graph-slam-and-loop-closure",
+          title: 'Chapter 6. Graph SLAM and loop closure',
+          description: "A constraint-based representation in which past trajectory can still be corrected.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/06-graph-slam/";
-            },},{id: "study-chapter-7-희소성과-isam",
-          title: 'Chapter 7. 희소성과 iSAM',
-          description: "변수가 많아도 모든 변수가 서로 연결되는 것은 아니다.",
+            },},{id: "study-chapter-7-sparsity-and-isam",
+          title: 'Chapter 7. Sparsity and iSAM',
+          description: "Many variables does not mean every variable is connected to every other.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/07-sparsity-isam/";
-            },},{id: "study-chapter-8-visual-slam과-bundle-adjustment",
-          title: 'Chapter 8. Visual SLAM과 Bundle Adjustment',
-          description: "카메라 관측에서 pose와 3D point를 함께 개선하기.",
+            },},{id: "study-chapter-8-visual-slam-and-bundle-adjustment",
+          title: 'Chapter 8. Visual SLAM and Bundle Adjustment',
+          description: "Refining poses and 3D points together from camera observations.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/08-visual-slam/";
-            },},{id: "study-chapter-9-sparse-map에서-dense-map으로",
-          title: 'Chapter 9. Sparse map에서 Dense map으로',
-          description: "지도는 무엇을 저장하고 어떤 질문에 답해야 할까?",
+            },},{id: "study-chapter-9-from-sparse-maps-to-dense-maps",
+          title: 'Chapter 9. From sparse maps to dense maps',
+          description: "What should a map store, and which questions should it answer?",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/09-dense-maps/";
-            },},{id: "study-chapter-10-imu-융합에서-lio까지",
-          title: 'Chapter 10. IMU 융합에서 LIO까지',
-          description: "빠른 관성 예측과 외부 관측이 서로 필요한 이유.",
+            },},{id: "study-chapter-10-from-imu-fusion-to-lio",
+          title: 'Chapter 10. From IMU fusion to LIO',
+          description: "Why fast inertial prediction and external observations need each other.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/10-inertial-lio/";
-            },},{id: "study-chapter-11-학습-기반-slam과-spatial-ai",
-          title: 'Chapter 11. 학습 기반 SLAM과 Spatial AI',
-          description: "학습은 파이프라인의 어느 부분을 바꾸는가?",
+            },},{id: "study-chapter-11-learning-based-slam-and-spatial-ai",
+          title: 'Chapter 11. Learning-based SLAM and Spatial AI',
+          description: "Which part of the pipeline does learning actually change?",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/11-learning-spatial-ai/";
-            },},{id: "study-chapter-12-평가와-다음-학습-경로",
-          title: 'Chapter 12. 평가와 다음 학습 경로',
-          description: "역사를 성능표와 코드 읽기로 연결하는 방법.",
+            },},{id: "study-chapter-12-evaluation-and-where-to-study-next",
+          title: 'Chapter 12. Evaluation and where to study next',
+          description: "How to connect the history to performance tables and code reading.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/12-evaluation-reading-map/";
             },},{id: "study-slam-history",
           title: 'SLAM History',
-          description: "SLAM이 어떤 문제를 해결하며 센서·수학·컴퓨팅의 변화에 따라 어떻게 발전했는지 공부합니다.",
+          description: "A study of what problem SLAM solves and how it evolved alongside changes in sensors, mathematics and computing.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/";
-            },},{id: "study-fast-lio-논문-리뷰",
-          title: 'FAST-LIO — 논문 리뷰',
-          description: "LiDAR 특징점과 IMU를 반복 EKF로 결합하며, 많은 관측을 효율적으로 처리하는 FAST-LIO2의 기반이다.",
+            },},{id: "study-fast-lio-paper-review",
+          title: 'FAST-LIO — paper review',
+          description: "Combines LiDAR feature points and IMU in an iterated EKF, handling many observations efficiently; the basis of FAST-LIO2.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/state-estimation/fast-lio/";
-            },},{id: "study-fast-lio2-논문-리뷰",
-          title: 'FAST-LIO2 — 논문 리뷰',
-          description: "원시 LiDAR 점을 로컬 맵에 직접 정합하고 IMU와 반복 필터로 융합하는, 현재 Vision60 시스템의 기준선이다.",
+            },},{id: "study-fast-lio2-paper-review",
+          title: 'FAST-LIO2 — paper review',
+          description: "Registers raw LiDAR points directly against a local map and fuses them with IMU in an iterated filter; the baseline of the current Vision60 system.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/state-estimation/fast-lio2/";
-            },},{id: "study-fast-livo-논문-리뷰",
-          title: 'FAST-LIVO — 논문 리뷰',
-          description: "LiDAR·관성·영상을 sparse-direct 방식으로 결합하는 FAST-LIVO2의 선행 연구다.",
+            },},{id: "study-fast-livo-paper-review",
+          title: 'FAST-LIVO — paper review',
+          description: "Combines LiDAR, inertial and image data in a sparse-direct manner; the prior work behind FAST-LIVO2.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/state-estimation/fast-livo/";
-            },},{id: "study-fast-livo2-경량화-논문-리뷰",
-          title: 'FAST-LIVO2 경량화 — 논문 리뷰',
-          description: "관측의 유용성과 맵 보존 범위를 조절해 FAST-LIVO2의 메모리·계산 비용을 줄이는 연구다.",
+            },},{id: "study-lightweight-fast-livo2-paper-review",
+          title: 'Lightweight FAST-LIVO2 — paper review',
+          description: "Reduces the memory and computation cost of FAST-LIVO2 by controlling observation usefulness and how much of the map is retained.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/state-estimation/fast-livo2-resource-constrained/";
-            },},{id: "study-fast-livo2-논문-리뷰",
-          title: 'FAST-LIVO2 — 논문 리뷰',
-          description: "LiDAR 기하와 영상 밝기 정보를 같은 voxel map에서 연결하고 ESIKF로 순차 융합하는 LIVO다.",
+            },},{id: "study-fast-livo2-paper-review",
+          title: 'FAST-LIVO2 — paper review',
+          description: "A LIVO that links LiDAR geometry and image intensity in the same voxel map and fuses them sequentially in an ESIKF.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/state-estimation/fast-livo2/";
-            },},{id: "study-glim-논문-리뷰",
-          title: 'GLIM — 논문 리뷰',
-          description: "시간 창 안의 상태와 서브맵 간 정합을 최적화하고 GPU로 계산량을 처리하는 매핑 프레임워크다.",
+            },},{id: "study-glim-paper-review",
+          title: 'GLIM — paper review',
+          description: "A mapping framework that optimises states within a time window and inter-submap registration, handling the computation on GPU.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/state-estimation/glim/";
-            },},{id: "study-상태-추정-계보-lidar에서-livo-다리-센서-융합까지",
-          title: '상태 추정 계보 — LiDAR에서 LIVO·다리 센서 융합까지',
-          description: "FAST-LIO2 기준 논문 비교: 센서, 추정 구조, 루프클로저, Vision60 적용 관점.",
+            },},{id: "study-state-estimation-lineage-from-lidar-to-livo-and-leg-sensor-fusion",
+          title: 'State estimation lineage — from LiDAR to LIVO and leg-sensor fusion',
+          description: "Paper comparison anchored on FAST-LIO2: sensors, estimation architecture, loop closure, and the Vision60 application perspective.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/state-estimation/";
-            },},{id: "study-legolas-논문-리뷰",
-          title: 'Legolas — 논문 리뷰',
-          description: "다리·관성 센서만으로 odometry를 학습해 외부 센서 추적이 어려운 상황을 다루는 연구다.",
+            },},{id: "study-legolas-paper-review",
+          title: 'Legolas — paper review',
+          description: "Learns odometry from leg and inertial sensors alone, addressing situations where external-sensor tracking is difficult.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/state-estimation/legolas/";
-            },},{id: "study-lijo-논문-리뷰",
-          title: 'LIJO — 논문 리뷰',
-          description: "LiDAR·IMU·관절 속도 정보를 EKF로 결합해 4족 odometry의 고주파 jitter를 줄이는 연구다.",
+            },},{id: "study-lijo-paper-review",
+          title: 'LIJO — paper review',
+          description: "Combines LiDAR, IMU and joint velocity information in an EKF to reduce high-frequency jitter in quadruped odometry.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/state-estimation/lijo/";
-            },},{id: "study-lio-sam-논문-리뷰",
-          title: 'LIO-SAM — 논문 리뷰',
-          description: "LiDAR·관성 추정을 factor graph로 구성해 GPS와 루프 제약을 함께 다루는 smoothing 기반 대조군이다.",
+            },},{id: "study-lio-sam-paper-review",
+          title: 'LIO-SAM — paper review',
+          description: "Builds LiDAR-inertial estimation as a factor graph so GPS and loop constraints can be handled together; the smoothing-based control group.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/state-estimation/lio-sam/";
-            },},{id: "study-loam-논문-리뷰",
-          title: 'LOAM — 논문 리뷰',
-          description: "고주파 odometry와 저주파 정밀 mapping을 분리해 LiDAR 실시간 추정을 가능하게 한 계보의 출발점이다.",
+            },},{id: "study-loam-paper-review",
+          title: 'LOAM — paper review',
+          description: "The starting point of the lineage: separating high-rate odometry from low-rate precise mapping made real-time LiDAR estimation possible.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/state-estimation/loam/";
-            },},{id: "study-lta-om-논문-리뷰",
-          title: 'LTA-OM — 논문 리뷰',
-          description: "FAST-LIO2에 루프 검출·기각·보정과 과거 맵의 재사용을 연결한 장기 매핑 시스템이다.",
+            },},{id: "study-lta-om-paper-review",
+          title: 'LTA-OM — paper review',
+          description: "A long-term mapping system that connects loop detection, rejection and correction plus reuse of the past map to FAST-LIO2.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/state-estimation/lta-om/";
-            },},{id: "study-point-lio-논문-리뷰",
-          title: 'Point-LIO — 논문 리뷰',
-          description: "스캔이 완성되기를 기다리지 않고 점의 측정 시각에 맞춰 상태를 갱신하는 고대역폭 LIO다.",
+            },},{id: "study-point-lio-paper-review",
+          title: 'Point-LIO — paper review',
+          description: "A high-bandwidth LIO that updates the state at each point&#39;s measurement time instead of waiting for a scan to complete.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/state-estimation/point-lio/";
-            },},{id: "study-vilens-논문-리뷰",
-          title: 'VILENS — 논문 리뷰',
-          description: "비전·IMU·LiDAR·다리 odometry를 그래프로 융합하고 다리 속도 bias를 추정하는 4족 상태 추정기다.",
+            },},{id: "study-vilens-paper-review",
+          title: 'VILENS — paper review',
+          description: "A quadruped state estimator that fuses visual, inertial, LiDAR and leg odometry in a graph and estimates a leg velocity bias.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/state-estimation/vilens/";
             },},{

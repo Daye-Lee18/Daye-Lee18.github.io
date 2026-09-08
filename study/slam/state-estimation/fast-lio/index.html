@@ -17,12 +17,12 @@
   
   
     
-      FAST-LIO — 논문 리뷰 | Daye Lee
+      FAST-LIO — paper review | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="LiDAR 특징점과 IMU를 반복 EKF로 결합하며, 많은 관측을 효율적으로 처리하는 FAST-LIO2의 기반이다.">
+<meta name="description" content="Combines LiDAR feature points and IMU in an iterated EKF, handling many observations efficiently; the basis of FAST-LIO2.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -364,201 +364,201 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">FAST-LIO — 논문 리뷰</h1>
-    <p class="post-description">LiDAR 특징점과 IMU를 반복 EKF로 결합하며, 많은 관측을 효율적으로 처리하는 FAST-LIO2의 기반이다.</p>
+    <h1 class="post-title">FAST-LIO — paper review</h1>
+    <p class="post-description">Combines LiDAR feature points and IMU in an iterated EKF, handling many observations efficiently; the basis of FAST-LIO2.</p>
   </header>
 
   <article>
-    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← State estimation paper comparison</a></p>
 
 <blockquote>
-  <p><strong>한 문장 요약:</strong> LiDAR 특징점과 IMU를 반복 EKF로 결합하며, 많은 관측을 효율적으로 처리하는 FAST-LIO2의 기반이다.</p>
+  <p><strong>One-sentence summary:</strong> Combines LiDAR feature points and IMU in an iterated EKF, handling many observations efficiently; the basis of FAST-LIO2.</p>
 </blockquote>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left">항목</th>
-      <th style="text-align: left">내용</th>
+      <th style="text-align: left">Item</th>
+      <th style="text-align: left">Detail</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left">논문</td>
+      <td style="text-align: left">Paper</td>
       <td style="text-align: left">FAST-LIO: A Fast, Robust LiDAR-inertial Odometry Package by Tightly-Coupled Iterated Kalman Filter</td>
     </tr>
     <tr>
-      <td style="text-align: left">발표</td>
+      <td style="text-align: left">Venue</td>
       <td style="text-align: left">arXiv 2020</td>
     </tr>
     <tr>
-      <td style="text-align: left">자료</td>
-      <td style="text-align: left"><a href="https://arxiv.org/abs/2010.08196" rel="external nofollow noopener" target="_blank">논문·저자 자료</a></td>
+      <td style="text-align: left">Source</td>
+      <td style="text-align: left"><a href="https://arxiv.org/abs/2010.08196" rel="external nofollow noopener" target="_blank">Paper / author material</a></td>
     </tr>
     <tr>
-      <td style="text-align: left">정리 상태</td>
-      <td style="text-align: left">입문 리뷰 초안 · 개인 정독·재현 기록은 아래에 추가</td>
+      <td style="text-align: left">Status</td>
+      <td style="text-align: left">Introductory review draft · personal close-reading and reproduction notes added below</td>
     </tr>
     <tr>
-      <td style="text-align: left">자료 확인일</td>
+      <td style="text-align: left">Source checked</td>
       <td style="text-align: left">2026-09-07</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="1-해결하려는-문제">1. 해결하려는 문제</h2>
+<h2 id="1-the-problem-it-addresses">1. The problem it addresses</h2>
 
-<p>많은 LiDAR 관측을 강결합 필터에서 처리할 때 Kalman gain 계산 비용이 커질 수 있다.</p>
+<p>Processing many LiDAR observations in a tightly coupled filter can make the Kalman gain computation expensive.</p>
 
-<h2 id="2-발표할-핵심-3개">2. 발표할 핵심 3개</h2>
+<h2 id="2-three-key-points-to-present">2. Three key points to present</h2>
 
 <ol>
   <li>
-<strong>Tightly coupled 융합:</strong> LiDAR 특징점과 관성 정보를 같은 추정 과정에서 사용한다.</li>
+<strong>Tightly coupled fusion:</strong> LiDAR feature points and inertial information are used in the same estimation process.</li>
   <li>
-<strong>Iterated EKF:</strong> 반복 갱신으로 비선형 관측을 처리한다.</li>
+<strong>Iterated EKF:</strong> iterative updates handle the nonlinear observations.</li>
   <li>
-<strong>효율적인 gain 계산:</strong> 관측 차원보다 상태 차원에 기반하는 계산식을 사용해 비용을 줄인다.</li>
+<strong>Efficient gain computation:</strong> a formulation based on the state dimension rather than the observation dimension reduces the cost.</li>
 </ol>
 
-<p>기술 요약 근거: <a href="https://arxiv.org/abs/2010.08196" rel="external nofollow noopener" target="_blank">논문·저자 설명</a>.</p>
+<p>Basis for this technical summary: <a href="https://arxiv.org/abs/2010.08196" rel="external nofollow noopener" target="_blank">paper / author description</a>.</p>
 
-<h2 id="3-동작-구조">3. 동작 구조</h2>
+<h2 id="3-how-it-works">3. How it works</h2>
 
-<p>아래는 이해를 위한 개념 흐름이며 구현의 모든 스레드·갱신 주기를 나타내지는 않는다.</p>
+<p>The diagram below is a conceptual flow for understanding; it does not show every thread and update rate in the implementation.</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR 특징점 + IMU → 운동 예측 → 반복 필터 갱신 → 상태 추정
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR feature points + IMU → motion prediction → iterated filter update → state estimate
 </code></pre></div></div>
 
-<p>이 논문에서 먼저 필터의 상태·관측·갱신을 이해한 뒤 FAST-LIO2가 특징 추출과 맵 관리에서 무엇을 바꾸는지 읽는다. 빠른 필터와 좋은 맵 자료구조는 다른 설계 요소다.</p>
+<p>Understand the filter’s state, observations and update in this paper first, then read what FAST-LIO2 changes in feature extraction and map management. A fast filter and a good map data structure are separate design elements.</p>
 
-<h2 id="4-실험-결과와-해석">4. 실험 결과와 해석</h2>
+<h2 id="4-experimental-results-and-interpretation">4. Experimental results and interpretation</h2>
 
-<p>저자들은 UAV 온보드 환경에서 한 스캔의 유효 특징점 1,200개 이상을 융합하고 반복 갱신 전체를 25 ms 이내에 처리한 사례를 보고한다. <a href="https://arxiv.org/abs/2010.08196" rel="external nofollow noopener" target="_blank">출처</a></p>
+<p>The authors report a case of fusing more than 1,200 effective feature points from a single scan and completing the whole iterated update within 25 ms in a UAV onboard setting. <a href="https://arxiv.org/abs/2010.08196" rel="external nofollow noopener" target="_blank">Source</a></p>
 
-<p>이 수치는 해당 구현·장치의 결과다. 관측이 늘어도 전체 파이프라인 비용이 항상 일정하다는 의미는 아니다.</p>
+<p>That figure is the result of that implementation and hardware. It does not mean the whole pipeline’s cost stays constant as observations grow.</p>
 
-<p>정독할 때는 비교 방법 이름뿐 아니라 센서 구성, ground truth, 궤적 정렬 방식, 실행 장치와 실패 구간 포함 여부를 함께 기록한다.</p>
+<p>When reading closely, record not only the names of the compared methods but also the sensor configuration, ground truth, trajectory alignment method, the compute platform, and whether failed segments are included.</p>
 
-<h2 id="5-vision60-적용-질문">5. Vision60 적용 질문</h2>
+<h2 id="5-vision60-application-questions">5. Vision60 application questions</h2>
 
-<p>다음은 논문의 검증 결과와 구분한 <strong>프로젝트 적용 가설·검토 질문</strong>이다.</p>
+<p>The following are <strong>project application hypotheses and review questions</strong>, kept separate from the paper’s validated results.</p>
 
 <ol>
-  <li>상태 차원과 관측 차원이 각각 무엇을 세는가?</li>
-  <li>반복 중 재선형화하는 항과 고정하는 항은 무엇인가?</li>
-  <li>FAST-LIO2와 비교할 때 필터 개선과 맵 관리 개선을 분리할 수 있는가?</li>
+  <li>What exactly does each of the state dimension and the observation dimension count?</li>
+  <li>Which terms are relinearised during the iterations and which are held fixed?</li>
+  <li>Compared with FAST-LIO2, can the filter improvement be separated from the map management improvement?</li>
 </ol>
 
-<p><strong>제안 실험:</strong> 현재 코드의 실행 시간을 IMU 처리, 대응점 탐색, 필터 갱신, 맵 갱신으로 나눠 기록한다. 병목이 실제로 gain 계산인지 확인한다.</p>
+<p><strong>Proposed experiment:</strong> break down the runtime of the current code into IMU processing, correspondence search, filter update and map update, and record each. Check whether the bottleneck really is the gain computation.</p>
 
-<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+<h2 id="6-check-questions">6. Check questions</h2>
 
-<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+<p>Answer each question out loud first, then open the toggle. Practise stating the assumptions and equations together with the failure conditions and how you would verify them.</p>
 
-<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+<h3 id="q1-concept-and-structure">Q1. Concept and structure</h3>
 
-<p>FAST-LIO와 FAST-LIO2의 기여를 필터, 관측 선택, 맵 자료구조 세 축으로 비교하라.</p>
+<p>Compare the contributions of FAST-LIO and FAST-LIO2 along three axes: the filter, observation selection, and the map data structure.</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>FAST-LIO는 특징점과 IMU를 효율적인 iterated Kalman filter로 강결합하는 기반을 제시한다. FAST-LIO2는 이 필터 계보 위에서 raw-point direct 등록과 ikd-Tree 맵 관리를 핵심 기여로 추가한다. FAST-LIO2의 모든 개선을 필터 수식 변화로 설명하면 부정확하다.</p>
+  <p>FAST-LIO provides the basis for tightly coupling feature points and IMU in an efficient iterated Kalman filter. FAST-LIO2 adds raw-point direct registration and ikd-Tree map management as its core contributions on top of that filter lineage. Explaining every FAST-LIO2 improvement as a change in the filter equations would be inaccurate.</p>
 
 </details>
 
-<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+<h3 id="q2-math-and-reasoning">Q2. Math and reasoning</h3>
 
-<p>관측 수 (m)이 상태 차원 (n)보다 매우 클 때 (m\times m) 행렬 역산 대신 information form을 쓰는 계산상 이유를 설명하라.</p>
+<p>Explain the computational reason for using the information form instead of inverting an (m\times m) matrix when the number of observations (m) is much larger than the state dimension (n).</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>표준 gain 식은 관측 공간의 (HPH^\top+R) 역산을 포함해 큰 (m)에서 부담이 크다. Woodbury identity 또는 information form을 이용하면 (n\times n) 상태 공간의 (P^{-1}+H^\top R^{-1}H)를 풀 수 있다. 복잡도 이점은 구조·희소성과 (R) 처리 방식에도 의존한다.</p>
+  <p>The standard gain expression involves inverting (HPH^\top+R) in observation space, which is burdensome for large (m). Using the Woodbury identity or the information form lets you instead solve (P^{-1}+H^\top R^{-1}H) in the (n\times n) state space. The complexity advantage also depends on the structure, the sparsity and how (R) is handled.</p>
 
 </details>
 
-<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+<h3 id="q3-systems-and-debugging">Q3. Systems and debugging</h3>
 
-<p>필터 업데이트가 25 ms인데 전체 노드는 50 ms가 걸린다. 어디를 프로파일링해야 하는가?</p>
+<p>The filter update takes 25 ms but the whole node takes 50 ms. Where should you profile?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>전처리·특징 추출, timestamp 정렬, deskew, nearest-neighbor 검색, 잔차 구성, 필터 반복, 맵 삽입·삭제, publish/copy를 분리한다. wall time과 CPU time, allocation, queue 대기를 함께 본다. 논문의 filter timing을 전체 pipeline latency와 비교하면 안 된다.</p>
+  <p>Separate preprocessing and feature extraction, timestamp alignment, deskew, nearest-neighbour search, residual construction, filter iterations, map insertion and deletion, and publish/copy. Look at wall time alongside CPU time, allocation and queue waiting. The paper’s filter timing must not be compared against whole-pipeline latency.</p>
 
 </details>
 
-<h3 id="q4-코드-리뷰구현">Q4. 코드 리뷰·구현</h3>
+<h3 id="q4-code-review-and-implementation">Q4. Code review and implementation</h3>
 
-<p><strong>GitHub:</strong> <a href="https://github.com/hku-mars/FAST_LIO" rel="external nofollow noopener" target="_blank">공식 또는 저자 연결 저장소</a></p>
+<p><strong>GitHub:</strong> <a href="https://github.com/hku-mars/FAST_LIO" rel="external nofollow noopener" target="_blank">Official or author-linked repository</a></p>
 
-<p><code class="language-plaintext highlighter-rouge">src/laserMapping.cpp</code>의 한 주기 실행 시간이 길다. 코드를 어떤 단계로 계측하고, 최적화가 추정 결과를 바꾸지 않았음을 어떻게 확인하겠는가?</p>
+<p>One cycle of <code class="language-plaintext highlighter-rouge">src/laserMapping.cpp</code> is taking too long. Which stages would you instrument, and how would you confirm that the optimisation did not change the estimation results?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>동기화, IMU propagation·undistortion, downsampling, nearest-neighbor search, 잔차/Jacobian 구성, iterated update, ikd-Tree 삽입·삭제, publish를 각각 계측한다. 평균뿐 아니라 p95/p99와 처리 점 수를 함께 남긴다. 변경 전후 동일 bag에서 timestamp별 pose, 유효 잔차 수, map point 수를 비교하고 허용 오차를 명시한다. 병렬화한다면 공유 map과 correspondence buffer의 race도 thread sanitizer 또는 결정성 반복 실행으로 확인한다.</p>
+  <p>Instrument synchronisation, IMU propagation and undistortion, downsampling, nearest-neighbour search, residual and Jacobian construction, the iterated update, ikd-Tree insertion and deletion, and publishing. Record not just the mean but p95/p99 and the number of points processed. On the same bag before and after the change, compare pose per timestamp, the number of valid residuals and the number of map points, and state the tolerance explicitly. If you parallelise, check for races on the shared map and correspondence buffer with a thread sanitizer or by running deterministically and repeatedly.</p>
 
 </details>
 
-<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
+<h2 id="7-close-reading-and-presentation-record">7. Close-reading and presentation record</h2>
 
-<p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
+<p>Use the summary above as a starting point, check the equations, figures and experiment tables in the original, then fill this in yourself. Keep reproduction results you have not yet run separate from the paper’s results.</p>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left">기록할 항목</th>
-      <th style="text-align: left">개인 리뷰 메모</th>
+      <th style="text-align: left">Item to record</th>
+      <th style="text-align: left">Personal review notes</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left">상태·입력·출력</td>
-      <td style="text-align: left">미작성 — 좌표계, 단위, 센서 주기까지 기록</td>
+      <td style="text-align: left">States, inputs, outputs</td>
+      <td style="text-align: left">Not written — record frames, units and sensor rates</td>
     </tr>
     <tr>
-      <td style="text-align: left">핵심 수식</td>
-      <td style="text-align: left">미작성 — 식 번호, 변수 의미, 가정과 잔차를 설명</td>
+      <td style="text-align: left">Key equations</td>
+      <td style="text-align: left">Not written — explain equation numbers, variable meanings, assumptions and residuals</td>
     </tr>
     <tr>
-      <td style="text-align: left">대표 그림</td>
-      <td style="text-align: left">미작성 — 그림 번호와 데이터 흐름을 본인의 말로 설명</td>
+      <td style="text-align: left">Key figures</td>
+      <td style="text-align: left">Not written — explain the figure number and the data flow in your own words</td>
     </tr>
     <tr>
-      <td style="text-align: left">실험 근거</td>
-      <td style="text-align: left">미작성 — 표·그림 번호, 데이터셋, baseline, 지표와 조건</td>
+      <td style="text-align: left">Experimental evidence</td>
+      <td style="text-align: left">Not written — table/figure numbers, dataset, baselines, metrics and conditions</td>
     </tr>
     <tr>
       <td style="text-align: left">Ablation</td>
-      <td style="text-align: left">미작성 — 어떤 요소를 제거했고 무엇이 바뀌었는지 기록</td>
+      <td style="text-align: left">Not written — which element was removed and what changed</td>
     </tr>
     <tr>
-      <td style="text-align: left">실패 사례·한계</td>
-      <td style="text-align: left">미작성 — 저자 보고와 자신의 추론을 구분</td>
+      <td style="text-align: left">Failure cases and limits</td>
+      <td style="text-align: left">Not written — separate what the authors report from your own inference</td>
     </tr>
     <tr>
-      <td style="text-align: left">코드·재현</td>
-      <td style="text-align: left">미작성 — 버전, 설정, 로그, 장치, 측정 결과</td>
+      <td style="text-align: left">Code and reproduction</td>
+      <td style="text-align: left">Not written — version, configuration, logs, hardware, measurements</td>
     </tr>
     <tr>
-      <td style="text-align: left">최종 판단</td>
-      <td style="text-align: left">미작성 — Vision60에서 채택·보류할 이유</td>
+      <td style="text-align: left">Final judgement</td>
+      <td style="text-align: left">Not written — reasons to adopt or defer for Vision60</td>
     </tr>
   </tbody>
 </table>
 
 <ul class="task-list">
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>핵심 기여 3개를 원문 근거와 함께 설명할 수 있다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I can explain the three key contributions with evidence from the original paper.</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>상태와 관측이 어떻게 연결되는지 설명할 수 있다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I can explain how the states and observations are connected.</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I have separated the paper’s results from the Vision60 application hypotheses.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-lio2/">FAST-LIO2 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
+<p><strong>Read next:</strong> <a href="/study/slam/state-estimation/fast-lio2/">FAST-LIO2 review</a> · <a href="/study/slam/state-estimation/">Full comparison table</a></p>
 
 
 
@@ -574,7 +574,7 @@
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/fast-livo/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>FAST-LIVO — 논문 리뷰</span>
+      <span>FAST-LIVO — paper review</span>
     </a>
   
 </nav>

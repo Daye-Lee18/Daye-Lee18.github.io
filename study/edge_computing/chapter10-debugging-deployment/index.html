@@ -380,6 +380,68 @@ Hardware → Linux → Network → Docker → ROS 2 → CUDA → Application 순
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">dmesg</code> → <code class="language-plaintext highlighter-rouge">ip route</code> → <code class="language-plaintext highlighter-rouge">docker ps</code> → <code class="language-plaintext highlighter-rouge">ros2 topic hz</code></p>
+</blockquote>
+
+<p>아래에서 위로 올라가며 좁힌다. 안 되는 지점에서 멈추면 그게 원인이다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">계층</th>
+      <th style="text-align: left">명령어</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Hardware</td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">dmesg \| tail -30</code> · <code class="language-plaintext highlighter-rouge">lsusb</code> · <code class="language-plaintext highlighter-rouge">ls /dev/tty*</code> · <code class="language-plaintext highlighter-rouge">tegrastats</code>
+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Linux</td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">ps aux \| grep &lt;name&gt;</code> · <code class="language-plaintext highlighter-rouge">journalctl -u &lt;svc&gt; -f</code> · <code class="language-plaintext highlighter-rouge">df -h</code> · <code class="language-plaintext highlighter-rouge">free -h</code> · <code class="language-plaintext highlighter-rouge">htop</code>
+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Network</td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">ip addr</code> · <code class="language-plaintext highlighter-rouge">ip route</code> · <code class="language-plaintext highlighter-rouge">ping -c 3 &lt;ip&gt;</code> · <code class="language-plaintext highlighter-rouge">ss -tuln</code>
+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Docker</td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">docker ps</code> · <code class="language-plaintext highlighter-rouge">docker logs -f &lt;c&gt;</code> · <code class="language-plaintext highlighter-rouge">docker exec -it &lt;c&gt; bash</code>
+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ROS 2</td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">ros2 node list</code> · <code class="language-plaintext highlighter-rouge">ros2 topic list</code> · <code class="language-plaintext highlighter-rouge">ros2 topic hz /t</code> · <code class="language-plaintext highlighter-rouge">ros2 topic echo /t --once</code>
+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">CUDA</td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">nvcc --version</code> · <code class="language-plaintext highlighter-rouge">tegrastats</code> · <code class="language-plaintext highlighter-rouge">trtexec</code>
+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Application</td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">du -sh *</code> · <code class="language-plaintext highlighter-rouge">ros2 bag record</code> · 자체 로그</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-로봇-문제는-한-layer에서만-생기지-않는다">1. 로봇 문제는 한 Layer에서만 생기지 않는다</h1>
 
 <p>예를 들어 FAST-LIO2가 제대로 동작하지 않는다고 하자.</p>

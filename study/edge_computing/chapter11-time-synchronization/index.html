@@ -378,6 +378,66 @@ NTP, PTP, hardware timestamp, ROS 2 timestamp가 어떻게 연결되는지 이�
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">timedatectl</code> · <code class="language-plaintext highlighter-rouge">chronyc tracking</code> · <code class="language-plaintext highlighter-rouge">ros2 topic hz</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">date</code></td>
+      <td style="text-align: left">지금 시각</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">timedatectl status</code></td>
+      <td style="text-align: left">시각·타임존·NTP 동기화 여부</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo timedatectl set-ntp true</code></td>
+      <td style="text-align: left">NTP 동기화 켜기</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">chronyc tracking</code></td>
+      <td style="text-align: left">
+<strong>얼마나 어긋나 있는지</strong> (offset)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">chronyc sources -v</code></td>
+      <td style="text-align: left">어느 서버와 맞추고 있는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo chronyc makestep</code></td>
+      <td style="text-align: left">즉시 강제 동기화</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo ptp4l -i eth0 -m</code></td>
+      <td style="text-align: left">PTP 하드웨어 동기화 (μs급)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic echo /imu --field header.stamp</code></td>
+      <td style="text-align: left">메시지 timestamp 직접 보기</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic hz /imu</code></td>
+      <td style="text-align: left">실제 주기</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 param set /node use_sim_time true</code></td>
+      <td style="text-align: left">bag 재생 시 시뮬레이션 시각 사용</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-로봇에서-시간은-왜-중요한가">1. 로봇에서 시간은 왜 중요한가?</h1>
 
 <p>Sensor fusion은 단순히 여러 센서 데이터를 동시에 사용하는 것이 아니다.</p>

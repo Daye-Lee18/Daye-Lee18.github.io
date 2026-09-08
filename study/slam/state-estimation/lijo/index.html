@@ -17,12 +17,12 @@
   
   
     
-      LIJO — 논문 리뷰 | Daye Lee
+      LIJO — paper review | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="LiDAR·IMU·관절 속도 정보를 EKF로 결합해 4족 odometry의 고주파 jitter를 줄이는 연구다.">
+<meta name="description" content="Combines LiDAR, IMU and joint velocity information in an EKF to reduce high-frequency jitter in quadruped odometry.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -364,188 +364,188 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">LIJO — 논문 리뷰</h1>
-    <p class="post-description">LiDAR·IMU·관절 속도 정보를 EKF로 결합해 4족 odometry의 고주파 jitter를 줄이는 연구다.</p>
+    <h1 class="post-title">LIJO — paper review</h1>
+    <p class="post-description">Combines LiDAR, IMU and joint velocity information in an EKF to reduce high-frequency jitter in quadruped odometry.</p>
   </header>
 
   <article>
-    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← State estimation paper comparison</a></p>
 
 <blockquote>
-  <p><strong>한 문장 요약:</strong> LiDAR·IMU·관절 속도 정보를 EKF로 결합해 4족 odometry의 고주파 jitter를 줄이는 연구다.</p>
+  <p><strong>One-sentence summary:</strong> Combines LiDAR, IMU and joint velocity information in an EKF to reduce high-frequency jitter in quadruped odometry.</p>
 </blockquote>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left">항목</th>
-      <th style="text-align: left">내용</th>
+      <th style="text-align: left">Item</th>
+      <th style="text-align: left">Detail</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left">논문</td>
+      <td style="text-align: left">Paper</td>
       <td style="text-align: left">Smooth LiDAR–Inertial–Joint Odometry for perception-driven legged locomotion</td>
     </tr>
     <tr>
-      <td style="text-align: left">발표</td>
+      <td style="text-align: left">Venue</td>
       <td style="text-align: left">Robot Learning · 2026-08-10</td>
     </tr>
     <tr>
-      <td style="text-align: left">자료</td>
-      <td style="text-align: left"><a href="https://www.elspub.com/doi/10.55092/rl20260024" rel="external nofollow noopener" target="_blank">논문·저자 자료</a></td>
+      <td style="text-align: left">Source</td>
+      <td style="text-align: left"><a href="https://www.elspub.com/doi/10.55092/rl20260024" rel="external nofollow noopener" target="_blank">Paper / author material</a></td>
     </tr>
     <tr>
-      <td style="text-align: left">정리 상태</td>
-      <td style="text-align: left">입문 리뷰 초안 · 개인 정독·재현 기록은 아래에 추가</td>
+      <td style="text-align: left">Status</td>
+      <td style="text-align: left">Introductory review draft · personal close-reading and reproduction notes added below</td>
     </tr>
     <tr>
-      <td style="text-align: left">자료 확인일</td>
+      <td style="text-align: left">Source checked</td>
       <td style="text-align: left">2026-09-07</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="1-해결하려는-문제">1. 해결하려는 문제</h2>
+<h2 id="1-the-problem-it-addresses">1. The problem it addresses</h2>
 
-<p>정지·저속에서 pose가 흔들리면 인지·계획·제어에 불안정한 상태가 전달될 수 있다.</p>
+<p>If the pose wobbles at rest or low speed, an unstable state can be passed on to perception, planning and control.</p>
 
-<h2 id="2-발표할-핵심-3개">2. 발표할 핵심 3개</h2>
+<h2 id="2-three-key-points-to-present">2. Three key points to present</h2>
 
 <ol>
   <li>
-<strong>관절 기반 몸통 속도:</strong> 관절각·각속도와 순기구학으로 속도를 추정해 EKF 예측에 사용한다.</li>
+<strong>Joint-based body velocity:</strong> velocity is estimated from joint angles and rates via forward kinematics and used in the EKF prediction.</li>
   <li>
-<strong>동적 가중치:</strong> 운동 속도에 따라 관절 기반 속도 정보의 신뢰도를 조절한다.</li>
+<strong>Dynamic weighting:</strong> the confidence in the joint-based velocity information is adjusted according to the motion speed.</li>
   <li>
-<strong>IMU 관측 모델:</strong> IMU를 관측으로 취급하며 manifold EKF에서 센서들을 결합한다.</li>
+<strong>IMU observation model:</strong> the IMU is treated as an observation and the sensors are combined in a manifold EKF.</li>
 </ol>
 
-<p>기술 요약 근거: <a href="https://www.elspub.com/doi/10.55092/rl20260024" rel="external nofollow noopener" target="_blank">논문·저자 설명</a>.</p>
+<p>Basis for this technical summary: <a href="https://www.elspub.com/doi/10.55092/rl20260024" rel="external nofollow noopener" target="_blank">paper / author description</a>.</p>
 
-<h2 id="3-동작-구조">3. 동작 구조</h2>
+<h2 id="3-how-it-works">3. How it works</h2>
 
-<p>아래는 이해를 위한 개념 흐름이며 구현의 모든 스레드·갱신 주기를 나타내지는 않는다.</p>
+<p>The diagram below is a conceptual flow for understanding; it does not show every thread and update rate in the implementation.</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>관절각·각속도 → 운동학 속도·가중치 → EKF 예측 → IMU·LiDAR 관측 반영 → odometry
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>joint angles and rates → kinematic velocity and weighting → EKF prediction → IMU and LiDAR observation update → odometry
 </code></pre></div></div>
 
-<p>이 흐름은 출판사 초록의 개념 요약이다. 접촉 판정, 가중치 식, 정확한 상태 벡터와 갱신 스케줄은 본문 검증이 필요하다. 속도 의존 가중치를 곧바로 슬립 확률로 해석하지 않는다.</p>
+<p>This flow is a conceptual summary of the publisher’s abstract. Contact determination, the weighting formula, the exact state vector and the update schedule need verification against the full text. Do not read the speed-dependent weighting directly as a slip probability.</p>
 
-<h2 id="4-실험-결과와-해석">4. 실험 결과와 해석</h2>
+<h2 id="4-experimental-results-and-interpretation">4. Experimental results and interpretation</h2>
 
-<p>출판사 초록은 급한 계단과 큰 루프 궤적을 포함하는 실제 4족 실험에서 정확도를 유지하면서 고주파 jitter를 줄였다고 보고한다. 정량 수치·ablation은 이 페이지에서 아직 검증하지 않았다. <a href="https://www.elspub.com/doi/10.55092/rl20260024" rel="external nofollow noopener" target="_blank">출처</a></p>
+<p>The publisher’s abstract reports that in real quadruped experiments including steep stairs and large loop trajectories, high-frequency jitter was reduced while accuracy was maintained. The quantitative figures and ablations have not yet been verified on this page. <a href="https://www.elspub.com/doi/10.55092/rl20260024" rel="external nofollow noopener" target="_blank">Source</a></p>
 
-<p><strong>출판사 초록 기반 1차 리뷰.</strong> 지도 정확도와 제어에 유용한 매끄러움은 다른 지표다. 실제 제어 성능 개선은 별도 실험으로 확인해야 한다.</p>
+<p><strong>A first-pass review based on the publisher’s abstract.</strong> Map accuracy and the kind of smoothness that is useful for control are different metrics. Any actual improvement in control performance has to be confirmed by a separate experiment.</p>
 
-<p>정독할 때는 비교 방법 이름뿐 아니라 센서 구성, ground truth, 궤적 정렬 방식, 실행 장치와 실패 구간 포함 여부를 함께 기록한다.</p>
+<p>When reading closely, record not only the names of the compared methods but also the sensor configuration, ground truth, trajectory alignment method, the compute platform, and whether failed segments are included.</p>
 
-<h2 id="5-vision60-적용-질문">5. Vision60 적용 질문</h2>
+<h2 id="5-vision60-application-questions">5. Vision60 application questions</h2>
 
-<p>다음은 논문의 검증 결과와 구분한 <strong>프로젝트 적용 가설·검토 질문</strong>이다.</p>
+<p>The following are <strong>project application hypotheses and review questions</strong>, kept separate from the paper’s validated results.</p>
 
 <ol>
-  <li>동적 가중치가 저속 슬립과 고속 정상 접촉을 구별할 수 있는가?</li>
-  <li>jitter 감소에 필터 지연 증가나 실제 운동 감쇠가 동반되는가?</li>
-  <li>VILENS의 속도 bias 추정과 비교할 때 무엇을 상태로, 무엇을 가중치로 표현하는가?</li>
+  <li>Can the dynamic weighting distinguish low-speed slip from high-speed normal contact?</li>
+  <li>Does the jitter reduction come with increased filter latency or attenuation of real motion?</li>
+  <li>Compared with VILENS’s velocity bias estimation, what is expressed as a state and what as a weight?</li>
 </ol>
 
-<p><strong>제안 실험:</strong> 정지·저속·착지 구간에서 pose 및 속도 분산, 상대 오차, 지연을 함께 측정한다. 단순 저역통과 필터도 비교군으로 두어 관절 융합 자체의 효과를 분리한다.</p>
+<p><strong>Proposed experiment:</strong> measure pose and velocity variance, relative error and latency together over stationary, low-speed and landing segments. Include a plain low-pass filter as a control group to isolate the effect of the joint fusion itself.</p>
 
-<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+<h2 id="6-check-questions">6. Check questions</h2>
 
-<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+<p>Answer each question out loud first, then open the toggle. Practise stating the assumptions and equations together with the failure conditions and how you would verify them.</p>
 
-<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+<h3 id="q1-concept-and-structure">Q1. Concept and structure</h3>
 
-<p>LIJO의 관절 기반 속도 제약과 단순 저역통과 필터가 pose jitter를 줄이는 방식의 차이는 무엇인가?</p>
+<p>How does LIJO’s joint-based velocity constraint differ from a plain low-pass filter in the way it reduces pose jitter?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>저역통과 필터는 출력의 고주파 성분을 제거하지만 새로운 물리 관측을 추가하지 않고 지연을 만든다. 관절 기반 속도는 운동학에서 얻은 독립 제약을 상태 추정에 넣는다. 다만 slip과 모델 오류가 있으면 이 제약도 bias될 수 있어 가중치·접촉 처리가 필요하다.</p>
+  <p>A low-pass filter removes high-frequency content from the output without adding any new physical observation, and it introduces latency. Joint-based velocity puts an independent constraint obtained from kinematics into the state estimate. That said, slip and model error can bias this constraint too, so weighting and contact handling are needed.</p>
 
 </details>
 
-<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+<h3 id="q2-math-and-reasoning">Q2. Math and reasoning</h3>
 
-<p>LiDAR 속도 관측 (z_L=v+n_L), 관절 속도 관측 (z_K=v+n_K)의 분산이 각각 (\sigma_L^2,\sigma_K^2)일 때 1차원 최적 융합값과 분산을 쓰라.</p>
+<p>Given a LiDAR velocity observation (z_L=v+n_L) and a joint velocity observation (z_K=v+n_K) with variances (\sigma_L^2) and (\sigma_K^2), write the optimal one-dimensional fused value and its variance.</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>독립 Gaussian이면 (\hat v=(z_L/\sigma_L^2+z_K/\sigma_K^2)/(1/\sigma_L^2+1/\sigma_K^2)), (\sigma^2=(1/\sigma_L^2+1/\sigma_K^2)^{-1})이다. slip 때 (\sigma_K^2)를 키우면 관절 관측 영향이 줄어든다. 두 noise가 상관되거나 bias가 있으면 이 식은 과신할 수 있다.</p>
+  <p>For independent Gaussians, (\hat v=(z_L/\sigma_L^2+z_K/\sigma_K^2)/(1/\sigma_L^2+1/\sigma_K^2)) and (\sigma^2=(1/\sigma_L^2+1/\sigma_K^2)^{-1}). Increasing (\sigma_K^2) during slip reduces the influence of the joint observation. If the two noises are correlated or biased, this expression can be overconfident.</p>
 
 </details>
 
-<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+<h3 id="q3-systems-and-debugging">Q3. Systems and debugging</h3>
 
-<p>정지 jitter RMS는 줄었는데 계단 착지 응답이 늦어졌다. 채택 여부를 어떻게 판단할 것인가?</p>
+<p>The stationary jitter RMS is down, but the response on landing on a stair is slower. How would you decide whether to adopt it?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>정확도, smoothness, latency를 별도 지표로 측정한다. 정지 pose·velocity RMS, 착지 이벤트의 위상 지연·rise time, 상대 pose error와 실제 제어 tracking·안정성을 비교한다. 동적 가중치와 단순 필터 baseline을 ablation해 jitter 감소가 정보 융합 때문인지 smoothing 때문인지 분리한다.</p>
+  <p>Measure accuracy, smoothness and latency as separate metrics. Compare stationary pose and velocity RMS, the phase lag and rise time of landing events, relative pose error, and the actual control tracking and stability. Ablate the dynamic weighting against a plain filter baseline to separate whether the jitter reduction comes from information fusion or from smoothing.</p>
 
 </details>
 
-<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
+<h2 id="7-close-reading-and-presentation-record">7. Close-reading and presentation record</h2>
 
-<p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
+<p>Use the summary above as a starting point, check the equations, figures and experiment tables in the original, then fill this in yourself. Keep reproduction results you have not yet run separate from the paper’s results.</p>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left">기록할 항목</th>
-      <th style="text-align: left">개인 리뷰 메모</th>
+      <th style="text-align: left">Item to record</th>
+      <th style="text-align: left">Personal review notes</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left">상태·입력·출력</td>
-      <td style="text-align: left">미작성 — 좌표계, 단위, 센서 주기까지 기록</td>
+      <td style="text-align: left">States, inputs, outputs</td>
+      <td style="text-align: left">Not written — record frames, units and sensor rates</td>
     </tr>
     <tr>
-      <td style="text-align: left">핵심 수식</td>
-      <td style="text-align: left">미작성 — 식 번호, 변수 의미, 가정과 잔차를 설명</td>
+      <td style="text-align: left">Key equations</td>
+      <td style="text-align: left">Not written — explain equation numbers, variable meanings, assumptions and residuals</td>
     </tr>
     <tr>
-      <td style="text-align: left">대표 그림</td>
-      <td style="text-align: left">미작성 — 그림 번호와 데이터 흐름을 본인의 말로 설명</td>
+      <td style="text-align: left">Key figures</td>
+      <td style="text-align: left">Not written — explain the figure number and the data flow in your own words</td>
     </tr>
     <tr>
-      <td style="text-align: left">실험 근거</td>
-      <td style="text-align: left">미작성 — 표·그림 번호, 데이터셋, baseline, 지표와 조건</td>
+      <td style="text-align: left">Experimental evidence</td>
+      <td style="text-align: left">Not written — table/figure numbers, dataset, baselines, metrics and conditions</td>
     </tr>
     <tr>
       <td style="text-align: left">Ablation</td>
-      <td style="text-align: left">미작성 — 어떤 요소를 제거했고 무엇이 바뀌었는지 기록</td>
+      <td style="text-align: left">Not written — which element was removed and what changed</td>
     </tr>
     <tr>
-      <td style="text-align: left">실패 사례·한계</td>
-      <td style="text-align: left">미작성 — 저자 보고와 자신의 추론을 구분</td>
+      <td style="text-align: left">Failure cases and limits</td>
+      <td style="text-align: left">Not written — separate what the authors report from your own inference</td>
     </tr>
     <tr>
-      <td style="text-align: left">코드·재현</td>
-      <td style="text-align: left">미작성 — 버전, 설정, 로그, 장치, 측정 결과</td>
+      <td style="text-align: left">Code and reproduction</td>
+      <td style="text-align: left">Not written — version, configuration, logs, hardware, measurements</td>
     </tr>
     <tr>
-      <td style="text-align: left">최종 판단</td>
-      <td style="text-align: left">미작성 — Vision60에서 채택·보류할 이유</td>
+      <td style="text-align: left">Final judgement</td>
+      <td style="text-align: left">Not written — reasons to adopt or defer for Vision60</td>
     </tr>
   </tbody>
 </table>
 
 <ul class="task-list">
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>핵심 기여 3개를 원문 근거와 함께 설명할 수 있다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I can explain the three key contributions with evidence from the original paper.</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>상태와 관측이 어떻게 연결되는지 설명할 수 있다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I can explain how the states and observations are connected.</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I have separated the paper’s results from the Vision60 application hypotheses.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/vilens/">VILENS 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
+<p><strong>Read next:</strong> <a href="/study/slam/state-estimation/vilens/">VILENS review</a> · <a href="/study/slam/state-estimation/">Full comparison table</a></p>
 
 
 

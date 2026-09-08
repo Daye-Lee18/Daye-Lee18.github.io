@@ -22,7 +22,7 @@
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="SLAM의 역사와 LiDAR-inertial state estimation을 단계별로 공부합니다.">
+<meta name="description" content="A step-by-step study of the history of SLAM and of LiDAR-inertial state estimation.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -365,35 +365,35 @@
 <div class="post">
   <header class="post-header">
     <h1 class="post-title">SLAM</h1>
-    <p class="post-description">SLAM의 역사와 LiDAR-inertial state estimation을 단계별로 공부합니다.</p>
+    <p class="post-description">A step-by-step study of the history of SLAM and of LiDAR-inertial state estimation.</p>
   </header>
 
   <article>
-    <p>SLAM 학습은 두 갈래로 구성했습니다. 먼저 History에서 문제의 정의와 알고리즘의 변화를 익힌 뒤, LIO에서 Vision60에 적용한 FAST-LIO2와 관련 시스템을 비교합니다.</p>
+    <p>This SLAM study is organised in two tracks. History first covers how the problem is defined and how the algorithms changed; LIO then compares FAST-LIO2, which is deployed on Vision60, with related systems.</p>
 
 <div class="study-section-list">
   <a class="study-section-card" href="/study/slam/history/">
     <span class="study-section-kicker">Part 1 · 12 chapters</span>
     <strong>SLAM History</strong>
-    <span>확률적 SLAM부터 Graph SLAM, Visual SLAM, LIO, Spatial AI까지 흐름을 짧은 장으로 학습합니다.</span>
+    <span>Short chapters tracing the flow from probabilistic SLAM through Graph SLAM, Visual SLAM, LIO and Spatial AI.</span>
   </a>
-  <a class="study-section-card" href="/study/slam/lio/">
+  <a class="study-section-card" href="/study/slam/state-estimation/">
     <span class="study-section-kicker">Part 2 · paper reviews</span>
     <strong>LIO &amp; State Estimation</strong>
-    <span>FAST-LIO2를 기준으로 LIO-SAM, FAST-LIVO2, VILENS 등 센서 융합 구조와 논문을 비교합니다.</span>
+    <span>Using FAST-LIO2 as the reference point, compares the sensor-fusion architectures and papers of LIO-SAM, FAST-LIVO2, VILENS and others.</span>
   </a>
 </div>
 
-<h2 id="추천-학습-순서">추천 학습 순서</h2>
+<h2 id="suggested-study-order">Suggested study order</h2>
 
 <ol>
-  <li>History 1~3장에서 SLAM 문제와 filtering 계열을 이해합니다.</li>
-  <li>4~7장에서 3D 회전, ICP, factor graph와 희소 최적화를 연결합니다.</li>
-  <li>8~12장에서 센서·지도 표현·LIO·학습 기반 방법과 평가를 살펴봅니다.</li>
-  <li>LIO &amp; State Estimation에서 관심 논문의 구조와 실제 로봇 적용 조건을 정리합니다.</li>
+  <li>Chapters 1–3 of History explain the SLAM problem and the filtering family.</li>
+  <li>Chapters 4–7 connect 3D rotation, ICP, factor graphs and sparse optimisation.</li>
+  <li>Chapters 8–12 cover sensors, map representations, LIO, learning-based methods and evaluation.</li>
+  <li>LIO &amp; State Estimation organises the architecture of each paper of interest and the conditions for applying it on a real robot.</li>
 </ol>
 
-<p>다운로드한 공개 슬라이드와 논문은 로컬 <code class="language-plaintext highlighter-rouge">_resource/slam</code>에 보관하고, 출처와 원문 링크는 <a href="https://github.com/Daye-Lee18/Daye-Lee18.github.io/tree/main/_resource/slam" rel="external nofollow noopener" target="_blank">자료 색인</a>에 기록합니다.</p>
+<p>Downloaded public slides and papers are kept locally in <code class="language-plaintext highlighter-rouge">_resource/slam</code>; sources and original links are recorded in the <a href="https://github.com/Daye-Lee18/Daye-Lee18.github.io/tree/main/_resource/slam" rel="external nofollow noopener" target="_blank">resource index</a>.</p>
 
   </article>
 

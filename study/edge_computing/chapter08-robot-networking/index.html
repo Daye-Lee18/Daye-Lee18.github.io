@@ -378,6 +378,81 @@ IP, subnet, gateway, routing, DNS, DHCP, SSH, Wi-Fi, Ethernet, ROS 2 통신이
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">ip addr</code> · <code class="language-plaintext highlighter-rouge">ping</code> · <code class="language-plaintext highlighter-rouge">ros2 topic hz</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ip addr</code></td>
+      <td style="text-align: left">인터페이스와 IP</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ip link</code></td>
+      <td style="text-align: left">up/down 상태</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ip route</code></td>
+      <td style="text-align: left">어느 인터페이스로 나가는지 (<strong>여러 개일 때 필수</strong>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ip -s link</code></td>
+      <td style="text-align: left">인터페이스별 송수신·drop 통계</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ping -c 3 &lt;ip&gt;</code></td>
+      <td style="text-align: left">물리적으로 닿는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ethtool eth0</code></td>
+      <td style="text-align: left">링크 속도와 duplex</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">nmcli con show</code></td>
+      <td style="text-align: left">NetworkManager 연결 설정</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ss -tuln</code></td>
+      <td style="text-align: left">열려 있는 port</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo tcpdump -i eth0 -n</code></td>
+      <td style="text-align: left">실제로 패킷이 오가는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">iperf3 -s</code> / <code class="language-plaintext highlighter-rouge">iperf3 -c &lt;ip&gt;</code>
+</td>
+      <td style="text-align: left">실제 대역폭 측정</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo ufw status</code></td>
+      <td style="text-align: left">방화벽이 막고 있는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">echo $ROS_DOMAIN_ID</code> / <code class="language-plaintext highlighter-rouge">echo $RMW_IMPLEMENTATION</code>
+</td>
+      <td style="text-align: left">양쪽이 같아야 통신됨</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic hz /topic</code></td>
+      <td style="text-align: left">네트워크 너머로 실제 도착하는 주기</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-로봇에서-network가-왜-중요한가">1. 로봇에서 Network가 왜 중요한가?</h1>
 
 <p>현대 로봇은 하나의 컴퓨터만 사용하는 경우가 드물다.</p>

@@ -382,6 +382,74 @@ Single Point of Failure, Recovery, Redundant Sensor의 개념을
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">systemctl status</code> · <code class="language-plaintext highlighter-rouge">journalctl -u</code> · <code class="language-plaintext highlighter-rouge">ros2 topic hz</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo systemctl status &lt;svc&gt;</code></td>
+      <td style="text-align: left">살아 있는지, 몇 번 죽었는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo systemctl restart &lt;svc&gt;</code></td>
+      <td style="text-align: left">수동 복구</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">journalctl -u &lt;svc&gt; -b</code></td>
+      <td style="text-align: left">이번 부팅 이후 그 서비스 로그</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">journalctl -p err -b</code></td>
+      <td style="text-align: left">이번 부팅의 error만</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">journalctl --since "1 hour ago"</code></td>
+      <td style="text-align: left">죽기 직전 구간</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker run --restart unless-stopped</code></td>
+      <td style="text-align: left">컨테이너 자동 재시작</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker ps -a</code></td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">Exited (1)</code> 같은 종료 코드 확인</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker inspect &lt;c&gt; --format ''</code></td>
+      <td style="text-align: left">몇 번 재시작됐는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic hz /heartbeat</code></td>
+      <td style="text-align: left">heartbeat가 끊겼는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">watch -n 1 'ros2 node list'</code></td>
+      <td style="text-align: left">node가 사라지는 순간 포착</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 bag record -a</code></td>
+      <td style="text-align: left">재현용 데이터 남기기</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">uptime</code></td>
+      <td style="text-align: left">마지막 재부팅 이후 시간</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-reliability란">1. Reliability란?</h1>
 
 <p>Reliability는:</p>

@@ -378,6 +378,73 @@ JetPack, Ubuntu, L4T, CUDA, cuDNN, TensorRT가 서로 어떤 관계인지 이해
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">tegrastats</code> · <code class="language-plaintext highlighter-rouge">nvpmodel -q</code> · <code class="language-plaintext highlighter-rouge">cat /etc/nv_tegra_release</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cat /etc/nv_tegra_release</code></td>
+      <td style="text-align: left">
+<strong>JetPack / L4T 버전</strong> — Jetson에서 가장 먼저 볼 것</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cat /etc/os-release</code></td>
+      <td style="text-align: left">Ubuntu 버전</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">uname -a</code></td>
+      <td style="text-align: left">커널 버전</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">uname -m</code></td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">aarch64</code> 확인</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">tegrastats</code></td>
+      <td style="text-align: left">CPU·GPU·RAM·온도·전력 실시간 (Jetson 전용)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo nvpmodel -q</code></td>
+      <td style="text-align: left">현재 전력 모드 조회</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo nvpmodel -m 0</code></td>
+      <td style="text-align: left">최대 성능 모드로 전환</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo jetson_clocks</code></td>
+      <td style="text-align: left">클럭을 최대로 고정</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">nvcc --version</code></td>
+      <td style="text-align: left">CUDA toolkit 버전</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">free -h</code> / <code class="language-plaintext highlighter-rouge">df -h</code>
+</td>
+      <td style="text-align: left">RAM·디스크 (Jetson은 둘 다 빠듯하다)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo apt install nvidia-jetpack</code></td>
+      <td style="text-align: left">JetPack 구성요소 설치</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-jetson은-정확히-무엇인가">1. Jetson은 정확히 무엇인가?</h1>
 
 <p>NVIDIA Jetson은 로봇, 드론, 자율주행, AI Edge Computing 등을 위해 만들어진

@@ -381,6 +381,77 @@ Jetson/robot fleet을 실제 production 환경에서 어떻게 운영하는지 �
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">ssh</code> · <code class="language-plaintext highlighter-rouge">docker pull</code> · <code class="language-plaintext highlighter-rouge">systemctl restart</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ssh user@robot</code></td>
+      <td style="text-align: left">원격 접속</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ssh-copy-id user@robot</code></td>
+      <td style="text-align: left">키 등록 (비밀번호 없이)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">scp file user@robot:/path</code></td>
+      <td style="text-align: left">파일 하나 복사</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">rsync -avz --progress src/ user@robot:/dst/</code></td>
+      <td style="text-align: left">큰 디렉토리 동기화 (재개 가능)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">git clone</code> / <code class="language-plaintext highlighter-rouge">git pull</code>
+</td>
+      <td style="text-align: left">소스 배포</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">git rev-parse --short HEAD</code></td>
+      <td style="text-align: left"><strong>지금 배포된 버전이 뭔지</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker pull registry/img:v1.2.3</code></td>
+      <td style="text-align: left">이미지 배포</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">docker tag</code> / <code class="language-plaintext highlighter-rouge">docker push</code>
+</td>
+      <td style="text-align: left">registry에 올리기</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo systemctl restart &lt;svc&gt;</code></td>
+      <td style="text-align: left">서비스 재시작</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo systemctl enable &lt;svc&gt;</code></td>
+      <td style="text-align: left">부팅 시 자동 시작</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ansible -i hosts all -m ping</code></td>
+      <td style="text-align: left">여러 대 한꺼번에</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">hostnamectl</code></td>
+      <td style="text-align: left">device identity 확인</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-robot-한-대와-robot-100대는-완전히-다른-문제다">1. Robot 한 대와 Robot 100대는 완전히 다른 문제다</h1>
 
 <p>Robot이 한 대라면:</p>

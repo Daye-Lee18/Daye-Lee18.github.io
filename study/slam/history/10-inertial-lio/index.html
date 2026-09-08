@@ -17,12 +17,12 @@
   
   
     
-      Chapter 10. IMU 융합에서 LIO까지 | Daye Lee
+      Chapter 10. From IMU fusion to LIO | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="빠른 관성 예측과 외부 관측이 서로 필요한 이유.">
+<meta name="description" content="Why fast inertial prediction and external observations need each other.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -364,94 +364,151 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Chapter 10. IMU 융합에서 LIO까지</h1>
-    <p class="post-description">빠른 관성 예측과 외부 관측이 서로 필요한 이유.</p>
+    <h1 class="post-title">Chapter 10. From IMU fusion to LIO</h1>
+    <p class="post-description">Why fast inertial prediction and external observations need each other.</p>
   </header>
 
   <article>
     <blockquote>
-  <p><strong>목표:</strong> IMU drift, deskew, filtering/smoothing의 관계를 설명한다.<br>
-<strong>학습량:</strong> 15분. 이 장은 다음 LIO 파트의 입구다.</p>
+  <p><strong>Goal:</strong> Explain IMU drift, deskew, and the relationship between filtering and smoothing.<br>
+<strong>Workload:</strong> 15 minutes. This chapter is the doorway to the LIO part.</p>
 </blockquote>
 
-<h2 id="1-imu가-있으면-왜-도움이-될까">1. IMU가 있으면 왜 도움이 될까?</h2>
+<h2 id="1-why-does-having-an-imu-help">1. Why does having an IMU help?</h2>
 
-<p>IMU는 고속으로 각속도와 specific force를 제공한다. Accelerometer 값은 세계 좌표의 위치 가속도 그 자체가 아니다. 회전, 중력, bias를 고려해야 한다. 적분 과정에서 작은 오차가 누적되기 때문에 외부 센서 관측으로 보정하는 aided navigation이 필요하다. <a href="https://drive.google.com/file/d/1byqGAKCCsnv8rZbko4RBG9KiQQD_4h8x/view" rel="external nofollow noopener" target="_blank">KRoC IMU 강연</a>은 INS의 문제와 보조 관측의 역할을 설명한다.</p>
+<p>A LiDAR fires at 10 Hz. Between two scans, 100 ms pass — and a robot that lands from a step can rotate 20° in that time. The LiDAR simply has no opinion about what happened in between.</p>
 
-<h2 id="2-한-scan도-한-순간에-찍힌-것이-아니다">2. 한 scan도 한 순간에 찍힌 것이 아니다</h2>
+<p>An IMU runs at 200–1000 Hz and fills that gap:</p>
 
-<p>회전식 LiDAR의 점들은 서로 다른 시각에 측정된다. 이동 중의 점군을 한 시각의 관측처럼 겹치면 벽이 휘거나 이중으로 보일 수 있다. Deskew는 측정 시점 사이의 움직임을 반영해 점들을 기준 시각으로 옮기는 과정이다. Timestamp와 extrinsic이 잘못되면 센서 수를 늘려도 해결되지 않는다.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  LiDAR    ●─────────────────────────────●          2 samples in 200 ms
+  IMU      ●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●        ~200 samples
+           └──────── the IMU knows what happened here ────────┘
+</code></pre></div></div>
 
-<h2 id="3-대표-시스템의-설계를-비교하기">3. 대표 시스템의 설계를 비교하기</h2>
+<p>But an accelerometer does not report “acceleration”. It reports <strong>specific force</strong>, which is not the same thing, and the difference bites immediately. A robot sitting perfectly still on a table reads:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  accelerometer output   (0, 0, +9.81)  m/s²
+  actual acceleration    (0, 0,  0)     m/s²   ← it is not moving at all
+</code></pre></div></div>
+
+<p>Integrate the raw reading twice and after 10 seconds the “position” has climbed 490 m into the air. Gravity has to be subtracted first, and to subtract it you must know which way is down — which means knowing your orientation. So attitude, gravity and bias all have to be handled before an accelerometer says anything useful about motion.</p>
+
+<p>And even then, integration only accumulates error (§4), which is why aided navigation with external sensor observations is needed. The <a href="https://drive.google.com/file/d/1byqGAKCCsnv8rZbko4RBG9KiQQD_4h8x/view" rel="external nofollow noopener" target="_blank">KRoC IMU lecture</a> explains the problems of INS and the role of aiding observations.</p>
+
+<h2 id="2-a-single-scan-is-not-captured-at-a-single-instant">2. A single scan is not captured at a single instant</h2>
+
+<p>The word “scan” makes it sound like a photograph. It is not. A spinning LiDAR sweeps around over 100 ms, and each point is measured at a different moment along the way.</p>
+
+<p>If the robot is moving at 1 m/s, the first and last points of one scan were taken from positions 10 cm apart:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  point index      when measured      robot was at
+       0              t + 0 ms           x = 0.00
+    1000              t + 25 ms          x = 0.025
+    2000              t + 50 ms          x = 0.050
+    3000              t + 75 ms          x = 0.075
+    4000              t + 100 ms         x = 0.100
+</code></pre></div></div>
+
+<p>Treat all of them as if they came from one place and a straight wall comes out bent:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   what the wall is        what the raw scan looks like
+
+        ║                          ╲
+        ║                           ╲     smeared by 10 cm
+        ║                            ╲    across the sweep
+        ║                             ╲
+</code></pre></div></div>
+
+<p>Deskew undoes this: using the IMU-derived motion, each point is moved to where it would have been had it been measured at one common reference time. It is not an optional polish step — without it, ICP is being handed a wall that genuinely is bent, and it will faithfully estimate a wrong pose from it.</p>
+
+<p>Note what deskew needs: an accurate per-point timestamp and an accurate extrinsic between LiDAR and IMU. If those are wrong, adding more sensors will not fix it.</p>
+
+<h2 id="3-comparing-the-design-of-representative-systems">3. Comparing the design of representative systems</h2>
 
 <table>
   <thead>
     <tr>
-      <th>시스템</th>
-      <th>대표적인 추정 방식</th>
-      <th>읽으면서 찾을 요소</th>
+      <th>System</th>
+      <th>Representative estimation approach</th>
+      <th>What to look for while reading</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>LIO-SAM (2020)</td>
-      <td>Factor graph를 활용한 tightly coupled LIO</td>
-      <td>IMU preintegration, LiDAR odometry, loop/GPS factor</td>
+      <td>Tightly coupled LIO built on a factor graph</td>
+      <td>IMU preintegration, LiDAR odometry, loop/GPS factors</td>
     </tr>
     <tr>
       <td>FAST-LIO2 (2021 preprint)</td>
-      <td>Iterated Kalman filter 기반 direct LIO</td>
-      <td>원시 점의 scan-to-map 정합, incremental map 관리</td>
+      <td>Direct LIO based on an iterated Kalman filter</td>
+      <td>Raw-point scan-to-map registration, incremental map management</td>
     </tr>
   </tbody>
 </table>
 
-<p><a href="https://arxiv.org/abs/2007.00258" rel="external nofollow noopener" target="_blank">LIO-SAM</a>은 IMU 정보를 deskew와 초기 추정에 사용하고 factor graph로 측정을 결합한다. <a href="https://arxiv.org/abs/2107.06829" rel="external nofollow noopener" target="_blank">FAST-LIO2</a>는 직접적인 점군 정합과 효율적인 map 자료구조를 결합한다. 이 비교는 정확도 순위가 아니라 설계 차이다. FAST-LIO2의 local mapping만 보고 전역 loop closure가 자동 포함된다고 가정하면 안 된다.</p>
+<p><a href="https://arxiv.org/abs/2007.00258" rel="external nofollow noopener" target="_blank">LIO-SAM</a> uses IMU information for deskew and for the initial guess, and combines measurements in a factor graph. <a href="https://arxiv.org/abs/2107.06829" rel="external nofollow noopener" target="_blank">FAST-LIO2</a> combines direct point cloud registration with an efficient map data structure. This comparison is a difference of design, not an accuracy ranking. Do not assume that FAST-LIO2’s local mapping automatically includes global loop closure.</p>
 
-<h2 id="4-손계산-예제">4. 손계산 예제</h2>
+<h2 id="4-a-hand-calculation">4. A hand calculation</h2>
 
-<p>자세 오차와 다른 잡음을 무시하고 가속도 bias가 일정하게 $0.01m/s^2$라고 하자. 10초 적분하면 위치 오차 항은 $\frac12bt^2=0.5m$다. 작은 bias도 시간이 지나면 무시하기 어렵다.</p>
+<p>Bias is a small constant offset the accelerometer always adds. Suppose it is $0.01\,m/s^2$ — one thousandth of gravity, an amount you would never notice on a datasheet.</p>
 
-<h2 id="면접형-확인-문제">면접형 확인 문제</h2>
+<p>Position error from a constant bias is $\frac12bt^2$, and the $t^2$ is what hurts:</p>
 
-<h3 id="문제-1--개념">문제 1 — 개념</h3>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   time      velocity error      position error
+   ─────     ──────────────      ──────────────
+    1 s          0.01 m/s            0.005 m      harmless
+   10 s          0.10 m/s            0.5 m        noticeable
+   60 s          0.60 m/s            18 m         useless
+  300 s          3.00 m/s            450 m        absurd
+</code></pre></div></div>
 
-<p>Filtering과 fixed-lag smoothing을 지연, 계산량, 재선형화, 과거 상태 수정 관점에서 비교하라. LIO 시스템이 두 접근 중 하나만 써야 하는지도 설명하라.</p>
+<p>Nothing changed except the clock. The bias stayed at 0.01 the whole time.</p>
+
+<p>Now compare it against a 1° attitude error, which projects gravity sideways at $9.81\sin(1°) \approx 0.171\,m/s^2$ — seventeen times worse than the bias above. After 10 seconds that alone is 8.6 m.</p>
+
+<p>Two lessons follow. Free-running IMU integration is measured in <em>seconds</em> of usefulness, not minutes. And <strong>attitude error dominates</strong>: getting the orientation slightly wrong is far more damaging than a slightly biased accelerometer, which is why gravity alignment and attitude correction get so much attention.</p>
+
+<h2 id="check-questions">Check questions</h2>
+
+<h3 id="question-1--concept">Question 1 — Concept</h3>
+
+<p>Compare filtering and fixed-lag smoothing in terms of latency, computation, relinearisation and the ability to revise past states. Also explain whether a LIO system has to use only one of the two.</p>
 
 <details class="study-answer">
-  <summary>답변 보기</summary>
+  <summary>Show answer</summary>
 
-  <p>Filtering은 보통 현재 상태와 covariance를 재귀적으로 갱신해 낮은 지연과 bounded state size를 얻기 쉽지만, marginalize한 과거 상태를 새 정보로 직접 다시 최적화하기 어렵다. Fixed-lag smoothing은 일정 시간 창의 여러 상태를 함께 유지해 재선형화와 delayed measurement 처리가 가능하지만 계산량과 지연이 커진다. 실전 시스템은 고속 propagation과 local odometry에 filter를 쓰고, keyframe graph 또는 loop closure에 smoothing을 쓰는 식으로 결합할 수 있다. 비교 축은 신구 방식이 아니라 latency, state horizon, nonlinear model과 전역 보정 요구다.</p>
+  <p>Filtering usually updates the current state and covariance recursively, making low latency and a bounded state size easy to achieve, but it is hard to directly re-optimise marginalised past states with new information. Fixed-lag smoothing keeps several states in a time window together, allowing relinearisation and the handling of delayed measurements, at the cost of more computation and latency. Practical systems can combine them, using a filter for fast propagation and local odometry and smoothing for a keyframe graph or loop closure. The axis of comparison is not old versus new but latency, state horizon, nonlinear models and the need for global correction.</p>
 
 </details>
 
-<h3 id="문제-2--수학">문제 2 — 수학</h3>
+<h3 id="question-2--math">Question 2 — Math</h3>
 
-<p>자세는 정확하고 초기 속도 오차는 0이라고 하자. Body x축 accelerometer bias가 $b_a=0.02m/s^2$로 일정하다. 20초 동안 보정 없이 적분했을 때 속도 오차와 위치 오차를 구하라. 또한 roll 오차 $1^\circ$가 있을 때 중력 $9.81m/s^2$가 수평축에 만드는 가속도 오차를 근사하라.</p>
+<p>Assume attitude is exact and the initial velocity error is zero, with a constant body x-axis accelerometer bias $b_a=0.02m/s^2$. Find the velocity and position error after integrating for 20 seconds with no correction. Also approximate the horizontal-axis acceleration error produced by gravity $9.81m/s^2$ given a roll error of $1^\circ$.</p>
 
 <details class="study-answer">
-  <summary>답변 보기</summary>
+  <summary>Show answer</summary>
 
-  <p>일정 bias만 고려하면</p>
+  <p>Considering the constant bias alone,</p>
 
 \[\delta v=b_at=0.02\times20=0.4m/s,\]
 
 \[\delta p=\frac12b_at^2
 =\frac12\times0.02\times20^2=4m.\]
 
-  <p>$1^\circ\approx0.01745rad$이므로 작은 각도 근사에서 중력 투영 오차는</p>
+  <p>Since $1^\circ\approx0.01745rad$, the small-angle gravity projection error is</p>
 
-\[g\sin(1^\circ)\approx9.81\times0.01745\approx0.171m/s^2\]
+\[g\sin(1^\circ)\approx9.81\times0.01745\approx0.171m/s^2,\]
 
-  <p>이다. 이는 위 bias보다 훨씬 크다. IMU 적분에서 자세 오차가 위치 오차로 빠르게 커지는 이유이며, 중력 정렬과 자세 보정이 중요하다.</p>
+  <p>which is far larger than the bias above. This is why attitude error grows into position error so quickly in IMU integration, and why gravity alignment and attitude correction matter.</p>
 
 </details>
 
-<h2 id="원문-읽기">원문 읽기</h2>
+<h2 id="original-reading">Original reading</h2>
 
 <ul>
-  <li>KRoC IMU: PDF 13~24쪽. 로컬: <code class="language-plaintext highlighter-rouge">_resource/slam/kroc2026/05-imu-giseop-kim.pdf</code>.</li>
-  <li>두 LIO 논문은 abstract와 system overview만 읽는다. 세부 유도와 코드 분석은 LIO 파트에서 이어갈 주제다.</li>
+  <li>KRoC IMU: PDF pages 13–24. Local copy: <code class="language-plaintext highlighter-rouge">_resource/slam/kroc2026/05-imu-giseop-kim.pdf</code>.</li>
+  <li>Read only the abstract and system overview of the two LIO papers. Detailed derivations and code analysis are picked up in the LIO part.</li>
 </ul>
 
 
@@ -468,7 +525,7 @@
   
     <a class="study-chapter-next" href="/study/slam/history/11-learning-spatial-ai/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Chapter 11. 학습 기반 SLAM과 Spatial AI</span>
+      <span>Chapter 11. Learning-based SLAM and Spatial AI</span>
     </a>
   
 </nav>

@@ -378,6 +378,86 @@ Node, Topic, Service, Action뿐 아니라 <code class="language-plaintext highli
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">ros2 topic list</code> · <code class="language-plaintext highlighter-rouge">ros2 topic hz</code> · <code class="language-plaintext highlighter-rouge">colcon build</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">source /opt/ros/humble/setup.bash</code></td>
+      <td style="text-align: left">underlay — ROS 2 배포판</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">source install/setup.bash</code></td>
+      <td style="text-align: left">overlay — 내가 빌드한 것 (항상 나중에)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">colcon build --symlink-install</code></td>
+      <td style="text-align: left">workspace build</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 node list</code></td>
+      <td style="text-align: left">실행 중인 node</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic list</code></td>
+      <td style="text-align: left">topic 목록</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic echo /imu --once</code></td>
+      <td style="text-align: left">실제 data 한 번 보기</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic hz /imu</code></td>
+      <td style="text-align: left">실제로 몇 Hz로 오는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic info /imu --verbose</code></td>
+      <td style="text-align: left">publisher·subscriber와 QoS</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic type /imu</code></td>
+      <td style="text-align: left">메시지 타입</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 interface show sensor_msgs/msg/Imu</code></td>
+      <td style="text-align: left">그 타입의 필드 정의</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">ros2 run &lt;pkg&gt; &lt;exe&gt;</code> / <code class="language-plaintext highlighter-rouge">ros2 launch &lt;pkg&gt; &lt;file&gt;</code>
+</td>
+      <td style="text-align: left">실행</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">ros2 param list</code> / <code class="language-plaintext highlighter-rouge">ros2 param get &lt;node&gt; &lt;p&gt;</code>
+</td>
+      <td style="text-align: left">parameter</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">echo $ROS_DOMAIN_ID</code></td>
+      <td style="text-align: left">통신 영역 번호. <strong>안 보일 때 1순위</strong>
+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">echo $RMW_IMPLEMENTATION</code></td>
+      <td style="text-align: left">어떤 DDS를 쓰는지</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-ros-2는-정확히-무엇인가">1. ROS 2는 정확히 무엇인가?</h1>
 
 <p>ROS는:</p>
@@ -1145,6 +1225,13 @@ Cyclone DDS
 <p>이다.</p>
 
 <p>Vision60 같은 multi-computer robot에서 DDS 설정을 맞추는 것이 중요할 수 있다.</p>
+
+<blockquote>
+  <p>MCU(STM32 등)도 이 stack을 그대로 쓸 수 있다. 단 <code class="language-plaintext highlighter-rouge">rclcpp</code>와 DDS가 너무 무거워서
+<code class="language-plaintext highlighter-rouge">rclc</code>와 Micro XRCE-DDS로 갈아끼운다. 그게 micro-ROS이고,
+<code class="language-plaintext highlighter-rouge">/mcu/...</code> 토픽이 어디서 오는지는
+<a href="/study/edge_computing/chapter06b-micro-ros-mcu/">Chapter 6.5. micro-ROS와 MCU</a>에서 다룬다.</p>
+</blockquote>
 
 <hr>
 
@@ -2383,9 +2470,9 @@ Jetson
     <a href="/study/edge_computing/">← 목차로 돌아가기</a>
   
   
-    <a class="study-chapter-next" href="/study/edge_computing/chapter07-cuda-tensorrt/" rel="next">
+    <a class="study-chapter-next" href="/study/edge_computing/chapter06b-micro-ros-mcu/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Chapter 7. CUDA &amp; TensorRT for Robotics</span>
+      <span>Chapter 6.5. micro-ROS와 MCU — /mcu/... 토픽은 어디서 오는가</span>
     </a>
   
 </nav>

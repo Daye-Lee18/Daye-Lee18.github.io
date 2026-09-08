@@ -17,12 +17,12 @@
   
   
     
-      상태 추정 계보 — LiDAR에서 LIVO·다리 센서 융합까지 | Daye Lee
+      State estimation lineage — from LiDAR to LIVO and leg-sensor fusion | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="FAST-LIO2 기준 논문 비교: 센서, 추정 구조, 루프클로저, Vision60 적용 관점.">
+<meta name="description" content="Paper comparison anchored on FAST-LIO2: sensors, estimation architecture, loop closure, and the Vision60 application perspective.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -364,231 +364,231 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">상태 추정 계보 — LiDAR에서 LIVO·다리 센서 융합까지</h1>
-    <p class="post-description">FAST-LIO2 기준 논문 비교: 센서, 추정 구조, 루프클로저, Vision60 적용 관점.</p>
+    <h1 class="post-title">State estimation lineage — from LiDAR to LIVO and leg-sensor fusion</h1>
+    <p class="post-description">Paper comparison anchored on FAST-LIO2: sensors, estimation architecture, loop closure, and the Vision60 application perspective.</p>
   </header>
 
   <article>
-    <p>현재 Vision60에 적용된 FAST-LIO2의 원리와 한계를 이해하고, 단차·슬립·충격에서 어떤 정보를 추가할지 판단하기 위한 첫 번째 공부 페이지다. 핵심 비교 대상은 FAST-LIO2, FAST-LIVO2, VILENS, LIO-SAM, LTA-OM, Point-LIO, GLIM이다. 계보를 설명하는 선행 연구와 최근 후속 연구를 함께 정리한다.</p>
+    <p>This is the first study page for understanding the principles and limits of FAST-LIO2, currently deployed on Vision60, and for judging what information to add on steps, slips and impacts. The core comparison set is FAST-LIO2, FAST-LIVO2, VILENS, LIO-SAM, LTA-OM, Point-LIO and GLIM, together with the prior work that explains the lineage and the recent follow-up research.</p>
 
-<p><strong>자료 확인일: 2026-09-07.</strong> 프로젝트와 관련된 대표 연구를 선별한 목록이며, 최신 논문 전체를 망라한 순위표는 아니다. 논문의 구조·기여와 Vision60에 대한 적용 가설을 구분한다. 센서 구성, 연산 장치, 데이터셋이 다른 논문의 정확도·실행 속도를 하나의 숫자로 직접 비교하지 않는다.</p>
+<p><strong>Sources checked: 2026-09-07.</strong> This is a curated list of work relevant to the project, not an exhaustive ranking of the latest papers. The structure and contributions of each paper are kept separate from the hypotheses about applying it to Vision60. Accuracy and runtime figures from papers with different sensor configurations, compute platforms and datasets are not compared as a single number.</p>
 
-<h2 id="1-핵심-논문-비교">1. 핵심 논문 비교</h2>
+<h2 id="1-core-paper-comparison">1. Core paper comparison</h2>
 
-<p>L은 LiDAR, I는 IMU, V는 카메라, K는 관절·다리 운동학 정보를 뜻한다. <strong>루프클로저</strong>는 과거 장소를 다시 관측해 누적 오차를 보정하는 기능이다. 아래의 포함 여부는 논문이 다루는 시스템 기준이며, 별도 확장 패키지는 구분한다. 표가 화면보다 넓으면 가로로 스크롤할 수 있다.</p>
+<p>L is LiDAR, I is IMU, V is camera, and K is joint/leg kinematic information. <strong>Loop closure</strong> means re-observing a past place to correct accumulated error. The inclusion column refers to the system covered by the paper itself; separate extension packages are noted as such. If the table is wider than the screen, it scrolls horizontally.</p>
 
 <div class="table-responsive">
 
   <table>
     <thead>
       <tr>
-        <th style="text-align: left">논문 · 발표</th>
-        <th style="text-align: left">센서 / 추정 구조</th>
-        <th style="text-align: left">핵심 기여 3개</th>
-        <th style="text-align: left">맵·루프클로저·백엔드</th>
-        <th style="text-align: left">Vision60에서 읽을 이유 / 확인할 한계</th>
+        <th style="text-align: left">Paper · venue</th>
+        <th style="text-align: left">Sensors / estimation architecture</th>
+        <th style="text-align: left">Three key contributions</th>
+        <th style="text-align: left">Map · loop closure · back-end</th>
+        <th style="text-align: left">Why read it for Vision60 / limits to check</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td style="text-align: left">**<a href="/study/slam/state-estimation/fast-lio2/">FAST-LIO2</a>** · T-RO 2022</td>
         <td style="text-align: left">L + I / tightly coupled iterated EKF</td>
-        <td style="text-align: left">① 원시 점의 direct scan-to-map 등록<br>② 효율적인 반복 필터 갱신<br>③ ikd-Tree의 증분 삽입·삭제·재균형</td>
-        <td style="text-align: left">로컬 점군 맵 생성. 원 논문에는 전역 루프클로저·포즈 그래프 보정 없음</td>
+        <td style="text-align: left">① Direct scan-to-map registration of raw points<br>② Efficient iterated filter update<br>③ Incremental insert, delete and rebalance in the ikd-Tree</td>
+        <td style="text-align: left">Builds a local point cloud map. The original paper has no global loop closure or pose graph correction</td>
         <td style="text-align: left">
-<strong>현재 기준선.</strong> IMU 전파 → deskew → 점-평면 잔차 → 상태·맵 갱신을 추적. 기하 퇴화와 누적 drift를 구분해 측정</td>
+<strong>The current baseline.</strong> Trace IMU propagation → deskew → point-to-plane residual → state and map update. Measure geometric degeneracy separately from accumulated drift</td>
       </tr>
       <tr>
         <td style="text-align: left">**<a href="/study/slam/state-estimation/lio-sam/">LIO-SAM</a>** · IROS 2020</td>
-        <td style="text-align: left">L + I, 선택적 GPS / factor graph + iSAM2</td>
-        <td style="text-align: left">① IMU 사전적분과 deskew<br>② 특징 기반 로컬 scan matching<br>③ LiDAR·GPS·루프 제약의 그래프 통합</td>
-        <td style="text-align: left">키프레임 기반 매핑과 루프 제약 포함. <a href="https://github.com/TixiaoShan/LIO-SAM" rel="external nofollow noopener" target="_blank">공식 구현</a>은 IMU 추정 그래프와 매핑 그래프를 구분</td>
+        <td style="text-align: left">L + I, optional GPS / factor graph + iSAM2</td>
+        <td style="text-align: left">① IMU preintegration and deskew<br>② Feature-based local scan matching<br>③ Graph integration of LiDAR, GPS and loop constraints</td>
+        <td style="text-align: left">Keyframe-based mapping including loop constraints. The <a href="https://github.com/TixiaoShan/LIO-SAM" rel="external nofollow noopener" target="_blank">official implementation</a> keeps the IMU graph separate from the mapping graph</td>
         <td style="text-align: left">
-<strong>필터와 그래프의 대조군.</strong> 루프를 붙이기 쉬운 구조가 오검출까지 해결하는 것은 아님. 공식 루프 구현은 proof of concept</td>
+<strong>The control group for filter versus graph.</strong> A structure that makes loops easy to attach does not thereby solve false detections; the official loop implementation is a proof of concept</td>
       </tr>
       <tr>
         <td style="text-align: left">**<a href="/study/slam/state-estimation/point-lio/">Point-LIO</a>** · Advanced Intelligent Systems 2023</td>
-        <td style="text-align: left">L + I / point-by-point 필터</td>
-        <td style="text-align: left">① 점의 측정 시각마다 상태 갱신<br>② IMU를 관측으로 사용하는 운동 모델<br>③ 고대역폭·격렬한 운동 대응</td>
-        <td style="text-align: left">오도메트리·매핑 중심. 전역 루프 백엔드는 별도</td>
+        <td style="text-align: left">L + I / point-by-point filter</td>
+        <td style="text-align: left">① State update at each point’s measurement time<br>② Motion model that treats the IMU as an observation<br>③ Handles high-bandwidth, aggressive motion</td>
+        <td style="text-align: left">Focused on odometry and mapping. A global loop back-end is separate</td>
         <td style="text-align: left">
-<strong>충격·빠른 회전 비교군.</strong> 프레임 누적에 따른 왜곡과 IMU 측정 범위 문제를 읽기. 높은 출력률을 낮은 지연·정확도와 동일시하지 않기</td>
+<strong>The comparison group for impacts and fast rotation.</strong> Read about distortion from frame accumulation and IMU measurement range. Do not equate a high output rate with low latency or accuracy</td>
       </tr>
       <tr>
         <td style="text-align: left">**<a href="/study/slam/state-estimation/fast-livo2/">FAST-LIVO2</a>** · T-RO 2025</td>
-        <td style="text-align: left">L + I + V / ESIKF 순차 갱신</td>
-        <td style="text-align: left">① LiDAR 기하·영상 광도 잔차의 순차 융합<br>② 점과 이미지 패치를 연결하는 통합 voxel map<br>③ 평면 사전정보·노출 추정으로 영상 정합 보강</td>
-        <td style="text-align: left">LiDAR와 영상이 같은 맵을 사용. 원 논문은 전역 루프 보정보다 odometry에 초점</td>
+        <td style="text-align: left">L + I + V / sequential ESIKF update</td>
+        <td style="text-align: left">① Sequential fusion of LiDAR geometric and image photometric residuals<br>② A unified voxel map linking points to image patches<br>③ Plane priors and exposure estimation to strengthen image alignment</td>
+        <td style="text-align: left">LiDAR and image share the same map. The original paper focuses on odometry rather than global loop correction</td>
         <td style="text-align: left">
-<strong>카메라 추가 후보.</strong> LiDAR 기하가 약할 때 영상이 보완할 조건을 확인. 어두움·블러·무텍스처 및 시간 동기화·외부 파라미터를 함께 검토</td>
+<strong>The candidate for adding a camera.</strong> Check the conditions under which images compensate for weak LiDAR geometry. Examine darkness, blur and texturelessness together with time synchronisation and extrinsics</td>
       </tr>
       <tr>
-        <td style="text-align: left">**<a href="/study/slam/state-estimation/vilens/">VILENS</a>** · T-RO, 온라인 2022 / 권호 2023</td>
+        <td style="text-align: left">**<a href="/study/slam/state-estimation/vilens/">VILENS</a>** · T-RO, online 2022 / issue 2023</td>
         <td style="text-align: left">V + I + L + K / factor graph</td>
-        <td style="text-align: left">① 네 센서 모달리티의 tightly coupled 융합<br>② 다리 속도의 사전적분 factor<br>③ 온라인 선속도 bias 추정</td>
-        <td style="text-align: left">다중 센서 odometry가 중심. factor graph 사용 자체가 장소인식·루프클로저 포함을 뜻하지 않음</td>
+        <td style="text-align: left">① Tightly coupled fusion of four sensor modalities<br>② Preintegration factor on leg velocity<br>③ Online linear velocity bias estimation</td>
+        <td style="text-align: left">Centred on multi-sensor odometry. Using a factor graph does not by itself mean place recognition or loop closure is included</td>
         <td style="text-align: left">
-<strong>슬립·다리 정보의 핵심 비교군.</strong> ANYmal의 험지 실험과 속도 bias의 의미를 읽기. Vision60의 관절·접촉 정보 접근성과 운동학 모델 확인 필요</td>
+<strong>The key comparison for slip and leg information.</strong> Read the rough-terrain experiments on ANYmal and the meaning of the velocity bias. Check the accessibility of Vision60’s joint and contact information and its kinematic model</td>
       </tr>
       <tr>
         <td style="text-align: left">**<a href="/study/slam/state-estimation/lta-om/">LTA-OM</a>** · JFR 2024</td>
-        <td style="text-align: left">L + I / FAST-LIO2 기반 LIO + 전역 보정</td>
-        <td style="text-align: left">① STD 기반 루프 검출·보정<br>② false-positive 루프 기각<br>③ 보정된 과거 맵을 활용하는 장기 연관</td>
-        <td style="text-align: left">루프클로저, 장기 매핑, 다중 세션 localization·mapping 포함. 과거 맵의 보정 결과가 LIO 등록에 다시 사용됨</td>
+        <td style="text-align: left">L + I / FAST-LIO2-based LIO + global correction</td>
+        <td style="text-align: left">① STD-based loop detection and correction<br>② Rejection of false-positive loops<br>③ Long-term association reusing the corrected past map</td>
+        <td style="text-align: left">Includes loop closure, long-term mapping and multi-session localisation and mapping. The corrected past map is fed back into LIO registration</td>
         <td style="text-align: left">
-<strong>모듈화 목표의 비교군.</strong> 프론트엔드·루프 검출·전역 보정의 경계와 보정 맵의 재사용 경로를 읽기</td>
+<strong>The comparison group for the modularity goal.</strong> Read the boundaries between front-end, loop detection and global correction, and the path by which the corrected map is reused</td>
       </tr>
       <tr>
         <td style="text-align: left">**<a href="/study/slam/state-estimation/glim/">GLIM</a>** · Robotics and Autonomous Systems 2024</td>
-        <td style="text-align: left">L + I, 다중 카메라 제약 지원 / fixed-lag smoothing + 전역 최적화</td>
-        <td style="text-align: left">① GPU 가속 scan matching factor<br>② 시간 창 내 상태의 공동 최적화<br>③ 서브맵 간 등록 오차의 전역 최소화</td>
-        <td style="text-align: left">로컬 odometry와 전역 서브맵 최적화가 연결된 매핑 시스템</td>
+        <td style="text-align: left">L + I, supports multi-camera constraints / fixed-lag smoothing + global optimisation</td>
+        <td style="text-align: left">① GPU-accelerated scan matching factors<br>② Joint optimisation of the states within a time window<br>③ Global minimisation of inter-submap registration error</td>
+        <td style="text-align: left">A mapping system that connects local odometry to global submap optimisation</td>
         <td style="text-align: left">
-<strong>최적화 기반 강건성 비교군.</strong> 일시적인 기하 퇴화에서 과거 상태를 활용하는 방식과 GPU·메모리 부담을 확인</td>
+<strong>The comparison group for optimisation-based robustness.</strong> Check how it exploits past states through temporary geometric degeneracy, and the GPU and memory burden</td>
       </tr>
     </tbody>
   </table>
 
 </div>
 
-<p>FAST-LIO2의 <strong>direct</strong>는 기하 잔차나 대응점 계산을 생략한다는 뜻이 아니다. 사전에 모서리·평면 특징점을 추출하는 단계를 거치지 않고 원시 점을 맵에 등록한다는 의미다. FAST-LIVO2의 영상 direct 방식은 특징점 기술자 매칭 대신 광도 오차를 사용한다. 두 방식에서 무엇을 관측 잔차로 삼는지 구분해 읽는다. <a href="https://arxiv.org/abs/2107.06829" rel="external nofollow noopener" target="_blank">FAST-LIO2 원문</a>, <a href="https://arxiv.org/abs/2408.14035" rel="external nofollow noopener" target="_blank">FAST-LIVO2 원문</a></p>
+<p>The <strong>direct</strong> in FAST-LIO2 does not mean geometric residuals or correspondence search are skipped. It means raw points are registered to the map without a preceding edge/plane feature extraction step. The image-direct approach of FAST-LIVO2 uses photometric error instead of feature descriptor matching. Read the two carefully to distinguish what each takes as its observation residual. <a href="https://arxiv.org/abs/2107.06829" rel="external nofollow noopener" target="_blank">FAST-LIO2 paper</a>, <a href="https://arxiv.org/abs/2408.14035" rel="external nofollow noopener" target="_blank">FAST-LIVO2 paper</a></p>
 
-<p>필터 계열은 현재 상태와 불확실성을 갱신하는 데 집중하고, smoothing 계열은 여러 시점의 상태를 함께 최적화한다. 그러나 <strong>필터 / 그래프</strong>와 <strong>오도메트리 / 루프클로저 포함 SLAM</strong>은 서로 다른 비교 축이다. FAST-LIO2에 전역 백엔드를 연결할 수 있고, VILENS처럼 그래프를 사용하는 odometry도 있다. LTA-OM은 필터 기반 프론트엔드와 전역 보정을 연결한 사례다. <a href="https://robots.ox.ac.uk/~mfallon/publications/2022TRO_wisth.pdf" rel="external nofollow noopener" target="_blank">VILENS 원문</a>, <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/rob.22337" rel="external nofollow noopener" target="_blank">LTA-OM 원문</a></p>
+<p>The filter family concentrates on updating the current state and its uncertainty, while the smoothing family optimises states at several instants together. But <strong>filter versus graph</strong> and <strong>odometry versus loop-closing SLAM</strong> are different axes of comparison. A global back-end can be attached to FAST-LIO2, and there is odometry that uses a graph, as in VILENS. LTA-OM is a case of connecting a filter-based front-end to global correction. <a href="https://robots.ox.ac.uk/~mfallon/publications/2022TRO_wisth.pdf" rel="external nofollow noopener" target="_blank">VILENS paper</a>, <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/rob.22337" rel="external nofollow noopener" target="_blank">LTA-OM paper</a></p>
 
-<h2 id="2-계보를-이해하는-선행-연구">2. 계보를 이해하는 선행 연구</h2>
+<h2 id="2-prior-work-for-understanding-the-lineage">2. Prior work for understanding the lineage</h2>
 
 <div class="table-responsive">
 
   <table>
     <thead>
       <tr>
-        <th style="text-align: left">논문</th>
-        <th style="text-align: left">계보에서의 위치</th>
-        <th style="text-align: left">다음 논문과 비교할 점</th>
+        <th style="text-align: left">Paper</th>
+        <th style="text-align: left">Place in the lineage</th>
+        <th style="text-align: left">What to compare against the next paper</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td style="text-align: left">
 <a href="/study/slam/state-estimation/loam/">LOAM: Lidar Odometry and Mapping in Real-time</a> · RSS 2014</td>
-        <td style="text-align: left">고주파 odometry와 저주파 정밀 mapping을 분리한 LiDAR 중심 출발점. IMU 보조 사용 가능</td>
-        <td style="text-align: left">특징 기반 정합과 두 단계 처리 구조를 LIO-SAM·FAST-LIO2와 비교</td>
+        <td style="text-align: left">The LiDAR-centred starting point that separated high-rate odometry from low-rate precise mapping. IMU aiding optionally available</td>
+        <td style="text-align: left">Compare feature-based registration and the two-stage structure against LIO-SAM and FAST-LIO2</td>
       </tr>
       <tr>
         <td style="text-align: left">
-<a href="/study/slam/state-estimation/fast-lio/">FAST-LIO</a> · 프리프린트 2020</td>
-        <td style="text-align: left">LiDAR 특징점과 IMU를 반복 EKF로 강결합. 상태 차원에 기반한 효율적인 Kalman gain 계산</td>
-        <td style="text-align: left">FAST-LIO2가 필터 기반을 유지하면서 direct 등록·맵 자료구조를 바꾸는 이유</td>
+<a href="/study/slam/state-estimation/fast-lio/">FAST-LIO</a> · preprint 2020</td>
+        <td style="text-align: left">Tightly couples LiDAR feature points and IMU in an iterated EKF. Efficient Kalman gain computation based on the state dimension</td>
+        <td style="text-align: left">Why FAST-LIO2 keeps the filter base while changing direct registration and the map data structure</td>
       </tr>
       <tr>
         <td style="text-align: left">
 <a href="/study/slam/state-estimation/fast-livo/">FAST-LIVO</a> · IROS 2022</td>
-        <td style="text-align: left">LiDAR·관성·영상의 sparse-direct 융합</td>
-        <td style="text-align: left">FAST-LIVO2의 통합 맵·순차 갱신·영상 정합 개선이 해결하는 문제</td>
+        <td style="text-align: left">Sparse-direct fusion of LiDAR, inertial and image data</td>
+        <td style="text-align: left">Which problems the unified map, sequential update and image alignment improvements of FAST-LIVO2 solve</td>
       </tr>
     </tbody>
   </table>
 
 </div>
 
-<p>학습 흐름은 <strong>LiDAR 정합 → 관성과 강결합한 LIO → 영상까지 결합한 LIVO → 다리 정보를 사용하는 상태 추정</strong>으로 잡는다. 이것이 모든 방법의 직접적인 후속 관계나 우열을 뜻하지는 않는다. LIO 안에서도 LIO-SAM의 그래프와 FAST-LIO의 필터로 설계가 갈리고, VILENS는 네 모달리티를 결합하는 별도의 분기다. 루프클로저와 장기 매핑은 센서 수 증가와 별개로 살펴본다.</p>
+<p>Set the study flow as <strong>LiDAR registration → LIO tightly coupled with inertial data → LIVO adding images → state estimation using leg information</strong>. This does not mean every method is a direct successor of the previous one, or that later means better. Within LIO the design already splits between the graph of LIO-SAM and the filter of FAST-LIO, and VILENS is a separate branch combining four modalities. Loop closure and long-term mapping are examined independently of the number of sensors.</p>
 
-<h2 id="3-최근-확장-연구--20252026">3. 최근 확장 연구 — 2025~2026</h2>
+<h2 id="3-recent-extensions--20252026">3. Recent extensions — 2025–2026</h2>
 
-<p>아래 연구는 핵심 7편을 읽은 뒤 확장할 후보다. 최신이라는 이유만으로 Vision60 적용 우선순위를 높이지 않는다. 특히 LIJO의 비교는 출판사 초록에 근거한 1차 정리이며, 정독 시 실험 설정·ablation·구현 공개 여부를 추가 확인해야 한다.</p>
+<p>The work below is a candidate for extension after the seven core papers. Being recent is not a reason to raise its priority for Vision60. In particular, the comparison for LIJO is a first pass based on the publisher’s abstract; a close reading has to additionally check the experimental setup, ablations and whether the implementation is public.</p>
 
 <div class="table-responsive">
 
   <table>
     <thead>
       <tr>
-        <th style="text-align: left">논문 · 자료</th>
-        <th style="text-align: left">입력 / 접근법</th>
-        <th style="text-align: left">새롭게 읽을 핵심 3개</th>
-        <th style="text-align: left">프로젝트 연결 및 남은 검증</th>
+        <th style="text-align: left">Paper · source</th>
+        <th style="text-align: left">Input / approach</th>
+        <th style="text-align: left">Three new things to read for</th>
+        <th style="text-align: left">Project relevance and remaining verification</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td style="text-align: left">
 <a href="/study/slam/state-estimation/fast-livo2-resource-constrained/">FAST-LIVO2 on Resource-Constrained Platforms: LiDAR-Inertial-Visual Odometry with Efficient Memory and Computation</a> · 2025</td>
-        <td style="text-align: left">L + I + V / FAST-LIVO2 경량화</td>
-        <td style="text-align: left">① 퇴화를 고려한 영상 프레임 선택<br>② 로컬 통합 맵과 장기 visual map<br>③ 계산·메모리 절감</td>
-        <td style="text-align: left">온보드 자원이 제한될 때 후보. 논문의 x86·ARM 결과를 실제 탑재 장치에서 재검증</td>
+        <td style="text-align: left">L + I + V / lightweight FAST-LIVO2</td>
+        <td style="text-align: left">① Degeneracy-aware image frame selection<br>② A local unified map plus a long-term visual map<br>③ Reduced computation and memory</td>
+        <td style="text-align: left">A candidate when onboard resources are constrained. The paper’s x86 and ARM results need re-verification on the actual target hardware</td>
       </tr>
       <tr>
         <td style="text-align: left">
-<a href="/study/slam/state-estimation/legolas/">Legolas: Deep Leg-Inertial Odometry</a> · PMLR 2025, 제8회 CoRL 논문집</td>
-        <td style="text-align: left">I + 다리 센서 / 학습 기반 odometry</td>
-        <td style="text-align: left">① 다리·관성 신호에서 odometry 학습<br>② 실세계 학습 궤적 수집에 의존하지 않는 접근<br>③ 두 실제 4족 플랫폼 평가</td>
-        <td style="text-align: left">외부 센서가 어려운 상황의 보조 추정 후보. Vision60의 보행·마찰·센서 분포에 대한 일반화는 별도 검증. LiDAR 매핑 시스템과 구분</td>
+<a href="/study/slam/state-estimation/legolas/">Legolas: Deep Leg-Inertial Odometry</a> · PMLR 2025, 8th CoRL proceedings</td>
+        <td style="text-align: left">I + leg sensors / learning-based odometry</td>
+        <td style="text-align: left">① Learning odometry from leg and inertial signals<br>② An approach that does not rely on collecting real-world training trajectories<br>③ Evaluated on two real quadruped platforms</td>
+        <td style="text-align: left">A candidate for auxiliary estimation where external sensors are difficult. Generalisation to Vision60’s gait, friction and sensor layout needs separate verification. Distinct from a LiDAR mapping system</td>
       </tr>
       <tr>
         <td style="text-align: left">
-<a href="/study/slam/state-estimation/lijo/">Smooth LiDAR–Inertial–Joint Odometry for perception-driven legged locomotion (LIJO)</a> · Robot Learning, 2026-08-10 출판</td>
-        <td style="text-align: left">L + I + 관절 encoder / manifold EKF</td>
-        <td style="text-align: left">① 운동학 기반 몸통 속도 제약<br>② 운동 속도에 따른 동적 가중치<br>③ IMU를 관측으로 사용해 odometry jitter 억제</td>
-        <td style="text-align: left">관절 융합과 제어 입력의 부드러움을 함께 보는 최신 후보. 속도 기반 가중치가 접촉 상태·슬립을 얼마나 구별하는지와 지연을 정독 시 확인</td>
+<a href="/study/slam/state-estimation/lijo/">Smooth LiDAR–Inertial–Joint Odometry for perception-driven legged locomotion (LIJO)</a> · Robot Learning, published 2026-08-10</td>
+        <td style="text-align: left">L + I + joint encoders / manifold EKF</td>
+        <td style="text-align: left">① Kinematics-based body velocity constraint<br>② Dynamic weighting according to motion speed<br>③ Treating the IMU as an observation to suppress odometry jitter</td>
+        <td style="text-align: left">The most recent candidate that looks at joint fusion and the smoothness of the control input together. A close reading should check how well the speed-based weighting distinguishes contact state and slip, and what latency it adds</td>
       </tr>
     </tbody>
   </table>
 
 </div>
 
-<h2 id="4-표를-vision60-문제에-연결해서-읽기">4. 표를 Vision60 문제에 연결해서 읽기</h2>
+<h2 id="4-reading-the-tables-against-vision60s-problems">4. Reading the tables against Vision60’s problems</h2>
 
-<p>다음은 논문 성능을 확정하는 결론이 아니라 <strong>실험으로 확인할 적용 가설</strong>이다. 먼저 같은 로그에서 FAST-LIO2의 실패 시점과 원인을 특정해야 한다. 점군 왜곡, 높이 drift, 속도 jitter는 다른 현상이며 하나의 보정으로 모두 해결된다고 가정하지 않는다.</p>
+<p>What follows are not conclusions about paper performance but <strong>application hypotheses to be confirmed by experiment</strong>. The first step is to pinpoint when and why FAST-LIO2 fails on the same log. Point cloud distortion, height drift and velocity jitter are different phenomena; do not assume one correction fixes them all.</p>
 
 <div class="table-responsive">
 
   <table>
     <thead>
       <tr>
-        <th style="text-align: left">관찰할 현상</th>
-        <th style="text-align: left">비교해서 읽을 논문</th>
-        <th style="text-align: left">먼저 확인할 데이터 / 판단 기준</th>
+        <th style="text-align: left">Phenomenon to observe</th>
+        <th style="text-align: left">Papers to read in comparison</th>
+        <th style="text-align: left">Data to check first / criteria for judgement</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td style="text-align: left">착지 충격·빠른 회전에서 점군이 휘거나 pose가 튐</td>
+        <td style="text-align: left">Point cloud bends or pose jumps on landing impact and fast rotation</td>
         <td style="text-align: left">FAST-LIO2 → Point-LIO</td>
-        <td style="text-align: left">점별 timestamp, IMU 포화·누락, 시간 동기화, deskew 결과. 출력률과 end-to-end 지연을 따로 측정</td>
+        <td style="text-align: left">Per-point timestamps, IMU saturation and dropouts, time synchronisation, deskew results. Measure output rate and end-to-end latency separately</td>
       </tr>
       <tr>
-        <td style="text-align: left">벽·복도·개활지에서 특정 방향 drift</td>
-        <td style="text-align: left">FAST-LIO2 → FAST-LIVO2·GLIM</td>
-        <td style="text-align: left">기하 제약이 약한 방향, 영상 텍스처·블러, 구간별 상대 오차. 영상 추가 효과와 연산 비용을 함께 비교</td>
+        <td style="text-align: left">Directional drift along walls, corridors and open ground</td>
+        <td style="text-align: left">FAST-LIO2 → FAST-LIVO2, GLIM</td>
+        <td style="text-align: left">Directions with weak geometric constraints, image texture and blur, relative error per segment. Compare the benefit of adding images against its computational cost</td>
       </tr>
       <tr>
-        <td style="text-align: left">슬립·단차에서 속도 또는 높이 오차 증가</td>
-        <td style="text-align: left">VILENS → LIJO, 보조로 Legolas</td>
-        <td style="text-align: left">관절각·관절속도·접촉 추정·IMU의 동기화, 운동학 속도와 외부 추정의 불일치. 슬립 구간과 비슬립 구간을 나눠 평가</td>
+        <td style="text-align: left">Velocity or height error grows on slips and steps</td>
+        <td style="text-align: left">VILENS → LIJO, with Legolas as support</td>
+        <td style="text-align: left">Synchronisation of joint angles, joint velocities, contact estimates and IMU; disagreement between kinematic velocity and external estimates. Evaluate slip and non-slip segments separately</td>
       </tr>
       <tr>
-        <td style="text-align: left">정지·저속에서 pose jitter가 제어 입력에 전달됨</td>
+        <td style="text-align: left">Pose jitter at rest or low speed propagates into the control input</td>
         <td style="text-align: left">FAST-LIO2 → LIJO</td>
-        <td style="text-align: left">정지 구간 pose·속도 분산과 주파수 성분, 필터링 후 지연. 부드러운 출력이 실제 운동을 지우지 않는지 확인</td>
+        <td style="text-align: left">Pose and velocity variance and frequency content over stationary segments, and the latency after filtering. Check that a smooth output is not erasing real motion</td>
       </tr>
       <tr>
-        <td style="text-align: left">장거리 이동 후 재방문 시 맵이 겹치지 않음</td>
-        <td style="text-align: left">LIO-SAM → LTA-OM·GLIM</td>
-        <td style="text-align: left">루프 전후 궤적·맵 일관성, 오검출 여부, 전역 보정 시 pose 불연속. 재방문 보정과 순간 추정 실패를 구분</td>
+        <td style="text-align: left">Maps fail to overlap on revisiting after a long traverse</td>
+        <td style="text-align: left">LIO-SAM → LTA-OM, GLIM</td>
+        <td style="text-align: left">Trajectory and map consistency before and after the loop, false detections, pose discontinuity on global correction. Separate revisit correction from momentary estimation failure</td>
       </tr>
     </tbody>
   </table>
 
 </div>
 
-<p>프론트엔드는 센서 입력에서 연속적인 pose·속도와 정합용 맵을 만들고, 루프 검출은 과거 장소 후보와 상대 변환을 제안하며, 백엔드는 채택한 제약으로 전역 궤적·맵을 보정한다. 이는 비교를 위한 기능 구분이다. 실제 구현에서는 LTA-OM처럼 보정된 맵이 프론트엔드로 돌아가므로, 모듈 이름뿐 아니라 <strong>어떤 좌표계의 상태·점군·제약이 어느 시점에 전달되는지</strong>까지 확인해야 한다. <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/rob.22337" rel="external nofollow noopener" target="_blank">LTA-OM 원문</a></p>
+<p>The front-end turns sensor input into a continuous pose and velocity plus a map for registration; loop detection proposes past place candidates and relative transforms; the back-end corrects the global trajectory and map with the accepted constraints. This is a functional split for the sake of comparison. In real implementations the corrected map returns to the front-end, as in LTA-OM, so you have to check not just the module names but <strong>which frame’s states, point clouds and constraints are passed at which moment</strong>. <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/rob.22337" rel="external nofollow noopener" target="_blank">LTA-OM paper</a></p>
 
-<p>이번 공부에서는 <strong>FAST-LIO2 → LIO-SAM → Point-LIO → FAST-LIVO2 → VILENS → LTA-OM → GLIM</strong> 순서로 읽으면 현재 시스템에서 설계 차이를 넓혀 갈 수 있다. 논문별 리뷰는 ① 상태와 관측 잔차, ② 해결하는 실패 모드와 실험 근거, ③ Vision60에 추가할 입력·인터페이스의 세 항목으로 정리한다. 최신 확장은 관측된 문제가 연산 자원, 슬립, jitter 중 어디에 가까운지에 따라 선택한다.</p>
+<p>For this study, reading in the order <strong>FAST-LIO2 → LIO-SAM → Point-LIO → FAST-LIVO2 → VILENS → LTA-OM → GLIM</strong> widens the design space outwards from the current system. Each paper review is organised under three headings: ① states and observation residuals, ② the failure mode addressed and the experimental evidence, ③ the inputs and interfaces to add on Vision60. Which recent extension to take up depends on whether the observed problem is closer to compute resources, slip or jitter.</p>
 
-<h2 id="5-서지-정보와-해석-주의점">5. 서지 정보와 해석 주의점</h2>
+<h2 id="5-bibliographic-details-and-interpretation-notes">5. Bibliographic details and interpretation notes</h2>
 
-<p>FAST-LIO2는 프리프린트가 2021년, T-RO 게재가 2022년이다. FAST-LIVO2는 온라인 출판이 2024-11-19이고 T-RO 41권의 2025년 논문으로 인용된다. VILENS는 2022년 온라인 출판과 2023년 39권 1호를 구분하면 된다. <a href="/study/slam/state-estimation/fast-lio2/">FAST-LIO2</a>, <a href="https://ieeexplore.ieee.org/document/10757429/" rel="external nofollow noopener" target="_blank">FAST-LIVO2 출판 정보</a>, <a href="https://ora.ox.ac.uk/objects/uuid%3A031d8565-2b83-4ee0-a17f-006471c7f185" rel="external nofollow noopener" target="_blank">VILENS 출판 정보</a></p>
+<p>FAST-LIO2 was a 2021 preprint and a 2022 T-RO publication. FAST-LIVO2 was published online on 2024-11-19 and is cited as a 2025 paper in T-RO volume 41. For VILENS it is enough to distinguish the 2022 online publication from volume 39, issue 1 of 2023. <a href="/study/slam/state-estimation/fast-lio2/">FAST-LIO2</a>, <a href="https://ieeexplore.ieee.org/document/10757429/" rel="external nofollow noopener" target="_blank">FAST-LIVO2 publication record</a>, <a href="https://ora.ox.ac.uk/objects/uuid%3A031d8565-2b83-4ee0-a17f-006471c7f185" rel="external nofollow noopener" target="_blank">VILENS publication record</a></p>
 
-<p>GLIM 자체의 논문은 <strong>2024년</strong>이다. 저자 저장소에서 연결한 ICRA 2022 논문은 GLIM의 기반 연구이므로 구분한다. 또한 FAST-LIVO2를 유일한 최신 표준으로 단정하거나 FAST-LIO2를 “백엔드를 포기한 방법”으로만 요약하기보다, 각 논문이 다루는 추정 범위와 실제 추가 가능한 모듈을 비교한다. <a href="https://github.com/koide3/glim" rel="external nofollow noopener" target="_blank">GLIM 저자 저장소</a></p>
+<p>The GLIM paper itself is from <strong>2024</strong>. The ICRA 2022 paper linked from the authors’ repository is prior work that GLIM builds on, and should be kept distinct. Also, rather than declaring FAST-LIVO2 the one current standard or summarising FAST-LIO2 as merely “the method that gave up the back-end”, compare the estimation scope each paper covers and the modules that can actually be added. <a href="https://github.com/koide3/glim" rel="external nofollow noopener" target="_blank">GLIM authors’ repository</a></p>
 
 
 
@@ -599,9 +599,9 @@
     
       <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/state-estimation/fast-lio2/">
-          <span class="study-toc-title">FAST-LIO2 — 논문 리뷰</span>
+          <span class="study-toc-title">FAST-LIO2 — paper review</span>
           
-            <span class="study-toc-desc">원시 LiDAR 점을 로컬 맵에 직접 정합하고 IMU와 반복 필터로 융합하는, 현재 Vision60 시스템의 기준선이다.</span>
+            <span class="study-toc-desc">Registers raw LiDAR points directly against a local map and fuses them with IMU in an iterated filter; the baseline of the current Vision60 system.</span>
           
         </a>
       </li>
@@ -610,9 +610,9 @@
     
       <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/state-estimation/lio-sam/">
-          <span class="study-toc-title">LIO-SAM — 논문 리뷰</span>
+          <span class="study-toc-title">LIO-SAM — paper review</span>
           
-            <span class="study-toc-desc">LiDAR·관성 추정을 factor graph로 구성해 GPS와 루프 제약을 함께 다루는 smoothing 기반 대조군이다.</span>
+            <span class="study-toc-desc">Builds LiDAR-inertial estimation as a factor graph so GPS and loop constraints can be handled together; the smoothing-based control group.</span>
           
         </a>
       </li>
@@ -621,9 +621,9 @@
     
       <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/state-estimation/point-lio/">
-          <span class="study-toc-title">Point-LIO — 논문 리뷰</span>
+          <span class="study-toc-title">Point-LIO — paper review</span>
           
-            <span class="study-toc-desc">스캔이 완성되기를 기다리지 않고 점의 측정 시각에 맞춰 상태를 갱신하는 고대역폭 LIO다.</span>
+            <span class="study-toc-desc">A high-bandwidth LIO that updates the state at each point's measurement time instead of waiting for a scan to complete.</span>
           
         </a>
       </li>
@@ -632,9 +632,9 @@
     
       <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/state-estimation/fast-livo2/">
-          <span class="study-toc-title">FAST-LIVO2 — 논문 리뷰</span>
+          <span class="study-toc-title">FAST-LIVO2 — paper review</span>
           
-            <span class="study-toc-desc">LiDAR 기하와 영상 밝기 정보를 같은 voxel map에서 연결하고 ESIKF로 순차 융합하는 LIVO다.</span>
+            <span class="study-toc-desc">A LIVO that links LiDAR geometry and image intensity in the same voxel map and fuses them sequentially in an ESIKF.</span>
           
         </a>
       </li>
@@ -643,9 +643,9 @@
     
       <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/state-estimation/vilens/">
-          <span class="study-toc-title">VILENS — 논문 리뷰</span>
+          <span class="study-toc-title">VILENS — paper review</span>
           
-            <span class="study-toc-desc">비전·IMU·LiDAR·다리 odometry를 그래프로 융합하고 다리 속도 bias를 추정하는 4족 상태 추정기다.</span>
+            <span class="study-toc-desc">A quadruped state estimator that fuses visual, inertial, LiDAR and leg odometry in a graph and estimates a leg velocity bias.</span>
           
         </a>
       </li>
@@ -654,9 +654,9 @@
     
       <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/state-estimation/lta-om/">
-          <span class="study-toc-title">LTA-OM — 논문 리뷰</span>
+          <span class="study-toc-title">LTA-OM — paper review</span>
           
-            <span class="study-toc-desc">FAST-LIO2에 루프 검출·기각·보정과 과거 맵의 재사용을 연결한 장기 매핑 시스템이다.</span>
+            <span class="study-toc-desc">A long-term mapping system that connects loop detection, rejection and correction plus reuse of the past map to FAST-LIO2.</span>
           
         </a>
       </li>
@@ -665,9 +665,9 @@
     
       <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/state-estimation/glim/">
-          <span class="study-toc-title">GLIM — 논문 리뷰</span>
+          <span class="study-toc-title">GLIM — paper review</span>
           
-            <span class="study-toc-desc">시간 창 안의 상태와 서브맵 간 정합을 최적화하고 GPU로 계산량을 처리하는 매핑 프레임워크다.</span>
+            <span class="study-toc-desc">A mapping framework that optimises states within a time window and inter-submap registration, handling the computation on GPU.</span>
           
         </a>
       </li>
@@ -676,9 +676,9 @@
     
       <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/state-estimation/loam/">
-          <span class="study-toc-title">LOAM — 논문 리뷰</span>
+          <span class="study-toc-title">LOAM — paper review</span>
           
-            <span class="study-toc-desc">고주파 odometry와 저주파 정밀 mapping을 분리해 LiDAR 실시간 추정을 가능하게 한 계보의 출발점이다.</span>
+            <span class="study-toc-desc">The starting point of the lineage: separating high-rate odometry from low-rate precise mapping made real-time LiDAR estimation possible.</span>
           
         </a>
       </li>
@@ -687,9 +687,9 @@
     
       <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/state-estimation/fast-lio/">
-          <span class="study-toc-title">FAST-LIO — 논문 리뷰</span>
+          <span class="study-toc-title">FAST-LIO — paper review</span>
           
-            <span class="study-toc-desc">LiDAR 특징점과 IMU를 반복 EKF로 결합하며, 많은 관측을 효율적으로 처리하는 FAST-LIO2의 기반이다.</span>
+            <span class="study-toc-desc">Combines LiDAR feature points and IMU in an iterated EKF, handling many observations efficiently; the basis of FAST-LIO2.</span>
           
         </a>
       </li>
@@ -698,9 +698,9 @@
     
       <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/state-estimation/fast-livo/">
-          <span class="study-toc-title">FAST-LIVO — 논문 리뷰</span>
+          <span class="study-toc-title">FAST-LIVO — paper review</span>
           
-            <span class="study-toc-desc">LiDAR·관성·영상을 sparse-direct 방식으로 결합하는 FAST-LIVO2의 선행 연구다.</span>
+            <span class="study-toc-desc">Combines LiDAR, inertial and image data in a sparse-direct manner; the prior work behind FAST-LIVO2.</span>
           
         </a>
       </li>
@@ -709,9 +709,9 @@
     
       <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/state-estimation/fast-livo2-resource-constrained/">
-          <span class="study-toc-title">FAST-LIVO2 경량화 — 논문 리뷰</span>
+          <span class="study-toc-title">Lightweight FAST-LIVO2 — paper review</span>
           
-            <span class="study-toc-desc">관측의 유용성과 맵 보존 범위를 조절해 FAST-LIVO2의 메모리·계산 비용을 줄이는 연구다.</span>
+            <span class="study-toc-desc">Reduces the memory and computation cost of FAST-LIVO2 by controlling observation usefulness and how much of the map is retained.</span>
           
         </a>
       </li>
@@ -720,9 +720,9 @@
     
       <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/state-estimation/legolas/">
-          <span class="study-toc-title">Legolas — 논문 리뷰</span>
+          <span class="study-toc-title">Legolas — paper review</span>
           
-            <span class="study-toc-desc">다리·관성 센서만으로 odometry를 학습해 외부 센서 추적이 어려운 상황을 다루는 연구다.</span>
+            <span class="study-toc-desc">Learns odometry from leg and inertial sensors alone, addressing situations where external-sensor tracking is difficult.</span>
           
         </a>
       </li>
@@ -731,9 +731,9 @@
     
       <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/state-estimation/lijo/">
-          <span class="study-toc-title">LIJO — 논문 리뷰</span>
+          <span class="study-toc-title">LIJO — paper review</span>
           
-            <span class="study-toc-desc">LiDAR·IMU·관절 속도 정보를 EKF로 결합해 4족 odometry의 고주파 jitter를 줄이는 연구다.</span>
+            <span class="study-toc-desc">Combines LiDAR, IMU and joint velocity information in an EKF to reduce high-frequency jitter in quadruped odometry.</span>
           
         </a>
       </li>

@@ -17,12 +17,12 @@
   
   
     
-      FAST-LIVO — 논문 리뷰 | Daye Lee
+      FAST-LIVO — paper review | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="LiDAR·관성·영상을 sparse-direct 방식으로 결합하는 FAST-LIVO2의 선행 연구다.">
+<meta name="description" content="Combines LiDAR, inertial and image data in a sparse-direct manner; the prior work behind FAST-LIVO2.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -364,201 +364,201 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">FAST-LIVO — 논문 리뷰</h1>
-    <p class="post-description">LiDAR·관성·영상을 sparse-direct 방식으로 결합하는 FAST-LIVO2의 선행 연구다.</p>
+    <h1 class="post-title">FAST-LIVO — paper review</h1>
+    <p class="post-description">Combines LiDAR, inertial and image data in a sparse-direct manner; the prior work behind FAST-LIVO2.</p>
   </header>
 
   <article>
-    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← State estimation paper comparison</a></p>
 
 <blockquote>
-  <p><strong>한 문장 요약:</strong> LiDAR·관성·영상을 sparse-direct 방식으로 결합하는 FAST-LIVO2의 선행 연구다.</p>
+  <p><strong>One-sentence summary:</strong> Combines LiDAR, inertial and image data in a sparse-direct manner; the prior work behind FAST-LIVO2.</p>
 </blockquote>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left">항목</th>
-      <th style="text-align: left">내용</th>
+      <th style="text-align: left">Item</th>
+      <th style="text-align: left">Detail</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left">논문</td>
+      <td style="text-align: left">Paper</td>
       <td style="text-align: left">FAST-LIVO: Fast and Tightly-coupled Sparse-Direct LiDAR-Inertial-Visual Odometry</td>
     </tr>
     <tr>
-      <td style="text-align: left">발표</td>
+      <td style="text-align: left">Venue</td>
       <td style="text-align: left">IROS 2022</td>
     </tr>
     <tr>
-      <td style="text-align: left">자료</td>
-      <td style="text-align: left"><a href="https://github.com/hku-mars/FAST-LIVO" rel="external nofollow noopener" target="_blank">논문·저자 자료</a></td>
+      <td style="text-align: left">Source</td>
+      <td style="text-align: left"><a href="https://github.com/hku-mars/FAST-LIVO" rel="external nofollow noopener" target="_blank">Paper / author material</a></td>
     </tr>
     <tr>
-      <td style="text-align: left">정리 상태</td>
-      <td style="text-align: left">입문 리뷰 초안 · 개인 정독·재현 기록은 아래에 추가</td>
+      <td style="text-align: left">Status</td>
+      <td style="text-align: left">Introductory review draft · personal close-reading and reproduction notes added below</td>
     </tr>
     <tr>
-      <td style="text-align: left">자료 확인일</td>
+      <td style="text-align: left">Source checked</td>
       <td style="text-align: left">2026-09-07</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="1-해결하려는-문제">1. 해결하려는 문제</h2>
+<h2 id="1-the-problem-it-addresses">1. The problem it addresses</h2>
 
-<p>LiDAR 기하와 이미지 정보가 서로 다른 장점을 가지므로 이를 같은 odometry 과정에서 활용하고자 한다.</p>
+<p>LiDAR geometry and image information have different strengths, so the aim is to exploit both within the same odometry process.</p>
 
-<h2 id="2-발표할-핵심-3개">2. 발표할 핵심 3개</h2>
+<h2 id="2-three-key-points-to-present">2. Three key points to present</h2>
 
 <ol>
   <li>
-<strong>LIO와 VIO 결합:</strong> LiDAR-inertial·visual-inertial 두 하위 시스템을 강하게 연결한다.</li>
+<strong>Combining LIO and VIO:</strong> the LiDAR-inertial and visual-inertial subsystems are tightly connected.</li>
   <li>
-<strong>Sparse-direct 비전:</strong> 영상의 sparse-direct 접근을 사용한다.</li>
+<strong>Sparse-direct vision:</strong> a sparse-direct approach is used on the image side.</li>
   <li>
-<strong>다중 센서 odometry:</strong> 영상과 LiDAR가 제공하는 상보적인 정보를 함께 활용한다.</li>
+<strong>Multi-sensor odometry:</strong> the complementary information provided by images and LiDAR is used together.</li>
 </ol>
 
-<p>기술 요약 근거: <a href="https://github.com/hku-mars/FAST-LIVO" rel="external nofollow noopener" target="_blank">논문·저자 설명</a>.</p>
+<p>Basis for this technical summary: <a href="https://github.com/hku-mars/FAST-LIVO" rel="external nofollow noopener" target="_blank">paper / author description</a>.</p>
 
-<h2 id="3-동작-구조">3. 동작 구조</h2>
+<h2 id="3-how-it-works">3. How it works</h2>
 
-<p>아래는 이해를 위한 개념 흐름이며 구현의 모든 스레드·갱신 주기를 나타내지는 않는다.</p>
+<p>The diagram below is a conceptual flow for understanding; it does not show every thread and update rate in the implementation.</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR + IMU → LIO 하위 시스템 ↔ VIO 하위 시스템 ← 이미지
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR + IMU → LIO subsystem ↔ VIO subsystem ← images
 </code></pre></div></div>
 
-<p>공식 저장소는 두 개의 tightly coupled direct odometry 하위 시스템으로 구조를 설명한다. FAST-LIVO2의 통합 voxel map·순차 갱신 세부사항을 이 논문에 그대로 소급하지 않는다.</p>
+<p>The official repository describes the architecture as two tightly coupled direct odometry subsystems. Do not retroactively attribute the unified voxel map and sequential update details of FAST-LIVO2 to this paper.</p>
 
-<h2 id="4-실험-결과와-해석">4. 실험 결과와 해석</h2>
+<h2 id="4-experimental-results-and-interpretation">4. Experimental results and interpretation</h2>
 
-<p>공식 저장소에서 논문·코드·데이터 접근 경로를 제공한다. 이 페이지는 저자 설명 기반의 입문 리뷰이며 데이터셋별 성능 수치는 정독 후 기록한다. <a href="https://github.com/hku-mars/FAST-LIVO" rel="external nofollow noopener" target="_blank">출처</a></p>
+<p>The official repository provides access to the paper, code and data. This page is an introductory review based on the authors’ description; per-dataset performance figures are to be recorded after a close reading. <a href="https://github.com/hku-mars/FAST-LIVO" rel="external nofollow noopener" target="_blank">Source</a></p>
 
-<p>카메라 동기화와 외부 파라미터를 맞추는 과정도 재현의 일부다. 후속 버전의 개선 주장을 선행 논문의 실험 결과로 기록하지 않는다.</p>
+<p>Getting camera synchronisation and extrinsics right is part of reproduction. Do not record the improvement claims of the later version as experimental results of this earlier paper.</p>
 
-<p>정독할 때는 비교 방법 이름뿐 아니라 센서 구성, ground truth, 궤적 정렬 방식, 실행 장치와 실패 구간 포함 여부를 함께 기록한다.</p>
+<p>When reading closely, record not only the names of the compared methods but also the sensor configuration, ground truth, trajectory alignment method, the compute platform, and whether failed segments are included.</p>
 
-<h2 id="5-vision60-적용-질문">5. Vision60 적용 질문</h2>
+<h2 id="5-vision60-application-questions">5. Vision60 application questions</h2>
 
-<p>다음은 논문의 검증 결과와 구분한 <strong>프로젝트 적용 가설·검토 질문</strong>이다.</p>
+<p>The following are <strong>project application hypotheses and review questions</strong>, kept separate from the paper’s validated results.</p>
 
 <ol>
-  <li>LIO와 VIO가 공유하는 상태·맵 정보는 정확히 무엇인가?</li>
-  <li>영상 잔차를 계산할 점 또는 패치는 어떻게 고르는가?</li>
-  <li>FAST-LIVO2의 개선 중 맵 표현 변화와 갱신 방식 변화는 각각 무엇인가?</li>
+  <li>What state and map information do the LIO and VIO subsystems actually share?</li>
+  <li>How are the points or patches used to compute the image residual selected?</li>
+  <li>Among the improvements in FAST-LIVO2, which are changes in map representation and which are changes in the update scheme?</li>
 </ol>
 
-<p><strong>제안 실험:</strong> 동일한 센서 로그를 재현할 수 있는지 먼저 확인한다. 영상 노출·블러 상태를 표시해 영상 정보가 유효한 구간과 그렇지 않은 구간을 구분한다.</p>
+<p><strong>Proposed experiment:</strong> first confirm that the same sensor logs can be reproduced. Annotate the image exposure and blur state to separate segments where the image information is usable from those where it is not.</p>
 
-<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+<h2 id="6-check-questions">6. Check questions</h2>
 
-<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+<p>Answer each question out loud first, then open the toggle. Practise stating the assumptions and equations together with the failure conditions and how you would verify them.</p>
 
-<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+<h3 id="q1-concept-and-structure">Q1. Concept and structure</h3>
 
-<p>FAST-LIVO를 두 tightly coupled subsystem으로 설명하는 것과 FAST-LIVO2의 unified voxel map을 혼동하면 안 되는 이유는 무엇인가?</p>
+<p>Why must you not confuse describing FAST-LIVO as two tightly coupled subsystems with the unified voxel map of FAST-LIVO2?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>선행 방법의 LIO·VIO 결합 구조와 후속 방법의 단일 map 표현·순차 갱신은 구체적 데이터 공유 방식이 다르다. 후속 논문의 개선을 선행 방법에 소급하면 상태, 잔차, map association을 잘못 이해하게 된다. 논문별 실제 인터페이스를 확인해야 한다.</p>
+  <p>The LIO–VIO coupling of the earlier method and the single map representation with sequential update of the later one share data in concretely different ways. Retroactively applying the later paper’s improvements to the earlier method leads to a wrong understanding of the states, residuals and map association. The actual interfaces of each paper have to be checked.</p>
 
 </details>
 
-<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+<h3 id="q2-math-and-reasoning">Q2. Math and reasoning</h3>
 
-<p>LiDAR 잔차 (r<em>L)와 영상 잔차 (r_V)를 한 목적함수 (J=|r_L|</em>{W<em>L}^2+|r_V|</em>{W_V}^2)로 결합할 때 가중치가 중요한 이유는 무엇인가?</p>
+<p>When combining a LiDAR residual (r<em>L) and an image residual (r_V) into one objective (J=|r_L|</em>{W<em>L}^2+|r_V|</em>{W_V}^2), why do the weights matter?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>두 잔차는 단위·차원·noise가 다르다. 공분산에 맞지 않는 가중치는 한 모달리티가 수치적으로 지배하게 만든다. whitened residual과 robust loss, 상관관계 및 선형화 지점을 검토해야 한다. 단순히 residual 개수를 맞추는 것으로 충분하지 않다.</p>
+  <p>The two residuals have different units, dimensions and noise. Weights that do not match the covariances let one modality numerically dominate. Whitened residuals, robust losses, correlations and the linearisation point all have to be examined. Simply matching the number of residuals is not enough.</p>
 
 </details>
 
-<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+<h3 id="q3-systems-and-debugging">Q3. Systems and debugging</h3>
 
-<p>카메라를 추가한 뒤 정적 장면에서도 pose가 천천히 흐른다. 캘리브레이션 문제를 어떻게 분리할 것인가?</p>
+<p>After adding a camera, the pose drifts slowly even on a static scene. How would you isolate the calibration problem?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>시간 offset, extrinsic, camera intrinsics·distortion, exposure model을 하나씩 고정·변화시켜 ablation한다. 회전 중심 실험은 시간·extrinsic 회전 오차, 여러 깊이의 표적은 translation·intrinsic 오차에 유용하다. LiDAR-only 기준과 reprojection·photometric residual의 방향성을 함께 본다.</p>
+  <p>Ablate the time offset, extrinsics, camera intrinsics and distortion, and the exposure model one at a time, holding the others fixed. Rotation-centred experiments are useful for time and extrinsic rotation error; targets at several depths for translation and intrinsic error. Look at the LiDAR-only baseline alongside the directionality of the reprojection and photometric residuals.</p>
 
 </details>
 
-<h3 id="q4-코드-리뷰구현">Q4. 코드 리뷰·구현</h3>
+<h3 id="q4-code-review-and-implementation">Q4. Code review and implementation</h3>
 
-<p><strong>GitHub:</strong> <a href="https://github.com/hku-mars/FAST-LIVO" rel="external nofollow noopener" target="_blank">공식 또는 저자 연결 저장소</a></p>
+<p><strong>GitHub:</strong> <a href="https://github.com/hku-mars/FAST-LIVO" rel="external nofollow noopener" target="_blank">Official or author-linked repository</a></p>
 
-<p>저장소에서 LIO와 VIO 하위 시스템이 공유하는 상태를 찾아 데이터 소유권 표를 작성하라. 두 callback이 동시에 상태를 갱신할 수 있다면 어떤 버그가 생기며 어떻게 고치겠는가?</p>
+<p>Find the state shared by the LIO and VIO subsystems in the repository and write a data ownership table. If both callbacks can update the state simultaneously, what bugs arise and how would you fix them?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>ROS subscriber에서 시작해 LiDAR·IMU queue, camera queue, state 구조체, map과 publish 경로까지 symbol reference를 따라간다. 각 객체에 writer, reader, timestamp, lock을 기록한다. 동시에 갱신하면 lost update, 서로 다른 timestamp 상태의 혼합, map–pose 불일치가 생길 수 있다. 단일 estimator thread로 serialized update를 수행하거나 timestamp 순서의 event queue와 명확한 mutex/snapshot 소유권을 둔다. lock 추가만으로 시간 순서가 보장되지는 않는다.</p>
+  <p>Start from the ROS subscribers and follow symbol references through the LiDAR and IMU queues, the camera queue, the state struct, the map and the publish path. Record the writer, readers, timestamp and lock for each object. Simultaneous updates can cause lost updates, mixing of states from different timestamps, and map–pose inconsistency. Either serialise updates in a single estimator thread, or use a timestamp-ordered event queue with explicit mutex/snapshot ownership. Adding locks alone does not guarantee temporal ordering.</p>
 
 </details>
 
-<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
+<h2 id="7-close-reading-and-presentation-record">7. Close-reading and presentation record</h2>
 
-<p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
+<p>Use the summary above as a starting point, check the equations, figures and experiment tables in the original, then fill this in yourself. Keep reproduction results you have not yet run separate from the paper’s results.</p>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left">기록할 항목</th>
-      <th style="text-align: left">개인 리뷰 메모</th>
+      <th style="text-align: left">Item to record</th>
+      <th style="text-align: left">Personal review notes</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left">상태·입력·출력</td>
-      <td style="text-align: left">미작성 — 좌표계, 단위, 센서 주기까지 기록</td>
+      <td style="text-align: left">States, inputs, outputs</td>
+      <td style="text-align: left">Not written — record frames, units and sensor rates</td>
     </tr>
     <tr>
-      <td style="text-align: left">핵심 수식</td>
-      <td style="text-align: left">미작성 — 식 번호, 변수 의미, 가정과 잔차를 설명</td>
+      <td style="text-align: left">Key equations</td>
+      <td style="text-align: left">Not written — explain equation numbers, variable meanings, assumptions and residuals</td>
     </tr>
     <tr>
-      <td style="text-align: left">대표 그림</td>
-      <td style="text-align: left">미작성 — 그림 번호와 데이터 흐름을 본인의 말로 설명</td>
+      <td style="text-align: left">Key figures</td>
+      <td style="text-align: left">Not written — explain the figure number and the data flow in your own words</td>
     </tr>
     <tr>
-      <td style="text-align: left">실험 근거</td>
-      <td style="text-align: left">미작성 — 표·그림 번호, 데이터셋, baseline, 지표와 조건</td>
+      <td style="text-align: left">Experimental evidence</td>
+      <td style="text-align: left">Not written — table/figure numbers, dataset, baselines, metrics and conditions</td>
     </tr>
     <tr>
       <td style="text-align: left">Ablation</td>
-      <td style="text-align: left">미작성 — 어떤 요소를 제거했고 무엇이 바뀌었는지 기록</td>
+      <td style="text-align: left">Not written — which element was removed and what changed</td>
     </tr>
     <tr>
-      <td style="text-align: left">실패 사례·한계</td>
-      <td style="text-align: left">미작성 — 저자 보고와 자신의 추론을 구분</td>
+      <td style="text-align: left">Failure cases and limits</td>
+      <td style="text-align: left">Not written — separate what the authors report from your own inference</td>
     </tr>
     <tr>
-      <td style="text-align: left">코드·재현</td>
-      <td style="text-align: left">미작성 — 버전, 설정, 로그, 장치, 측정 결과</td>
+      <td style="text-align: left">Code and reproduction</td>
+      <td style="text-align: left">Not written — version, configuration, logs, hardware, measurements</td>
     </tr>
     <tr>
-      <td style="text-align: left">최종 판단</td>
-      <td style="text-align: left">미작성 — Vision60에서 채택·보류할 이유</td>
+      <td style="text-align: left">Final judgement</td>
+      <td style="text-align: left">Not written — reasons to adopt or defer for Vision60</td>
     </tr>
   </tbody>
 </table>
 
 <ul class="task-list">
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>핵심 기여 3개를 원문 근거와 함께 설명할 수 있다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I can explain the three key contributions with evidence from the original paper.</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>상태와 관측이 어떻게 연결되는지 설명할 수 있다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I can explain how the states and observations are connected.</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I have separated the paper’s results from the Vision60 application hypotheses.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-livo2/">FAST-LIVO2 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
+<p><strong>Read next:</strong> <a href="/study/slam/state-estimation/fast-livo2/">FAST-LIVO2 review</a> · <a href="/study/slam/state-estimation/">Full comparison table</a></p>
 
 
 
@@ -574,7 +574,7 @@
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/fast-livo2-resource-constrained/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>FAST-LIVO2 경량화 — 논문 리뷰</span>
+      <span>Lightweight FAST-LIVO2 — paper review</span>
     </a>
   
 </nav>

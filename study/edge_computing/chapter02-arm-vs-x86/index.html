@@ -377,6 +377,62 @@
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">uname -m</code> · <code class="language-plaintext highlighter-rouge">file &lt;binary&gt;</code> · <code class="language-plaintext highlighter-rouge">dpkg --print-architecture</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">uname -m</code></td>
+      <td style="text-align: left">지금 이 machine의 아키텍처</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">dpkg --print-architecture</code></td>
+      <td style="text-align: left">apt가 설치할 패키지 아키텍처 (<code class="language-plaintext highlighter-rouge">arm64</code> / <code class="language-plaintext highlighter-rouge">amd64</code>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">lscpu</code></td>
+      <td style="text-align: left">CPU 모델과 아키텍처 상세</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">file robot_app</code></td>
+      <td style="text-align: left">
+<strong>binary가 어느 아키텍처용인지</strong> — 실행 안 될 때 1순위</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">g++ main.cpp -o robot_app</code></td>
+      <td style="text-align: left">지금 machine용으로 native build</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">aarch64-linux-gnu-g++ main.cpp</code></td>
+      <td style="text-align: left">x86에서 ARM용으로 cross compile</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker info \| grep -i arch</code></td>
+      <td style="text-align: left">Docker daemon이 보는 아키텍처</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker image inspect &lt;img&gt; \| grep -i arch</code></td>
+      <td style="text-align: left">image가 어느 아키텍처용인지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker build --platform linux/arm64 .</code></td>
+      <td style="text-align: left">아키텍처를 지정해서 build</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-cpu는-아무-명령어나-이해하지-못한다">1. CPU는 아무 명령어나 이해하지 못한다</h1>
 
 <p>Chapter 1에서 CPU는 프로그램의 명령을 실행하는 장치라고 배웠다.</p>

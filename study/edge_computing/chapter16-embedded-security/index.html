@@ -380,6 +380,77 @@ Software Update의 기본을 이해하고 실제 robot deployment에 연결한�
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">ss -tuln</code> · <code class="language-plaintext highlighter-rouge">ls -l</code> · <code class="language-plaintext highlighter-rouge">ufw status</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">whoami</code> / <code class="language-plaintext highlighter-rouge">groups</code>
+</td>
+      <td style="text-align: left">지금 누구이고 어떤 권한인지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ls -l</code></td>
+      <td style="text-align: left">파일 소유자와 권한</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">chmod 600 secret.key</code></td>
+      <td style="text-align: left">본인만 읽기</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ss -tuln</code></td>
+      <td style="text-align: left">
+<strong>열려 있는 port</strong> — 의도치 않게 열린 것 찾기</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ss -tulpen</code></td>
+      <td style="text-align: left">어떤 process가 열었는지까지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo ufw status verbose</code></td>
+      <td style="text-align: left">방화벽 규칙</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo ufw allow 22/tcp</code></td>
+      <td style="text-align: left">규칙 추가</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">last</code></td>
+      <td style="text-align: left">최근 로그인 이력</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">journalctl -u ssh -f</code></td>
+      <td style="text-align: left">SSH 접속 시도 로그</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ssh-keygen -t ed25519</code></td>
+      <td style="text-align: left">키 기반 인증 (비밀번호 로그인 대신)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">rg "password\|secret\|token\|api_key"</code></td>
+      <td style="text-align: left">저장소에 credential이 섞였는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker run --privileged</code></td>
+      <td style="text-align: left">
+<strong>가급적 피하고</strong> <code class="language-plaintext highlighter-rouge">--device</code>로 좁힌다</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-robot-security는-왜-중요한가">1. Robot Security는 왜 중요한가?</h1>
 
 <p>로봇이 network에 연결되면 단순한 embedded device가 아니라

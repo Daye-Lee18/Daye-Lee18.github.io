@@ -17,12 +17,12 @@
   
   
     
-      GLIM — 논문 리뷰 | Daye Lee
+      GLIM — paper review | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="시간 창 안의 상태와 서브맵 간 정합을 최적화하고 GPU로 계산량을 처리하는 매핑 프레임워크다.">
+<meta name="description" content="A mapping framework that optimises states within a time window and inter-submap registration, handling the computation on GPU.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -364,203 +364,203 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">GLIM — 논문 리뷰</h1>
-    <p class="post-description">시간 창 안의 상태와 서브맵 간 정합을 최적화하고 GPU로 계산량을 처리하는 매핑 프레임워크다.</p>
+    <h1 class="post-title">GLIM — paper review</h1>
+    <p class="post-description">A mapping framework that optimises states within a time window and inter-submap registration, handling the computation on GPU.</p>
   </header>
 
   <article>
-    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← State estimation paper comparison</a></p>
 
 <blockquote>
-  <p><strong>한 문장 요약:</strong> 시간 창 안의 상태와 서브맵 간 정합을 최적화하고 GPU로 계산량을 처리하는 매핑 프레임워크다.</p>
+  <p><strong>One-sentence summary:</strong> A mapping framework that optimises states within a time window and inter-submap registration, handling the computation on GPU.</p>
 </blockquote>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left">항목</th>
-      <th style="text-align: left">내용</th>
+      <th style="text-align: left">Item</th>
+      <th style="text-align: left">Detail</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left">논문</td>
+      <td style="text-align: left">Paper</td>
       <td style="text-align: left">GLIM: 3D Range-Inertial Localization and Mapping with GPU-Accelerated Scan Matching Factors</td>
     </tr>
     <tr>
-      <td style="text-align: left">발표</td>
+      <td style="text-align: left">Venue</td>
       <td style="text-align: left">Robotics and Autonomous Systems 2024</td>
     </tr>
     <tr>
-      <td style="text-align: left">자료</td>
+      <td style="text-align: left">Source</td>
       <td style="text-align: left">
-<a href="https://arxiv.org/abs/2407.10344" rel="external nofollow noopener" target="_blank">논문·저자 자료</a> · <a href="https://github.com/koide3/glim" rel="external nofollow noopener" target="_blank">공식 구현</a>
+<a href="https://arxiv.org/abs/2407.10344" rel="external nofollow noopener" target="_blank">Paper / author material</a> · <a href="https://github.com/koide3/glim" rel="external nofollow noopener" target="_blank">Official implementation</a>
 </td>
     </tr>
     <tr>
-      <td style="text-align: left">정리 상태</td>
-      <td style="text-align: left">입문 리뷰 초안 · 개인 정독·재현 기록은 아래에 추가</td>
+      <td style="text-align: left">Status</td>
+      <td style="text-align: left">Introductory review draft · personal close-reading and reproduction notes added below</td>
     </tr>
     <tr>
-      <td style="text-align: left">자료 확인일</td>
+      <td style="text-align: left">Source checked</td>
       <td style="text-align: left">2026-09-07</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="1-해결하려는-문제">1. 해결하려는 문제</h2>
+<h2 id="1-the-problem-it-addresses">1. The problem it addresses</h2>
 
-<p>현재 스캔의 기하 제약이 일시적으로 약할 때 과거 상태와 정합 관계를 활용해야 한다. 풍부한 제약을 최적화하려면 계산 비용도 관리해야 한다.</p>
+<p>When the geometric constraints of the current scan are temporarily weak, past states and registration relations have to be exploited. Optimising a rich set of constraints also means managing the computational cost.</p>
 
-<h2 id="2-발표할-핵심-3개">2. 발표할 핵심 3개</h2>
+<h2 id="2-three-key-points-to-present">2. Three key points to present</h2>
 
 <ol>
   <li>
-<strong>Fixed-lag smoothing:</strong> 제한된 시간 창의 상태를 함께 추정한다.</li>
+<strong>Fixed-lag smoothing:</strong> the states within a bounded time window are estimated together.</li>
   <li>
-<strong>GPU scan matching factor:</strong> 점군 정합 오차 계산의 병렬성을 활용한다.</li>
+<strong>GPU scan matching factors:</strong> the parallelism of point cloud registration error computation is exploited.</li>
   <li>
-<strong>전역 등록 오차 최소화:</strong> 전체 맵의 서브맵 간 등록 오차를 직접 최적화한다.</li>
+<strong>Global registration error minimisation:</strong> the inter-submap registration error of the whole map is optimised directly.</li>
 </ol>
 
-<p>기술 요약 근거: <a href="https://arxiv.org/abs/2407.10344" rel="external nofollow noopener" target="_blank">논문·저자 설명</a>.</p>
+<p>Basis for this technical summary: <a href="https://arxiv.org/abs/2407.10344" rel="external nofollow noopener" target="_blank">paper / author description</a>.</p>
 
-<h2 id="3-동작-구조">3. 동작 구조</h2>
+<h2 id="3-how-it-works">3. How it works</h2>
 
-<p>아래는 이해를 위한 개념 흐름이며 구현의 모든 스레드·갱신 주기를 나타내지는 않는다.</p>
+<p>The diagram below is a conceptual flow for understanding; it does not show every thread and update rate in the implementation.</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Range + IMU (+ 카메라 제약) → 로컬 fixed-lag smoothing → 서브맵 → 전역 정합 최적화
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>range + IMU (+ camera constraints) → local fixed-lag smoothing → submaps → global registration optimisation
 </code></pre></div></div>
 
-<p>논문은 다중 카메라 특징 제약의 강결합도 설명한다. 로컬 시간 창과 전역 서브맵 최적화가 각각 어떤 상태를 보유하는지 구분해 읽는다.</p>
+<p>The paper also describes the tight coupling of multi-camera feature constraints. Read it distinguishing which states are held by the local time window and which by the global submap optimisation.</p>
 
-<h2 id="4-실험-결과와-해석">4. 실험 결과와 해석</h2>
+<h2 id="4-experimental-results-and-interpretation">4. Experimental results and interpretation</h2>
 
-<p>저자들은 몇 초 동안 range data가 완전히 퇴화하는 상황을 다루는 능력과 GPU를 이용한 실시간 처리를 보고한다. 이런 결과가 무제한 퇴화나 모든 GPU에서의 실시간성을 보장하지는 않는다. <a href="https://arxiv.org/abs/2407.10344" rel="external nofollow noopener" target="_blank">출처</a> · <a href="https://github.com/koide3/glim" rel="external nofollow noopener" target="_blank">구현 설명</a></p>
+<p>The authors report the ability to handle situations where range data degenerates completely for several seconds, and real-time processing using a GPU. Such results do not guarantee unbounded degeneracy tolerance or real-time operation on every GPU. <a href="https://arxiv.org/abs/2407.10344" rel="external nofollow noopener" target="_blank">Source</a> · <a href="https://github.com/koide3/glim" rel="external nofollow noopener" target="_blank">Implementation notes</a></p>
 
-<p>필터 방식보다 많은 계산을 사용하는 설계이므로 온보드 GPU의 다른 작업과 경쟁할 수 있다. 논문 GLIM은 2024년이며 기반이 된 2022년 연구와 구분한다.</p>
+<p>The design uses more computation than a filter-based approach, so it can compete with other work on an onboard GPU. The GLIM paper is from 2024 and is distinct from the 2022 work it builds on.</p>
 
-<p>정독할 때는 비교 방법 이름뿐 아니라 센서 구성, ground truth, 궤적 정렬 방식, 실행 장치와 실패 구간 포함 여부를 함께 기록한다.</p>
+<p>When reading closely, record not only the names of the compared methods but also the sensor configuration, ground truth, trajectory alignment method, the compute platform, and whether failed segments are included.</p>
 
-<h2 id="5-vision60-적용-질문">5. Vision60 적용 질문</h2>
+<h2 id="5-vision60-application-questions">5. Vision60 application questions</h2>
 
-<p>다음은 논문의 검증 결과와 구분한 <strong>프로젝트 적용 가설·검토 질문</strong>이다.</p>
+<p>The following are <strong>project application hypotheses and review questions</strong>, kept separate from the paper’s validated results.</p>
 
 <ol>
-  <li>시간 창 길이를 늘릴 때 정확도·메모리·지연이 어떻게 변하는가?</li>
-  <li>Vision60의 GPU가 인지·제어 작업을 함께 수행하는가?</li>
-  <li>기하 퇴화 회복에 카메라와 시간 창이 각각 얼마나 기여하는가?</li>
+  <li>How do accuracy, memory and latency change as the time window is lengthened?</li>
+  <li>Does the Vision60 GPU also run perception and control workloads?</li>
+  <li>How much do the camera and the time window each contribute to recovery from geometric degeneracy?</li>
 </ol>
 
-<p><strong>제안 실험:</strong> 동일 퇴화 로그에서 FAST-LIO2와 비교하고 구간별 오차, 지연 상위 백분위수, GPU 메모리를 기록한다. 카메라 사용 여부를 맞춘 뒤 비교한다.</p>
+<p><strong>Proposed experiment:</strong> compare against FAST-LIO2 on the same degeneracy log, recording per-segment error, upper-percentile latency and GPU memory. Match whether the camera is used before comparing.</p>
 
-<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+<h2 id="6-check-questions">6. Check questions</h2>
 
-<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+<p>Answer each question out loud first, then open the toggle. Practise stating the assumptions and equations together with the failure conditions and how you would verify them.</p>
 
-<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+<h3 id="q1-concept-and-structure">Q1. Concept and structure</h3>
 
-<p>fixed-lag smoothing이 EKF보다 일시적인 LiDAR 퇴화에 유리할 수 있는 이유와 비용을 설명하라.</p>
+<p>Explain why fixed-lag smoothing can be better than an EKF under temporary LiDAR degeneracy, and what it costs.</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>시간 창의 여러 상태와 관측을 함께 다시 선형화하므로 퇴화 구간 전후의 정보가 내부 상태를 연결할 수 있다. 반면 상태·factor 수, 메모리, 선형계 풀이 비용과 지연이 증가한다. 창 밖 상태의 marginalization이 만든 prior의 일관성도 고려해야 한다.</p>
+  <p>It relinearises several states and observations in the time window together, so information from before and after the degenerate segment can link the internal states. On the other hand the number of states and factors, the memory, the linear solve cost and the latency all increase. The consistency of the prior produced by marginalising states outside the window also has to be considered.</p>
 
 </details>
 
-<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+<h3 id="q2-math-and-reasoning">Q2. Math and reasoning</h3>
 
-<p>비선형 least squares (\min<em>\delta\sum_i|r_i(x\boxplus\delta)|</em>{\Sigma_i^{-1}}^2)를 1차 선형화한 normal equation을 쓰고, 퇴화와의 관계를 설명하라.</p>
+<p>Write the normal equation obtained by first-order linearisation of the nonlinear least squares (\min<em>\delta\sum_i|r_i(x\boxplus\delta)|</em>{\Sigma_i^{-1}}^2), and explain its relation to degeneracy.</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>(H\delta=-g), (H=\sum_iJ_i^\top\Sigma_i^{-1}J_i), (g=\sum_iJ_i^\top\Sigma_i^{-1}r_i)이다. (H)의 작은 고유값은 해당 상태 방향을 제약하는 정보가 약함을 뜻한다. damping은 수치 안정성을 줄 수 있지만 관측 정보를 새로 만들지는 않는다.</p>
+  <p>(H\delta=-g) with (H=\sum_iJ_i^\top\Sigma_i^{-1}J_i) and (g=\sum_iJ_i^\top\Sigma_i^{-1}r_i). Small eigenvalues of (H) mean the information constraining that state direction is weak. Damping can give numerical stability, but it does not create new observational information.</p>
 
 </details>
 
-<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+<h3 id="q3-systems-and-debugging">Q3. Systems and debugging</h3>
 
-<p>평균 실행 시간은 실시간인데 Vision60 제어가 간헐적으로 deadline을 놓친다. GPU 기반 SLAM 관점에서 무엇을 측정할 것인가?</p>
+<p>The mean runtime is real-time, but Vision60’s control intermittently misses its deadline. From the perspective of GPU-based SLAM, what would you measure?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>kernel·memory transfer·synchronization별 시간, p95/p99와 최악 지연, GPU memory peak, queue depth, 인지·학습 작업과의 contention, thermal throttling을 측정한다. 평균 FPS만 보면 burst와 blocking을 놓친다. 제어와 SLAM의 stream·priority·resource partition도 확인한다.</p>
+  <p>Measure per-kernel, memory transfer and synchronisation times, p95/p99 and worst-case latency, peak GPU memory, queue depth, contention with perception and learning workloads, and thermal throttling. Looking only at mean FPS misses bursts and blocking. Also check the streams, priorities and resource partitioning between control and SLAM.</p>
 
 </details>
 
-<h3 id="q4-코드-리뷰구현">Q4. 코드 리뷰·구현</h3>
+<h3 id="q4-code-review-and-implementation">Q4. Code review and implementation</h3>
 
-<p><strong>GitHub:</strong> <a href="https://github.com/koide3/glim" rel="external nofollow noopener" target="_blank">공식 또는 저자 연결 저장소</a></p>
+<p><strong>GitHub:</strong> <a href="https://github.com/koide3/glim" rel="external nofollow noopener" target="_blank">Official or author-linked repository</a></p>
 
-<p>GLIM에 새로운 속도 factor를 추가한다고 하자. factor 구현 외에 registration, config, state timestamp, Jacobian 검증과 실시간 성능을 어떻게 확인하겠는가?</p>
+<p>Suppose you add a new velocity factor to GLIM. Beyond implementing the factor, how would you verify registration, config, state timestamps, the Jacobian and real-time performance?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>기존 factor가 생성·등록되는 경로와 optimizer가 보유하는 state key·timestamp convention을 먼저 따른다. noise model과 robust kernel을 config로 노출하고 센서 측정 시각을 어떤 두 상태에 연결할지 명시한다. analytic Jacobian은 manifold perturbation convention을 맞춰 finite difference와 비교한다. factor on/off의 동일 bag A/B 테스트에서 trajectory error, innovation, graph size, solve-time p95/p99를 측정하고 marginalization 뒤에도 dangling key가 없는지 검사한다.</p>
+  <p>First follow the path by which existing factors are created and registered, and the state key and timestamp conventions held by the optimiser. Expose the noise model and robust kernel through the config, and state explicitly which two states the sensor measurement time connects. Match the analytic Jacobian to the manifold perturbation convention and compare it against finite differences. In an A/B test on the same bag with the factor on and off, measure trajectory error, innovation, graph size and solve-time p95/p99, and check there are no dangling keys after marginalisation.</p>
 
 </details>
 
-<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
+<h2 id="7-close-reading-and-presentation-record">7. Close-reading and presentation record</h2>
 
-<p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
+<p>Use the summary above as a starting point, check the equations, figures and experiment tables in the original, then fill this in yourself. Keep reproduction results you have not yet run separate from the paper’s results.</p>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left">기록할 항목</th>
-      <th style="text-align: left">개인 리뷰 메모</th>
+      <th style="text-align: left">Item to record</th>
+      <th style="text-align: left">Personal review notes</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left">상태·입력·출력</td>
-      <td style="text-align: left">미작성 — 좌표계, 단위, 센서 주기까지 기록</td>
+      <td style="text-align: left">States, inputs, outputs</td>
+      <td style="text-align: left">Not written — record frames, units and sensor rates</td>
     </tr>
     <tr>
-      <td style="text-align: left">핵심 수식</td>
-      <td style="text-align: left">미작성 — 식 번호, 변수 의미, 가정과 잔차를 설명</td>
+      <td style="text-align: left">Key equations</td>
+      <td style="text-align: left">Not written — explain equation numbers, variable meanings, assumptions and residuals</td>
     </tr>
     <tr>
-      <td style="text-align: left">대표 그림</td>
-      <td style="text-align: left">미작성 — 그림 번호와 데이터 흐름을 본인의 말로 설명</td>
+      <td style="text-align: left">Key figures</td>
+      <td style="text-align: left">Not written — explain the figure number and the data flow in your own words</td>
     </tr>
     <tr>
-      <td style="text-align: left">실험 근거</td>
-      <td style="text-align: left">미작성 — 표·그림 번호, 데이터셋, baseline, 지표와 조건</td>
+      <td style="text-align: left">Experimental evidence</td>
+      <td style="text-align: left">Not written — table/figure numbers, dataset, baselines, metrics and conditions</td>
     </tr>
     <tr>
       <td style="text-align: left">Ablation</td>
-      <td style="text-align: left">미작성 — 어떤 요소를 제거했고 무엇이 바뀌었는지 기록</td>
+      <td style="text-align: left">Not written — which element was removed and what changed</td>
     </tr>
     <tr>
-      <td style="text-align: left">실패 사례·한계</td>
-      <td style="text-align: left">미작성 — 저자 보고와 자신의 추론을 구분</td>
+      <td style="text-align: left">Failure cases and limits</td>
+      <td style="text-align: left">Not written — separate what the authors report from your own inference</td>
     </tr>
     <tr>
-      <td style="text-align: left">코드·재현</td>
-      <td style="text-align: left">미작성 — 버전, 설정, 로그, 장치, 측정 결과</td>
+      <td style="text-align: left">Code and reproduction</td>
+      <td style="text-align: left">Not written — version, configuration, logs, hardware, measurements</td>
     </tr>
     <tr>
-      <td style="text-align: left">최종 판단</td>
-      <td style="text-align: left">미작성 — Vision60에서 채택·보류할 이유</td>
+      <td style="text-align: left">Final judgement</td>
+      <td style="text-align: left">Not written — reasons to adopt or defer for Vision60</td>
     </tr>
   </tbody>
 </table>
 
 <ul class="task-list">
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>핵심 기여 3개를 원문 근거와 함께 설명할 수 있다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I can explain the three key contributions with evidence from the original paper.</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>상태와 관측이 어떻게 연결되는지 설명할 수 있다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I can explain how the states and observations are connected.</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I have separated the paper’s results from the Vision60 application hypotheses.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-lio2/">FAST-LIO2 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
+<p><strong>Read next:</strong> <a href="/study/slam/state-estimation/fast-lio2/">FAST-LIO2 review</a> · <a href="/study/slam/state-estimation/">Full comparison table</a></p>
 
 
 
@@ -576,7 +576,7 @@
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/loam/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>LOAM — 논문 리뷰</span>
+      <span>LOAM — paper review</span>
     </a>
   
 </nav>

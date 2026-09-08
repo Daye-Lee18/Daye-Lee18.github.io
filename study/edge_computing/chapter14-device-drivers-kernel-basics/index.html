@@ -380,6 +380,74 @@ Interrupt, DMA, System Call의 기본 개념을 이해하고,
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">lsmod</code> · <code class="language-plaintext highlighter-rouge">dmesg -w</code> · <code class="language-plaintext highlighter-rouge">journalctl -k</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">uname -r</code></td>
+      <td style="text-align: left">커널 버전. <strong>module은 커널 버전마다 다르다</strong>
+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">lsmod</code></td>
+      <td style="text-align: left">로드된 module 목록</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">modinfo can</code></td>
+      <td style="text-align: left">그 module의 정보와 parameter</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo modprobe can</code></td>
+      <td style="text-align: left">module 로드</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo rmmod can</code></td>
+      <td style="text-align: left">module 제거</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">dmesg -w</code></td>
+      <td style="text-align: left">커널 메시지 실시간 (<strong>device 꽂을 때 이걸 켜 둔다</strong>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">journalctl -k -f</code></td>
+      <td style="text-align: left">같은 것을 systemd journal로</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ls -l /dev/ttyUSB0</code></td>
+      <td style="text-align: left">device node와 소유자·권한</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">udevadm info -a -n /dev/ttyUSB0</code></td>
+      <td style="text-align: left">udev rule에 쓸 속성</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">udevadm control --reload-rules &amp;&amp; udevadm trigger</code></td>
+      <td style="text-align: left">rule 다시 적용</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cat /proc/interrupts</code></td>
+      <td style="text-align: left">IRQ가 어느 코어로 가는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo usermod -aG dialout $USER</code></td>
+      <td style="text-align: left">권한 부여 (재로그인 필요)</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-센서를-꽂으면-왜-바로-프로그램에서-읽을-수-있을까">1. 센서를 꽂으면 왜 바로 프로그램에서 읽을 수 있을까?</h1>
 
 <p>예를 들어 USB IMU를 Jetson에 연결했다고 하자.</p>
@@ -3053,9 +3121,9 @@ MCU / Real-Time Controller
     <a href="/study/edge_computing/">← 목차로 돌아가기</a>
   
   
-    <a class="study-chapter-next" href="/study/edge_computing/chapter16-embedded-security/" rel="next">
+    <a class="study-chapter-next" href="/study/edge_computing/chapter15-real-time-computing/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Chapter 16. Embedded Security</span>
+      <span>Chapter 15. Real-Time Computing</span>
     </a>
   
 </nav>

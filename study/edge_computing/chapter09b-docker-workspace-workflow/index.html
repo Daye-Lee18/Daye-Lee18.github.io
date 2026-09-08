@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 9.5. Docker 실전 — 컨테이너 파일시스템과 개발 워크플로우 | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter09b-docker-workspace-workflow/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 9.5. Docker 실전 — 컨테이너 파일시스템과 개발 워크플로우</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> 컨테이너 안에서 보이는 경로 중 <strong>어떤 것이 이미지에 구워진 것이고 어떤 것이 호스트에서 빌려온 것인지</strong> 구분하고,
+<code class="language-plaintext highlighter-rouge">build.sh</code> / <code class="language-plaintext highlighter-rouge">run.sh</code> / <code class="language-plaintext highlighter-rouge">colcon build</code>로 이어지는 하루 작업 흐름을 명령어 단위로 실행할 수 있다.
+또한 <code class="language-plaintext highlighter-rouge">ROS_DOMAIN_ID</code>, <code class="language-plaintext highlighter-rouge">RMW_IMPLEMENTATION</code>, X11 같은 설정이
+<strong>이미지·컨테이너 중 어디에 박히는지</strong>를 구분하고, 컨테이너 안 ROS 2가 상대 로봇과
+통신되는지 순서대로 확인할 수 있다.</p>
+</blockquote>
+
+<p>Chapter 9는 Docker가 무엇인지, Jetson에서 왜 쓰는지를 다뤘다.
+이 chapter는 그 다음 단계다. 개념을 알아도 막상 컨테이너에 들어가면
+<code class="language-plaintext highlighter-rouge">/opt/ros/humble</code>과 <code class="language-plaintext highlighter-rouge">/ws</code>가 <strong>왜 서로 다르게 동작하는지</strong> 헷갈리는 경우가 많다.
+그 구분 하나만 정확히 잡으면 나머지 워크플로우는 자동으로 따라온다.</p>
+
+<hr>
+
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">./docker/run.sh</code> · <code class="language-plaintext highlighter-rouge">docker exec -it sd-slam bash</code> · <code class="language-plaintext highlighter-rouge">colcon build</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">./docker/build.sh</code></td>
+      <td style="text-align: left">이미지 생성. <strong>Dockerfile을 고쳤을 때만</strong> (10~20분)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">./docker/run.sh</code></td>
+      <td style="text-align: left">컨테이너 생성 or 시작 + 접속 (매번, 1초)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker exec -it sd-slam bash</code></td>
+      <td style="text-align: left">터미널 하나 더 열기</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker ps</code></td>
+      <td style="text-align: left">컨테이너가 살아 있는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker stop sd-slam</code></td>
+      <td style="text-align: left">잠시 끄기 (설치한 것은 남는다)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker rm -f sd-slam</code></td>
+      <td style="text-align: left">삭제. <strong><code class="language-plaintext highlighter-rouge">-e</code> 값을 바꾸려면 이게 필요</strong>
+</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ls /opt/ros/humble</code></td>
+      <td style="text-align: left">이미지에만 있는 것</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ls /ws</code></td>
+      <td style="text-align: left">호스트에서 빌려온 것</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">colcon build --symlink-install</code></td>
+      <td style="text-align: left">overlay 빌드 (결과는 호스트 <code class="language-plaintext highlighter-rouge">/ws/install</code>에 남음)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">source install/setup.bash</code></td>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">docker exec</code>로 새로 들어갈 때마다 다시 필요</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">env \| grep -E 'ROS_\|CYCLONE\|DISPLAY'</code></td>
+      <td style="text-align: left">환경변수가 전달됐는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">echo $ROS_DOMAIN_ID</code></td>
+      <td style="text-align: left">토픽이 안 보일 때 1순위</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">echo $RMW_IMPLEMENTATION</code></td>
+      <td style="text-align: left">어느 DDS를 쓰는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">xhost +local:</code></td>
+      <td style="text-align: left">GUI를 띄우기 전 <strong>호스트에서</strong> 한 번</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">rqt_graph</code></td>
+      <td style="text-align: left">node·topic 연결 방향 보기</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sudo chown -R $(id -u):$(id -g) .</code></td>
+      <td style="text-align: left">root 소유가 된 파일 되돌리기</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="1-컨테이너는-자기만의-완전한-파일시스템을-가진다">1. 컨테이너는 자기만의 완전한 파일시스템을 가진다</h1>
+
+<p>가장 먼저 버려야 할 착각이 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"컨테이너는 호스트 위에서 도는 프로그램이니까
+ 호스트 파일을 그냥 보는 거겠지"
+</code></pre></div></div>
+
+<p>아니다.</p>
+
+<p>컨테이너에 들어가서 <code class="language-plaintext highlighter-rouge">ls /</code>를 하면 보이는 것은 <strong>이미지가 통째로 제공한 파일시스템</strong>이다.
+호스트의 <code class="language-plaintext highlighter-rouge">/</code>가 아니다.</p>
+
+<p>그래서 이런 일이 가능하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>호스트    : Ubuntu 24.04 (noble)
+컨테이너  : Ubuntu 22.04 (jammy)
+</code></pre></div></div>
+
+<p>ROS 2 Humble은 jammy용으로 배포된다.
+호스트를 24.04로 쓰면서도 컨테이너 안에서 Humble을 쓸 수 있는 이유가 이것이다.
+커널만 공유하고, <strong>그 위의 파일시스템은 완전히 별개</strong>다.</p>
+
+<hr>
+
+<h1 id="2-opt와-ws의-실체">2. <code class="language-plaintext highlighter-rouge">/opt</code>와 <code class="language-plaintext highlighter-rouge">/ws</code>의 실체</h1>
+
+<p>실제 SLAM 개발 환경을 예로 보자.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>호스트 (Ubuntu 24.04 noble)              컨테이너 (Ubuntu 22.04 jammy)
+────────────────────────────             ──────────────────────────────
+                                         /                ← 이미지가 통째로 제공
+/opt/ros   ✗ 없음                        /opt/ros/humble/ ← 이미지 안에만 존재
+                                            rclcpp, tf2, velodyne_driver,
+                                            realsense2_camera, ...
+                                         /usr/local/cargo/ ← Rust, 이미지 안에만
+                                         /usr/local/lib/   ← Livox-SDK2, 이미지 안에만
+
+~/local_ws/SeoulDynamics.SLAM/  ◄══════► /ws/          ← 같은 파일! (bind mount)
+   ├── ros2/                    ◄══════►    ├── ros2/
+   ├── slam/                    ◄══════►    ├── slam/
+   ├── config/                  ◄══════►    ├── config/
+   └── scripts/                 ◄══════►    └── scripts/
+
+~/local_ws/Vision60.Autonomy/            (컨테이너에서 안 보임 — 마운트 안 했으니)
+~/anaconda3/                             (안 보임)
+</code></pre></div></div>
+
+<p>여기서 중요한 것은 <strong>마운트하지 않은 것은 안 보인다</strong>는 점이다.
+호스트에 있어도, 같은 홈 디렉토리 안에 있어도, <code class="language-plaintext highlighter-rouge">-v</code>로 연결하지 않았으면 컨테이너는 그 존재를 모른다.</p>
+
+<hr>
+
+<h1 id="3-두-종류의-차이">3. 두 종류의 차이</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th><code class="language-plaintext highlighter-rouge">/opt/ros/humble/</code></th>
+      <th><code class="language-plaintext highlighter-rouge">/ws/</code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>어디서 왔나</td>
+      <td>이미지에 구워짐 — Dockerfile의 <code class="language-plaintext highlighter-rouge">RUN apt-get install</code>이 만듦</td>
+      <td>호스트에서 빌려옴 — <code class="language-plaintext highlighter-rouge">run.sh</code>의 <code class="language-plaintext highlighter-rouge">-v "$WS":/ws</code>
+</td>
+    </tr>
+    <tr>
+      <td>호스트에 있나</td>
+      <td>✗ 없음</td>
+      <td>✓ 있음. 같은 파일</td>
+    </tr>
+    <tr>
+      <td>누가 만드나</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">build.sh</code> (10~20분, 1회)</td>
+      <td>없음. 그냥 연결만</td>
+    </tr>
+    <tr>
+      <td>컨테이너 끄면</td>
+      <td>이미지에 남음 (재사용)</td>
+      <td>호스트에 그대로 (애초에 호스트 파일)</td>
+    </tr>
+    <tr>
+      <td>고치면</td>
+      <td>이미지 다시 빌드해야 함</td>
+      <td>즉시 반영. 양방향</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>이 표가 이 chapter의 전부라고 해도 된다.
+아래 내용은 전부 이 표에서 파생된다.</p>
+
+<hr>
+
+<h1 id="4--v가-하는-일-복사가-아니라-창窓">4. <code class="language-plaintext highlighter-rouge">-v</code>가 하는 일: 복사가 아니라 창(窓)</h1>
+
+<p><code class="language-plaintext highlighter-rouge">-v "$WS":/ws</code>가 하는 일은 <strong>복사가 아니라 창(窓)을 내는 것</strong>이다.</p>
+
+<p>컨테이너 안에서</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">touch</span> /ws/ros2/launch/foo.py
+</code></pre></div></div>
+
+<p>를 만들면, 호스트의</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/local_ws/SeoulDynamics.SLAM/ros2/launch/foo.py
+</code></pre></div></div>
+
+<p>에 <strong>그 순간</strong> 생긴다. 반대도 마찬가지다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    호스트                        컨테이너
+~/local_ws/.../ros2/  ◄────────►  /ws/ros2/
+       │                              │
+       └──────── 같은 inode ──────────┘
+              복사본이 아니다
+</code></pre></div></div>
+
+<p>그래서 <strong>VSCode로 호스트에서 편집하면서 컨테이너에서 빌드하는 것</strong>이 가능하다.
+파일을 옮기는 단계가 아예 없다.</p>
+
+<hr>
+
+<h1 id="5--w는-시작-위치">5. <code class="language-plaintext highlighter-rouge">-w</code>는 시작 위치</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-w</span> /ws        <span class="c"># 컨테이너에 들어가면 여기서 시작</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">-w</code>는 working directory다. 컨테이너에 들어가자마자 <code class="language-plaintext highlighter-rouge">cd</code>가 되어 있는 셈이다.</p>
+
+<p>그래서 들어가자마자</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./scripts/run.sh
+</code></pre></div></div>
+
+<p>가 바로 된다. <code class="language-plaintext highlighter-rouge">cd /ws</code>를 매번 칠 필요가 없다.</p>
+
+<hr>
+
+<h1 id="6-확인해보는-방법">6. 확인해보는 방법</h1>
+
+<p>말로 이해하는 것보다 직접 확인하는 게 빠르다.</p>
+
+<p>컨테이너에 들어가서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> /opt/ros/humble          <span class="c"># 이미지 안에만 있는 ROS</span>
+<span class="nb">ls</span> /ws                      <span class="c"># 호스트의 SeoulDynamics.SLAM</span>
+<span class="nb">touch</span> /ws/HELLO             <span class="c"># 만들고</span>
+</code></pre></div></div>
+
+<p>호스트의 다른 터미널에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> ~/local_ws/SeoulDynamics.SLAM/HELLO    <span class="c"># 바로 보임</span>
+</code></pre></div></div>
+
+<p>반대 방향도 확인해보자. 호스트에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s2">"from host"</span> <span class="o">&gt;</span> ~/local_ws/SeoulDynamics.SLAM/HELLO2
+</code></pre></div></div>
+
+<p>컨테이너에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /ws/HELLO2              <span class="c"># from host</span>
+</code></pre></div></div>
+
+<p>그리고 이건 안 보여야 정상이다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> /opt/ros/humble          <span class="c"># 호스트에서 실행하면 → No such file or directory</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="7-왜-이-구분이-중요한가">7. 왜 이 구분이 중요한가</h1>
+
+<p>이 구분을 놓치면 아래 착각을 하게 된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>착각 1
+"컨테이너 안에서 apt install 했으니 다음에도 있겠지"
+→ 없다. 이미지에 안 구워졌으므로 컨테이너를 지우면 사라진다.
+
+착각 2
+"이미지를 다시 빌드했으니 내 소스도 초기화되겠지"
+→ 안 된다. /ws는 호스트 파일이라 이미지와 무관하다.
+
+착각 3
+"호스트에서 colcon build 한 install/을 컨테이너가 쓰면 되겠지"
+→ 안 된다. 배포판도 라이브러리 ABI도 다르다.
+
+착각 4
+"컨테이너에서 만든 파일인데 왜 호스트에서 수정이 안 되지?"
+→ 소유자가 root다. 파일은 보이지만 권한이 없다. (아래 “자주 겪는 문제 1”)
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="8-underlay와-overlay">8. underlay와 overlay</h1>
+
+<p>ROS 2를 쓴다면 이 구분이 그대로 underlay / overlay와 겹친다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>underlay  = /opt/ros/humble/
+            이미지에 구워진 배포판. 안 바뀜.
+
+overlay   = /ws/install/
+            내가 colcon build로 만든 것. 매일 바뀜.
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">source</code> 순서도 이 순서다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> /opt/ros/humble/setup.bash    <span class="c"># underlay 먼저</span>
+<span class="nb">source</span> /ws/install/setup.bash        <span class="c"># overlay 나중</span>
+</code></pre></div></div>
+
+<p>overlay를 나중에 source해야 같은 이름의 패키지가 있을 때 <strong>내가 빌드한 것이 이긴다</strong>.</p>
+
+<hr>
+
+<h1 id="9-install이-ws-아래인-이유">9. <code class="language-plaintext highlighter-rouge">install/</code>이 <code class="language-plaintext highlighter-rouge">/ws</code> 아래인 이유</h1>
+
+<p>overlay는 매일 바뀌므로 이미지에 구울 수 없다.
+그리고 <strong>호스트에 남아야</strong> 컨테이너를 껐다 켜도 다시 빌드하지 않아도 된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/ws/install/  → 호스트에 남음 → 컨테이너 재시작해도 그대로
+              → colcon build 10분을 매번 안 해도 됨
+</code></pre></div></div>
+
+<p>만약 <code class="language-plaintext highlighter-rouge">install/</code>이 컨테이너 안(예: <code class="language-plaintext highlighter-rouge">/root/install</code>)에 있었다면,
+<code class="language-plaintext highlighter-rouge">docker run --rm</code>으로 컨테이너를 끌 때마다 빌드 결과가 통째로 날아간다.</p>
+
+<hr>
+
+<h1 id="10-gitignore에-install을-넣는-이유">10. <code class="language-plaintext highlighter-rouge">.gitignore</code>에 <code class="language-plaintext highlighter-rouge">install/</code>을 넣는 이유</h1>
+
+<p><code class="language-plaintext highlighter-rouge">.gitignore</code>에 <code class="language-plaintext highlighter-rouge">install/</code>, <code class="language-plaintext highlighter-rouge">build/</code>, <code class="language-plaintext highlighter-rouge">log/</code>를 넣는 것도 같은 이유다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>컨테이너가 만들지만 호스트에 남는 산출물
+</code></pre></div></div>
+
+<p>이기 때문이다. 호스트에 남으니 git이 보고,
+하지만 빌드 산출물이라 커밋할 이유는 없다.</p>
+
+<pre><code class="language-gitignore">build/
+install/
+log/
+</code></pre>
+
+<hr>
+
+<h1 id="11-실제-파일-구성">11. 실제 파일 구성</h1>
+
+<p>정리하면 저장소는 보통 이런 모양이 된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/local_ws/SeoulDynamics.SLAM/
+├── docker/
+│   ├── Dockerfile        ← 이미지에 무엇을 구울지
+│   ├── build.sh          ← 이미지 굽기 (1회, 10~20분)
+│   └── run.sh            ← 컨테이너 열기 (매번, 1초)
+├── ros2/                 ← 내 소스
+├── slam/
+├── config/
+├── scripts/
+├── build/                ← 빌드 중간물  (gitignore)
+├── install/              ← overlay      (gitignore)
+└── log/                  ←              (gitignore)
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="12-dockerfile--이미지에-무엇을-굽나">12. Dockerfile — 이미지에 무엇을 굽나</h1>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> ros:humble-ros-base</span>
+
+<span class="c"># 이미지에 구워질 것들 — 호스트에는 안 생긴다</span>
+<span class="k">RUN </span>apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> <span class="se">\
+</span>      ros-humble-velodyne-driver <span class="se">\
+</span>      ros-humble-realsense2-camera <span class="se">\
+</span>      ros-humble-tf2-ros <span class="se">\
+</span>      python3-colcon-common-extensions <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists/<span class="k">*</span>
+
+<span class="c"># Livox-SDK2 → /usr/local/lib</span>
+<span class="k">RUN </span>git clone https://github.com/Livox-SDK/Livox-SDK2.git /tmp/livox <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> cmake <span class="nt">-S</span> /tmp/livox <span class="nt">-B</span> /tmp/livox/build <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> cmake <span class="nt">--build</span> /tmp/livox/build <span class="nt">--target</span> <span class="nb">install</span> <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> ldconfig <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-rf</span> /tmp/livox
+
+<span class="k">WORKDIR</span><span class="s"> /ws</span>
+</code></pre></div></div>
+
+<p>여기 적힌 것만 이미지에 들어간다.
+<strong>내 소스는 여기 없다.</strong> 소스는 <code class="language-plaintext highlighter-rouge">COPY</code>하지 않고 <code class="language-plaintext highlighter-rouge">run.sh</code>에서 마운트한다.</p>
+
+<hr>
+
+<h1 id="13-buildsh--한-번만-1020분">13. <code class="language-plaintext highlighter-rouge">build.sh</code> — 한 번만, 10~20분</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env bash</span>
+<span class="nb">set</span> <span class="nt">-euo</span> pipefail
+
+docker build <span class="se">\</span>
+  <span class="nt">-f</span> docker/Dockerfile <span class="se">\</span>
+  <span class="nt">-t</span> sd-slam:humble <span class="se">\</span>
+  <span class="nb">.</span>
+</code></pre></div></div>
+
+<p>언제 다시 돌리나:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dockerfile을 고쳤을 때
+새 apt 패키지가 필요할 때
+base image를 바꿀 때
+</code></pre></div></div>
+
+<p>소스만 고쳤을 때는 <strong>다시 돌릴 필요가 없다.</strong></p>
+
+<hr>
+
+<h1 id="14-runsh--컨테이너를-매번-새로-만들지-않는다">14. <code class="language-plaintext highlighter-rouge">run.sh</code> — 컨테이너를 매번 새로 만들지 않는다</h1>
+
+<p>처음 쓰던 방식은 <code class="language-plaintext highlighter-rouge">docker run --rm</code>이었다. 나갈 때마다 컨테이너가 삭제되므로
+안에서 <code class="language-plaintext highlighter-rouge">apt install</code>한 것이 전부 사라진다. <code class="language-plaintext highlighter-rouge">nano</code> 하나 쓰려고 매번 다시 설치하게 된다.</p>
+
+<p>그래서 실전에서는 <strong>없으면 만들고, 있으면 켜서 붙는</strong> 방식을 쓴다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env bash</span>
+<span class="nb">set</span> <span class="nt">-euo</span> pipefail
+
+<span class="nv">WS</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span><span class="nb">cd</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">dirname</span> <span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="si">)</span><span class="s2">/.."</span> <span class="o">&amp;&amp;</span> <span class="nb">pwd</span><span class="si">)</span><span class="s2">"</span>
+<span class="nv">NAME</span><span class="o">=</span>sd-slam
+<span class="nv">IMAGE</span><span class="o">=</span>sd-slam:humble
+
+<span class="c"># GUI(rviz2, rqt_graph)를 호스트 모니터에 띄우기 위한 권한</span>
+xhost +local: <span class="o">&gt;</span>/dev/null 2&gt;&amp;1 <span class="o">||</span> <span class="nb">true
+
+</span><span class="k">if</span> <span class="o">!</span> docker ps <span class="nt">-a</span> <span class="nt">--format</span> <span class="s1">''</span> | <span class="nb">grep</span> <span class="nt">-qx</span> <span class="s2">"</span><span class="nv">$NAME</span><span class="s2">"</span><span class="p">;</span> <span class="k">then</span>
+  <span class="c"># ① 컨테이너가 없다 → 생성. -e 옵션들은 "이 순간" 컨테이너에 박힌다</span>
+  docker run <span class="nt">-dit</span> <span class="se">\</span>
+    <span class="nt">--name</span> <span class="s2">"</span><span class="nv">$NAME</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--network</span> host <span class="se">\</span>
+    <span class="nt">--privileged</span> <span class="se">\</span>
+    <span class="nt">-v</span> <span class="s2">"</span><span class="nv">$WS</span><span class="s2">"</span>:/ws <span class="se">\</span>
+    <span class="nt">-w</span> /ws <span class="se">\</span>
+    <span class="nt">-v</span> /dev:/dev <span class="se">\</span>
+    <span class="nt">-v</span> /tmp/.X11-unix:/tmp/.X11-unix <span class="se">\</span>
+    <span class="nt">-e</span> <span class="nv">DISPLAY</span><span class="o">=</span><span class="s2">"</span><span class="nv">$DISPLAY</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-e</span> <span class="nv">ROS_DOMAIN_ID</span><span class="o">=</span>42 <span class="se">\</span>
+    <span class="nt">-e</span> <span class="nv">RMW_IMPLEMENTATION</span><span class="o">=</span>rmw_cyclonedds_cpp <span class="se">\</span>
+    <span class="nt">-e</span> <span class="nv">CYCLONEDDS_URI</span><span class="o">=</span>file:///ws/config/dds/cyclonedds-thor.xml <span class="se">\</span>
+    <span class="s2">"</span><span class="nv">$IMAGE</span><span class="s2">"</span> <span class="se">\</span>
+    bash
+<span class="k">else</span>
+  <span class="c"># ② 이미 있다 → 꺼져 있으면 켜기만</span>
+  docker start <span class="s2">"</span><span class="nv">$NAME</span><span class="s2">"</span> <span class="o">&gt;</span>/dev/null
+<span class="k">fi</span>
+
+<span class="c"># ③ 어느 경우든 마지막은 접속</span>
+docker <span class="nb">exec</span> <span class="nt">-it</span> <span class="s2">"</span><span class="nv">$NAME</span><span class="s2">"</span> bash
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">-dit</code>의 <code class="language-plaintext highlighter-rouge">d</code>는 detached, 즉 백그라운드로 띄운다는 뜻이다.
+컨테이너는 백그라운드에서 계속 살아 있고, 우리는 <code class="language-plaintext highlighter-rouge">docker exec</code>로 들어갔다 나왔다 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  처음 한 번          ./docker/build.sh     이미지 생성 (10~20분)
+                     ./docker/run.sh       컨테이너 생성 + 접속
+
+  그 다음부터         ./docker/run.sh       이미 있는 컨테이너에 접속 (1초)
+
+  다른 터미널         docker exec -it sd-slam bash
+
+  상태 보기           docker ps
+  잠시 끄기           docker stop sd-slam
+  아예 지우기         docker rm -f sd-slam   ← -e 값을 바꾸려면 이게 필요
+</code></pre></div></div>
+
+<p>이제 컨테이너 안에서 <code class="language-plaintext highlighter-rouge">apt install nano</code> 한 것이 다음에 들어가도 남아 있다.
+다만 <strong>계속 필요한 패키지는 여전히 Dockerfile에 넣는 것이 맞다.</strong>
+컨테이너에 직접 설치한 것은 <code class="language-plaintext highlighter-rouge">docker rm</code>을 하는 순간 사라지고, 팀원에게 공유되지도 않는다.</p>
+
+<hr>
+
+<h1 id="15-runsh의-옵션-하나씩">15. <code class="language-plaintext highlighter-rouge">run.sh</code>의 옵션 하나씩</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-dit             백그라운드로 띄우고 터미널을 붙일 수 있게 (detach+interactive+tty)
+--name sd-slam   docker exec / stop / rm 에서 부를 이름
+--network host   컨테이너가 호스트 네트워크를 그대로 쓴다. ROS 2 DDS discovery에 사실상 필수
+--privileged     device 권한. 운영에서는 --device로 좁히는 게 낫다
+-v "$WS":/ws     ★ 핵심. 호스트 작업공간을 /ws에 연결
+-w /ws           들어가면 /ws에서 시작
+-v /dev:/dev     LiDAR, 카메라 device node 접근
+
+-v /tmp/.X11-unix:/tmp/.X11-unix   GUI 창을 호스트 화면에 그리기 위한 통로
+-e DISPLAY                          어느 화면에 그릴지
+
+-e ROS_DOMAIN_ID=42                 ROS 2 통신 영역 번호
+-e RMW_IMPLEMENTATION=...           어떤 DDS 구현을 쓸지
+-e CYCLONEDDS_URI=...               그 DDS가 어느 네트워크 인터페이스를 쓸지
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="16--e는-이미지가-아니라-컨테이너-생성-시-박힌다">16. <code class="language-plaintext highlighter-rouge">-e</code>는 이미지가 아니라 <strong>컨테이너 생성 시</strong> 박힌다</h1>
+
+<p>여기서 헷갈리기 쉽다. Dockerfile에 쓰는 것과 <code class="language-plaintext highlighter-rouge">-e</code>로 주는 것은 시점이 다르다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dockerfile  ─ docker build ─→  이미지        ─ docker run ─→  컨테이너
+   RUN apt-get install            (청사진)         -e ROS_DOMAIN_ID=42
+   ENV ...                                          ↑
+      ↑                                        여기서 박힌다
+  여기서 박힌다
+</code></pre></div></div>
+
+<ul>
+  <li>
+<strong>이미지에 박히는 것</strong>: <code class="language-plaintext highlighter-rouge">RUN</code>으로 설치한 패키지, <code class="language-plaintext highlighter-rouge">ENV</code>로 넣은 기본값.
+<code class="language-plaintext highlighter-rouge">build.sh</code>를 다시 돌려야 바뀐다.</li>
+  <li>
+<strong>컨테이너에 박히는 것</strong>: <code class="language-plaintext highlighter-rouge">docker run -e</code>로 준 환경변수.
+<strong><code class="language-plaintext highlighter-rouge">docker run</code>이 실행되는 그 순간 한 번</strong> 결정된다.</li>
+</ul>
+
+<p>컨테이너를 재사용하도록 바꿨으므로, <code class="language-plaintext highlighter-rouge">run.sh</code>의 <code class="language-plaintext highlighter-rouge">-e</code> 값을 고쳐도
+이미 만들어진 컨테이너에는 반영되지 않는다. 값을 바꾸려면 컨테이너를 다시 만들어야 한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nb">rm</span> <span class="nt">-f</span> sd-slam     <span class="c"># 기존 컨테이너 삭제</span>
+./docker/run.sh          <span class="c"># 새 -e 값으로 다시 생성</span>
+</code></pre></div></div>
+
+<p>이미지를 다시 빌드할 필요는 없다. 컨테이너만 다시 만들면 된다.</p>
+
+<p>확인은 컨테이너 안에서:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="nv">$ROS_DOMAIN_ID</span>
+<span class="nb">echo</span> <span class="nv">$RMW_IMPLEMENTATION</span>
+<span class="nb">env</span> | <span class="nb">grep</span> <span class="nt">-E</span> <span class="s1">'ROS_|CYCLONE|DISPLAY'</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="17-ros_domain_id--ros-2의-네트워크-영역-번호">17. <code class="language-plaintext highlighter-rouge">ROS_DOMAIN_ID</code> — ROS 2의 네트워크 영역 번호</h1>
+
+<p>ROS 2 노드는 같은 <code class="language-plaintext highlighter-rouge">ROS_DOMAIN_ID</code> 값을 가진 노드끼리만 서로를 발견하고 통신한다.
+같은 랜에 있어도 번호가 다르면 서로 존재를 모른다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 터미널 1</span>
+<span class="nb">export </span><span class="nv">ROS_DOMAIN_ID</span><span class="o">=</span>10
+ros2 run my_pkg my_node
+
+<span class="c"># 터미널 2</span>
+<span class="nb">export </span><span class="nv">ROS_DOMAIN_ID</span><span class="o">=</span>10
+ros2 topic list          <span class="c"># 노드가 보인다</span>
+</code></pre></div></div>
+
+<p>번호가 다르면:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>터미널 1: ROS_DOMAIN_ID=10  →  노드 실행 중
+터미널 2: ROS_DOMAIN_ID=20  →  ros2 topic list 가 비어 있음
+
+  노드는 멀쩡히 돌고 있다. 서로 다른 ROS 네트워크에 있을 뿐이다.
+</code></pre></div></div>
+
+<p>토픽이 안 보일 때 가장 먼저 의심할 것이 이 값이다. 호스트에 고정하려면:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s1">'export ROS_DOMAIN_ID=42'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">source</span> ~/.bashrc
+<span class="nb">echo</span> <span class="nv">$ROS_DOMAIN_ID</span>
+</code></pre></div></div>
+
+<p><strong>단, 호스트의 환경변수는 컨테이너에 자동으로 전달되지 않는다.</strong>
+호스트 <code class="language-plaintext highlighter-rouge">~/.bashrc</code>에 넣어도 컨테이너 안에서는 비어 있다.
+그래서 <code class="language-plaintext highlighter-rouge">run.sh</code>에 <code class="language-plaintext highlighter-rouge">-e ROS_DOMAIN_ID=42</code>가 필요하다.</p>
+
+<p>두 대의 로봇 컴퓨터(예: Thor와 Xavier)가 ROS 2로 대화하려면 <strong>양쪽 모두</strong> 같은 값이어야 한다.</p>
+
+<hr>
+
+<h1 id="18-rmw와-dds--rmw_implementation은-무엇을-고르는-건가">18. RMW와 DDS — <code class="language-plaintext highlighter-rouge">RMW_IMPLEMENTATION</code>은 무엇을 고르는 건가</h1>
+
+<p>ROS 2는 스스로 네트워크 통신을 구현하지 않는다. DDS라는 별도의 통신 미들웨어에 맡긴다.
+그런데 DDS 제품이 여러 개라서, 그 사이에 얇은 어댑터 층을 하나 두었다. 그게 <strong>RMW(ROS MiddleWare)</strong>다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   ROS 2 노드 (rclcpp / rclpy)
+        │
+        ▼
+   RMW — ROS가 정한 공통 인터페이스
+        │
+        ▼
+   rmw_cyclonedds_cpp     ← 어댑터. 여기를 갈아끼운다
+        │
+        ▼
+   CycloneDDS             ← 실제 통신을 하는 DDS 구현
+        │
+        ▼
+   네트워크 → 상대 로봇
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">RMW_IMPLEMENTATION</code>은 <strong>어느 어댑터를 쓸지</strong> 고르는 환경변수다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">RMW_IMPLEMENTATION</span><span class="o">=</span>rmw_fastrtps_cpp      <span class="c"># Fast DDS  (ROS 2 기본값)</span>
+<span class="nv">RMW_IMPLEMENTATION</span><span class="o">=</span>rmw_cyclonedds_cpp    <span class="c"># CycloneDDS</span>
+<span class="nv">RMW_IMPLEMENTATION</span><span class="o">=</span>rmw_connextdds        <span class="c"># RTI Connext DDS</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">rmw_cyclonedds_cpp</code>로 설정한다는 것은 “ROS 2의 통신 계층으로 CycloneDDS를 써라”는 뜻이지,
+그 자체가 상대 컴퓨터와 연결해주는 기능은 아니다. <strong>양쪽이 같은 DDS 계열이어야 한다.</strong></p>
+
+<p>설치되어 있는지 확인:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 pkg prefix rmw_cyclonedds_cpp
+</code></pre></div></div>
+
+<p>Dockerfile에서 미리 깔아 둔다:</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">RUN </span>apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> ros-humble-rmw-cyclonedds-cpp
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="19-cyclonedds_uri--어느-랜-카드로-통신할지">19. <code class="language-plaintext highlighter-rouge">CYCLONEDDS_URI</code> — 어느 랜 카드로 통신할지</h1>
+
+<p>로봇 컴퓨터에는 네트워크 인터페이스가 여러 개 붙어 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wlan0    Wi-Fi
+eth0     LiDAR 전용 이더넷
+eth1     상대 컴퓨터 연결용 이더넷
+</code></pre></div></div>
+
+<p>DDS가 알아서 고르게 두면 엉뚱한 인터페이스로 discovery를 시도해서
+“핑은 되는데 토픽은 안 보이는” 상태가 된다. XML로 명시해준다.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- config/dds/cyclonedds-thor.xml --&gt;</span>
+<span class="nt">&lt;CycloneDDS&gt;</span>
+  <span class="nt">&lt;Domain&gt;</span>
+    <span class="nt">&lt;General&gt;</span>
+      <span class="nt">&lt;NetworkInterfaceAddress&gt;</span>eth1<span class="nt">&lt;/NetworkInterfaceAddress&gt;</span>
+    <span class="nt">&lt;/General&gt;</span>
+  <span class="nt">&lt;/Domain&gt;</span>
+<span class="nt">&lt;/CycloneDDS&gt;</span>
+</code></pre></div></div>
+
+<p>그리고 그 파일을 가리킨다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-e</span> <span class="nv">CYCLONEDDS_URI</span><span class="o">=</span>file:///ws/config/dds/cyclonedds-thor.xml
+</code></pre></div></div>
+
+<p>경로가 <code class="language-plaintext highlighter-rouge">/ws/...</code>인 것에 주목하자. 이 XML은 <strong>마운트된 호스트 파일</strong>이므로
+호스트에서 편집하고 컨테이너를 다시 만들기만 하면 된다. 이미지 재빌드가 필요 없다.</p>
+
+<hr>
+
+<h1 id="20-x11-display-xhost--컨테이너의-gui를-호스트-모니터에-띄우기">20. X11, <code class="language-plaintext highlighter-rouge">DISPLAY</code>, <code class="language-plaintext highlighter-rouge">xhost</code> — 컨테이너의 GUI를 호스트 모니터에 띄우기</h1>
+
+<p><code class="language-plaintext highlighter-rouge">rviz2</code>나 <code class="language-plaintext highlighter-rouge">rqt_graph</code>는 창을 띄우는 프로그램이다. 그런데 컨테이너에는 모니터가 없다.
+Linux에서 화면을 그리는 일은 X 서버가 하고, 컨테이너는 <strong>호스트의 X 서버에 그려달라고 부탁</strong>해야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  컨테이너의 rviz2
+        │  "이 창 좀 그려줘"
+        ▼
+  /tmp/.X11-unix   ← 소켓. -v 로 컨테이너 안에 연결해준다
+        │
+        ▼
+  호스트의 X 서버 → 실제 모니터
+</code></pre></div></div>
+
+<p>필요한 것은 세 가지다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-v</span> /tmp/.X11-unix:/tmp/.X11-unix    <span class="c"># 통로를 연결</span>
+<span class="nt">-e</span> <span class="nv">DISPLAY</span><span class="o">=</span><span class="s2">"</span><span class="nv">$DISPLAY</span><span class="s2">"</span>               <span class="c"># 어느 화면인지 알려줌 (보통 :0)</span>
+xhost +local:                       <span class="c"># 호스트가 로컬 접속을 허용 (호스트에서 실행)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">xhost +local:</code>은 호스트 쪽에서 한 번 실행해야 하므로 <code class="language-plaintext highlighter-rouge">run.sh</code> 맨 위에 넣어 두었다.
+빼먹으면 <code class="language-plaintext highlighter-rouge">Authorization required, but no authorization protocol specified</code> 같은 오류가 난다.</p>
+
+<p>테스트:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 컨테이너 안에서</span>
+apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> x11-apps
+xeyes                    <span class="c"># 눈알 두 개가 호스트 화면에 뜨면 성공</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">zenity</code>는 GUI 알림 창을 띄우는 작은 Linux 프로그램이다.
+X11 설정이 되어 있으면 같이 동작하지만 필수는 아니다. <strong>핵심은 <code class="language-plaintext highlighter-rouge">DISPLAY</code>와 X11 소켓 마운트 두 가지다.</strong></p>
+
+<hr>
+
+<h1 id="21-서로-다른-ros-2-배포판끼리-통신되는지-확인하기">21. 서로 다른 ROS 2 배포판끼리 통신되는지 확인하기</h1>
+
+<p>Humble과 Galactic처럼 배포판이 달라도 ROS 2 통신 자체는 된다.
+DDS는 배포판이 아니라 wire protocol을 맞추기 때문이다. 대신 아래가 맞아야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>① ROS_DOMAIN_ID       양쪽 같은 값
+② DDS 구현            양쪽 같은 계열 (예: 둘 다 CycloneDDS)
+③ 네트워크            서로 ping 되고, multicast가 막히지 않을 것
+④ 메시지 패키지        같은 이름 + 같은 필드 정의
+</code></pre></div></div>
+
+<p>④가 조용히 실패하는 지점이다. 토픽 이름은 보이는데 <code class="language-plaintext highlighter-rouge">echo</code>가 안 되면 대개 메시지 정의 불일치다.</p>
+
+<p>확인은 <strong>아래에서 위로</strong> 올라간다. 안 되는 지점에서 멈추면 그게 원인이다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1) 네트워크가 되나</span>
+ping <span class="nt">-c</span> 3 192.168.1.20
+
+<span class="c"># 2) 양쪽 ROS 환경이 같나  (양쪽 컴퓨터에서 각각)</span>
+<span class="nb">echo</span> <span class="nv">$ROS_DOMAIN_ID</span>
+<span class="nb">echo</span> <span class="nv">$RMW_IMPLEMENTATION</span>
+
+<span class="c"># 3) 상대 노드가 보이나</span>
+ros2 node list
+ros2 topic list
+
+<span class="c"># 4) 데이터가 실제로 오나</span>
+ros2 topic <span class="nb">echo</span> /mcu/state/d_imu <span class="nt">--once</span>
+ros2 topic hz   /mcu/state/d_imu
+
+<span class="c"># 5) 타입이 맞나  (여기서 깨지면 메시지 패키지 불일치)</span>
+ros2 topic <span class="nb">type</span>    /mcu/state/d_imu
+ros2 interface show draper_msgs/msg/ImuBundle
+</code></pre></div></div>
+
+<p>4번까지 정상 출력되면 서로 다른 배포판 사이의 ROS 2 통신은 정상이라고 봐도 된다.</p>
+
+<p>연결 관계를 그림으로 보고 싶으면:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> ros-humble-rqt-graph
+rqt_graph
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">ros2 topic list</code>는 목록만 보여주고 <strong>누가 누구에게 보내는지는 알려주지 않는다.</strong>
+그 연결 방향을 보는 것이 <code class="language-plaintext highlighter-rouge">rqt_graph</code>다. (GUI이므로 §20의 X11 설정이 되어 있어야 한다.)</p>
+
+<hr>
+
+<h1 id="22-docker에서-ros-2가-안-보일-때">22. Docker에서 ROS 2가 안 보일 때</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>증상                              먼저 볼 것
+──────────────────────────────    ────────────────────────────────────
+컨테이너 안에서 topic list 가     ROS_DOMAIN_ID 가 컨테이너에 전달됐나
+비어 있음                         → env | grep ROS_DOMAIN_ID
+                                  → run.sh 의 -e 확인
+
+호스트에선 보이는데 컨테이너       --network host 를 안 썼다.
+에선 안 보임                      기본 bridge 네트워크는 DDS multicast
+                                  discovery 를 막는다
+
+노드는 보이는데 echo 가 멈춤       메시지 타입 불일치, 또는 QoS 불일치
+                                  → ros2 topic type / interface show
+
+한쪽에서만 보임                    DDS 구현이 서로 다름
+                                  → 양쪽 echo $RMW_IMPLEMENTATION
+
+인터페이스가 여러 개인데 불안정     CYCLONEDDS_URI 로 인터페이스 고정
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">--network host</code>는 편의 옵션이 아니라 <strong>ROS 2에서는 사실상 기본 설정</strong>으로 생각하는 편이 낫다.</p>
+
+<hr>
+
+<h1 id="23-하루-작업-흐름">23. 하루 작업 흐름</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. 컨테이너 열기 (호스트 터미널)</span>
+<span class="nb">cd</span> ~/local_ws/SeoulDynamics.SLAM
+./docker/run.sh
+
+<span class="c"># ── 여기부터 컨테이너 안 ──</span>
+
+<span class="c"># 2. underlay는 base image에서 이미 잡혀 있는 경우가 많다. 확인:</span>
+<span class="nb">echo</span> <span class="nv">$ROS_DISTRO</span>          <span class="c"># humble</span>
+
+<span class="c"># 3. 빌드 (overlay 생성)</span>
+colcon build <span class="nt">--symlink-install</span>
+
+<span class="c"># 4. overlay source</span>
+<span class="nb">source install</span>/setup.bash
+
+<span class="c"># 5. 실행</span>
+ros2 launch my_slam bringup.launch.py
+</code></pre></div></div>
+
+<p>편집은 호스트 VSCode에서 하면 된다.
+저장하는 순간 컨테이너의 <code class="language-plaintext highlighter-rouge">/ws</code>에도 반영되므로,
+컨테이너 터미널에서 <code class="language-plaintext highlighter-rouge">colcon build</code>만 다시 돌리면 된다.</p>
+
+<hr>
+
+<h1 id="24-터미널을-여러-개-열고-싶을-때">24. 터미널을 여러 개 열고 싶을 때</h1>
+
+<p><code class="language-plaintext highlighter-rouge">run.sh</code>를 두 번 돌리면 <strong>컨테이너가 두 개</strong> 뜬다. 그건 보통 원하는 게 아니다.
+이미 떠 있는 컨테이너에 붙으려면 <code class="language-plaintext highlighter-rouge">docker exec</code>를 쓴다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nb">exec</span> <span class="nt">-it</span> sd-slam bash
+</code></pre></div></div>
+
+<p>들어가서 overlay를 다시 source해야 한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /ws
+<span class="nb">source</span> /opt/ros/humble/setup.bash
+<span class="nb">source install</span>/setup.bash
+ros2 topic list
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">docker exec</code>로 들어간 shell은 <code class="language-plaintext highlighter-rouge">run.sh</code>의 shell과 별개 프로세스라
+환경변수를 물려받지 않기 때문이다.</p>
+
+<hr>
+
+<h1 id="25-컨테이너-정리">25. 컨테이너 정리</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps                       <span class="c"># 실행 중</span>
+docker ps <span class="nt">-a</span>                    <span class="c"># 종료된 것 포함</span>
+docker stop sd-slam             <span class="c"># 정지</span>
+docker <span class="nb">rm </span>sd-slam               <span class="c"># 삭제 (--rm 안 썼을 때)</span>
+docker images                   <span class="c"># 이미지 목록</span>
+docker rmi sd-slam:humble       <span class="c"># 이미지 삭제 → build.sh 다시 필요</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">docker rmi</code>를 해도 <code class="language-plaintext highlighter-rouge">/ws</code>는 안 지워진다. 다시 강조할 만한 지점이다.</p>
+
+<hr>
+
+<h1 id="26-자주-겪는-문제-1--컨테이너가-만든-파일이-root-소유">26. 자주 겪는 문제 1 — 컨테이너가 만든 파일이 root 소유</h1>
+
+<p>컨테이너 안에서 기본 사용자는 root다.
+그래서 <code class="language-plaintext highlighter-rouge">colcon build</code>가 만든 <code class="language-plaintext highlighter-rouge">install/</code>이 호스트에서 root 소유로 보인다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-l</span> ~/local_ws/SeoulDynamics.SLAM
+<span class="c"># drwxr-xr-x root root install</span>
+</code></pre></div></div>
+
+<p>호스트 VSCode에서 지우거나 수정하려 하면 권한 오류가 난다.</p>
+
+<p>해결 1 — 컨테이너를 내 UID로 실행:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--rm</span> <span class="se">\</span>
+  <span class="nt">--user</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">id</span> <span class="nt">-u</span><span class="si">)</span><span class="s2">:</span><span class="si">$(</span><span class="nb">id</span> <span class="nt">-g</span><span class="si">)</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">-v</span> <span class="s2">"</span><span class="nv">$WS</span><span class="s2">"</span>:/ws <span class="nt">-w</span> /ws <span class="se">\</span>
+  sd-slam:humble bash
+</code></pre></div></div>
+
+<p>해결 2 — 이미 생긴 것을 되돌리기:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo chown</span> <span class="nt">-R</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">id</span> <span class="nt">-u</span><span class="si">)</span><span class="s2">:</span><span class="si">$(</span><span class="nb">id</span> <span class="nt">-g</span><span class="si">)</span><span class="s2">"</span> ~/local_ws/SeoulDynamics.SLAM
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">--user</code>를 쓰면 <code class="language-plaintext highlighter-rouge">/opt/ros</code> 같은 이미지 내부 경로에 쓰기가 막힐 수 있으므로,
+개발 컨테이너에서는 Dockerfile에 같은 UID의 non-root 사용자를 만들어 두는 방식도 많이 쓴다.</p>
+
+<hr>
+
+<h1 id="27-자주-겪는-문제-2--호스트에서-빌드한-install을-컨테이너가-못-씀">27. 자주 겪는 문제 2 — 호스트에서 빌드한 <code class="language-plaintext highlighter-rouge">install/</code>을 컨테이너가 못 씀</h1>
+
+<p>호스트(noble)에서 <code class="language-plaintext highlighter-rouge">colcon build</code>를 한 적이 있으면
+그 <code class="language-plaintext highlighter-rouge">install/</code>이 <code class="language-plaintext highlighter-rouge">/ws/install/</code>로 그대로 보인다. 그런데 실행하면 깨진다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>호스트 noble에서 링크된 libstdc++ / libssl
+        ≠
+컨테이너 jammy의 것
+</code></pre></div></div>
+
+<p>같은 파일이 보인다고 같은 환경에서 만들어진 게 아니다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 컨테이너 안에서</span>
+<span class="nb">rm</span> <span class="nt">-rf</span> build <span class="nb">install </span>log
+colcon build <span class="nt">--symlink-install</span>
+</code></pre></div></div>
+
+<p><strong>빌드는 항상 한쪽에서만</strong> 하는 것이 규칙이다.</p>
+
+<hr>
+
+<h1 id="28-자주-겪는-문제-3--이미지를-다시-빌드했는데-ws가-그대로">28. 자주 겪는 문제 3 — 이미지를 다시 빌드했는데 <code class="language-plaintext highlighter-rouge">/ws</code>가 그대로</h1>
+
+<p>정상이다. 의도한 동작이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>build.sh  → 이미지만 바꾼다
+/ws       → 호스트 파일. 이미지와 무관
+</code></pre></div></div>
+
+<p>새 이미지의 라이브러리에 맞춰 다시 빌드하고 싶으면 <code class="language-plaintext highlighter-rouge">/ws</code> 쪽을 직접 지워야 한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">rm</span> <span class="nt">-rf</span> build <span class="nb">install </span>log <span class="o">&amp;&amp;</span> colcon build <span class="nt">--symlink-install</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="29-자주-겪는-문제-4--apt-install한-게-사라짐">29. 자주 겪는 문제 4 — <code class="language-plaintext highlighter-rouge">apt install</code>한 게 사라짐</h1>
+
+<p>컨테이너 안에서</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get <span class="nb">install</span> <span class="nt">-y</span> ros-humble-something
+</code></pre></div></div>
+
+<p>를 했는데 다음에 들어가 보니 없다. 어디에 설치됐는지가 문제다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>설치한 곳          컨테이너 레이어 (이미지가 아니다)
+
+docker stop/start  → 남아 있다  ✓
+docker rm          → 사라진다   ✗
+build.sh 재실행    → 새 이미지에는 애초에 없다  ✗
+다른 사람 PC       → 당연히 없다  ✗
+</code></pre></div></div>
+
+<p>컨테이너를 재사용하도록 바꿨으므로 <code class="language-plaintext highlighter-rouge">stop</code> / <code class="language-plaintext highlighter-rouge">start</code>로는 살아남는다.
+그래도 <code class="language-plaintext highlighter-rouge">docker rm</code>을 하는 순간, 그리고 팀원에게 넘기는 순간 전부 사라진다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>한 번 쓰고 말 것 (디버깅용 tcpdump 등)  → 컨테이너에서 그냥 설치
+계속 필요한 것 (nano, rqt_graph, ...)   → Dockerfile에 추가 → build.sh
+매일 바뀌는 내 코드                      → /ws (마운트)
+</code></pre></div></div>
+
+<p>“매번 다시 깔기 귀찮다”의 진짜 해법은 컨테이너를 살려두는 것이 아니라
+<strong>Dockerfile에 한 줄 추가하고 이미지를 다시 굽는 것</strong>이다.</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">RUN </span>apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> <span class="se">\
+</span>      nano iproute2 iputils-ping tcpdump <span class="se">\
+</span>      ros-humble-rqt-graph <span class="se">\
+</span>      ros-humble-rmw-cyclonedds-cpp <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists/<span class="k">*</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="30-무엇을-이미지에-굽고-무엇을-마운트할까">30. 무엇을 이미지에 굽고 무엇을 마운트할까</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>이미지에 굽는다 (Dockerfile)
+├── OS, 배포판
+├── ROS 2 배포판, 드라이버 패키지
+├── CUDA / TensorRT / Rust toolchain
+├── Livox-SDK2 같은 외부 SDK
+└── → 바뀌는 주기: 몇 주 ~ 몇 달
+
+마운트한다 (-v)
+├── 내 소스 (ros2/, slam/, config/)
+├── 빌드 산출물 (build/, install/, log/)
+├── 로그, bag 파일, 맵
+└── → 바뀌는 주기: 몇 분
+</code></pre></div></div>
+
+<p>기준은 단순하다. <strong>바뀌는 주기가 짧으면 마운트, 길면 이미지.</strong></p>
+
+<hr>
+
+<h1 id="31-mini-practice-1">31. Mini Practice 1</h1>
+
+<p>컨테이너 안에서 호스트와 배포판이 다른지 확인한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 호스트</span>
+<span class="nb">cat</span> /etc/os-release | <span class="nb">head</span> <span class="nt">-2</span>
+
+<span class="c"># 컨테이너</span>
+./docker/run.sh
+<span class="nb">cat</span> /etc/os-release | <span class="nb">head</span> <span class="nt">-2</span>
+<span class="nb">uname</span> <span class="nt">-r</span>                    <span class="c"># 커널은 호스트 것과 같다</span>
+</code></pre></div></div>
+
+<p>커널 버전만 같고 배포판은 다르다는 것을 확인한다.</p>
+
+<hr>
+
+<h1 id="32-mini-practice-2">32. Mini Practice 2</h1>
+
+<p>양방향 반영을 확인한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 컨테이너에서</span>
+<span class="nb">touch</span> /ws/HELLO
+
+<span class="c"># 호스트 다른 터미널에서</span>
+<span class="nb">ls</span> ~/local_ws/SeoulDynamics.SLAM/HELLO
+<span class="nb">echo </span>edited <span class="o">&gt;</span> ~/local_ws/SeoulDynamics.SLAM/HELLO
+
+<span class="c"># 다시 컨테이너에서</span>
+<span class="nb">cat</span> /ws/HELLO               <span class="c"># edited</span>
+<span class="nb">rm</span> /ws/HELLO
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="33-mini-practice-3">33. Mini Practice 3</h1>
+
+<p>이미지에만 있는 것과 마운트된 것의 수명을 비교한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 컨테이너에서</span>
+<span class="nb">touch</span> /opt/MARKER_IMAGE     <span class="c"># 컨테이너 레이어에 씀</span>
+<span class="nb">touch</span> /ws/MARKER_MOUNT      <span class="c"># 호스트에 씀</span>
+<span class="nb">exit</span>
+
+<span class="c"># ① stop/start 로는 둘 다 살아남는다</span>
+docker stop sd-slam <span class="o">&amp;&amp;</span> ./docker/run.sh
+<span class="nb">ls</span> /opt/MARKER_IMAGE        <span class="c"># ✓ 있다</span>
+<span class="nb">ls</span> /ws/MARKER_MOUNT         <span class="c"># ✓ 있다</span>
+<span class="nb">exit</span>
+
+<span class="c"># ② 컨테이너를 지우면 갈린다</span>
+docker <span class="nb">rm</span> <span class="nt">-f</span> sd-slam
+./docker/run.sh
+<span class="nb">ls</span> /opt/MARKER_IMAGE        <span class="c"># ✗ 없다 — 컨테이너와 함께 사라짐</span>
+<span class="nb">ls</span> /ws/MARKER_MOUNT         <span class="c"># ✓ 있다 — 호스트 파일이므로</span>
+</code></pre></div></div>
+
+<p>②가 §3의 표를 그대로 재현한다.</p>
+
+<hr>
+
+<h1 id="34-mini-practice-4">34. Mini Practice 4</h1>
+
+<p>컨테이너에 ROS 2 환경변수가 실제로 전달됐는지 확인한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 컨테이너 안에서</span>
+<span class="nb">env</span> | <span class="nb">grep</span> <span class="nt">-E</span> <span class="s1">'ROS_|CYCLONE|DISPLAY'</span>
+<span class="nb">echo</span> <span class="nv">$ROS_DOMAIN_ID</span>
+<span class="nb">echo</span> <span class="nv">$RMW_IMPLEMENTATION</span>
+ros2 pkg prefix rmw_cyclonedds_cpp
+
+<span class="c"># 값을 바꿔보고 싶다면 — 컨테이너를 다시 만들어야 한다</span>
+<span class="nb">exit
+</span>docker <span class="nb">rm</span> <span class="nt">-f</span> sd-slam
+<span class="c"># run.sh 의 -e ROS_DOMAIN_ID 를 고친 뒤</span>
+./docker/run.sh
+<span class="nb">echo</span> <span class="nv">$ROS_DOMAIN_ID</span>          <span class="c"># 바뀐 값</span>
+</code></pre></div></div>
+
+<p>이미지는 다시 빌드하지 않았는데도 값이 바뀐다는 점을 확인한다.</p>
+
+<hr>
+
+<h1 id="35-오늘의-핵심">35. 오늘의 핵심</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>          컨테이너에서 보이는 경로
+
+    ┌───────────────────────────────┐
+    │  /opt/ros/humble              │
+    │  /usr/local/lib               │  ← 이미지 레이어
+    │  /usr/local/cargo             │     build.sh가 만듦
+    │                               │     컨테이너 지우면 사라짐
+    ├───────────────────────────────┤
+    │  /ws                          │  ← bind mount
+    │    ros2/ slam/ config/        │     호스트 파일 그 자체
+    │    build/ install/ log/       │     컨테이너와 무관하게 남음
+    └───────────────────────────────┘
+              │
+              ▼
+        -v "$WS":/ws
+      복사가 아니라 창(窓)
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="36-반드시-구분할-것">36. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>이미지 레이어 ≠ Bind Mount
+
+/opt/ros/humble (underlay)
+≠
+/ws/install (overlay)
+
+build.sh (1회, 10~20분)
+≠
+run.sh (매번, 1초)
+
+컨테이너 삭제
+≠
+/ws 삭제
+
+호스트에서 빌드한 install/
+≠
+컨테이너에서 쓸 수 있는 install/
+
+-v (창을 냄)
+≠
+COPY (이미지에 복사)
+
+docker run (새 컨테이너)
+≠
+docker exec (기존 컨테이너)
+
+docker stop  (껐다 켤 수 있음)
+≠
+docker rm    (설치한 것 다 날아감)
+
+Dockerfile ENV (이미지에 박힘)
+≠
+docker run -e (컨테이너 생성 시 박힘)
+
+RMW (ROS의 추상화 계층)
+≠
+DDS (실제 통신 구현)
+
+RMW_IMPLEMENTATION (어느 DDS를 쓸지)
+≠
+ROS_DOMAIN_ID (어느 영역에서 통신할지)
+≠
+CYCLONEDDS_URI (어느 랜 카드를 쓸지)
+
+ros2 topic list (목록만)
+≠
+rqt_graph (누가 누구에게 보내는지)
+
+호스트의 환경변수
+≠
+컨테이너의 환경변수  (자동으로 안 넘어간다)
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="37-chapter-연결">37. Chapter 연결</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 6
+ROS 2 — workspace, colcon, underlay/overlay
+
+Chapter 6.5
+micro-ROS — Agent를 컨테이너에서 돌릴 때 --device 가 필요한 이유
+
+Chapter 8
+Robot Networking — DDS, --network host가 필요한 이유
+
+Chapter 9
+Docker on Jetson — image, container, bind mount 개념
+
+Chapter 9.5  ← 여기
+컨테이너 파일시스템과 개발 워크플로우
+
+Chapter 10
+Debugging &amp; Deployment — 이 구조에서 문제가 났을 때 어디부터 보나
+</code></pre></div></div>
+
+<p>Chapter 9가 “Docker란 무엇인가”라면
+이 chapter는 “그래서 내 작업공간은 어디에 있는가”에 해당한다.</p>
+
+<p>Chapter 10에서는 여기서 만든 컨테이너가 실제로 안 돌 때
+Hardware → Linux → Network → Docker → ROS 2 → CUDA → Application 순서로 좁혀 들어간다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/edge_computing/chapter10-debugging-deployment/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 10. ROS 2 + Jetson Debugging &amp; Deployment</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

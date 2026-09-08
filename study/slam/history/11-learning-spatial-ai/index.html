@@ -17,12 +17,12 @@
   
   
     
-      Chapter 11. 학습 기반 SLAM과 Spatial AI | Daye Lee
+      Chapter 11. Learning-based SLAM and Spatial AI | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="학습은 파이프라인의 어느 부분을 바꾸는가?">
+<meta name="description" content="Which part of the pipeline does learning actually change?">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -364,101 +364,157 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Chapter 11. 학습 기반 SLAM과 Spatial AI</h1>
-    <p class="post-description">학습은 파이프라인의 어느 부분을 바꾸는가?</p>
+    <h1 class="post-title">Chapter 11. Learning-based SLAM and Spatial AI</h1>
+    <p class="post-description">Which part of the pipeline does learning actually change?</p>
   </header>
 
   <article>
     <blockquote>
-  <p><strong>목표:</strong> learned feature, learned depth, neural map을 구분한다.<br>
-<strong>학습량:</strong> 10~15분. 최신 순위보다 구성 요소를 읽는 장이다.</p>
+  <p><strong>Goal:</strong> Distinguish learned features, learned depth and neural maps.<br>
+<strong>Workload:</strong> 10–15 minutes. This chapter is about components, not the latest ranking.</p>
 </blockquote>
 
-<h2 id="1-딥러닝-slam을-한-종류로-묶지-않기">1. “딥러닝 SLAM”을 한 종류로 묶지 않기</h2>
+<h2 id="1-deep-learning-slam-is-not-one-thing">1. “Deep learning SLAM” is not one thing</h2>
 
-<p>학습은 대응점 검출, descriptor, depth 추정, pose update, 지도 표현 등 서로 다른 위치에 들어갈 수 있다. <a href="https://drive.google.com/file/d/1-FZ207zXWqZiEudDnd5EEAaybWdIJzNe/view" rel="external nofollow noopener" target="_blank">KRoC AI Visual SLAM 강연</a>은 learned features와 depth, neural SLAM을 구분해 보여준다. 모델 이름을 외우기 전에 입출력과 최적화 변수를 적어 보자.</p>
+<p>“It uses deep learning” tells you almost nothing, because a SLAM pipeline has five or six places a network could sit — and swapping one of them is a completely different system from swapping another.</p>
 
-<p><a href="https://arxiv.org/abs/2108.10869" rel="external nofollow noopener" target="_blank">DROID-SLAM</a>은 recurrent update와 Dense Bundle Adjustment를 결합해 pose와 pixelwise depth를 갱신한다. 학습을 활용하면서도 기하학적 최적화 구조를 유지하는 사례다. 이 한 사례의 성능을 모든 학습 기반 접근이나 모든 환경으로 일반화하지 않는다.</p>
+<p>Lay the pipeline out and mark where learning can enter:</p>
 
-<h2 id="2-보기-좋은-지도와-위치-추정-성능">2. 보기 좋은 지도와 위치 추정 성능</h2>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  image → ① find features → ② describe them → ③ match → ④ estimate depth
+                                                          ↓
+        map representation ⑥ ← ⑤ optimise poses ←─────────┘
 
-<p>NeRF는 장면을 radiance field로 표현하고, 3D Gaussian Splatting은 Gaussian primitive를 이용해 렌더링한다. 이 표현을 지도에 활용할 수 있지만, 지도 표현 자체와 완전한 SLAM 시스템은 구분해야 한다. 카메라 pose가 이미 주어진 재구성과 pose도 함께 추정하는 SLAM은 입력 조건이 다르다. 표현의 기초는 <a href="https://drive.google.com/file/d/1mL52klpHEYU6e-yZk3guMaJocLthSAA7/view" rel="external nofollow noopener" target="_blank">KRoC 3D Vision 강연</a>에서 읽는다.</p>
+  ① ② learned features      SuperPoint, and similar
+       (the geometry after them is completely unchanged)
 
-<h2 id="3-작은-논문-분석-활동">3. 작은 논문 분석 활동</h2>
+  ④   learned depth         MiDaS, and similar
+       (supplies the scale a monocular camera cannot, see Ch. 8 §4)
 
-<p>다음 표를 새 논문마다 한 줄씩 채운다.</p>
+  ⑤   learned pose update   DROID-SLAM
+       (a network proposes the update; BA still enforces geometry)
+
+  ⑥   learned map           NeRF, 3D Gaussian Splatting
+       (the map is now network weights, not points)
+</code></pre></div></div>
+
+<p>Two papers can both be called “deep SLAM” while sharing no component at all. So before memorising model names, write down for each one: what goes in, what comes out, and <strong>which variables are still being optimised geometrically</strong>. A system that learns ① and ② keeps all of classical BA; a system that learns ⑤ and ⑥ has replaced most of it.</p>
+
+<p>The <a href="https://drive.google.com/file/d/1-FZ207zXWqZiEudDnd5EEAaybWdIJzNe/view" rel="external nofollow noopener" target="_blank">KRoC AI Visual SLAM lecture</a> separates learned features, depth and neural SLAM along these lines.</p>
+
+<p><a href="https://arxiv.org/abs/2108.10869" rel="external nofollow noopener" target="_blank">DROID-SLAM</a> combines recurrent updates with Dense Bundle Adjustment to update poses and pixelwise depth. It is a case of using learning while retaining a geometric optimisation structure. Do not generalise the performance of this one case to all learning-based approaches or all environments.</p>
+
+<h2 id="2-a-good-looking-map-and-localisation-performance">2. A good-looking map and localisation performance</h2>
+
+<p>NeRF represents a scene as a radiance field, and 3D Gaussian Splatting renders using Gaussian primitives. The renderings are photorealistic, and it is tempting to read that as “the map is excellent”. Be careful: <strong>the metric the pictures are scored on is not the metric a robot cares about.</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  what a rendering paper reports     what a robot needs to know
+
+  PSNR 32 dB                         is the doorway at x = 4.2 or x = 4.5?
+  "looks indistinguishable"          is that dark region a wall or free space?
+
+  a photo can be beautiful and still be 20 cm out of place
+</code></pre></div></div>
+
+<p>The second confusion is about the inputs. Most striking NeRF and 3DGS results are <em>reconstructions</em>: the camera poses were already solved beforehand, usually by COLMAP running offline over the whole sequence.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  reconstruction                     SLAM
+  ──────────────                     ──────────────────────
+  poses: given as input              poses: an unknown to solve
+  data:  the whole sequence          data:  only what has arrived so far
+  time:  offline, hours allowed      time:  online, now
+</code></pre></div></div>
+
+<p>Those are different problems. A method that produces a gorgeous scene given correct poses has not shown it can estimate poses at all. For the basics of these representations, read the <a href="https://drive.google.com/file/d/1mL52klpHEYU6e-yZk3guMaJocLthSAA7/view" rel="external nofollow noopener" target="_blank">KRoC 3D Vision lecture</a>.</p>
+
+<h2 id="3-a-small-paper-analysis-exercise">3. A small paper-analysis exercise</h2>
+
+<p>Fill in one row of the following table for each new paper.</p>
 
 <table>
   <thead>
     <tr>
-      <th>항목</th>
-      <th>기록할 내용</th>
+      <th>Item</th>
+      <th>What to record</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>입력</td>
-      <td>RGB만 받나, depth/IMU/pose도 받나?</td>
+      <td>Input</td>
+      <td>RGB only, or depth/IMU/pose too?</td>
     </tr>
     <tr>
-      <td>학습하는 부분</td>
-      <td>correspondence, depth, update, map 중 무엇인가?</td>
+      <td>What is learned</td>
+      <td>Correspondence, depth, update or map?</td>
     </tr>
     <tr>
-      <td>남은 기하학</td>
-      <td>projection, pose optimization, loop 검증은 어디 있나?</td>
+      <td>Remaining geometry</td>
+      <td>Where are projection, pose optimisation and loop verification?</td>
     </tr>
     <tr>
-      <td>실행 조건</td>
-      <td>GPU, 해상도, memory, 사전 학습 데이터는?</td>
+      <td>Runtime conditions</td>
+      <td>GPU, resolution, memory, pretraining data?</td>
     </tr>
     <tr>
-      <td>출력</td>
-      <td>trajectory, surface, semantic label 중 무엇인가?</td>
+      <td>Output</td>
+      <td>Trajectory, surface or semantic labels?</td>
     </tr>
   </tbody>
 </table>
 
-<p>예를 들어 새 시점의 이미지가 선명해도 로봇 궤적이 미터 단위로 정확한지는 별도 실험이 필요하다. 사람에게 자연스러운 렌더링과 충돌 회피용 지도가 요구하는 정보도 다르다.</p>
+<p>Filled in for DROID-SLAM, the table looks like this:</p>
 
-<h2 id="면접형-확인-문제">면접형 확인 문제</h2>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Input               RGB only (monocular, stereo or RGB-D variants exist)
+  What is learned     the update step — a recurrent net proposes
+                      corrections to depth and pose
+  Remaining geometry  a lot. Dense Bundle Adjustment still enforces
+                      the projection equations from Chapter 8
+  Runtime conditions  GPU, and a substantial one; memory grows with
+                      the number of keyframes
+  Output              trajectory + per-pixel depth
+</code></pre></div></div>
 
-<h3 id="문제-1--개념">문제 1 — 개념</h3>
+<p>The “remaining geometry” row is the informative one. DROID-SLAM did not replace BA with a network; it used a network to <em>drive</em> BA. That is a very different risk profile from a system that regresses poses directly, because the geometric layer still rejects physically impossible answers.</p>
 
-<p>학습 기반 Visual SLAM이 학습 데이터에서는 기존 방법보다 좋지만 새로운 도시에서 크게 실패했다. 연구 면접에서 원인 분석과 추가 실험을 어떻게 제안하겠는가?</p>
+<p>Fill in the same five rows for each new paper and the marketing evaporates fairly quickly.</p>
+
+<h2 id="check-questions">Check questions</h2>
+
+<h3 id="question-1--concept">Question 1 — Concept</h3>
+
+<p>A learning-based Visual SLAM method beats classical approaches on its training data but fails badly in a new city. How would you analyse the cause and propose further experiments?</p>
 
 <details class="study-answer">
-  <summary>답변 보기</summary>
+  <summary>Show answer</summary>
 
-  <p>먼저 학습 데이터와 새 도시 사이의 appearance, camera intrinsics, motion, weather, dynamic object 분포 차이를 확인한다. Learned feature, depth, pose update, map representation 중 어느 module에서 성능이 무너지는지 classical component로 교체하는 ablation을 수행한다. Geometry consistency, uncertainty calibration, catastrophic failure rate를 평균 ATE와 함께 측정한다. 여러 도시를 leave-one-domain-out으로 평가하고, 조도·blur·intrinsics를 통제한 실험으로 원인을 분리한다. Test-time adaptation을 쓴다면 ground-truth leakage, 계산량과 online stability도 보고해야 한다.</p>
+  <p>First check the differences in appearance, camera intrinsics, motion, weather and dynamic-object distribution between the training data and the new city. Run an ablation that swaps in classical components to identify which module breaks down: learned features, depth, pose update or map representation. Measure geometry consistency, uncertainty calibration and catastrophic failure rate alongside mean ATE. Evaluate leave-one-domain-out across several cities, and isolate causes with experiments controlling illumination, blur and intrinsics. If test-time adaptation is used, ground-truth leakage, computation and online stability also have to be reported.</p>
 
 </details>
 
-<h3 id="문제-2--수학평가">문제 2 — 수학·평가</h3>
+<h3 id="question-2--math-and-evaluation">Question 2 — Math and evaluation</h3>
 
-<p>Depth estimator가 모든 true depth $d_i$에 대해 $\hat d_i=1.2d_i$를 출력한다고 하자. Absolute relative error</p>
+<p>Suppose a depth estimator outputs $\hat d_i=1.2d_i$ for every true depth $d_i$. Compute the absolute relative error</p>
 
 \[\mathrm{AbsRel}=\frac1N\sum_i\frac{|\hat d_i-d_i|}{d_i}\]
 
-<p>를 구하라. 이 결과가 monocular SLAM의 pose 정확도를 충분히 설명하지 못하는 이유도 말하라.</p>
+<p>and explain why this result does not adequately account for the pose accuracy of monocular SLAM.</p>
 
 <details class="study-answer">
-  <summary>답변 보기</summary>
+  <summary>Show answer</summary>
 
-  <p>각 점에서</p>
+  <p>At each point</p>
 
-\[\frac{|1.2d_i-d_i|}{d_i}=0.2\]
+\[\frac{|1.2d_i-d_i|}{d_i}=0.2,\]
 
-  <p>이므로 $\mathrm{AbsRel}=0.2$, 즉 20%다. 그러나 이 값은 depth의 전역 scale bias만 요약하며 frame 사이의 temporal consistency, correspondence, camera pose, loop closure와 drift를 직접 측정하지 않는다. Monocular trajectory를 Sim(3)로 정렬하면 일정 scale bias가 평가에서 제거될 수도 있다. Depth metric과 trajectory metric, failure rate를 함께 봐야 한다.</p>
+  <p>so $\mathrm{AbsRel}=0.2$, that is 20%. But this value summarises only the global scale bias of the depth; it does not directly measure temporal consistency between frames, correspondence, camera pose, loop closure or drift. Aligning a monocular trajectory with Sim(3) may even remove a constant scale bias from the evaluation. Depth metrics, trajectory metrics and failure rate have to be read together.</p>
 
 </details>
 
-<h2 id="원문-읽기">원문 읽기</h2>
+<h2 id="original-reading">Original reading</h2>
 
 <ul>
-  <li>KRoC AI Visual SLAM: PDF 31~42쪽. 로컬: <code class="language-plaintext highlighter-rouge">_resource/slam/kroc2026/07-ai-visual-slam-alex-lee.pdf</code>.</li>
-  <li>DROID-SLAM: architecture 그림. 로컬: <code class="language-plaintext highlighter-rouge">_resource/slam/papers/droid-slam2021.pdf</code>.</li>
-  <li>KRoC 3D Vision: PDF 59~63, 81~86쪽. 처음부터 모든 neural rendering 수식을 읽을 필요는 없다.</li>
+  <li>KRoC AI Visual SLAM: PDF pages 31–42. Local copy: <code class="language-plaintext highlighter-rouge">_resource/slam/kroc2026/07-ai-visual-slam-alex-lee.pdf</code>.</li>
+  <li>DROID-SLAM: the architecture figure. Local copy: <code class="language-plaintext highlighter-rouge">_resource/slam/papers/droid-slam2021.pdf</code>.</li>
+  <li>KRoC 3D Vision: PDF pages 59–63 and 81–86. You do not need to read every neural rendering equation on a first pass.</li>
 </ul>
 
 
@@ -475,7 +531,7 @@
   
     <a class="study-chapter-next" href="/study/slam/history/12-evaluation-reading-map/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Chapter 12. 평가와 다음 학습 경로</span>
+      <span>Chapter 12. Evaluation and where to study next</span>
     </a>
   
 </nav>

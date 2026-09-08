@@ -17,12 +17,12 @@
   
   
     
-      Chapter 2. 확률과 EKF-SLAM | Daye Lee
+      Chapter 2. Probability and EKF-SLAM | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="한 점의 정답 대신 불확실성을 추적하는 방법.">
+<meta name="description" content="Tracking uncertainty instead of a single right answer.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -364,80 +364,121 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Chapter 2. 확률과 EKF-SLAM</h1>
-    <p class="post-description">한 점의 정답 대신 불확실성을 추적하는 방법.</p>
+    <h1 class="post-title">Chapter 2. Probability and EKF-SLAM</h1>
+    <p class="post-description">Tracking uncertainty instead of a single right answer.</p>
   </header>
 
   <article>
     <blockquote>
-  <p><strong>목표:</strong> 예측·보정과 로봇-지도 사이의 상관관계를 이해한다.<br>
-<strong>학습량:</strong> 15분. 평균과 분산의 의미를 알고 있으면 좋다.</p>
+  <p><strong>Goal:</strong> Understand prediction and correction, and the correlation between robot and map.<br>
+<strong>Workload:</strong> 15 minutes. Helpful if you know what mean and variance are.</p>
 </blockquote>
 
-<h2 id="1-좌표-하나로는-부족하다">1. 좌표 하나로는 부족하다</h2>
+<h2 id="1-one-coordinate-is-not-enough">1. One coordinate is not enough</h2>
 
-<p>바퀴가 1m 굴렀다는 기록이 실제 1m 이동을 보장하지 않는다. 미끄러짐과 센서 오차가 있기 때문이다. 그래서 추정값과 함께 그 값을 얼마나 확신하는지 표현한다.</p>
+<p>A record that a wheel rolled 1 m does not guarantee 1 m of actual motion, because of slip and sensor error. So instead of storing one number, we store a number <strong>plus how sure we are of it</strong>.</p>
 
-<p>EKF-SLAM은 비선형 모델을 현재 추정 주변에서 선형화하며, 로봇 상태와 landmark를 함께 다루는 대표적인 filtering 접근이다. 다음 식은 문제의 구조를 보여준다.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>what a plain estimate says          what a probabilistic estimate says
+
+  x = 2.0                             x = 2.0,  variance 0.25
+                                      (standard deviation 0.5 m)
+
+  "the robot is at 2.0"               "the robot is most likely near 2.0,
+                                       but 1.5 or 2.5 would not surprise me"
+</code></pre></div></div>
+
+<p>The two numbers do different jobs. The mean is the answer; the variance is how much the next measurement is allowed to move that answer. A prediction with variance 0.25 will be dragged a long way by a good measurement, and one with variance 0.0001 will barely budge. That is the whole idea a Kalman filter runs on, and §3 does the arithmetic.</p>
+
+<p>EKF-SLAM linearises a nonlinear model around the current estimate and handles the robot state and the landmarks together; it is the representative filtering approach. The following equations show the structure of the problem.</p>
 
 \[x_t=f(x_{t-1},u_t)+w_t, \qquad z_t=h(x_t,m_j)+v_t\]
 
-<p>여기서 $u_t$는 이동 입력, $z_t$는 landmark $m_j$의 관측, $w_t,v_t$는 모델에 넣은 잡음이다. <strong>예측</strong>에서는 이동 모델을 적용하고, <strong>보정</strong>에서는 예상 관측과 실제 관측의 차이를 사용한다. 좌표계·모델의 기초는 <a href="https://upcommons.upc.edu/handle/2117/337287" rel="external nofollow noopener" target="_blank">Solà의 Course on SLAM</a>에서 확인할 수 있다.</p>
+<p>Here $u_t$ is the motion input, $z_t$ is the observation of landmark $m_j$, and $w_t,v_t$ are the noise terms put into the model. <strong>Prediction</strong> applies the motion model; <strong>correction</strong> uses the difference between the predicted and the actual observation. The basics of frames and models are covered in <a href="https://upcommons.upc.edu/handle/2117/337287" rel="external nofollow noopener" target="_blank">Solà’s Course on SLAM</a>.</p>
 
-<h2 id="2-지도-점들은-왜-서로-연결될까">2. 지도 점들은 왜 서로 연결될까?</h2>
+<h2 id="2-why-do-map-points-become-linked-to-each-other">2. Why do map points become linked to each other?</h2>
 
-<p>로봇이 자기 위치를 오른쪽으로 잘못 알고 두 기둥을 관측하면, 두 기둥 위치에도 공통 오차가 들어간다. 따라서 각 기둥을 독립적인 정답처럼 저장하면 안 된다.</p>
+<p>Because every landmark is written down <em>from</em> the robot’s pose, an error in the pose is copied into all of them at once.</p>
 
-<p>공분산의 대각 성분은 각 변수의 분산을, 비대각 성분은 변수 사이의 상관관계를 담는다. 기존 landmark를 다시 관측하면 로봇뿐 아니라 다른 landmark 추정도 영향을 받을 수 있다. 이 연결은 유용하지만 큰 지도를 다룰 때 비용이 커진다. <a href="https://www.cs.cmu.edu/~thrun/papers/montemerlo.fastslam-tr.pdf" rel="external nofollow noopener" target="_blank">FastSLAM 원논문의 Introduction</a>은 기존 EKF 접근의 확장성 문제를 출발점으로 삼는다.</p>
+<p>Work it through. The robot believes it is at x = 5.0, but it is really at x = 5.2 — it is 0.2 m off without knowing it. From there it measures two pillars.</p>
 
-<h2 id="3-1차원-보정-예제">3. 1차원 보정 예제</h2>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                    measured      robot thinks         truth
+                    distance      pillar is at      pillar is at
+  pillar A            +3.0          5.0+3.0 = 8.0     5.2+3.0 = 8.4
+  pillar B            +7.0          5.0+7.0 = 12.0    5.2+7.0 = 12.4
+                                          ↑                 ↑
+                                    both wrong by the same 0.2
+</code></pre></div></div>
 
-<p>지도상의 기준점이 알려져 있다고 단순화하자. 예측 위치가 2.0m, 분산이 0.25이고, 독립적인 위치 관측이 2.4m, 분산이 0.04라면:</p>
+<p>The distances themselves were measured perfectly. Both pillars are still wrong, by exactly the same amount and in the same direction, because they inherited the robot’s 0.2 m.</p>
+
+<p>That is what correlation means here, and it is useful rather than merely annoying. Suppose the robot later drives back and re-measures pillar A with a good sensor, learning that A is really at 8.4. It has learned three things at once:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  pillar A is at 8.4     →  so my pose was 0.2 m short
+                         →  so pillar B is at 12.4 as well
+</code></pre></div></div>
+
+<p>The correction to B arrives without B ever being re-observed. The filter can only do this if it remembered that A, B and the pose share an error — and that memory is stored in the off-diagonal entries of the covariance matrix. The diagonal entries hold the variance of each variable on its own; the off-diagonal entries hold exactly this “they are wrong together” relationship. This coupling is useful, but it becomes expensive on a large map. The <a href="https://www.cs.cmu.edu/~thrun/papers/montemerlo.fastslam-tr.pdf" rel="external nofollow noopener" target="_blank">Introduction of the original FastSLAM paper</a> takes the scalability problem of the earlier EKF approach as its starting point.</p>
+
+<h2 id="3-a-one-dimensional-correction-example">3. A one-dimensional correction example</h2>
+
+<p>To simplify, assume a reference point on the map is known. The robot predicts it is at 2.0 m with variance 0.25, then a sensor measures 2.4 m with variance 0.04. Two different answers — which do we believe?</p>
+
+<p>The gain $K$ decides, and it is just a ratio of how uncertain each side is:</p>
 
 \[K=\frac{0.25}{0.25+0.04}\approx0.862,\qquad
 \hat x=2.0+K(2.4-2.0)\approx2.345\]
 
-<p>이 예제에서는 더 작은 분산을 가진 관측 쪽으로 많이 움직인다. 실제 EKF-SLAM에서는 관측이 위치 그 자체가 아니라 거리·각도일 수 있어 Jacobian과 상관관계를 포함해야 한다.</p>
+<p>Read $K \approx 0.86$ as “move 86% of the way from the prediction to the measurement”. The gap is $2.4-2.0=0.4$, so we move $0.86 \times 0.4 \approx 0.35$ and land at 2.345 — much closer to the measurement than to the prediction.</p>
 
-<h2 id="면접형-확인-문제">면접형 확인 문제</h2>
+<p>That is the right behaviour, because variance 0.04 (σ = 0.2 m) is a far tighter claim than variance 0.25 (σ = 0.5 m). Change the numbers and the filter changes its mind accordingly:</p>
 
-<h3 id="문제-1--개념">문제 1 — 개념</h3>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code> prediction var   measurement var      K       result    who wins
+      0.25             0.04           0.86      2.345    measurement
+      0.25             0.25           0.50      2.200    a tie, split evenly
+      0.25             4.00           0.06      2.024    prediction
+</code></pre></div></div>
 
-<p>EKF-SLAM에서 로봇 pose와 landmark 사이의 cross-covariance를 모두 0으로 유지하면 어떤 문제가 생기는가?</p>
+<p>Nobody tuned those weights by hand. They fall out of the two variances. In real EKF-SLAM the observation may be a range and bearing rather than the position itself, so Jacobians and correlations have to be included.</p>
+
+<h2 id="check-questions">Check questions</h2>
+
+<h3 id="question-1--concept">Question 1 — Concept</h3>
+
+<p>What goes wrong in EKF-SLAM if you keep all the cross-covariances between the robot pose and the landmarks at zero?</p>
 
 <details class="study-answer">
-  <summary>답변 보기</summary>
+  <summary>Show answer</summary>
 
-  <p>같은 불확실한 robot pose에서 관측된 landmark들은 공통 위치 오차를 공유한다. Cross-covariance를 0으로 만들면 이 상관관계를 잃어버리고, landmark 재관측이 robot pose와 다른 landmark에 전달해야 할 정보를 차단한다. 필터가 실제보다 독립적인 측정이 많다고 해석해 과도하게 확신하는 inconsistency가 생길 수 있다. 계산량을 줄이기 위한 근사는 가능하지만, 어떤 상관관계를 버렸으며 consistency를 어떻게 관리하는지 설명해야 한다.</p>
+  <p>Landmarks observed from the same uncertain robot pose share a common position error. Forcing the cross-covariance to zero throws that correlation away and blocks the information a landmark re-observation should pass on to the robot pose and to other landmarks. The filter then interprets the data as containing more independent measurements than it really does and becomes overconfident, which is an inconsistency. Approximations to save computation are legitimate, but you have to say which correlations you discarded and how you manage consistency.</p>
 
 </details>
 
-<h3 id="문제-2--수학">문제 2 — 수학</h3>
+<h3 id="question-2--math">Question 2 — Math</h3>
 
-<p>1차원 상태의 prior가 $x\sim\mathcal N(2.0,0.25)$이고 측정 모델이 $z=x+v$, $v\sim\mathcal N(0,0.04)$이다. 실제 측정이 $z=2.4$일 때 Kalman gain, posterior mean, posterior variance를 구하라.</p>
+<p>A one-dimensional state has prior $x\sim\mathcal N(2.0,0.25)$ and measurement model $z=x+v$ with $v\sim\mathcal N(0,0.04)$. Given the actual measurement $z=2.4$, find the Kalman gain, the posterior mean and the posterior variance.</p>
 
 <details class="study-answer">
-  <summary>답변 보기</summary>
+  <summary>Show answer</summary>
 
-  <p>측정 Jacobian은 $H=1$이므로</p>
+  <p>The measurement Jacobian is $H=1$, so</p>
 
 \[K=\frac{0.25}{0.25+0.04}\approx0.8621\]
 
-  <p>이다. 따라서</p>
+  <p>and therefore</p>
 
 \[\hat x^+=2.0+0.8621(2.4-2.0)\approx2.3448,\]
 
 \[P^+=(1-K)0.25\approx0.0345.\]
 
-  <p>측정 분산이 prior 분산보다 작아 평균은 측정 쪽으로 크게 이동하고 posterior 불확실성은 감소한다. 실제 EKF에서는 $H$가 현재 추정점에서 선형화된 Jacobian이므로 초기 추정과 선형화 오차도 함께 고려해야 한다.</p>
+  <p>Because the measurement variance is smaller than the prior variance, the mean moves a long way towards the measurement and the posterior uncertainty decreases. In a real EKF, $H$ is a Jacobian linearised at the current estimate, so the initial estimate and linearisation error also have to be taken into account.</p>
 
 </details>
 
-<h2 id="원문-읽기">원문 읽기</h2>
+<h2 id="original-reading">Original reading</h2>
 
 <ul>
-  <li>Course on SLAM: motion/observation model 부분만 읽는다. 로컬: <code class="language-plaintext highlighter-rouge">_resource/slam/foundations/sola2017-course-on-slam.pdf</code>.</li>
-  <li>FastSLAM (2002): Introduction의 EKF 한계 설명. 다음 장에서 조건부 독립으로 이어간다.</li>
+  <li>Course on SLAM: read only the motion/observation model sections. Local copy: <code class="language-plaintext highlighter-rouge">_resource/slam/foundations/sola2017-course-on-slam.pdf</code>.</li>
+  <li>FastSLAM (2002): the explanation of the EKF’s limits in the Introduction. The next chapter continues from there with conditional independence.</li>
 </ul>
 
 
@@ -454,7 +495,7 @@
   
     <a class="study-chapter-next" href="/study/slam/history/03-fastslam/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Chapter 3. FastSLAM과 조건부 독립</span>
+      <span>Chapter 3. FastSLAM and conditional independence</span>
     </a>
   
 </nav>

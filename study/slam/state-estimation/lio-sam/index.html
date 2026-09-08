@@ -17,12 +17,12 @@
   
   
     
-      LIO-SAM — 논문 리뷰 | Daye Lee
+      LIO-SAM — paper review | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="LiDAR·관성 추정을 factor graph로 구성해 GPS와 루프 제약을 함께 다루는 smoothing 기반 대조군이다.">
+<meta name="description" content="Builds LiDAR-inertial estimation as a factor graph so GPS and loop constraints can be handled together; the smoothing-based control group.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -364,203 +364,203 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">LIO-SAM — 논문 리뷰</h1>
-    <p class="post-description">LiDAR·관성 추정을 factor graph로 구성해 GPS와 루프 제약을 함께 다루는 smoothing 기반 대조군이다.</p>
+    <h1 class="post-title">LIO-SAM — paper review</h1>
+    <p class="post-description">Builds LiDAR-inertial estimation as a factor graph so GPS and loop constraints can be handled together; the smoothing-based control group.</p>
   </header>
 
   <article>
-    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← State estimation paper comparison</a></p>
 
 <blockquote>
-  <p><strong>한 문장 요약:</strong> LiDAR·관성 추정을 factor graph로 구성해 GPS와 루프 제약을 함께 다루는 smoothing 기반 대조군이다.</p>
+  <p><strong>One-sentence summary:</strong> Builds LiDAR-inertial estimation as a factor graph so GPS and loop constraints can be handled together; the smoothing-based control group.</p>
 </blockquote>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left">항목</th>
-      <th style="text-align: left">내용</th>
+      <th style="text-align: left">Item</th>
+      <th style="text-align: left">Detail</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left">논문</td>
+      <td style="text-align: left">Paper</td>
       <td style="text-align: left">LIO-SAM: Tightly-coupled Lidar Inertial Odometry via Smoothing and Mapping</td>
     </tr>
     <tr>
-      <td style="text-align: left">발표</td>
+      <td style="text-align: left">Venue</td>
       <td style="text-align: left">IROS 2020</td>
     </tr>
     <tr>
-      <td style="text-align: left">자료</td>
+      <td style="text-align: left">Source</td>
       <td style="text-align: left">
-<a href="https://arxiv.org/abs/2007.00258" rel="external nofollow noopener" target="_blank">논문·저자 자료</a> · <a href="https://github.com/TixiaoShan/LIO-SAM" rel="external nofollow noopener" target="_blank">공식 구현</a>
+<a href="https://arxiv.org/abs/2007.00258" rel="external nofollow noopener" target="_blank">Paper / author material</a> · <a href="https://github.com/TixiaoShan/LIO-SAM" rel="external nofollow noopener" target="_blank">Official implementation</a>
 </td>
     </tr>
     <tr>
-      <td style="text-align: left">정리 상태</td>
-      <td style="text-align: left">입문 리뷰 초안 · 개인 정독·재현 기록은 아래에 추가</td>
+      <td style="text-align: left">Status</td>
+      <td style="text-align: left">Introductory review draft · personal close-reading and reproduction notes added below</td>
     </tr>
     <tr>
-      <td style="text-align: left">자료 확인일</td>
+      <td style="text-align: left">Source checked</td>
       <td style="text-align: left">2026-09-07</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="1-해결하려는-문제">1. 해결하려는 문제</h2>
+<h2 id="1-the-problem-it-addresses">1. The problem it addresses</h2>
 
-<p>관성 예측과 LiDAR 정합을 연결하면서 과거 상태에 들어오는 상대·절대 제약도 수용해야 한다.</p>
+<p>While connecting inertial prediction to LiDAR registration, the system also has to accept relative and absolute constraints that arrive on past states.</p>
 
-<h2 id="2-발표할-핵심-3개">2. 발표할 핵심 3개</h2>
+<h2 id="2-three-key-points-to-present">2. Three key points to present</h2>
 
 <ol>
   <li>
-<strong>IMU 사전적분:</strong> 스캔 운동 보정과 LiDAR 정합 초기값에 관성 정보를 사용한다.</li>
+<strong>IMU preintegration:</strong> inertial information is used for scan motion correction and for the initial guess of LiDAR registration.</li>
   <li>
-<strong>로컬 키프레임 정합:</strong> 새 스캔을 제한된 과거 키프레임 집합에 정합해 계산량을 관리한다.</li>
+<strong>Local keyframe registration:</strong> a new scan is registered against a limited set of past keyframes to keep computation manageable.</li>
   <li>
-<strong>그래프 기반 융합:</strong> LiDAR odometry, GPS, loop closure를 factor로 표현해 궤적을 보정한다.</li>
+<strong>Graph-based fusion:</strong> LiDAR odometry, GPS and loop closure are expressed as factors that correct the trajectory.</li>
 </ol>
 
-<p>기술 요약 근거: <a href="https://arxiv.org/abs/2007.00258" rel="external nofollow noopener" target="_blank">논문·저자 설명</a>.</p>
+<p>Basis for this technical summary: <a href="https://arxiv.org/abs/2007.00258" rel="external nofollow noopener" target="_blank">paper / author description</a>.</p>
 
-<h2 id="3-동작-구조">3. 동작 구조</h2>
+<h2 id="3-how-it-works">3. How it works</h2>
 
-<p>아래는 이해를 위한 개념 흐름이며 구현의 모든 스레드·갱신 주기를 나타내지는 않는다.</p>
+<p>The diagram below is a conceptual flow for understanding; it does not show every thread and update rate in the implementation.</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR + IMU → 사전적분·deskew → 특징 기반 로컬 정합 → 그래프 갱신 ← GPS·루프 제약
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR + IMU → preintegration and deskew → feature-based local registration → graph update ← GPS and loop constraints
 </code></pre></div></div>
 
-<p>LiDAR 정합 결과가 IMU bias 추정에도 사용된다. 공식 구현은 IMU 추정 그래프와 매핑 그래프를 구분한다. 모든 원시 센서 잔차를 무한히 커지는 단일 그래프에 넣는 구조로 이해하지 않는다.</p>
+<p>The LiDAR registration result is also used for IMU bias estimation. The official implementation keeps the IMU graph separate from the mapping graph. Do not read it as a structure that puts every raw sensor residual into a single, indefinitely growing graph.</p>
 
-<h2 id="4-실험-결과와-해석">4. 실험 결과와 해석</h2>
+<h2 id="4-experimental-results-and-interpretation">4. Experimental results and interpretation</h2>
 
-<p>논문은 세 플랫폼에서 여러 규모·환경의 데이터를 평가한다. 리뷰에서는 GPS·루프 사용 여부가 같은 실험끼리 비교해야 한다. 공식 저장소의 루프 구현은 proof of concept로 설명되어 있다. <a href="https://arxiv.org/abs/2007.00258" rel="external nofollow noopener" target="_blank">출처</a> · <a href="https://github.com/TixiaoShan/LIO-SAM" rel="external nofollow noopener" target="_blank">구현 설명</a></p>
+<p>The paper evaluates data at several scales and environments across three platforms. In the review, only compare experiments that use GPS and loops in the same way. The loop implementation in the official repository is described as a proof of concept. <a href="https://arxiv.org/abs/2007.00258" rel="external nofollow noopener" target="_blank">Source</a> · <a href="https://github.com/TixiaoShan/LIO-SAM" rel="external nofollow noopener" target="_blank">Implementation notes</a></p>
 
-<p>루프 제약을 추가할 수 있다는 사실은 잘못된 장소 매칭까지 자동으로 해결한다는 뜻이 아니다. 센서 메시지의 점별 시간과 ring 정보 등 구현 요구조건도 확인해야 한다.</p>
+<p>The fact that loop constraints can be added does not mean wrong place matches are automatically resolved. Implementation requirements such as per-point time and ring information in the sensor messages also have to be checked.</p>
 
-<p>정독할 때는 비교 방법 이름뿐 아니라 센서 구성, ground truth, 궤적 정렬 방식, 실행 장치와 실패 구간 포함 여부를 함께 기록한다.</p>
+<p>When reading closely, record not only the names of the compared methods but also the sensor configuration, ground truth, trajectory alignment method, the compute platform, and whether failed segments are included.</p>
 
-<h2 id="5-vision60-적용-질문">5. Vision60 적용 질문</h2>
+<h2 id="5-vision60-application-questions">5. Vision60 application questions</h2>
 
-<p>다음은 논문의 검증 결과와 구분한 <strong>프로젝트 적용 가설·검토 질문</strong>이다.</p>
+<p>The following are <strong>project application hypotheses and review questions</strong>, kept separate from the paper’s validated results.</p>
 
 <ol>
-  <li>FAST-LIO2와 비교할 때 루프·GPS를 끈 로컬 오차와 켠 전역 오차를 나누었는가?</li>
-  <li>IMU 그래프의 초기화·재설정이 출력 pose의 연속성에 어떤 영향을 주는가?</li>
-  <li>Vision60 LiDAR 메시지를 공식 구현의 입력 형식으로 변환할 수 있는가?</li>
+  <li>Compared with FAST-LIO2, have you separated local error with loops and GPS off from global error with them on?</li>
+  <li>How does initialisation and resetting of the IMU graph affect the continuity of the output pose?</li>
+  <li>Can Vision60’s LiDAR messages be converted into the input format of the official implementation?</li>
 </ol>
 
-<p><strong>제안 실험:</strong> 같은 재방문 로그에서 루프 비활성·활성 결과를 비교한다. 루프 전후 전역 오차와 pose jump를 함께 기록해 제어용 연속 상태와 지도용 보정 상태의 용도를 나눈다.</p>
+<p><strong>Proposed experiment:</strong> compare results with loops disabled and enabled on the same revisit log. Record global error and pose jumps before and after the loop, separating the continuous state used for control from the corrected state used for mapping.</p>
 
-<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+<h2 id="6-check-questions">6. Check questions</h2>
 
-<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+<p>Answer each question out loud first, then open the toggle. Practise stating the assumptions and equations together with the failure conditions and how you would verify them.</p>
 
-<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+<h3 id="q1-concept-and-structure">Q1. Concept and structure</h3>
 
-<p>LIO-SAM이 factor graph를 쓴다는 사실만으로 루프클로저가 강건하다고 말할 수 없는 이유는 무엇인가?</p>
+<p>Why can you not conclude that loop closure is robust simply because LIO-SAM uses a factor graph?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>그래프는 들어온 제약을 최적화하는 표현이다. 장소인식의 false positive, 상대 pose 검증, robust loss, 잘못된 제약 제거는 별도의 문제다. 오검출 제약이 강하면 그래프는 오히려 전체 궤적을 잘못 변형할 수 있다. 후보 생성–기하 검증–그래프 최적화를 구분해야 한다.</p>
+  <p>The graph is a representation that optimises whatever constraints come in. False positives in place recognition, relative pose verification, robust losses and the removal of wrong constraints are separate problems. If a falsely detected constraint is strong, the graph can actually deform the whole trajectory. Candidate generation, geometric verification and graph optimisation have to be kept distinct.</p>
 
 </details>
 
-<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+<h3 id="q2-math-and-reasoning">Q2. Math and reasoning</h3>
 
-<p>IMU preintegration factor의 잔차가 대략 (r=[r_R,r_v,r_p,r_b])이고 공분산이 (\Sigma)일 때 factor의 비용함수를 쓰고, bias를 다시 선형화해야 하는 이유를 설명하라.</p>
+<p>Given that the residual of an IMU preintegration factor is roughly (r=[r_R,r_v,r_p,r_b]) with covariance (\Sigma), write the factor’s cost function and explain why the bias has to be relinearised.</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>비용은 (J_{imu}=r^\top\Sigma^{-1}r)이다. 사전적분된 회전·속도·위치는 적분 구간의 gyro/accel bias 가정에 의존한다. bias 추정치가 바뀌면 잔차와 Jacobian도 바뀌므로 1차 bias 보정 또는 재적분·재선형화가 필요하다. Mahalanobis 가중치가 센서 불확실성을 반영한다는 설명까지 포함하면 좋다.</p>
+  <p>The cost is (J_{imu}=r^\top\Sigma^{-1}r). The preintegrated rotation, velocity and position depend on the gyro/accel bias assumed over the integration interval. When the bias estimate changes, the residual and Jacobian change too, so a first-order bias correction or reintegration and relinearisation is needed. It is good to add that the Mahalanobis weighting reflects the sensor uncertainty.</p>
 
 </details>
 
-<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+<h3 id="q3-systems-and-debugging">Q3. Systems and debugging</h3>
 
-<p>루프클로저 후 지도는 맞지만 제어기가 순간적으로 불안정해졌다. 상태 인터페이스를 어떻게 설계하겠는가?</p>
+<p>After a loop closure the map is correct, but the controller became momentarily unstable. How would you design the state interface?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>연속적인 local odometry frame과 전역 보정 map frame을 분리한다. 제어기는 짧은 시간에 연속인 odom→base 상태를 쓰고, SLAM은 map→odom 변환을 갱신한다. 전역 보정량을 즉시 적용할지 완만히 반영할지도 소비자별로 정한다. timestamp와 transform tree의 단일 소유자를 명확히 해야 한다.</p>
+  <p>Separate the continuous local odometry frame from the globally corrected map frame. The controller uses the odom→base state, which is continuous over short intervals, while SLAM updates the map→odom transform. Also decide per consumer whether the global correction is applied immediately or blended in gradually. Timestamps and a single owner of the transform tree have to be made explicit.</p>
 
 </details>
 
-<h3 id="q4-코드-리뷰구현">Q4. 코드 리뷰·구현</h3>
+<h3 id="q4-code-review-and-implementation">Q4. Code review and implementation</h3>
 
-<p><strong>GitHub:</strong> <a href="https://github.com/TixiaoShan/LIO-SAM" rel="external nofollow noopener" target="_blank">공식 또는 저자 연결 저장소</a></p>
+<p><strong>GitHub:</strong> <a href="https://github.com/TixiaoShan/LIO-SAM" rel="external nofollow noopener" target="_blank">Official or author-linked repository</a></p>
 
-<p>공식 구현의 <code class="language-plaintext highlighter-rouge">imageProjection.cpp</code>, <code class="language-plaintext highlighter-rouge">featureExtraction.cpp</code>, <code class="language-plaintext highlighter-rouge">mapOptimization.cpp</code>, <code class="language-plaintext highlighter-rouge">imuPreintegration.cpp</code> 사이에서 한 LiDAR 스캔이 최종 pose가 되기까지 데이터 흐름을 설명하고, 잘못된 <code class="language-plaintext highlighter-rouge">time</code> 필드를 가장 먼저 검출할 위치를 정하라.</p>
+<p>Describe the data flow by which one LiDAR scan becomes a final pose across <code class="language-plaintext highlighter-rouge">imageProjection.cpp</code>, <code class="language-plaintext highlighter-rouge">featureExtraction.cpp</code>, <code class="language-plaintext highlighter-rouge">mapOptimization.cpp</code> and <code class="language-plaintext highlighter-rouge">imuPreintegration.cpp</code> in the official implementation, and decide where a bad <code class="language-plaintext highlighter-rouge">time</code> field should first be detected.</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p><code class="language-plaintext highlighter-rouge">imageProjection.cpp</code>가 cloud deskew와 range image 투영을 수행하고, <code class="language-plaintext highlighter-rouge">featureExtraction.cpp</code>가 edge·surface 특징을 만든다. <code class="language-plaintext highlighter-rouge">mapOptimization.cpp</code>는 키프레임·factor graph·map 정합을 관리하고, <code class="language-plaintext highlighter-rouge">imuPreintegration.cpp</code>는 IMU 주파수 상태와 bias를 갱신한다. 점별 <code class="language-plaintext highlighter-rouge">time</code>은 deskew 전에 유효 범위와 단조성을 검사해야 한다. 10 Hz LiDAR라면 상대 시간이 대략 한 scan period 안에 있는지 확인하고 위반 시 명확히 실패시켜야 이후 모듈의 이상 pose로 숨지 않는다.</p>
+  <p><code class="language-plaintext highlighter-rouge">imageProjection.cpp</code> performs cloud deskew and range image projection, <code class="language-plaintext highlighter-rouge">featureExtraction.cpp</code> produces edge and surface features. <code class="language-plaintext highlighter-rouge">mapOptimization.cpp</code> manages keyframes, the factor graph and map registration, and <code class="language-plaintext highlighter-rouge">imuPreintegration.cpp</code> updates the IMU-rate state and bias. Per-point <code class="language-plaintext highlighter-rouge">time</code> should be checked for valid range and monotonicity before deskew. For a 10 Hz LiDAR, check that the relative times lie roughly within one scan period, and fail loudly on a violation so it does not hide as an anomalous pose in a later module.</p>
 
 </details>
 
-<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
+<h2 id="7-close-reading-and-presentation-record">7. Close-reading and presentation record</h2>
 
-<p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
+<p>Use the summary above as a starting point, check the equations, figures and experiment tables in the original, then fill this in yourself. Keep reproduction results you have not yet run separate from the paper’s results.</p>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left">기록할 항목</th>
-      <th style="text-align: left">개인 리뷰 메모</th>
+      <th style="text-align: left">Item to record</th>
+      <th style="text-align: left">Personal review notes</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left">상태·입력·출력</td>
-      <td style="text-align: left">미작성 — 좌표계, 단위, 센서 주기까지 기록</td>
+      <td style="text-align: left">States, inputs, outputs</td>
+      <td style="text-align: left">Not written — record frames, units and sensor rates</td>
     </tr>
     <tr>
-      <td style="text-align: left">핵심 수식</td>
-      <td style="text-align: left">미작성 — 식 번호, 변수 의미, 가정과 잔차를 설명</td>
+      <td style="text-align: left">Key equations</td>
+      <td style="text-align: left">Not written — explain equation numbers, variable meanings, assumptions and residuals</td>
     </tr>
     <tr>
-      <td style="text-align: left">대표 그림</td>
-      <td style="text-align: left">미작성 — 그림 번호와 데이터 흐름을 본인의 말로 설명</td>
+      <td style="text-align: left">Key figures</td>
+      <td style="text-align: left">Not written — explain the figure number and the data flow in your own words</td>
     </tr>
     <tr>
-      <td style="text-align: left">실험 근거</td>
-      <td style="text-align: left">미작성 — 표·그림 번호, 데이터셋, baseline, 지표와 조건</td>
+      <td style="text-align: left">Experimental evidence</td>
+      <td style="text-align: left">Not written — table/figure numbers, dataset, baselines, metrics and conditions</td>
     </tr>
     <tr>
       <td style="text-align: left">Ablation</td>
-      <td style="text-align: left">미작성 — 어떤 요소를 제거했고 무엇이 바뀌었는지 기록</td>
+      <td style="text-align: left">Not written — which element was removed and what changed</td>
     </tr>
     <tr>
-      <td style="text-align: left">실패 사례·한계</td>
-      <td style="text-align: left">미작성 — 저자 보고와 자신의 추론을 구분</td>
+      <td style="text-align: left">Failure cases and limits</td>
+      <td style="text-align: left">Not written — separate what the authors report from your own inference</td>
     </tr>
     <tr>
-      <td style="text-align: left">코드·재현</td>
-      <td style="text-align: left">미작성 — 버전, 설정, 로그, 장치, 측정 결과</td>
+      <td style="text-align: left">Code and reproduction</td>
+      <td style="text-align: left">Not written — version, configuration, logs, hardware, measurements</td>
     </tr>
     <tr>
-      <td style="text-align: left">최종 판단</td>
-      <td style="text-align: left">미작성 — Vision60에서 채택·보류할 이유</td>
+      <td style="text-align: left">Final judgement</td>
+      <td style="text-align: left">Not written — reasons to adopt or defer for Vision60</td>
     </tr>
   </tbody>
 </table>
 
 <ul class="task-list">
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>핵심 기여 3개를 원문 근거와 함께 설명할 수 있다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I can explain the three key contributions with evidence from the original paper.</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>상태와 관측이 어떻게 연결되는지 설명할 수 있다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I can explain how the states and observations are connected.</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I have separated the paper’s results from the Vision60 application hypotheses.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-lio2/">FAST-LIO2 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
+<p><strong>Read next:</strong> <a href="/study/slam/state-estimation/fast-lio2/">FAST-LIO2 review</a> · <a href="/study/slam/state-estimation/">Full comparison table</a></p>
 
 
 
@@ -576,7 +576,7 @@
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/point-lio/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Point-LIO — 논문 리뷰</span>
+      <span>Point-LIO — paper review</span>
     </a>
   
 </nav>

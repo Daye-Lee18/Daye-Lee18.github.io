@@ -378,6 +378,87 @@ Jetson에서 ROS 2, CUDA, TensorRT 환경을 container로 관리하는 방법을
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">docker ps</code> · <code class="language-plaintext highlighter-rouge">docker exec -it</code> · <code class="language-plaintext highlighter-rouge">docker logs -f</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker build -t myimg:tag .</code></td>
+      <td style="text-align: left">Dockerfile로 <strong>이미지</strong> 생성</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker images</code></td>
+      <td style="text-align: left">이미지 목록</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker rmi &lt;image&gt;</code></td>
+      <td style="text-align: left">이미지 삭제</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker run -it &lt;image&gt; bash</code></td>
+      <td style="text-align: left">이미지로 <strong>컨테이너</strong> 생성 후 접속</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker run -d --name c1 &lt;image&gt;</code></td>
+      <td style="text-align: left">백그라운드로 생성</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">docker ps</code> / <code class="language-plaintext highlighter-rouge">docker ps -a</code>
+</td>
+      <td style="text-align: left">실행 중 / 종료된 것 포함</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker exec -it c1 bash</code></td>
+      <td style="text-align: left">실행 중인 컨테이너에 터미널 추가</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker logs -f c1</code></td>
+      <td style="text-align: left">컨테이너 로그 실시간</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">docker stop c1</code> / <code class="language-plaintext highlighter-rouge">docker start c1</code>
+</td>
+      <td style="text-align: left">정지 / 재시작</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker rm -f c1</code></td>
+      <td style="text-align: left">컨테이너 삭제</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker stats</code></td>
+      <td style="text-align: left">컨테이너별 CPU·메모리</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">--network host</code></td>
+      <td style="text-align: left">ROS 2 DDS discovery에 사실상 필수</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">--runtime nvidia</code></td>
+      <td style="text-align: left">컨테이너에서 Jetson GPU 사용</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">-v &lt;host&gt;:&lt;container&gt;</code> / <code class="language-plaintext highlighter-rouge">-e VAR=val</code>
+</td>
+      <td style="text-align: left">bind mount / 환경변수</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-docker는-왜-사용할까">1. Docker는 왜 사용할까?</h1>
 
 <p>로봇 software는 dependency가 많다.</p>
@@ -759,6 +840,12 @@ Container Build
 </code></pre></div></div>
 
 <p>개발 환경에서 매우 편리하다.</p>
+
+<blockquote>
+  <p>이 bind mount가 실제 작업공간에서 어떻게 쓰이는지 —
+<code class="language-plaintext highlighter-rouge">/opt/ros/humble</code>과 <code class="language-plaintext highlighter-rouge">/ws</code>의 차이, <code class="language-plaintext highlighter-rouge">build.sh</code> / <code class="language-plaintext highlighter-rouge">run.sh</code> / <code class="language-plaintext highlighter-rouge">colcon build</code> 흐름 —
+는 <a href="/study/edge_computing/chapter09b-docker-workspace-workflow/">Chapter 9.5. Docker 실전</a>에서 이어서 다룬다.</p>
+</blockquote>
 
 <hr>
 
@@ -1484,7 +1571,6 @@ AI Container
 <h1 id="57-compose-예시">57. Compose 예시</h1>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">services</span><span class="pi">:</span>
-
   <span class="na">slam</span><span class="pi">:</span>
     <span class="na">image</span><span class="pi">:</span> <span class="s">vision60-slam</span>
     <span class="na">network_mode</span><span class="pi">:</span> <span class="s">host</span>
@@ -2407,6 +2493,9 @@ Robot Networking
 
 Chapter 9
 Docker on Jetson
+
+Chapter 9.5
+컨테이너 파일시스템과 개발 워크플로우
 </code></pre></div></div>
 
 <p>이제 마지막으로 매우 실무적인 내용을 추가한다면:</p>
@@ -2448,9 +2537,9 @@ Application
     <a href="/study/edge_computing/">← 목차로 돌아가기</a>
   
   
-    <a class="study-chapter-next" href="/study/edge_computing/chapter10-debugging-deployment/" rel="next">
+    <a class="study-chapter-next" href="/study/edge_computing/chapter09b-docker-workspace-workflow/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Chapter 10. ROS 2 + Jetson Debugging &amp; Deployment</span>
+      <span>Chapter 9.5. Docker 실전 — 컨테이너 파일시스템과 개발 워크플로우</span>
     </a>
   
 </nav>

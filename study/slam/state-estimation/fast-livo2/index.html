@@ -17,12 +17,12 @@
   
   
     
-      FAST-LIVO2 — 논문 리뷰 | Daye Lee
+      FAST-LIVO2 — paper review | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="LiDAR 기하와 영상 밝기 정보를 같은 voxel map에서 연결하고 ESIKF로 순차 융합하는 LIVO다.">
+<meta name="description" content="A LIVO that links LiDAR geometry and image intensity in the same voxel map and fuses them sequentially in an ESIKF.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -364,201 +364,201 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">FAST-LIVO2 — 논문 리뷰</h1>
-    <p class="post-description">LiDAR 기하와 영상 밝기 정보를 같은 voxel map에서 연결하고 ESIKF로 순차 융합하는 LIVO다.</p>
+    <h1 class="post-title">FAST-LIVO2 — paper review</h1>
+    <p class="post-description">A LIVO that links LiDAR geometry and image intensity in the same voxel map and fuses them sequentially in an ESIKF.</p>
   </header>
 
   <article>
-    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← State estimation paper comparison</a></p>
 
 <blockquote>
-  <p><strong>한 문장 요약:</strong> LiDAR 기하와 영상 밝기 정보를 같은 voxel map에서 연결하고 ESIKF로 순차 융합하는 LIVO다.</p>
+  <p><strong>One-sentence summary:</strong> A LIVO that links LiDAR geometry and image intensity in the same voxel map and fuses them sequentially in an ESIKF.</p>
 </blockquote>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left">항목</th>
-      <th style="text-align: left">내용</th>
+      <th style="text-align: left">Item</th>
+      <th style="text-align: left">Detail</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left">논문</td>
+      <td style="text-align: left">Paper</td>
       <td style="text-align: left">FAST-LIVO2: Fast, Direct LiDAR-Inertial-Visual Odometry</td>
     </tr>
     <tr>
-      <td style="text-align: left">발표</td>
-      <td style="text-align: left">T-RO 2025 · 온라인 출판 2024</td>
+      <td style="text-align: left">Venue</td>
+      <td style="text-align: left">T-RO 2025 · online publication 2024</td>
     </tr>
     <tr>
-      <td style="text-align: left">자료</td>
-      <td style="text-align: left"><a href="https://arxiv.org/abs/2408.14035" rel="external nofollow noopener" target="_blank">논문·저자 자료</a></td>
+      <td style="text-align: left">Source</td>
+      <td style="text-align: left"><a href="https://arxiv.org/abs/2408.14035" rel="external nofollow noopener" target="_blank">Paper / author material</a></td>
     </tr>
     <tr>
-      <td style="text-align: left">정리 상태</td>
-      <td style="text-align: left">입문 리뷰 초안 · 개인 정독·재현 기록은 아래에 추가</td>
+      <td style="text-align: left">Status</td>
+      <td style="text-align: left">Introductory review draft · personal close-reading and reproduction notes added below</td>
     </tr>
     <tr>
-      <td style="text-align: left">자료 확인일</td>
+      <td style="text-align: left">Source checked</td>
       <td style="text-align: left">2026-09-07</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="1-해결하려는-문제">1. 해결하려는 문제</h2>
+<h2 id="1-the-problem-it-addresses">1. The problem it addresses</h2>
 
-<p>LiDAR와 영상은 관측 표현과 차원이 다르다. 두 정보를 효율적으로 결합하면서 서로 부족한 제약을 보완해야 한다.</p>
+<p>LiDAR and images differ in observation representation and dimension. The two have to be combined efficiently so that each supplies the constraints the other lacks.</p>
 
-<h2 id="2-발표할-핵심-3개">2. 발표할 핵심 3개</h2>
+<h2 id="2-three-key-points-to-present">2. Three key points to present</h2>
 
 <ol>
   <li>
-<strong>순차 갱신:</strong> LiDAR와 영상 관측을 ESIKF에서 순차적으로 반영한다.</li>
+<strong>Sequential update:</strong> LiDAR and image observations are incorporated sequentially in an ESIKF.</li>
   <li>
-<strong>통합 voxel map:</strong> LiDAR 점에 이미지 패치를 연결해 기하 정합과 영상 정합의 기준을 공유한다.</li>
+<strong>Unified voxel map:</strong> image patches are attached to LiDAR points so that geometric and image registration share the same reference.</li>
   <li>
-<strong>영상 정합 보강:</strong> 평면 사전정보, reference patch 갱신, raycast와 노출 추정을 활용한다.</li>
+<strong>Stronger image alignment:</strong> plane priors, reference patch updating, raycasting and exposure estimation are used.</li>
 </ol>
 
-<p>기술 요약 근거: <a href="https://arxiv.org/abs/2408.14035" rel="external nofollow noopener" target="_blank">논문·저자 설명</a>.</p>
+<p>Basis for this technical summary: <a href="https://arxiv.org/abs/2408.14035" rel="external nofollow noopener" target="_blank">paper / author description</a>.</p>
 
-<h2 id="3-동작-구조">3. 동작 구조</h2>
+<h2 id="3-how-it-works">3. How it works</h2>
 
-<p>아래는 이해를 위한 개념 흐름이며 구현의 모든 스레드·갱신 주기를 나타내지는 않는다.</p>
+<p>The diagram below is a conceptual flow for understanding; it does not show every thread and update rate in the implementation.</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU 예측 → LiDAR 기하 갱신 → 영상 광도 갱신 → 통합 voxel map·pose
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IMU prediction → LiDAR geometric update → image photometric update → unified voxel map and pose
 </code></pre></div></div>
 
-<p>LiDAR는 원시 점 등록, 영상은 photometric error를 사용한다. 위 흐름은 개념 요약이며 실제 비동기 센서 스케줄은 구현에서 확인한다. 출력 맵의 품질과 전역 루프 보정 유무를 구분한다.</p>
+<p>LiDAR uses raw-point registration and images use photometric error. The flow above is a conceptual summary; check the actual asynchronous sensor schedule in the implementation. Keep the quality of the output map distinct from whether global loop correction is present.</p>
 
-<h2 id="4-실험-결과와-해석">4. 실험 결과와 해석</h2>
+<h2 id="4-experimental-results-and-interpretation">4. Experimental results and interpretation</h2>
 
-<p>저자들은 벤치마크·자체 데이터 비교와 모듈 검증에 더해 UAV 온보드 항법, 항공 매핑, 3D 렌더링 응용을 제시한다. 이는 Vision60의 착지·슬립 조건을 직접 검증한 결과는 아니다. <a href="https://arxiv.org/abs/2408.14035" rel="external nofollow noopener" target="_blank">출처</a></p>
+<p>Beyond benchmark and in-house data comparisons and module validation, the authors present UAV onboard navigation, aerial mapping and 3D rendering applications. These are not a direct validation of Vision60’s landing and slip conditions. <a href="https://arxiv.org/abs/2408.14035" rel="external nofollow noopener" target="_blank">Source</a></p>
 
-<p>영상의 기여는 관측 가능한 텍스처·노출·블러 상태에 의존한다. 카메라 추가에는 시간 동기화와 센서 간 보정 비용도 따른다.</p>
+<p>The contribution of the images depends on the observable texture, exposure and blur. Adding a camera also brings the cost of time synchronisation and inter-sensor calibration.</p>
 
-<p>정독할 때는 비교 방법 이름뿐 아니라 센서 구성, ground truth, 궤적 정렬 방식, 실행 장치와 실패 구간 포함 여부를 함께 기록한다.</p>
+<p>When reading closely, record not only the names of the compared methods but also the sensor configuration, ground truth, trajectory alignment method, the compute platform, and whether failed segments are included.</p>
 
-<h2 id="5-vision60-적용-질문">5. Vision60 적용 질문</h2>
+<h2 id="5-vision60-application-questions">5. Vision60 application questions</h2>
 
-<p>다음은 논문의 검증 결과와 구분한 <strong>프로젝트 적용 가설·검토 질문</strong>이다.</p>
+<p>The following are <strong>project application hypotheses and review questions</strong>, kept separate from the paper’s validated results.</p>
 
 <ol>
-  <li>LiDAR가 퇴화하는 구간에서 카메라에는 활용 가능한 시각 정보가 남는가?</li>
-  <li>보행 진동·착지 순간에 motion blur와 노출 변화가 얼마나 발생하는가?</li>
-  <li>LiDAR-only와 LIVO 비교에서 센서 시간 정합 조건을 동일하게 맞췄는가?</li>
+  <li>In segments where LiDAR degenerates, is there usable visual information left for the camera?</li>
+  <li>How much motion blur and exposure variation occur during gait vibration and at the moment of landing?</li>
+  <li>In a LiDAR-only versus LIVO comparison, have the sensor timing conditions been matched?</li>
 </ol>
 
-<p><strong>제안 실험:</strong> 기하가 약한 구간을 밝음·어두움·블러 구간으로 나눠 LiDAR-only와 영상 융합의 오차·실패율·계산량을 비교한다.</p>
+<p><strong>Proposed experiment:</strong> split the segments with weak geometry into bright, dark and blurred segments and compare error, failure rate and computation between LiDAR-only and image fusion.</p>
 
-<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+<h2 id="6-check-questions">6. Check questions</h2>
 
-<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+<p>Answer each question out loud first, then open the toggle. Practise stating the assumptions and equations together with the failure conditions and how you would verify them.</p>
 
-<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+<h3 id="q1-concept-and-structure">Q1. Concept and structure</h3>
 
-<p>FAST-LIVO2가 LiDAR와 영상을 하나의 voxel map에 연결하는 이유와 순차 갱신의 이점을 설명하라.</p>
+<p>Explain why FAST-LIVO2 links LiDAR and images in a single voxel map, and the benefit of the sequential update.</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>LiDAR 점이 기하 구조를 만들고 그 점에 image patch를 연결하면 두 모달리티가 같은 3D 기준을 공유한다. 순차 갱신은 차원과 모델이 다른 LiDAR 기하 잔차와 영상 광도 잔차를 각각 처리하면서 같은 상태를 갱신할 수 있게 한다. 다만 독립성·선형화 가정과 갱신 순서의 영향은 확인해야 한다.</p>
+  <p>LiDAR points build the geometric structure, and attaching image patches to those points gives both modalities the same 3D reference. The sequential update lets the LiDAR geometric residual and the image photometric residual, which have different dimensions and models, be handled separately while still updating the same state. That said, the independence and linearisation assumptions and the effect of update order have to be checked.</p>
 
 </details>
 
-<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+<h3 id="q2-math-and-reasoning">Q2. Math and reasoning</h3>
 
-<p>광도 잔차 (r(u)=I<em>k(\pi(TP))-I</em>{ref}(u))의 pose Jacobian을 chain rule로 분해하라. 어떤 영상에서 정보가 작아지는가?</p>
+<p>Decompose the pose Jacobian of the photometric residual (r(u)=I<em>k(\pi(TP))-I</em>{ref}(u)) with the chain rule. On which images does the information become small?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>(\partial r/\partial\xi=\nabla I_k\,(\partial\pi/\partial P’)\,(\partial P’/\partial\xi))이다. 이미지 gradient, 투영 Jacobian, SE(3) 운동 Jacobian의 곱이다. 무텍스처에서는 (\nabla I)가 작고, 포화·노출 변화는 brightness constancy를 깨뜨리며, 깊이·기하 배치에 따라 특정 운동의 sensitivity가 약해진다.</p>
+  <p>(\partial r/\partial\xi=\nabla I_k\,(\partial\pi/\partial P’)\,(\partial P’/\partial\xi)): the product of the image gradient, the projection Jacobian and the SE(3) motion Jacobian. On textureless surfaces (\nabla I) is small; saturation and exposure changes break brightness constancy; and depending on depth and geometric layout, sensitivity to certain motions weakens.</p>
 
 </details>
 
-<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+<h3 id="q3-systems-and-debugging">Q3. Systems and debugging</h3>
 
-<p>LiDAR-only보다 LIVO의 ATE는 좋아졌지만 착지 때 실패율이 늘었다. 가능한 원인과 ablation을 제안하라.</p>
+<p>LIVO improves ATE over LiDAR-only, but the failure rate on landing has gone up. Suggest possible causes and ablations.</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>motion blur, rolling shutter, 노출 변화, camera–IMU 시간 오차, extrinsic flex, 영상 갱신의 계산 지연을 의심한다. LiDAR update만, visual update만, blur frame 제외, exposure estimation on/off, timestamp offset sweep를 같은 로그에서 비교한다. 평균 ATE와 충격 구간 실패율·최악 지연을 별도로 본다.</p>
+  <p>Suspect motion blur, rolling shutter, exposure changes, camera–IMU time error, extrinsic flex, and the compute latency of the image update. On the same log, compare LiDAR update only, visual update only, excluding blurred frames, exposure estimation on/off, and a timestamp offset sweep. Look at mean ATE separately from the failure rate and worst-case latency on impact segments.</p>
 
 </details>
 
-<h3 id="q4-코드-리뷰구현">Q4. 코드 리뷰·구현</h3>
+<h3 id="q4-code-review-and-implementation">Q4. Code review and implementation</h3>
 
-<p><strong>GitHub:</strong> <a href="https://github.com/hku-mars/FAST-LIVO2" rel="external nofollow noopener" target="_blank">공식 또는 저자 연결 저장소</a></p>
+<p><strong>GitHub:</strong> <a href="https://github.com/hku-mars/FAST-LIVO2" rel="external nofollow noopener" target="_blank">Official or author-linked repository</a></p>
 
-<p><code class="language-plaintext highlighter-rouge">src/LIVMapper.cpp</code>에서 이미지 시각이 LiDAR·IMU 최신 시각보다 앞서거나 뒤설 때 measurement buffer가 어떤 결정을 내리는지 추적하라. image drop과 wait를 구분하는 테스트를 어떻게 만들겠는가?</p>
+<p>In <code class="language-plaintext highlighter-rouge">src/LIVMapper.cpp</code>, trace what the measurement buffer decides when the image time is ahead of or behind the latest LiDAR and IMU times. How would you build a test that distinguishes an image drop from a wait?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p><code class="language-plaintext highlighter-rouge">img_time_buffer</code>, LiDAR scan 시작·끝과 마지막 LIO update 시각, 최신 IMU 시각, <code class="language-plaintext highlighter-rouge">exposure_time_init</code>을 표로 기록한다. 이미지가 이미 처리된 LIO 시각보다 오래되면 drop되고, 필요한 LiDAR/IMU가 아직 도착하지 않았으면 buffer를 유지한 채 wait해야 한다. 합성 메시지 시각을 순서별로 주입해 buffer 크기, 반환 상태, <code class="language-plaintext highlighter-rouge">lio_vio_flg</code>, 처리 timestamp를 검증한다. mutex가 잠긴 채 early return하지 않는지도 함께 본다.</p>
+  <p>Tabulate <code class="language-plaintext highlighter-rouge">img_time_buffer</code>, the LiDAR scan start and end, the time of the last LIO update, the latest IMU time, and <code class="language-plaintext highlighter-rouge">exposure_time_init</code>. An image older than an already-processed LIO time should be dropped; if the required LiDAR/IMU data has not yet arrived, the buffer should be kept and the system should wait. Inject synthetic message times in various orders and verify the buffer size, the return status, <code class="language-plaintext highlighter-rouge">lio_vio_flg</code> and the processing timestamps. Also check that there is no early return while a mutex is held.</p>
 
 </details>
 
-<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
+<h2 id="7-close-reading-and-presentation-record">7. Close-reading and presentation record</h2>
 
-<p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
+<p>Use the summary above as a starting point, check the equations, figures and experiment tables in the original, then fill this in yourself. Keep reproduction results you have not yet run separate from the paper’s results.</p>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left">기록할 항목</th>
-      <th style="text-align: left">개인 리뷰 메모</th>
+      <th style="text-align: left">Item to record</th>
+      <th style="text-align: left">Personal review notes</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left">상태·입력·출력</td>
-      <td style="text-align: left">미작성 — 좌표계, 단위, 센서 주기까지 기록</td>
+      <td style="text-align: left">States, inputs, outputs</td>
+      <td style="text-align: left">Not written — record frames, units and sensor rates</td>
     </tr>
     <tr>
-      <td style="text-align: left">핵심 수식</td>
-      <td style="text-align: left">미작성 — 식 번호, 변수 의미, 가정과 잔차를 설명</td>
+      <td style="text-align: left">Key equations</td>
+      <td style="text-align: left">Not written — explain equation numbers, variable meanings, assumptions and residuals</td>
     </tr>
     <tr>
-      <td style="text-align: left">대표 그림</td>
-      <td style="text-align: left">미작성 — 그림 번호와 데이터 흐름을 본인의 말로 설명</td>
+      <td style="text-align: left">Key figures</td>
+      <td style="text-align: left">Not written — explain the figure number and the data flow in your own words</td>
     </tr>
     <tr>
-      <td style="text-align: left">실험 근거</td>
-      <td style="text-align: left">미작성 — 표·그림 번호, 데이터셋, baseline, 지표와 조건</td>
+      <td style="text-align: left">Experimental evidence</td>
+      <td style="text-align: left">Not written — table/figure numbers, dataset, baselines, metrics and conditions</td>
     </tr>
     <tr>
       <td style="text-align: left">Ablation</td>
-      <td style="text-align: left">미작성 — 어떤 요소를 제거했고 무엇이 바뀌었는지 기록</td>
+      <td style="text-align: left">Not written — which element was removed and what changed</td>
     </tr>
     <tr>
-      <td style="text-align: left">실패 사례·한계</td>
-      <td style="text-align: left">미작성 — 저자 보고와 자신의 추론을 구분</td>
+      <td style="text-align: left">Failure cases and limits</td>
+      <td style="text-align: left">Not written — separate what the authors report from your own inference</td>
     </tr>
     <tr>
-      <td style="text-align: left">코드·재현</td>
-      <td style="text-align: left">미작성 — 버전, 설정, 로그, 장치, 측정 결과</td>
+      <td style="text-align: left">Code and reproduction</td>
+      <td style="text-align: left">Not written — version, configuration, logs, hardware, measurements</td>
     </tr>
     <tr>
-      <td style="text-align: left">최종 판단</td>
-      <td style="text-align: left">미작성 — Vision60에서 채택·보류할 이유</td>
+      <td style="text-align: left">Final judgement</td>
+      <td style="text-align: left">Not written — reasons to adopt or defer for Vision60</td>
     </tr>
   </tbody>
 </table>
 
 <ul class="task-list">
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>핵심 기여 3개를 원문 근거와 함께 설명할 수 있다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I can explain the three key contributions with evidence from the original paper.</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>상태와 관측이 어떻게 연결되는지 설명할 수 있다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I can explain how the states and observations are connected.</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I have separated the paper’s results from the Vision60 application hypotheses.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-livo/">FAST-LIVO 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
+<p><strong>Read next:</strong> <a href="/study/slam/state-estimation/fast-livo/">FAST-LIVO review</a> · <a href="/study/slam/state-estimation/">Full comparison table</a></p>
 
 
 
@@ -574,7 +574,7 @@
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/vilens/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>VILENS — 논문 리뷰</span>
+      <span>VILENS — paper review</span>
     </a>
   
 </nav>

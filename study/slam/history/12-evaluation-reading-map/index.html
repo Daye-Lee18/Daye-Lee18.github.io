@@ -17,12 +17,12 @@
   
   
     
-      Chapter 12. 평가와 다음 학습 경로 | Daye Lee
+      Chapter 12. Evaluation and where to study next | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="역사를 성능표와 코드 읽기로 연결하는 방법.">
+<meta name="description" content="How to connect the history to performance tables and code reading.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -364,118 +364,142 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">Chapter 12. 평가와 다음 학습 경로</h1>
-    <p class="post-description">역사를 성능표와 코드 읽기로 연결하는 방법.</p>
+    <h1 class="post-title">Chapter 12. Evaluation and where to study next</h1>
+    <p class="post-description">How to connect the history to performance tables and code reading.</p>
   </header>
 
   <article>
     <blockquote>
-  <p><strong>목표:</strong> SLAM 결과를 비교하기 전에 실험 조건을 맞춘다.<br>
-<strong>학습량:</strong> 15분. History 마지막 장이다.</p>
+  <p><strong>Goal:</strong> Match the experimental conditions before comparing SLAM results.<br>
+<strong>Workload:</strong> 15 minutes. The last chapter of History.</p>
 </blockquote>
 
-<h2 id="1-같은-숫자가-같은-실험을-뜻하지-않는다">1. 같은 숫자가 같은 실험을 뜻하지 않는다</h2>
+<h2 id="1-the-same-number-does-not-mean-the-same-experiment">1. The same number does not mean the same experiment</h2>
 
-<p>Trajectory 오차를 비교할 때는 timestamp 대응, 좌표 정렬, scale 보정 여부, 실패한 구간의 처리부터 확인한다. 순수 monocular 추정에 scale 정렬을 허용한 결과와 metric sensor 추정 결과를 아무 설명 없이 비교하면 의미가 달라진다.</p>
+<p>Two papers report “ATE 0.15 m” on the same dataset. That does not make them comparable, and here is the same estimated trajectory scored four ways to show why:</p>
 
-<p><a href="https://www.cvlibs.net/datasets/kitti/eval_odometry.php" rel="external nofollow noopener" target="_blank">KITTI odometry 평가</a>는 여러 길이의 부분 궤적에서 translation/rotation 오차를 평가한다. 단일 전체 궤적 오차 숫자와 같은 지표로 취급하지 않는다. 정확도와 함께 latency, memory, 실패율도 기록하면 실제 로봇에 적합한지 판단하기 쉽다.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  how it was evaluated                                   reported ATE
+  ─────────────────────────────────────────────────      ────────────
+  SE(3) alignment, all frames counted                        0.62 m
+  Sim(3) alignment (rescaling allowed, see Ch. 8 §4)         0.15 m
+  SE(3), but the 12 s where tracking was lost dropped        0.11 m
+  SE(3), first 100 m only                                    0.04 m
+</code></pre></div></div>
 
-<h2 id="2-연대표는-위치를-잡는-도구">2. 연대표는 위치를 잡는 도구</h2>
+<p>One trajectory, four numbers, a 15× spread — and every one of them is honestly computed. The differences are entirely in the evaluation protocol.</p>
+
+<p>The traps are worth naming individually:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Sim(3) alignment        rescales the estimate to fit, hiding exactly
+                          the scale error monocular systems suffer from
+  dropped failures        a method that gives up when confused scores
+                          better than one that keeps trying and drifts
+  timestamp association   loose matching lets the aligner pick the
+                          most flattering ground-truth pose
+</code></pre></div></div>
+
+<p>So when comparing trajectory error, check the alignment type, the scale handling, the timestamp association and what happened to failed segments — before looking at the number.</p>
+
+<p>The <a href="https://www.cvlibs.net/datasets/kitti/eval_odometry.php" rel="external nofollow noopener" target="_blank">KITTI odometry evaluation</a> sidesteps some of this by scoring sub-trajectories of several lengths (100 m, 200 m, … 800 m) and reporting error as a percentage of distance travelled. That answers “how fast does it drift?”, which is a different question from “how far off is the whole trajectory?”. Do not treat the two as the same metric.</p>
+
+<p>Recording latency, memory and failure rate alongside accuracy makes it easier to judge suitability for a real robot. Recording latency, memory and failure rate alongside accuracy makes it easier to judge suitability for a real robot.</p>
+
+<h2 id="2-a-timeline-is-a-tool-for-orientation">2. A timeline is a tool for orientation</h2>
 
 <table>
   <thead>
     <tr>
-      <th>시기 / 대표 사례</th>
-      <th>이 노트에서 배운 질문</th>
-      <th>복습</th>
+      <th>Period / representative case</th>
+      <th>The question learned in these notes</th>
+      <th>Review</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>초기 확률적 SLAM</td>
-      <td>위치와 지도의 오차가 어떻게 연결되나?</td>
-      <td>1~2장</td>
+      <td>Early probabilistic SLAM</td>
+      <td>How are pose error and map error linked?</td>
+      <td>Ch. 1–2</td>
     </tr>
     <tr>
       <td>FastSLAM, 2002</td>
-      <td>경로 조건으로 문제를 나눌 수 있나?</td>
-      <td>3장</td>
+      <td>Can the problem be split by conditioning on the path?</td>
+      <td>Ch. 3</td>
     </tr>
     <tr>
-      <td>Graph/smoothing 계열</td>
-      <td>과거 상태와 큰 문제를 어떻게 갱신하나?</td>
-      <td>6~7장</td>
+      <td>The graph/smoothing family</td>
+      <td>How are past states and large problems updated?</td>
+      <td>Ch. 6–7</td>
     </tr>
     <tr>
       <td>KinectFusion, 2011 / ORB-SLAM, 2015</td>
-      <td>센서와 지도 표현이 설계를 어떻게 바꾸나?</td>
-      <td>8~9장</td>
+      <td>How do sensors and map representation change the design?</td>
+      <td>Ch. 8–9</td>
     </tr>
     <tr>
       <td>LIO-SAM, 2020 / FAST-LIO2, 2021 preprint</td>
-      <td>빠른 관성 예측을 어떻게 보정하나?</td>
-      <td>10장</td>
+      <td>How is fast inertial prediction corrected?</td>
+      <td>Ch. 10</td>
     </tr>
     <tr>
-      <td>DROID-SLAM, 2021 및 neural map 계열</td>
-      <td>무엇을 학습하고 무엇을 최적화하나?</td>
-      <td>11장</td>
+      <td>DROID-SLAM, 2021 and the neural-map family</td>
+      <td>What is learned and what is optimised?</td>
+      <td>Ch. 11</td>
     </tr>
   </tbody>
 </table>
 
-<p>이는 앞 장의 원문들을 연결한 학습용 연대표이며, 각 계열의 최초 발명 목록이나 완전한 역사표가 아니다. 병렬로 발전한 기법들을 하나의 교체 순서로 읽지 말자.</p>
+<p>This is a study timeline linking the original sources of the previous chapters, not a list of first inventions or a complete historical table. Do not read techniques that developed in parallel as a single sequence of replacements.</p>
 
-<h2 id="3-추천-글과-자료를-사용하는-순서">3. 추천 글과 자료를 사용하는 순서</h2>
+<h2 id="3-how-to-use-the-recommended-articles-and-materials">3. How to use the recommended articles and materials</h2>
 
-<p><a href="https://gisbi-kim.github.io/post/slam-textbooks/" rel="external nofollow noopener" target="_blank">Giseop Kim의 SLAM Back-end 공부자료 추천 글</a>은 rotation, least squares, sparsity를 공부할 자료들을 연결한다. 이 노트에서는 긴 교재를 한 번에 읽지 않도록 다음처럼 나눠 사용한다.</p>
+<p><a href="https://gisbi-kim.github.io/post/slam-textbooks/" rel="external nofollow noopener" target="_blank">Giseop Kim’s recommended reading on SLAM back-ends</a> connects materials for studying rotation, least squares and sparsity. To avoid reading a long textbook in one sitting, these notes split it up as follows.</p>
 
 <ol>
-  <li>좌표와 회전이 헷갈리면 4장과 Solà의 회전 자료로 돌아간다.</li>
-  <li>Residual과 Jacobian이 헷갈리면 5장의 작은 ICP 문제를 푼다.</li>
-  <li>큰 solver의 구조가 궁금하면 6~7장과 factor graph 교재를 읽는다.</li>
-  <li>센서 파이프라인이 궁금하면 8~10장 뒤에 관심 시스템의 overview와 코드를 연다.</li>
+  <li>If frames and rotation are confusing, go back to Chapter 4 and Solà’s rotation material.</li>
+  <li>If residuals and Jacobians are confusing, work through the small ICP problem in Chapter 5.</li>
+  <li>If you want the structure of a large solver, read Chapters 6–7 and the factor graph text.</li>
+  <li>If you want the sensor pipeline, read Chapters 8–10 and then open the overview and code of a system you care about.</li>
 </ol>
 
-<p><a href="https://asrl.utias.utoronto.ca/~tdb/slam/" rel="external nofollow noopener" target="_blank">SLAM Handbook 공식 페이지</a>는 더 넓은 주제를 찾아가는 색인으로 사용한다. 필요한 장을 골라 읽고, 판본과 공개 저장소의 갱신 시점을 확인한다.</p>
+<p>Use the <a href="https://asrl.utias.utoronto.ca/~tdb/slam/" rel="external nofollow noopener" target="_blank">official SLAM Handbook page</a> as an index for finding broader topics. Pick the chapters you need, and check the edition and the update date of the public repository.</p>
 
-<h2 id="4-면접형-확인-문제">4. 면접형 확인 문제</h2>
+<h2 id="4-check-questions">4. Check questions</h2>
 
-<h3 id="문제-1--개념">문제 1 — 개념</h3>
+<h3 id="question-1--concept">Question 1 — Concept</h3>
 
-<p>두 SLAM 논문 중 A는 ATE가 더 작고 B는 RPE와 실패율이 더 작다. 회사의 장시간 자율주행 로봇에 적용할 방법을 고르라는 질문에 어떻게 답하겠는가?</p>
+<p>Of two SLAM papers, A has the smaller ATE while B has the smaller RPE and failure rate. How would you answer if asked which one to deploy on a long-duration autonomous robot?</p>
 
 <details class="study-answer">
-  <summary>답변 보기</summary>
+  <summary>Show answer</summary>
 
-  <p>숫자 하나로 선택하지 않고 운영 조건부터 맞춘다. ATE는 전역 궤적 일치도를, RPE는 일정 구간의 local drift를 주로 반영하며 정렬 방식에도 민감하다. 장시간 로봇에서는 catastrophic failure, relocalization 시간, loop closure 오검출, memory 증가, latency tail과 recovery behavior가 중요하다. 동일 센서·연산 장치·데이터 구간과 같은 SE(3)/Sim(3) 정렬 조건에서 재평가하고, 실패 비용이 큰 제품이라면 평균 정확도보다 failure rate와 복구 가능성에 높은 가중치를 둘 수 있다. 최종 선택은 실제 운용 분포에서의 요구사항과 위험 허용치로 결정한다.</p>
+  <p>Do not pick on a single number; start by matching the operating conditions. ATE mainly reflects global trajectory agreement and RPE local drift over fixed intervals, and both are sensitive to the alignment method. For a long-duration robot, catastrophic failure, relocalisation time, false loop closures, memory growth, latency tails and recovery behaviour matter. Re-evaluate under the same sensors, compute platform and data segments, with the same SE(3)/Sim(3) alignment; and for a product where failure is expensive, weight failure rate and recoverability more heavily than mean accuracy. The final choice is settled by the requirements and risk tolerance over the actual operating distribution.</p>
 
 </details>
 
-<h3 id="문제-2--수학평가">문제 2 — 수학·평가</h3>
+<h3 id="question-2--math-and-evaluation">Question 2 — Math and evaluation</h3>
 
-<p>2D trajectory의 추정점이 $(0,0),(1.1,0),(2.2,0)$이고 ground truth가 $(0,0),(1,0),(2,0)$이다. 시작점을 맞춘 상태에서 translation ATE RMSE와, 두 연속 구간의 translation RPE RMSE를 구하라. 두 지표가 무엇을 보여주는지도 설명하라.</p>
+<p>A 2D trajectory has estimates $(0,0),(1.1,0),(2.2,0)$ against ground truth $(0,0),(1,0),(2,0)$. With the start point aligned, find the translation ATE RMSE and the translation RPE RMSE over the two consecutive segments. Explain what each metric shows.</p>
 
 <details class="study-answer">
-  <summary>답변 보기</summary>
+  <summary>Show answer</summary>
 
-  <p>각 pose의 위치 오차 크기는 $0,0.1,0.2$이므로</p>
+  <p>The position error magnitudes at each pose are $0,0.1,0.2$, so</p>
 
 \[\mathrm{ATE}_{RMSE}
 =\sqrt{\frac{0^2+0.1^2+0.2^2}{3}}
 \approx0.129m.\]
 
-  <p>각 1m ground-truth 구간에 대해 추정 이동은 1.1m이므로 두 구간의 상대 translation 오차는 모두 0.1m다.</p>
+  <p>For each 1 m ground-truth segment the estimated motion is 1.1 m, so the relative translation error is 0.1 m on both segments:</p>
 
 \[\mathrm{RPE}_{RMSE}=\sqrt{\frac{0.1^2+0.1^2}{2}}=0.1m.\]
 
-  <p>RPE는 매 구간의 10cm drift를 보여주고, ATE는 그 drift가 누적되어 마지막 pose에서 20cm가 된 결과까지 반영한다. 실제 평가는 회전, timestamp association, trajectory alignment와 구간 길이 정의를 명시해야 한다.</p>
+  <p>RPE shows the 10 cm of drift per segment, while ATE also reflects the accumulation of that drift into 20 cm at the final pose. A real evaluation has to state the rotation handling, timestamp association, trajectory alignment and the definition of the segment length.</p>
 
 </details>
 
-<h2 id="다음-학습">다음 학습</h2>
+<h2 id="where-to-go-next">Where to go next</h2>
 
-<p><a href="/study/slam/lio/">LIO 목차</a>에서 IMU 모델 → deskew → error-state → LIO-SAM/FAST-LIO2 순으로 이어간다. 현재 LIO 페이지는 학습 범위를 안내하는 목차다.</p>
+<p>Continue in <a href="/study/slam/state-estimation/">LIO &amp; State Estimation</a> in the order IMU model → deskew → error-state → LIO-SAM/FAST-LIO2. That page is the comparison table and index that lays out the scope of the study.</p>
 
 
 

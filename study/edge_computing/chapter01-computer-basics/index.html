@@ -377,6 +377,63 @@
 
 <hr>
 
+<h2 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h2>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">uname -m</code> · <code class="language-plaintext highlighter-rouge">lscpu</code> · <code class="language-plaintext highlighter-rouge">free -h</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">uname -m</code></td>
+      <td style="text-align: left">CPU 아키텍처 (<code class="language-plaintext highlighter-rouge">aarch64</code> = ARM, <code class="language-plaintext highlighter-rouge">x86_64</code> = Intel/AMD)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">uname -a</code></td>
+      <td style="text-align: left">커널 버전까지 한 줄로</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">lscpu</code></td>
+      <td style="text-align: left">코어 수, 클럭, 캐시 크기</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">nproc</code></td>
+      <td style="text-align: left">논리 코어 개수만</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">free -h</code></td>
+      <td style="text-align: left">RAM 사용량 (<code class="language-plaintext highlighter-rouge">-h</code> = 사람이 읽기 좋게)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">df -h</code></td>
+      <td style="text-align: left">디스크 남은 용량</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">lsblk</code></td>
+      <td style="text-align: left">디스크·파티션 구조</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">top</code> / <code class="language-plaintext highlighter-rouge">htop</code>
+</td>
+      <td style="text-align: left">어떤 프로세스가 CPU·RAM을 쓰는지 실시간</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cat /proc/cpuinfo</code></td>
+      <td style="text-align: left">CPU 상세 정보 전체</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h2 id="1-로봇도-결국-하나의-컴퓨터다">1. 로봇도 결국 하나의 컴퓨터다</h2>
 
 <p>Vision60 같은 로봇 안에는 여러 컴퓨터와 MCU가 들어간다.</p>

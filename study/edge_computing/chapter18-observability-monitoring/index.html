@@ -381,6 +381,76 @@ CPU/GPU/RAM, Temperature, Disk, Network, ROS Topic Rate, Latency를
 
 <hr>
 
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">htop</code> · <code class="language-plaintext highlighter-rouge">journalctl -f</code> · <code class="language-plaintext highlighter-rouge">ros2 topic hz</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">htop</code> / <code class="language-plaintext highlighter-rouge">top</code>
+</td>
+      <td style="text-align: left">CPU·메모리를 누가 쓰는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">free -h</code></td>
+      <td style="text-align: left">RAM 여유</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">df -h</code></td>
+      <td style="text-align: left">디스크 여유 (<strong>로그가 채우는 일이 잦다</strong>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">du -sh /var/log/*</code></td>
+      <td style="text-align: left">어디가 용량을 먹는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ip -s link</code></td>
+      <td style="text-align: left">인터페이스별 drop·error</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">journalctl -f</code></td>
+      <td style="text-align: left">전체 로그 실시간</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">journalctl -u &lt;svc&gt; --since "10 min ago"</code></td>
+      <td style="text-align: left">특정 서비스, 특정 시간대</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">docker stats</code></td>
+      <td style="text-align: left">컨테이너별 자원 사용</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">tegrastats</code></td>
+      <td style="text-align: left">Jetson 전용 종합 지표</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 node list</code></td>
+      <td style="text-align: left">node가 살아 있는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic hz /imu</code></td>
+      <td style="text-align: left">
+<strong>실제 주기</strong> — 선언값이 아니라</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 topic info /imu --verbose</code></td>
+      <td style="text-align: left">QoS 불일치 확인</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
 <h1 id="1-monitoring이-왜-필요한가">1. Monitoring이 왜 필요한가?</h1>
 
 <p>Robot 한 대를 직접 보고 있다면:</p>

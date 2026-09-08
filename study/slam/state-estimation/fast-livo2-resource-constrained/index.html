@@ -17,12 +17,12 @@
   
   
     
-      FAST-LIVO2 경량화 — 논문 리뷰 | Daye Lee
+      Lightweight FAST-LIVO2 — paper review | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="관측의 유용성과 맵 보존 범위를 조절해 FAST-LIVO2의 메모리·계산 비용을 줄이는 연구다.">
+<meta name="description" content="Reduces the memory and computation cost of FAST-LIVO2 by controlling observation usefulness and how much of the map is retained.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -364,201 +364,201 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">FAST-LIVO2 경량화 — 논문 리뷰</h1>
-    <p class="post-description">관측의 유용성과 맵 보존 범위를 조절해 FAST-LIVO2의 메모리·계산 비용을 줄이는 연구다.</p>
+    <h1 class="post-title">Lightweight FAST-LIVO2 — paper review</h1>
+    <p class="post-description">Reduces the memory and computation cost of FAST-LIVO2 by controlling observation usefulness and how much of the map is retained.</p>
   </header>
 
   <article>
-    <p><a href="/study/slam/state-estimation/">← 상태 추정 논문 비교</a></p>
+    <p><a href="/study/slam/state-estimation/">← State estimation paper comparison</a></p>
 
 <blockquote>
-  <p><strong>한 문장 요약:</strong> 관측의 유용성과 맵 보존 범위를 조절해 FAST-LIVO2의 메모리·계산 비용을 줄이는 연구다.</p>
+  <p><strong>One-sentence summary:</strong> Reduces the memory and computation cost of FAST-LIVO2 by controlling observation usefulness and how much of the map is retained.</p>
 </blockquote>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left">항목</th>
-      <th style="text-align: left">내용</th>
+      <th style="text-align: left">Item</th>
+      <th style="text-align: left">Detail</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left">논문</td>
+      <td style="text-align: left">Paper</td>
       <td style="text-align: left">FAST-LIVO2 on Resource-Constrained Platforms: LiDAR-Inertial-Visual Odometry with Efficient Memory and Computation</td>
     </tr>
     <tr>
-      <td style="text-align: left">발표</td>
+      <td style="text-align: left">Venue</td>
       <td style="text-align: left">2025 · arXiv:2501.13876</td>
     </tr>
     <tr>
-      <td style="text-align: left">자료</td>
-      <td style="text-align: left"><a href="https://arxiv.org/abs/2501.13876" rel="external nofollow noopener" target="_blank">논문·저자 자료</a></td>
+      <td style="text-align: left">Source</td>
+      <td style="text-align: left"><a href="https://arxiv.org/abs/2501.13876" rel="external nofollow noopener" target="_blank">Paper / author material</a></td>
     </tr>
     <tr>
-      <td style="text-align: left">정리 상태</td>
-      <td style="text-align: left">입문 리뷰 초안 · 개인 정독·재현 기록은 아래에 추가</td>
+      <td style="text-align: left">Status</td>
+      <td style="text-align: left">Introductory review draft · personal close-reading and reproduction notes added below</td>
     </tr>
     <tr>
-      <td style="text-align: left">자료 확인일</td>
+      <td style="text-align: left">Source checked</td>
       <td style="text-align: left">2026-09-07</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="1-해결하려는-문제">1. 해결하려는 문제</h2>
+<h2 id="1-the-problem-it-addresses">1. The problem it addresses</h2>
 
-<p>LIVO가 정확해도 온보드 장치의 계산·메모리 예산을 넘으면 지속적으로 운용하기 어렵다.</p>
+<p>However accurate a LIVO is, it cannot be operated continuously if it exceeds the compute and memory budget of the onboard platform.</p>
 
-<h2 id="2-발표할-핵심-3개">2. 발표할 핵심 3개</h2>
+<h2 id="2-three-key-points-to-present">2. Three key points to present</h2>
 
 <ol>
   <li>
-<strong>적응적 영상 선택:</strong> 퇴화를 고려해 사용할 영상 프레임을 선택한다.</li>
+<strong>Adaptive image selection:</strong> the image frames to use are selected with degeneracy in mind.</li>
   <li>
-<strong>맵 메모리 관리:</strong> 로컬 통합 LiDAR-visual map과 장기 visual map을 함께 사용한다.</li>
+<strong>Map memory management:</strong> a local unified LiDAR-visual map is used together with a long-term visual map.</li>
   <li>
-<strong>효율·정확도 절충:</strong> ESIKF 순차 갱신 구조에서 자원 비용을 줄인다.</li>
+<strong>Efficiency–accuracy trade-off:</strong> resource cost is reduced within the sequential ESIKF update structure.</li>
 </ol>
 
-<p>기술 요약 근거: <a href="https://arxiv.org/abs/2501.13876" rel="external nofollow noopener" target="_blank">논문·저자 설명</a>.</p>
+<p>Basis for this technical summary: <a href="https://arxiv.org/abs/2501.13876" rel="external nofollow noopener" target="_blank">paper / author description</a>.</p>
 
-<h2 id="3-동작-구조">3. 동작 구조</h2>
+<h2 id="3-how-it-works">3. How it works</h2>
 
-<p>아래는 이해를 위한 개념 흐름이며 구현의 모든 스레드·갱신 주기를 나타내지는 않는다.</p>
+<p>The diagram below is a conceptual flow for understanding; it does not show every thread and update rate in the implementation.</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>센서 입력 → 퇴화 기반 영상 선택 → 순차 상태 갱신 → 로컬 통합 맵·장기 visual map 관리
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sensor input → degeneracy-based image selection → sequential state update → local unified map and long-term visual map management
 </code></pre></div></div>
 
-<p>프레임을 무조건 줄이는 대신 시각 제약이 필요한 상황을 판단하는 것이 핵심이다. 장기 visual map을 유지한다는 사실만으로 전역 루프 최적화를 수행한다고 해석하지 않는다.</p>
+<p>The core idea is judging when visual constraints are needed, rather than unconditionally cutting frames. Maintaining a long-term visual map does not by itself mean global loop optimisation is performed.</p>
 
-<h2 id="4-실험-결과와-해석">4. 실험 결과와 해석</h2>
+<h2 id="4-experimental-results-and-interpretation">4. Experimental results and interpretation</h2>
 
-<p>초록은 Hilti에서 FAST-LIVO2 대비 프레임당 실행 시간 33%, 메모리 47% 감소와 RMSE 3 cm 증가를 보고한다. x86·ARM 플랫폼 평가를 포함한다. <a href="https://arxiv.org/abs/2501.13876" rel="external nofollow noopener" target="_blank">출처</a></p>
+<p>The abstract reports a 33% reduction in per-frame runtime and a 47% reduction in memory against FAST-LIVO2 on Hilti, with a 3 cm increase in RMSE, and includes evaluation on x86 and ARM platforms. <a href="https://arxiv.org/abs/2501.13876" rel="external nofollow noopener" target="_blank">Source</a></p>
 
-<p>특정 데이터셋의 평균 절감률은 Vision60의 최악 지연이나 장기 메모리를 보장하지 않는다. 정확도가 약간 낮아지는 절충도 함께 고려해야 한다.</p>
+<p>Mean reduction rates on a particular dataset do not guarantee Vision60’s worst-case latency or long-term memory. The trade-off of slightly lower accuracy also has to be taken into account.</p>
 
-<p>정독할 때는 비교 방법 이름뿐 아니라 센서 구성, ground truth, 궤적 정렬 방식, 실행 장치와 실패 구간 포함 여부를 함께 기록한다.</p>
+<p>When reading closely, record not only the names of the compared methods but also the sensor configuration, ground truth, trajectory alignment method, the compute platform, and whether failed segments are included.</p>
 
-<h2 id="5-vision60-적용-질문">5. Vision60 적용 질문</h2>
+<h2 id="5-vision60-application-questions">5. Vision60 application questions</h2>
 
-<p>다음은 논문의 검증 결과와 구분한 <strong>프로젝트 적용 가설·검토 질문</strong>이다.</p>
+<p>The following are <strong>project application hypotheses and review questions</strong>, kept separate from the paper’s validated results.</p>
 
 <ol>
-  <li>영상 선택 기준이 기하 퇴화를 놓치는 상황은 없는가?</li>
-  <li>메모리 측정에 어떤 맵·버퍼·라이브러리가 포함되어 있는가?</li>
-  <li>FAST-LIVO2 대비 연산 절감이 제어 주기의 deadline 준수로 이어지는가?</li>
+  <li>Are there situations where the image selection criterion misses geometric degeneracy?</li>
+  <li>Which maps, buffers and libraries are included in the memory measurement?</li>
+  <li>Does the computational saving over FAST-LIVO2 translate into meeting the control cycle’s deadline?</li>
 </ol>
 
-<p><strong>제안 실험:</strong> 동일한 장거리 로그에서 두 방법의 peak memory, 처리 지연 분포, 구간별 상대 오차를 기록한다. 열·전력 제한이 있는 장치에서는 지속 실행 후에도 측정한다.</p>
+<p><strong>Proposed experiment:</strong> on the same long-distance log, record peak memory, the processing latency distribution and per-segment relative error for both methods. On thermally and power-limited hardware, measure again after sustained operation.</p>
 
-<h2 id="6-면접형-확인-질문">6. 면접형 확인 질문</h2>
+<h2 id="6-check-questions">6. Check questions</h2>
 
-<p>각 문제는 먼저 소리 내어 답한 뒤 토글을 연다. 대학원 면접에서는 가정과 수식을, 회사 면접에서는 실패 조건과 검증 방법을 함께 말하는 연습을 한다.</p>
+<p>Answer each question out loud first, then open the toggle. Practise stating the assumptions and equations together with the failure conditions and how you would verify them.</p>
 
-<h3 id="q1-개념구조">Q1. 개념·구조</h3>
+<h3 id="q1-concept-and-structure">Q1. Concept and structure</h3>
 
-<p>퇴화 인지형 visual frame selection이 단순한 고정 frame skipping보다 나은 이유는 무엇인가?</p>
+<p>Why is degeneracy-aware visual frame selection better than simple fixed frame skipping?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>항상 같은 비율로 버리면 LiDAR 제약이 약한 순간에도 필요한 영상을 놓칠 수 있다. 상태·환경의 정보 부족을 기준으로 영상을 선택하면 계산을 줄이면서 필요한 보완 관측을 남길 수 있다. 선택 기준 자체의 계산 비용과 오판도 포함해 평가해야 한다.</p>
+  <p>Always discarding at the same rate can drop images that are needed precisely when the LiDAR constraint is weak. Selecting images according to the information deficit in the state and environment reduces computation while keeping the complementary observations that are actually needed. The computational cost of the selection criterion itself, and its misjudgements, have to be included in the evaluation.</p>
 
 </details>
 
-<h3 id="q2-수학추론">Q2. 수학·추론</h3>
+<h3 id="q2-math-and-reasoning">Q2. Math and reasoning</h3>
 
-<p>후보 영상의 information contribution을 (\Delta H=J_V^\top R_V^{-1}J_V)로 본다면 선택 기준을 하나 제안하고 한계를 설명하라.</p>
+<p>If a candidate image’s information contribution is taken as (\Delta H=J_V^\top R_V^{-1}J_V), propose a selection criterion and explain its limitations.</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>예를 들어 (\log\det(H+\Delta H)-\log\det(H)), 최소 고유값 증가량, 또는 trace 기반 값을 비용 대비 비교할 수 있다. log-det은 전체 uncertainty volume, 최소 고유값은 가장 약한 방향을 본다. 선형화점·scale·모델 오류에 민감하고 계산량도 들기 때문에 근사 지표가 필요할 수 있다.</p>
+  <p>For example, (\log\det(H+\Delta H)-\log\det(H)), the increase in the smallest eigenvalue, or a trace-based value can be weighed against the cost. Log-det looks at the overall uncertainty volume, the smallest eigenvalue at the weakest direction. These are sensitive to the linearisation point, scale and model error, and they cost computation, so an approximate indicator may be needed.</p>
 
 </details>
 
-<h3 id="q3-시스템디버깅">Q3. 시스템·디버깅</h3>
+<h3 id="q3-systems-and-debugging">Q3. Systems and debugging</h3>
 
-<p>평균 메모리는 줄었지만 장시간 운용 중 OOM이 발생한다. 무엇을 기록해야 하는가?</p>
+<p>Mean memory is down, but an OOM occurs during long operation. What should you record?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>RSS와 GPU memory의 peak·시간 추세, voxel·patch·keyframe 수, allocator fragmentation, queue·cache, map pruning 이벤트를 기록한다. steady-state가 존재하는지 확인하고 반복 경로와 새 영역 탐사를 분리한다. 평균 메모리 감소만으로 bounded memory를 주장할 수 없다.</p>
+  <p>Record the peak and the time trend of RSS and GPU memory, the number of voxels, patches and keyframes, allocator fragmentation, queues and caches, and map pruning events. Check whether a steady state exists, and separate repeated paths from exploration of new areas. A reduction in mean memory is not enough to claim bounded memory.</p>
 
 </details>
 
-<h3 id="q4-코드-리뷰구현">Q4. 코드 리뷰·구현</h3>
+<h3 id="q4-code-review-and-implementation">Q4. Code review and implementation</h3>
 
-<p><strong>GitHub:</strong> <a href="https://github.com/hku-mars/FAST-LIVO2" rel="external nofollow noopener" target="_blank">공식 또는 저자 연결 저장소</a></p>
+<p><strong>GitHub:</strong> <a href="https://github.com/hku-mars/FAST-LIVO2" rel="external nofollow noopener" target="_blank">Official or author-linked repository</a></p>
 
-<p>이 저장소가 경량화 논문도 연결하지만, 현재 branch에 논문의 degeneration-aware frame selector와 장기 visual map이 실제 구현되어 있는지 어떻게 판별하겠는가?</p>
+<p>This repository also links the lightweight paper, but how would you determine whether the paper’s degeneration-aware frame selector and long-term visual map are actually implemented on the current branch?</p>
 
 <details class="study-answer">
-  <summary>답변과 채점 포인트 보기</summary>
+  <summary>Show answer and key points</summary>
 
-  <p>README의 주장만으로 포함됐다고 판단하지 않는다. 논문 알고리즘의 고유 변수·지표를 기준으로 repository code search를 하고, frame 선택 조건이 호출되는 경로와 선택 결과가 buffer·map 수명에 미치는 영향을 추적한다. tag·branch·commit history와 논문 공개 시점을 확인하고, 기본 FAST-LIVO2의 <code class="language-plaintext highlighter-rouge">img_en</code>이나 단순 frame skip을 논문의 selector로 오인하지 않는다. 찾지 못하면 이 저장소를 upstream/reference implementation으로만 표기하고 paper-specific code는 미공개 또는 미확인으로 남긴다.</p>
+  <p>Do not conclude it is included on the strength of the README alone. Search the repository code for the distinctive variables and metrics of the paper’s algorithm, and trace the path where the frame selection condition is called and how the selection result affects buffer and map lifetimes. Check tags, branches and commit history against the paper’s publication date, and do not mistake the base FAST-LIVO2 <code class="language-plaintext highlighter-rouge">img_en</code> or plain frame skipping for the paper’s selector. If you cannot find it, mark the repository as an upstream/reference implementation only and record the paper-specific code as unreleased or unverified.</p>
 
 </details>
 
-<h2 id="7-정독발표-기록">7. 정독·발표 기록</h2>
+<h2 id="7-close-reading-and-presentation-record">7. Close-reading and presentation record</h2>
 
-<p>위 요약을 출발점으로 원문의 수식·그림·실험 표를 확인한 뒤 직접 채우는 공간이다. 아직 수행하지 않은 재현 결과는 논문 결과와 구분해 남긴다.</p>
+<p>Use the summary above as a starting point, check the equations, figures and experiment tables in the original, then fill this in yourself. Keep reproduction results you have not yet run separate from the paper’s results.</p>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left">기록할 항목</th>
-      <th style="text-align: left">개인 리뷰 메모</th>
+      <th style="text-align: left">Item to record</th>
+      <th style="text-align: left">Personal review notes</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left">상태·입력·출력</td>
-      <td style="text-align: left">미작성 — 좌표계, 단위, 센서 주기까지 기록</td>
+      <td style="text-align: left">States, inputs, outputs</td>
+      <td style="text-align: left">Not written — record frames, units and sensor rates</td>
     </tr>
     <tr>
-      <td style="text-align: left">핵심 수식</td>
-      <td style="text-align: left">미작성 — 식 번호, 변수 의미, 가정과 잔차를 설명</td>
+      <td style="text-align: left">Key equations</td>
+      <td style="text-align: left">Not written — explain equation numbers, variable meanings, assumptions and residuals</td>
     </tr>
     <tr>
-      <td style="text-align: left">대표 그림</td>
-      <td style="text-align: left">미작성 — 그림 번호와 데이터 흐름을 본인의 말로 설명</td>
+      <td style="text-align: left">Key figures</td>
+      <td style="text-align: left">Not written — explain the figure number and the data flow in your own words</td>
     </tr>
     <tr>
-      <td style="text-align: left">실험 근거</td>
-      <td style="text-align: left">미작성 — 표·그림 번호, 데이터셋, baseline, 지표와 조건</td>
+      <td style="text-align: left">Experimental evidence</td>
+      <td style="text-align: left">Not written — table/figure numbers, dataset, baselines, metrics and conditions</td>
     </tr>
     <tr>
       <td style="text-align: left">Ablation</td>
-      <td style="text-align: left">미작성 — 어떤 요소를 제거했고 무엇이 바뀌었는지 기록</td>
+      <td style="text-align: left">Not written — which element was removed and what changed</td>
     </tr>
     <tr>
-      <td style="text-align: left">실패 사례·한계</td>
-      <td style="text-align: left">미작성 — 저자 보고와 자신의 추론을 구분</td>
+      <td style="text-align: left">Failure cases and limits</td>
+      <td style="text-align: left">Not written — separate what the authors report from your own inference</td>
     </tr>
     <tr>
-      <td style="text-align: left">코드·재현</td>
-      <td style="text-align: left">미작성 — 버전, 설정, 로그, 장치, 측정 결과</td>
+      <td style="text-align: left">Code and reproduction</td>
+      <td style="text-align: left">Not written — version, configuration, logs, hardware, measurements</td>
     </tr>
     <tr>
-      <td style="text-align: left">최종 판단</td>
-      <td style="text-align: left">미작성 — Vision60에서 채택·보류할 이유</td>
+      <td style="text-align: left">Final judgement</td>
+      <td style="text-align: left">Not written — reasons to adopt or defer for Vision60</td>
     </tr>
   </tbody>
 </table>
 
 <ul class="task-list">
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>핵심 기여 3개를 원문 근거와 함께 설명할 수 있다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I can explain the three key contributions with evidence from the original paper.</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>상태와 관측이 어떻게 연결되는지 설명할 수 있다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I can explain how the states and observations are connected.</li>
   <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled>실험 결과와 Vision60 적용 가설을 구분했다.</li>
+<input type="checkbox" class="task-list-item-checkbox" disabled>I have separated the paper’s results from the Vision60 application hypotheses.</li>
 </ul>
 
-<p><strong>이어 읽기:</strong> <a href="/study/slam/state-estimation/fast-livo2/">FAST-LIVO2 리뷰</a> · <a href="/study/slam/state-estimation/">전체 비교표</a></p>
+<p><strong>Read next:</strong> <a href="/study/slam/state-estimation/fast-livo2/">FAST-LIVO2 review</a> · <a href="/study/slam/state-estimation/">Full comparison table</a></p>
 
 
 
@@ -574,7 +574,7 @@
   
     <a class="study-chapter-next" href="/study/slam/state-estimation/legolas/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Legolas — 논문 리뷰</span>
+      <span>Legolas — paper review</span>
     </a>
   
 </nav>
