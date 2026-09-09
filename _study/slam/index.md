@@ -19,6 +19,11 @@ This SLAM study is organised in two tracks. History first covers how the problem
     <strong>LIO &amp; State Estimation</strong>
     <span>Using FAST-LIO2 as the reference point, compares the sensor-fusion architectures and papers of LIO-SAM, FAST-LIVO2, VILENS and others.</span>
   </a>
+  <a class="study-section-card" href="{{ '/study/slam/leg-fusion/' | relative_url }}">
+    <span class="study-section-kicker">Part 3 · project notes</span>
+    <strong>Leg-Velocity Fusion in FAST-LIO2</strong>
+    <span>다리 운동학 속도를 FAST-LIO2 필터에 관측으로 추가하는 구조와 계산 예제. (한국어)</span>
+  </a>
 </div>
 
 ## Suggested study order
