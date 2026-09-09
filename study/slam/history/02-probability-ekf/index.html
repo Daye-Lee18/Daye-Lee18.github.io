@@ -721,6 +721,198 @@ and the blending ratio follows. In real EKF-SLAM the observation may be a range 
 
 </details>
 
+<h3 id="question-3--concept">Question 3 — Concept</h3>
+
+<p>A teammate explains that the EKF-SLAM state vector holds every pose from $x_0$ to $x_t$
+along with the landmarks. Where is this wrong, and which method does that description actually fit?</p>
+
+<details class="study-answer">
+  <summary>Show answer</summary>
+
+  <p>EKF-SLAM keeps <strong>one</strong> robot pose — the current one — plus all landmarks:
+$x=[x_t, m_1, \dots, m_n]$. On each motion step the previous pose is not appended, it is replaced;
+past poses are marginalised out. Their information is not discarded, but it survives only
+as correlations inside the covariance, not as recoverable variables. The practical consequence is
+that a filter cannot go back and revise $x_{5}$ once it has moved on.</p>
+
+  <p>The description fits <strong>Graph SLAM / smoothing</strong> (Chapter 6), where $x_0 \dots x_t$ all remain
+variables and stay editable, which is what makes loop closure able to bend the whole trajectory.
+This is the real filtering-versus-smoothing distinction — not “old versus new”.</p>
+
+</details>
+
+<h3 id="question-4--math">Question 4 — Math</h3>
+
+<p>A 2D robot is at $(1,1)$ and a landmark at $(4,5)$. For the range measurement
+$h=\sqrt{(m_x-x_r)^2+(m_y-y_r)^2}$, find $H=\partial h/\partial(x_r,y_r)$.
+Then predict the change in range if the robot moves 0.1 m <strong>straight towards</strong> the landmark,
+and if it moves 0.1 m <strong>perpendicular</strong> to that direction. Interpret both.</p>
+
+<details class="study-answer">
+  <summary>Show answer</summary>
+
+  <p>$h=\sqrt{3^2+4^2}=5$, and</p>
+
+\[H=\left[-\frac{m_x-x_r}{h},\;-\frac{m_y-y_r}{h}\right]=[-0.6,\;-0.8]\]
+
+  <p>The unit vector towards the landmark is $(0.6,0.8)$, so moving 0.1 m along it is
+$\delta=(0.06,0.08)$ and</p>
+
+\[H\delta = (-0.6)(0.06)+(-0.8)(0.08) = -0.1\]
+
+  <p>The range drops by exactly 0.1 m, which is what “moving 0.1 m closer” has to mean —
+a useful sanity check on any Jacobian you derive.</p>
+
+  <p>Perpendicular motion is $\delta=(-0.08,0.06)$, giving $H\delta = 0$: to first order the range
+does not change at all. The true change is $+0.001$ m, the second-order term the linearisation drops.</p>
+
+  <p>The geometric reading is the point: $H$ is just $-1\times$ the unit vector from landmark to robot.
+<strong>A range measurement constrains only the along-the-ray direction and says nothing about
+the perpendicular one.</strong> That is why a single range is never enough to fix a 2D position,
+and it is the same observability argument that reappears for walls in Chapter 5.</p>
+
+</details>
+
+<h3 id="question-5--math-and-reasoning">Question 5 — Math and reasoning</h3>
+
+<p>For the range model, linearisation error at $\delta$ from the expansion point is roughly
+$\tfrac12 h’‘\delta^2$. If your position uncertainty $\sigma$ doubles, roughly how much does the
+linearisation error grow? Verify against these measured values and say what it implies
+for filter initialisation.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   δ = 0.25 → error 0.00412
+   δ = 0.50 → error 0.01699
+   δ = 1.00 → error 0.07214
+   δ = 2.00 → error 0.32311
+</code></pre></div></div>
+
+<details class="study-answer">
+  <summary>Show answer</summary>
+
+  <p>The leading error term is quadratic in $\delta$, so doubling $\delta$ should multiply the error by
+about 4. The measurements give ratios of $4.12$, $4.25$ and $4.48$ — close to 4, drifting upward
+because higher-order terms start contributing as $\delta$ grows.</p>
+
+  <p>Since the filter effectively evaluates over a region of size $\sim\sigma$, <strong>halving your uncertainty
+cuts linearisation error by about four times.</strong> The implications are all one-directional:</p>
+
+  <ul>
+    <li>A good initial estimate is worth far more than it looks; error falls quadratically, not linearly.</li>
+    <li>A filter that is already uncertain linearises badly, which makes its next estimate worse,
+which makes it linearise worse still — EKF divergence is this feedback loop.</li>
+    <li>Feeding in a rough prior (wheel odometry, IMU propagation, GNSS) early is not merely a convenience;
+it changes which row of that table you operate on.</li>
+  </ul>
+
+</details>
+
+<h3 id="question-6--math">Question 6 — Math</h3>
+
+<p>A 2D EKF-SLAM system has $n$ landmarks. How many entries does the covariance matrix hold?
+Evaluate for $n=10$, $100$, $1000$, and explain why this is the wall that Chapter 3 attacks.</p>
+
+<details class="study-answer">
+  <summary>Show answer</summary>
+
+  <p>The state is $3+2n$ (robot $x,y,\theta$ plus $x,y$ per landmark), so the covariance is
+$(3+2n)\times(3+2n)$:</p>
+
+  <div class="language-text highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>   n =   10  →   23 ×   23 =        529
+   n =  100  →  203 ×  203 =     41,209
+   n = 1000  → 2003 × 2003 =  4,012,009
+</code></pre></div>  </div>
+
+  <p>Growth is $O(n^2)$ in memory. Worse, a landmark observation updates the <strong>whole</strong> matrix,
+because the correction has to propagate along every correlation — the very mechanism §4 showed
+moving pillar B. So per-update cost is $O(n^2)$ too, and it applies on every step, not occasionally.</p>
+
+  <p>Note that this cost is not incidental; it is the direct price of the property that makes EKF-SLAM
+work. Chapter 3’s FastSLAM buys it back by conditioning on the robot path, which makes the
+landmarks conditionally independent so that no $n \times n$ block has to be maintained at all.</p>
+
+</details>
+
+<h3 id="question-7--math">Question 7 — Math</h3>
+
+<p>Using §4’s setup — robot variance $\sigma_r^2$, independent range noise $\sigma_m^2$ per landmark,
+two landmarks initialised from the same pose — show that
+$\rho(A,B)=\sigma_r^2/(\sigma_r^2+\sigma_m^2)$, then evaluate it as $\sigma_m^2 \to 0$ and as
+$\sigma_m^2 \to \infty$. What does each limit mean physically?</p>
+
+<details class="study-answer">
+  <summary>Show answer</summary>
+
+  <p>With $\hat A=\hat x_r+z_A$ and $\hat B=\hat x_r+z_B$, the errors are $e_A=e_r+e_{z_A}$ and
+$e_B=e_r+e_{z_B}$ with all three independent. So</p>
+
+\[\operatorname{Cov}(A,B)=\operatorname{Var}(e_r)=\sigma_r^2,
+\qquad
+\operatorname{Var}(A)=\operatorname{Var}(B)=\sigma_r^2+\sigma_m^2\]
+
+\[\rho(A,B)=\frac{\sigma_r^2}{\sigma_r^2+\sigma_m^2}\]
+
+  <p>With $\sigma_r^2=0.25,\ \sigma_m^2=0.01$ this is $0.25/0.26\approx0.962$, matching §4.</p>
+
+  <div class="language-text highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>   σ_m² → 0     ρ → 1        a perfect sensor
+   σ_m² → ∞     ρ → 0        a useless sensor
+</code></pre></div>  </div>
+
+  <p>$\rho \to 1$: with a perfect sensor the <em>only</em> thing either landmark estimate is unsure about is
+the robot’s pose, so they are the same uncertainty wearing two labels. Learn one and you learn the other.</p>
+
+  <p>$\rho \to 0$: the landmark estimates are dominated by their own measurement noise, and the shared
+pose error is negligible in comparison, so correcting one tells you almost nothing about the other.</p>
+
+  <p><strong>Better sensors produce more correlated maps, not less.</strong> That is counterintuitive until you see
+that correlation here measures how much of the uncertainty is <em>shared</em>, not how large it is.</p>
+
+</details>
+
+<h3 id="question-8--systems-and-debugging">Question 8 — Systems and debugging</h3>
+
+<p>An EKF-SLAM run reports steadily shrinking covariance while the actual trajectory error grows.
+The filter is confident and wrong. List what you would check, and how you would detect this
+automatically rather than by eye.</p>
+
+<details class="study-answer">
+  <summary>Show answer</summary>
+
+  <p>This is filter <strong>inconsistency</strong>: reported uncertainty no longer bounds true error. Candidates:</p>
+
+  <ul>
+    <li>
+<strong>Linearisation error</strong> (§3). Large uncertainty makes bad Jacobians, and the resulting
+overconfidence shrinks covariance further — the divergence loop of Question 5.</li>
+    <li>
+<strong>Wrong data association.</strong> Matching an observation to the wrong landmark injects a
+confident, false constraint; the filter gains certainty from information that is not real.</li>
+    <li>
+<strong>Understated $R$ or $Q$.</strong> Tuning noise down makes the filter look smooth and precise
+in demos while destroying its ability to admit error.</li>
+    <li>
+<strong>Discarded correlations.</strong> Zeroing cross-covariances for speed (Question 1) makes the filter
+count dependent measurements as independent evidence.</li>
+    <li>
+<strong>Unmodelled effects</strong> — a moving “landmark”, clock skew, unestimated bias — all appear as
+information the filter has no way to discount.</li>
+  </ul>
+
+  <p>To catch it automatically, compare reported covariance against actual error rather than reading plots:</p>
+
+  <div class="language-text highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>   NEES  needs ground truth   (x−x̂)ᵀ P⁻¹ (x−x̂)   should sit near the state dimension
+   NIS   no ground truth      yᵀ S⁻¹ y            should sit near the measurement dimension
+</code></pre></div>  </div>
+
+  <p>Both have known chi-square bounds, so a run can be flagged automatically. <strong>NIS is the one that
+works on a real robot</strong>, since it only needs innovations and their predicted covariance.
+Consistently small NIS means the filter is claiming more precision than its own residuals justify —
+exactly the failure described here.</p>
+
+</details>
+
 <h2 id="original-reading">Original reading</h2>
 
 <ul>
