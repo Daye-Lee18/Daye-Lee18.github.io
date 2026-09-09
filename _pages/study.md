@@ -5,7 +5,7 @@ permalink: /study/
 description: Notes and materials I'm working through.
 nav: true
 nav_order: 4.5
-display_categories: [IsaacSim, SLAM, EdgeComputing, Sensors, RL, RUST] # ←주제(토픽) 목록
+display_categories: [IsaacSim, SLAM, ROS2, EdgeComputing, Sensors, RL, RUST] # ←주제(토픽) 목록
 ---
 
 <div class="study-page">

@@ -263,6 +263,12 @@ defaults:
     values:
       category: Sensors
       layout: study-chapter
+  - scope:
+      path: "_study/ros2"
+      type: study
+    values:
+      category: ROS2
+      layout: study-chapter
 
 sass:
   style: compressed
