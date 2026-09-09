@@ -1605,6 +1605,17 @@ my_robot_package/
 
 Package는 ROS 2 software를 구성하는 기본적인 배포/빌드 단위다.
 
+`package.xml`이 있으면 ROS 2 package다. 그 안의 `<build_type>`이 빌드 방식을 정한다.
+
+```text
+ament_cmake     C++.  CMakeLists.txt 로 빌드
+ament_python    Python. setup.py 로 설치
+```
+
+> `package.xml` / `CMakeLists.txt` / `setup.py` 를 한 줄씩 읽는 법,
+> `ros2 pkg create`, meta-package 는
+> [Chapter 6.2. ROS 2 파일 시스템과 빌드 시스템]({{ '/study/edge_computing/chapter06a-ros2-build-system/' | relative_url }}) 에서 다룬다.
+
 ---
 
 # 52. Workspace
@@ -1659,6 +1670,21 @@ log
 ```
 
 이 생성된다.
+
+실무에서는 옵션을 붙여 쓴다.
+
+```bash
+colcon build --symlink-install            # 거의 항상. launch/Python 수정이 바로 반영
+colcon build --packages-select my_slam    # 그 package 만
+colcon build --packages-up-to my_slam     # 그것 + 그것이 의존하는 것들
+colcon build --packages-above my_msgs     # 그것 + 그것에 의존하는 것들
+```
+
+**`.msg` 를 고쳤을 때는 `--packages-above` 가 필요하다.**
+그 package 만 다시 빌드하면 그것을 쓰는 node 들이 옛 header 를 계속 쓴다.
+
+> colcon 옵션 전체, build system 과 build tool 의 차이, `rosdep` / `vcstool` 은
+> [Chapter 6.2]({{ '/study/edge_computing/chapter06a-ros2-build-system/' | relative_url }}) 참고.
 
 ---
 
@@ -1726,6 +1752,26 @@ Vision60 Workspace
 ```
 
 위 workspace가 아래 environment 위에 overlay되는 형태로 볼 수 있다.
+
+`install/` 안에는 `setup.bash` 와 `local_setup.bash` 두 개가 있고 역할이 다르다.
+
+```text
+local_setup.bash    이 workspace 것만 환경에 추가
+setup.bash          빌드 시점의 underlay 까지 같이 source (chaining)
+```
+
+그래서 보통은 이 한 줄이면 `/opt/ros/humble` 도 같이 딸려온다.
+
+```bash
+source ~/vision60_ws/install/setup.bash
+```
+
+**나중에 source한 쪽이 이긴다.** 같은 이름의 package 가 양쪽에 있으면 마지막 것이 쓰인다.
+어느 쪽에서 왔는지는 이렇게 확인한다.
+
+```bash
+ros2 pkg prefix <package_name>
+```
 
 ---
 
@@ -2033,6 +2079,9 @@ Ethernet ≠ Internet
 ```text
 Chapter 6
 ROS 2
+
+Chapter 6.2
+파일 시스템과 빌드 시스템
         ↑
 Chapter 5
 Ethernet / CAN / USB / PCIe

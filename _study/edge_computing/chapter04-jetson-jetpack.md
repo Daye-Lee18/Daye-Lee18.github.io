@@ -1049,17 +1049,115 @@ aarch64
 
 ---
 
-# 28. L4T 확인
+# 28. L4T 확인 — 출력을 읽는 법
 
-다음 파일을 확인하는 방법도 자주 사용된다.
+Jetson 에서 가장 먼저 치는 명령이다.
 
 ```bash
 cat /etc/nv_tegra_release
 ```
 
-Jetson Linux / L4T 관련 release 정보를 볼 수 있다.
+실제 출력은 이렇게 생겼다.
 
-환경에 따라 파일이 없거나 다른 방식으로 확인해야 할 수도 있다.
+```text
+# R39 (release), REVISION: 2.1, GCID: 46758480, BOARD: generic,
+  EABI: aarch64, DATE: Fri Aug  7 05:54:22 AM UTC 2026
+# KERNEL_VARIANT: oot
+TARGET_USERSPACE_LIB_DIR=nvidia
+TARGET_USERSPACE_LIB_DIR_PATH=usr/lib/aarch64-linux-gnu/nvidia
+```
+
+한 항목씩 보면 이렇다.
+
+```text
+R39                 L4T 메이저 release
+REVISION: 2.1       마이너
+                    → 둘을 붙여 읽는다.  L4T 39.2.1   ★ 이게 핵심
+GCID: 46758480      NVIDIA 내부 build ID. 지원 문의할 때 쓴다
+BOARD: generic      보드 설정 (generic = 레퍼런스 캐리어 보드)
+EABI: aarch64       ARM 64비트  (Chapter 2)
+DATE: 2026-08-07    이 BSP 가 빌드된 날짜. OS 설치일이 아니다
+KERNEL_VARIANT: oot out-of-tree.  NVIDIA 커널 모듈이 커널 트리 밖에서
+                    빌드된다는 뜻. 요즘 Jetson 의 기본 구성이다
+TARGET_USERSPACE_LIB_DIR_PATH
+                    NVIDIA 유저스페이스 라이브러리 위치
+```
+
+**마지막 항목이 Docker 에서 중요하다.** 컨테이너가 GPU 를 쓰려면
+호스트의 그 경로가 컨테이너 안에 있어야 하고,
+`--runtime nvidia` 가 해주는 일이 바로 그 연결이다. (Chapter 9 §34)
+
+앞의 두 줄이 `#` 로 시작하는 것은 사람이 읽으라고 넣은 주석이고,
+아래 두 줄이 도구들이 실제로 읽는 값이다.
+
+## L4T 버전에서 JetPack 버전 알아내기
+
+`/etc/nv_tegra_release` 에는 **JetPack 버전이 직접 적혀 있지 않다.**
+L4T 와 JetPack 은 짝이 정해져 있어서 대응표로 환산한다.
+
+```text
+L4T 32.x   →  JetPack 4.x   Ubuntu 18.04
+L4T 35.x   →  JetPack 5.x   Ubuntu 20.04
+L4T 36.x   →  JetPack 6.x   Ubuntu 22.04
+L4T 38.x   →  JetPack 7.x   Ubuntu 24.04
+```
+
+**대응표는 새 릴리스가 나올 때마다 바뀌므로 외우지 말고 장비에서 직접 확인한다.**
+
+```bash
+apt show nvidia-jetpack 2>/dev/null | head -5
+dpkg -l | grep -i nvidia-jetpack
+```
+
+이쪽이 정답이다. 표는 대략의 감을 잡는 용도이고,
+설치된 패키지 버전이 실제 그 장비의 JetPack 버전이다.
+
+## 같이 봐야 하는 것 — Ubuntu 버전
+
+L4T 만 보면 절반이다. 반드시 같이 본다.
+
+```bash
+cat /etc/os-release
+```
+
+```text
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+VERSION_CODENAME=noble
+```
+
+이게 **ROS 2 배포판 선택을 결정한다.**
+
+```text
+Ubuntu 20.04 focal   →  ROS 2 Foxy / Galactic
+Ubuntu 22.04 jammy   →  ROS 2 Humble
+Ubuntu 24.04 noble   →  ROS 2 Jazzy
+```
+
+위 예시의 장비는 noble 이므로 **호스트에서 `apt install ros-humble-*` 이 안 된다.**
+Humble 은 jammy 용으로만 배포되기 때문이다.
+
+```text
+호스트   Ubuntu 24.04 noble    ← L4T 39.x 가 얹혀 있다
+필요한 것 ROS 2 Humble          ← jammy 용으로만 나온다
+                 ↓
+     컨테이너를 jammy 로 띄운다
+```
+
+Chapter 9.5 §1 에서 "호스트 24.04 / 컨테이너 22.04" 라고 한 구성이
+바로 이 제약에서 나온다. 취향이 아니라 **배포판 궁합 때문에 강제되는 선택**이다.
+
+## 한 번에 확인하기
+
+```bash
+echo "L4T   : $(sed -n 's/^# R\([0-9]*\).*REVISION: \([0-9.]*\).*/./p' /etc/nv_tegra_release)"
+echo "Ubuntu: $(. /etc/os-release; echo "$VERSION_ID $VERSION_CODENAME")"
+echo "Arch  : $(uname -m)"
+echo "Kernel: $(uname -r)"
+echo "CUDA  : $(nvcc --version 2>/dev/null | sed -n 's/.*release \([0-9.]*\).*//p')"
+```
+
+새 장비를 받으면 이 다섯 줄을 먼저 기록해 둔다.
+드라이버·컨테이너·ROS 배포판 선택이 전부 여기서 갈린다.
 
 ---
 
