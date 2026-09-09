@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 6.2. ROS 2 파일 시스템과 빌드 시스템 | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/edge_computing/chapter06a-ros2-build-system/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 6.2. ROS 2 파일 시스템과 빌드 시스템</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> <code class="language-plaintext highlighter-rouge">/opt/ros</code>와 내 workspace가 각각 무엇을 담고 있는지 구분하고,
+<code class="language-plaintext highlighter-rouge">package.xml</code> / <code class="language-plaintext highlighter-rouge">CMakeLists.txt</code> / <code class="language-plaintext highlighter-rouge">setup.py</code>가 각자 무슨 일을 하는지 알고,
+<code class="language-plaintext highlighter-rouge">colcon build</code>가 <code class="language-plaintext highlighter-rouge">src/</code>를 어떻게 <code class="language-plaintext highlighter-rouge">build/</code> · <code class="language-plaintext highlighter-rouge">install/</code>로 바꾸는지 설명할 수 있다.</p>
+</blockquote>
+
+<p>Chapter 6은 ROS 2가 <strong>무엇인지</strong>를 다뤘다 — node, topic, DDS, QoS.
+이 chapter는 그것들이 <strong>어디에 놓이고 어떻게 만들어지는지</strong>를 다룬다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">colcon build</code> 한 줄만 외워서 쓰다가, 빌드가 깨지거나 패키지를 새로 만들어야 할 때
+무엇을 봐야 할지 몰라 막히는 지점이 여기다.</p>
+
+<hr>
+
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">colcon build --symlink-install</code> · <code class="language-plaintext highlighter-rouge">source install/setup.bash</code> · <code class="language-plaintext highlighter-rouge">rosdep install</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 pkg create &lt;name&gt; --build-type ament_cmake --dependencies rclcpp</code></td>
+      <td style="text-align: left">C++ 패키지 생성</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 pkg create &lt;name&gt; --build-type ament_python --dependencies rclpy</code></td>
+      <td style="text-align: left">Python 패키지 생성</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 pkg list</code></td>
+      <td style="text-align: left">지금 환경에서 보이는 패키지 전부</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 pkg prefix &lt;pkg&gt;</code></td>
+      <td style="text-align: left">
+<strong>그 패키지가 어디서 왔는지</strong> (/opt/ros 인지 내 install 인지)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 pkg xml &lt;pkg&gt;</code></td>
+      <td style="text-align: left">그 패키지의 package.xml</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">colcon build --symlink-install</code></td>
+      <td style="text-align: left">전체 빌드 (거의 항상 이 옵션)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">colcon build --packages-select &lt;pkg&gt;</code></td>
+      <td style="text-align: left">그 패키지만</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">colcon build --packages-up-to &lt;pkg&gt;</code></td>
+      <td style="text-align: left">그 패키지 + 의존하는 것들까지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">colcon build --packages-above &lt;pkg&gt;</code></td>
+      <td style="text-align: left">그 패키지 + <strong>그것에 의존하는</strong> 것들</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release</code></td>
+      <td style="text-align: left">최적화 빌드</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">colcon list</code></td>
+      <td style="text-align: left">workspace 안의 패키지 목록</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">colcon graph</code></td>
+      <td style="text-align: left">의존 관계 그래프</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">colcon test</code> / <code class="language-plaintext highlighter-rouge">colcon test-result --verbose</code>
+</td>
+      <td style="text-align: left">테스트</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">rosdep install --from-paths src --ignore-src -r -y</code></td>
+      <td style="text-align: left"><strong>의존 패키지 한 번에 설치</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">vcs import src &lt; repos.yaml</code></td>
+      <td style="text-align: left">여러 저장소를 한 번에 clone</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">source install/setup.bash</code></td>
+      <td style="text-align: left">빌드 결과를 현재 shell에 적용</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="1-두-개의-파일-시스템">1. 두 개의 파일 시스템</h1>
+
+<p>Chapter 9.5에서 본 <code class="language-plaintext highlighter-rouge">/opt/ros</code>와 <code class="language-plaintext highlighter-rouge">/ws</code>의 구분이 여기서도 그대로다.
+Docker를 안 쓰더라도 이 둘은 처음부터 별개다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>배포판이 설치한 것                      내가 만든 것
+/opt/ros/humble/                       ~/ros2_ws/
+  apt 로 설치됨                          내가 소스에서 빌드
+  건드리지 않는다                         매일 바뀐다
+  underlay                              overlay
+</code></pre></div></div>
+
+<p><strong>패키지 하나가 어느 쪽에서 왔는지 헷갈릴 때</strong> 이 명령이 답을 준다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>ros2 pkg prefix rclcpp
+/opt/ros/humble
+
+<span class="nv">$ </span>ros2 pkg prefix my_slam
+/home/user/ros2_ws/install/my_slam
+</code></pre></div></div>
+
+<p>같은 이름의 패키지가 양쪽에 있으면 <strong>나중에 source한 쪽이 이긴다.</strong> (§14)</p>
+
+<hr>
+
+<h1 id="2-optroshumble-안에는-무엇이-있나">2. <code class="language-plaintext highlighter-rouge">/opt/ros/humble</code> 안에는 무엇이 있나</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/opt/ros/humble/
+├── bin/              실행 파일 (ros2, rviz2, …)
+├── lib/              라이브러리 (.so) 와 패키지별 실행 파일
+├── include/          C++ 헤더
+├── share/            패키지별 리소스
+│   └── &lt;pkg&gt;/
+│       ├── package.xml
+│       ├── cmake/            다른 패키지가 find_package 할 때 쓴다
+│       ├── msg/ srv/ action/ 인터페이스 정의
+│       └── launch/ config/
+├── setup.bash        환경 설정 (이걸 source 한다)
+└── local_setup.bash  이 공간만 설정 (§14)
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">share/</code>가 중요하다. <strong>다른 패키지가 내 패키지를 찾을 수 있게 해주는 정보</strong>가 여기 들어간다.
+빌드했는데 <code class="language-plaintext highlighter-rouge">find_package()</code>가 실패한다면 대개 <code class="language-plaintext highlighter-rouge">share/&lt;pkg&gt;/cmake/</code>가 안 만들어진 것이다.</p>
+
+<hr>
+
+<h1 id="3-package-하나의-구조">3. Package 하나의 구조</h1>
+
+<p>패키지는 ROS 2의 <strong>배포·빌드 기본 단위</strong>다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>my_slam/
+├── package.xml            ← 무엇에 의존하는지, 어떻게 빌드하는지 (필수)
+├── CMakeLists.txt         ← C++ 패키지면 (ament_cmake)
+├── setup.py / setup.cfg   ← Python 패키지면 (ament_python)
+├── src/                   소스
+├── include/my_slam/       공개 헤더
+├── launch/                launch 파일
+├── config/                YAML 파라미터
+├── msg/  srv/  action/    인터페이스 정의
+└── test/
+</code></pre></div></div>
+
+<p><strong><code class="language-plaintext highlighter-rouge">package.xml</code>은 어느 쪽이든 반드시 있다.</strong> 그게 “이건 ROS 2 패키지다”의 표시다.</p>
+
+<p>관련된 패키지를 묶어서 한 번에 설치하게 만든 것이 <strong>meta-package</strong>다.
+소스가 없고 <code class="language-plaintext highlighter-rouge">package.xml</code>에 의존성 목록만 들어 있다.
+<code class="language-plaintext highlighter-rouge">ros-humble-desktop</code> 같은 것이 그런 식이다.</p>
+
+<hr>
+
+<h1 id="4-packagexml--무엇을-선언하나">4. <code class="language-plaintext highlighter-rouge">package.xml</code> — 무엇을 선언하나</h1>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="nt">&lt;package</span> <span class="na">format=</span><span class="s">"3"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;name&gt;</span>my_slam<span class="nt">&lt;/name&gt;</span>
+  <span class="nt">&lt;version&gt;</span>0.1.0<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;description&gt;</span>SLAM node for Vision60<span class="nt">&lt;/description&gt;</span>
+  <span class="nt">&lt;maintainer</span> <span class="na">email=</span><span class="s">"me@example.com"</span><span class="nt">&gt;</span>me<span class="nt">&lt;/maintainer&gt;</span>
+  <span class="nt">&lt;license&gt;</span>Apache-2.0<span class="nt">&lt;/license&gt;</span>
+
+  <span class="nt">&lt;buildtool_depend&gt;</span>ament_cmake<span class="nt">&lt;/buildtool_depend&gt;</span>   <span class="c">&lt;!-- 빌드 도구 --&gt;</span>
+
+  <span class="nt">&lt;depend&gt;</span>rclcpp<span class="nt">&lt;/depend&gt;</span>                            <span class="c">&lt;!-- 빌드 + 실행 둘 다 --&gt;</span>
+  <span class="nt">&lt;depend&gt;</span>sensor_msgs<span class="nt">&lt;/depend&gt;</span>
+  <span class="nt">&lt;build_depend&gt;</span>eigen<span class="nt">&lt;/build_depend&gt;</span>                 <span class="c">&lt;!-- 빌드할 때만 --&gt;</span>
+  <span class="nt">&lt;exec_depend&gt;</span>rviz2<span class="nt">&lt;/exec_depend&gt;</span>                   <span class="c">&lt;!-- 실행할 때만 --&gt;</span>
+  <span class="nt">&lt;test_depend&gt;</span>ament_lint_auto<span class="nt">&lt;/test_depend&gt;</span>         <span class="c">&lt;!-- 테스트할 때만 --&gt;</span>
+
+  <span class="nt">&lt;export&gt;</span>
+    <span class="nt">&lt;build_type&gt;</span>ament_cmake<span class="nt">&lt;/build_type&gt;</span>             <span class="c">&lt;!-- ★ 빌드 방식 --&gt;</span>
+  <span class="nt">&lt;/export&gt;</span>
+<span class="nt">&lt;/package&gt;</span>
+</code></pre></div></div>
+
+<p>의존성 종류를 나눠 두는 이유가 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>build_depend   컴파일에만 필요. 배포 이미지에는 없어도 된다
+exec_depend    실행에만 필요. 헤더는 필요 없다
+depend         둘 다
+test_depend    테스트에만
+</code></pre></div></div>
+
+<p><strong><code class="language-plaintext highlighter-rouge">colcon</code>은 이 선언을 읽어서 빌드 순서를 정하고, <code class="language-plaintext highlighter-rouge">rosdep</code>은 이걸 읽어서 설치한다.</strong> (§10)
+여기에 안 적으면 내 컴퓨터에서는 되는데 CI나 다른 사람 컴퓨터에서 깨진다.</p>
+
+<hr>
+
+<h1 id="5-build-system과-build-tool은-다르다">5. Build System과 Build Tool은 다르다</h1>
+
+<p>용어가 헷갈리는데, 담당 범위가 다르다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Build System (빌드 시스템)         패키지 "하나"를 어떻게 빌드할지
+   ament_cmake / ament_python      컴파일, 링크, 설치 위치
+
+Build Tool (빌드 도구)             패키지 "여러 개"를 어떤 순서로 빌드할지
+   colcon                          의존성 그래프 → 위상 정렬 → 병렬 실행
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        colcon                     ← build tool. 순서를 정한다
+          │
+   ┌──────┼──────┬──────────┐
+   ▼      ▼      ▼          ▼
+ pkg A  pkg B  pkg C  …           ← 각각을 build system 이 빌드한다
+ ament_ ament_ ament_
+ cmake  python cmake
+</code></pre></div></div>
+
+<p>역사적으로 ROS 1은 <code class="language-plaintext highlighter-rouge">catkin</code>(빌드 시스템)과 <code class="language-plaintext highlighter-rouge">catkin_make</code>/<code class="language-plaintext highlighter-rouge">catkin_tools</code>(도구)를 썼고,
+ROS 2는 <code class="language-plaintext highlighter-rouge">ament</code>(빌드 시스템)와 <code class="language-plaintext highlighter-rouge">colcon</code>(도구)으로 갈라졌다.
+<strong><code class="language-plaintext highlighter-rouge">colcon</code>은 ROS에 종속되지 않은 범용 도구</strong>라서 ROS 1 패키지도, 순수 CMake 패키지도 빌드할 수 있다.</p>
+
+<hr>
+
+<h1 id="6-ament_cmake와-ament_python">6. <code class="language-plaintext highlighter-rouge">ament_cmake</code>와 <code class="language-plaintext highlighter-rouge">ament_python</code>
+</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ament_cmake          C++ 패키지. CMakeLists.txt 로 빌드
+ament_python         순수 Python 패키지. setup.py 로 설치
+ament_cmake_python   C++ 과 Python 을 한 패키지에 (인터페이스 + 노드 등)
+</code></pre></div></div>
+
+<p>어느 쪽인지는 <code class="language-plaintext highlighter-rouge">package.xml</code>의 <code class="language-plaintext highlighter-rouge">&lt;build_type&gt;</code>이 결정한다.</p>
+
+<p><strong>msg/srv/action을 정의하는 패키지는 <code class="language-plaintext highlighter-rouge">ament_cmake</code>여야 한다.</strong>
+인터페이스 생성이 CMake 매크로로 되어 있어서, Python 노드만 쓸 계획이어도
+인터페이스 패키지는 따로 C++ 쪽으로 만드는 것이 관례다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>my_msgs/          ament_cmake     msg/ srv/ 정의만
+my_nodes/         ament_python    my_msgs 에 의존하는 Python 노드
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="7-ros2-pkg-create">7. <code class="language-plaintext highlighter-rouge">ros2 pkg create</code>
+</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># C++</span>
+ros2 pkg create my_slam <span class="se">\</span>
+  <span class="nt">--build-type</span> ament_cmake <span class="se">\</span>
+  <span class="nt">--dependencies</span> rclcpp sensor_msgs tf2_ros
+
+<span class="c"># Python</span>
+ros2 pkg create my_tools <span class="se">\</span>
+  <span class="nt">--build-type</span> ament_python <span class="se">\</span>
+  <span class="nt">--dependencies</span> rclpy std_msgs
+
+<span class="c"># 노드 파일까지 같이</span>
+ros2 pkg create my_slam <span class="nt">--build-type</span> ament_cmake <span class="se">\</span>
+  <span class="nt">--dependencies</span> rclcpp <span class="nt">--node-name</span> slam_node
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">--dependencies</code>에 적은 것이 <code class="language-plaintext highlighter-rouge">package.xml</code>과 <code class="language-plaintext highlighter-rouge">CMakeLists.txt</code>에 <strong>자동으로 들어간다.</strong>
+나중에 추가할 때는 두 파일을 직접 고쳐야 한다는 것을 기억해 두자.</p>
+
+<p>반드시 <code class="language-plaintext highlighter-rouge">src/</code> 아래에서 실행한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/ros2_ws/src
+ros2 pkg create ...
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="8-c-패키지--cmakeliststxt의-최소-형태">8. C++ 패키지 — <code class="language-plaintext highlighter-rouge">CMakeLists.txt</code>의 최소 형태</h1>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.8<span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span>my_slam<span class="p">)</span>
+
+<span class="nb">find_package</span><span class="p">(</span>ament_cmake REQUIRED<span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span>rclcpp REQUIRED<span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span>sensor_msgs REQUIRED<span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span>slam_node src/slam_node.cpp<span class="p">)</span>
+<span class="nf">ament_target_dependencies</span><span class="p">(</span>slam_node rclcpp sensor_msgs<span class="p">)</span>
+
+<span class="nb">install</span><span class="p">(</span>TARGETS slam_node
+  DESTINATION lib/<span class="si">${</span><span class="nv">PROJECT_NAME</span><span class="si">}</span><span class="p">)</span>          <span class="c1"># ← ros2 run 이 여기를 본다</span>
+
+<span class="nb">install</span><span class="p">(</span>DIRECTORY launch config
+  DESTINATION share/<span class="si">${</span><span class="nv">PROJECT_NAME</span><span class="si">}</span><span class="p">)</span>        <span class="c1"># ← ros2 launch 가 여기를 본다</span>
+
+<span class="nf">ament_package</span><span class="p">()</span>                             <span class="c1"># ← 반드시 마지막</span>
+</code></pre></div></div>
+
+<p>세 줄이 특히 중요하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install(TARGETS ... DESTINATION lib/${PROJECT_NAME})
+    이게 없으면 빌드는 되는데 ros2 run 이 실행 파일을 못 찾는다
+
+install(DIRECTORY launch ... DESTINATION share/${PROJECT_NAME})
+    이게 없으면 launch 파일을 못 찾는다
+
+ament_package()
+    share/&lt;pkg&gt;/ 에 메타데이터를 깐다. 맨 마지막에 한 번만
+</code></pre></div></div>
+
+<p><strong>“빌드는 성공했는데 <code class="language-plaintext highlighter-rouge">ros2 run</code>이 패키지를 못 찾는다”의 90%가 <code class="language-plaintext highlighter-rouge">install()</code> 누락이다.</strong></p>
+
+<hr>
+
+<h1 id="9-python-패키지--setuppy">9. Python 패키지 — <code class="language-plaintext highlighter-rouge">setup.py</code>
+</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+<span class="kn">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="n">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+
+<span class="n">package_name</span> <span class="o">=</span> <span class="sh">'</span><span class="s">my_tools</span><span class="sh">'</span>
+
+<span class="nf">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="n">package_name</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="sh">'</span><span class="s">0.1.0</span><span class="sh">'</span><span class="p">,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="n">package_name</span><span class="p">],</span>
+    <span class="n">data_files</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">share/ament_index/resource_index/packages</span><span class="sh">'</span><span class="p">,</span>
+            <span class="p">[</span><span class="sh">'</span><span class="s">resource/</span><span class="sh">'</span> <span class="o">+</span> <span class="n">package_name</span><span class="p">]),</span>          <span class="c1"># ← 이게 있어야 패키지로 인식된다
+</span>        <span class="p">(</span><span class="sh">'</span><span class="s">share/</span><span class="sh">'</span> <span class="o">+</span> <span class="n">package_name</span><span class="p">,</span> <span class="p">[</span><span class="sh">'</span><span class="s">package.xml</span><span class="sh">'</span><span class="p">]),</span>
+        <span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="sh">'</span><span class="s">share</span><span class="sh">'</span><span class="p">,</span> <span class="n">package_name</span><span class="p">,</span> <span class="sh">'</span><span class="s">launch</span><span class="sh">'</span><span class="p">),</span> <span class="nf">glob</span><span class="p">(</span><span class="sh">'</span><span class="s">launch/*.py</span><span class="sh">'</span><span class="p">)),</span>
+    <span class="p">],</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">setuptools</span><span class="sh">'</span><span class="p">],</span>
+    <span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+        <span class="sh">'</span><span class="s">console_scripts</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span>
+            <span class="sh">'</span><span class="s">bag_dump = my_tools.bag_dump:main</span><span class="sh">'</span><span class="p">,</span>    <span class="c1"># ← ros2 run 이 쓰는 이름
+</span>        <span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>C++ 쪽의 <code class="language-plaintext highlighter-rouge">install(TARGETS ...)</code>에 해당하는 것이 <code class="language-plaintext highlighter-rouge">entry_points</code>다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'bag_dump = my_tools.bag_dump:main'
+ └실행이름┘   └모듈경로────┘ └함수┘
+
+ros2 run my_tools bag_dump
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">resource/&lt;package_name&gt;</code> 빈 파일도 필요하다.
+<strong>ament index에 등록되는 표시</strong>라서, 없으면 빌드는 되는데 <code class="language-plaintext highlighter-rouge">ros2 pkg list</code>에 안 나온다.</p>
+
+<hr>
+
+<h1 id="10-colcon-build--무엇이-생기나">10. <code class="language-plaintext highlighter-rouge">colcon build</code> — 무엇이 생기나</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2_ws/
+├── src/          내가 쓴 것.        git 에 올린다
+├── build/        중간 산출물         gitignore
+├── install/      최종 결과물         gitignore
+└── log/          빌드 로그           gitignore
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/ros2_ws
+colcon build <span class="nt">--symlink-install</span>
+<span class="nb">source install</span>/setup.bash
+</code></pre></div></div>
+
+<p><strong>반드시 workspace 루트에서 실행한다.</strong> <code class="language-plaintext highlighter-rouge">src/</code> 안에서 하면 거기에 또 <code class="language-plaintext highlighter-rouge">build/</code>가 생긴다.</p>
+
+<p>Chapter 13에서 본 것처럼 <code class="language-plaintext highlighter-rouge">build/</code>와 <code class="language-plaintext highlighter-rouge">install/</code>은 금방 수 GB가 된다.</p>
+
+<pre><code class="language-gitignore">build/
+install/
+log/
+</code></pre>
+
+<hr>
+
+<h1 id="11-알아야-할-colcon-옵션">11. 알아야 할 <code class="language-plaintext highlighter-rouge">colcon</code> 옵션</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>colcon build <span class="nt">--packages-select</span> my_slam        <span class="c"># 그것만</span>
+colcon build <span class="nt">--packages-up-to</span> my_slam         <span class="c"># 그것 + 의존하는 것들</span>
+colcon build <span class="nt">--packages-above</span> my_msgs         <span class="c"># 그것 + 그것에 의존하는 것들 ★</span>
+colcon build <span class="nt">--packages-skip-build-finished</span>   <span class="c"># 이미 끝난 건 건너뛴다</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">--packages-above</code>가 실무에서 특히 유용하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>my_msgs 의 .msg 파일을 고쳤다
+   → my_msgs 만 다시 빌드하면 그걸 쓰는 노드들은 옛 헤더를 쓴다
+   → --packages-above my_msgs 로 의존하는 것들까지 다시 빌드
+</code></pre></div></div>
+
+<p><strong>메시지 정의를 고치고 이상한 런타임 에러가 나면 이걸 의심한다.</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>colcon build <span class="nt">--cmake-args</span> <span class="nt">-DCMAKE_BUILD_TYPE</span><span class="o">=</span>Release   <span class="c"># 최적화 (로봇에 올릴 때)</span>
+colcon build <span class="nt">--parallel-workers</span> 4                      <span class="c"># Jetson 에서 메모리 부족하면</span>
+colcon build <span class="nt">--event-handlers</span> console_direct+          <span class="c"># 빌드 출력 그대로 보기</span>
+</code></pre></div></div>
+
+<p>Jetson에서 큰 workspace를 빌드하다 멈추면 대개 <strong>메모리 부족</strong>이다.
+<code class="language-plaintext highlighter-rouge">--parallel-workers</code>를 줄이면 해결되는 경우가 많다. (Chapter 12)</p>
+
+<p>빌드에서 제외하려면 그 폴더에 빈 파일 하나를 둔다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">touch </span>src/some_experiment/COLCON_IGNORE
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="12---symlink-install--왜-거의-항상-쓰나">12. <code class="language-plaintext highlighter-rouge">--symlink-install</code> — 왜 거의 항상 쓰나</h1>
+
+<p>colcon 문서의 설명은 이렇다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>--symlink-install
+    Use symlinks instead of copying files from the source
+    and build directories where possible.
+</code></pre></div></div>
+
+<p>복사 대신 심볼릭 링크를 건다는 뜻인데, 실무적 차이가 크다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              launch/config/Python 파일을 고쳤을 때
+
+없이          install/ 에 복사본이 있다  →  colcon build 를 다시 해야 반영
+--symlink-    install/ 이 src/ 를 가리킨다 →  저장하는 순간 반영
+install
+</code></pre></div></div>
+
+<p><strong>Python 노드나 launch 파일을 고칠 때 재빌드가 필요 없어진다.</strong>
+C++ 소스는 어차피 컴파일이 필요하므로 해당 없다.</p>
+
+<p>주의: 이미 <code class="language-plaintext highlighter-rouge">--symlink-install</code> 없이 빌드한 workspace에 나중에 옵션을 붙이면
+섞여서 이상하게 동작할 수 있다. 그럴 땐 지우고 다시 한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">rm</span> <span class="nt">-rf</span> build <span class="nb">install </span>log
+colcon build <span class="nt">--symlink-install</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="13---merge-install">13. <code class="language-plaintext highlighter-rouge">--merge-install</code>
+</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>--merge-install
+    Use the --install-base as the install prefix for all packages
+    instead of a package specific subdirectory in the install base.
+    Without this option each package will contribute its own paths
+    to environment variables …
+</code></pre></div></div>
+
+<p>기본값은 패키지마다 <code class="language-plaintext highlighter-rouge">install/&lt;pkg&gt;/</code> 하위 폴더를 만드는 것이다.
+패키지가 수백 개가 되면 <code class="language-plaintext highlighter-rouge">AMENT_PREFIX_PATH</code> 같은 환경변수가 지나치게 길어진다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>기본           install/pkg_a/  install/pkg_b/  …   개발에 편하다
+--merge-install  install/ 하나에 전부              배포 이미지에 적합
+</code></pre></div></div>
+
+<p>Docker 이미지를 만들 때는 <code class="language-plaintext highlighter-rouge">--merge-install</code>이 깔끔하다.</p>
+
+<hr>
+
+<h1 id="14-setupbash와-local_setupbash">14. <code class="language-plaintext highlighter-rouge">setup.bash</code>와 <code class="language-plaintext highlighter-rouge">local_setup.bash</code>
+</h1>
+
+<p>install 공간에는 두 개가 있고, 차이가 중요하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>local_setup.bash    이 workspace 것만 환경에 추가한다
+setup.bash          이 workspace 가 빌드될 때 깔려 있던 underlay 까지
+                    같이 source 한다 (chaining)
+</code></pre></div></div>
+
+<p>그래서 보통은 이렇게만 하면 된다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> ~/ros2_ws/install/setup.bash      <span class="c"># /opt/ros/humble 도 같이 딸려온다</span>
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source install/setup.bash
+        │
+        ├── /opt/ros/humble/setup.bash 를 먼저 부른다  (빌드 시점의 underlay)
+        └── 그 다음 이 workspace 를 얹는다
+</code></pre></div></div>
+
+<p>underlay를 직접 고르고 싶을 때만 <code class="language-plaintext highlighter-rouge">local_setup.bash</code>를 쓴다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> /opt/ros/humble/setup.bash
+<span class="nb">source</span> ~/other_ws/install/local_setup.bash
+<span class="nb">source</span> ~/ros2_ws/install/local_setup.bash     <span class="c"># 여러 workspace 를 쌓을 때</span>
+</code></pre></div></div>
+
+<p><strong>나중에 source한 것이 이긴다.</strong> 같은 이름의 패키지가 있으면 마지막 것이 쓰인다.</p>
+
+<hr>
+
+<h1 id="15-rosdep--의존성을-한-번에-설치">15. <code class="language-plaintext highlighter-rouge">rosdep</code> — 의존성을 한 번에 설치</h1>
+
+<p><code class="language-plaintext highlighter-rouge">package.xml</code>에 적힌 의존성을 실제 apt 패키지로 바꿔서 설치해준다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 최초 1회</span>
+<span class="nb">sudo </span>rosdep init
+rosdep update
+
+<span class="c"># workspace 의 모든 의존성 설치</span>
+<span class="nb">cd</span> ~/ros2_ws
+rosdep <span class="nb">install</span> <span class="nt">--from-paths</span> src <span class="nt">--ignore-src</span> <span class="nt">-r</span> <span class="nt">-y</span>
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>--from-paths src   src/ 아래 패키지들의 package.xml 을 읽는다
+--ignore-src       src 에 이미 있는 것은 apt 로 안 깐다
+-r                 일부 실패해도 계속
+-y                 확인 안 물어봄
+</code></pre></div></div>
+
+<p><strong>새 컴퓨터나 Docker 이미지를 만들 때 이 한 줄이 의존성 설치를 대신한다.</strong>
+<code class="language-plaintext highlighter-rouge">apt install ros-humble-...</code>을 손으로 나열할 필요가 없어진다.
+그래서 <code class="language-plaintext highlighter-rouge">package.xml</code>을 성실히 채워두는 것이 나중에 값을 한다.</p>
+
+<hr>
+
+<h1 id="16-vcstool--여러-저장소를-한-번에">16. <code class="language-plaintext highlighter-rouge">vcstool</code> — 여러 저장소를 한 번에</h1>
+
+<p>패키지가 여러 git 저장소에 흩어져 있을 때 쓴다.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># repos.yaml</span>
+<span class="na">repositories</span><span class="pi">:</span>
+  <span class="na">livox_ros_driver2</span><span class="pi">:</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">git</span>
+    <span class="na">url</span><span class="pi">:</span> <span class="s">https://github.com/Livox-SDK/livox_ros_driver2.git</span>
+    <span class="na">version</span><span class="pi">:</span> <span class="s">master</span>
+  <span class="na">my_slam</span><span class="pi">:</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">git</span>
+    <span class="na">url</span><span class="pi">:</span> <span class="s">git@github.com:org/my_slam.git</span>
+    <span class="na">version</span><span class="pi">:</span> <span class="s">v0.3.0</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>python3-vcstool
+
+vcs import src &lt; repos.yaml      <span class="c"># 전부 clone</span>
+vcs pull src                     <span class="c"># 전부 pull</span>
+vcs status src                   <span class="c"># 전부 상태 확인</span>
+vcs <span class="nb">export </span>src <span class="o">&gt;</span> repos.lock.yaml <span class="c"># 지금 커밋을 고정해서 기록  ★</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">vcs export</code>가 유용하다. <strong>Rust의 <code class="language-plaintext highlighter-rouge">Cargo.lock</code>과 같은 역할</strong>이다 (Rust Chapter 4).
+지금 어느 커밋으로 빌드했는지를 파일로 남겨서 나중에 재현할 수 있다.</p>
+
+<hr>
+
+<h1 id="17-bloom--바이너리로-배포하기">17. <code class="language-plaintext highlighter-rouge">bloom</code> — 바이너리로 배포하기</h1>
+
+<p>지금까지는 소스에서 빌드했다. 반대 방향, 즉 <code class="language-plaintext highlighter-rouge">apt install</code>로 깔 수 있게 만드는 도구가 <code class="language-plaintext highlighter-rouge">bloom</code>이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>소스 저장소
+   │  bloom
+   ▼
+debian/ 메타데이터 생성
+   │
+   ▼
+.deb 패키지  →  apt install ros-humble-my-slam
+</code></pre></div></div>
+
+<p>사내 apt 저장소를 운영하는 경우가 아니면 직접 쓸 일은 드물다.
+다만 <strong><code class="language-plaintext highlighter-rouge">apt install ros-humble-xxx</code>로 깔리는 모든 패키지가 이 경로를 거쳤다</strong>는 것은 알아둘 만하다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>binary install (apt)      빠르다. 버전이 배포판에 고정된다
+source build (colcon)     느리다. 코드를 고칠 수 있다. 버전 자유
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="18-빌드가-깨질-때">18. 빌드가 깨질 때</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>증상                                  먼저 볼 것
+──────────────────────────────        ────────────────────────────────────
+find_package(X) 실패                   그 패키지를 source 했나
+                                      rosdep install 로 깔았나
+                                      ros2 pkg prefix X
+
+빌드는 됐는데 ros2 run 이 못 찾음        install(TARGETS ... DESTINATION
+                                        lib/${PROJECT_NAME}) 이 있나
+                                      source install/setup.bash 를 했나
+
+launch 파일을 못 찾음                   install(DIRECTORY launch ...)
+
+Python 패키지가 ros2 pkg list 에 없음    resource/&lt;pkg_name&gt; 파일이 있나
+                                      setup.py 의 data_files 확인
+
+msg 를 고쳤는데 옛 정의로 동작           --packages-above &lt;msg_pkg&gt; 로 재빌드
+
+빌드 중 멈춤 / OOM                      --parallel-workers 를 줄인다
+                                      free -h 로 메모리 확인
+
+이유 없이 계속 이상함                    rm -rf build install log 후 재빌드
+</code></pre></div></div>
+
+<p>마지막 줄은 농담이 아니다. <strong><code class="language-plaintext highlighter-rouge">build/</code>에 남은 옛 산출물이 원인인 경우가 실제로 많다.</strong>
+특히 브랜치를 바꾸거나 패키지 이름을 바꿨을 때 그렇다.</p>
+
+<hr>
+
+<h1 id="19-docker와-함께">19. Docker와 함께</h1>
+
+<p>Chapter 9.5의 구분이 그대로 적용된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>이미지에 굽는다                      마운트한다 (/ws)
+────────────────────────           ─────────────────────
+ROS 2 배포판 (/opt/ros/humble)       내 src/
+apt 로 깔리는 드라이버 패키지          build/ install/ log/
+rosdep 으로 설치한 의존성
+</code></pre></div></div>
+
+<p>Dockerfile에서 의존성만 먼저 설치하면 레이어 캐시가 산다.</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># package.xml 만 먼저 복사해서 의존성 설치 → 소스가 바뀌어도 이 레이어는 재사용</span>
+<span class="k">COPY</span><span class="s"> src/*/package.xml /tmp/pkgs/</span>
+<span class="k">RUN </span>rosdep <span class="nb">install</span> <span class="nt">--from-paths</span> /tmp/pkgs <span class="nt">--ignore-src</span> <span class="nt">-r</span> <span class="nt">-y</span> <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists/<span class="k">*</span>
+</code></pre></div></div>
+
+<p>그리고 <strong>빌드는 한쪽에서만 한다.</strong> 호스트에서 만든 <code class="language-plaintext highlighter-rouge">install/</code>을 컨테이너가 쓰면
+배포판과 ABI가 달라 깨진다. (Chapter 9.5 §27)</p>
+
+<hr>
+
+<h1 id="20-mini-practice">20. Mini Practice</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1) workspace 와 패키지 만들기</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> ~/test_ws/src <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ~/test_ws/src
+ros2 pkg create hello_cpp <span class="nt">--build-type</span> ament_cmake <span class="nt">--dependencies</span> rclcpp <span class="nt">--node-name</span> hello_node
+ros2 pkg create hello_py  <span class="nt">--build-type</span> ament_python <span class="nt">--dependencies</span> rclpy
+
+<span class="c"># 2) 무엇이 만들어졌나 비교</span>
+<span class="nb">ls</span> <span class="nt">-R</span> hello_cpp hello_py
+<span class="nb">cat </span>hello_cpp/package.xml | <span class="nb">grep </span>build_type
+<span class="nb">cat </span>hello_py/package.xml  | <span class="nb">grep </span>build_type
+
+<span class="c"># 3) 빌드하고 어디에 설치됐는지</span>
+<span class="nb">cd</span> ~/test_ws
+colcon build <span class="nt">--symlink-install</span>
+find <span class="nb">install</span> <span class="nt">-name</span> <span class="s2">"hello_node"</span>
+<span class="nb">ls install</span>/hello_cpp/share/hello_cpp/
+
+<span class="c"># 4) source 전후 비교</span>
+ros2 pkg list | <span class="nb">grep </span>hello        <span class="c"># 아무것도 안 나온다</span>
+<span class="nb">source install</span>/setup.bash
+ros2 pkg list | <span class="nb">grep </span>hello        <span class="c"># 이제 나온다</span>
+ros2 pkg prefix hello_cpp
+
+<span class="c"># 5) install() 을 지우면?</span>
+<span class="c">#    hello_cpp/CMakeLists.txt 의 install(TARGETS ...) 를 주석 처리하고</span>
+colcon build <span class="nt">--packages-select</span> hello_cpp
+ros2 run hello_cpp hello_node     <span class="c"># 빌드는 됐는데 못 찾는다</span>
+
+<span class="c"># 6) setup.bash vs local_setup.bash</span>
+<span class="nb">env</span> | <span class="nb">grep </span>AMENT_PREFIX_PATH
+<span class="c"># 새 shell 에서</span>
+<span class="nb">source install</span>/local_setup.bash
+ros2 run hello_cpp hello_node     <span class="c"># /opt/ros 가 없어서 실패할 수 있다</span>
+</code></pre></div></div>
+
+<p>5번과 6번이 이 chapter의 핵심이다.
+<strong>빌드 성공 ≠ 실행 가능</strong>이고, <strong><code class="language-plaintext highlighter-rouge">install()</code>과 <code class="language-plaintext highlighter-rouge">source</code>가 그 사이를 잇는다.</strong></p>
+
+<hr>
+
+<h1 id="21-오늘의-핵심">21. 오늘의 핵심</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   src/                    package.xml  ← 무엇에 의존하나 (colcon, rosdep 이 읽는다)
+    │                      CMakeLists   ← C++ 을 어떻게 빌드/설치하나
+    │                      setup.py     ← Python 을 어떻게 설치하나
+    │
+    │   colcon build --symlink-install
+    │        build tool 이 순서를 정하고
+    │        build system(ament) 이 각각을 빌드
+    ▼
+   build/                  중간 산출물
+   install/                lib/&lt;pkg&gt;/    ← ros2 run 이 보는 곳
+    │                      share/&lt;pkg&gt;/  ← ros2 launch, find_package 가 보는 곳
+    │
+    │   source install/setup.bash
+    ▼
+   현재 shell 이 패키지를 찾을 수 있게 된다
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="22-반드시-구분할-것">22. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Build system  ≠  Build tool
+   ament(패키지 하나)  vs  colcon(여러 개의 순서)
+
+ament_cmake  ≠  ament_python
+   msg/srv 를 정의하려면 ament_cmake 여야 한다
+
+package.xml  ≠  CMakeLists.txt
+   전자는 의존성 선언(도구들이 읽는다), 후자는 빌드 지시
+
+빌드 성공  ≠  ros2 run 가능
+   install() 과 source 가 사이에 있다
+
+setup.bash  ≠  local_setup.bash
+   전자는 underlay 까지 딸려온다
+
+--packages-select  ≠  --packages-up-to  ≠  --packages-above
+   그것만 / 그것이 의존하는 것까지 / 그것에 의존하는 것까지
+
+/opt/ros/humble  ≠  ~/ros2_ws/install
+   배포판(underlay)  vs  내가 빌드한 것(overlay)
+
+apt install  ≠  colcon build
+   바이너리 설치 vs 소스 빌드
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="23-chapter-연결">23. Chapter 연결</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 6
+ROS 2 — node, topic, DDS, QoS (무엇인지)
+
+Chapter 6.2  ← 여기
+파일 시스템과 빌드 (어디에 놓이고 어떻게 만들어지는지)
+
+Chapter 6.5
+micro-ROS — 이 stack 을 MCU 까지 내리면
+
+Chapter 9.5
+Docker — /opt/ros 는 이미지에, install/ 은 마운트에
+
+Chapter 12
+빌드 중 OOM 과 --parallel-workers
+
+Chapter 13
+build/ install/ 이 디스크를 먹는다
+
+Rust Chapter 1~4
+workspace / package / 의존성 / lock 파일 — 같은 문제를 다른 언어가 푼 방식
+</code></pre></div></div>
+
+<p><strong>출처:</strong> <code class="language-plaintext highlighter-rouge">--symlink-install</code>과 <code class="language-plaintext highlighter-rouge">--merge-install</code>의 설명은
+<a href="https://colcon.readthedocs.io/en/released/reference/verb/build.html" rel="external nofollow noopener" target="_blank">colcon build 레퍼런스</a>의 원문이다.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/edge_computing/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/edge_computing/chapter06b-micro-ros-mcu/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 6.5. micro-ROS와 MCU — /mcu/... 토픽은 어디서 오는가</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

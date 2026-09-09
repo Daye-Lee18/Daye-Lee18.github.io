@@ -17,12 +17,12 @@
   
   
     
-      SLAM | Daye Lee
+      ROS 2 | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="A step-by-step study of the history of SLAM and of LiDAR-inertial state estimation.">
+<meta name="description" content="노드를 실행하고 설정하고 디버깅하는 법 — run/launch, 파라미터, remapping, 네임스페이스.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -59,7 +59,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://daye-lee18.github.io/study/slam/">
+<link rel="canonical" href="https://daye-lee18.github.io/study/ros2/">
 
 
   <!-- Dark Mode -->
@@ -364,41 +364,63 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">SLAM</h1>
-    <p class="post-description">A step-by-step study of the history of SLAM and of LiDAR-inertial state estimation.</p>
+    <h1 class="post-title">ROS 2</h1>
+    <p class="post-description">노드를 실행하고 설정하고 디버깅하는 법 — run/launch, 파라미터, remapping, 네임스페이스.</p>
   </header>
 
   <article>
-    <p>This SLAM study is organised in two tracks. History first covers how the problem is defined and how the algorithms changed; LIO then compares FAST-LIO2, which is deployed on Vision60, with related systems.</p>
+    <p>명령어를 외우는 게 아니라 <strong>어디에 무엇이 설정되어 있는지</strong>를 아는 것이 목표다.
+<code class="language-plaintext highlighter-rouge">ros2 run</code>이 왜 인자를 두 개 받는지, 그 실행 파일 이름은 누가 정했는지,
+파라미터는 어디에 적고 누가 읽는지 같은 것들.</p>
 
-<div class="study-section-list">
-  <a class="study-section-card" href="/study/slam/history/">
-    <span class="study-section-kicker">Part 1 · 12 chapters</span>
-    <strong>SLAM History</strong>
-    <span>Short chapters tracing the flow from probabilistic SLAM through Graph SLAM, Visual SLAM, LIO and Spatial AI.</span>
-  </a>
-  <a class="study-section-card" href="/study/slam/state-estimation/">
-    <span class="study-section-kicker">Part 2 · paper reviews</span>
-    <strong>LIO &amp; State Estimation</strong>
-    <span>Using FAST-LIO2 as the reference point, compares the sensor-fusion architectures and papers of LIO-SAM, FAST-LIVO2, VILENS and others.</span>
-  </a>
-  <a class="study-section-card" href="/study/slam/leg-fusion/">
-    <span class="study-section-kicker">Part 3 · project notes</span>
-    <strong>Leg-Velocity Fusion in FAST-LIO2</strong>
-    <span>다리 운동학 속도를 FAST-LIO2 필터에 관측으로 추가하는 구조와 계산 예제. (한국어)</span>
-  </a>
-</div>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ch 1   ros2 run 과 ros2 launch      노드를 실행하는 두 가지 방법
+Ch 2   파라미터                      값을 어디에 적고 누가 읽나
+Ch 3   remapping 과 namespace       토픽 이름이 정해지는 규칙
+</code></pre></div></div>
 
-<h2 id="suggested-study-order">Suggested study order</h2>
+<h2 id="다른-곳에-있는-ros-2-내용">다른 곳에 있는 ROS 2 내용</h2>
 
-<ol>
-  <li>Chapters 1–3 of History explain the SLAM problem and the filtering family.</li>
-  <li>Chapters 4–7 connect 3D rotation, ICP, factor graphs and sparse optimisation.</li>
-  <li>Chapters 8–12 cover sensors, map representations, LIO, learning-based methods and evaluation.</li>
-  <li>LIO &amp; State Estimation organises the architecture of each paper of interest and the conditions for applying it on a real robot.</li>
+<p>지금은 Edge Computing 아래에 흩어져 있다. 겹쳐 쓰지 않고 링크로 연결한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Edge Computing Ch 6      ROS 2 개념 — node, topic, service, action,
+                         rclcpp/rcl/rmw/DDS, QoS, discovery, executor
+
+Edge Computing Ch 6.2    파일 시스템과 빌드 — package.xml, CMakeLists,
+                         setup.py, colcon, rosdep, underlay/overlay
+
+Edge Computing Ch 6.5    micro-ROS — MCU 위의 ROS 2
+
+Edge Computing Ch 9.5    Docker 안에서 ROS 2 — ROS_DOMAIN_ID,
+                         RMW_IMPLEMENTATION, CycloneDDS, GUI
+</code></pre></div></div>
+
+
+
+<ol class="study-toc">
+  
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/ros2/chapter01-run-and-launch/">
+          <span class="study-toc-title">Chapter 1. ros2 run과 ros2 launch</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/ros2/chapter02-parameters/">
+          <span class="study-toc-title">Chapter 2. 파라미터 — 값을 어디에 적고 누가 읽나</span>
+          
+        </a>
+      </li>
+    
+  
 </ol>
 
-<p>Downloaded public slides and papers are kept locally in <code class="language-plaintext highlighter-rouge">_resource/slam</code>; sources and original links are recorded in the <a href="https://github.com/Daye-Lee18/Daye-Lee18.github.io/tree/main/_resource/slam" rel="external nofollow noopener" target="_blank">resource index</a>.</p>
+<p class="study-back"><a href="/study/">← All study topics</a></p>
 
   </article>
 

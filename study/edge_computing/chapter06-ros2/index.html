@@ -1982,6 +1982,18 @@ ros2 action list
 
 <p>Package는 ROS 2 software를 구성하는 기본적인 배포/빌드 단위다.</p>
 
+<p><code class="language-plaintext highlighter-rouge">package.xml</code>이 있으면 ROS 2 package다. 그 안의 <code class="language-plaintext highlighter-rouge">&lt;build_type&gt;</code>이 빌드 방식을 정한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ament_cmake     C++.  CMakeLists.txt 로 빌드
+ament_python    Python. setup.py 로 설치
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">package.xml</code> / <code class="language-plaintext highlighter-rouge">CMakeLists.txt</code> / <code class="language-plaintext highlighter-rouge">setup.py</code> 를 한 줄씩 읽는 법,
+<code class="language-plaintext highlighter-rouge">ros2 pkg create</code>, meta-package 는
+<a href="/study/edge_computing/chapter06a-ros2-build-system/">Chapter 6.2. ROS 2 파일 시스템과 빌드 시스템</a> 에서 다룬다.</p>
+</blockquote>
+
 <hr>
 
 <h1 id="52-workspace">52. Workspace</h1>
@@ -2033,6 +2045,22 @@ log
 </code></pre></div></div>
 
 <p>이 생성된다.</p>
+
+<p>실무에서는 옵션을 붙여 쓴다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>colcon build <span class="nt">--symlink-install</span>            <span class="c"># 거의 항상. launch/Python 수정이 바로 반영</span>
+colcon build <span class="nt">--packages-select</span> my_slam    <span class="c"># 그 package 만</span>
+colcon build <span class="nt">--packages-up-to</span> my_slam     <span class="c"># 그것 + 그것이 의존하는 것들</span>
+colcon build <span class="nt">--packages-above</span> my_msgs     <span class="c"># 그것 + 그것에 의존하는 것들</span>
+</code></pre></div></div>
+
+<p><strong><code class="language-plaintext highlighter-rouge">.msg</code> 를 고쳤을 때는 <code class="language-plaintext highlighter-rouge">--packages-above</code> 가 필요하다.</strong>
+그 package 만 다시 빌드하면 그것을 쓰는 node 들이 옛 header 를 계속 쓴다.</p>
+
+<blockquote>
+  <p>colcon 옵션 전체, build system 과 build tool 의 차이, <code class="language-plaintext highlighter-rouge">rosdep</code> / <code class="language-plaintext highlighter-rouge">vcstool</code> 은
+<a href="/study/edge_computing/chapter06a-ros2-build-system/">Chapter 6.2</a> 참고.</p>
+</blockquote>
 
 <hr>
 
@@ -2095,6 +2123,23 @@ Vision60 Workspace
 </code></pre></div></div>
 
 <p>위 workspace가 아래 environment 위에 overlay되는 형태로 볼 수 있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">install/</code> 안에는 <code class="language-plaintext highlighter-rouge">setup.bash</code> 와 <code class="language-plaintext highlighter-rouge">local_setup.bash</code> 두 개가 있고 역할이 다르다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>local_setup.bash    이 workspace 것만 환경에 추가
+setup.bash          빌드 시점의 underlay 까지 같이 source (chaining)
+</code></pre></div></div>
+
+<p>그래서 보통은 이 한 줄이면 <code class="language-plaintext highlighter-rouge">/opt/ros/humble</code> 도 같이 딸려온다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> ~/vision60_ws/install/setup.bash
+</code></pre></div></div>
+
+<p><strong>나중에 source한 쪽이 이긴다.</strong> 같은 이름의 package 가 양쪽에 있으면 마지막 것이 쓰인다.
+어느 쪽에서 왔는지는 이렇게 확인한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 pkg prefix &lt;package_name&gt;
+</code></pre></div></div>
 
 <hr>
 
@@ -2381,6 +2426,9 @@ Ethernet ≠ Internet
 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 6
 ROS 2
+
+Chapter 6.2
+파일 시스템과 빌드 시스템
         ↑
 Chapter 5
 Ethernet / CAN / USB / PCIe
@@ -2470,9 +2518,9 @@ Jetson
     <a href="/study/edge_computing/">← 목차로 돌아가기</a>
   
   
-    <a class="study-chapter-next" href="/study/edge_computing/chapter06b-micro-ros-mcu/" rel="next">
+    <a class="study-chapter-next" href="/study/edge_computing/chapter06a-ros2-build-system/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Chapter 6.5. micro-ROS와 MCU — /mcu/... 토픽은 어디서 오는가</span>
+      <span>Chapter 6.2. ROS 2 파일 시스템과 빌드 시스템</span>
     </a>
   
 </nav>

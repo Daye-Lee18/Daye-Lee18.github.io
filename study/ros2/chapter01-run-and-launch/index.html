@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      Chapter 1. ros2 run과 ros2 launch | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/ros2/chapter01-run-and-launch/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Chapter 1. ros2 run과 ros2 launch</h1>
+    <p class="post-description"></p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> <code class="language-plaintext highlighter-rouge">ros2 run &lt;package&gt; &lt;executable&gt;</code>의 두 인자가 각각 어디서 온 이름인지 알고,
+설정을 <code class="language-plaintext highlighter-rouge">run</code>에 직접 넘기는 방법과 <code class="language-plaintext highlighter-rouge">launch</code> 파일에 적는 방법을 구분해서 쓸 수 있다.</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">ros2 run fast_lio fastlio_mapping</code> 같은 명령이 헷갈리는 이유는
+<strong>두 이름이 서로 다른 곳에서 오기 때문</strong>이다. 그걸 알면 헷갈릴 일이 없어진다.</p>
+
+<hr>
+
+<h1 id="0-자주-쓰는-명령어">0. 자주 쓰는 명령어</h1>
+
+<blockquote>
+  <p>이 chapter에서 가장 많이 치는 것: <code class="language-plaintext highlighter-rouge">ros2 pkg executables</code> · <code class="language-plaintext highlighter-rouge">ros2 run</code> · <code class="language-plaintext highlighter-rouge">ros2 launch</code></p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">명령어</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 pkg list</code></td>
+      <td style="text-align: left">지금 환경에서 보이는 패키지 전부</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 pkg executables</code></td>
+      <td style="text-align: left">전체 패키지의 실행 파일</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 pkg executables &lt;pkg&gt;</code></td>
+      <td style="text-align: left"><strong>그 패키지가 뭘 실행할 수 있는지</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 pkg prefix &lt;pkg&gt;</code></td>
+      <td style="text-align: left">그 패키지가 어디서 왔는지</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 run &lt;pkg&gt; &lt;exe&gt;</code></td>
+      <td style="text-align: left">실행 파일 하나 실행</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 run &lt;pkg&gt; &lt;exe&gt; --ros-args -p k:=v</code></td>
+      <td style="text-align: left">파라미터 하나 넘기기</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 run &lt;pkg&gt; &lt;exe&gt; --ros-args --params-file f.yaml</code></td>
+      <td style="text-align: left">파라미터 파일</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 run &lt;pkg&gt; &lt;exe&gt; --ros-args -r a:=b</code></td>
+      <td style="text-align: left">토픽 이름 바꾸기</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 launch &lt;pkg&gt; &lt;file&gt;.launch.py</code></td>
+      <td style="text-align: left">launch 파일 실행</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 launch &lt;pkg&gt; &lt;file&gt;.launch.py arg:=v</code></td>
+      <td style="text-align: left">launch 인자</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 launch -s &lt;pkg&gt; &lt;file&gt;.launch.py</code></td>
+      <td style="text-align: left"><strong>그 launch가 받는 인자 목록</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ros2 launch -p &lt;pkg&gt; &lt;file&gt;.launch.py</code></td>
+      <td style="text-align: left">실행 안 하고 내용만 출력</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">
+<code class="language-plaintext highlighter-rouge">ros2 node list</code> / <code class="language-plaintext highlighter-rouge">ros2 topic list</code>
+</td>
+      <td style="text-align: left">실행 결과 확인</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h1 id="1-ros2-run의-두-인자">1. <code class="language-plaintext highlighter-rouge">ros2 run</code>의 두 인자</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 run fast_lio fastlio_mapping
+        └───┬───┘ └──────┬──────┘
+         패키지 이름    실행 파일 이름
+</code></pre></div></div>
+
+<p>두 이름의 출처가 다르다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>패키지 이름     package.xml 의 &lt;name&gt;
+실행 파일 이름   C++  : CMakeLists.txt 의 add_executable() + install()
+               Python: setup.py 의 entry_points
+</code></pre></div></div>
+
+<p><strong>폴더 이름이 아니다.</strong> 폴더가 <code class="language-plaintext highlighter-rouge">src/slam/</code>이어도 <code class="language-plaintext highlighter-rouge">package.xml</code>에 <code class="language-plaintext highlighter-rouge">slam_ros2</code>라고 적혀 있으면
+<code class="language-plaintext highlighter-rouge">ros2 run slam_ros2 ...</code>다. (Edge Computing Chapter 6.2 참고)</p>
+
+<p>외울 필요 없이 물어보면 된다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>ros2 pkg executables fast_lio
+fast_lio fastlio_mapping
+└──┬───┘ └──────┬──────┘
+  1번 인자     2번 인자
+</code></pre></div></div>
+
+<p><strong>출력이 그대로 <code class="language-plaintext highlighter-rouge">ros2 run</code> 뒤에 들어갈 형태</strong>다. 이게 가장 빠른 확인법이다.</p>
+
+<p>아무것도 안 나오면 셋 중 하나다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>· source 를 안 했다
+· 빌드가 안 됐다
+· CMakeLists 에 install(TARGETS ...) 이 없다   ← 빌드는 성공하는 함정
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="2-ros2-run은-설정-파일을-스스로-찾지-않는다">2. <code class="language-plaintext highlighter-rouge">ros2 run</code>은 설정 파일을 스스로 찾지 않는다</h1>
+
+<p>가장 흔한 오해다. <strong><code class="language-plaintext highlighter-rouge">ros2 run</code>은 config 파일을 자동으로 읽지 않는다.</strong>
+아무것도 안 주면 코드에 박힌 기본값으로 돈다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 run &lt;pkg&gt; &lt;exe&gt;
+     │
+     └── 실행 파일 하나를 그냥 실행한다. 그게 전부다
+         설정을 원하면 명령줄로 직접 준다
+</code></pre></div></div>
+
+<p>설정은 <code class="language-plaintext highlighter-rouge">--ros-args</code> 뒤에 붙인다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 파라미터 파일</span>
+ros2 run slam_ros2 estimator <span class="nt">--ros-args</span> <span class="nt">--params-file</span> config/slam.yaml
+
+<span class="c"># 파라미터 하나만</span>
+ros2 run slam_ros2 estimator <span class="nt">--ros-args</span> <span class="nt">-p</span> max_range:<span class="o">=</span>100.0
+
+<span class="c"># 토픽 이름 바꾸기 (remapping)</span>
+ros2 run slam_ros2 estimator <span class="nt">--ros-args</span> <span class="nt">-r</span> input:<span class="o">=</span>/sensors/imu/data
+
+<span class="c"># 여러 개 (--ros-args 는 한 번만)</span>
+ros2 run slam_ros2 estimator <span class="nt">--ros-args</span> <span class="se">\</span>
+  <span class="nt">--params-file</span> config/slam.yaml <span class="se">\</span>
+  <span class="nt">-p</span> use_sim_time:<span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+  <span class="nt">-r</span> /odom:<span class="o">=</span>/mcu/command/odom
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">--ros-args</code>가 경계선이다. <strong>그 앞은 실행할 것, 뒤는 ROS 설정.</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 run  pkg  exe   --ros-args   -p ...  -r ...
+          └── 무엇을 ──┘   ↑      └── 어떻게 ──┘
+                       경계선
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="3-ros2-launch는-파일에-적어-둔다">3. <code class="language-plaintext highlighter-rouge">ros2 launch</code>는 파일에 적어 둔다</h1>
+
+<p>노드가 하나면 §2로 충분하다. 그런데 실제 시스템은 이렇다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LiDAR 드라이버 + IMU 드라이버 + SLAM + TF + rviz
+각각 파라미터 파일과 remapping 이 다르고
+띄우는 순서도 있다
+</code></pre></div></div>
+
+<p>이걸 매번 손으로 치는 대신 파일에 적는 것이 launch다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 launch slam_ros2 bringup.launch.py
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># launch/bringup.launch.py
+</span><span class="kn">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="n">ament_index_python.packages</span> <span class="kn">import</span> <span class="n">get_package_share_directory</span>
+<span class="kn">from</span> <span class="n">launch</span> <span class="kn">import</span> <span class="n">LaunchDescription</span>
+<span class="kn">from</span> <span class="n">launch_ros.actions</span> <span class="kn">import</span> <span class="n">Node</span>
+
+<span class="k">def</span> <span class="nf">generate_launch_description</span><span class="p">():</span>
+    <span class="n">cfg</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span>
+        <span class="nf">get_package_share_directory</span><span class="p">(</span><span class="sh">'</span><span class="s">slam_ros2</span><span class="sh">'</span><span class="p">),</span>   <span class="c1"># ← install/share/slam_ros2
+</span>        <span class="sh">'</span><span class="s">config</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">slam.yaml</span><span class="sh">'</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nc">LaunchDescription</span><span class="p">([</span>
+        <span class="nc">Node</span><span class="p">(</span>
+            <span class="n">package</span><span class="o">=</span><span class="sh">'</span><span class="s">slam_ros2</span><span class="sh">'</span><span class="p">,</span>
+            <span class="n">executable</span><span class="o">=</span><span class="sh">'</span><span class="s">estimator</span><span class="sh">'</span><span class="p">,</span>       <span class="c1"># ← ros2 run 의 2번 인자와 같은 이름
+</span>            <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">slam_estimator</span><span class="sh">'</span><span class="p">,</span>        <span class="c1"># ← 노드 이름을 여기서 정한다
+</span>            <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">cfg</span><span class="p">],</span>
+            <span class="n">remappings</span><span class="o">=</span><span class="p">[(</span><span class="sh">'</span><span class="s">input</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">/sensors/imu/data</span><span class="sh">'</span><span class="p">)],</span>
+            <span class="n">output</span><span class="o">=</span><span class="sh">'</span><span class="s">screen</span><span class="sh">'</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="nc">Node</span><span class="p">(</span>
+            <span class="n">package</span><span class="o">=</span><span class="sh">'</span><span class="s">velodyne_driver</span><span class="sh">'</span><span class="p">,</span>
+            <span class="n">executable</span><span class="o">=</span><span class="sh">'</span><span class="s">velodyne_driver_node</span><span class="sh">'</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">[{</span><span class="sh">'</span><span class="s">device_ip</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">192.168.1.201</span><span class="sh">'</span><span class="p">}],</span>
+        <span class="p">),</span>
+    <span class="p">])</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">ros2 run</code>에서 명령줄로 주던 것이 그대로 필드가 된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 run 의 것                launch 의 것
+──────────────────────       ──────────────────
+&lt;package&gt;                    package=
+&lt;executable&gt;                 executable=
+--ros-args --params-file     parameters=[...]
+--ros-args -r a:=b           remappings=[...]
+(노드 이름은 코드에서)          name=
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">get_package_share_directory()</code>가 중요하다.
+<strong><code class="language-plaintext highlighter-rouge">install/&lt;pkg&gt;/share/&lt;pkg&gt;/</code>를 가리킨다.</strong> 상대 경로를 쓰면 어디서 실행하느냐에 따라 깨진다.</p>
+
+<p>launch가 받는 인자를 모를 때는 물어보면 된다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 launch <span class="nt">-s</span> slam_ros2 bringup.launch.py    <span class="c"># 받을 수 있는 인자 목록</span>
+ros2 launch slam_ros2 bringup.launch.py use_rviz:<span class="o">=</span><span class="nb">true</span>
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="4-파일이-실제로-있는-곳--src가-아니라-install">4. 파일이 실제로 있는 곳 — <code class="language-plaintext highlighter-rouge">src/</code>가 아니라 <code class="language-plaintext highlighter-rouge">install/</code>
+</h1>
+
+<p>여기서 한 번 크게 걸린다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>내가 편집하는 곳                     ROS 가 읽는 곳
+src/slam_ros2/launch/bringup.py     install/slam_ros2/share/slam_ros2/launch/bringup.py
+src/slam_ros2/config/slam.yaml      install/slam_ros2/share/slam_ros2/config/slam.yaml
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">ros2 launch</code>는 <strong><code class="language-plaintext highlighter-rouge">install/</code> 쪽을 읽는다.</strong> <code class="language-plaintext highlighter-rouge">src/</code>를 고쳐도 <code class="language-plaintext highlighter-rouge">install/</code>이 안 바뀌면 반영되지 않는다.</p>
+
+<p>그래서 <code class="language-plaintext highlighter-rouge">colcon build</code>에 <code class="language-plaintext highlighter-rouge">install()</code> 규칙이 있어야 한다. (Chapter 6.2 §8)</p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">install</span><span class="p">(</span>DIRECTORY launch config
+  DESTINATION share/<span class="si">${</span><span class="nv">PROJECT_NAME</span><span class="si">}</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>이게 없으면 <code class="language-plaintext highlighter-rouge">ros2 launch</code>가 파일을 못 찾는다. <strong>빌드는 성공한다.</strong></p>
+
+<hr>
+
+<h1 id="5-그러면-launch-파일을-고칠-때마다-다시-빌드해야-하나">5. 그러면 launch 파일을 고칠 때마다 다시 빌드해야 하나</h1>
+
+<p><code class="language-plaintext highlighter-rouge">--symlink-install</code>을 썼는지에 따라 다르다. colcon 문서의 설명은 이렇다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>--symlink-install
+    Use symlinks instead of copying files from the source
+    and build directories where possible.
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>colcon build                     install/ 에 복사본이 생긴다
+                                 → launch/config 를 고치면 재빌드 필요
+
+colcon build --symlink-install   install/ 이 src/ 를 가리킨다 (심볼릭 링크)
+                                 → 저장하는 순간 반영. 재빌드 불필요
+</code></pre></div></div>
+
+<p>확인은 눈으로 된다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-l</span> <span class="nb">install</span>/slam_ros2/share/slam_ros2/launch/
+lrwxr-xr-x  bringup.launch.py -&gt; /home/me/ws/src/slam_ros2/launch/bringup.launch.py
+                              ↑ 화살표가 있으면 심볼릭 링크. 재빌드 불필요
+</code></pre></div></div>
+
+<p><strong>그래서 <code class="language-plaintext highlighter-rouge">--symlink-install</code>을 거의 항상 쓴다.</strong>
+launch·config·Python 노드를 고치면서 매번 빌드를 기다릴 이유가 없다.</p>
+
+<p>C++ 소스는 예외다. 컴파일이 필요하므로 무조건 다시 빌드해야 한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>고친 것              --symlink-install 이면
+─────────────       ──────────────────────
+launch/*.py          재빌드 불필요
+config/*.yaml        재빌드 불필요
+Python 노드          재빌드 불필요
+C++ 소스             재빌드 필요 (컴파일)
+CMakeLists/setup.py  재빌드 필요
+package.xml          재빌드 필요
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="6-source-두-줄의-정확한-의미">6. <code class="language-plaintext highlighter-rouge">source</code> 두 줄의 정확한 의미</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> /opt/ros/humble/setup.bash   <span class="c"># ROS 2 배포판 (underlay)</span>
+<span class="nb">source</span> ~/ros2_ws/install/setup.bash <span class="c"># 이 workspace 에서 빌드한 패키지 (overlay)</span>
+</code></pre></div></div>
+
+<p>두 번째 줄을 “install 패키지 환경”이라고 하면 조금 어긋난다.
+정확히는 <strong>“이 workspace에서 빌드해서 설치한 패키지”</strong>다. <code class="language-plaintext highlighter-rouge">install/</code>이라는 폴더 이름 때문에
+apt로 설치한 것처럼 들리는데 그게 아니다.</p>
+
+<p>그리고 실은 <strong>두 번째 줄만 해도 되는 경우가 많다.</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install/setup.bash        빌드 시점의 underlay 까지 같이 source 한다 (chaining)
+install/local_setup.bash  이 workspace 것만
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> ~/ros2_ws/install/setup.bash   <span class="c"># /opt/ros/humble 도 같이 딸려온다</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">.bashrc</code>에 넣어두면 매번 안 쳐도 된다. 다만 workspace를 여러 개 오가면 오히려 헷갈리므로,
+프로젝트별 스크립트를 두는 편이 낫다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># scripts/env.sh</span>
+<span class="nb">source</span> /opt/ros/humble/setup.bash
+<span class="nb">source</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">dirname</span> <span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="si">)</span><span class="s2">/../install/setup.bash"</span>
+<span class="nb">export </span><span class="nv">ROS_DOMAIN_ID</span><span class="o">=</span>42
+</code></pre></div></div>
+
+<p><strong>source를 안 하면 증상이 이렇게 나온다.</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ros2 pkg executables slam_ros2
+Package not found
+
+$ ros2 run slam_ros2 estimator
+Package 'slam_ros2' not found
+</code></pre></div></div>
+
+<p>“방금 빌드했는데 없다고 나온다”의 대부분이 이것이다.
+새 터미널을 열면 환경이 초기화되므로 다시 source해야 한다.</p>
+
+<hr>
+
+<h1 id="7-실행-후-확인">7. 실행 후 확인</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 node list                    <span class="c"># 노드가 떴나</span>
+ros2 node info /slam_estimator    <span class="c"># 그 노드의 토픽·서비스·파라미터</span>
+ros2 topic list                   <span class="c"># 토픽이 생겼나</span>
+ros2 topic hz /odom               <span class="c"># 실제로 데이터가 흐르나</span>
+ros2 topic info /odom <span class="nt">--verbose</span>   <span class="c"># 누가 publish/subscribe 하나, QoS 는</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">ros2 node info</code>가 특히 유용하다. <strong>remapping이 의도대로 됐는지</strong>가 여기서 보인다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ros2 node info /slam_estimator
+  Subscribers:
+    /sensors/imu/data: sensor_msgs/msg/Imu     ← remapping 이 먹었다
+                                                 (원래 이름은 input 이었다)
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="8-언제-무엇을-쓰나">8. 언제 무엇을 쓰나</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 run       노드 하나를 빠르게 띄워볼 때
+               파라미터 하나만 바꿔서 테스트할 때
+               "이 실행 파일이 뜨긴 하나" 확인할 때
+
+ros2 launch    시스템을 실제로 돌릴 때
+               노드가 둘 이상일 때
+               설정을 파일로 남겨야 할 때 (재현성)
+</code></pre></div></div>
+
+<p><strong>개발 중에는 <code class="language-plaintext highlighter-rouge">run</code>, 운영에서는 <code class="language-plaintext highlighter-rouge">launch</code></strong>가 대략의 기준이다.
+<code class="language-plaintext highlighter-rouge">launch</code>로 정리해 두면 그 파일 자체가 “이 시스템은 이렇게 뜬다”는 문서가 된다.</p>
+
+<hr>
+
+<h1 id="9-안-될-때">9. 안 될 때</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>증상                                  먼저 볼 것
+──────────────────────────────        ────────────────────────────────
+Package 'x' not found                 source 했나 (§6)
+                                      ros2 pkg list | grep x
+
+No executable found                   ros2 pkg executables x
+                                      install(TARGETS ...) 이 있나 (§4)
+                                      Python 이면 entry_points
+
+launch 파일을 못 찾음                   install(DIRECTORY launch ...) 이 있나
+                                      ls install/&lt;pkg&gt;/share/&lt;pkg&gt;/launch/
+
+launch 를 고쳤는데 반영 안 됨            --symlink-install 로 빌드했나 (§5)
+                                      ls -l 로 화살표 확인
+
+파라미터가 안 먹음                      노드가 declare_parameter 했나
+                                      YAML 의 노드 이름이 실제와 같나 (Ch 2)
+
+노드는 떴는데 토픽이 안 보임             remapping 확인: ros2 node info
+                                      ROS_DOMAIN_ID (Edge Computing Ch 9.5)
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="10-mini-practice">10. Mini Practice</h1>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1) 무엇을 실행할 수 있는지 물어본다</span>
+ros2 pkg list | <span class="nb">head
+</span>ros2 pkg executables demo_nodes_cpp
+
+<span class="c"># 2) 그대로 실행</span>
+ros2 run demo_nodes_cpp talker
+<span class="c">#    다른 터미널에서</span>
+ros2 topic list
+ros2 topic <span class="nb">echo</span> /chatter <span class="nt">--once</span>
+
+<span class="c"># 3) remapping 을 걸어본다</span>
+ros2 run demo_nodes_cpp talker <span class="nt">--ros-args</span> <span class="nt">-r</span> /chatter:<span class="o">=</span>/my_chatter
+ros2 topic list          <span class="c"># /my_chatter 로 바뀌었나</span>
+
+<span class="c"># 4) node info 로 확인</span>
+ros2 node info /talker
+
+<span class="c"># 5) source 안 한 새 터미널에서</span>
+ros2 pkg executables demo_nodes_cpp    <span class="c"># 어떻게 되나?</span>
+
+<span class="c"># 6) launch 파일 위치 확인</span>
+ros2 pkg prefix demo_nodes_cpp
+<span class="nb">ls</span> <span class="si">$(</span>ros2 pkg prefix demo_nodes_cpp<span class="si">)</span>/share/demo_nodes_cpp/launch/ 2&gt;/dev/null
+</code></pre></div></div>
+
+<p>3번과 5번이 핵심이다.
+<strong>remapping은 코드를 안 고치고 연결을 바꾸는 방법</strong>이고,
+<strong>source는 매 터미널마다 필요하다.</strong></p>
+
+<hr>
+
+<h1 id="11-오늘의-핵심">11. 오늘의 핵심</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   package.xml &lt;name&gt;          ─────┐
+   CMakeLists install(TARGETS)  ────┤
+   setup.py entry_points        ────┤
+                                    ▼
+                        ros2 run &lt;package&gt; &lt;executable&gt;
+                                    │
+                                    │  --ros-args
+                                    │     --params-file  파라미터
+                                    │     -p k:=v        파라미터 하나
+                                    │     -r a:=b        토픽 이름
+                                    ▼
+                              노드 하나 실행
+
+
+   launch/*.launch.py  ──▶  ros2 launch &lt;package&gt; &lt;file&gt;
+        │                        여러 노드 + 파라미터 + remapping
+        │                        install/&lt;pkg&gt;/share/&lt;pkg&gt;/launch/ 를 읽는다
+        └── --symlink-install 이면 src/ 를 가리키므로 재빌드 불필요
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="12-반드시-구분할-것">12. 반드시 구분할 것</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>패키지 이름  ≠  폴더 이름
+   package.xml 의 &lt;name&gt; 이 진짜
+
+ros2 run 은 config 를 자동으로 안 읽는다
+   --ros-args 로 직접 준다
+
+src/  ≠  install/
+   ROS 가 읽는 것은 install/&lt;pkg&gt;/share/&lt;pkg&gt;/
+
+--symlink-install 있음  ≠  없음
+   launch/config 수정에 재빌드가 필요한지가 갈린다
+
+install/  ≠  apt 로 설치한 것
+   "이 workspace 에서 빌드해 설치한 것"
+
+setup.bash  ≠  local_setup.bash
+   전자는 underlay 까지 딸려온다
+
+빌드 성공  ≠  ros2 run 가능
+   install(TARGETS ...) 과 source 가 사이에 있다
+
+ros2 run  vs  ros2 launch
+   하나 vs 여러 개 + 설정을 파일로 남기기
+</code></pre></div></div>
+
+<hr>
+
+<h1 id="13-chapter-연결">13. Chapter 연결</h1>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 1  ← 여기
+run 과 launch
+
+Chapter 2
+파라미터 — YAML 을 어디에 적고 누가 읽나
+
+Chapter 3
+remapping 과 namespace — 토픽 이름이 정해지는 규칙
+
+Edge Computing Chapter 6
+node, topic, DDS — 무엇이 도는가
+
+Edge Computing Chapter 6.2
+package.xml / CMakeLists / setup.py / colcon — 실행 파일 이름이 정해지는 곳
+</code></pre></div></div>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/ros2/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/ros2/chapter02-parameters/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>Chapter 2. 파라미터 — 값을 어디에 적고 누가 읽나</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

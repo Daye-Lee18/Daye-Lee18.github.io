@@ -17,12 +17,12 @@
   
   
     
-      SLAM | Daye Lee
+      Leg-Velocity Fusion in FAST-LIO2 | Daye Lee
     
   
 </title>
 <meta name="author" content="Daye Lee">
-<meta name="description" content="A step-by-step study of the history of SLAM and of LiDAR-inertial state estimation.">
+<meta name="description" content="다리 운동학 속도를 FAST-LIO2 필터에 관측으로 추가하는 구조와, 그것을 설명하기 위한 계산 예제.">
 
   <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
@@ -59,7 +59,7 @@
   <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
 
 <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
-<link rel="canonical" href="https://daye-lee18.github.io/study/slam/">
+<link rel="canonical" href="https://daye-lee18.github.io/study/slam/leg-fusion/">
 
 
   <!-- Dark Mode -->
@@ -364,41 +364,51 @@
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">SLAM</h1>
-    <p class="post-description">A step-by-step study of the history of SLAM and of LiDAR-inertial state estimation.</p>
+    <h1 class="post-title">Leg-Velocity Fusion in FAST-LIO2</h1>
+    <p class="post-description">다리 운동학 속도를 FAST-LIO2 필터에 관측으로 추가하는 구조와, 그것을 설명하기 위한 계산 예제.</p>
   </header>
 
   <article>
-    <p>This SLAM study is organised in two tracks. History first covers how the problem is defined and how the algorithms changed; LIO then compares FAST-LIO2, which is deployed on Vision60, with related systems.</p>
+    <p>FAST-LIO2에 다리 속도를 넣는 작업의 <strong>구조</strong>와 <strong>수치 예제</strong>를 정리한다.
+다른 사람에게 설명할 때 쓸 수 있도록, 개념마다 손으로 따라갈 수 있는 문제를 붙였다.</p>
 
-<div class="study-section-list">
-  <a class="study-section-card" href="/study/slam/history/">
-    <span class="study-section-kicker">Part 1 · 12 chapters</span>
-    <strong>SLAM History</strong>
-    <span>Short chapters tracing the flow from probabilistic SLAM through Graph SLAM, Visual SLAM, LIO and Spatial AI.</span>
-  </a>
-  <a class="study-section-card" href="/study/slam/state-estimation/">
-    <span class="study-section-kicker">Part 2 · paper reviews</span>
-    <strong>LIO &amp; State Estimation</strong>
-    <span>Using FAST-LIO2 as the reference point, compares the sensor-fusion architectures and papers of LIO-SAM, FAST-LIVO2, VILENS and others.</span>
-  </a>
-  <a class="study-section-card" href="/study/slam/leg-fusion/">
-    <span class="study-section-kicker">Part 3 · project notes</span>
-    <strong>Leg-Velocity Fusion in FAST-LIO2</strong>
-    <span>다리 운동학 속도를 FAST-LIO2 필터에 관측으로 추가하는 구조와 계산 예제. (한국어)</span>
-  </a>
-</div>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ch 1   구조 — 어디에 무엇이 들어가나        두 SLAM 이 아니라 관측 하나 추가
+Ch 2   계산 예제 — 문제로 이해하기          좌표 변환 · 칼만 갱신 · chi2 gate
+</code></pre></div></div>
 
-<h2 id="suggested-study-order">Suggested study order</h2>
+<blockquote>
+  <p>관련 논문 리뷰: <a href="/study/slam/state-estimation/vilens/">VILENS</a> (다리 속도 bias 를 상태로 추정),
+<a href="/study/slam/state-estimation/lijo/">LIJO</a> (관절 속도 + 동적 가중치),
+<a href="/study/slam/state-estimation/fast-lio2/">FAST-LIO2</a></p>
+</blockquote>
 
-<ol>
-  <li>Chapters 1–3 of History explain the SLAM problem and the filtering family.</li>
-  <li>Chapters 4–7 connect 3D rotation, ICP, factor graphs and sparse optimisation.</li>
-  <li>Chapters 8–12 cover sensors, map representations, LIO, learning-based methods and evaluation.</li>
-  <li>LIO &amp; State Estimation organises the architecture of each paper of interest and the conditions for applying it on a real robot.</li>
+
+
+<ol class="study-toc">
+  
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/leg-fusion/01-architecture/">
+          <span class="study-toc-title">Chapter 1. 구조 — 다리 속도는 어디로 들어가나</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/leg-fusion/02-worked-examples/">
+          <span class="study-toc-title">Chapter 2. 계산 예제 — 문제로 이해하기</span>
+          
+        </a>
+      </li>
+    
+  
 </ol>
 
-<p>Downloaded public slides and papers are kept locally in <code class="language-plaintext highlighter-rouge">_resource/slam</code>; sources and original links are recorded in the <a href="https://github.com/Daye-Lee18/Daye-Lee18.github.io/tree/main/_resource/slam" rel="external nofollow noopener" target="_blank">resource index</a>.</p>
+<p class="study-back"><a href="/study/slam/">← SLAM 학습 목차</a></p>
 
   </article>
 

@@ -296,6 +296,11 @@ ninja.data = [{
           description: "",
           section: "Study",handler: () => {
               window.location.href = "/study/edge_computing/chapter06-ros2/";
+            },},{id: "study-chapter-6-2-ros-2-파일-시스템과-빌드-시스템",
+          title: 'Chapter 6.2. ROS 2 파일 시스템과 빌드 시스템',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/edge_computing/chapter06a-ros2-build-system/";
             },},{id: "study-chapter-6-5-micro-ros와-mcu-mcu-토픽은-어디서-오는가",
           title: 'Chapter 6.5. micro-ROS와 MCU — /mcu/... 토픽은 어디서 오는가',
           description: "",
@@ -386,6 +391,21 @@ ninja.data = [{
           description: "Reinforcement learning theory and implementation notes.",
           section: "Study",handler: () => {
               window.location.href = "/study/rl/";
+            },},{id: "study-chapter-1-ros2-run과-ros2-launch",
+          title: 'Chapter 1. ros2 run과 ros2 launch',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/ros2/chapter01-run-and-launch/";
+            },},{id: "study-chapter-2-파라미터-값을-어디에-적고-누가-읽나",
+          title: 'Chapter 2. 파라미터 — 값을 어디에 적고 누가 읽나',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/ros2/chapter02-parameters/";
+            },},{id: "study-ros-2",
+          title: 'ROS 2',
+          description: "노드를 실행하고 설정하고 디버깅하는 법 — run/launch, 파라미터, remapping, 네임스페이스.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/ros2/";
             },},{id: "study-chapter-1-workspace-package-crate-module",
           title: 'Chapter 1. Workspace, Package, Crate, Module',
           description: "",
@@ -466,6 +486,21 @@ ninja.data = [{
           description: "A step-by-step study of the history of SLAM and of LiDAR-inertial state estimation.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/";
+            },},{id: "study-chapter-1-구조-다리-속도는-어디로-들어가나",
+          title: 'Chapter 1. 구조 — 다리 속도는 어디로 들어가나',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/leg-fusion/01-architecture/";
+            },},{id: "study-chapter-2-계산-예제-문제로-이해하기",
+          title: 'Chapter 2. 계산 예제 — 문제로 이해하기',
+          description: "",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/leg-fusion/02-worked-examples/";
+            },},{id: "study-leg-velocity-fusion-in-fast-lio2",
+          title: 'Leg-Velocity Fusion in FAST-LIO2',
+          description: "다리 운동학 속도를 FAST-LIO2 필터에 관측으로 추가하는 구조와, 그것을 설명하기 위한 계산 예제.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/leg-fusion/";
             },},{id: "study-chapter-1-why-do-we-need-slam",
           title: 'Chapter 1. Why do we need SLAM?',
           description: "The relationship between pose and map, odometry versus SLAM, and the broad arc of the field.",
