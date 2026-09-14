@@ -40,7 +40,7 @@ Through an [IITP](https://www.iitp.kr/web/index.do)-sponsored research fellowshi
 
 Beyond my thesis, I’ve explored multimodal AI across projects: few-shot personalization for motion generation, an LLM-based legal QA system, and emotion-guided video retrieval (see the “Projects” tab for details). These experiences reflect a consistent drive to align **vision, language, and motion** toward practical and scalable AI systems.
 
-I’m actively seeking opportunities in **multimodal generative AI, Autonomous driving, and LLM**. I’ve taught computing at SNU (Outstanding Tutor Award) and delivered Python training for Malaysian scholarship students. Outside research, I continue to dance (videos on [YouTube](https://www.youtube.com/@goahead4925)), which keeps me connected to the real aesthetics of human movement.
+I’ve taught computing at SNU (Outstanding Tutor Award) and delivered Python training for Malaysian scholarship students. Outside research, I continue to dance (videos on [YouTube](https://www.youtube.com/@goahead4925)), which keeps me connected to the real aesthetics of human movement.
 
 You can reach me at **dayelee313@gmail.com**, on [LinkedIn](https://www.linkedin.com/in/daye-lee-088686251/), and view my [CV](/assets/pdf/20260510_resume.pdf).
 
