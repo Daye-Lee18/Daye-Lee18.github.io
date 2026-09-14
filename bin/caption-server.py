@@ -30,8 +30,21 @@ import tempfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse, parse_qs
 
-CACHE_DIR = os.path.expanduser("~/.cache/shadowing-captions")
+# Where fetched captions land. Inside the repo they become part of the site,
+# so every device reads them straight off GitHub Pages with no setup; outside
+# it they fall back to a plain cache directory.
+FALLBACK_CACHE = os.path.expanduser("~/.cache/shadowing-captions")
+CACHE_DIR = FALLBACK_CACHE
+IN_REPO = False      # captions land somewhere git tracks, so they can be shared
 VIDEO_ID = re.compile(r"^[\w-]{11}$")
+
+
+def default_captions_dir():
+    here = os.path.dirname(os.path.abspath(__file__))
+    repo = os.path.dirname(here)                       # bin/ -> repo root
+    if os.path.isdir(os.path.join(repo, "assets")) and os.path.isdir(os.path.join(repo, "_pages")):
+        return os.path.join(repo, "assets", "captions")
+    return FALLBACK_CACHE
 
 # "android" is the one that currently returns caption data; the rest are kept
 # as fallbacks for when that changes.
@@ -156,6 +169,32 @@ def cache_path(video_id, lang):
     return os.path.join(CACHE_DIR, "%s.%s.json" % (video_id, lang))
 
 
+def write_index():
+    """List what is on disk so the page can show a library before fetching
+    any of it. Without this a new device has no way to know what exists."""
+    entries = []
+    for name in sorted(os.listdir(CACHE_DIR)):
+        if not name.endswith(".json") or name == "index.json":
+            continue
+        try:
+            with open(os.path.join(CACHE_DIR, name), encoding="utf-8") as fh:
+                d = json.load(fh)
+            entries.append({
+                "id": d["videoId"],
+                "lang": d.get("lang", "en"),
+                "title": d.get("title", ""),
+                "kind": d.get("kind", ""),
+                "n": len(d.get("cues", [])),
+                "ts": int(os.path.getmtime(os.path.join(CACHE_DIR, name)) * 1000),
+            })
+        except Exception:
+            continue                      # a half-written file should not break the index
+    entries.sort(key=lambda e: e["ts"], reverse=True)
+    with open(os.path.join(CACHE_DIR, "index.json"), "w", encoding="utf-8") as fh:
+        json.dump(entries, fh, ensure_ascii=False, indent=1)
+    return len(entries)
+
+
 class Handler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
 
@@ -217,6 +256,10 @@ class Handler(BaseHTTPRequestHandler):
         os.makedirs(CACHE_DIR, exist_ok=True)
         with open(path, "w", encoding="utf-8") as fh:
             json.dump(payload, fh, ensure_ascii=False)
+        try:
+            write_index()
+        except Exception as exc:
+            sys.stderr.write("  index not written: %s\n" % exc)
         sys.stderr.write("  ok         %s cues, %s, via %s\n"
                          % (len(payload["cues"]), payload["kind"], payload["via"]))
         self._send(200, payload)
@@ -287,7 +330,8 @@ def install(host, port):
         plistlib.dump({
             "Label": LABEL,
             "ProgramArguments": [sys.executable, INSTALLED,
-                                 "--host", host, "--port", str(port)],
+                                 "--host", host, "--port", str(port),
+                                 "--captions-dir", CACHE_DIR],
             "RunAtLoad": True,
             "KeepAlive": True,
             "ProcessType": "Background",
@@ -311,6 +355,7 @@ def install(host, port):
     ok = ping(host, port)
     print("installed   %s" % PLIST)
     print("service     %s" % INSTALLED)
+    print("captions    %s" % CACHE_DIR)
     print("yt-dlp      %s" % " ".join(ytdlp))
     print("log         %s" % LOG)
     print("status      %s" % ("running at " + url if ok else "NOT responding -- check the log"))
@@ -335,7 +380,7 @@ def uninstall():
         os.rmdir(INSTALL_DIR)
     if not removed:
         print("nothing installed at %s" % PLIST)
-    print("the cache in %s was left alone" % CACHE_DIR)
+    print("the captions in %s were left alone" % CACHE_DIR)
     sys.exit(0)
 
 
@@ -369,11 +414,23 @@ def main():
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--port", type=int, default=8787)
     ap.add_argument("--host", default="127.0.0.1")
+    ap.add_argument("--captions-dir", default=None,
+                    help="where to write captions (default: the repo's "
+                         "assets/captions when run from a checkout)")
     ap.add_argument("--install", action="store_true",
                     help="run at login via launchd, so no terminal is needed")
     ap.add_argument("--uninstall", action="store_true", help="remove the LaunchAgent")
     ap.add_argument("--status", action="store_true", help="is it installed and answering?")
     args = ap.parse_args()
+
+    global CACHE_DIR, IN_REPO
+    CACHE_DIR = os.path.abspath(args.captions_dir or default_captions_dir())
+    # "shareable" means the directory is inside a git work tree, whether it was
+    # found automatically or handed over with --captions-dir.
+    IN_REPO = subprocess.run(
+        ["git", "-C", os.path.dirname(CACHE_DIR) if os.path.basename(CACHE_DIR) else CACHE_DIR,
+         "rev-parse", "--is-inside-work-tree"],
+        capture_output=True, text=True).stdout.strip() == "true"
 
     if args.uninstall:
         uninstall()
@@ -406,7 +463,8 @@ def main():
 
     print("caption server  %s" % url)
     print("yt-dlp          %s" % " ".join(YTDLP))
-    print("cache           %s" % CACHE_DIR)
+    print("captions        %s%s" % (CACHE_DIR,
+          "  (in the repo -- commit to share across devices)" if IN_REPO else ""))
     print('\nPaste %s into the server box on the /shadowing/ page.' % url)
     print("Tip: %s --install  runs this at login instead.\n" % os.path.abspath(__file__))
     try:

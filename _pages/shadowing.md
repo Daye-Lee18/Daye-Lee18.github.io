@@ -111,6 +111,11 @@ _styles: |
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
   }
   .sh-card-meta { font-size: .76rem; color: var(--global-text-color-light); font-variant-numeric: tabular-nums; }
+  .sh-tag {
+    display: inline-block; margin-left: .15rem; padding: 0 .3rem; border-radius: .25rem;
+    font-size: .68rem; letter-spacing: .02em;
+    background: var(--global-theme-color); color: #fff; opacity: .85;
+  }
   .sh-card-del {
     flex: 0 0 auto; width: 2.1rem; cursor: pointer; font-size: .8rem;
     border: 0; border-left: 1px solid var(--global-divider-color);
@@ -273,7 +278,7 @@ _styles: |
 
 자막을 넣는 방법은 세 가지입니다 — 유튜브 스크립트를 복사해 붙여넣기, 자막 파일 올리기, 자막 서버로 자동 수집. 가장 간단한 건 첫 번째이고 아무것도 설치할 필요가 없습니다. [아래 사용법](#사용법)을 보세요.
 
-<div class="sh-app" id="sh-app">
+<div class="sh-app" id="sh-app" data-captions="{{ '/assets/captions' | relative_url }}">
 
   <div class="sh-load">
     <input type="text" id="sh-url" placeholder="https://www.youtube.com/watch?v=... 또는 영상 ID" autocomplete="off" spellcheck="false">
@@ -457,6 +462,26 @@ python3 bin/caption-server.py --install
 - **Safari에서는 동작하지 않습니다.** https 페이지가 `http://localhost`를 호출하는 것을 Safari가 차단합니다. Chrome이나 Firefox를 쓰세요.
 - 서버는 내 컴퓨터에서만 돕니다(`127.0.0.1`). 다른 사람 컴퓨터에서는 각자 설치해야 합니다.
 
+### 여러 기기에서 같은 영상 보기
+
+브라우저 저장소는 **기기별로, 그리고 브라우저 프로필별로** 완전히 분리됩니다. 폰과 회사 계정 크롬과 개인 계정 크롬은 서로의 저장 내용을 볼 수 없습니다. 그래서 한 번 받은 자막은 레포에 커밋해서 공유합니다.
+
+레포 안에서 자막 서버를 실행하면 받은 자막이 `assets/captions/`에 바로 쌓입니다. 커밋해서 올리기만 하면 됩니다.
+
+```bash
+git add assets/captions && git commit -m "captions" && git push
+```
+
+배포가 끝나면(약 1분) 폰이든 어느 브라우저든 **저장된 영상** 목록에 `공유` 표시와 함께 나타나고, 로그인이나 설정 없이 바로 열립니다. 다른 사람에게도 똑같이 보입니다.
+
+`--captions-dir`로 위치를 바꿀 수 있고, 레포 밖에서 실행하면 `~/.cache/shadowing-captions/`에 저장됩니다.
+
 ### 자막은 어디에 저장되나
 
-한 번 불러온 자막은 브라우저(`localStorage`)에 저장되어 같은 영상을 다시 열면 바로 뜹니다. 자막 서버를 쓰면 `~/.cache/shadowing-captions/`에도 남습니다. 둘 다 각자 기기에만 저장되고 어디로도 전송되지 않습니다.
+| 저장 위치 | 범위 |
+|---|---|
+| `localStorage` | 그 브라우저 프로필에서만 |
+| `assets/captions/` (커밋됨) | 모든 기기·모든 사람 |
+| `~/.cache/shadowing-captions/` | 그 컴퓨터에서만 (레포 밖에서 실행했을 때) |
+
+브라우저에 저장된 자막과 개인 설정(배속·싱크 보정)은 어디로도 전송되지 않습니다. 커밋한 자막은 공개 레포에 올라가므로 어떤 영상을 공부하는지 드러납니다.

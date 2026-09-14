@@ -1,9 +1,14 @@
 /* Shadowing player.
  * captions -> sentence chunks -> YouTube segment loop.
  *
- * Captions come from, in order: localStorage, the local caption server
- * (bin/caption-server.py), or an SRT/VTT file the user drops in. Everything
- * fetched is written back to localStorage, so a video is only fetched once.
+ * Captions come from, in order: localStorage, assets/captions/ committed to
+ * the repo, the local caption server (bin/caption-server.py), or text the user
+ * pastes or uploads. Everything fetched is written back to localStorage, so a
+ * video is only fetched once per browser.
+ *
+ * localStorage is per-origin AND per-browser-profile, so it syncs nothing; the
+ * committed files are what make a video openable from a phone or a second
+ * Chrome profile.
  */
 (function () {
   "use strict";
@@ -129,6 +134,46 @@
     }
     save(RECENT_KEY, []);
     renderRecent();
+  }
+
+  /* ---------- captions committed to the repo ---------- */
+
+  // localStorage is per-origin AND per-browser-profile, so a phone and two
+  // Chrome profiles share nothing. Captions committed under assets/captions/
+  // are served by GitHub Pages instead, which every device can read with no
+  // login, no token and no local server.
+  var REPO_INDEX = [];
+
+  function repoDir() {
+    var el = $("sh-app");
+    return (el && el.getAttribute("data-captions")) || "/assets/captions";
+  }
+
+  function repoEntry(id) {
+    for (var i = 0; i < REPO_INDEX.length; i++) {
+      if (REPO_INDEX[i].id === id) return REPO_INDEX[i];
+    }
+    return null;
+  }
+
+  function loadRepoIndex(done) {
+    if (typeof fetch !== "function") { done(); return; }
+    fetch(repoDir() + "/index.json")
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (list) { if (Array.isArray(list)) REPO_INDEX = list; done(); })
+      .catch(function () { done(); });   // no index published yet -- not an error
+  }
+
+  function fetchFromRepo(id, cb) {
+    var entry = repoEntry(id);
+    if (!entry || typeof fetch !== "function") { cb(new Error("not in the repo")); return; }
+    fetch(repoDir() + "/" + id + "." + entry.lang + ".json")
+      .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+      .then(function (d) {
+        if (d && d.cues && d.cues.length) cb(null, d);
+        else cb(new Error("empty caption file"));
+      })
+      .catch(function () { cb(new Error("레포의 자막 파일을 읽지 못했습니다.")); });
   }
 
   /* ---------- caption server ---------- */
@@ -604,15 +649,32 @@
     return bits.join(" · ");
   }
 
+  // What the library shows: everything saved in this browser, plus everything
+  // committed to the repo. A repo entry is visible on a device that has never
+  // opened it, which is the whole point of publishing them.
+  function library() {
+    var seen = {};
+    var out = load(RECENT_KEY, []).map(function (r) {
+      seen[r.id] = true;
+      return { r: r, local: true, repo: !!repoEntry(r.id) };
+    });
+    for (var i = 0; i < REPO_INDEX.length; i++) {
+      if (!seen[REPO_INDEX[i].id]) out.push({ r: REPO_INDEX[i], local: false, repo: true });
+    }
+    out.sort(function (a, b) { return (b.r.ts || 0) - (a.r.ts || 0); });
+    return out;
+  }
+
   function renderRecent() {
-    var list = load(RECENT_KEY, []);
+    var list = library();
     var wrap = $("sh-saved");
     wrap.hidden = !list.length;
     if (!list.length) return;
 
+
     var q = S.savedFilter.trim().toLowerCase();
-    var shown = list.filter(function (r) {
-      return !q || String(r.title || r.id).toLowerCase().indexOf(q) !== -1;
+    var shown = list.filter(function (e) {
+      return !q || String(e.r.title || e.r.id).toLowerCase().indexOf(q) !== -1;
     });
     $("sh-saved-count").textContent = q ? shown.length + " / " + list.length : String(list.length);
 
@@ -623,16 +685,22 @@
     }
     var html = "";
     for (var i = 0; i < shown.length; i++) {
-      var r = shown[i];
+      var e = shown[i], r = e.r;
       var title = escapeHTML(String(r.title || r.id));
       html +=
         '<div class="sh-card">' +
           '<button type="button" class="sh-card-open" data-id="' + r.id + '" title="' + title + '">' +
             '<span class="sh-card-title">' + title + "</span>" +
-            '<span class="sh-card-meta">' + escapeHTML(savedMeta(r)) + "</span>" +
+            '<span class="sh-card-meta">' + escapeHTML(savedMeta(r)) +
+              (e.repo ? ' <span class="sh-tag">공유</span>' : "") + "</span>" +
           "</button>" +
-          '<button type="button" class="sh-card-del" data-del="' + r.id +
-            '" title="목록과 저장된 자막에서 삭제" aria-label="삭제">✕</button>' +
+          // Repo-only entries have nothing local to delete; the file is removed
+          // by deleting it from the repo, not from a browser.
+          (e.local
+            ? '<button type="button" class="sh-card-del" data-del="' + r.id + '" title="' +
+              (e.repo ? "이 브라우저에 저장된 사본만 지웁니다" : "목록과 저장된 자막에서 삭제") +
+              '" aria-label="삭제">✕</button>'
+            : "") +
         "</div>";
     }
     box.innerHTML = html;
@@ -654,6 +722,7 @@
 
   var ORIGIN_LABEL = {
     cache: "브라우저에 저장된 자막",
+    repo: "공유 자막",
     server: "자막 서버에서 가져옴",
     file: "직접 올린 파일",
   };
@@ -733,6 +802,22 @@
     status(msg + " SRT/VTT 파일을 직접 올려도 됩니다.", "err");
   }
 
+  function pullFromRepo(id) {
+    setBusy(true);
+    status("공유 자막을 가져오는 중…");
+    fetchFromRepo(id, function (err, data) {
+      setBusy(false);
+      if (err) {
+        // Fall through rather than dead-end: the server may still have it.
+        if (serverBase()) { pullCaptions(id, false); return; }
+        status(err.message + " SRT/VTT 파일을 직접 올려도 됩니다.", "err");
+        return;
+      }
+      cacheCaptions(id, data);
+      openVideo(id, data.cues, { from: "repo", kind: data.kind, title: data.title });
+    });
+  }
+
   function pullCaptions(id, refresh) {
     setBusy(true);
     status("자막을 가져오는 중…");
@@ -767,6 +852,7 @@
       $("sh-saved").classList.add("is-closed");
       $("sh-saved-toggle").setAttribute("aria-expanded", "false");
     }
+    loadRepoIndex(renderRecent);   // async; renderRecent runs again once it lands
     renderRecent();
     renderList();
     renderOffset();
@@ -777,15 +863,16 @@
       var id = parseVideoId($("sh-url").value);
       if (!id) { status("유튜브 주소를 인식하지 못했습니다.", "err"); return; }
 
-      // ① browser cache -> ② caption server -> ask for a file
+      // ① browser cache -> ② repo -> ③ caption server -> ask for a file
       if (loadFromCache(id)) return;
 
       S.videoId = id;
       mountPlayer(id);
       $("sh-app").classList.add("is-loaded");
 
-      if (serverBase()) pullCaptions(id, false);
-      else status("이 영상의 자막이 아직 없습니다. 자막 서버를 켜거나 SRT/VTT 파일을 올리세요.", "warn");
+      if (repoEntry(id)) { pullFromRepo(id); return; }
+      if (serverBase()) { pullCaptions(id, false); return; }
+      status("이 영상의 자막이 아직 없습니다. 유튜브 스크립트를 붙여넣거나 SRT/VTT 파일을 올리세요.", "warn");
     });
 
     $("sh-refetch").addEventListener("click", function () {
@@ -857,8 +944,8 @@
 
     $("sh-saved-clear").addEventListener("click", function () {
       var n = load(RECENT_KEY, []).length;
-      if (!n) return;
-      if (!window.confirm(n + "개 영상의 저장된 자막과 설정을 모두 지웁니다. 계속할까요?")) return;
+      if (!n) { status("이 브라우저에 저장된 것이 없습니다. 공유 자막은 레포에서 지워야 합니다.", "warn"); return; }
+      if (!window.confirm(n + "개 영상의 저장된 자막과 설정을 이 브라우저에서 지웁니다.\n공유 자막은 그대로 남습니다. 계속할까요?")) return;
       forgetAll();
       status("저장된 영상을 모두 지웠습니다.", "ok");
     });
