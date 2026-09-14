@@ -327,8 +327,9 @@ _styles: |
   </div>
 
   <div class="sh-settings" id="sh-settings" hidden>
-    <p>자막을 자동으로 가져오려면 자막 서버를 한 번 설치하세요. 로그인할 때 알아서 뜨므로 그 뒤로는 터미널을 열 일이 없습니다.
+    <p>자막을 자동으로 가져오고 키워드로 검색하려면 자막 서버를 한 번 설치하세요. 로그인할 때 알아서 뜨므로 그 뒤로는 터미널을 열 일이 없습니다.
     비워두면 SRT/VTT 파일을 직접 올리는 방식으로만 동작합니다.</p>
+    <p><strong>이 주소는 사이트마다 따로 저장됩니다.</strong> <code>localhost:4000</code>에서 넣었더라도 배포된 사이트에서 한 번 더 넣어야 합니다. Safari에서는 동작하지 않습니다.</p>
     <pre><code>python3 -m pip install -U yt-dlp
 bin/caption-server.py --install</code></pre>
     <p>확인은 <code>--status</code>, 제거는 <code>--uninstall</code>.</p>

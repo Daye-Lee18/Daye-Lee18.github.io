@@ -188,6 +188,27 @@
     return String(stored).trim().replace(/\/+$/, "");
   }
 
+  // Reaching 127.0.0.1 from the deployed https page fails in ways the browser
+  // will not explain, so say the likely causes out loud.
+  function unreachable() {
+    return new Error(
+      "자막 서버(" + serverBase() + ")에 연결하지 못했습니다. " +
+      "서버가 켜져 있는지, Safari가 아닌지, 그리고 이 사이트에서 주소를 저장했는지 확인하세요."
+    );
+  }
+
+  function pingServer(cb) {
+    var base = serverBase();
+    if (!base || typeof fetch !== "function") { cb(new Error("주소가 없습니다.")); return; }
+    fetch(base + "/search?q=test")
+      .then(function (r) {
+        if (r.ok) { cb(null, true); return; }
+        // Reached it, but it is an older build without /search.
+        cb(null, false);
+      })
+      .catch(function () { cb(unreachable()); });
+  }
+
   function fetchFromServer(id, opts, cb) {
     var base = serverBase();
     if (!base) { cb(new Error("자막 서버 주소가 설정되지 않았습니다.")); return; }
@@ -225,7 +246,7 @@
       })
       .catch(function () {
         // Network-level failure: wrong URL, server not running, or CORS refusal.
-        cb(new Error("자막 서버에 연결하지 못했습니다. bin/caption-server.py 가 실행 중인지 확인하세요."));
+        cb(unreachable());
       });
   }
 
@@ -241,7 +262,7 @@
         if (!res.ok || !res.body.results) { cb(new Error(res.body.error || "검색에 실패했습니다.")); return; }
         cb(null, res.body.results);
       })
-      .catch(function () { cb(new Error("자막 서버에 연결하지 못했습니다.")); });
+      .catch(function () { cb(unreachable()); });
   }
 
   function hhmm(sec) {
@@ -941,7 +962,8 @@
       var id = parseVideoId(raw);
       if (!id) {
         if (serverBase()) { runSearch(raw); return; }
-        status("유튜브 주소를 인식하지 못했습니다. 검색하려면 자막 서버가 필요합니다.", "err");
+        status("유튜브 주소가 아닙니다. 키워드로 검색하려면 아래 '자막 서버 설정'에 주소를 넣으세요 " +
+               "(사이트마다 따로 저장됩니다).", "err");
         return;
       }
       renderResults(null);
@@ -964,9 +986,17 @@
     $("sh-server-save").addEventListener("click", function () {
       var v = $("sh-server-url").value.trim();
       save("shadow:server", v);
-      $("sh-settings").hidden = true;
       renderServerState();
-      status(v ? "자막 서버 주소를 저장했습니다." : "자막 서버 주소를 지웠습니다.", "ok");
+      if (!v) { $("sh-settings").hidden = true; status("자막 서버 주소를 지웠습니다.", "ok"); return; }
+      status("연결 확인 중…");
+      pingServer(function (err, hasSearch) {
+        if (err) { status(err.message, "err"); return; }
+        $("sh-settings").hidden = true;
+        status(hasSearch
+          ? "자막 서버에 연결했습니다. 이제 키워드로 검색할 수 있습니다."
+          : "연결은 됐지만 검색이 없는 예전 서버입니다. bin/caption-server.py --install 로 갱신하세요.",
+          hasSearch ? "ok" : "warn");
+      });
     });
 
     $("sh-lang").addEventListener("change", function (e) {

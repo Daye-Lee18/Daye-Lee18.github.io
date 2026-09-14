@@ -235,6 +235,7 @@ class Handler(BaseHTTPRequestHandler):
         # what lets the page work from both localhost:4000 and github.io.
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Headers", "content-type")
+        self.send_header("Access-Control-Allow-Private-Network", "true")
         self.end_headers()
         self.wfile.write(body)
 
@@ -260,6 +261,9 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "content-type")
+        # An https page reaching 127.0.0.1 is a public -> private request, and
+        # Chrome refuses it unless the preflight opts in explicitly.
+        self.send_header("Access-Control-Allow-Private-Network", "true")
         self.send_header("Content-Length", "0")
         self.end_headers()
 
