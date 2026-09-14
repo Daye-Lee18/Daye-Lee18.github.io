@@ -2,7 +2,7 @@
 layout: about
 title: About
 permalink: /
-subtitle: Master's Researcher in Graduate School of Data Science @ SNU
+subtitle: Machine Learning Engineer, Physical AI @ <a href='https://www.seouldynamics.com/'>Seoul Dynamics</a> · M.S. in Data Science, SNU
 
 profile:
   align: right
@@ -28,9 +28,11 @@ social: true # includes social icons at the bottom of the page
 
 저는 춤추는 것 좋아하여 대학교 춤 동아리에서 계속 활동하였으며 동아리 공연 영상을 [YouTube][Goahead]에 꾸준히 업로드하였고 연구 외에 시간에는 크로스핏과 영어 공부를 하는 것을 좋아합니다. -->
 
-Multimodal Learning • 3D Vision • 3D Motion Generation • Autonomous Driving Perception.
+SLAM & Sensor Fusion • Multimodal Learning • 3D Motion Generation • Robot Perception.
 
-I’m Daye Lee, a graduating M.S. researcher at the [Graduate School of Data Science](https://gsds.snu.ac.kr/), SNU in the Learning and Adaptation Algorithm Lab ([LAAL](https://www.snu-laal.com/), advised by Prof. Taeseop Kim). My research lies at the intersection of **multimodal learning, 3D motion generation, and autonomous driving perception**.
+I’m Daye Lee, a Machine Learning Engineer on the **Physical AI** team at [Seoul Dynamics](https://www.seouldynamics.com/), where I work on **SLAM and state estimation for legged robots**. I hold an M.S. from the [Graduate School of Data Science](https://gsds.snu.ac.kr/), SNU, where I was part of the Learning and Adaptation Algorithm Lab ([LAAL](https://www.snu-laal.com/), advised by Prof. Taeseop Kim). My work sits at the intersection of **robot perception, multimodal learning, and 3D motion generation** — moving from generating motion to estimating and controlling it on real hardware.
+
+At Seoul Dynamics I build on LiDAR-inertial odometry for quadruped platforms: fusing body-velocity estimates into the pose estimator, adding loop closure for drift correction, and packaging the result as a reusable internal SLAM library with a clean API. I also train reinforcement-learning policies in **NVIDIA Isaac Sim**. Notes from my ongoing study of SLAM, ROS 2, and edge computing live under the [Study](/study/) tab.
 
 In my thesis project **[HuMoGen-X][thesis_paper]**, I built a diffusion-based motion generation framework using the SMPL pose parameters, conditioned jointly on music, dance genre, and user keyframes. This work advances controllable multimodal motion synthesis, enabling the model to better align with user intent.
 

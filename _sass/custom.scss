@@ -175,3 +175,53 @@
   font-weight: 700;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
+
+/* Front-page social links.
+   Bare icons are a guessing game -- a briefcase and a graduation cap say
+   nothing about which company or which profile -- so label each one from its
+   title attribute. Sizes are in rem so the labels stay small inside the
+   4rem icon row they sit in. */
+.social .contact-icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.1rem 2rem;
+  font-size: inherit;
+
+  a {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 2.5rem;
+    line-height: 1;
+
+    &::after {
+      content: attr(title);
+      font-size: 0.8rem;
+      font-weight: 500;
+      line-height: 1.2;
+      white-space: nowrap;
+      color: var(--global-text-color-light);
+      transition: color 0.2s ease-in-out;
+    }
+
+    &:hover::after {
+      color: var(--global-theme-color);
+    }
+
+    i::before {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .social .contact-icons {
+    gap: 0.9rem 1.4rem;
+
+    a {
+      font-size: 2rem;
+    }
+  }
+}
