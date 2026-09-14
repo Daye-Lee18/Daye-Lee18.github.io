@@ -229,6 +229,62 @@
       });
   }
 
+  // yt-dlp can search YouTube without an API key, so the box accepts words as
+  // well as links -- no trip to the YouTube app to copy a URL back.
+  function searchServer(query, cb) {
+    var base = serverBase();
+    if (!base) { cb(new Error("검색하려면 자막 서버가 필요합니다.")); return; }
+    if (typeof fetch !== "function") { cb(new Error("이 브라우저는 fetch를 지원하지 않습니다.")); return; }
+    fetch(base + "/search?q=" + encodeURIComponent(query))
+      .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, body: b }; }); })
+      .then(function (res) {
+        if (!res.ok || !res.body.results) { cb(new Error(res.body.error || "검색에 실패했습니다.")); return; }
+        cb(null, res.body.results);
+      })
+      .catch(function () { cb(new Error("자막 서버에 연결하지 못했습니다.")); });
+  }
+
+  function hhmm(sec) {
+    sec = Math.max(0, Math.round(sec || 0));
+    var m = Math.floor(sec / 60), ss = sec % 60;
+    return m + ":" + (ss < 10 ? "0" : "") + ss;
+  }
+
+  function renderResults(list) {
+    var box = $("sh-results");
+    if (!list) { box.hidden = true; box.innerHTML = ""; return; }
+    if (!list.length) {
+      box.hidden = false;
+      box.innerHTML = '<p class="sh-empty">검색 결과가 없습니다.</p>';
+      return;
+    }
+    var html = "";
+    for (var i = 0; i < list.length; i++) {
+      var r = list[i];
+      html +=
+        '<button type="button" class="sh-result" data-id="' + r.id + '">' +
+          '<img class="sh-thumb" src="https://i.ytimg.com/vi/' + r.id + '/mqdefault.jpg" alt="" loading="lazy">' +
+          '<span class="sh-result-body">' +
+            '<span class="sh-result-title">' + escapeHTML(r.title) + "</span>" +
+            '<span class="sh-result-meta">' + escapeHTML(r.channel) + " · " + hhmm(r.duration) + "</span>" +
+          "</span>" +
+        "</button>";
+    }
+    box.hidden = false;
+    box.innerHTML = html;
+  }
+
+  function runSearch(query) {
+    setBusy(true);
+    status("유튜브에서 검색 중…");
+    searchServer(query, function (err, list) {
+      setBusy(false);
+      if (err) { renderResults(null); status(err.message, "err"); return; }
+      renderResults(list);
+      status(list.length + "개 찾았습니다. 영상을 고르세요.", "ok");
+    });
+  }
+
   /* ---------- parsing ---------- */
 
   function parseVideoId(input) {
@@ -802,6 +858,20 @@
     status(msg + " SRT/VTT 파일을 직접 올려도 됩니다.", "err");
   }
 
+  // The single entry point for "show me this video". Both the 불러오기 button
+  // and the library cards go through here, so they can never drift apart.
+  function openVideoId(id) {
+    if (loadFromCache(id)) return;
+
+    S.videoId = id;
+    mountPlayer(id);
+    $("sh-app").classList.add("is-loaded");
+
+    if (repoEntry(id)) { pullFromRepo(id); return; }
+    if (serverBase()) { pullCaptions(id, false); return; }
+    status("이 영상의 자막이 아직 없습니다. 유튜브 스크립트를 붙여넣거나 SRT/VTT 파일을 올리세요.", "warn");
+  }
+
   function pullFromRepo(id) {
     setBusy(true);
     status("공유 자막을 가져오는 중…");
@@ -852,7 +922,13 @@
       $("sh-saved").classList.add("is-closed");
       $("sh-saved-toggle").setAttribute("aria-expanded", "false");
     }
-    loadRepoIndex(renderRecent);   // async; renderRecent runs again once it lands
+    loadRepoIndex(function () {
+      renderRecent();
+      // ?v=<id> lets a bookmark, an iOS Shortcut or a share sheet open a video
+      // directly; the repo index has to be in before we can resolve it.
+      var m = String(location.search).match(/[?&]v=([\w-]{11})/);
+      if (m) { $("sh-url").value = "https://youtu.be/" + m[1]; openVideoId(m[1]); }
+    });
     renderRecent();
     renderList();
     renderOffset();
@@ -860,19 +936,17 @@
     syncControls();
 
     $("sh-go").addEventListener("click", function () {
-      var id = parseVideoId($("sh-url").value);
-      if (!id) { status("유튜브 주소를 인식하지 못했습니다.", "err"); return; }
-
+      var raw = $("sh-url").value.trim();
+      if (!raw) return;
+      var id = parseVideoId(raw);
+      if (!id) {
+        if (serverBase()) { runSearch(raw); return; }
+        status("유튜브 주소를 인식하지 못했습니다. 검색하려면 자막 서버가 필요합니다.", "err");
+        return;
+      }
+      renderResults(null);
       // ① browser cache -> ② repo -> ③ caption server -> ask for a file
-      if (loadFromCache(id)) return;
-
-      S.videoId = id;
-      mountPlayer(id);
-      $("sh-app").classList.add("is-loaded");
-
-      if (repoEntry(id)) { pullFromRepo(id); return; }
-      if (serverBase()) { pullCaptions(id, false); return; }
-      status("이 영상의 자막이 아직 없습니다. 유튜브 스크립트를 붙여넣거나 SRT/VTT 파일을 올리세요.", "warn");
+      openVideoId(id);
     });
 
     $("sh-refetch").addEventListener("click", function () {
@@ -934,7 +1008,15 @@
       var open = e.target.closest(".sh-card-open");
       if (!open) return;
       $("sh-url").value = "https://youtu.be/" + open.dataset.id;
-      if (!loadFromCache(open.dataset.id)) status("저장된 자막을 찾지 못했습니다.", "err");
+      openVideoId(open.dataset.id);
+    });
+
+    $("sh-results").addEventListener("click", function (e) {
+      var hit = e.target.closest(".sh-result");
+      if (!hit) return;
+      $("sh-url").value = "https://youtu.be/" + hit.dataset.id;
+      renderResults(null);
+      openVideoId(hit.dataset.id);
     });
 
     $("sh-saved-search").addEventListener("input", function (e) {

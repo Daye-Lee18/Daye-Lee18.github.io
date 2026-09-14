@@ -64,6 +64,30 @@ _styles: |
   .sh-status.is-err { color: var(--global-danger-block); }
   .sh-status.is-warn { color: var(--global-warning-block); }
 
+  /* ---- search results ---- */
+  .sh-results {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: .5rem; margin-top: .7rem; max-height: 26rem; overflow-y: auto;
+  }
+  .sh-result {
+    display: flex; gap: .6rem; align-items: stretch; min-width: 0; padding: 0;
+    text-align: left; cursor: pointer; overflow: hidden;
+    border: 1px solid var(--global-divider-color); border-radius: .5rem;
+    background: transparent; color: var(--global-text-color);
+  }
+  .sh-result:hover { border-color: var(--global-theme-color); background: var(--global-card-bg-color); }
+  .sh-thumb { flex: 0 0 6.4rem; width: 6.4rem; height: 3.6rem; object-fit: cover; background: #000; }
+  .sh-result-body {
+    flex: 1 1 auto; min-width: 0;
+    display: flex; flex-direction: column; justify-content: center; gap: .2rem;
+    padding: .4rem .6rem .4rem 0;
+  }
+  .sh-result-title {
+    font-size: .84rem; font-weight: 500; line-height: 1.3;
+    overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  }
+  .sh-result-meta { font-size: .73rem; color: var(--global-text-color-light); }
+
   /* ---- saved video library ---- */
   .sh-saved { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--global-divider-color); }
   .sh-saved-head { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; margin-bottom: .75rem; }
@@ -271,6 +295,7 @@ _styles: |
     .sh-tbtn.is-play { width: 3.4rem; }
     .sh-saved-head input { margin-left: 0; width: 100%; order: 3; }
     .sh-saved-list { grid-template-columns: minmax(0, 1fr); max-height: 18rem; }
+    .sh-results { grid-template-columns: minmax(0, 1fr); max-height: 20rem; }
   }
 ---
 
@@ -281,7 +306,7 @@ _styles: |
 <div class="sh-app" id="sh-app" data-captions="{{ '/assets/captions' | relative_url }}">
 
   <div class="sh-load">
-    <input type="text" id="sh-url" placeholder="https://www.youtube.com/watch?v=... 또는 영상 ID" autocomplete="off" spellcheck="false">
+    <input type="text" id="sh-url" placeholder="유튜브 주소를 붙여넣거나, 검색어를 입력하세요" autocomplete="off" spellcheck="false">
     <button type="button" class="sh-btn is-primary" id="sh-go">불러오기</button>
   </div>
 
@@ -319,6 +344,8 @@ bin/caption-server.py --install</code></pre>
   </div>
 
   <p class="sh-status" id="sh-status"></p>
+
+  <div class="sh-results" id="sh-results" hidden></div>
   <section class="sh-saved" id="sh-saved" hidden>
     <div class="sh-saved-head">
       <button type="button" class="sh-saved-toggle" id="sh-saved-toggle" aria-expanded="true">
@@ -455,12 +482,24 @@ python3 bin/caption-server.py --install
 
 그다음 **자막 서버 설정**에 `http://127.0.0.1:8787`을 넣으면 끝입니다. 확인은 `--status`, 제거는 `--uninstall`.
 
+서버를 켜두면 **입력창이 검색창으로도 동작합니다.** 주소를 붙여넣으면 그 영상을 열고, 그냥 단어를 치면 유튜브를 검색해서 결과를 보여줍니다. 유튜브 앱에 들어가 링크를 복사해 올 필요가 없습니다.
+
 알아둘 것:
 
 - `bin/caption-server.py` **파일 하나만** 있으면 됩니다. 레포 전체를 clone 하지 않아도 돼요.
 - `--install`은 launchd를 쓰므로 **macOS 전용**입니다. 윈도우·리눅스에서는 `python3 caption-server.py`로 직접 띄워 두고 쓰시면 똑같이 동작합니다.
 - **Safari에서는 동작하지 않습니다.** https 페이지가 `http://localhost`를 호출하는 것을 Safari가 차단합니다. Chrome이나 Firefox를 쓰세요.
 - 서버는 내 컴퓨터에서만 돕니다(`127.0.0.1`). 다른 사람 컴퓨터에서는 각자 설치해야 합니다.
+
+### 폰에서 영상 하나만 바로 열기
+
+주소에 `?v=` 를 붙이면 그 영상이 바로 열립니다.
+
+```
+https://daye-lee18.github.io/shadowing/?v=8S0FDjFBj8o
+```
+
+iOS 단축어나 안드로이드 공유 메뉴에서 유튜브 링크를 받아 이 주소로 넘기게 해두면, 유튜브 앱에서 공유 한 번으로 바로 넘어옵니다.
 
 ### 여러 기기에서 같은 영상 보기
 

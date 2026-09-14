@@ -15,6 +15,9 @@ Then open /shadowing/, click "자막 서버 설정", and paste http://127.0.0.1:
 API
     GET /?v=<videoId>&lang=en[&refresh=1]
     -> {"videoId", "lang", "kind", "title", "cues": [{"start","end","text"}]}
+
+    GET /search?q=<words>
+    -> {"query", "results": [{"id", "title", "channel", "duration"}]}
 """
 
 import argparse
@@ -165,6 +168,28 @@ def build(video_id, lang):
     }
 
 
+def search(query, n=8):
+    """yt-dlp can search YouTube without an API key, so the page can look up a
+    video instead of making the user go to the app and copy a link back."""
+    code, out, err = run_ytdlp([
+        "ytsearch%d:%s" % (n, query), "-J", "--flat-playlist", "--no-warnings",
+    ], timeout=60)
+    if code != 0 or not out.strip():
+        line = next((l for l in err.splitlines() if l.startswith("ERROR")), "search failed")
+        raise RuntimeError(line)
+    results = []
+    for e in (json.loads(out).get("entries") or []):
+        if not e.get("id"):
+            continue
+        results.append({
+            "id": e["id"],
+            "title": e.get("title") or "",
+            "channel": e.get("channel") or e.get("uploader") or "",
+            "duration": int(e.get("duration") or 0),
+        })
+    return results
+
+
 def cache_path(video_id, lang):
     return os.path.join(CACHE_DIR, "%s.%s.json" % (video_id, lang))
 
@@ -213,6 +238,23 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def do_search(self, query):
+        query = query.strip()
+        if not query:
+            self._send(400, {"error": "missing ?q="})
+            return
+        sys.stderr.write("  search     %r\n" % query)
+        try:
+            results = search(query)
+        except subprocess.TimeoutExpired:
+            self._send(504, {"error": "search timed out"})
+            return
+        except Exception as exc:
+            self._send(502, {"error": str(exc)})
+            return
+        sys.stderr.write("  ok         %d results\n" % len(results))
+        self._send(200, {"query": query, "results": results})
+
     def do_OPTIONS(self):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -222,7 +264,13 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        q = parse_qs(urlparse(self.path).query)
+        parts = urlparse(self.path)
+        q = parse_qs(parts.query)
+
+        if parts.path.rstrip("/") == "/search":
+            self.do_search((q.get("q") or [""])[0])
+            return
+
         video_id = (q.get("v") or [""])[0]
         lang = (q.get("lang") or ["en"])[0].lower()
         refresh = (q.get("refresh") or [""])[0] == "1"
