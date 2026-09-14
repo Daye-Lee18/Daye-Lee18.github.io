@@ -37,6 +37,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/study/";
           },
+        },{id: "nav-shadowing",
+          title: "Shadowing",
+          description: "유튜브 영상을 문장 단위로 끊어 반복 재생하는 영어 쉐도잉 도구",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/shadowing/";
+          },
         },{id: "nav-blog",
           title: "Blog",
           description: "",
