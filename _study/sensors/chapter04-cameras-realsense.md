@@ -15,18 +15,22 @@ Chapter 2·3의 LiDAR는 전부 Ethernet이었다. 카메라는 대개 USB다.
 
 > 이 chapter에서 가장 많이 치는 것: `lsusb` · `dmesg -w` · `rs-enumerate-devices`
 
-| 명령어                                         | 하는 일                                |
-| :--------------------------------------------- | :------------------------------------- |
-| `lsusb`                                        | 장치가 인식됐나                        |
-| `lsusb -t`                                     | **어느 USB 버스에 어떤 속도로 붙었나** |
-| `dmesg -w`                                     | 꽂는 순간 커널 메시지 (켜 놓고 꽂는다) |
-| `ls -l /dev/video*`                            | video device node와 권한               |
-| `rs-enumerate-devices`                         | librealsense가 장치를 보나             |
-| `rs-enumerate-devices -s`                      | 짧게 (모델·시리얼·펌웨어)              |
-| `realsense-viewer`                             | GUI로 직접 보기                        |
-| `ros2 launch realsense2_camera rs_launch.py`   | 드라이버 실행                          |
-| `ros2 topic hz /camera/camera/color/image_raw` | 실제 fps                               |
-| `v4l2-ctl --list-devices`                      | V4L2 수준에서 보이나                   |
+| 명령어                                                | 하는 일                                |
+| :---------------------------------------------------- | :------------------------------------- |
+| `lsusb`                                               | 장치가 인식됐나                        |
+| `lsusb -t`                                            | **어느 USB 버스에 어떤 속도로 붙었나** |
+| `dmesg -w`                                            | 꽂는 순간 커널 메시지 (켜 놓고 꽂는다) |
+| `ls -l /dev/video*`                                   | video device node와 권한               |
+| `rs-enumerate-devices`                                | librealsense가 장치를 보나             |
+| `rs-enumerate-devices -s`                             | 짧게 (모델·시리얼·펌웨어)              |
+| `realsense-viewer`                                    | GUI로 직접 보기                        |
+| `ros2 launch realsense2_camera rs_launch.py`          | 드라이버 실행                          |
+| `ros2 topic hz /camera/camera/color/image_raw`        | 실제 fps                               |
+| `python3 rs-imu-calibration.py`                       | **IMU 캘리브레이션** (D435i)           |
+| `python3 rs-imu-calibration.py -s <serial>`           | 카메라가 여러 대일 때 지정             |
+| `python3 rs-imu-calibration.py -g`                    | 보정 전후 그래프                       |
+| `python3 rs-imu-calibration.py -i accel.txt gyro.txt` | 저장한 결과를 EEPROM에 재기록          |
+| `v4l2-ctl --list-devices`                             | V4L2 수준에서 보이나                   |
 
 ---
 
@@ -40,7 +44,7 @@ Chapter 2·3의 LiDAR는 전부 Ethernet이었다. 카메라는 대개 USB다.
 | 주소·포트       | 없음. **시리얼 번호**로 구분                                                                              |
 | ROS 드라이버    | `realsense2_camera` ([IntelRealSense/realsense-ros](https://github.com/IntelRealSense/realsense-ros))     |
 | 출력 토픽       | `/camera/camera/color/image_raw`<br>`/camera/camera/depth/image_rect_raw`<br>`/camera/camera/imu` (D435i) |
-| 내장 IMU        | **있음** (D435i의 `i`가 그 뜻)                                                                            |
+| 내장 IMU        | **있음** (D435i의 `i`가 그 뜻). 공장 보정됨, 추가 보정 가능 (§5)                                          |
 
 ```text
 Ethernet 센서               USB 센서
@@ -172,7 +176,144 @@ depth와 color가 물리적으로 떨어져 있으므로, 정렬하려면 이 �
 
 ---
 
-# 5. Docker 안에서
+# 5. IMU 캘리브레이션
+
+D435i는 **공장에서 IMU가 이미 보정된 상태로 나온다.**
+그런데 Intel이 별도 도구를 제공한다. 왜일까.
+
+```text
+공장 보정    일반적인 용도에는 충분하다
+추가 보정    정확도를 더 끌어올릴 수 있다
+             → VIO / SLAM 처럼 IMU 에 의존하는 용도에서 의미가 있다
+```
+
+## 왜 신경 써야 하나
+
+SLAM History Chapter 10 §4의 계산을 다시 보면 이유가 분명해진다.
+
+```text
+가속도계 bias 0.02 m/s²      →  10초 후 위치 오차 1 m
+자세 오차 1°                 →  중력이 수평축에 0.171 m/s² 를 흘린다
+                                 = 위 bias 보다 17배 크다
+```
+
+가속도계의 **scale과 bias가 틀어져 있으면 중력 방향 추정이 틀어지고**,
+자세 오차는 위치 오차로 시간의 제곱에 비례해 커진다.
+IMU를 보조로만 쓰면 티가 안 나지만, IMU 적분에 의존하는 구간이 길어질수록 드러난다.
+
+## 도구
+
+`librealsense`에 들어 있다.
+
+```bash
+cd librealsense/tools/rs-imu-calibration
+python3 rs-imu-calibration.py
+```
+
+| 옵션                          | 하는 일                                  |
+| :---------------------------- | :--------------------------------------- |
+| (없음)                        | 처음 찾은 장치를 보정                    |
+| `-s <serial_no>`              | 시리얼로 장치 지정 (카메라 여러 대일 때) |
+| `-g`                          | 보정 전후 데이터 그래프                  |
+| `-i <accel_file> [gyro_file]` | 이전에 저장한 결과를 EEPROM에 기록       |
+| `-h`                          | 도움말                                   |
+
+**결과는 카메라의 EEPROM에 저장되고 드라이버가 자동으로 적용한다.**
+그래서 한 번 하면 OS를 다시 깔아도 남고, 반대로 **카메라마다 따로 해야 한다.**
+
+```text
+EEPROM 에 저장       → 그 카메라에 묶인다
+                      PC 를 바꿔도 유지된다
+                      카메라를 바꾸면 다시 해야 한다
+```
+
+## 절차 — 6방향
+
+스크립트가 6개 방향으로 안내한다. 각 방향마다 세 단계를 거친다.
+
+```text
+① Rotation          화면에 목표 방향이 뜬다
+     Align to direction: [ 0. -1.  0.]
+       Mounting screw pointing down, device facing out
+     Status.rotate: [ 1.0157 -0.1037  0.9945]: [False False False]
+                     └── 이 숫자를 [0,0,0] 에 가깝게 만든다
+
+② Wait to Stablize  3초간 가만히
+     Status.wait_to_stable: 2.8 (secs)
+
+③ Collecting data   점이 찍힌다. 20개면 다음 방향으로
+                    방향이 틀어지면 데이터를 안 모으고,
+                    많이 움직이면 ① 로 되돌아간다
+```
+
+6방향이 끝나면 두 번 묻는다.
+
+```text
+Would you like to save the raw data?
+  → 접미사를 넣으면 accel_<footer>.txt, gyro_<footer>.txt 로 저장
+  → 그냥 Enter 면 저장 안 함
+
+Save to device?
+  → Y 를 넣으면 EEPROM 에 기록
+
+SUCCESS: saved calibration to camera.
+```
+
+**raw 데이터는 저장해 두는 편이 낫다.** 나중에 `-i`로 다시 넣을 수 있고,
+결과가 이상할 때 비교 대상이 된다.
+
+## 실무 팁
+
+```text
+· 90도를 손으로 맞추기 어렵다
+  → 공식 문서도 상자를 쓰라고 권한다. 카메라를 상자에 넣고 상자를 굴리면
+    면이 평평해서 각도가 잘 맞는다
+
+· 중단하려면 ESC
+  → CTRL-C 가 안 먹는다.  CTRL-Z 후 kill -9 %1 로 죽여야 한다   ★
+
+· 진동이 없는 곳에서
+  → ② 단계가 3초간 정지를 요구한다. 책상이 흔들리면 계속 실패한다
+
+· 카메라가 여러 대면 -s 로 시리얼 지정
+  → rs-enumerate-devices -s 로 시리얼 확인
+```
+
+두 번째가 특히 함정이다. 중간에 멈추려고 CTRL-C를 눌러도 안 죽는다.
+
+## 보정 후 확인
+
+```bash
+# 카메라를 평평한 곳에 놓고
+ros2 launch realsense2_camera rs_launch.py \
+  enable_gyro:=true enable_accel:=true unite_imu_method:=2
+
+ros2 topic echo /camera/camera/imu --once
+```
+
+```text
+정지 상태에서 기대되는 값
+
+  linear_acceleration   한 축이 ±9.81 근처, 나머지 두 축은 0 근처
+  angular_velocity      세 축 모두 0 근처
+```
+
+여러 자세로 놓고 가속도 **크기**를 재보는 것이 더 확실하다.
+
+```bash
+ros2 topic echo /camera/camera/imu --field linear_acceleration
+```
+
+**어느 자세로 놓든 크기가 9.81에 가까워야 한다.**
+자세에 따라 크기가 달라지면 scale이나 축 간 정렬이 틀어진 것이다.
+
+> 자세한 절차와 한계는 공식 문서를 참고한다 —
+> [IMU Calibration Tool White Paper](https://dev.realsenseai.com/docs/imu-calibration-tool-for-intel-realsense-depth-camera),
+> [rs-imu-calibration README](https://github.com/IntelRealSense/librealsense/tree/master/tools/rs-imu-calibration)
+
+---
+
+# 6. Docker 안에서
 
 USB 센서는 Ethernet보다 컨테이너 설정이 까다롭다.
 
@@ -208,7 +349,7 @@ ls /etc/udev/rules.d/ | grep -i realsense
 
 ---
 
-# 6. 안 될 때
+# 7. 안 될 때
 
 ```text
 증상                              먼저 볼 것
@@ -238,7 +379,7 @@ rs-enumerate-devices 가 빈 목록     권한 (udev rule)
 
 ---
 
-# 7. 카메라는 저장 용량을 가장 많이 먹는다
+# 8. 카메라는 저장 용량을 가장 많이 먹는다
 
 Edge Computing Chapter 13의 계산을 다시 보면 카메라가 압도적이다.
 
@@ -259,31 +400,32 @@ ros2 bag record /camera/camera/color/image_raw/compressed /camera/camera/imu
 
 ---
 
-# 8. 기록
+# 9. 기록
 
 ```markdown
 ## Intel RealSense D435i
 
-| 항목            | 값                                                           |
-| :-------------- | :----------------------------------------------------------- |
-| 물리 인터페이스 | USB 3.x (Type-C)                                             |
-| 식별            | 시리얼 번호                                                  |
-| 설정 프로토콜   | librealsense SDK / ROS 파라미터                              |
-| 데이터 프로토콜 | USB stream (UVC)                                             |
-| ROS 드라이버    | realsense2_camera                                            |
-| 출력 토픽       | /camera/camera/color/image_raw                               |
-|                 | /camera/camera/depth/image_rect_raw                          |
-|                 | /camera/camera/imu (enable_gyro/accel + unite_imu_method:=2) |
-| 내장 IMU        | 있음                                                         |
-| 펌웨어          | (rs-enumerate-devices -s 로 확인해 기록)                     |
-| librealsense    | (버전 기록)                                                  |
-| 확인일          | 2026-09-08                                                   |
-| 비고            | lsusb -t 가 5000M 인지 매번 확인                             |
+| 항목             | 값                                                           |
+| :--------------- | :----------------------------------------------------------- |
+| 물리 인터페이스  | USB 3.x (Type-C)                                             |
+| 식별             | 시리얼 번호                                                  |
+| 설정 프로토콜    | librealsense SDK / ROS 파라미터                              |
+| 데이터 프로토콜  | USB stream (UVC)                                             |
+| ROS 드라이버     | realsense2_camera                                            |
+| 출력 토픽        | /camera/camera/color/image_raw                               |
+|                  | /camera/camera/depth/image_rect_raw                          |
+|                  | /camera/camera/imu (enable_gyro/accel + unite_imu_method:=2) |
+| 내장 IMU         | 있음                                                         |
+| 펌웨어           | (rs-enumerate-devices -s 로 확인해 기록)                     |
+| librealsense     | (버전 기록)                                                  |
+| IMU 캘리브레이션 | 했음 / 안 함 · 날짜 · raw 데이터 파일 위치                   |
+| 확인일           | 2026-09-08                                                   |
+| 비고             | lsusb -t 가 5000M 인지 매번 확인                             |
 ```
 
 ---
 
-# 9. Chapter 연결
+# 10. Chapter 연결
 
 ```text
 Chapter 1   7가지 확인 항목
