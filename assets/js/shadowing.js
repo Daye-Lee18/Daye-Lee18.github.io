@@ -962,8 +962,11 @@
       var id = parseVideoId(raw);
       if (!id) {
         if (serverBase()) { runSearch(raw); return; }
-        status("유튜브 주소가 아닙니다. 키워드로 검색하려면 아래 '자막 서버 설정'에 주소를 넣으세요 " +
-               "(사이트마다 따로 저장됩니다).", "err");
+        // Telling someone to go press a button is worse than pressing it.
+        $("sh-settings").hidden = false;
+        $("sh-server-url").value = serverBase();
+        $("sh-server-url").focus();
+        status("키워드로 검색하려면 자막 서버 주소가 필요합니다. 이 사이트에는 아직 저장돼 있지 않습니다.", "warn");
         return;
       }
       renderResults(null);
@@ -1018,14 +1021,14 @@
     });
 
     $("sh-paste-toggle").addEventListener("click", function () {
-      var ta = $("sh-paste");
-      ta.hidden = !ta.hidden;
-      if (!ta.hidden) ta.focus();
+      var box = $("sh-paste-wrap");
+      box.hidden = !box.hidden;
+      if (!box.hidden) $("sh-paste").focus();
     });
 
     $("sh-paste-apply").addEventListener("click", function () {
       ingestCaptions($("sh-paste").value);
-      $("sh-paste").hidden = true;
+      $("sh-paste-wrap").hidden = true;
     });
 
     $("sh-saved-list").addEventListener("click", function (e) {

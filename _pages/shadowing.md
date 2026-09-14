@@ -53,6 +53,7 @@ _styles: |
   }
   #sh-go[disabled] { opacity: .6; cursor: progress; }
   .sh-paste-wrap { margin-top: .6rem; }
+  .sh-paste-wrap #sh-paste-apply { margin-top: .4rem; }
   .sh-paste-wrap textarea {
     width: 100%; min-height: 9rem; padding: .6rem; font-family: monospace; font-size: .8rem;
     border: 1px solid var(--global-divider-color); border-radius: .4rem;
@@ -339,9 +340,9 @@ bin/caption-server.py --install</code></pre>
     </div>
   </div>
 
-  <div class="sh-paste-wrap">
-    <textarea id="sh-paste" hidden placeholder="유튜브 &#39;스크립트 표시&#39;에서 복사한 내용을 그대로 붙여넣으세요. SRT/VTT 내용도 됩니다."></textarea>
-    <button type="button" class="sh-btn" id="sh-paste-apply" style="margin-top:.4rem">적용</button>
+  <div class="sh-paste-wrap" id="sh-paste-wrap" hidden>
+    <textarea id="sh-paste" placeholder="유튜브 &#39;스크립트 표시&#39;에서 복사한 내용을 그대로 붙여넣으세요. SRT/VTT 내용도 됩니다."></textarea>
+    <button type="button" class="sh-btn" id="sh-paste-apply">적용</button>
   </div>
 
   <p class="sh-status" id="sh-status"></p>
