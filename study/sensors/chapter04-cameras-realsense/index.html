@@ -442,6 +442,23 @@
       <td style="text-align: left">실제 fps</td>
     </tr>
     <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">python3 rs-imu-calibration.py</code></td>
+      <td style="text-align: left">
+<strong>IMU 캘리브레이션</strong> (D435i)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">python3 rs-imu-calibration.py -s &lt;serial&gt;</code></td>
+      <td style="text-align: left">카메라가 여러 대일 때 지정</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">python3 rs-imu-calibration.py -g</code></td>
+      <td style="text-align: left">보정 전후 그래프</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">python3 rs-imu-calibration.py -i accel.txt gyro.txt</code></td>
+      <td style="text-align: left">저장한 결과를 EEPROM에 재기록</td>
+    </tr>
+    <tr>
       <td style="text-align: left"><code class="language-plaintext highlighter-rouge">v4l2-ctl --list-devices</code></td>
       <td style="text-align: left">V4L2 수준에서 보이나</td>
     </tr>
@@ -491,7 +508,7 @@
     <tr>
       <td style="text-align: left">내장 IMU</td>
       <td style="text-align: left">
-<strong>있음</strong> (D435i의 <code class="language-plaintext highlighter-rouge">i</code>가 그 뜻)</td>
+<strong>있음</strong> (D435i의 <code class="language-plaintext highlighter-rouge">i</code>가 그 뜻). 공장 보정됨, 추가 보정 가능 (§5)</td>
     </tr>
   </tbody>
 </table>
@@ -614,7 +631,159 @@ depth와 color가 물리적으로 떨어져 있으므로, 정렬하려면 이 �
 
 <hr>
 
-<h1 id="5-docker-안에서">5. Docker 안에서</h1>
+<h1 id="5-imu-캘리브레이션">5. IMU 캘리브레이션</h1>
+
+<p>D435i는 <strong>공장에서 IMU가 이미 보정된 상태로 나온다.</strong>
+그런데 Intel이 별도 도구를 제공한다. 왜일까.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>공장 보정    일반적인 용도에는 충분하다
+추가 보정    정확도를 더 끌어올릴 수 있다
+             → VIO / SLAM 처럼 IMU 에 의존하는 용도에서 의미가 있다
+</code></pre></div></div>
+
+<h2 id="왜-신경-써야-하나">왜 신경 써야 하나</h2>
+
+<p>SLAM History Chapter 10 §4의 계산을 다시 보면 이유가 분명해진다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>가속도계 bias 0.02 m/s²      →  10초 후 위치 오차 1 m
+자세 오차 1°                 →  중력이 수평축에 0.171 m/s² 를 흘린다
+                                 = 위 bias 보다 17배 크다
+</code></pre></div></div>
+
+<p>가속도계의 <strong>scale과 bias가 틀어져 있으면 중력 방향 추정이 틀어지고</strong>,
+자세 오차는 위치 오차로 시간의 제곱에 비례해 커진다.
+IMU를 보조로만 쓰면 티가 안 나지만, IMU 적분에 의존하는 구간이 길어질수록 드러난다.</p>
+
+<h2 id="도구">도구</h2>
+
+<p><code class="language-plaintext highlighter-rouge">librealsense</code>에 들어 있다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>librealsense/tools/rs-imu-calibration
+python3 rs-imu-calibration.py
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">옵션</th>
+      <th style="text-align: left">하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">(없음)</td>
+      <td style="text-align: left">처음 찾은 장치를 보정</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">-s &lt;serial_no&gt;</code></td>
+      <td style="text-align: left">시리얼로 장치 지정 (카메라 여러 대일 때)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">-g</code></td>
+      <td style="text-align: left">보정 전후 데이터 그래프</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">-i &lt;accel_file&gt; [gyro_file]</code></td>
+      <td style="text-align: left">이전에 저장한 결과를 EEPROM에 기록</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">-h</code></td>
+      <td style="text-align: left">도움말</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>결과는 카메라의 EEPROM에 저장되고 드라이버가 자동으로 적용한다.</strong>
+그래서 한 번 하면 OS를 다시 깔아도 남고, 반대로 <strong>카메라마다 따로 해야 한다.</strong></p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>EEPROM 에 저장       → 그 카메라에 묶인다
+                      PC 를 바꿔도 유지된다
+                      카메라를 바꾸면 다시 해야 한다
+</code></pre></div></div>
+
+<h2 id="절차--6방향">절차 — 6방향</h2>
+
+<p>스크립트가 6개 방향으로 안내한다. 각 방향마다 세 단계를 거친다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>① Rotation          화면에 목표 방향이 뜬다
+     Align to direction: [ 0. -1.  0.]
+       Mounting screw pointing down, device facing out
+     Status.rotate: [ 1.0157 -0.1037  0.9945]: [False False False]
+                     └── 이 숫자를 [0,0,0] 에 가깝게 만든다
+
+② Wait to Stablize  3초간 가만히
+     Status.wait_to_stable: 2.8 (secs)
+
+③ Collecting data   점이 찍힌다. 20개면 다음 방향으로
+                    방향이 틀어지면 데이터를 안 모으고,
+                    많이 움직이면 ① 로 되돌아간다
+</code></pre></div></div>
+
+<p>6방향이 끝나면 두 번 묻는다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Would you like to save the raw data?
+  → 접미사를 넣으면 accel_&lt;footer&gt;.txt, gyro_&lt;footer&gt;.txt 로 저장
+  → 그냥 Enter 면 저장 안 함
+
+Save to device?
+  → Y 를 넣으면 EEPROM 에 기록
+
+SUCCESS: saved calibration to camera.
+</code></pre></div></div>
+
+<p><strong>raw 데이터는 저장해 두는 편이 낫다.</strong> 나중에 <code class="language-plaintext highlighter-rouge">-i</code>로 다시 넣을 수 있고,
+결과가 이상할 때 비교 대상이 된다.</p>
+
+<h2 id="실무-팁">실무 팁</h2>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>· 90도를 손으로 맞추기 어렵다
+  → 공식 문서도 상자를 쓰라고 권한다. 카메라를 상자에 넣고 상자를 굴리면
+    면이 평평해서 각도가 잘 맞는다
+
+· 중단하려면 ESC
+  → CTRL-C 가 안 먹는다.  CTRL-Z 후 kill -9 %1 로 죽여야 한다   ★
+
+· 진동이 없는 곳에서
+  → ② 단계가 3초간 정지를 요구한다. 책상이 흔들리면 계속 실패한다
+
+· 카메라가 여러 대면 -s 로 시리얼 지정
+  → rs-enumerate-devices -s 로 시리얼 확인
+</code></pre></div></div>
+
+<p>두 번째가 특히 함정이다. 중간에 멈추려고 CTRL-C를 눌러도 안 죽는다.</p>
+
+<h2 id="보정-후-확인">보정 후 확인</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 카메라를 평평한 곳에 놓고</span>
+ros2 launch realsense2_camera rs_launch.py <span class="se">\</span>
+  enable_gyro:<span class="o">=</span><span class="nb">true </span>enable_accel:<span class="o">=</span><span class="nb">true </span>unite_imu_method:<span class="o">=</span>2
+
+ros2 topic <span class="nb">echo</span> /camera/camera/imu <span class="nt">--once</span>
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>정지 상태에서 기대되는 값
+
+  linear_acceleration   한 축이 ±9.81 근처, 나머지 두 축은 0 근처
+  angular_velocity      세 축 모두 0 근처
+</code></pre></div></div>
+
+<p>여러 자세로 놓고 가속도 <strong>크기</strong>를 재보는 것이 더 확실하다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ros2 topic <span class="nb">echo</span> /camera/camera/imu <span class="nt">--field</span> linear_acceleration
+</code></pre></div></div>
+
+<p><strong>어느 자세로 놓든 크기가 9.81에 가까워야 한다.</strong>
+자세에 따라 크기가 달라지면 scale이나 축 간 정렬이 틀어진 것이다.</p>
+
+<blockquote>
+  <p>자세한 절차와 한계는 공식 문서를 참고한다 —
+<a href="https://dev.realsenseai.com/docs/imu-calibration-tool-for-intel-realsense-depth-camera" rel="external nofollow noopener" target="_blank">IMU Calibration Tool White Paper</a>,
+<a href="https://github.com/IntelRealSense/librealsense/tree/master/tools/rs-imu-calibration" rel="external nofollow noopener" target="_blank">rs-imu-calibration README</a></p>
+</blockquote>
+
+<hr>
+
+<h1 id="6-docker-안에서">6. Docker 안에서</h1>
 
 <p>USB 센서는 Ethernet보다 컨테이너 설정이 까다롭다.</p>
 
@@ -647,7 +816,7 @@ depth와 color가 물리적으로 떨어져 있으므로, 정렬하려면 이 �
 
 <hr>
 
-<h1 id="6-안-될-때">6. 안 될 때</h1>
+<h1 id="7-안-될-때">7. 안 될 때</h1>
 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>증상                              먼저 볼 것
 ────────────────────────────      ──────────────────────────────────
@@ -676,7 +845,7 @@ rs-enumerate-devices 가 빈 목록     권한 (udev rule)
 
 <hr>
 
-<h1 id="7-카메라는-저장-용량을-가장-많이-먹는다">7. 카메라는 저장 용량을 가장 많이 먹는다</h1>
+<h1 id="8-카메라는-저장-용량을-가장-많이-먹는다">8. 카메라는 저장 용량을 가장 많이 먹는다</h1>
 
 <p>Edge Computing Chapter 13의 계산을 다시 보면 카메라가 압도적이다.</p>
 
@@ -695,30 +864,31 @@ ros2 bag record /camera/camera/color/image_raw/compressed /camera/camera/imu
 
 <hr>
 
-<h1 id="8-기록">8. 기록</h1>
+<h1 id="9-기록">9. 기록</h1>
 
 <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gu">## Intel RealSense D435i</span>
 
-| 항목            | 값                                                           |
-| :-------------- | :----------------------------------------------------------- |
-| 물리 인터페이스 | USB 3.x (Type-C)                                             |
-| 식별            | 시리얼 번호                                                  |
-| 설정 프로토콜   | librealsense SDK / ROS 파라미터                              |
-| 데이터 프로토콜 | USB stream (UVC)                                             |
-| ROS 드라이버    | realsense2_camera                                            |
-| 출력 토픽       | /camera/camera/color/image_raw                               |
-|                 | /camera/camera/depth/image_rect_raw                          |
-|                 | /camera/camera/imu (enable_gyro/accel + unite_imu_method:=2) |
-| 내장 IMU        | 있음                                                         |
-| 펌웨어          | (rs-enumerate-devices -s 로 확인해 기록)                     |
-| librealsense    | (버전 기록)                                                  |
-| 확인일          | 2026-09-08                                                   |
-| 비고            | lsusb -t 가 5000M 인지 매번 확인                             |
+| 항목             | 값                                                           |
+| :--------------- | :----------------------------------------------------------- |
+| 물리 인터페이스  | USB 3.x (Type-C)                                             |
+| 식별             | 시리얼 번호                                                  |
+| 설정 프로토콜    | librealsense SDK / ROS 파라미터                              |
+| 데이터 프로토콜  | USB stream (UVC)                                             |
+| ROS 드라이버     | realsense2_camera                                            |
+| 출력 토픽        | /camera/camera/color/image_raw                               |
+|                  | /camera/camera/depth/image_rect_raw                          |
+|                  | /camera/camera/imu (enable_gyro/accel + unite_imu_method:=2) |
+| 내장 IMU         | 있음                                                         |
+| 펌웨어           | (rs-enumerate-devices -s 로 확인해 기록)                     |
+| librealsense     | (버전 기록)                                                  |
+| IMU 캘리브레이션 | 했음 / 안 함 · 날짜 · raw 데이터 파일 위치                   |
+| 확인일           | 2026-09-08                                                   |
+| 비고             | lsusb -t 가 5000M 인지 매번 확인                             |
 </code></pre></div></div>
 
 <hr>
 
-<h1 id="9-chapter-연결">9. Chapter 연결</h1>
+<h1 id="10-chapter-연결">10. Chapter 연결</h1>
 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chapter 1   7가지 확인 항목
 Chapter 2   VLP-16 — Ethernet + HTTP + UDP
