@@ -90,6 +90,49 @@
   }
 }
 
+/* ---- chapter page: learning summary ---- */
+
+.study-summary {
+  margin: 2.5rem 0 0;
+  padding: 1.15rem 1.3rem;
+  border: 1px solid var(--global-theme-color);
+  border-left-width: 4px;
+  border-radius: 10px;
+  background: var(--global-card-bg-color);
+
+  h2 {
+    margin-top: 0;
+    color: var(--global-theme-color);
+    font-size: 1.15rem;
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: minmax(8rem, max-content) 1fr;
+    gap: 0.55rem 1rem;
+    margin-bottom: 0;
+  }
+
+  dt {
+    font-weight: 700;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  @media (max-width: 575px) {
+    dl {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+    }
+
+    dd + dt {
+      margin-top: 0.55rem;
+    }
+  }
+}
+
 /* ---- topic page: table of contents ---- */
 
 .study-toc {

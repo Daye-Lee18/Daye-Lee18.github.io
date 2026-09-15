@@ -108,3 +108,15 @@ RPE shows the 10 cm of drift per segment, while ATE also reflects the accumulati
 ## Where to go next
 
 Continue in [LIO & State Estimation]({{ '/study/slam/state-estimation/' | relative_url }}) in the order IMU model → deskew → error-state → LIO-SAM/FAST-LIO2. That page is the comparison table and index that lays out the scope of the study.
+
+<aside class="study-summary" markdown="1">
+## What you learned
+
+<dl>
+  <dt>ATE</dt><dd>Global trajectory disagreement after a stated alignment procedure.</dd>
+  <dt>RPE</dt><dd>Relative motion error over a stated time or distance interval, useful for measuring local drift.</dd>
+  <dt>SE(3) vs Sim(3)</dt><dd>Rigid alignment preserves scale, while similarity alignment can also remove a global scale error.</dd>
+  <dt>Fair comparison</dt><dd>Matching sensors, data segments, compute, alignment and metric definitions before ranking systems.</dd>
+  <dt>Operational robustness</dt><dd>Evaluating failures, recovery, latency and resource growth alongside average accuracy.</dd>
+</dl>
+</aside>

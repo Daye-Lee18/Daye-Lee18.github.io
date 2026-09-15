@@ -152,3 +152,15 @@ With a right perturbation or a different pose convention the rotation part of th
 
 - KRoC registration lecture: the part linking ICP to robust, global and learning-based approaches. Local copy: `_resource/slam/kroc2026/06-registration-hyungtae-lim.pdf`.
 - For Grisetti (2016), use the description and links in the recommended guide. The old direct PDF address now returns 404, so it is not included in the local resources.
+
+<aside class="study-summary" markdown="1">
+## What you learned
+
+<dl>
+  <dt>Registration</dt><dd>Estimating the rigid transform that aligns two observations of the same scene.</dd>
+  <dt>ICP</dt><dd>An iterative loop that alternates correspondence search and pose optimisation.</dd>
+  <dt>Correspondence</dt><dd>A proposed match between elements in the source and target observations.</dd>
+  <dt>Point-to-plane residual</dt><dd>The signed distance from a transformed point to a target surface tangent plane.</dd>
+  <dt>Degeneracy</dt><dd>A geometry in which some motion directions are weakly constrained or unobservable.</dd>
+</dl>
+</aside>

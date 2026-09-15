@@ -139,3 +139,15 @@ which is far larger than the bias above. This is why attitude error grows into p
 
 - KRoC IMU: PDF pages 13–24. Local copy: `_resource/slam/kroc2026/05-imu-giseop-kim.pdf`.
 - Read only the abstract and system overview of the two LIO papers. Detailed derivations and code analysis are picked up in the LIO part.
+
+<aside class="study-summary" markdown="1">
+## What you learned
+
+<dl>
+  <dt>IMU propagation</dt><dd>High-rate prediction of orientation, velocity and position by integrating inertial measurements.</dd>
+  <dt>Bias</dt><dd>A systematic sensor offset whose integration causes rapidly growing state error.</dd>
+  <dt>Deskew</dt><dd>Compensating each LiDAR point for motion during acquisition of a scan.</dd>
+  <dt>LIO</dt><dd>Tightly coupled LiDAR–inertial odometry that combines fast inertial prediction with geometric correction.</dd>
+  <dt>Filtering vs smoothing</dt><dd>Recursive current-state updates versus joint optimisation over a retained state history.</dd>
+</dl>
+</aside>

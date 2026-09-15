@@ -117,3 +117,15 @@ The neighbours of $L$ are $A,B,C$. Eliminating $L$ makes those neighbours a cliq
 
 - Dellaert & Kaess (2017): read the elimination/sparsity discussion first, then move on to the iSAM part. Local copy: `_resource/slam/foundations/dellaert-kaess2017-factor-graphs.pdf`.
 - Before following every equation, draw the factor graph and the post-elimination graph yourself.
+
+<aside class="study-summary" markdown="1">
+## What you learned
+
+<dl>
+  <dt>Sparsity</dt><dd>The property that each factor touches only a small subset of all variables.</dd>
+  <dt>Variable elimination</dt><dd>Removing variables in sequence to factorise and solve the sparse system.</dd>
+  <dt>Fill-in</dt><dd>New connections created between a variable's neighbours during elimination.</dd>
+  <dt>Bayes tree</dt><dd>A tree representation of the factorisation that exposes which parts an update affects.</dd>
+  <dt>iSAM2</dt><dd>An incremental smoother that reuses previous factorisation and selectively relinearises affected variables.</dd>
+</dl>
+</aside>

@@ -146,3 +146,15 @@ and the other axis is the same under the same assumption. In practice rotation e
 
 - KRoC History slides: the `What is SLAM?` and `History of SLAM` sections. Local copy: `_resource/slam/kroc2026/01-history-ayoung-kim.pdf`.
 - Cadena et al. (2016): read only the Introduction first. Local copy: `_resource/slam/papers/cadena2016-slam-survey.pdf`.
+
+<aside class="study-summary" markdown="1">
+## What you learned
+
+<dl>
+  <dt>Loop closure</dt><dd>Recognising a previously visited place and adding a constraint that can correct accumulated drift.</dd>
+  <dt>Local map</dt><dd>A bounded, nearby representation used for fast and stable short-range estimation.</dd>
+  <dt>SLAM</dt><dd>Estimating the robot state and an environment representation together because each depends on the other.</dd>
+  <dt>Global map</dt><dd>A persistent representation that connects observations across the full trajectory or operating area.</dd>
+  <dt>Odometry</dt><dd>Estimating relative motion over time; errors accumulate unless another source provides correction.</dd>
+</dl>
+</aside>

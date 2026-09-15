@@ -62,7 +62,122 @@ Particle 2 gets the large weight. Resampling then copies the high-weight particl
 
 The maps are not unconditionally independent. The decomposition is legal only because the path is conditioned on _within each particle_.
 
-## 3. A small thought experiment
+## 3. When is the Kalman update applied?
+
+Seeing the same landmark again does not necessarily mean completing a large loop. A Kalman update can happen after only a small movement. The important condition is that the system recognises the measurement as belonging to a landmark already in the map.
+
+```text
+time t₁: observe pillar A for the first time
+         → initialise A in the map
+
+time t₂: move a short distance and observe A again
+         → ordinary landmark correction
+
+time t₃: travel around the building and recognise A again
+         → the observation may serve as loop-closure information
+```
+
+At $t_1$, there is no previous estimate of A to correct. The system uses the particle's pose and the relative sensor measurement to initialise A's mean and uncertainty. At $t_2$ and $t_3$, A already exists, so the system can compare the observation predicted from the map with the new observation.
+
+FastSLAM and EKF-SLAM use that comparison differently:
+
+- **EKF-SLAM** keeps the robot and all landmarks in one joint state. A Kalman correction can therefore directly move the robot and every correlated landmark.
+- **FastSLAM** samples the robot path with particles. Inside each particle, a small EKF corrects the observed landmark; the particle's agreement with the observation changes its weight. Resampling then favours the more plausible path hypotheses.
+
+### One correction inside a FastSLAM particle
+
+Consider one particle whose current pose is treated as known at $x_t=5.2$. Its private map currently stores pillar A as
+
+$$
+\mu_A^-=8.0, \qquad P_A^-=0.25,
+$$
+
+where the superscript $-$ means “before the measurement update”. The range sensor now reports that A is $z=3.0$ m in front of the robot, with measurement variance $R=0.01$. The update proceeds as follows.
+
+#### Step 1 — Start from the prior landmark estimate
+
+For this particle, A is believed to be at $8.0$ m and the robot pose is $5.2$ m.
+
+#### Step 2 — Receive the sensor measurement
+
+The sensor supplies a **relative range**, not A's global position:
+
+$$
+z=3.0.
+$$
+
+#### Step 3 — Predict what the sensor should measure
+
+In this one-dimensional example the measurement model is
+
+$$
+h(\mu_A^-,x_t)=\mu_A^- - x_t.
+$$
+
+Therefore the predicted measurement is
+
+$$
+\hat z=8.0-5.2=2.8.
+$$
+
+#### Step 4 — Compute the innovation
+
+The innovation is the actual observation minus the predicted observation:
+
+$$
+y=z-\hat z=3.0-2.8=0.2.
+$$
+
+The $0.2$ is not produced by the Kalman filter. It is the disagreement exposed when a new sensor measurement is compared with the current estimate.
+
+#### Step 5 — Compute the Kalman gain
+
+For this scalar landmark, the measurement Jacobian with respect to A is $H=1$. Thus
+
+$$
+S=HP_A^-H^T+R=0.25+0.01=0.26,
+$$
+
+$$
+K=P_A^-H^TS^{-1}=\frac{0.25}{0.26}\approx0.962.
+$$
+
+The gain is close to 1 because the new measurement is much more precise than the prior landmark estimate.
+
+#### Step 6 — Correct the landmark and its uncertainty
+
+$$
+\mu_A^+=\mu_A^-+Ky
+=8.0+0.962(0.2)
+\approx8.192,
+$$
+
+$$
+P_A^+=(1-KH)P_A^-
+\approx0.0096.
+$$
+
+The standard deviation therefore decreases from $\sqrt{0.25}=0.5$ m to about $\sqrt{0.0096}=0.098$ m. The result is not exactly $8.2$: the filter compromises between the uncertain prior and the noisy measurement.
+
+```text
+prior map + particle pose         μA⁻ = 8.0, x = 5.2
+              ↓
+new relative measurement         z = 3.0
+              ↓
+predicted measurement            ẑ = 8.0 − 5.2 = 2.8
+              ↓
+innovation                       y = 3.0 − 2.8 = 0.2
+              ↓
+Kalman gain                      K ≈ 0.962
+              ↓
+corrected landmark               μA⁺ ≈ 8.192
+```
+
+Every particle performs this comparison using its own pose and its own copy of A. A particle with a very different pose predicts a different range, receives a larger innovation and usually gets a lower importance weight. This is how the observation helps select the path in FastSLAM: the landmark EKF corrects the map **inside** a particle, while particle weighting and resampling correct the distribution over paths.
+
+A late observation at $t_3$ follows the same measurement-update logic if data association recognises A correctly. It can provide loop-closure information, but classic FastSLAM does not retroactively optimise the entire stored path in the same way as the pose-graph back-end introduced in Chapter 6.
+
+## 4. A small thought experiment
 
 Here is where particles beat a single Gaussian outright. There are two identical doors, at x = 10 and x = 30, and the robot is in front of one of them but does not know which.
 
@@ -123,3 +238,15 @@ With $N=3$ the threshold is $1.5$, so under this rule we do not resample. That s
 
 - Montemerlo et al. (2002), FastSLAM: read around Figure 1 and the posterior factorisation. [Original PDF](https://www.cs.cmu.edu/~thrun/papers/montemerlo.fastslam-tr.pdf).
 - From the next chapter we pause to set up the geometry needed by both filtering and optimisation.
+
+<aside class="study-summary" markdown="1">
+## What you learned
+
+<dl>
+  <dt>FastSLAM</dt><dd>A Rao–Blackwellised particle filter that samples robot paths and estimates landmarks inside each path hypothesis.</dd>
+  <dt>Conditional independence</dt><dd>Landmark estimates separate only after the robot path is given.</dd>
+  <dt>Particle weight</dt><dd>The relative likelihood of one path hypothesis given the observations.</dd>
+  <dt>Resampling</dt><dd>Replicating likely particles and discarding unlikely ones to focus computation.</dd>
+  <dt>Particle impoverishment</dt><dd>Loss of hypothesis diversity caused by repeated or premature resampling.</dd>
+</dl>
+</aside>

@@ -27,13 +27,46 @@ what a plain estimate says          what a probabilistic estimate says
 
 The two numbers do different jobs. The mean is the answer; the variance is how much the next measurement is allowed to move that answer. A prediction with variance 0.25 will be dragged a long way by a good measurement, and one with variance 0.0001 will barely budge. **How far it gets dragged is decided by a single number called the Kalman gain**, and §5 derives it.
 
-EKF-SLAM linearises a nonlinear model around the current estimate and handles the robot state and the landmarks together; it is the representative filtering approach. The following equations show the structure of the problem.
+EKF-SLAM estimates the robot's state and the positions of landmarks **together**. It repeatedly performs two steps: predict where the robot has moved, then use a sensor observation to correct both the robot state and the map.
+
+### Prediction: where should the robot be now?
 
 $$
-x_t=f(x_{t-1},u_t)+w_t, \qquad z_t=h(x_t,m_j)+v_t
+x_t=f(x_{t-1},u_t)+w_t
 $$
 
-Here $u_t$ is the motion input, $z_t$ is the observation of landmark $m_j$, and $w_t,v_t$ are the noise terms put into the model. **Prediction** applies the motion model; **correction** uses the difference between the predicted and the actual observation. The basics of frames and models are covered in [Solà's Course on SLAM](https://upcommons.upc.edu/handle/2117/337287).
+- $x_{t-1}$ is the previous robot state.
+- $u_t$ is a motion input, such as wheel odometry or an IMU reading.
+- $f$ is the motion model that predicts the next state.
+- $w_t$ represents motion uncertainty, such as wheel slip or an imperfect model.
+- $x_t$ is the predicted current state.
+
+In plain language, the equation says: **use the previous state and the measured motion to predict the current state, while admitting that the prediction is not exact.**
+
+### Correction: does the sensor agree with the prediction?
+
+$$
+z_t=h(x_t,m_j)+v_t
+$$
+
+- $m_j$ is the position of landmark $j$ in the map.
+- $h$ predicts how that landmark should appear from the current robot state.
+- $z_t$ is what the sensor actually observes.
+- $v_t$ represents sensor noise.
+
+For example, the current state and map may predict that a wall should be 3.0 m away, while the LiDAR measures 3.3 m. The difference between the predicted observation and the real observation is called the **innovation** (or measurement residual). EKF-SLAM uses it to correct the robot state and the landmark estimates, weighting the correction by how uncertain the prediction and measurement are.
+
+```text
+previous state + motion input
+              ↓
+    predict current state
+              ↓
+predicted observation ↔ actual observation
+              ↓
+   correct robot state and map
+```
+
+Real motion and sensor models are usually nonlinear. The EKF makes them manageable by approximating each model as linear **near the current estimate**. This local approximation is what “linearisation” means; if the current estimate is far from the truth, the approximation can be poor and the filter can become inaccurate or overconfident. The basics of frames and models are covered in [Solà's Course on SLAM](https://upcommons.upc.edu/handle/2117/337287).
 
 ## 2. Why do map points become linked to each other?
 
@@ -598,3 +631,15 @@ exactly the failure described here.
 
 - Course on SLAM: read only the motion/observation model sections. Local copy: `_resource/slam/foundations/sola2017-course-on-slam.pdf`.
 - FastSLAM (2002): the explanation of the EKF's limits in the Introduction. The next chapter continues from there with conditional independence.
+
+<aside class="study-summary" markdown="1">
+## What you learned
+
+<dl>
+  <dt>Prediction</dt><dd>Propagating the state and its uncertainty through the motion model.</dd>
+  <dt>Correction</dt><dd>Combining a measurement with the prediction according to their uncertainties.</dd>
+  <dt>Covariance</dt><dd>A matrix describing uncertainty and the correlations between robot and landmark errors.</dd>
+  <dt>EKF-SLAM</dt><dd>A Gaussian filter that jointly estimates the robot pose and landmark positions after linearising nonlinear models.</dd>
+  <dt>Consistency</dt><dd>The requirement that reported uncertainty honestly reflects the estimator's actual error.</dd>
+</dl>
+</aside>

@@ -136,3 +136,15 @@ so $\mathrm{AbsRel}=0.2$, that is 20%. But this value summarises only the global
 - KRoC AI Visual SLAM: PDF pages 31–42. Local copy: `_resource/slam/kroc2026/07-ai-visual-slam-alex-lee.pdf`.
 - DROID-SLAM: the architecture figure. Local copy: `_resource/slam/papers/droid-slam2021.pdf`.
 - KRoC 3D Vision: PDF pages 59–63 and 81–86. You do not need to read every neural rendering equation on a first pass.
+
+<aside class="study-summary" markdown="1">
+## What you learned
+
+<dl>
+  <dt>Learned component</dt><dd>A network that replaces or supports a specific pipeline stage such as features, depth or pose estimation.</dd>
+  <dt>Learned depth</dt><dd>A data-driven depth prediction that still requires checks for scale and geometric consistency.</dd>
+  <dt>Neural map</dt><dd>An implicit learned scene representation queried for geometry, appearance or rendering.</dd>
+  <dt>Domain shift</dt><dd>Performance loss when deployment conditions differ from the training distribution.</dd>
+  <dt>Spatial AI</dt><dd>Extending geometric estimation toward persistent, semantic and task-aware scene understanding.</dd>
+</dl>
+</aside>
