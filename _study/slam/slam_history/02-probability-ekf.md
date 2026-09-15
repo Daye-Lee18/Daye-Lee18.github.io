@@ -277,8 +277,114 @@ As correlation coefficients it is even starker:
 $\rho(A,B)=0.962$. Two pillars 4 m apart, measured independently, are almost
 perfectly correlated — because almost all of their uncertainty is one shared quantity.
 
-Now re-measure only A, precisely ($z=8.2$, $R=10^{-4}$), and run one EKF update
-with $H=\begin{bmatrix}0&1&0\end{bmatrix}$:
+### When does a Kalman correction happen?
+
+The robot does not have to complete a loop before using a Kalman correction. It only has to observe something that the estimator can associate with an existing landmark.
+
+```text
+time t₁: observe pillar A for the first time
+         → add A to the state and initialise its uncertainty
+
+time t₂: move a short distance and observe A again
+         → ordinary EKF correction
+
+time t₃: travel around the building and recognise A again
+         → the same update can provide loop-closure information
+```
+
+At $t_1$, there is no previous estimate of A to correct. The first observation initialises it. At $t_2$ and $t_3$, A already exists in the state, so the filter compares the observation predicted from its current state with the new sensor observation. The elapsed time is not what determines whether the Kalman update applies; successful data association is.
+
+### The correction below, step by step
+
+The following calculation deliberately uses a simplified sensor that directly measures A's global coordinate. That is why $H=\begin{bmatrix}0&1&0\end{bmatrix}$. A real LiDAR usually measures relative range or bearing, in which case $h(x,m_A)$ and $H$ also depend on the robot pose. The simplified model lets us focus on how covariance carries A's information to the robot and B.
+
+#### Step 1 — Begin with the predicted state and covariance
+
+After the motion prediction, but before the new measurement, the joint state is
+
+$$
+\hat x^-=\begin{bmatrix}5.0&8.0&12.0\end{bmatrix}^T,
+$$
+
+and $P^-$ is the covariance matrix shown above. The superscript $-$ means “before correction”.
+
+#### Step 2 — Receive the new measurement
+
+The precise sensor reports
+
+$$
+z=8.2,\qquad R=10^{-4}.
+$$
+
+The value $8.2$ comes from the new sensor measurement; the Kalman filter does not generate it.
+
+#### Step 3 — Predict the measurement
+
+The filter asks what the sensor should read if the current state were correct:
+
+$$
+\hat z=H\hat x^-
+=\begin{bmatrix}0&1&0\end{bmatrix}
+ \begin{bmatrix}5.0&8.0&12.0\end{bmatrix}^T
+=8.0.
+$$
+
+#### Step 4 — Compute the innovation
+
+$$
+y=z-\hat z=8.2-8.0=0.2.
+$$
+
+The $0.2$ is therefore the disagreement between the new measurement and the predicted measurement. It is an input to the correction, not the result of the correction.
+
+#### Step 5 — Compute the Kalman gain
+
+First compute the innovation covariance and then the gain:
+
+$$
+S=HP^-H^T+R=0.26+0.0001=0.2601,
+$$
+
+$$
+K=P^-H^TS^{-1}
+=\frac{1}{0.2601}
+\begin{bmatrix}0.25\\0.26\\0.25\end{bmatrix}
+\approx
+\begin{bmatrix}0.961\\1.000\\0.961\end{bmatrix}.
+$$
+
+A and the robot/B receive different gains according to their covariance with the measured variable A.
+
+#### Step 6 — Correct the state and covariance
+
+The state correction is
+
+$$
+\hat x^+=\hat x^-+Ky.
+$$
+
+Numerically,
+
+$$
+Ky\approx
+\begin{bmatrix}0.961\\1.000\\0.961\end{bmatrix}(0.2)
+=\begin{bmatrix}0.192\\0.200\\0.192\end{bmatrix},
+$$
+
+so
+
+$$
+\hat x^+\approx
+\begin{bmatrix}5.192\\8.200\\12.192\end{bmatrix}.
+$$
+
+The covariance is also corrected, for example with
+
+$$
+P^+=(I-KH)P^-.
+$$
+
+The whole calculation can be summarised as follows:
 
 ```text
    innovation  8.2 − 8.0 = 0.2
