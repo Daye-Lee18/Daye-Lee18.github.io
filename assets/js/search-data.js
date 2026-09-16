@@ -490,7 +490,7 @@ ninja.data = [{
               window.location.href = "/study/sensors/";
             },},{id: "study-slam",
           title: 'SLAM',
-          description: "A step-by-step study of the history of SLAM and of LiDAR-inertial state estimation.",
+          description: "설명을 읽고 문제를 풀며, SLAM의 큰 그림에서 실제 LiDAR–inertial 시스템까지 이어지는 입문 코스.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/";
             },},{id: "study-chapter-1-구조-다리-속도는-어디로-들어가나",
