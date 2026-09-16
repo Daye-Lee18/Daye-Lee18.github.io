@@ -9,6 +9,8 @@ importance: 0
 permalink: /study/slam/history/
 ---
 
-Each chapter takes about 10–15 minutes. Learn the key ideas from the main text, then check your understanding with the check questions and the assigned reading range in the original sources.
+각 장은 약 10–15분 분량이며, 본문의 핵심 개념을 읽은 뒤 확인 문제와 지정된 원문 범위로 이해를 점검한다.
 
-> This table of contents is not a list of algorithms replacing one another in order. It focuses on separating different axes of comparison, such as filtering versus smoothing, and sensor modality versus map representation.
+처음 읽는다면 아래 목록을 1장부터 끝까지 직선으로 따라갈 필요는 없다. 먼저 [90분 빠른 입문 코스]({{ '/study/slam/' | relative_url }})의 7개 장으로 큰 그림을 만든 뒤, 관심 분야에 맞춰 나머지 장을 보충하는 편이 빠르다.
+
+> 이 목차는 새 알고리즘이 옛 알고리즘을 차례로 대체했다는 연표가 아니다. filtering과 smoothing, sensor modality와 map representation처럼 서로 다른 비교 축을 분리해서 보는 역사 코스다.

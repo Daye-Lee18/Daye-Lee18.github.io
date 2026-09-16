@@ -11,6 +11,15 @@ redirect_from:
   - /study/slam/lio/
 ---
 
+> **처음 방문했다면:** 이 페이지는 입문 목차가 아니라, 기본 개념을 실제 시스템에 연결하는 비교표다. SLAM, 좌표계, registration, filter/graph의 차이가 아직 낯설면 먼저 [90분 빠른 입문 코스]({{ '/study/slam/' | relative_url }})를 읽는다.
+
+## 추천 읽기 순서
+
+1. **FAST-LIO2**에서 현재 기준 시스템의 입력, state, residual, local map을 찾는다.
+2. **LIO-SAM**과 비교해 filter와 graph가 어떤 상태를 보관하고 고치는지 본다.
+3. 실제 문제에 따라 **Point-LIO**(빠른 운동), **FAST-LIVO2**(카메라), **VILENS**(leg sensor), **LTA-OM**(loop/장기 mapping) 중 하나를 고른다.
+4. 각 리뷰를 읽을 때 “더 최신인가?”보다 **어떤 failure mode를 어떤 관측으로 줄이는가?**를 묻는다.
+
 This is the first study page for understanding the principles and limits of FAST-LIO2, currently deployed on Vision60, and for judging what information to add on steps, slips and impacts. The core comparison set is FAST-LIO2, FAST-LIVO2, VILENS, LIO-SAM, LTA-OM, Point-LIO and GLIM, together with the prior work that explains the lineage and the recent follow-up research.
 
 **Sources checked: 2026-09-07.** This is a curated list of work relevant to the project, not an exhaustive ranking of the latest papers. The structure and contributions of each paper are kept separate from the hypotheses about applying it to Vision60. Accuracy and runtime figures from papers with different sensor configurations, compute platforms and datasets are not compared as a single number.
