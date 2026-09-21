@@ -24,3 +24,15 @@ Part 2.3 uses a derivative of $x^2$ — nothing harder.
 
 **Original reading:** Solà, _Course on SLAM_ — motion/observation model sections
 (`_resource/slam/foundations/sola2017-course-on-slam.pdf`).
+
+<aside class="study-summary" markdown="1">
+## What you learned
+
+<dl>
+  <dt>Prediction</dt><dd>Propagating the state and its uncertainty through the motion model.</dd>
+  <dt>Correction</dt><dd>Combining a measurement with the prediction according to their uncertainties.</dd>
+  <dt>Covariance</dt><dd>A matrix describing uncertainty and the correlations between robot and landmark errors.</dd>
+  <dt>EKF-SLAM</dt><dd>A Gaussian filter that jointly estimates the robot pose and landmark positions after linearising nonlinear models.</dd>
+  <dt>Consistency</dt><dd>The requirement that reported uncertainty honestly reflects the estimator's actual error.</dd>
+</dl>
+</aside>
