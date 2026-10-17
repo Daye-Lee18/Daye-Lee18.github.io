@@ -19,7 +19,7 @@ SLAM을 처음 공부한다면 논문 이름부터 외우지 않아도 된다. �
 | 순서 | 읽을 내용 | 이 단계에서 답할 수 있어야 하는 질문 |
 | :--: | --- | --- |
 | 1 | [왜 SLAM이 필요한가]({{ '/study/slam/history/01-why-slam/' | relative_url }}) | Odometry와 SLAM은 무엇이 다르고, 오차는 왜 누적되는가? |
-| 2 | [좌표계와 회전]({{ '/study/slam/history/04-coordinate-rotation/' | relative_url }}) | 같은 점의 좌표가 센서·로봇·월드 좌표계에서 왜 다른가? |
+| 2 | [좌표계와 회전]({{ '/study/slam/history/04-coordinate-rotation/' | relative_url }}) | 같은 점의 좌표가 센서·로봇·월드 좌표계에서 왜 다르며, `map → odom → base_link → sensors`는 왜 분리하는가? |
 | 3 | [ICP와 point-cloud registration]({{ '/study/slam/history/05-registration-icp/' | relative_url }}) | 두 번의 관측을 맞추어 상대 움직임을 어떻게 구하는가? |
 | 4 | [확률과 EKF-SLAM]({{ '/study/slam/history/02-probability-ekf/' | relative_url }}) | prediction과 correction은 무엇이며 covariance는 왜 필요한가? |
 | 5 | [Graph SLAM과 loop closure]({{ '/study/slam/history/06-graph-slam/' | relative_url }}) | 재방문 제약 하나가 과거 trajectory 전체를 어떻게 고치는가? |
@@ -29,6 +29,8 @@ SLAM을 처음 공부한다면 논문 이름부터 외우지 않아도 된다. �
 </div>
 
 > **빠른 통과 기준:** 각 장의 확인 문제를 먼저 풀고, 답을 펼쳐 자신의 설명과 비교한다. 계산이 막혀도 입력·출력과 오차가 보정되는 방향을 말로 설명할 수 있으면 1회독은 충분하다.
+
+> **실제 ROS 2 시스템을 다룬다면:** [4.3 ROS 2 TF tree for SLAM]({{ '/study/slam/history/04-3-tf-tree/' | relative_url }})을 건너뛰지 않는다. `map → odom → base_link → lidar/camera/imu`에서 각 edge의 의미와 publisher가 명확해야 SLAM pose, sensor extrinsic, loop-closure 보정을 서로 섞지 않을 수 있다.
 
 ## 다음: 관심에 따라 가지를 고른다
 

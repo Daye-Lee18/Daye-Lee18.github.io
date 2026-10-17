@@ -17,6 +17,7 @@ Open a hint only if you are stuck.
 | :---------------------------------------------------------------------- | :------------------ | :------------------------------------------- | --- |
 | [4.1 Frames and transforms]({{ '/study/slam/history/04-1-frames/'       | relative_url }})    | convert between frames and catch sign errors | 6   |
 | [4.2 Why rotations do not add]({{ '/study/slam/history/04-2-rotations/' | relative_url }})    | update a rotation correctly                  | 5   |
+| [4.3 ROS 2 TF tree for SLAM]({{ '/study/slam/history/04-3-tf-tree/'     | relative_url }})    | design and debug `map → odom → base_link → sensors` | 7 |
 
 ## Original reading
 
@@ -30,6 +31,7 @@ Open a hint only if you are stuck.
   <dt>Coordinate frame</dt><dd>The reference system in which a point, pose or measurement is expressed.</dd>
   <dt>Rigid transform</dt><dd>A rotation and translation that convert coordinates between two frames.</dd>
   <dt>Transform composition</dt><dd>Chaining frame changes in the correct order to obtain a new transform.</dd>
+  <dt>TF ownership</dt><dd>Assigning exactly one publisher to each edge in the robot's frame tree.</dd>
   <dt>SO(3)</dt><dd>The nonlinear space of valid 3D rotation matrices.</dd>
   <dt>Perturbation</dt><dd>A small local rotation or pose increment used to linearise and optimise on a manifold.</dd>
 </dl>
