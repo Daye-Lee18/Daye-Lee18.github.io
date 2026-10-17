@@ -407,7 +407,7 @@
       <tr>
         <td style="text-align: center">2</td>
         <td><a href="/study/slam/history/04-coordinate-rotation/">좌표계와 회전</a></td>
-        <td>같은 점의 좌표가 센서·로봇·월드 좌표계에서 왜 다른가?</td>
+        <td>같은 점의 좌표가 센서·로봇·월드 좌표계에서 왜 다르며, <code class="language-plaintext highlighter-rouge">map → odom → base_link → sensors</code>는 왜 분리하는가?</td>
       </tr>
       <tr>
         <td style="text-align: center">3</td>
@@ -441,6 +441,10 @@
 
 <blockquote>
   <p><strong>빠른 통과 기준:</strong> 각 장의 확인 문제를 먼저 풀고, 답을 펼쳐 자신의 설명과 비교한다. 계산이 막혀도 입력·출력과 오차가 보정되는 방향을 말로 설명할 수 있으면 1회독은 충분하다.</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>실제 ROS 2 시스템을 다룬다면:</strong> <a href="/study/slam/history/04-3-tf-tree/">4.3 ROS 2 TF tree for SLAM</a>을 건너뛰지 않는다. <code class="language-plaintext highlighter-rouge">map → odom → base_link → lidar/camera/imu</code>에서 각 edge의 의미와 publisher가 명확해야 SLAM pose, sensor extrinsic, loop-closure 보정을 서로 섞지 않을 수 있다.</p>
 </blockquote>
 
 <h2 id="다음-관심에-따라-가지를-고른다">다음: 관심에 따라 가지를 고른다</h2>

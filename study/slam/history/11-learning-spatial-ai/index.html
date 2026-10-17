@@ -380,145 +380,32 @@
   </header>
 
   <article>
-    <blockquote>
-  <p><strong>Goal:</strong> Distinguish learned features, learned depth and neural maps.<br>
-<strong>Workload:</strong> 10–15 minutes. This chapter is about components, not the latest ranking.</p>
-</blockquote>
+    <p>This chapter is two short problem sets about components, not rankings.</p>
 
-<h2 id="1-deep-learning-slam-is-not-one-thing">1. “Deep learning SLAM” is not one thing</h2>
-
-<p>“It uses deep learning” tells you almost nothing, because a SLAM pipeline has five or six places a network could sit — and swapping one of them is a completely different system from swapping another.</p>
-
-<p>Lay the pipeline out and mark where learning can enter:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  image → ① find features → ② describe them → ③ match → ④ estimate depth
-                                                          ↓
-        map representation ⑥ ← ⑤ optimise poses ←─────────┘
-
-  ① ② learned features      SuperPoint, and similar
-       (the geometry after them is completely unchanged)
-
-  ④   learned depth         MiDaS, and similar
-       (supplies the scale a monocular camera cannot, see Ch. 8 §4)
-
-  ⑤   learned pose update   DROID-SLAM
-       (a network proposes the update; BA still enforces geometry)
-
-  ⑥   learned map           NeRF, 3D Gaussian Splatting
-       (the map is now network weights, not points)
-</code></pre></div></div>
-
-<p>Two papers can both be called “deep SLAM” while sharing no component at all. So before memorising model names, write down for each one: what goes in, what comes out, and <strong>which variables are still being optimised geometrically</strong>. A system that learns ① and ② keeps all of classical BA; a system that learns ⑤ and ⑥ has replaced most of it.</p>
-
-<p>The <a href="https://drive.google.com/file/d/1-FZ207zXWqZiEudDnd5EEAaybWdIJzNe/view" rel="external nofollow noopener" target="_blank">KRoC AI Visual SLAM lecture</a> separates learned features, depth and neural SLAM along these lines.</p>
-
-<p><a href="https://arxiv.org/abs/2108.10869" rel="external nofollow noopener" target="_blank">DROID-SLAM</a> combines recurrent updates with Dense Bundle Adjustment to update poses and pixelwise depth. It is a case of using learning while retaining a geometric optimisation structure. Do not generalise the performance of this one case to all learning-based approaches or all environments.</p>
-
-<h2 id="2-a-good-looking-map-and-localisation-performance">2. A good-looking map and localisation performance</h2>
-
-<p>NeRF represents a scene as a radiance field, and 3D Gaussian Splatting renders using Gaussian primitives. The renderings are photorealistic, and it is tempting to read that as “the map is excellent”. Be careful: <strong>the metric the pictures are scored on is not the metric a robot cares about.</strong></p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  what a rendering paper reports     what a robot needs to know
-
-  PSNR 32 dB                         is the doorway at x = 4.2 or x = 4.5?
-  "looks indistinguishable"          is that dark region a wall or free space?
-
-  a photo can be beautiful and still be 20 cm out of place
-</code></pre></div></div>
-
-<p>The second confusion is about the inputs. Most striking NeRF and 3DGS results are <em>reconstructions</em>: the camera poses were already solved beforehand, usually by COLMAP running offline over the whole sequence.</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  reconstruction                     SLAM
-  ──────────────                     ──────────────────────
-  poses: given as input              poses: an unknown to solve
-  data:  the whole sequence          data:  only what has arrived so far
-  time:  offline, hours allowed      time:  online, now
-</code></pre></div></div>
-
-<p>Those are different problems. A method that produces a gorgeous scene given correct poses has not shown it can estimate poses at all. For the basics of these representations, read the <a href="https://drive.google.com/file/d/1mL52klpHEYU6e-yZk3guMaJocLthSAA7/view" rel="external nofollow noopener" target="_blank">KRoC 3D Vision lecture</a>.</p>
-
-<h2 id="3-a-small-paper-analysis-exercise">3. A small paper-analysis exercise</h2>
-
-<p>Fill in one row of the following table for each new paper.</p>
+<p><strong>Solve first, read after</strong> — each problem teaches one idea and the explanation lives in its answer.
+Open a hint only if you are stuck.</p>
 
 <table>
   <thead>
     <tr>
-      <th>Item</th>
-      <th>What to record</th>
+      <th style="text-align: left">Part</th>
+      <th style="text-align: left">You will be able to</th>
+      <th style="text-align: left">Problems</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>Input</td>
-      <td>RGB only, or depth/IMU/pose too?</td>
+      <td style="text-align: left"><a href="/study/slam/history/11-1-where-learning-enters/">11.1 Where learning enters</a></td>
+      <td style="text-align: left">locate what a learned method replaces</td>
+      <td style="text-align: left">5</td>
     </tr>
     <tr>
-      <td>What is learned</td>
-      <td>Correspondence, depth, update or map?</td>
-    </tr>
-    <tr>
-      <td>Remaining geometry</td>
-      <td>Where are projection, pose optimisation and loop verification?</td>
-    </tr>
-    <tr>
-      <td>Runtime conditions</td>
-      <td>GPU, resolution, memory, pretraining data?</td>
-    </tr>
-    <tr>
-      <td>Output</td>
-      <td>Trajectory, surface or semantic labels?</td>
+      <td style="text-align: left"><a href="/study/slam/history/11-2-judging-metrics/">11.2 Judging the numbers</a></td>
+      <td style="text-align: left">see through depth and rendering metrics</td>
+      <td style="text-align: left">4</td>
     </tr>
   </tbody>
 </table>
-
-<p>Filled in for DROID-SLAM, the table looks like this:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Input               RGB only (monocular, stereo or RGB-D variants exist)
-  What is learned     the update step — a recurrent net proposes
-                      corrections to depth and pose
-  Remaining geometry  a lot. Dense Bundle Adjustment still enforces
-                      the projection equations from Chapter 8
-  Runtime conditions  GPU, and a substantial one; memory grows with
-                      the number of keyframes
-  Output              trajectory + per-pixel depth
-</code></pre></div></div>
-
-<p>The “remaining geometry” row is the informative one. DROID-SLAM did not replace BA with a network; it used a network to <em>drive</em> BA. That is a very different risk profile from a system that regresses poses directly, because the geometric layer still rejects physically impossible answers.</p>
-
-<p>Fill in the same five rows for each new paper and the marketing evaporates fairly quickly.</p>
-
-<h2 id="check-questions">Check questions</h2>
-
-<h3 id="question-1--concept">Question 1 — Concept</h3>
-
-<p>A learning-based Visual SLAM method beats classical approaches on its training data but fails badly in a new city. How would you analyse the cause and propose further experiments?</p>
-
-<details class="study-answer">
-  <summary>Show answer</summary>
-
-  <p>First check the differences in appearance, camera intrinsics, motion, weather and dynamic-object distribution between the training data and the new city. Run an ablation that swaps in classical components to identify which module breaks down: learned features, depth, pose update or map representation. Measure geometry consistency, uncertainty calibration and catastrophic failure rate alongside mean ATE. Evaluate leave-one-domain-out across several cities, and isolate causes with experiments controlling illumination, blur and intrinsics. If test-time adaptation is used, ground-truth leakage, computation and online stability also have to be reported.</p>
-
-</details>
-
-<h3 id="question-2--math-and-evaluation">Question 2 — Math and evaluation</h3>
-
-<p>Suppose a depth estimator outputs $\hat d_i=1.2d_i$ for every true depth $d_i$. Compute the absolute relative error</p>
-
-\[\mathrm{AbsRel}=\frac1N\sum_i\frac{|\hat d_i-d_i|}{d_i}\]
-
-<p>and explain why this result does not adequately account for the pose accuracy of monocular SLAM.</p>
-
-<details class="study-answer">
-  <summary>Show answer</summary>
-
-  <p>At each point</p>
-
-\[\frac{|1.2d_i-d_i|}{d_i}=0.2,\]
-
-  <p>so $\mathrm{AbsRel}=0.2$, that is 20%. But this value summarises only the global scale bias of the depth; it does not directly measure temporal consistency between frames, correspondence, camera pose, loop closure or drift. Aligning a monocular trajectory with Sim(3) may even remove a constant scale bias from the evaluation. Depth metrics, trajectory metrics and failure rate have to be read together.</p>
-
-</details>
 
 <h2 id="original-reading">Original reading</h2>
 
@@ -557,9 +444,9 @@
     <a href="/study/slam/history/">← 목차로 돌아가기</a>
   
   
-    <a class="study-chapter-next" href="/study/slam/history/12-evaluation-reading-map/" rel="next">
+    <a class="study-chapter-next" href="/study/slam/history/11-1-where-learning-enters/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Chapter 12. Evaluation and where to study next</span>
+      <span>11.1 Where learning enters</span>
     </a>
   
 </nav>

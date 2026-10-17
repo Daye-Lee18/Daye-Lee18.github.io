@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head -->
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      10.1 What an accelerometer measures | Daye Lee
+    
+  
+</title>
+<meta name="author" content="Daye Lee">
+<meta name="description" content="Specific force, gravity, bias — and why integration explodes.">
+
+  <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%92%83%F0%9F%8F%BB&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="https://daye-lee18.github.io/study/slam/history/10-1-accelerometer/">
+
+
+  <!-- Dark Mode -->
+  <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script>
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <!-- Body -->
+  <body class="fixed-top-nav ">
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Daye</span>
+            
+            
+            Lee
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">About
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/cv/">CV
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/publications/">Publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/projects/">Projects
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/study/">Study
+                    
+                      <span class="sr-only">(current)</span>
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/shadowing/">Shadowing
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+          
+            
+          
+            
+              
+                
+                <li class="nav-item ">
+                  <a class="nav-link" href="/teaching/">Teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Search -->
+            <li class="nav-item">
+              <button id="search-toggle" title="Search" onclick="openSearchModal()">
+                <span class="nav-link">ctrl k <i class="ti ti-search"></i></span>
+              </button>
+            </li>
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="container-xl mt-5" role="main">
+      
+        
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">10.1 What an accelerometer measures</h1>
+    <p class="post-description">Specific force, gravity, bias — and why integration explodes.</p>
+  </header>
+
+  <article>
+    <blockquote>
+  <p><strong>Goal:</strong> explain specific force, compute bias and attitude-error drift, and say why IMUs need aiding.</p>
+</blockquote>
+
+<hr>
+
+<h3 id="problem-1--a-still-robot">Problem 1 — a still robot</h3>
+
+<p>A robot sits motionless on a table. What does its accelerometer read?</p>
+
+<details class="study-answer">
+  <summary>Show answer</summary>
+
+  <p>About $(0, 0, +9.81)$ m/s², not zero. An accelerometer measures <strong>specific force</strong>, which includes the reaction to gravity. It is not the robot’s acceleration.</p>
+
+</details>
+
+<h3 id="problem-2--integrate-the-raw-reading">Problem 2 — integrate the raw reading</h3>
+
+<p>Integrate that reading twice for 10 s as if it were acceleration. How far has the robot “moved”?</p>
+
+<details class="study-answer">
+  <summary>Hint</summary>
+
+  <p>$\frac12 a t^2$.</p>
+
+</details>
+
+<details class="study-answer">
+  <summary>Show answer</summary>
+
+  <p>$\frac12 \times 9.81 \times 10^2 \approx 490$ m — straight up. Gravity must be subtracted first, which requires knowing which way is down, i.e. the orientation.</p>
+
+</details>
+
+<h3 id="problem-3--a-tiny-bias">Problem 3 — a tiny bias</h3>
+
+<p>After removing gravity, a constant bias of 0.01 m/s² remains (one thousandth of gravity). Velocity and position error after 1, 10 and 60 s?</p>
+
+<details class="study-answer">
+  <summary>Hint</summary>
+
+  <p>$\delta v = bt$, $\delta p = \frac12 bt^2$.</p>
+
+</details>
+
+<details class="study-answer">
+  <summary>Show answer</summary>
+
+  <div class="language-text highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  time   velocity err   position err
+   1 s     0.01 m/s        0.005 m
+  10 s     0.10 m/s        0.5 m
+  60 s     0.60 m/s       18 m
+</code></pre></div>  </div>
+
+  <p><strong>Nothing changed except the clock.</strong> The $t^2$ is what makes free-running IMU integration useful for seconds, not minutes.</p>
+
+</details>
+
+<h3 id="problem-4--attitude-error">Problem 4 — attitude error</h3>
+
+<p>Orientation is wrong by 1° in roll. How much of gravity leaks into the horizontal axis?</p>
+
+<details class="study-answer">
+  <summary>Hint</summary>
+
+  <p>$g \sin\theta$.</p>
+
+</details>
+
+<details class="study-answer">
+  <summary>Show answer</summary>
+
+  <p>$9.81 \times \sin 1° \approx 0.171$ m/s² — <strong>17× the bias above</strong>, 8.6 m of position error after 10 s. Getting orientation slightly wrong is far worse than a slightly biased accelerometer.</p>
+
+</details>
+
+<h3 id="problem-5--why-the-imu-is-still-worth-it">Problem 5 — why the IMU is still worth it</h3>
+
+<p>A LiDAR scans at 10 Hz; an IMU at 200–1000 Hz. A landing robot can rotate 20° in 100 ms. What does each sensor know about that rotation?</p>
+
+<details class="study-answer">
+  <summary>Show answer</summary>
+
+  <p>The LiDAR sees one scan before and one after — nothing in between. The IMU samples it hundreds of times. <strong>IMU = fast but drifting; LiDAR = slow but anchored.</strong> LIO combines them.</p>
+
+</details>
+
+<h3 id="problem-6--challenge--two-sources-compared">Problem 6 — challenge — two sources compared</h3>
+
+<p>A constant 0.02 m/s² bias and a 1° attitude error are both present for 20 s. Which dominates the position error, and by how much?</p>
+
+<details class="study-answer">
+  <summary>Show answer</summary>
+
+  <p>Bias: $\frac12 \times 0.02 \times 400 = 4$ m. Attitude: $\frac12 \times 0.171 \times 400 \approx 34$ m. <strong>Attitude error dominates by about 8×</strong> — hence the emphasis on gravity alignment and attitude correction.</p>
+
+</details>
+
+<hr>
+
+<p><strong>You can now:</strong> explain specific force, compute how bias and attitude error drift, and say why IMUs must be combined with an absolute sensor.</p>
+
+
+
+
+
+
+
+
+<nav class="study-chapter-nav" aria-label="챕터 이동">
+  
+    <a href="/study/slam/history/">← 목차로 돌아가기</a>
+  
+  
+    <a class="study-chapter-next" href="/study/slam/history/10-2-deskew-filter-smoother/" rel="next">
+      <span class="study-chapter-next-label">다음 챕터 →</span>
+      <span>10.2 Deskew, and filter versus smoother</span>
+    </a>
+  
+</nav>
+
+  </article>
+
+  
+
+  
+</div>
+
+      
+    </div>
+
+    <!-- Footer -->
+    
+
+
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      
+  © Copyright 2026
+  Daye
+  
+  Lee. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>.
+
+  
+  
+
+    </div>
+  </footer>
+
+
+
+    <!-- JavaScripts -->
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+
+  <!-- Masonry & imagesLoaded -->
+  <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Medium Zoom JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+  <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+
+
+
+
+
+
+<!-- Load Common JS -->
+<script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script>
+<script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script>
+<script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script>
+
+<!-- Jupyter Open External Links New Tab -->
+<script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script>
+
+<!-- Badges -->
+
+  <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+
+  <script async src="https://badge.dimensions.ai/badge.js"></script>
+
+
+
+  <!-- MathJax -->
+  <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script>
+  
+    <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+  <!-- Scrolling Progress Bar -->
+  <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script>
+
+
+
+
+
+
+
+  <!-- Back to Top -->
+  <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script>
+  <script>
+    addBackToTop();
+  </script>
+
+
+
+  <!-- Search -->
+  <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script>
+  <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys>
+  <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script>
+  <script src="/assets/js/search-data.js"></script>
+  <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script>
+
+
+
+
+  </body>
+</html>

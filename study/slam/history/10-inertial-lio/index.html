@@ -380,140 +380,32 @@
   </header>
 
   <article>
-    <blockquote>
-  <p><strong>Goal:</strong> Explain IMU drift, deskew, and the relationship between filtering and smoothing.<br>
-<strong>Workload:</strong> 15 minutes. This chapter is the doorway to the LIO part.</p>
-</blockquote>
+    <p>This chapter is two short problem sets and the doorway to the LIO part.</p>
 
-<h2 id="1-why-does-having-an-imu-help">1. Why does having an IMU help?</h2>
-
-<p>A LiDAR fires at 10 Hz. Between two scans, 100 ms pass — and a robot that lands from a step can rotate 20° in that time. The LiDAR simply has no opinion about what happened in between.</p>
-
-<p>An IMU runs at 200–1000 Hz and fills that gap:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  LiDAR    ●─────────────────────────────●          2 samples in 200 ms
-  IMU      ●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●        ~200 samples
-           └──────── the IMU knows what happened here ────────┘
-</code></pre></div></div>
-
-<p>But an accelerometer does not report “acceleration”. It reports <strong>specific force</strong>, which is not the same thing, and the difference bites immediately. A robot sitting perfectly still on a table reads:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  accelerometer output   (0, 0, +9.81)  m/s²
-  actual acceleration    (0, 0,  0)     m/s²   ← it is not moving at all
-</code></pre></div></div>
-
-<p>Integrate the raw reading twice and after 10 seconds the “position” has climbed 490 m into the air. Gravity has to be subtracted first, and to subtract it you must know which way is down — which means knowing your orientation. So attitude, gravity and bias all have to be handled before an accelerometer says anything useful about motion.</p>
-
-<p>And even then, integration only accumulates error (§4), which is why aided navigation with external sensor observations is needed. The <a href="https://drive.google.com/file/d/1byqGAKCCsnv8rZbko4RBG9KiQQD_4h8x/view" rel="external nofollow noopener" target="_blank">KRoC IMU lecture</a> explains the problems of INS and the role of aiding observations.</p>
-
-<h2 id="2-a-single-scan-is-not-captured-at-a-single-instant">2. A single scan is not captured at a single instant</h2>
-
-<p>The word “scan” makes it sound like a photograph. It is not. A spinning LiDAR sweeps around over 100 ms, and each point is measured at a different moment along the way.</p>
-
-<p>If the robot is moving at 1 m/s, the first and last points of one scan were taken from positions 10 cm apart:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  point index      when measured      robot was at
-       0              t + 0 ms           x = 0.00
-    1000              t + 25 ms          x = 0.025
-    2000              t + 50 ms          x = 0.050
-    3000              t + 75 ms          x = 0.075
-    4000              t + 100 ms         x = 0.100
-</code></pre></div></div>
-
-<p>Treat all of them as if they came from one place and a straight wall comes out bent:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   what the wall is        what the raw scan looks like
-
-        ║                          ╲
-        ║                           ╲     smeared by 10 cm
-        ║                            ╲    across the sweep
-        ║                             ╲
-</code></pre></div></div>
-
-<p>Deskew undoes this: using the IMU-derived motion, each point is moved to where it would have been had it been measured at one common reference time. It is not an optional polish step — without it, ICP is being handed a wall that genuinely is bent, and it will faithfully estimate a wrong pose from it.</p>
-
-<p>Note what deskew needs: an accurate per-point timestamp and an accurate extrinsic between LiDAR and IMU. If those are wrong, adding more sensors will not fix it.</p>
-
-<h2 id="3-comparing-the-design-of-representative-systems">3. Comparing the design of representative systems</h2>
+<p><strong>Solve first, read after</strong> — each problem teaches one idea and the explanation lives in its answer.
+Open a hint only if you are stuck.</p>
 
 <table>
   <thead>
     <tr>
-      <th>System</th>
-      <th>Representative estimation approach</th>
-      <th>What to look for while reading</th>
+      <th style="text-align: left">Part</th>
+      <th style="text-align: left">You will be able to</th>
+      <th style="text-align: left">Problems</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>LIO-SAM (2020)</td>
-      <td>Tightly coupled LIO built on a factor graph</td>
-      <td>IMU preintegration, LiDAR odometry, loop/GPS factors</td>
+      <td style="text-align: left"><a href="/study/slam/history/10-1-accelerometer/">10.1 What an accelerometer measures</a></td>
+      <td style="text-align: left">compute IMU drift from bias and attitude</td>
+      <td style="text-align: left">6</td>
     </tr>
     <tr>
-      <td>FAST-LIO2 (2021 preprint)</td>
-      <td>Direct LIO based on an iterated Kalman filter</td>
-      <td>Raw-point scan-to-map registration, incremental map management</td>
+      <td style="text-align: left"><a href="/study/slam/history/10-2-deskew-filter-smoother/">10.2 Deskew, and filter versus smoother</a></td>
+      <td style="text-align: left">size scan distortion and compare designs</td>
+      <td style="text-align: left">5</td>
     </tr>
   </tbody>
 </table>
-
-<p><a href="https://arxiv.org/abs/2007.00258" rel="external nofollow noopener" target="_blank">LIO-SAM</a> uses IMU information for deskew and for the initial guess, and combines measurements in a factor graph. <a href="https://arxiv.org/abs/2107.06829" rel="external nofollow noopener" target="_blank">FAST-LIO2</a> combines direct point cloud registration with an efficient map data structure. This comparison is a difference of design, not an accuracy ranking. Do not assume that FAST-LIO2’s local mapping automatically includes global loop closure.</p>
-
-<h2 id="4-a-hand-calculation">4. A hand calculation</h2>
-
-<p>Bias is a small constant offset the accelerometer always adds. Suppose it is $0.01\,m/s^2$ — one thousandth of gravity, an amount you would never notice on a datasheet.</p>
-
-<p>Position error from a constant bias is $\frac12bt^2$, and the $t^2$ is what hurts:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   time      velocity error      position error
-   ─────     ──────────────      ──────────────
-    1 s          0.01 m/s            0.005 m      harmless
-   10 s          0.10 m/s            0.5 m        noticeable
-   60 s          0.60 m/s            18 m         useless
-  300 s          3.00 m/s            450 m        absurd
-</code></pre></div></div>
-
-<p>Nothing changed except the clock. The bias stayed at 0.01 the whole time.</p>
-
-<p>Now compare it against a 1° attitude error, which projects gravity sideways at $9.81\sin(1°) \approx 0.171\,m/s^2$ — seventeen times worse than the bias above. After 10 seconds that alone is 8.6 m.</p>
-
-<p>Two lessons follow. Free-running IMU integration is measured in <em>seconds</em> of usefulness, not minutes. And <strong>attitude error dominates</strong>: getting the orientation slightly wrong is far more damaging than a slightly biased accelerometer, which is why gravity alignment and attitude correction get so much attention.</p>
-
-<h2 id="check-questions">Check questions</h2>
-
-<h3 id="question-1--concept">Question 1 — Concept</h3>
-
-<p>Compare filtering and fixed-lag smoothing in terms of latency, computation, relinearisation and the ability to revise past states. Also explain whether a LIO system has to use only one of the two.</p>
-
-<details class="study-answer">
-  <summary>Show answer</summary>
-
-  <p>Filtering usually updates the current state and covariance recursively, making low latency and a bounded state size easy to achieve, but it is hard to directly re-optimise marginalised past states with new information. Fixed-lag smoothing keeps several states in a time window together, allowing relinearisation and the handling of delayed measurements, at the cost of more computation and latency. Practical systems can combine them, using a filter for fast propagation and local odometry and smoothing for a keyframe graph or loop closure. The axis of comparison is not old versus new but latency, state horizon, nonlinear models and the need for global correction.</p>
-
-</details>
-
-<h3 id="question-2--math">Question 2 — Math</h3>
-
-<p>Assume attitude is exact and the initial velocity error is zero, with a constant body x-axis accelerometer bias $b_a=0.02m/s^2$. Find the velocity and position error after integrating for 20 seconds with no correction. Also approximate the horizontal-axis acceleration error produced by gravity $9.81m/s^2$ given a roll error of $1^\circ$.</p>
-
-<details class="study-answer">
-  <summary>Show answer</summary>
-
-  <p>Considering the constant bias alone,</p>
-
-\[\delta v=b_at=0.02\times20=0.4m/s,\]
-
-\[\delta p=\frac12b_at^2
-=\frac12\times0.02\times20^2=4m.\]
-
-  <p>Since $1^\circ\approx0.01745rad$, the small-angle gravity projection error is</p>
-
-\[g\sin(1^\circ)\approx9.81\times0.01745\approx0.171m/s^2,\]
-
-  <p>which is far larger than the bias above. This is why attitude error grows into position error so quickly in IMU integration, and why gravity alignment and attitude correction matter.</p>
-
-</details>
 
 <h2 id="original-reading">Original reading</h2>
 
@@ -551,9 +443,9 @@
     <a href="/study/slam/history/">← 목차로 돌아가기</a>
   
   
-    <a class="study-chapter-next" href="/study/slam/history/11-learning-spatial-ai/" rel="next">
+    <a class="study-chapter-next" href="/study/slam/history/10-1-accelerometer/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Chapter 11. Learning-based SLAM and Spatial AI</span>
+      <span>10.1 What an accelerometer measures</span>
     </a>
   
 </nav>

@@ -508,61 +508,196 @@ ninja.data = [{
           description: "다리 운동학 속도를 FAST-LIO2 필터에 관측으로 추가하는 구조와, 그것을 설명하기 위한 계산 예제.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/leg-fusion/";
+            },},{id: "study-1-1-relative-measurements-and-drift",
+          title: '1.1 Relative measurements and drift',
+          description: "Why odometry drifts, by problems.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/01-1-relative-measurements/";
+            },},{id: "study-1-2-loop-closure-and-what-counts-as-slam",
+          title: '1.2 Loop closure, and what counts as SLAM',
+          description: "Turning “I have been here before” into a correction.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/01-2-loop-closure/";
             },},{id: "study-chapter-1-why-do-we-need-slam",
           title: 'Chapter 1. Why do we need SLAM?',
           description: "The relationship between pose and map, odometry versus SLAM, and the broad arc of the field.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/01-why-slam/";
+            },},{id: "study-2-1-fusing-two-estimates",
+          title: '2.1 Fusing two estimates',
+          description: "Kalman gain from scratch, by problems.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/02-1-fusing-estimates/";
+            },},{id: "study-2-2-errors-spread",
+          title: '2.2 Errors spread',
+          description: "Why landmarks seen from the same pose share an error.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/02-2-errors-spread/";
+            },},{id: "study-2-3-linearisation",
+          title: '2.3 Linearisation',
+          description: "Replace a curve by its tangent — and see when that fails.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/02-3-linearisation/";
+            },},{id: "study-2-4-the-covariance-matrix",
+          title: '2.4 The covariance matrix',
+          description: "Fill in the EKF-SLAM covariance and watch one observation correct an unobserved landmark.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/02-4-covariance-matrix/";
             },},{id: "study-chapter-2-probability-and-ekf-slam",
           title: 'Chapter 2. Probability and EKF-SLAM',
-          description: "Tracking uncertainty instead of a single right answer.",
+          description: "Four short problem sets: fusing two estimates, how errors spread, linearisation, the covariance matrix.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/02-probability-ekf/";
+            },},{id: "study-3-1-why-condition-on-the-path",
+          title: '3.1 Why condition on the path',
+          description: "The trick that removes EKF-SLAM&#39;s giant matrix.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/03-1-condition-on-path/";
+            },},{id: "study-3-2-particles-weights-and-resampling",
+          title: '3.2 Particles, weights and resampling',
+          description: "How FastSLAM picks among path guesses.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/03-2-particles/";
             },},{id: "study-chapter-3-fastslam-and-conditional-independence",
           title: 'Chapter 3. FastSLAM and conditional independence',
           description: "Splitting one large joint estimation problem into a path problem and landmark problems.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/03-fastslam/";
+            },},{id: "study-4-1-frames-and-transforms",
+          title: '4.1 Frames and transforms',
+          description: "Converting a point between sensor and world coordinates.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/04-1-frames/";
+            },},{id: "study-4-2-why-rotations-do-not-add",
+          title: '4.2 Why rotations do not add',
+          description: "Rotation matrices compose by multiplication.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/04-2-rotations/";
+            },},{id: "study-4-3-ros-2-tf-tree-for-slam",
+          title: '4.3 ROS 2 TF tree for SLAM',
+          description: "TF의 의미와 map → odom → base_link → lidar/camera 구조, 그리고 TF 조회 주기가 pose에 미치는 영향.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/04-3-tf-tree/";
             },},{id: "study-chapter-4-frames-and-rotation",
           title: 'Chapter 4. Frames and rotation',
           description: "The minimum geometry needed to read 3D SLAM equations.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/04-coordinate-rotation/";
+            },},{id: "study-5-1-the-icp-loop",
+          title: '5.1 The ICP loop',
+          description: "Aligning two scans by alternating matching and solving.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/05-1-icp-loop/";
+            },},{id: "study-5-2-when-a-low-error-lies",
+          title: '5.2 When a low error lies',
+          description: "Converged, tiny residual, wrong pose.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/05-2-low-error-lies/";
             },},{id: "study-chapter-5-icp-and-point-cloud-registration",
           title: 'Chapter 5. ICP and point cloud registration',
           description: "Understanding iterative optimisation through the problem of aligning two observations.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/05-registration-icp/";
+            },},{id: "study-6-1-constraints-and-least-squares",
+          title: '6.1 Constraints and least squares',
+          description: "A pose graph solved by hand.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/06-1-constraints/";
+            },},{id: "study-6-2-wrong-loops",
+          title: '6.2 Wrong loops',
+          description: "A low cost does not mean a true map.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/06-2-wrong-loops/";
             },},{id: "study-chapter-6-graph-slam-and-loop-closure",
           title: 'Chapter 6. Graph SLAM and loop closure',
           description: "A constraint-based representation in which past trajectory can still be corrected.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/06-graph-slam/";
+            },},{id: "study-7-1-why-the-matrix-is-mostly-zeros",
+          title: '7.1 Why the matrix is mostly zeros',
+          description: "Sparsity makes large graphs solvable.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/07-1-mostly-zeros/";
+            },},{id: "study-7-2-fill-in-and-ordering",
+          title: '7.2 Fill-in and ordering',
+          description: "Solving can make a sparse matrix dense — unless you choose the order.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/07-2-fill-in/";
             },},{id: "study-chapter-7-sparsity-and-isam",
           title: 'Chapter 7. Sparsity and iSAM',
           description: "Many variables does not mean every variable is connected to every other.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/07-sparsity-isam/";
+            },},{id: "study-8-1-depth-from-two-views",
+          title: '8.1 Depth from two views',
+          description: "Why one image cannot give depth, and two can.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/08-1-depth-from-views/";
+            },},{id: "study-8-2-reprojection-error-and-scale",
+          title: '8.2 Reprojection error and scale',
+          description: "What bundle adjustment fits, and what a single camera can never know.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/08-2-reprojection-scale/";
             },},{id: "study-chapter-8-visual-slam-and-bundle-adjustment",
           title: 'Chapter 8. Visual SLAM and Bundle Adjustment',
           description: "Refining poses and 3D points together from camera observations.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/08-visual-slam/";
+            },},{id: "study-9-1-choosing-a-map-and-what-it-costs",
+          title: '9.1 Choosing a map, and what it costs',
+          description: "Different questions need different maps.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/09-1-choosing-a-map/";
+            },},{id: "study-9-2-occupancy-in-log-odds",
+          title: '9.2 Occupancy in log-odds',
+          description: "Free, occupied, unknown — and how evidence adds up.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/09-2-occupancy-log-odds/";
             },},{id: "study-chapter-9-from-sparse-maps-to-dense-maps",
           title: 'Chapter 9. From sparse maps to dense maps',
           description: "What should a map store, and which questions should it answer?",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/09-dense-maps/";
+            },},{id: "study-10-1-what-an-accelerometer-measures",
+          title: '10.1 What an accelerometer measures',
+          description: "Specific force, gravity, bias — and why integration explodes.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/10-1-accelerometer/";
+            },},{id: "study-10-2-deskew-and-filter-versus-smoother",
+          title: '10.2 Deskew, and filter versus smoother',
+          description: "A scan is not a snapshot; and two ways to fuse.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/10-2-deskew-filter-smoother/";
             },},{id: "study-chapter-10-from-imu-fusion-to-lio",
           title: 'Chapter 10. From IMU fusion to LIO',
           description: "Why fast inertial prediction and external observations need each other.",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/10-inertial-lio/";
+            },},{id: "study-11-1-where-learning-enters",
+          title: '11.1 Where learning enters',
+          description: "“Deep SLAM” is not one thing.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/11-1-where-learning-enters/";
+            },},{id: "study-11-2-judging-the-numbers",
+          title: '11.2 Judging the numbers',
+          description: "Pretty pictures and depth scores are not pose accuracy.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/11-2-judging-metrics/";
             },},{id: "study-chapter-11-learning-based-slam-and-spatial-ai",
           title: 'Chapter 11. Learning-based SLAM and Spatial AI',
           description: "Which part of the pipeline does learning actually change?",
           section: "Study",handler: () => {
               window.location.href = "/study/slam/history/11-learning-spatial-ai/";
+            },},{id: "study-12-1-ate-and-rpe",
+          title: '12.1 ATE and RPE',
+          description: "Two trajectory metrics, computed by hand.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/12-1-ate-rpe/";
+            },},{id: "study-12-2-fair-comparison",
+          title: '12.2 Fair comparison',
+          description: "One trajectory, four honest numbers.",
+          section: "Study",handler: () => {
+              window.location.href = "/study/slam/history/12-2-fair-comparison/";
             },},{id: "study-chapter-12-evaluation-and-where-to-study-next",
           title: 'Chapter 12. Evaluation and where to study next',
           description: "How to connect the history to performance tables and code reading.",

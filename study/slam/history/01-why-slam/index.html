@@ -380,155 +380,32 @@
   </header>
 
   <article>
-    <blockquote>
-  <p><strong>Goal:</strong> Explain why pose and map have to be estimated together.<br>
-<strong>Workload:</strong> 15 minutes of reading + 5 minutes of check questions. No prior knowledge needed.</p>
-</blockquote>
+    <p>This chapter is two short problem sets. No prior knowledge needed.</p>
 
-<h2 id="1-you-need-a-map-to-know-where-you-are">1. You need a map to know where you are</h2>
-
-<p>Suppose a robot enters a building for the first time and its sensor reports “there is a wall 3 m ahead of me”. That single number does not tell it where it is. The robot could be anywhere in the building that happens to have a wall 3 m in front of it.</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"a wall 3 m ahead"  →  which of these is true?
-
-   room A          corridor B        room C
-  ┌──────┐        ┌──────────┐      ┌──────┐
-  │  🤖 ─┤ 3m     │  🤖 ─────┤ 3m   │ 🤖 ─ │ 3m
-  └──────┘        └──────────┘      └──────┘
-
-  all three are consistent with the same measurement
-</code></pre></div></div>
-
-<p>Now turn it around. To draw that wall onto a map, you have to write down <em>where the wall is</em>, and for that you need to know where the robot was standing when it measured. If the robot was at (0, 0) facing +x, the wall goes at x = 3. If it was at (10, 0), the same measurement puts the wall at x = 13. Same sensor reading, two completely different maps.</p>
-
-<p>So each of the two problems needs the answer to the other one first.</p>
-
-<p>SLAM estimates these two unknowns — <strong>the robot’s position and orientation, and the surrounding map</strong> — jointly from observations. The map does not have to be a picture a human would look at; the coordinates of feature points to be re-observed are also a map. The KRoC <a href="https://drive.google.com/file/d/1tmWxcQFD0lGZPO3L6wjxT1k6am4EXyMK/view" rel="external nofollow noopener" target="_blank">History lecture</a> introduces the problem by separating the requirements of localisation from those of mapping.</p>
-
-<h2 id="2-odometry-measures-a-position-relative-to-the-previous-one">2. Odometry measures a position <em>relative to the previous one</em>
-</h2>
-
-<p>Odometry does not answer “where am I?”. From two consecutive observations it answers a much smaller question: <strong>“how far have I moved since a moment ago?”</strong> What it produces is a position relative to the previous pose, never an absolute position in the building.</p>
-
-<p>Take a concrete case. The robot starts at the origin and drives straight along x, and odometry reports once per second.</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>t = 0   pose (x, y, z) = (0.00, 0.00, 0.00)   ← the starting point we declared
-
-t = 0 → 1   odometry says: Δ = (+1.00, 0.00, 0.00)     "I moved 1 m forward"
-t = 1   pose = (0.00 + 1.00, 0, 0) = (1.00, 0.00, 0.00)
-
-t = 1 → 2   odometry says: Δ = (+1.00, 0.00, 0.00)
-t = 2   pose = (1.00 + 1.00, 0, 0) = (2.00, 0.00, 0.00)
-
-t = 2 → 3   odometry says: Δ = (+1.00, 0.00, 0.00)
-t = 3   pose = (3.00, 0.00, 0.00)
-</code></pre></div></div>
-
-<p>Read the middle column carefully. The sensor never once said “you are at (2.00, 0, 0)”. It only ever said “+1.00 in x”. The absolute pose in the left column is something <em>we</em> computed, by adding up relative measurements starting from a position we simply assumed. In reality each step also carries a rotation, so the quantity being added is a relative pose (translation together with rotation) rather than three numbers.</p>
-
-<h2 id="3-why-adding-up-relative-measurements-drifts">3. Why adding up relative measurements drifts</h2>
-
-<p>Because the pose is a running sum, every error in a step stays in the sum forever.</p>
-
-<p>Suppose the robot truly moves 1.00 m per step, but the wheels slip slightly and odometry reports 1.02 m each time.</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>step      odometry sum      true position      error
-  1           1.02              1.00            0.02
- 10          10.20             10.00            0.20
-100         102.00            100.00            2.00
-</code></pre></div></div>
-
-<p>A 2 cm error nobody would notice in a single step has become 2 m after a hundred steps. Nothing went wrong at step 100; the error was accumulated, not created.</p>
-
-<p>Rotation error is worse still, because it turns the <em>direction</em> of every step that follows. Get the heading wrong by 1° early on and 100 m later the trajectory is off sideways by roughly 1.7 m, even if every distance was measured perfectly.</p>
-
-<p>This is what it looks like when the robot walks a 10 m square and comes back to its starting point.</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        estimated trajectory                 what actually happened
-
-   (0,10) ┌──────────┐ (10,10)              the robot is standing
-          │          │                       exactly where it started
-          │          │
-          │          │                       but the accumulated numbers say
-    start └──────────┘  (0.4, 0.3)           it is 0.5 m away from the start
-    (0,0)               ← should be (0,0)
-</code></pre></div></div>
-
-<p>The robot can see with its own eyes that it is back at the front door. Its arithmetic disagrees. That gap of 0.5 m is exactly the drift the sum has collected.</p>
-
-<h2 id="4-loop-closure-turns-i-have-been-here-before-into-a-constraint">4. Loop closure turns “I have been here before” into a constraint</h2>
-
-<p>Loop closure confirms that the robot has revisited a past place, and adds a constraint between two distant points in time: <em>the pose at t = 400 and the pose at t = 0 are the same place</em>.</p>
-
-<p>That constraint is powerful because it is the first piece of information in the whole chain that is <strong>not</strong> relative to the immediately preceding moment. It lets the accumulated 0.5 m be pushed back and redistributed over the entire trajectory, rather than being dumped on the last pose. (Chapter 6 works through that redistribution with actual numbers.)</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>relative measurements → running sum → accumulated trajectory
-                                            ↑
-place recognition → geometric verification → revisit constraint
-</code></pre></div></div>
-
-<p>Note the middle step. Two places <em>looking</em> similar and being <em>geometrically verified</em> as the same place are different things — a first-floor corridor and a second-floor corridor can look identical.</p>
-
-<p>Something is not SLAM only if loop closure always succeeds; some systems maintain only a local map. When you read a paper, check <strong>which states it estimates and how far its map extends</strong> rather than the name it uses. The <a href="https://arxiv.org/abs/1606.05830" rel="external nofollow noopener" target="_blank">SLAM survey by Cadena et al.</a> lays out the problem definition, the structure of a full system, and the open challenges.</p>
-
-<h2 id="5-four-questions-for-reading-the-history">5. Four questions for reading the history</h2>
+<p><strong>Solve first, read after</strong> — each problem teaches one idea and the explanation lives in its answer.
+Open a hint only if you are stuck.</p>
 
 <table>
   <thead>
     <tr>
-      <th>Question</th>
-      <th>The answer you will meet in these notes</th>
+      <th style="text-align: left">Part</th>
+      <th style="text-align: left">You will be able to</th>
+      <th style="text-align: left">Problems</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>How should error be represented?</td>
-      <td>Probability distributions, covariance, filtering</td>
+      <td style="text-align: left"><a href="/study/slam/history/01-1-relative-measurements/">1.1 Relative measurements and drift</a></td>
+      <td style="text-align: left">say why odometry error only grows</td>
+      <td style="text-align: left">6</td>
     </tr>
     <tr>
-      <td>How can computation be reduced on a big map?</td>
-      <td>Conditional independence, sparse optimisation</td>
-    </tr>
-    <tr>
-      <td>Which sensors and maps should be used?</td>
-      <td>Cameras, LiDAR, IMU, dense maps</td>
-    </tr>
-    <tr>
-      <td>Will it keep working in the real world?</td>
-      <td>Revisits, robustness, learning, evaluation</td>
+      <td style="text-align: left"><a href="/study/slam/history/01-2-loop-closure/">1.2 Loop closure, and what counts as SLAM</a></td>
+      <td style="text-align: left">explain what a loop closure fixes</td>
+      <td style="text-align: left">4</td>
     </tr>
   </tbody>
 </table>
-
-<p>This ordering is for study. Real research developed with heavy overlap, and a new method appearing does not mean earlier approaches disappear.</p>
-
-<h2 id="6-check-questions">6. Check questions</h2>
-
-<h3 id="question-1--concept">Question 1 — Concept</h3>
-
-<p>“If you just bolt loop closure onto odometry, can you always call it SLAM?” Answer from the perspective of the system components and of what is being estimated.</p>
-
-<details class="study-answer">
-  <summary>Show answer</summary>
-
-  <p>The presence of loop closure alone is not enough to decide. First check the scope over which the system estimates the robot state and the environment representation. Odometry mainly accumulates relative motion between consecutive instants, while SLAM also handles the consistency between observations and the state and map together. SLAM without loop closure, or maintaining only a local map, is possible. Conversely, a system that only corrects past poses without producing a reusable environment representation is closer to pose-graph localisation or trajectory optimisation. So describe the input sensors, the state variables, the map representation and which variables the revisit constraints actually update, and only then settle on the term.</p>
-
-</details>
-
-<h3 id="question-2--math-and-reasoning">Question 2 — Math and reasoning</h3>
-
-<p>Suppose each of the four sides of a square path is estimated at 10 m, with an independent standard deviation of $0.1m$ on each side’s displacement. Ignoring rotation error for simplicity, what is the standard deviation of the position error remaining on one axis after two opposite-direction motions cancel? Also explain the limitation of simply snapping the last pose back to the origin.</p>
-
-<details class="study-answer">
-  <summary>Show answer</summary>
-
-  <p>On one axis the variances of two independent motion errors add, so</p>
-
-\[\sigma_x=\sqrt{0.1^2+0.1^2}\approx0.141m\]
-
-  <p>and the other axis is the same under the same assumption. In practice rotation error also affects the direction of subsequent motion, so the error grows beyond this simple independent sum and correlations appear between axes. Snapping only the last pose to the origin makes just the loop’s endpoint agree; the error distributed over the intermediate trajectory and the map remains. You need to adjust the whole trajectory using the uncertainty of all poses and observation constraints.</p>
-
-</details>
 
 <h2 id="original-reading">Original reading</h2>
 
@@ -566,9 +443,9 @@ place recognition → geometric verification → revisit constraint
     <a href="/study/slam/history/">← 목차로 돌아가기</a>
   
   
-    <a class="study-chapter-next" href="/study/slam/history/02-probability-ekf/" rel="next">
+    <a class="study-chapter-next" href="/study/slam/history/01-1-relative-measurements/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Chapter 2. Probability and EKF-SLAM</span>
+      <span>1.1 Relative measurements and drift</span>
     </a>
   
 </nav>

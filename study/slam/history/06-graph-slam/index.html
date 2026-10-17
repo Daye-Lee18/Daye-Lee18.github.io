@@ -380,128 +380,32 @@
   </header>
 
   <article>
-    <blockquote>
-  <p><strong>Goal:</strong> Separate the roles of front-end, back-end and factor.<br>
-<strong>Workload:</strong> 15 minutes. Uses the residual concept from Chapter 5.</p>
-</blockquote>
+    <p>This chapter is two short problem sets. Uses the residual idea from Chapter 5.</p>
 
-<h2 id="1-even-a-trajectory-you-have-already-travelled-can-be-revised">1. Even a trajectory you have already travelled can be revised</h2>
+<p><strong>Solve first, read after</strong> — each problem teaches one idea and the explanation lives in its answer.
+Open a hint only if you are stuck.</p>
 
-<p>A filter, as in Chapter 2, throws the past away. It keeps only the current state, so once pose $x_1$ has been folded into the estimate, there is no $x_1$ left to correct.</p>
-
-<p>Graph SLAM keeps all of them. Every pose stays a variable you can still edit:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  filter                          graph
-  ───────────────                 ────────────────────────────
-  keeps: x_3 only                 keeps: x_0, x_1, x_2, x_3
-  past is gone                    all still editable
-
-  new information                 new information can revise
-  updates x_3                     any pose, including old ones
-</code></pre></div></div>
-
-<p>The measurements become <strong>constraints</strong> between those variables. “Odometry says $x_1$ is 1 m past $x_0$” is a constraint linking $x_0$ and $x_1$. A revisit constraint links $x_0$ and $x_3$ directly. The front-end produces these measurements; the back-end finds the set of poses that keeps as many of them as happy as possible.</p>
-
-<p>“As happy as possible” is exactly a least-squares problem. Assuming Gaussian noise, the MAP estimate reduces to:</p>
-
-\[X^*=\arg\min_X\sum_k r_k(X)^T\Omega_k r_k(X)\]
-
-<p>Read it as: for every constraint $k$, measure how badly it is violated ($r_k$), weight that by how much you trust it ($\Omega_k$), and pick the poses $X$ that minimise the total. $\Omega_k$ is the information matrix, the inverse of the covariance — so a <em>confident</em> measurement has a <em>large</em> $\Omega$ and pulls harder. For the detailed probabilistic derivation, see the <a href="https://drive.google.com/file/d/1FGnya__7ZQYsgE7CRhRjggeU2fIQ3izH/view" rel="external nofollow noopener" target="_blank">KRoC Back-end lecture</a>.</p>
-
-<h2 id="2-what-happens-when-you-add-a-revisit-constraint">2. What happens when you add a revisit constraint</h2>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x0 ── x1 ── x2 ── x3
-└─────────────────┘
-    revisit constraint
-</code></pre></div></div>
-
-<p>When a relation between $x_0$ and $x_3$ is added to a graph that previously held only consecutive motion measurements, <strong>the intermediate poses change too</strong>. This is the part people expect least, so here it is with numbers.</p>
-
-<p>Odometry says each step is 1 m, so the chain reads 0, 1, 2, 3. Then a revisit constraint says $x_3$ is really only 2.7 m from $x_0$ — a 0.3 m disagreement. Give all four measurements the same weight and minimise:</p>
-
-\[E=(x_1-1)^2+(x_2-x_1-1)^2+(x_3-x_2-1)^2+(x_3-2.7)^2\]
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  before                 the naive fix              what the graph does
-  ────────────           ─────────────────          ────────────────────
-  x0 = 0.000             x0 = 0.000                 x0 = 0.000
-  x1 = 1.000             x1 = 1.000                 x1 = 0.925
-  x2 = 2.000             x2 = 2.000                 x2 = 1.850
-  x3 = 3.000             x3 = 2.700 ← just moved    x3 = 2.775
-                                      the endpoint
-  loop error 0.300       steps: 1.0, 1.0, 0.7       steps: .925, .925, .925
-
-                         residuals                  residuals
-                         odom  0, 0, -0.3           odom  -0.075 ×3
-                         loop  0                    loop  +0.075
-                         Σr²  = 0.090               Σr²  = 0.0225
-</code></pre></div></div>
-
-<p>The naive fix satisfies the loop exactly but tells an absurd story: the robot moved exactly 1 m twice and then suddenly 0.7 m. Its total squared violation is four times worse.</p>
-
-<p>Two things are worth noticing in the right-hand column. The 0.3 m got spread across every step rather than dumped on the last one. And the graph did <strong>not</strong> fully honour the loop either — it landed at 2.775, leaving 0.075 of loop residual. That is correct behaviour: the loop closure is just one more noisy measurement, not a decree. Weight it more heavily (a smaller covariance, a larger $\Omega$) and the solution slides towards 2.7; weight it less and it slides back towards 3.0.</p>
-
-<p>Question 2 below works through the same kind of problem step by step.</p>
-
-<p>It is not a matter of simply attaching the last point. A graph of purely relative measurements with no absolute reference gives the same residual if the whole thing is translated and rotated together. That degree of freedom is handled by fixing a reference pose or adding a suitable prior. Stachniss’s <em>Graph-Based SLAM and Sparsity</em> explains the relationship between the graph and the matrix; the <a href="https://gisbi-kim.github.io/post/slam-textbooks/" rel="external nofollow noopener" target="_blank">recommended-materials guide</a> suggests a reading order.</p>
-
-<h2 id="3-a-wrong-loop-can-be-optimised-too">3. A wrong loop can be optimised too</h2>
-
-<p>The solver has no idea what a building looks like. It minimises whatever you hand it, and it will do so obediently even when the input is nonsense.</p>
-
-<p>Suppose a first-floor corridor and a second-floor corridor look alike, and the front-end links them as the same place:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  what is true                     what the constraint says
-
-  floor 2   ────────────           "x_50 and x_120 are the same place"
-                                              ↓
-  floor 1   ────────────           the solver folds the building in half
-                                   to make that true
-
-                                   result: one corridor, low cost,
-                                           completely wrong map
-</code></pre></div></div>
-
-<p>The cost went <em>down</em>. By its own scoring the solver improved the answer. A low final cost is evidence that the constraints agree with each other, not evidence that they are true.</p>
-
-<p>So when studying a system, split it with two questions: <strong>“why was this constraint created?”</strong> is a front-end question, and <strong>“how were the given constraints reconciled?”</strong> is a back-end question. Most catastrophic SLAM failures are the first kind wearing the second kind’s clothes.</p>
-
-<p>When studying a system, split it with two questions: “why was this constraint created?” is a front-end question, and “how were the given constraints reconciled?” is a back-end question.</p>
-
-<h2 id="check-questions">Check questions</h2>
-
-<h3 id="question-1--concept">Question 1 — Concept</h3>
-
-<p>If a single wrong loop closure comes in, does applying a robust kernel fully solve the problem? Answer from both the front-end and the back-end perspective.</p>
-
-<details class="study-answer">
-  <summary>Show answer</summary>
-
-  <p>There is no guarantee it is fully solved. A robust kernel reduces the influence of factors with large residuals, but if a false loop has a small residual near the initial estimate, or an excessively large information matrix, it can act more strongly than the correct constraints. At the front-end, follow descriptor retrieval with geometric verification and temporal/spatial consistency checks; at the back-end you can use a robust loss, switchable constraints, DCS or graph consistency tests. You need both the stage that rejects wrong loops in the first place and the stage that reduces the influence of the outliers that get through.</p>
-
-</details>
-
-<h3 id="question-2--math-and-reasoning">Question 2 — Math and reasoning</h3>
-
-<p>In a one-dimensional pose graph, fix $x_0=0$ with odometry measurements $x_1-x_0=1$ and $x_2-x_1=1$, and a loop measurement $x_2-x_0=1.8$. With all information weights equal, find the least-squares solution $x_1,x_2$.</p>
-
-<details class="study-answer">
-  <summary>Show answer</summary>
-
-  <p>The objective is</p>
-
-\[E=(x_1-1)^2+(x_2-x_1-1)^2+(x_2-1.8)^2.\]
-
-  <p>Setting the partial derivatives to zero,</p>
-
-\[2x_1-x_2=0,\qquad -x_1+2x_2=2.8.\]
-
-  <p>The first gives $x_2=2x_1$; substituting into the second gives $3x_1=2.8$. Therefore</p>
-
-\[x_1\approx0.9333,\qquad x_2\approx1.8667.\]
-
-  <p>You can see that the $0.2m$ loop error is not applied to the last pose alone but distributed across both odometry segments.</p>
-
-</details>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Part</th>
+      <th style="text-align: left">You will be able to</th>
+      <th style="text-align: left">Problems</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><a href="/study/slam/history/06-1-constraints/">6.1 Constraints and least squares</a></td>
+      <td style="text-align: left">solve a pose graph by hand</td>
+      <td style="text-align: left">6</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="/study/slam/history/06-2-wrong-loops/">6.2 Wrong loops</a></td>
+      <td style="text-align: left">explain why low cost ≠ true map</td>
+      <td style="text-align: left">3</td>
+    </tr>
+  </tbody>
+</table>
 
 <h2 id="original-reading">Original reading</h2>
 
@@ -539,9 +443,9 @@
     <a href="/study/slam/history/">← 목차로 돌아가기</a>
   
   
-    <a class="study-chapter-next" href="/study/slam/history/07-sparsity-isam/" rel="next">
+    <a class="study-chapter-next" href="/study/slam/history/06-1-constraints/" rel="next">
       <span class="study-chapter-next-label">다음 챕터 →</span>
-      <span>Chapter 7. Sparsity and iSAM</span>
+      <span>6.1 Constraints and least squares</span>
     </a>
   
 </nav>

@@ -407,10 +407,76 @@
   
     
       <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/01-1-relative-measurements/">
+          <span class="study-toc-title">1.1 Relative measurements and drift</span>
+          
+            <span class="study-toc-desc">Why odometry drifts, by problems.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/01-2-loop-closure/">
+          <span class="study-toc-title">1.2 Loop closure, and what counts as SLAM</span>
+          
+            <span class="study-toc-desc">Turning “I have been here before” into a correction.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/history/02-probability-ekf/">
           <span class="study-toc-title">Chapter 2. Probability and EKF-SLAM</span>
           
-            <span class="study-toc-desc">Tracking uncertainty instead of a single right answer.</span>
+            <span class="study-toc-desc">Four short problem sets: fusing two estimates, how errors spread, linearisation, the covariance matrix.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/02-1-fusing-estimates/">
+          <span class="study-toc-title">2.1 Fusing two estimates</span>
+          
+            <span class="study-toc-desc">Kalman gain from scratch, by problems.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/02-2-errors-spread/">
+          <span class="study-toc-title">2.2 Errors spread</span>
+          
+            <span class="study-toc-desc">Why landmarks seen from the same pose share an error.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/02-3-linearisation/">
+          <span class="study-toc-title">2.3 Linearisation</span>
+          
+            <span class="study-toc-desc">Replace a curve by its tangent — and see when that fails.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/02-4-covariance-matrix/">
+          <span class="study-toc-title">2.4 The covariance matrix</span>
+          
+            <span class="study-toc-desc">Fill in the EKF-SLAM covariance and watch one observation correct an unobserved landmark.</span>
           
         </a>
       </li>
@@ -429,10 +495,65 @@
   
     
       <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/03-1-condition-on-path/">
+          <span class="study-toc-title">3.1 Why condition on the path</span>
+          
+            <span class="study-toc-desc">The trick that removes EKF-SLAM's giant matrix.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/03-2-particles/">
+          <span class="study-toc-title">3.2 Particles, weights and resampling</span>
+          
+            <span class="study-toc-desc">How FastSLAM picks among path guesses.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/history/04-coordinate-rotation/">
           <span class="study-toc-title">Chapter 4. Frames and rotation</span>
           
             <span class="study-toc-desc">The minimum geometry needed to read 3D SLAM equations.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/04-1-frames/">
+          <span class="study-toc-title">4.1 Frames and transforms</span>
+          
+            <span class="study-toc-desc">Converting a point between sensor and world coordinates.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/04-2-rotations/">
+          <span class="study-toc-title">4.2 Why rotations do not add</span>
+          
+            <span class="study-toc-desc">Rotation matrices compose by multiplication.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/04-3-tf-tree/">
+          <span class="study-toc-title">4.3 ROS 2 TF tree for SLAM</span>
+          
+            <span class="study-toc-desc">TF의 의미와 map → odom → base_link → lidar/camera 구조, 그리고 TF 조회 주기가 pose에 미치는 영향.</span>
           
         </a>
       </li>
@@ -451,10 +572,54 @@
   
     
       <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/05-1-icp-loop/">
+          <span class="study-toc-title">5.1 The ICP loop</span>
+          
+            <span class="study-toc-desc">Aligning two scans by alternating matching and solving.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/05-2-low-error-lies/">
+          <span class="study-toc-title">5.2 When a low error lies</span>
+          
+            <span class="study-toc-desc">Converged, tiny residual, wrong pose.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/history/06-graph-slam/">
           <span class="study-toc-title">Chapter 6. Graph SLAM and loop closure</span>
           
             <span class="study-toc-desc">A constraint-based representation in which past trajectory can still be corrected.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/06-1-constraints/">
+          <span class="study-toc-title">6.1 Constraints and least squares</span>
+          
+            <span class="study-toc-desc">A pose graph solved by hand.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/06-2-wrong-loops/">
+          <span class="study-toc-title">6.2 Wrong loops</span>
+          
+            <span class="study-toc-desc">A low cost does not mean a true map.</span>
           
         </a>
       </li>
@@ -473,10 +638,54 @@
   
     
       <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/07-1-mostly-zeros/">
+          <span class="study-toc-title">7.1 Why the matrix is mostly zeros</span>
+          
+            <span class="study-toc-desc">Sparsity makes large graphs solvable.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/07-2-fill-in/">
+          <span class="study-toc-title">7.2 Fill-in and ordering</span>
+          
+            <span class="study-toc-desc">Solving can make a sparse matrix dense — unless you choose the order.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/history/08-visual-slam/">
           <span class="study-toc-title">Chapter 8. Visual SLAM and Bundle Adjustment</span>
           
             <span class="study-toc-desc">Refining poses and 3D points together from camera observations.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/08-1-depth-from-views/">
+          <span class="study-toc-title">8.1 Depth from two views</span>
+          
+            <span class="study-toc-desc">Why one image cannot give depth, and two can.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/08-2-reprojection-scale/">
+          <span class="study-toc-title">8.2 Reprojection error and scale</span>
+          
+            <span class="study-toc-desc">What bundle adjustment fits, and what a single camera can never know.</span>
           
         </a>
       </li>
@@ -495,10 +704,54 @@
   
     
       <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/09-1-choosing-a-map/">
+          <span class="study-toc-title">9.1 Choosing a map, and what it costs</span>
+          
+            <span class="study-toc-desc">Different questions need different maps.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/09-2-occupancy-log-odds/">
+          <span class="study-toc-title">9.2 Occupancy in log-odds</span>
+          
+            <span class="study-toc-desc">Free, occupied, unknown — and how evidence adds up.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/history/10-inertial-lio/">
           <span class="study-toc-title">Chapter 10. From IMU fusion to LIO</span>
           
             <span class="study-toc-desc">Why fast inertial prediction and external observations need each other.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/10-1-accelerometer/">
+          <span class="study-toc-title">10.1 What an accelerometer measures</span>
+          
+            <span class="study-toc-desc">Specific force, gravity, bias — and why integration explodes.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/10-2-deskew-filter-smoother/">
+          <span class="study-toc-title">10.2 Deskew, and filter versus smoother</span>
+          
+            <span class="study-toc-desc">A scan is not a snapshot; and two ways to fuse.</span>
           
         </a>
       </li>
@@ -517,10 +770,54 @@
   
     
       <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/11-1-where-learning-enters/">
+          <span class="study-toc-title">11.1 Where learning enters</span>
+          
+            <span class="study-toc-desc">“Deep SLAM” is not one thing.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/11-2-judging-metrics/">
+          <span class="study-toc-title">11.2 Judging the numbers</span>
+          
+            <span class="study-toc-desc">Pretty pictures and depth scores are not pose accuracy.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
         <a class="study-toc-link" href="/study/slam/history/12-evaluation-reading-map/">
           <span class="study-toc-title">Chapter 12. Evaluation and where to study next</span>
           
             <span class="study-toc-desc">How to connect the history to performance tables and code reading.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/12-1-ate-rpe/">
+          <span class="study-toc-title">12.1 ATE and RPE</span>
+          
+            <span class="study-toc-desc">Two trajectory metrics, computed by hand.</span>
+          
+        </a>
+      </li>
+    
+  
+    
+      <li class="study-toc-item">
+        <a class="study-toc-link" href="/study/slam/history/12-2-fair-comparison/">
+          <span class="study-toc-title">12.2 Fair comparison</span>
+          
+            <span class="study-toc-desc">One trajectory, four honest numbers.</span>
           
         </a>
       </li>
