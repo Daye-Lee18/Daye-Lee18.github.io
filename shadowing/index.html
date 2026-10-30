@@ -378,6 +378,23 @@
   <style type="text/css">
     .sh-app { margin-top: 1rem; }
 
+.sh-mode {
+  display: inline-flex; margin-bottom: .75rem; padding: .2rem;
+  border: 1px solid var(--global-divider-color); border-radius: .55rem;
+  background: var(--global-card-bg-color);
+}
+.sh-mode button {
+  border: 0; border-radius: .4rem; padding: .48rem .85rem; cursor: pointer;
+  background: transparent; color: var(--global-text-color); font-size: .88rem;
+}
+.sh-mode button.is-on { background: var(--global-theme-color); color: #fff; }
+.sh-audio-load {
+  display: flex; gap: .55rem; align-items: center; flex-wrap: wrap;
+  padding: .75rem; border: 1px solid var(--global-divider-color);
+  border-radius: .5rem; background: var(--global-card-bg-color);
+}
+.sh-audio-name { min-width: 0; font-size: .84rem; color: var(--global-text-color-light); }
+
 .sh-load { display: flex; gap: .5rem; flex-wrap: wrap; }
 .sh-load input {
   flex: 1 1 18rem; min-width: 0; padding: .55rem .75rem;
@@ -512,7 +529,7 @@
   background: var(--global-theme-color); color: #fff; opacity: .85;
 }
 .sh-card-del {
-  flex: 0 0 auto; width: 2.1rem; cursor: pointer; font-size: .8rem;
+  flex: 0 0 auto; min-width: 3.2rem; padding: 0 .55rem; cursor: pointer; font-size: .76rem;
   border: 0; border-left: 1px solid var(--global-divider-color);
   background: transparent; color: var(--global-text-color-light);
 }
@@ -526,6 +543,29 @@
 
 .sh-video { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: .5rem; overflow: hidden; }
 .sh-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.sh-audio-player {
+  display: none; min-height: 8rem; padding: 1rem; align-items: center; justify-content: center;
+  border: 1px solid var(--global-divider-color); border-radius: .5rem;
+  background: var(--global-card-bg-color);
+}
+.sh-audio-player audio { width: 100%; }
+.sh-app.is-audio .sh-video { display: none; }
+.sh-app.is-audio .sh-audio-player { display: flex; }
+
+.sh-background {
+  margin-top: .65rem; padding: .8rem .9rem;
+  border: 1px solid var(--global-divider-color); border-radius: .55rem;
+  background: var(--global-card-bg-color);
+}
+.sh-background .sh-row { margin-bottom: .55rem; }
+.sh-background label { font-size: .82rem; color: var(--global-text-color-light); }
+.sh-background input[type="number"] {
+  width: 4.5rem; padding: .38rem .45rem; border-radius: .4rem;
+  border: 1px solid var(--global-divider-color); background: var(--global-bg-color);
+  color: var(--global-text-color);
+}
+.sh-bg-note { margin: 0; font-size: .78rem; color: var(--global-text-color-light); }
+#sh-bg-audio { width: 100%; margin-top: .65rem; }
 
 .sh-vid-title { font-size: .85rem; color: var(--global-text-color-light); margin: .5rem 0 0; }
 
@@ -685,9 +725,20 @@
 
 <div class="sh-app" id="sh-app" data-captions="/assets/captions">
 
-  <div class="sh-load">
+  <div class="sh-mode" role="group" aria-label="재생 소스">
+    <button type="button" id="sh-mode-youtube" class="is-on" aria-pressed="true">YouTube 영상</button>
+    <button type="button" id="sh-mode-audio" aria-pressed="false">내 오디오</button>
+  </div>
+
+  <div class="sh-load" id="sh-youtube-load">
     <input type="text" id="sh-url" placeholder="유튜브 주소를 붙여넣거나, 검색어를 입력하세요" autocomplete="off" spellcheck="false">
     <button type="button" class="sh-btn is-primary" id="sh-go">불러오기</button>
+  </div>
+
+  <div class="sh-audio-load" id="sh-audio-load" hidden="">
+    <label class="sh-btn is-primary" for="sh-audio-file">기기에서 오디오 선택</label>
+    <input type="file" id="sh-audio-file" accept="audio/*,.mp3,.m4a,.wav,.aac,.ogg,.flac" hidden="">
+    <span class="sh-audio-name" id="sh-audio-name">MP3, M4A, WAV 등 · 파일은 기기 밖으로 전송되지 않습니다.</span>
   </div>
 
   <div class="sh-sources">
@@ -734,7 +785,7 @@ bin/caption-server.py --install</code></pre>
         <span class="sh-badge" id="sh-saved-count">0</span>
       </button>
       <input type="text" id="sh-saved-search" placeholder="제목으로 찾기" autocomplete="off">
-      <button type="button" class="sh-btn is-quiet" id="sh-saved-clear">모두 지우기</button>
+      <button type="button" class="sh-btn is-quiet" id="sh-saved-clear">목록 비우기</button>
     </div>
     <div class="sh-saved-list" id="sh-saved-list"></div>
   </section>
@@ -743,6 +794,7 @@ bin/caption-server.py --install</code></pre>
 
     <div class="sh-left">
       <div class="sh-video"><div id="sh-yt"></div></div>
+      <div class="sh-audio-player"><audio id="sh-audio" controls="" preload="metadata"></audio></div>
       <p class="sh-vid-title" id="sh-title"></p>
 
       <div class="sh-caption" id="sh-caption"></div>
@@ -808,6 +860,17 @@ bin/caption-server.py --install</code></pre>
             </div>
           </div>
         </div>
+
+        <div class="sh-background" id="sh-background" hidden="">
+          <div class="sh-row">
+            <label for="sh-gap">문장 사이 공백</label>
+            <input type="number" id="sh-gap" min="0" max="10" step="0.5" value="1.0" inputmode="decimal">
+            <span class="sh-label">초</span>
+            <button type="button" class="sh-btn is-primary" id="sh-bg-start">백그라운드 연습 시작</button>
+          </div>
+          <p class="sh-bg-note" id="sh-bg-note">현재 문장부터 반복 횟수와 자동 이동 설정을 반영해 기기 안에서 연습 트랙을 만듭니다.</p>
+          <audio id="sh-bg-audio" controls="" hidden=""></audio>
+        </div>
       </div>
     </div>
 
@@ -825,109 +888,12 @@ bin/caption-server.py --install</code></pre>
 <div class="sh-help">
   <p><strong>단축키</strong> — <kbd>←</kbd> 이전 문장 · <kbd>→</kbd> 다음 문장 · <kbd>Space</kbd> 재생/정지 · <kbd>R</kbd> 이 문장 다시</p>
   <p><strong>자막이 실제 발화보다 빠르거나 늦게 시작하면</strong> 싱크 보정 버튼으로 맞추세요. 보정값은 영상별로 저장됩니다.</p>
+  <p><strong>모바일에서 백그라운드로 들으려면</strong> 내 오디오에서 파일과 자막을 연 뒤 반복 횟수·자동 이동·공백을 정하고 백그라운드 연습을 시작하세요. 파일은 서버로 전송되지 않습니다.</p>
   <p><strong>수동 자막이 자동 자막보다 훨씬 낫습니다.</strong> 자동 자막에는 문장부호가 없어서 무음 구간으로 끊을 수밖에 없고, 구간이 문장 중간에서 잘리기 쉽습니다. 서버는 수동 자막이 있으면 항상 그쪽을 먼저 고릅니다.</p>
 </div>
 
 <script src="/assets/js/shadowing.js"></script>
 
-<h2 id="사용법">사용법</h2>
-
-<p>자막을 이 페이지에 넣는 방법이 세 가지입니다. 위로 갈수록 준비가 간단합니다.</p>
-
-<h3 id="1-유튜브-스크립트-복사--설치-없음">1. 유튜브 스크립트 복사 — 설치 없음</h3>
-
-<ol>
-  <li>유튜브에서 영상을 열고, 설명란의 <strong>더보기</strong> → <strong>스크립트 표시</strong>
-</li>
-  <li>오른쪽에 뜬 스크립트를 전체 드래그해서 복사</li>
-  <li>이 페이지에 영상 주소를 넣고 → <strong>자막 붙여넣기</strong> → 붙여넣은 뒤 <strong>적용</strong>
-</li>
-</ol>
-
-<p>맥·윈도우·아이패드 어디서든 되고 설치할 것이 없습니다. 타임스탬프가 줄바꿈으로 붙어 있든 탭으로 붙어 있든 알아서 읽습니다. 영상에 자막 자체가 없으면 <strong>스크립트 표시</strong> 메뉴도 나타나지 않습니다.</p>
-
-<h3 id="2-자막-파일-올리기">2. 자막 파일 올리기</h3>
-
-<p><code class="language-plaintext highlighter-rouge">.srt</code> / <code class="language-plaintext highlighter-rouge">.vtt</code> 파일이 이미 있으면 <strong>SRT / VTT 파일 열기</strong>로 바로 올리면 됩니다. 직접 뽑으려면:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yt-dlp <span class="nt">--write-auto-sub</span> <span class="nt">--sub-lang</span> en <span class="nt">--skip-download</span> <span class="nt">--convert-subs</span> srt <span class="s2">"영상주소"</span>
-</code></pre></div></div>
-
-<p>수동 자막이 있는 영상이면 <code class="language-plaintext highlighter-rouge">--write-auto-sub</code> 대신 <code class="language-plaintext highlighter-rouge">--write-sub</code>를 쓰세요. 문장부호가 살아 있어서 구간이 훨씬 깔끔하게 나뉩니다.</p>
-
-<h3 id="3-자막-서버--주소만-넣으면-자동">3. 자막 서버 — 주소만 넣으면 자동</h3>
-
-<p>영상 주소만 붙여넣으면 자막이 알아서 따라옵니다. 매번 스크립트를 복사할 필요가 없어서, 자주 쓴다면 이쪽이 편합니다. 대신 한 번 설치가 필요합니다.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span class="nt">-U</span> yt-dlp
-python3 bin/caption-server.py <span class="nt">--install</span>
-</code></pre></div></div>
-
-<p>그다음 <strong>자막 서버 설정</strong>에 <code class="language-plaintext highlighter-rouge">http://127.0.0.1:8787</code>을 넣으면 끝입니다. 확인은 <code class="language-plaintext highlighter-rouge">--status</code>, 제거는 <code class="language-plaintext highlighter-rouge">--uninstall</code>.</p>
-
-<p>서버를 켜두면 <strong>입력창이 검색창으로도 동작합니다.</strong> 주소를 붙여넣으면 그 영상을 열고, 그냥 단어를 치면 유튜브를 검색해서 결과를 보여줍니다. 유튜브 앱에 들어가 링크를 복사해 올 필요가 없습니다.</p>
-
-<p>알아둘 것:</p>
-
-<ul>
-  <li>
-<code class="language-plaintext highlighter-rouge">bin/caption-server.py</code> <strong>파일 하나만</strong> 있으면 됩니다. 레포 전체를 clone 하지 않아도 돼요.</li>
-  <li>
-<code class="language-plaintext highlighter-rouge">--install</code>은 launchd를 쓰므로 <strong>macOS 전용</strong>입니다. 윈도우·리눅스에서는 <code class="language-plaintext highlighter-rouge">python3 caption-server.py</code>로 직접 띄워 두고 쓰시면 똑같이 동작합니다.</li>
-  <li>
-<strong>Safari에서는 동작하지 않습니다.</strong> https 페이지가 <code class="language-plaintext highlighter-rouge">http://localhost</code>를 호출하는 것을 Safari가 차단합니다. Chrome이나 Firefox를 쓰세요.</li>
-  <li>서버는 내 컴퓨터에서만 돕니다(<code class="language-plaintext highlighter-rouge">127.0.0.1</code>). 다른 사람 컴퓨터에서는 각자 설치해야 합니다.</li>
-</ul>
-
-<h3 id="폰에서-영상-하나만-바로-열기">폰에서 영상 하나만 바로 열기</h3>
-
-<p>주소에 <code class="language-plaintext highlighter-rouge">?v=</code> 를 붙이면 그 영상이 바로 열립니다.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://daye-lee18.github.io/shadowing/?v=8S0FDjFBj8o
-</code></pre></div></div>
-
-<p>iOS 단축어나 안드로이드 공유 메뉴에서 유튜브 링크를 받아 이 주소로 넘기게 해두면, 유튜브 앱에서 공유 한 번으로 바로 넘어옵니다.</p>
-
-<h3 id="여러-기기에서-같은-영상-보기">여러 기기에서 같은 영상 보기</h3>
-
-<p>브라우저 저장소는 <strong>기기별로, 그리고 브라우저 프로필별로</strong> 완전히 분리됩니다. 폰과 회사 계정 크롬과 개인 계정 크롬은 서로의 저장 내용을 볼 수 없습니다. 그래서 한 번 받은 자막은 레포에 커밋해서 공유합니다.</p>
-
-<p>레포 안에서 자막 서버를 실행하면 받은 자막이 <code class="language-plaintext highlighter-rouge">assets/captions/</code>에 바로 쌓입니다. 커밋해서 올리기만 하면 됩니다.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add assets/captions <span class="o">&amp;&amp;</span> git commit <span class="nt">-m</span> <span class="s2">"captions"</span> <span class="o">&amp;&amp;</span> git push
-</code></pre></div></div>
-
-<p>배포가 끝나면(약 1분) 폰이든 어느 브라우저든 <strong>저장된 영상</strong> 목록에 <code class="language-plaintext highlighter-rouge">공유</code> 표시와 함께 나타나고, 로그인이나 설정 없이 바로 열립니다. 다른 사람에게도 똑같이 보입니다.</p>
-
-<p><code class="language-plaintext highlighter-rouge">--captions-dir</code>로 위치를 바꿀 수 있고, 레포 밖에서 실행하면 <code class="language-plaintext highlighter-rouge">~/.cache/shadowing-captions/</code>에 저장됩니다.</p>
-
-<h3 id="자막은-어디에-저장되나">자막은 어디에 저장되나</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>저장 위치</th>
-      <th>범위</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">localStorage</code></td>
-      <td>그 브라우저 프로필에서만</td>
-    </tr>
-    <tr>
-      <td>
-<code class="language-plaintext highlighter-rouge">assets/captions/</code> (커밋됨)</td>
-      <td>모든 기기·모든 사람</td>
-    </tr>
-    <tr>
-      <td><code class="language-plaintext highlighter-rouge">~/.cache/shadowing-captions/</code></td>
-      <td>그 컴퓨터에서만 (레포 밖에서 실행했을 때)</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>브라우저에 저장된 자막과 개인 설정(배속·싱크 보정)은 어디로도 전송되지 않습니다. 커밋한 자막은 공개 레포에 올라가므로 어떤 영상을 공부하는지 드러납니다.</p>
 
   </article>
 
