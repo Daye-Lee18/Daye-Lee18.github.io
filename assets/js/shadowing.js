@@ -16,6 +16,7 @@
   var CAP_KEY = function (id) { return "shadow:cap:" + id; };
   var USER_KEY = function (id) { return "shadow:user:" + id; };
   var RECENT_KEY = "shadow:recent";
+  var HIDDEN_KEY = "shadow:hidden";
 
   var MAX_DUR = 18;   // a chunk never runs longer than this
   var MIN_DUR = 1.0;  // ...only long enough to not be a sliver. Short sentences
@@ -24,6 +25,7 @@
   var GAP = 0.7;      // silence this long is a sentence boundary in auto-captions
 
   var S = {
+    mode: "youtube",
     videoId: null,
     title: "",
     lang: "en",
@@ -38,6 +40,7 @@
     repeatTarget: 3, // 0 = infinite
     repeatDone: 0,
     autoAdvance: true,
+    gap: 1,
     filter: "",        // sentence search
     savedFilter: "",   // saved-video search
   };
@@ -48,6 +51,10 @@
   var pendingSeek = null;
   var timer = null;
   var seekGuard = 0;
+  var audioUrl = null;
+  var audioFile = null;
+  var decodedAudio = null;
+  var bgUrl = null;
 
   var $ = function (id) { return document.getElementById(id); };
 
@@ -80,6 +87,7 @@
       rate: S.rate,
       repeatTarget: S.repeatTarget,
       autoAdvance: S.autoAdvance,
+      gap: S.gap,
     });
   }
 
@@ -90,9 +98,12 @@
     if (typeof u.rate === "number") S.rate = u.rate;
     if (typeof u.repeatTarget === "number") S.repeatTarget = u.repeatTarget;
     if (typeof u.autoAdvance === "boolean") S.autoAdvance = u.autoAdvance;
+    if (typeof u.gap === "number") S.gap = u.gap;
   }
 
   function touchRecent(id, title, count) {
+    // Opening a previously hidden shared video explicitly restores it.
+    save(HIDDEN_KEY, load(HIDDEN_KEY, []).filter(function (hiddenId) { return hiddenId !== id; }));
     var list = load(RECENT_KEY, []);
     var prev = null;
     list = list.filter(function (r) {
@@ -117,6 +128,11 @@
   // settings -- otherwise "삭제" would leave the heavy part behind.
   function forget(id) {
     save(RECENT_KEY, load(RECENT_KEY, []).filter(function (r) { return r.id !== id; }));
+    if (repoEntry(id)) {
+      var hidden = load(HIDDEN_KEY, []);
+      if (hidden.indexOf(id) === -1) hidden.push(id);
+      save(HIDDEN_KEY, hidden);
+    }
     try {
       localStorage.removeItem(CAP_KEY(id));
       localStorage.removeItem(USER_KEY(id));
@@ -133,6 +149,7 @@
       } catch (e) {}
     }
     save(RECENT_KEY, []);
+    save(HIDDEN_KEY, REPO_INDEX.map(function (r) { return r.id; }));
     renderRecent();
   }
 
@@ -499,6 +516,44 @@
 
   /* ---------- player ---------- */
 
+  function usingAudio() { return S.mode === "audio"; }
+
+  function mediaReady() {
+    return usingAudio() ? !!audioFile && $("sh-audio").readyState >= 1 : playerReady;
+  }
+
+  function mediaTime() {
+    if (usingAudio()) return $("sh-audio").currentTime || 0;
+    return player.getCurrentTime();
+  }
+
+  function mediaSeek(t) {
+    if (usingAudio()) $("sh-audio").currentTime = Math.max(0, t);
+    else player.seekTo(t, true);
+  }
+
+  function mediaPlay() {
+    if (usingAudio()) {
+      var promise = $("sh-audio").play();
+      if (promise && promise.catch) promise.catch(function () {});
+    } else player.playVideo();
+  }
+
+  function mediaPause() {
+    if (usingAudio()) $("sh-audio").pause();
+    else player.pauseVideo();
+  }
+
+  function mediaSetRate(rate) {
+    if (usingAudio()) $("sh-audio").playbackRate = rate;
+    else if (playerReady) player.setPlaybackRate(rate);
+  }
+
+  function mediaIsPlaying() {
+    if (usingAudio()) return !$("sh-audio").paused;
+    return playerReady && player.getPlayerState() === YT.PlayerState.PLAYING;
+  }
+
   function loadYouTubeAPI(cb) {
     if (window.YT && window.YT.Player) { cb(); return; }
     var prev = window.onYouTubeIframeAPIReady;
@@ -584,13 +639,13 @@
   }
 
   function tick() {
-    if (!playerReady || S.cur < 0) return;
+    if (!mediaReady() || S.cur < 0) return;
     var seg = S.segments[S.cur];
     if (!seg) return;
     if (performance.now() - seekGuard < 300) return; // let the seek settle
 
     var t;
-    try { t = player.getCurrentTime(); } catch (e) { return; }
+    try { t = mediaTime(); } catch (e) { return; }
     var start = seg.start + S.offset;
     var end = seg.end + S.offset;
 
@@ -599,18 +654,18 @@
       var more = S.repeatTarget === 0 || S.repeatDone < S.repeatTarget;
       if (more) {
         seekGuard = performance.now();
-        player.seekTo(start, true);
+        mediaSeek(start);
       } else if (S.autoAdvance && S.cur < S.segments.length - 1) {
         goTo(S.cur + 1, true);
       } else {
-        player.pauseVideo();
+        mediaPause();
         S.repeatDone = 0;
       }
       renderRepeat();
     } else if (t < start - 0.6) {
       // User scrubbed backwards out of the segment; follow them.
       seekGuard = performance.now();
-      player.seekTo(start, true);
+      mediaSeek(start);
     }
   }
 
@@ -621,10 +676,184 @@
     S.repeatDone = 0;
     renderActive();
     renderRepeat();
-    if (!playerReady) { pendingSeek = i; return; }
+    if (!mediaReady()) { pendingSeek = i; return; }
     seekGuard = performance.now();
-    player.seekTo(S.segments[i].start + S.offset, true);
-    if (play !== false) player.playVideo();
+    mediaSeek(S.segments[i].start + S.offset);
+    if (play !== false) mediaPlay();
+  }
+
+  /* ---------- local audio & background practice track ---------- */
+
+  function setMode(mode) {
+    S.mode = mode === "audio" ? "audio" : "youtube";
+    var isAudio = usingAudio();
+    $("sh-app").classList.toggle("is-audio", isAudio);
+    $("sh-mode-youtube").classList.toggle("is-on", !isAudio);
+    $("sh-mode-audio").classList.toggle("is-on", isAudio);
+    $("sh-mode-youtube").setAttribute("aria-pressed", isAudio ? "false" : "true");
+    $("sh-mode-audio").setAttribute("aria-pressed", isAudio ? "true" : "false");
+    $("sh-youtube-load").hidden = isAudio;
+    $("sh-audio-load").hidden = !isAudio;
+    $("sh-background").hidden = !isAudio;
+    stopTimer();
+    if (isAudio) {
+      if (playerReady) player.pauseVideo();
+      if (audioFile) {
+        $("sh-app").classList.add("is-loaded");
+        mediaSetRate(S.rate);
+      }
+    } else {
+      $("sh-audio").pause();
+      if (S.videoId) $("sh-app").classList.add("is-loaded");
+    }
+    if (S.cur >= 0 && mediaReady()) goTo(S.cur, false);
+  }
+
+  function openAudioFile(file) {
+    if (!file) return;
+    if (audioUrl) URL.revokeObjectURL(audioUrl);
+    if (bgUrl) { URL.revokeObjectURL(bgUrl); bgUrl = null; }
+    audioFile = file;
+    decodedAudio = null;
+    audioUrl = URL.createObjectURL(file);
+    $("sh-audio").src = audioUrl;
+    $("sh-audio-name").textContent = file.name + " · " + (file.size / 1024 / 1024).toFixed(1) + " MB";
+    $("sh-title").textContent = file.name;
+    $("sh-app").classList.add("is-loaded");
+    mediaSetRate(S.rate);
+    status(S.segments.length
+      ? "오디오를 불러왔습니다. 자막 싱크를 맞춘 뒤 문장을 선택하세요."
+      : "오디오를 불러왔습니다. SRT/VTT 파일을 열거나 자막을 붙여넣으세요.", "ok");
+    if (S.segments.length) goTo(Math.max(0, S.cur), false);
+  }
+
+  function decodeLocalAudio() {
+    if (decodedAudio) return Promise.resolve(decodedAudio);
+    if (!audioFile) return Promise.reject(new Error("먼저 기기에서 오디오를 선택하세요."));
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return Promise.reject(new Error("이 브라우저는 오디오 변환을 지원하지 않습니다."));
+    return audioFile.arrayBuffer().then(function (data) {
+      var ctx = new AC();
+      return ctx.decodeAudioData(data.slice(0)).then(function (buffer) {
+        decodedAudio = buffer;
+        if (ctx.close) ctx.close();
+        return buffer;
+      });
+    });
+  }
+
+  function practiceParts(buffer) {
+    if (!S.segments.length) throw new Error("먼저 자막을 불러오세요.");
+    var first = S.cur < 0 ? 0 : S.cur;
+    var last = S.autoAdvance ? S.segments.length - 1 : first;
+    var repeats = S.repeatTarget === 0 ? 1 : Math.max(1, S.repeatTarget);
+    var parts = [];
+    for (var i = first; i <= last; i++) {
+      var start = Math.max(0, S.segments[i].start + S.offset);
+      var end = Math.min(buffer.duration, S.segments[i].end + S.offset);
+      if (end <= start) continue;
+      for (var r = 0; r < repeats; r++) parts.push({ start: start, end: end });
+    }
+    if (!parts.length) throw new Error("자막 구간이 오디오 재생 시간 안에 없습니다. 싱크 보정을 확인하세요.");
+    return parts;
+  }
+
+  function writeAscii(view, at, value) {
+    for (var i = 0; i < value.length; i++) view.setUint8(at + i, value.charCodeAt(i));
+  }
+
+  function renderPracticeWav(buffer) {
+    var parts = practiceParts(buffer);
+    var sampleRate = buffer.sampleRate;
+    var rate = Math.max(.5, Math.min(2, S.rate));
+    var gapFrames = Math.round(Math.max(0, S.gap) * sampleRate);
+    var frames = 0;
+    for (var i = 0; i < parts.length; i++) {
+      frames += Math.max(1, Math.round((parts[i].end - parts[i].start) * sampleRate / rate));
+      if (i < parts.length - 1) frames += gapFrames;
+    }
+    if (S.repeatTarget === 0) frames += gapFrames;
+    if (frames / sampleRate > 12 * 60) {
+      throw new Error("연습 트랙이 12분을 넘습니다. 현재 문장을 뒤쪽으로 옮기거나 자동 이동을 꺼주세요.");
+    }
+
+    // Mono keeps a mobile-generated practice track small and preserves speech clearly.
+    var bytes = 44 + frames * 2;
+    var out = new ArrayBuffer(bytes);
+    var view = new DataView(out);
+    writeAscii(view, 0, "RIFF"); view.setUint32(4, bytes - 8, true);
+    writeAscii(view, 8, "WAVE"); writeAscii(view, 12, "fmt ");
+    view.setUint32(16, 16, true); view.setUint16(20, 1, true);
+    view.setUint16(22, 1, true); view.setUint32(24, sampleRate, true);
+    view.setUint32(28, sampleRate * 2, true); view.setUint16(32, 2, true);
+    view.setUint16(34, 16, true); writeAscii(view, 36, "data");
+    view.setUint32(40, frames * 2, true);
+
+    var channels = [];
+    for (var c = 0; c < buffer.numberOfChannels; c++) channels.push(buffer.getChannelData(c));
+    var pos = 44;
+    for (var p = 0; p < parts.length; p++) {
+      var sourceStart = parts[p].start * sampleRate;
+      var count = Math.max(1, Math.round((parts[p].end - parts[p].start) * sampleRate / rate));
+      for (var f = 0; f < count; f++) {
+        var sourceIndex = Math.min(buffer.length - 1, Math.floor(sourceStart + f * rate));
+        var sample = 0;
+        for (var ch = 0; ch < channels.length; ch++) sample += channels[ch][sourceIndex] || 0;
+        sample = Math.max(-1, Math.min(1, sample / channels.length));
+        view.setInt16(pos, sample < 0 ? sample * 32768 : sample * 32767, true);
+        pos += 2;
+      }
+      if (p < parts.length - 1) pos += gapFrames * 2;
+    }
+    return new Blob([out], { type: "audio/wav" });
+  }
+
+  function startBackgroundPractice() {
+    if (!audioFile) { status("먼저 기기에서 오디오를 선택하세요.", "err"); return; }
+    if (!S.segments.length) { status("먼저 자막을 불러오세요.", "err"); return; }
+    var btn = $("sh-bg-start");
+    btn.disabled = true;
+    btn.textContent = "연습 트랙 만드는 중…";
+    $("sh-bg-note").textContent = "오디오는 서버로 전송되지 않으며 이 기기 안에서만 처리됩니다.";
+    decodeLocalAudio().then(function (buffer) {
+      var blob = renderPracticeWav(buffer);
+      if (bgUrl) URL.revokeObjectURL(bgUrl);
+      bgUrl = URL.createObjectURL(blob);
+      var bg = $("sh-bg-audio");
+      bg.src = bgUrl;
+      bg.loop = S.repeatTarget === 0;
+      bg.hidden = false;
+      if ("mediaSession" in navigator) {
+        try {
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: S.repeatTarget === 0 ? "현재 문장 반복" : "Shadowing 연습 트랙",
+            artist: audioFile.name,
+            album: "Shadowing",
+          });
+        } catch (e) {}
+      }
+      $("sh-audio").pause();
+      return bg.play().catch(function (err) {
+        if (err && err.name === "NotAllowedError") {
+          $("sh-bg-note").textContent = "연습 트랙이 준비됐습니다. 아래 재생 버튼을 한 번 눌러 시작하세요.";
+          status("모바일 브라우저가 자동 재생을 막았습니다. 아래 오디오의 재생 버튼을 누르면 백그라운드 연습이 시작됩니다.", "warn");
+          return "manual";
+        }
+        throw err;
+      });
+    }).then(function (playState) {
+      if (playState === "manual") return;
+      status("백그라운드 연습을 시작했습니다. 화면을 끄기 전에 잠금 화면 재생 컨트롤이 나타나는지 확인하세요.", "ok");
+      $("sh-bg-note").textContent = S.repeatTarget === 0
+        ? "현재 구간을 계속 반복합니다."
+        : "현재 문장부터 설정한 횟수·공백으로 만든 연습 트랙입니다.";
+    }).catch(function (err) {
+      status(err && err.message ? err.message : "연습 트랙을 만들지 못했습니다.", "err");
+      $("sh-bg-note").textContent = "긴 파일은 모바일 메모리 제한 때문에 처리하지 못할 수 있습니다.";
+    }).then(function () {
+      btn.disabled = false;
+      btn.textContent = "백그라운드 연습 시작";
+    });
   }
 
   /* ---------- rendering ---------- */
@@ -731,12 +960,15 @@
   // opened it, which is the whole point of publishing them.
   function library() {
     var seen = {};
+    var hidden = load(HIDDEN_KEY, []);
     var out = load(RECENT_KEY, []).map(function (r) {
       seen[r.id] = true;
       return { r: r, local: true, repo: !!repoEntry(r.id) };
     });
     for (var i = 0; i < REPO_INDEX.length; i++) {
-      if (!seen[REPO_INDEX[i].id]) out.push({ r: REPO_INDEX[i], local: false, repo: true });
+      if (!seen[REPO_INDEX[i].id] && hidden.indexOf(REPO_INDEX[i].id) === -1) {
+        out.push({ r: REPO_INDEX[i], local: false, repo: true });
+      }
     }
     out.sort(function (a, b) { return (b.r.ts || 0) - (a.r.ts || 0); });
     return out;
@@ -769,15 +1001,11 @@
           '<button type="button" class="sh-card-open" data-id="' + r.id + '" title="' + title + '">' +
             '<span class="sh-card-title">' + title + "</span>" +
             '<span class="sh-card-meta">' + escapeHTML(savedMeta(r)) +
-              (e.repo ? ' <span class="sh-tag">공유</span>' : "") + "</span>" +
+              (e.repo ? ' <span class="sh-tag">사이트 자막</span>' : "") + "</span>" +
           "</button>" +
-          // Repo-only entries have nothing local to delete; the file is removed
-          // by deleting it from the repo, not from a browser.
-          (e.local
-            ? '<button type="button" class="sh-card-del" data-del="' + r.id + '" title="' +
-              (e.repo ? "이 브라우저에 저장된 사본만 지웁니다" : "목록과 저장된 자막에서 삭제") +
-              '" aria-label="삭제">✕</button>'
-            : "") +
+          '<button type="button" class="sh-card-del" data-del="' + r.id + '" title="' +
+            (e.repo ? "이 브라우저의 목록에서 숨기기" : "목록과 저장된 자막에서 삭제") +
+            '" aria-label="' + title + ' 삭제">삭제</button>' +
         "</div>";
     }
     box.innerHTML = html;
@@ -852,10 +1080,21 @@
 
   function ingestCaptions(raw) {
     var id = parseVideoId($("sh-url").value);
-    if (!id) { status("먼저 유튜브 주소를 입력하세요.", "err"); return; }
+    if (!id && !usingAudio()) { status("먼저 유튜브 주소를 입력하세요.", "err"); return; }
     var cues = parseAny(raw);
     if (!cues.length) {
       status("자막을 읽지 못했습니다. SRT/VTT 파일이거나, 유튜브 '스크립트 표시'에서 복사한 내용이어야 합니다.", "err");
+      return;
+    }
+    if (usingAudio()) {
+      S.cues = cues;
+      S.kind = "";
+      rebuild();
+      syncControls();
+      renderOffset();
+      $("sh-app").classList.add("is-loaded");
+      status(cues.length + "개 자막 → " + S.segments.length + "개 구간 · 내 오디오", "ok");
+      if (S.segments.length) goTo(0, false);
       return;
     }
     var ok = cacheCaptions(id, { cues: cues });
@@ -925,6 +1164,7 @@
     $("sh-perchunk").value = String(S.perChunk);
     $("sh-repeat").value = String(S.repeatTarget);
     $("sh-advance").checked = S.autoAdvance;
+    $("sh-gap").value = String(S.gap);
     var rates = document.querySelectorAll(".sh-rate");
     for (var i = 0; i < rates.length; i++) {
       rates[i].classList.toggle("is-on", parseFloat(rates[i].dataset.rate) === S.rate);
@@ -937,6 +1177,7 @@
     if (!$("sh-app")) return;
 
     S.lang = load("shadow:lang", "en") || "en";
+    S.gap = load("shadow:audioGap", 1);
     $("sh-lang").value = S.lang;
 
     if (load("shadow:savedClosed", false)) {
@@ -956,7 +1197,42 @@
     renderServerState();
     syncControls();
 
+    $("sh-mode-youtube").addEventListener("click", function () { setMode("youtube"); });
+    $("sh-mode-audio").addEventListener("click", function () { setMode("audio"); });
+
+    $("sh-audio-file").addEventListener("change", function (e) {
+      var f = e.target.files && e.target.files[0];
+      if (f) openAudioFile(f);
+      e.target.value = "";
+    });
+
+    $("sh-audio").addEventListener("play", function () {
+      startTimer();
+      $("sh-play").textContent = "⏸";
+    });
+    $("sh-audio").addEventListener("pause", function () {
+      stopTimer();
+      $("sh-play").textContent = "▶";
+    });
+    $("sh-audio").addEventListener("loadedmetadata", function () {
+      if (pendingSeek !== null) {
+        var i = pendingSeek;
+        pendingSeek = null;
+        goTo(i, false);
+      }
+    });
+
+    $("sh-gap").addEventListener("change", function (e) {
+      var value = parseFloat(e.target.value);
+      S.gap = isFinite(value) ? Math.max(0, Math.min(10, value)) : 1;
+      e.target.value = String(S.gap);
+      save("shadow:audioGap", S.gap);
+      saveUser();
+    });
+    $("sh-bg-start").addEventListener("click", startBackgroundPractice);
+
     $("sh-go").addEventListener("click", function () {
+      setMode("youtube");
       var raw = $("sh-url").value.trim();
       if (!raw) return;
       var id = parseVideoId(raw);
@@ -1035,11 +1311,12 @@
       var del = e.target.closest(".sh-card-del");
       if (del) {
         forget(del.dataset.del);
-        status("목록에서 지웠습니다.", "ok");
+        status("저장된 영상 목록에서 삭제했습니다.", "ok");
         return;
       }
       var open = e.target.closest(".sh-card-open");
       if (!open) return;
+      setMode("youtube");
       $("sh-url").value = "https://youtu.be/" + open.dataset.id;
       openVideoId(open.dataset.id);
     });
@@ -1047,6 +1324,7 @@
     $("sh-results").addEventListener("click", function (e) {
       var hit = e.target.closest(".sh-result");
       if (!hit) return;
+      setMode("youtube");
       $("sh-url").value = "https://youtu.be/" + hit.dataset.id;
       renderResults(null);
       openVideoId(hit.dataset.id);
@@ -1058,11 +1336,11 @@
     });
 
     $("sh-saved-clear").addEventListener("click", function () {
-      var n = load(RECENT_KEY, []).length;
-      if (!n) { status("이 브라우저에 저장된 것이 없습니다. 공유 자막은 레포에서 지워야 합니다.", "warn"); return; }
-      if (!window.confirm(n + "개 영상의 저장된 자막과 설정을 이 브라우저에서 지웁니다.\n공유 자막은 그대로 남습니다. 계속할까요?")) return;
+      var n = library().length;
+      if (!n) { status("저장된 영상 목록이 비어 있습니다.", "warn"); return; }
+      if (!window.confirm(n + "개 영상을 이 브라우저의 목록에서 지웁니다.\n직접 저장한 자막과 설정도 함께 삭제합니다. 계속할까요?")) return;
       forgetAll();
-      status("저장된 영상을 모두 지웠습니다.", "ok");
+      status("저장된 영상 목록을 모두 비웠습니다.", "ok");
     });
 
     $("sh-saved-toggle").addEventListener("click", function () {
@@ -1080,11 +1358,10 @@
     $("sh-next").addEventListener("click", function () { goTo(S.cur + 1, true); });
 
     $("sh-play").addEventListener("click", function () {
-      if (!playerReady) return;
-      var st = player.getPlayerState();
-      if (st === YT.PlayerState.PLAYING) player.pauseVideo();
+      if (!mediaReady()) return;
+      if (mediaIsPlaying()) mediaPause();
       else if (S.cur < 0) goTo(0, true);
-      else player.playVideo();
+      else mediaPlay();
     });
 
     $("sh-replay").addEventListener("click", function () {
@@ -1095,7 +1372,7 @@
     for (var i = 0; i < rates.length; i++) {
       rates[i].addEventListener("click", function (e) {
         S.rate = parseFloat(e.currentTarget.dataset.rate);
-        if (playerReady) player.setPlaybackRate(S.rate);
+        if (mediaReady()) mediaSetRate(S.rate);
         syncControls();
         saveUser();
       });
